@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="jp.blogspot.turanukimaru.fehbs"
+    >
+<!--
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+-->
+    <!-- 普通のAndroidアプリで起動してからLibGDXアプリに飛ぶお試しXML。LibGDX側は特に何もしなくてよい。当たり前か -->
+    <application
+        android:name="jp.blogspot.turanukimaru.fehbs.BattleSimApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        >
+        <!--        android:theme="@style/GdxTheme" -->
+        <activity
+            android:name="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
+            android:label="@string/pre_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="jp.blogspot.turanukimaru.fehbs.BattleClassRegisterActivity"
+            android:label="@string/title_unit_detail"
+            android:parentActivityName=".BattleSimulatorActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity" />
+        </activity>
+
+    </application>
+
+</manifest>

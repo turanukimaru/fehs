@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FEHBS</string>
+    <string name="pre_name">FEH Battle Simulator</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="title_unit_detail">Register Unit</string>
+    <string name="unit_name_title">Unit</string>
+    <string name="fight_button_title">Calculate</string>
+    <string name="defensive_terrain_title">Defensive terrain</string>
+    <string-array name="weapon_type">
+        <item>WEAPON</item>
+        <item>SWORD</item>
+        <item>LANCE</item>
+        <item>AXE</item>
+        <item>BOW</item>
+        <item>DAGGER</item>
+        <item>STAFF</item>
+        <item>RTOME</item>
+        <item>GTOME</item>
+        <item>BTOME</item>
+        <item>BREATH</item>
+    </string-array>
+    <string-array name="move_type">
+        <item>MOVE TYPE</item>
+        <item>INFANTRY</item>
+        <item>FLIER</item>
+        <item>CAVALRY</item>
+        <item>DRAGON</item>
+        <item>ARMORED</item>
+    </string-array>
+    <string name="hp_title">HP</string>
+    <string name="atk_title">ATK</string>
+    <string name="spd_title">SPD</string>
+    <string name="def_title">DEF</string>
+    <string name="res_title">RES</string>
+    <string-array name="boon_type">
+        <item>@string/none</item>
+        <item>@string/hp_title</item>
+        <item>@string/atk_title</item>
+        <item>@string/spd_title</item>
+        <item>@string/def_title</item>
+        <item>@string/res_title</item>
+    </string-array>
+    <string name="base_title">Base Unit</string>
+    <string name="boon_title">Boon</string>
+    <string name="bane_title">Bane</string>
+
+    <string name="unit_detail_name">NickName</string>
+    <string name="weaponType_title">Weapon type</string>
+    <string name="moveType_title">Move type</string>
+    <string name="weapon_title">Weapon</string>
+    <string name="assist_title">Assist</string>
+    <string name="special_title">Special</string>
+    <string name="aSkill_title">Skill A</string>
+    <string name="bSkill_title">Skill B</string>
+    <string name="cSkill_title">Skill C</string>
+    <string name="seal_title">Seal</string>
+
+    <string name="none">-</string>
+    <string name="alert_default_name">please input non-default name</string>
+    <string name="alert_create_unit">target unit created</string>
+    <string name="attacked_title">attacked</string>
+    <string name="rarities_title">☆</string>
+    <string name="levelBoost_title">Lvl40+</string>
+    <string name="include_db_title">include registered unit</string>
+    <string name="buff_title">Buff</string>
+    <string name="spur_title">Spur</string>
+    <string-array name="rarities">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="levelBoosts">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string name="hp_s_title">H</string>
+    <string name="atk_s_title">A</string>
+    <string name="spd_s_title">S</string>
+    <string name="def_s_title">D</string>
+    <string name="res_s_title">R</string>
+    <string-array name="buff">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="weapons_swords">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="weapons_lances">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_axes">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_bows">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_daggaers">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_rtomes">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_gtomes">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="weapons_btomes">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_stave">
+        <item>@string/none</item>
+    </string-array>
+
+
+
+    <string-array name="assists">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="specials">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="aSkills">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="bSkills">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="cSkills">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="seals">
+        <item>@string/none</item>
+    </string-array>
+
+</resources>
