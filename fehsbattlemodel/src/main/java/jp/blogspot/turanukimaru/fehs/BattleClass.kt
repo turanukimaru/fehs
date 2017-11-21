@@ -1,5 +1,6 @@
 package jp.blogspot.turanukimaru.fehs
 
+import org.omg.PortableInterceptor.NON_EXISTENT
 import java.util.*
 
 
@@ -269,7 +270,8 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
         defEqp = 0
         resEqp = 0
         reduceSpecialCooldown = 0
-        (0 until 5 - rarity).fold(weapon, { w, _ -> w.preSkill }).equip(this)
+        //杖は最初武器を装備していない
+        (0 until 5 - rarity).fold(if(weaponType == WeaponType.STAFF) Skill.NONE else weapon, { w, _ -> w.preSkill }).equip(this)
 
         val result = BattleParam(
                 boonedHp + hpEqp + hpBoost,

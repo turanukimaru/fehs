@@ -13,7 +13,6 @@ import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.onClick
-import org.jetbrains.anko.toast
 import java.util.*
 
 
@@ -97,7 +96,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
             val defBuff = findViewById<Spinner>(R.id.defTargetBuffSpinner).selectedItem.toString().toInt()
             val resBuff = findViewById<Spinner>(R.id.resTargetBuffSpinner).selectedItem.toString().toInt()
             val defensiveTerrain = findViewById<CheckBox>(R.id.defTerrainTargetCheckBox).isChecked
-            fun BattleUnit.buff() :BattleUnit {
+            fun BattleUnit.buff() : BattleUnit {
                 if(battleClass.individuals.name.isNotEmpty()) return this
                 this.atkBuff = atkBuff
                 this.spdBuff = spdBuff

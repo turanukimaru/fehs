@@ -293,7 +293,6 @@ data class BattleUnit(val battleClass: BattleClass
      * スキル・奥義によるダメージ減少.ターゲットって全部Enemyにしたほうがいいか・・・？
      */
     fun preventBySkill(damage: Int, results: List<AttackResult>): Pair<Int, Skill?> {
-        // TODO:ダメージはスキルと扇で別に軽減しているが、切り捨てタイミングによっては軽減率を計算したほうが良いかもしれない
         val prevented = battleClass.skills.fold(damage, { d, skill -> skill.prevent(this, d, results) })
 
         if (specialCount == battleClass.specialCoolDownTime) {
@@ -314,7 +313,7 @@ data class BattleUnit(val battleClass: BattleClass
     //       return Skill.NONE.damage(this, target, results, 0)
     //   }
     /**
-     * 色の倍率と特効が乗った攻撃。TODO:激化の無効化がないかな？
+     * 色の倍率と特効が乗った攻撃。
      */
     fun colorAdvantage(): Int {
         val colorDiff = enemy!!.battleClass.color - battleClass.color

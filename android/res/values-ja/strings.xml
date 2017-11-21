@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FEHS</string>
+    <string name="pre_name">FEH Simulator</string>
+    <string name="action_delete">削除</string>
+    <string name="action_cancel">キャンセル</string>
+    <string name="title_unit_detail">ユニット登録</string>
+    <string name="unit_name_title">ユニット名</string>
+    <string name="fight_button_title">計算開始</string>
+    <string name="defensive_terrain_title">防御地形</string>
+    <string-array name="weapon_type">
+        <item>武器</item>
+        <item>剣</item>
+        <item>槍</item>
+        <item>斧</item>
+        <item>弓</item>
+        <item>暗器</item>
+        <item>杖</item>
+        <item>赤魔</item>
+        <item>緑魔</item>
+        <item>青魔</item>
+        <item>ブレス</item>
+    </string-array>
+    <string-array name="move_type">
+        <item>移動タイプ</item>
+        <item>歩行</item>
+        <item>飛行</item>
+        <item>騎馬</item>
+        <item>竜            </item>
+        <item>重装</item>
+    </string-array>
+    <string name="hp_title">HP</string>
+    <string name="atk_title">攻撃</string>
+    <string name="spd_title">速さ</string>
+    <string name="def_title">守備</string>
+    <string name="res_title">魔防</string>
+    <string-array name="boon_type">
+        <item>@string/none</item>
+        <item>@string/hp_title</item>
+        <item>@string/atk_title</item>
+        <item>@string/spd_title</item>
+        <item>@string/def_title</item>
+        <item>@string/res_title</item>
+    </string-array>
+    <string name="base_title">ユニット</string>
+    <string name="boon_title">得意</string>
+    <string name="bane_title">苦手</string>
+
+    <string name="unit_detail_name">名前</string>
+    <string name="weaponType_title">武器種</string>
+    <string name="moveType_title">移動タイプ</string>
+    <string name="weapon_title">武器</string>
+    <string name="assist_title">補助</string>
+    <string name="special_title">奥義</string>
+    <string name="aSkill_title">A</string>
+    <string name="bSkill_title">B</string>
+    <string name="cSkill_title">C</string>
+    <string name="seal_title">聖印</string>
+
+    <string name="none">-</string>
+    <string name="alert_default_name">デフォルト以外の名前を入力してください</string>
+    <string name="alert_create_unit">ユニットを作成しました</string>
+    <string name="include_db_title">登録したユニットも計算対象にする</string>
+    <string name="attacked_title">攻守を逆にする</string>
+    <string name="rarities_title">☆</string>
+    <string name="levelBoost_title">Lvl40+</string>
+    <string name="buff_title">バフ</string>
+    <string name="spur_title">紋章</string>
+    <string-array name="rarities">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="levelBoost">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string name="hp_s_title">H</string>
+    <string name="atk_s_title">A</string>
+    <string name="spd_s_title">S</string>
+    <string name="def_s_title">D</string>
+    <string name="res_s_title">R</string>
+    <string-array name="buff">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="weapons_swords">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="weapons_lances">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_axes">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_breath">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_bows">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_daggaers">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_rtomes">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_gtomes">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="weapons_btomes">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="weapons_staves">
+        <item>@string/none</item>
+    </string-array>
+
+
+
+    <string-array name="assists">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="specials">
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="aSkills">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="bSkills">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="cSkills">
+        <item>@string/none</item>
+    </string-array>
+    <string-array name="seals">
+        <item>@string/none</item>
+    </string-array>
+</resources>

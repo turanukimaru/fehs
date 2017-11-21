@@ -5,7 +5,6 @@ import io.realm.Realm
 import jp.blogspot.turanukimaru.fehs.BattleClass
 import jp.blogspot.turanukimaru.fehs.BoonType
 import jp.blogspot.turanukimaru.fehs.Skill
-import jp.blogspot.turanukimaru.fehs.Skills
 import kotlin.properties.Delegates
 
 /**
@@ -77,7 +76,7 @@ object BattleClassContent : RealmContent<BattleClass>() {
         Log.i("RealmBattleClass", "bane $bane ")
         val item = RealmBattleClass(name, baseName, weapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, boost, boon.toString(), bane.toString(),
                 defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
-        BattleClassContent.realm.executeTransaction {
+        realm.executeTransaction {
             realm.copyToRealmOrUpdate(item)
         }
 
@@ -109,7 +108,7 @@ object BattleClassContent : RealmContent<BattleClass>() {
 
     override fun createOrUpdate(item: BattleClass): BattleClass {
         item.apply {
-            BattleClassContent.realm.executeTransaction {
+            realm.executeTransaction {
                 realm.copyToRealmOrUpdate(RealmBattleClass(individuals.name, name, individuals.weapon.value, individuals.assist.value, individuals.special.value, individuals.aSkill.value, individuals.bSkill.value, individuals.cSkill.value, individuals.seal.value, individuals.rarity, individuals.levelBoost, individuals.boon.name, individuals.bane.name
                         , individuals.defensiveTerrain, individuals.atkBuff, individuals.spdBuff, individuals.defBuff, individuals.resBuff, individuals.atkSpur, individuals.spdSpur, individuals.defSpur, individuals.resSpur))
             }

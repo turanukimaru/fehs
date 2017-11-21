@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="jp.blogspot.turanukimaru.fehbs"
+          package="jp.blogspot.turanukimaru.fehs"
     >
 <!--
     <application
@@ -46,7 +46,7 @@
         <activity
             android:name="jp.blogspot.turanukimaru.fehbs.BattleClassRegisterActivity"
             android:label="@string/title_unit_detail"
-            android:parentActivityName=".BattleSimulatorActivity"
+            android:parentActivityName="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
