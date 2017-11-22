@@ -1,19 +1,18 @@
 package jp.blogspot.turanukimaru.fehs
 
-import org.omg.PortableInterceptor.NON_EXISTENT
 import java.util.*
 
 
 /**
  * ユニットの持つスキルやレベル・能力値。DBに保存したり、レベルアップや装備の変更をしない限り変わらない部分
  */
-class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SWORD, val moveType: MoveType = MoveType.INFANTRY, val minRarity: Int = 5, val name: String = "", val usName: String = "", val hitPoint: Int = 0, val attack: Int = 0, val speed: Int = 0, val defense: Int = 0, val resistance: Int = 0, val hpGrowth: Int = 0, val atkGrowth: Int = 0, val spdGrowth: Int = 0, val defGrowth: Int = 0, val resGrowth: Int = 0, var weapon: Skill = Skill.NONE, var assist: Skill = Skill.NONE, var special: Skill = Skill.NONE, var aSkill: Skill = Skill.NONE, var bSkill: Skill = Skill.NONE, var cSkill: Skill = Skill.NONE, var seal: Skill = Skill.NONE, var individuals: Individuals = Individuals()) {
+class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SWORD, val moveType: MoveType = MoveType.INFANTRY, val minRarity: Int = 5, val name: String = "", val usName: String = "", val hitPoint: Int = 0, val attack: Int = 0, val speed: Int = 0, val defense: Int = 0, val resistance: Int = 0, val hpGrowth: Int = 0, val atkGrowth: Int = 0, val spdGrowth: Int = 0, val defGrowth: Int = 0, val resGrowth: Int = 0, var weapon: Skill = Skill.NONE, var assist: Skill = Skill.NONE, var special: Skill = Skill.NONE, var aSkill: Skill = Skill.NONE, var bSkill: Skill = Skill.NONE, var cSkill: Skill = Skill.NONE, var seal: Skill = Skill.NONE, var equipment: Equipment = Equipment()) {
 
     /**
      * スキルのリスト。戦闘時などにすべてのスキルをなめるのに使う。読み取り専用プロパティにすることで毎回その時のプロパティからリストを作れるはず
      * 個体が編集されているときは編集後のスキルを使う
      */
-    val skills get() = if (individuals.name.isEmpty()) listOfNotNull(weapon, assist, special, aSkill, bSkill, cSkill, seal) else individuals.skills
+    val skills get() = if (equipment.name.isEmpty()) listOfNotNull(weapon, assist, special, aSkill, bSkill, cSkill, seal) else equipment.skills
 
     /**
      * 移動力。直接見てもいいか？いやアイテムやスキルの効果で変動するか。
@@ -35,11 +34,11 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
     /**
      * 能力値。下にあるのは計算用
      */
-    val maxHp: Int get() = boonedHp + hpEqp + hpBoost + growths[individuals.rarity - 1][hpGrowth + boonHp]
-    val atk: Int get() = boonedAtk + atkEqp + atkBoost + growths[individuals.rarity - 1][atkGrowth + boonAtk]
-    val spd: Int get() = boonedSpd + spdEqp + spdBoost + growths[individuals.rarity - 1][spdGrowth + boonSpd]
-    val def: Int get() = boonedDef + defEqp + defBoost + growths[individuals.rarity - 1][defGrowth + boonDef]
-    val res: Int get() = boonedRes + resEqp + resBoost + growths[individuals.rarity - 1][resGrowth + boonRes]
+    val maxHp: Int get() = boonedHp + hpEqp + hpBoost + growths[equipment.rarity - 1][hpGrowth + boonHp]
+    val atk: Int get() = boonedAtk + atkEqp + atkBoost + growths[equipment.rarity - 1][atkGrowth + boonAtk]
+    val spd: Int get() = boonedSpd + spdEqp + spdBoost + growths[equipment.rarity - 1][spdGrowth + boonSpd]
+    val def: Int get() = boonedDef + defEqp + defBoost + growths[equipment.rarity - 1][defGrowth + boonDef]
+    val res: Int get() = boonedRes + resEqp + resBoost + growths[equipment.rarity - 1][resGrowth + boonRes]
 
     var hpEqp: Int = 0
     var atkEqp: Int = 0
@@ -53,39 +52,39 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
     var defBoost: Int = 0
     var resBoost: Int = 0
     var rarity: Int
-        get() = individuals.rarity
+        get() = equipment.rarity
         set(value) {
-            individuals.rarity = value;lvUpStatus()
+            equipment.rarity = value;lvUpStatus()
         }
     var levelBoost: Int
-        get() = individuals.levelBoost
+        get() = equipment.levelBoost
         set(value) {
-            individuals.levelBoost = value;lvUpStatus()
+            equipment.levelBoost = value;lvUpStatus()
         }
     var boon: BoonType
-        get() = individuals.boon
+        get() = equipment.boon
         set(value) {
-            individuals.boon = value;lvUpStatus()
+            equipment.boon = value;lvUpStatus()
         }
     var bane: BoonType
-        get() = individuals.bane
+        get() = equipment.bane
         set(value) {
-            individuals.bane = value;lvUpStatus()
+            equipment.bane = value;lvUpStatus()
         }
     val boonHp
-        get() = when {individuals.boon == BoonType.HP -> 1; individuals.bane == BoonType.HP -> -1;else -> 0
+        get() = when {equipment.boon == BoonType.HP -> 1; equipment.bane == BoonType.HP -> -1;else -> 0
         }
     val boonAtk
-        get() = when {individuals.boon == BoonType.ATK -> 1; individuals.bane == BoonType.ATK -> -1;else -> 0
+        get() = when {equipment.boon == BoonType.ATK -> 1; equipment.bane == BoonType.ATK -> -1;else -> 0
         }
     val boonSpd
-        get() = when {individuals.boon == BoonType.SPD -> 1; individuals.bane == BoonType.SPD -> -1;else -> 0
+        get() = when {equipment.boon == BoonType.SPD -> 1; equipment.bane == BoonType.SPD -> -1;else -> 0
         }
     val boonDef
-        get() = when {individuals.boon == BoonType.DEF -> 1; individuals.bane == BoonType.DEF -> -1;else -> 0
+        get() = when {equipment.boon == BoonType.DEF -> 1; equipment.bane == BoonType.DEF -> -1;else -> 0
         }
     val boonRes
-        get() = when {individuals.boon == BoonType.RES -> 1; individuals.bane == BoonType.RES -> -1;else -> 0
+        get() = when {equipment.boon == BoonType.RES -> 1; equipment.bane == BoonType.RES -> -1;else -> 0
         }
 
     val boonedHp
@@ -203,7 +202,7 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
     fun have(weaponType: WeaponType?, moveType: MoveType?): Boolean = (weaponType == null || this.weaponType == weaponType) && (moveType == null || this.moveType == moveType)
 
     fun clone(): BattleClass = BattleClass(
-            color, weaponType, moveType, minRarity, name, usName, hitPoint, attack, speed, defense, resistance, hpGrowth, atkGrowth, spdGrowth, defGrowth, resGrowth, weapon, assist, special, aSkill, bSkill, cSkill, seal, individuals.copy()
+            color, weaponType, moveType, minRarity, name, usName, hitPoint, attack, speed, defense, resistance, hpGrowth, atkGrowth, spdGrowth, defGrowth, resGrowth, weapon, assist, special, aSkill, bSkill, cSkill, seal, equipment.copy()
     )
 
     fun lvUpStatus() {
@@ -249,8 +248,8 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
 
     }
 
-    fun equip(individuals: Individuals? = null) {
-        this.individuals = individuals ?: this.individuals
+    fun equip(equipment: Equipment? = null) {
+        this.equipment = equipment ?: this.equipment
         hpEqp = 0
         atkEqp = 0
         spdEqp = 0
@@ -286,14 +285,14 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
     }
 
     fun goodStatus(): BattleParam =
-            BattleParam(growths[individuals.rarity - 1][hpGrowth + 1] + growths[individuals.rarity - 1][hpGrowth - 1] - growths[individuals.rarity - 1][hpGrowth] * 2,
-                    growths[individuals.rarity - 1][atkGrowth + 1] + growths[individuals.rarity - 1][atkGrowth - 1] - growths[individuals.rarity - 1][atkGrowth] * 2,
-                    growths[individuals.rarity - 1][spdGrowth + 1] + growths[individuals.rarity - 1][spdGrowth - 1] - growths[individuals.rarity - 1][spdGrowth] * 2,
-                    growths[individuals.rarity - 1][defGrowth + 1] + growths[individuals.rarity - 1][defGrowth - 1] - growths[individuals.rarity - 1][defGrowth] * 2,
-                    growths[individuals.rarity - 1][resGrowth + 1] + growths[individuals.rarity - 1][resGrowth - 1] - growths[individuals.rarity - 1][resGrowth] * 2)
+            BattleParam(growths[equipment.rarity - 1][hpGrowth + 1] + growths[equipment.rarity - 1][hpGrowth - 1] - growths[equipment.rarity - 1][hpGrowth] * 2,
+                    growths[equipment.rarity - 1][atkGrowth + 1] + growths[equipment.rarity - 1][atkGrowth - 1] - growths[equipment.rarity - 1][atkGrowth] * 2,
+                    growths[equipment.rarity - 1][spdGrowth + 1] + growths[equipment.rarity - 1][spdGrowth - 1] - growths[equipment.rarity - 1][spdGrowth] * 2,
+                    growths[equipment.rarity - 1][defGrowth + 1] + growths[equipment.rarity - 1][defGrowth - 1] - growths[equipment.rarity - 1][defGrowth] * 2,
+                    growths[equipment.rarity - 1][resGrowth + 1] + growths[equipment.rarity - 1][resGrowth - 1] - growths[equipment.rarity - 1][resGrowth] * 2)
 
     fun localeName(locale: Locale): String {
-        if (individuals.name.isNotEmpty()) return individuals.name
+        if (equipment.name.isNotEmpty()) return equipment.name
         return when (locale) {
             Locale.JAPAN -> name
             Locale.JAPANESE -> name

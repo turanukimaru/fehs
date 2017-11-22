@@ -74,14 +74,14 @@ class BattleSimulatorActivity : AppCompatActivity() {
             val battleClass = BattleUnitRepository.getById(findViewById<Button>(R.id.attackerRadioButton)!!.text.toString()) ?: return@onClick//無いときはそのまま戻れるみたい。凄い！
             Log.i("BattleSimulatorActivity", "battleClass : $battleClass")
             val battleUnit = BattleUnit(battleClass, battleClass.maxHp)
-            battleUnit.atkBuff = battleClass.individuals.atkBuff
-            battleUnit.spdBuff = battleClass.individuals.spdBuff
-            battleUnit.defBuff = battleClass.individuals.defBuff
-            battleUnit.resBuff = battleClass.individuals.resBuff
-            battleUnit.atkEffect = battleClass.individuals.atkSpur
-            battleUnit.spdEffect = battleClass.individuals.spdSpur
-            battleUnit.defEffect = battleClass.individuals.defSpur
-            battleUnit.resEffect = battleClass.individuals.resSpur
+            battleUnit.atkBuff = battleClass.equipment.atkBuff
+            battleUnit.spdBuff = battleClass.equipment.spdBuff
+            battleUnit.defBuff = battleClass.equipment.defBuff
+            battleUnit.resBuff = battleClass.equipment.resBuff
+            battleUnit.atkEffect = battleClass.equipment.atkSpur
+            battleUnit.spdEffect = battleClass.equipment.spdSpur
+            battleUnit.defEffect = battleClass.equipment.defSpur
+            battleUnit.resEffect = battleClass.equipment.resSpur
             val spinnerEnemyWeapon = findViewById<Spinner>(R.id.spinner_enemy_weapon)
             val spinnerEnemyMove = findViewById<Spinner>(R.id.spinner_enemy_move)
             val weaponType = WeaponType.weaponTypeOf(spinnerEnemyWeapon.selectedItem.toString())
@@ -97,7 +97,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
             val resBuff = findViewById<Spinner>(R.id.resTargetBuffSpinner).selectedItem.toString().toInt()
             val defensiveTerrain = findViewById<CheckBox>(R.id.defTerrainTargetCheckBox).isChecked
             fun BattleUnit.buff() : BattleUnit {
-                if(battleClass.individuals.name.isNotEmpty()) return this
+                if(battleClass.equipment.name.isNotEmpty()) return this
                 this.atkBuff = atkBuff
                 this.spdBuff = spdBuff
                 this.defBuff =defBuff

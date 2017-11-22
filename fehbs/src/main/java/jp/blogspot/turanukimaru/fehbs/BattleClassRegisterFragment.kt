@@ -88,7 +88,7 @@ class BattleClassRegisterFragment : Fragment() {
                 return@setOnClickListener
             }
             val baseClass = BattleUnitRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setOnClickListener
-            val individuals = Individuals(
+            val individuals = Equipment(
                     rootView.findViewById<TextView>(R.id.unitName).text.toString()
                     , Weapons.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
                     , Assists.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.assistRadioButton).text.toString())
@@ -112,7 +112,7 @@ class BattleClassRegisterFragment : Fragment() {
                     , rootView.findViewById<Spinner>(R.id.defSpurSpinner).selectedItem.toString().toInt()
                     , rootView.findViewById<Spinner>(R.id.resSpurSpinner).selectedItem.toString().toInt()
             )
-            baseClass.individuals = individuals
+            baseClass.equipment = individuals
             BattleUnitRepository.createItem(
                     baseClass
             )
@@ -263,7 +263,7 @@ class BattleClassRegisterFragment : Fragment() {
                 val battleClass = BattleUnitRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setSingleChoiceItems
                 battleClass.let {
                     rootView.findViewById<TextView>(R.id.unitName).text = it.localeName(locale)
-                    if (it.individuals.name.isEmpty()) {
+                    if (it.equipment.name.isEmpty()) {
                         rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.weapon.localeName(locale)
                         rootView.findViewById<RadioButton>(R.id.assistRadioButton).text = it.assist.localeName(locale)
                         rootView.findViewById<RadioButton>(R.id.specialRadioButton).text = it.special.localeName(locale)
@@ -272,28 +272,28 @@ class BattleClassRegisterFragment : Fragment() {
                         rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text = it.cSkill.localeName(locale)
                         rootView.findViewById<RadioButton>(R.id.sealRadioButton).text = it.seal.localeName(locale)
                     } else {
-                        rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.individuals.weapon.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.assistRadioButton).text = it.individuals.assist.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.specialRadioButton).text = it.individuals.special.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.aSkillRadioButton).text = it.individuals.aSkill.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.bSkillRadioButton).text = it.individuals.bSkill.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text = it.individuals.cSkill.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.sealRadioButton).text = it.individuals.seal.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.equipment.weapon.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.assistRadioButton).text = it.equipment.assist.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.specialRadioButton).text = it.equipment.special.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.aSkillRadioButton).text = it.equipment.aSkill.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.bSkillRadioButton).text = it.equipment.bSkill.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text = it.equipment.cSkill.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.sealRadioButton).text = it.equipment.seal.localeName(locale)
                     }
                     rootView.findViewById<Spinner>(R.id.raritySpinner).setSelection(it.rarity - 1)
                     rootView.findViewById<Spinner>(R.id.levelBoostSpinner).setSelection(it.levelBoost)
                     rootView.findViewById<RadioButton>(R.id.boonRadioButton).text = it.boon.localeName(locale)
                     rootView.findViewById<RadioButton>(R.id.baneRadioButton).text = it.bane.localeName(locale)
 
-                    rootView.findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked = it.individuals.defensiveTerrain
-                    rootView.findViewById<Spinner>(R.id.atkBuffSpinner).setSelection(it.individuals.atkBuff)
-                    rootView.findViewById<Spinner>(R.id.spdBuffSpinner).setSelection(it.individuals.spdBuff)
-                    rootView.findViewById<Spinner>(R.id.defBuffSpinner).setSelection(it.individuals.defBuff)
-                    rootView.findViewById<Spinner>(R.id.resBuffSpinner).setSelection(it.individuals.resBuff)
-                    rootView.findViewById<Spinner>(R.id.atkSpurSpinner).setSelection(it.individuals.atkSpur)
-                    rootView.findViewById<Spinner>(R.id.spdSpurSpinner).setSelection(it.individuals.atkSpur)
-                    rootView.findViewById<Spinner>(R.id.defSpurSpinner).setSelection(it.individuals.atkSpur)
-                    rootView.findViewById<Spinner>(R.id.resSpurSpinner).setSelection(it.individuals.atkSpur)
+                    rootView.findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked = it.equipment.defensiveTerrain
+                    rootView.findViewById<Spinner>(R.id.atkBuffSpinner).setSelection(it.equipment.atkBuff)
+                    rootView.findViewById<Spinner>(R.id.spdBuffSpinner).setSelection(it.equipment.spdBuff)
+                    rootView.findViewById<Spinner>(R.id.defBuffSpinner).setSelection(it.equipment.defBuff)
+                    rootView.findViewById<Spinner>(R.id.resBuffSpinner).setSelection(it.equipment.resBuff)
+                    rootView.findViewById<Spinner>(R.id.atkSpurSpinner).setSelection(it.equipment.atkSpur)
+                    rootView.findViewById<Spinner>(R.id.spdSpurSpinner).setSelection(it.equipment.atkSpur)
+                    rootView.findViewById<Spinner>(R.id.defSpurSpinner).setSelection(it.equipment.atkSpur)
+                    rootView.findViewById<Spinner>(R.id.resSpurSpinner).setSelection(it.equipment.atkSpur)
 
                     showParams(rootView, it)
                     //装備制限はとりあえず後で考える

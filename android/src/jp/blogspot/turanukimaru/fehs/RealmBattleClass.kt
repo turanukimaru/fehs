@@ -36,7 +36,7 @@ open class RealmBattleClass(
 ) : RealmObject() {
     fun toModelObject(): BattleClass {
         val result = BattleUnitRepository.getById(baseName)!!
-        result.equip(Individuals(nickname, Weapons.valueOfOrNONE(weapon), Weapons.valueOfOrNONE(assist), Weapons.valueOfOrNONE(special), Skills.valueOfOrNONE(aSkill), Skills.valueOfOrNONE(bSkill), Skills.valueOfOrNONE(cSkill), Skills.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
+        result.equip(Equipment(nickname, Weapons.valueOfOrNONE(weapon), Weapons.valueOfOrNONE(assist), Weapons.valueOfOrNONE(special), Skills.valueOfOrNONE(aSkill), Skills.valueOfOrNONE(bSkill), Skills.valueOfOrNONE(cSkill), Skills.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
         Log.i("RealmBattleClass","CREATE BattleClass FROM RealmBattleClass")
         Log.i("RealmBattleClass","nickname $nickname ")
         Log.i("RealmBattleClass","weapon $weapon ")

@@ -107,8 +107,8 @@ object BattleClassContent : RealmContent<BattleClass>() {
         //凄く無駄なことをしてる気もするが大事なことのような気もする…
         item.apply {
             realm.executeTransaction {
-                realm.copyToRealmOrUpdate(RealmBattleClass(individuals.name, name, individuals.weapon.value, individuals.assist.value, individuals.special.value, individuals.aSkill.value, individuals.bSkill.value, individuals.cSkill.value, individuals.seal.value, individuals.rarity, individuals.levelBoost, individuals.boon.name, individuals.name
-                        , individuals.defensiveTerrain, individuals.atkBuff, individuals.spdBuff, individuals.defBuff, individuals.resBuff, individuals.atkSpur, individuals.spdSpur, individuals.defSpur, individuals.resSpur))
+                realm.copyToRealmOrUpdate(RealmBattleClass(equipment.name, name, equipment.weapon.value, equipment.assist.value, equipment.special.value, equipment.aSkill.value, equipment.bSkill.value, equipment.cSkill.value, equipment.seal.value, equipment.rarity, equipment.levelBoost, equipment.boon.name, equipment.name
+                        , equipment.defensiveTerrain, equipment.atkBuff, equipment.spdBuff, equipment.defBuff, equipment.resBuff, equipment.atkSpur, equipment.spdSpur, equipment.defSpur, equipment.resSpur))
             }
         }
         return item

@@ -3,7 +3,7 @@ package jp.blogspot.turanukimaru.fehs
 /**
  * Created by turanukimaru on 2017/11/13.
  */
-data class Individuals(
+data class Equipment(
         val name: String = "",
         var weapon: Skill = Skill.NONE,
         var assist: Skill = Skill.NONE,
