@@ -14,13 +14,13 @@
         <item>SWORD</item>
         <item>LANCE</item>
         <item>AXE</item>
+        <item>BREATH</item>
+        <item>RTOME</item>
+        <item>BTOME</item>
+        <item>GTOME</item>
         <item>BOW</item>
         <item>DAGGER</item>
         <item>STAFF</item>
-        <item>RTOME</item>
-        <item>GTOME</item>
-        <item>BTOME</item>
-        <item>BREATH</item>
     </string-array>
     <string-array name="move_type">
         <item>MOVE TYPE</item>
