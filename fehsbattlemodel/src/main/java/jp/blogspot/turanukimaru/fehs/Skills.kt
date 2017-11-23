@@ -7,43 +7,43 @@ import java.util.*
  */
 enum class Skills(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3) : Skill {
     Hp("HP", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipHp(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipHp(armedClass, lv)
     },
     HpSpd("HP速さ", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipSpd(equipHp(battleClass, lv), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipSpd(equipHp(armedClass, lv), lv)
     },
     HpRes("HP魔防", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipRes(equipHp(battleClass, lv), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipRes(equipHp(armedClass, lv), lv)
     },
     Attack("攻撃", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipAtk(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipAtk(armedClass, lv)
     },
     AtkSpd("攻撃速さ", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipSpd(equipAtk(battleClass, lv), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipSpd(equipAtk(armedClass, lv), lv)
     },
     AtkRes("攻撃魔防", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipRes(equipAtk(battleClass, lv), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipRes(equipAtk(armedClass, lv), lv)
     },
     Speed("速さ", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipSpd(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipSpd(armedClass, lv)
     },
     SpdRes("速さ魔防", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipRes(equipSpd(battleClass, lv), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipRes(equipSpd(armedClass, lv), lv)
     },
     SpdDef("速さ守備", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipDef(equipSpd(battleClass, lv), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipDef(equipSpd(armedClass, lv), lv)
     },
     Defense("守備", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipDef(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipDef(armedClass, lv)
     },
     AtkDef("攻撃守備", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipDef(equipAtk(battleClass, lv), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipDef(equipAtk(armedClass, lv), lv)
     },
     HpDef("HP守備", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipDef(equipHp(battleClass, lv), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipDef(equipHp(armedClass, lv), lv)
     },
     Resistance("魔防", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipRes(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipRes(armedClass, lv)
     },
 
     DefiantAtk("攻撃の覚醒", Skill.SkillType.A) {
@@ -63,17 +63,17 @@ enum class Skills(override val jp: String, override val type: Skill.SkillType, o
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, lv)
     },
     LifeAndDeath("死線", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = lifeAndDeath(battleClass, lv + 2)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = lifeAndDeath(armedClass, lv + 2)
     },
     Furry("獅子奮迅", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = furry(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = furry(armedClass, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackHpLoss(battleUnit, lv*2)
     },
     FortressDef("守備の城塞", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipAtk(equipDef(battleClass, lv + 2), -3)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipAtk(equipDef(armedClass, lv + 2), -3)
     },
     FortressRes("魔防の城塞", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipAtk(equipRes(battleClass, lv + 2), -3)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipAtk(equipRes(armedClass, lv + 2), -3)
     },
     ArmoredBlow("金剛の一撃", Skill.SkillType.A) {
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowDef(battleUnit, lv * 2)

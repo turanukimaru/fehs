@@ -8,31 +8,31 @@ import java.util.*
 enum class Seals(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3) : Skill {
 
     Hp("HP", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipHp(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipHp(armedClass, lv)
     },
     SquadAceA("第1迷宮の覇者", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipHp(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipHp(armedClass, lv)
     },
     Attack("攻撃", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipAtk(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipAtk(armedClass, lv)
     },
     Speed("速さ", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipSpd(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipSpd(armedClass, lv)
     },
     SquadAceD("第4迷宮の覇者", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipSpd(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipSpd(armedClass, lv)
     },
     Defense("守備", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipDef(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipDef(armedClass, lv)
     },
     SquadAceB("第3迷宮の覇者", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipDef(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipDef(armedClass, lv)
     },
     Resistance("魔防", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipRes(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipRes(armedClass, lv)
     },
     SquadAceC("第3迷宮の覇者", Skill.SkillType.A) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipRes(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipRes(armedClass, lv)
     },
     DistantDef("遠距離防御", Skill.SkillType.A) {
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, lv * 2)
@@ -55,7 +55,7 @@ enum class Seals(override val jp: String, override val type: Skill.SkillType, ov
     HardyBearing("不動の姿勢", Skill.SkillType.SEAL) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit {
             battleUnit.disableChangePlan = true
-            if (battleUnit.hp >= battleUnit.battleClass.maxHp * (150 - lv * 50) / 100) {
+            if (battleUnit.hp >= battleUnit.armedClass.maxHp * (150 - lv * 50) / 100) {
                 battleUnit.enemy!!.disableChangePlan = true
             }
                 return super.bothEffect(battleUnit, lv)
@@ -75,7 +75,7 @@ enum class Seals(override val jp: String, override val type: Skill.SkillType, ov
      */
     DeflectMagic("連撃防御・魔", Skill.SkillType.SEAL) {
         override fun prevent(battleUnit: BattleUnit, damage: Int, results: List<AttackResult>, lv: Int): Int
-                = if (results.isNotEmpty() && results.last().side != battleUnit.side && battleUnit.enemy!!.battleClass.isMagicWeapon()) damage - damage * when (lv) {
+                = if (results.isNotEmpty() && results.last().side != battleUnit.side && battleUnit.enemy!!.armedClass.isMagicWeapon()) damage - damage * when (lv) {
             1 -> 3
             2 -> 5
             3 -> 8
@@ -85,7 +85,7 @@ enum class Seals(override val jp: String, override val type: Skill.SkillType, ov
 
     DeflectMelee("連撃防御・剣槍斧", Skill.SkillType.SEAL) {
         override fun prevent(battleUnit: BattleUnit, damage: Int, results: List<AttackResult>, lv: Int): Int
-                = if (results.isNotEmpty() && results.last().side != battleUnit.side && battleUnit.enemy!!.battleClass.isMagicWeapon()) damage - damage * when (lv) {
+                = if (results.isNotEmpty() && results.last().side != battleUnit.side && battleUnit.enemy!!.armedClass.isMagicWeapon()) damage - damage * when (lv) {
             1 -> 3
             2 -> 5
             3 -> 8
@@ -94,7 +94,7 @@ enum class Seals(override val jp: String, override val type: Skill.SkillType, ov
     },
     DeflectMissile("連撃防御・弓暗器", Skill.SkillType.SEAL) {
         override fun prevent(battleUnit: BattleUnit, damage: Int, results: List<AttackResult>, lv: Int): Int
-                = if (results.isNotEmpty() && results.last().side != battleUnit.side && battleUnit.enemy!!.battleClass.isMagicWeapon()) damage - damage * when (lv) {
+                = if (results.isNotEmpty() && results.last().side != battleUnit.side && battleUnit.enemy!!.armedClass.isMagicWeapon()) damage - damage * when (lv) {
             1 -> 3
             2 -> 5
             3 -> 8

@@ -1,8 +1,8 @@
-package jp.blogspot.turanukimaru.fehbs
+package jp.blogspot.turanukimaru.repos
 
 import android.util.Log
 import io.realm.Realm
-import jp.blogspot.turanukimaru.fehs.BattleClass
+import jp.blogspot.turanukimaru.fehs.ArmedClass
 import jp.blogspot.turanukimaru.fehs.BoonType
 import jp.blogspot.turanukimaru.fehs.Skill
 import kotlin.properties.Delegates
@@ -10,7 +10,7 @@ import kotlin.properties.Delegates
 /**
  * 戦闘用クラスのDBアクセス。名前が酷いのでそのうち変えたい
  */
-object BattleClassContent : RealmContent<BattleClass>() {
+object BattleClassContent : RealmContent<ArmedClass>() {
 
     private val tag = "BattleClassContent"
     /**
@@ -82,11 +82,11 @@ object BattleClassContent : RealmContent<BattleClass>() {
 
     }
 
-    override fun complexQuery(item: BattleClass): List<BattleClass> {
+    override fun complexQuery(item: ArmedClass): List<ArmedClass> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(item: BattleClass): Int {
+    override fun delete(item: ArmedClass): Int {
         val results = realm.where(RealmBattleClass::class.java).equalTo("nickname", item.name).findAll()
         realm.executeTransaction {
             results.deleteAllFromRealm()
@@ -106,25 +106,25 @@ object BattleClassContent : RealmContent<BattleClass>() {
     }
 
 
-    override fun createOrUpdate(item: BattleClass): BattleClass {
+    override fun createOrUpdate(item: ArmedClass): ArmedClass {
         item.apply {
             realm.executeTransaction {
-                realm.copyToRealmOrUpdate(RealmBattleClass(equipment.name, name, equipment.weapon.value, equipment.assist.value, equipment.special.value, equipment.aSkill.value, equipment.bSkill.value, equipment.cSkill.value, equipment.seal.value, equipment.rarity, equipment.levelBoost, equipment.boon.name, equipment.bane.name
-                        , equipment.defensiveTerrain, equipment.atkBuff, equipment.spdBuff, equipment.defBuff, equipment.resBuff, equipment.atkSpur, equipment.spdSpur, equipment.defSpur, equipment.resSpur))
+                realm.copyToRealmOrUpdate(RealmBattleClass(name, battleClass.name, weapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
+                        , defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
             }
         }
         return item
     }
 
-    override fun find(item: BattleClass): BattleClass? {
+    override fun find(item: ArmedClass): ArmedClass? {
         //TODO:複数項目指定しての検索をうまくやるほうほうがそのうち必要になるはず
         return realm.where(RealmBattleClass::class.java).equalTo("nickname", item.name).findFirst()?.toModelObject()
     }
 
-    override fun allItems(): List<BattleClass> {
+    override fun allItems(): List<ArmedClass> {
         return realm.where(RealmBattleClass::class.java).findAll().map { e -> e.toModelObject() }
     }
 
-    override fun getById(id: String): BattleClass? = realm.where(RealmBattleClass::class.java).equalTo("nickname", id).findFirst()?.toModelObject()
+    override fun getById(id: String): ArmedClass? = realm.where(RealmBattleClass::class.java).equalTo("nickname", id).findFirst()?.toModelObject()
 
 }

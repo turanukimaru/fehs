@@ -5,12 +5,12 @@ package jp.blogspot.turanukimaru.fehs
  * 正直DBに初期値を放り込むのでよいと思う。
  */
 object BattleUnitRepository {
-    var repo: ModelObjectRepository<BattleClass>? = null
+    var repo: ModelObjectRepository<ArmedClass>? = null
 
-    fun getById(id: String): BattleClass? = if(StandardBattleClass.containsKey(id)) StandardBattleClass.get(id)else repo!!.getById(id)
-    fun allItems(includeDb: Boolean = false): MutableList<BattleClass> = if (includeDb) StandardBattleClass.allItems().union(repo!!.allItems()).toMutableList() else StandardBattleClass.allItems()
+    fun getById(id: String): ArmedClass? = if (StandardBattleClass.containsKey(id)) ArmedClass(StandardBattleClass.get(id)!!) else repo!!.getById(id)
+    fun allItems(includeDb: Boolean = false): List<ArmedClass> = if (includeDb) StandardBattleClass.allItems().map{e->ArmedClass(e)}.union(repo!!.allItems()).toList() else StandardBattleClass.allItems().map{e->ArmedClass(e)}
     fun isStandardBattleClass(id: String): Boolean = StandardBattleClass.containsKey(id)
-    fun createItem(battleClass: BattleClass){
+    fun createItem(battleClass: ArmedClass) {
         repo!!.createOrUpdate(battleClass)
 
     }

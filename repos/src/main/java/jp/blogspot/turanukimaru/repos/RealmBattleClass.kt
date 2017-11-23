@@ -1,4 +1,4 @@
-package jp.blogspot.turanukimaru.fehbs
+package jp.blogspot.turanukimaru.repos
 
 import android.util.Log
 import io.realm.RealmObject
@@ -35,9 +35,8 @@ open class RealmBattleClass(
         var defSpur:Int = 0,
         var resSpur:Int = 0
 ) : RealmObject() {
-    fun toModelObject(): BattleClass {
-        val result = BattleUnitRepository.getById(baseName)!!
-        result.equip(Equipment(nickname, Weapons.valueOfOrNONE(weapon), Assists.valueOfOrNONE(assist), Specials.valueOfOrNONE(special), Skills.valueOfOrNONE(aSkill), Skills.valueOfOrNONE(bSkill), Skills.valueOfOrNONE(cSkill), Seals.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
+    fun toModelObject(): ArmedClass {
+        val result = StandardBattleClass.get(baseName)!!
         Log.i("RealmBattleClass","CREATE BattleClass FROM RealmBattleClass")
         Log.i("RealmBattleClass","nickname $nickname ")
         Log.i("RealmBattleClass","weapon $weapon ")
@@ -51,6 +50,6 @@ open class RealmBattleClass(
         Log.i("RealmBattleClass","levelBoost $boost ")
         Log.i("RealmBattleClass","boon $boon ")
         Log.i("RealmBattleClass","bane $bane ")
-        return result
+        return         ArmedClass(result, nickname, Weapons.valueOfOrNONE(weapon), Assists.valueOfOrNONE(assist), Specials.valueOfOrNONE(special), Skills.valueOfOrNONE(aSkill), Skills.valueOfOrNONE(bSkill), Skills.valueOfOrNONE(cSkill), Seals.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
     }
 }

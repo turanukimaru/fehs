@@ -4,6 +4,7 @@ import android.app.Application
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import jp.blogspot.turanukimaru.fehs.BattleUnitRepository
+import jp.blogspot.turanukimaru.repos.BattleClassContent
 
 /**
  * 戦闘シミュレータ起動アプリケーション

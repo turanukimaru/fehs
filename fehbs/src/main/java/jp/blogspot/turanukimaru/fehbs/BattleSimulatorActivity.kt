@@ -71,17 +71,17 @@ class BattleSimulatorActivity : AppCompatActivity() {
         //計算実行ボタン作成
         findViewById<Button>(R.id.button).onClick { _ ->
             Log.i("BattleSimulatorActivity", "fightStartButton onClick")
-            val battleClass = BattleUnitRepository.getById(findViewById<Button>(R.id.attackerRadioButton)!!.text.toString()) ?: return@onClick//無いときはそのまま戻れるみたい。凄い！
-            Log.i("BattleSimulatorActivity", "battleClass : $battleClass")
-            val battleUnit = BattleUnit(battleClass, battleClass.maxHp)
-            battleUnit.atkBuff = battleClass.equipment.atkBuff
-            battleUnit.spdBuff = battleClass.equipment.spdBuff
-            battleUnit.defBuff = battleClass.equipment.defBuff
-            battleUnit.resBuff = battleClass.equipment.resBuff
-            battleUnit.atkEffect = battleClass.equipment.atkSpur
-            battleUnit.spdEffect = battleClass.equipment.spdSpur
-            battleUnit.defEffect = battleClass.equipment.defSpur
-            battleUnit.resEffect = battleClass.equipment.resSpur
+            val armedClass = BattleUnitRepository.getById(findViewById<Button>(R.id.attackerRadioButton)!!.text.toString()) ?: return@onClick//無いときはそのまま戻れるみたい。凄い！
+            Log.i("BattleSimulatorActivity", "armedClass : $armedClass")
+            val battleUnit = BattleUnit(armedClass, armedClass.maxHp)
+            battleUnit.atkBuff = armedClass.atkBuff
+            battleUnit.spdBuff = armedClass.spdBuff
+            battleUnit.defBuff = armedClass.defBuff
+            battleUnit.resBuff = armedClass.resBuff
+            battleUnit.atkEffect = armedClass.atkSpur
+            battleUnit.spdEffect = armedClass.spdSpur
+            battleUnit.defEffect = armedClass.defSpur
+            battleUnit.resEffect = armedClass.resSpur
             val spinnerEnemyWeapon = findViewById<Spinner>(R.id.spinner_enemy_weapon)
             val spinnerEnemyMove = findViewById<Spinner>(R.id.spinner_enemy_move)
             val weaponType = WeaponType.weaponTypeOf(spinnerEnemyWeapon.selectedItem.toString())
@@ -90,14 +90,14 @@ class BattleSimulatorActivity : AppCompatActivity() {
             Log.i("BattleSimulatorActivity", "moveType : $moveType")
             val includeDB = findViewById<CheckBox>(R.id.includeDbCheckBox)!!.isChecked
             val switch = findViewById<CheckBox>(R.id.switchCheckBox)!!.isChecked
-            val filteredUnits = BattleUnitRepository.allItems(includeDB).filter { e -> e.have(weaponType, moveType) }.sortedBy  { e -> (if (e.color == 0) 4 else e.color).toString() + e.weaponType.sortOrder.toString() + e.localeName(locale)  }
+            val filteredUnits = BattleUnitRepository.allItems(includeDB).filter { e -> e.have(weaponType, moveType) }.sortedBy  { e -> (if (e.battleClass.color == 0) 4 else e.battleClass.color).toString() + e.battleClass.weaponType.sortOrder.toString() + e.localeName(locale)  }
             val atkBuff = findViewById<Spinner>(R.id.atkTargetBuffSpinner).selectedItem.toString().toInt()
             val spdBuff = findViewById<Spinner>(R.id.spdTargetBuffSpinner).selectedItem.toString().toInt()
             val defBuff = findViewById<Spinner>(R.id.defTargetBuffSpinner).selectedItem.toString().toInt()
             val resBuff = findViewById<Spinner>(R.id.resTargetBuffSpinner).selectedItem.toString().toInt()
             val defensiveTerrain = findViewById<CheckBox>(R.id.defTerrainTargetCheckBox).isChecked
             fun BattleUnit.buff() : BattleUnit {
-                if(battleClass.equipment.name.isNotEmpty()) return this
+                if(armedClass.name.isNotEmpty()) return this
                 this.atkBuff = atkBuff
                 this.spdBuff = spdBuff
                 this.defBuff =defBuff
@@ -197,25 +197,25 @@ class BattleSimulatorActivity : AppCompatActivity() {
             if (switch) {
                 holder.sourceHp.text = target.hp.toString()
                 holder.targetHp.text = source.hp.toString()
-//                holder.mSpecView.text = source.battleClass.localeName(locale)
-                holder.unitText.text = source.battleClass.localeName(locale)
+//                holder.mSpecView.text = source.armedClass.localeName(locale)
+                holder.unitText.text = source.armedClass.localeName(locale)
                 holder.mView.findViewById<TextView>(R.id.unitText).setTextColor(when {
                     target.hp == 0 -> Color.RED
                     source.hp == 0 -> Color.BLUE
                     else -> Color.BLACK
                 })
-                holder.statusText.text = source.battleClass.statusText
+                holder.statusText.text = source.armedClass.statusText
             } else {
                 holder.sourceHp.text = source.hp.toString()
                 holder.targetHp.text = target.hp.toString()
-//                holder.mSpecView.text = target.battleClass.localeName(locale)
-                holder.unitText.text = target.battleClass.localeName(locale)
+//                holder.mSpecView.text = target.armedClass.localeName(locale)
+                holder.unitText.text = target.armedClass.localeName(locale)
                 holder.mView.findViewById<TextView>(R.id.unitText).setTextColor(when {
                     source.hp == 0 -> Color.RED
                     target.hp == 0 -> Color.BLUE
                     else -> Color.BLACK
                 })
-                holder.statusText.text = target.battleClass.statusText
+                holder.statusText.text = target.armedClass.statusText
             }
             //結果表示用の領域をもう1行用意してあるんだけど要らないかなあ
 //            holder.progressText.text = mItem.detail
@@ -226,8 +226,8 @@ class BattleSimulatorActivity : AppCompatActivity() {
 //            holder.mView.setOnClickListener { _ ->
                 //                if (mTwoPane) {
 //                    val arguments = Bundle()
-//                    arguments.putString(BattleClassRegisterFragment.ARG_ITEM_ID, holder.mItem!!.id.toString())//!!はnullの時に例外
-//                    val fragment = BattleClassRegisterFragment()
+//                    arguments.putString(ArmedClassRegisterFragment.ARG_ITEM_ID, holder.mItem!!.id.toString())//!!はnullの時に例外
+//                    val fragment = ArmedClassRegisterFragment()
 //                    fragment.arguments = arguments
 //                    supportFragmentManager.beginTransaction()//FragmentActivity.getSupportFragmentManager
 //                            .replace(R.id.sake_detail_container, fragment)

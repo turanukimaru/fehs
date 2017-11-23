@@ -46,7 +46,7 @@ enum class Specials(override val jp: String, override val type: Skill.SkillType,
     },
     RegnalAstra("剣姫の流星", Skill.SkillType.SPECIAL_A, 2) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedSpd * 4 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedSpd * 4 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
@@ -58,62 +58,62 @@ enum class Specials(override val jp: String, override val type: Skill.SkillType,
     },
     DraconicAura("伏竜", Skill.SkillType.SPECIAL_A, 4) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedAtk * 3 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedAtk * 3 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     DragonGaze("竜裂", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedAtk * 3 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedAtk * 3 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     DragonFang("竜穿", Skill.SkillType.SPECIAL_A, 4) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedAtk * 5 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedAtk * 5 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     GlowingEmber("蛍火", Skill.SkillType.SPECIAL_A, 4) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedDef * 5 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedDef * 5 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     Boonfire("緋炎", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedDef * 5 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedDef * 5 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     Ignis("華炎", Skill.SkillType.SPECIAL_A, 4) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedDef * 8 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedDef * 8 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     ChillingWind("氷点", Skill.SkillType.SPECIAL_A, 4) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedRes * 5 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedRes * 5 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     Iceberg("氷蒼", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedRes * 5 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedRes * 5 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     Glacies("氷華", Skill.SkillType.SPECIAL_A, 4) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedRes * 8 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.effectedRes * 8 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
 
     Aether("天空", Skill.SkillType.SPECIAL_A, 5) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.battleClass.weaponType, 50)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.armedClass.battleClass.weaponType, 50)
             return Pair(damage, this)
         }
 
@@ -124,76 +124,76 @@ enum class Specials(override val jp: String, override val type: Skill.SkillType,
     },
     NewMoon("影月", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.battleClass.weaponType, 30)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.armedClass.battleClass.weaponType, 30)
             return Pair(damage, this)
         }
     },
     Moonbow("月虹", Skill.SkillType.SPECIAL_A, 2) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.battleClass.weaponType, 30)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.armedClass.battleClass.weaponType, 30)
             return Pair(damage, this)
         }
     },
     Luna("月光", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.battleClass.weaponType, 50)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.armedClass.battleClass.weaponType, 50)
             return Pair(damage, this)
         }
     },
     BlackLuna("黒の月光", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.battleClass.weaponType, 80)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.armedClass.battleClass.weaponType, 80)
             return Pair(damage, this)
         }
     },
 
     Retribution("雪辱", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + (battleUnit.battleClass.maxHp - battleUnit.hp) * 3 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + (battleUnit.armedClass.maxHp - battleUnit.hp) * 3 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     Reprisal("血讐", Skill.SkillType.SPECIAL_A, 2) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + (battleUnit.battleClass.maxHp - battleUnit.hp) * 3 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + (battleUnit.armedClass.maxHp - battleUnit.hp) * 3 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     Vengeance("復讐", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
-            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + (battleUnit.battleClass.maxHp - battleUnit.hp) * 5 / 10, battleUnit.battleClass.weaponType)
+            val damage = target.preventByDefResTerrain(battleUnit.colorAttack() + (battleUnit.armedClass.maxHp - battleUnit.hp) * 5 / 10, battleUnit.armedClass.battleClass.weaponType)
             return Pair(damage, this)
         }
     },
     HolyVestments("聖衣", Skill.SkillType.SPECIAL_C, 3) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> {
-            return if (battleUnit.battleClass.weaponType.range == 2) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
+            return if (battleUnit.armedClass.battleClass.weaponType.range == 2) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
         }
     },
     SacredCowl("聖兜", Skill.SkillType.SPECIAL_C, 2) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> {
-            return if (battleUnit.battleClass.weaponType.range == 2) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
+            return if (battleUnit.armedClass.battleClass.weaponType.range == 2) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
         }
     },
     Aegis("聖盾", Skill.SkillType.SPECIAL_C, 3) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> {
-            return if (battleUnit.battleClass.weaponType.range == 2) Pair(damage - damage * 5 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
+            return if (battleUnit.armedClass.battleClass.weaponType.range == 2) Pair(damage - damage * 5 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
         }
     },
     Buckler("小盾", Skill.SkillType.SPECIAL_A, 3) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> {
-            return if (battleUnit.battleClass.weaponType.range == 1) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
+            return if (battleUnit.armedClass.battleClass.weaponType.range == 1) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
         }
     },
     Escutcheon("長盾", Skill.SkillType.SPECIAL_A, 2) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> {
-            log(battleUnit.enemy!!.battleClass.weaponType.range)
-            return if (battleUnit.enemy!!.battleClass.weaponType.range == 1) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
+            log(battleUnit.enemy!!.armedClass.battleClass.weaponType.range)
+            return if (battleUnit.enemy!!.armedClass.battleClass.weaponType.range == 1) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
         }
     },
     Pavise("大盾", Skill.SkillType.SPECIAL_A, 3) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> {
-            return if (battleUnit.battleClass.weaponType.range == 1) Pair(damage - damage * 5 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
+            return if (battleUnit.armedClass.battleClass.weaponType.range == 1) Pair(damage - damage * 5 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
         }
     },
     Galeforce("疾風迅雷", Skill.SkillType.SPECIAL_A, 5),

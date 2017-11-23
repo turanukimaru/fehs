@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
+import jp.blogspot.turanukimaru.repos.BattleClassContent
 import org.jetbrains.anko.contentView
 import java.util.*
 
@@ -15,7 +16,7 @@ import java.util.*
 /**
  * A fragment representing a single Sake detail screen.
  * This fragment is either contained in a
- * in two-pane mode (on tablets) or a [BattleClassRegisterActivity]
+ * in two-pane mode (on tablets) or a [ArmedClassRegisterActivity]
  * on handsets.
  */
 /**
@@ -88,18 +89,17 @@ class BattleClassRegisterFragment : Fragment() {
                 return@setOnClickListener
             }
             val baseClass = BattleUnitRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setOnClickListener
-            baseClass.equip( equipment(rootView))
-            BattleUnitRepository.createItem(
-                    baseClass
-            )
+            val armedClass = equipment(rootView, baseClass.battleClass)
+            BattleUnitRepository.createItem(armedClass)
             Toast.makeText(rootView.context, R.string.alert_create_unit, Toast.LENGTH_SHORT).show()
             createUnitRadioButton(rootView, R.id.baseUnitRadioButton, R.string.unit_name_title)
         }
         return rootView
     }
 
-    private fun equipment(rootView: View): Equipment {
-        return Equipment(
+    private fun equipment(rootView: View, baseClass: BattleClass): ArmedClass {
+        return ArmedClass(
+                baseClass,
                 rootView.findViewById<TextView>(R.id.unitName).text.toString()
                 , Weapons.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
                 , Assists.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.assistRadioButton).text.toString())
@@ -151,15 +151,12 @@ class BattleClassRegisterFragment : Fragment() {
     }
 
     fun equip(view: View) {
-        val battleClass = BattleUnitRepository.getById(view.findViewById<Button>(R.id.baseUnitRadioButton)?.text.toString()) ?: return
-        battleClass.apply {
-            equip( equipment(view))
-            //スキル変更後の能力値を再計算
-            showParams(view, this)
-        }
+        val baseClass = BattleUnitRepository.getById(view.findViewById<Button>(R.id.baseUnitRadioButton)?.text.toString()) ?: return
+        val armedClass = equipment(view, baseClass.battleClass)
+        showParams(view, armedClass)
     }
 
-    private fun showParams(rootView: View, it: BattleClass) {
+    private fun showParams(rootView: View, it: ArmedClass) {
 //        rootView.findViewById<TextView>(R.id.statusView2).text = it.baseStatusText
 //        rootView.findViewById<TextView>(R.id.statusView1).text = it.statusText
         val goodStatus = it.goodStatus()
@@ -211,7 +208,7 @@ class BattleClassRegisterFragment : Fragment() {
         val spinnerMove = rootView.findViewById<Spinner>(R.id.spinner_move3)
         val weaponType = WeaponType.weaponTypeOf(spinnerWeapon.selectedItem.toString())
         val moveType = MoveType.moveTypeOf(spinnerMove.selectedItem.toString())
-        val texts = BattleUnitRepository.allItems(true).filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> e.localeName(locale)  }.map { e -> e.localeName(locale) }.toTypedArray()
+        val texts = BattleUnitRepository.allItems(true).filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> e.localeName(locale) }.map { e -> e.localeName(locale) }.toTypedArray()
 
 
         if (texts.isEmpty()) {
@@ -251,10 +248,10 @@ class BattleClassRegisterFragment : Fragment() {
                     // 選択したときは文字列をそのまま置き換える
                     , { dialog, which ->
                 rootView.findViewById<RadioButton>(radioButton).text = texts[which]
-                val battleClass = BattleUnitRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setSingleChoiceItems
-                battleClass.let {
+                val armedClass = BattleUnitRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setSingleChoiceItems
+                armedClass.let {
                     rootView.findViewById<TextView>(R.id.unitName).text = it.localeName(locale)
-                    if (it.equipment.name.isEmpty()) {
+                    if (it.name.isEmpty()) {
                         rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.weapon.localeName(locale)
                         rootView.findViewById<RadioButton>(R.id.assistRadioButton).text = it.assist.localeName(locale)
                         rootView.findViewById<RadioButton>(R.id.specialRadioButton).text = it.special.localeName(locale)
@@ -263,33 +260,33 @@ class BattleClassRegisterFragment : Fragment() {
                         rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text = it.cSkill.localeName(locale)
                         rootView.findViewById<RadioButton>(R.id.sealRadioButton).text = it.seal.localeName(locale)
                     } else {
-                        rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.equipment.weapon.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.assistRadioButton).text = it.equipment.assist.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.specialRadioButton).text = it.equipment.special.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.aSkillRadioButton).text = it.equipment.aSkill.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.bSkillRadioButton).text = it.equipment.bSkill.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text = it.equipment.cSkill.localeName(locale)
-                        rootView.findViewById<RadioButton>(R.id.sealRadioButton).text = it.equipment.seal.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.weapon.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.assistRadioButton).text = it.assist.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.specialRadioButton).text = it.special.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.aSkillRadioButton).text = it.aSkill.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.bSkillRadioButton).text = it.bSkill.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text = it.cSkill.localeName(locale)
+                        rootView.findViewById<RadioButton>(R.id.sealRadioButton).text = it.seal.localeName(locale)
                     }
                     rootView.findViewById<Spinner>(R.id.raritySpinner).setSelection(it.rarity - 1)
                     rootView.findViewById<Spinner>(R.id.levelBoostSpinner).setSelection(it.levelBoost)
                     rootView.findViewById<RadioButton>(R.id.boonRadioButton).text = it.boon.localeName(locale)
                     rootView.findViewById<RadioButton>(R.id.baneRadioButton).text = it.bane.localeName(locale)
 
-                    rootView.findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked = it.equipment.defensiveTerrain
-                    rootView.findViewById<Spinner>(R.id.atkBuffSpinner).setSelection(it.equipment.atkBuff)
-                    rootView.findViewById<Spinner>(R.id.spdBuffSpinner).setSelection(it.equipment.spdBuff)
-                    rootView.findViewById<Spinner>(R.id.defBuffSpinner).setSelection(it.equipment.defBuff)
-                    rootView.findViewById<Spinner>(R.id.resBuffSpinner).setSelection(it.equipment.resBuff)
-                    rootView.findViewById<Spinner>(R.id.atkSpurSpinner).setSelection(it.equipment.atkSpur)
-                    rootView.findViewById<Spinner>(R.id.spdSpurSpinner).setSelection(it.equipment.atkSpur)
-                    rootView.findViewById<Spinner>(R.id.defSpurSpinner).setSelection(it.equipment.atkSpur)
-                    rootView.findViewById<Spinner>(R.id.resSpurSpinner).setSelection(it.equipment.atkSpur)
+                    rootView.findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked = it.defensiveTerrain
+                    rootView.findViewById<Spinner>(R.id.atkBuffSpinner).setSelection(it.atkBuff)
+                    rootView.findViewById<Spinner>(R.id.spdBuffSpinner).setSelection(it.spdBuff)
+                    rootView.findViewById<Spinner>(R.id.defBuffSpinner).setSelection(it.defBuff)
+                    rootView.findViewById<Spinner>(R.id.resBuffSpinner).setSelection(it.resBuff)
+                    rootView.findViewById<Spinner>(R.id.atkSpurSpinner).setSelection(it.atkSpur)
+                    rootView.findViewById<Spinner>(R.id.spdSpurSpinner).setSelection(it.atkSpur)
+                    rootView.findViewById<Spinner>(R.id.defSpurSpinner).setSelection(it.atkSpur)
+                    rootView.findViewById<Spinner>(R.id.resSpurSpinner).setSelection(it.atkSpur)
 
                     showParams(rootView, it)
                     //装備制限はとりあえず後で考える
                     val allSkills = Skills.spreadItems()
-                    createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapons.spreadItems().filter { e -> e.type == it.weaponType.skillType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapons.spreadItems().filter { e -> e.type == it.battleClass.weaponType.skillType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assists.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Specials.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, allSkills.filter { e -> e.type == Skill.SkillType.A || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
@@ -329,12 +326,12 @@ class BattleClassRegisterFragment : Fragment() {
      * メニューとか。今は削除の実
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.i("BattleClassRegister", item.itemId.toString())
+        Log.i("ArmedClassRegister", item.itemId.toString())
         val id = item.itemId
-        Log.i("BattleClassRegister", R.id.action_delete.toString())
+        Log.i("ArmedClassRegister", R.id.action_delete.toString())
         //新規の時はなにもしない。削除項目を出さないほうが良いかね
         if (id == R.id.action_delete) {
-            Log.i("BattleClassRegister", "R.id.action_delete GO!")
+            Log.i("ArmedClassRegister", "R.id.action_delete GO!")
             //削除ダイアログ作成
             val builder = AlertDialog.Builder(this.context).setMessage(R.string.action_delete).setTitle(R.string.action_delete)
             builder.setPositiveButton(R.string.action_delete, { _, _ ->

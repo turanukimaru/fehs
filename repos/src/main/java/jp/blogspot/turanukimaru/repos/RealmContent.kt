@@ -1,9 +1,11 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.repos
+
+import jp.blogspot.turanukimaru.fehs.ModelObjectRepository
 
 /**
  * 複数のテーブルに共通して使える処理…例えばクエリの作成とかが書けそうなのだがまだテーブルは一つしかないし早すぎたか？
  */
-open class RealmContent<T>: ModelObjectRepository<T> {
+open class RealmContent<T> : ModelObjectRepository<T> {
     override fun allItems(): List<T> {
         return listOf()
     }

@@ -19,11 +19,11 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
     },
     BraveSword("勇者の剣", Skill.SkillType.SWORD, 5, SteelSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
     BraveSword2("勇者の剣＋", Skill.SkillType.SWORD, 8, BraveSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
     RubySword("旭日の剣", Skill.SkillType.SWORD, 8, SteelSword) {
@@ -33,10 +33,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, 3)
     },
     KillingEdge("キルソード", Skill.SkillType.SWORD, 7, SteelSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     KillingEdge2("キルソード＋", Skill.SkillType.SWORD, 11, KillingEdge) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     WaoDao("倭刀", Skill.SkillType.SWORD, 9, SteelSword) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int, lv: Int): Int = damage + 10
@@ -51,13 +51,13 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
     },
     SlayingEdge("キルソード鍛", Skill.SkillType.SWORD, 10, SteelSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
     },
     SlayingEdge2("キルソード鍛＋", Skill.SkillType.SWORD, 14, SlayingEdge) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
     },
     AyrasBlade("瞬閃アイラの剣", Skill.SkillType.SWORD, 16, SilverSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = super.equip(equipSpd(battleClass, 3), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = super.equip(equipSpd(armedClass, 3), lv)
         override fun effectedAttackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, 3)
         override fun effectedCounterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, 3)
     },
@@ -85,14 +85,14 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     Sieglinde("ジークリンデ", Skill.SkillType.SWORD, 16, SilverSword),
     Tyrfing("ティルフィング", Skill.SkillType.SWORD, 16, SilverSword) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit {
-            if (battleUnit.hp <= battleUnit.battleClass.maxHp / 2) {
+            if (battleUnit.hp <= battleUnit.armedClass.maxHp / 2) {
                 battleUnit.defEffect += 4
             }
             return battleUnit
         }
     },
     Mystletainn("ミストルティン", Skill.SkillType.SWORD, 16, SilverSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     Eckesachs("エッケザックス", Skill.SkillType.SWORD, 16, SilverSword),
     Siegfried("ジークフリート", Skill.SkillType.SWORD, 16, SilverSword) {
@@ -102,20 +102,20 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
     BlazingDurandal("烈剣デュランダル", Skill.SkillType.SWORD, 16, SilverSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = super.equip(equipAtk(battleClass, 3), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = super.equip(equipAtk(armedClass, 3), lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, 3)
     },
     Amiti("アミーテ", Skill.SkillType.SWORD, 11, SilverSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(equipSpd(battleClass, 3), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(equipSpd(armedClass, 3), lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
     Alondite("エタルド", Skill.SkillType.SWORD, 16, SilverSword) {
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
     DivineTyrfing("聖剣ティルフィング", Skill.SkillType.SWORD, 16, SilverSword) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = super.equip(equipRes(battleClass, 3), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = super.equip(equipRes(armedClass, 3), lv)
         override fun prevent(battleUnit: BattleUnit, damage: Int, results: List<AttackResult>, lv: Int): Int {
-            return if (results.isEmpty() && battleUnit.enemy!!.battleClass.effectiveRange == 2 && battleUnit.enemy!!.battleClass.isMagicWeapon()) damage - damage / 2 else damage
+            return if (results.isEmpty() && battleUnit.enemy!!.armedClass.effectiveRange == 2 && battleUnit.enemy!!.armedClass.isMagicWeapon()) damage - damage / 2 else damage
 
         }
     },
@@ -123,7 +123,7 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = enemyFullHpBonus(battleUnit, lv * 2)
     },
     ResoluteBlade("気鋭ワユの剣", Skill.SkillType.SWORD, 16, WaoDao) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = super.equip(equipAtk(battleClass, 3), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = super.equip(equipAtk(armedClass, 3), lv)
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int, lv: Int): Int = damage + 10
     },
 
@@ -132,17 +132,17 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     SilverLance("銀の槍", Skill.SkillType.LANCE, 11, SteelLance),
     SilverLance2("銀の槍＋", Skill.SkillType.LANCE, 15, SilverLance),
     KillerLance("キラーランス", Skill.SkillType.LANCE, 7, SteelLance) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     KillerLance2("キラーランス＋", Skill.SkillType.LANCE, 11, KillerLance) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     BraveLance("勇者の槍", Skill.SkillType.LANCE, 5, SteelLance) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
     BraveLance2("勇者の槍＋", Skill.SkillType.LANCE, 8, BraveLance) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
     SapphireLance("蒼海の槍", Skill.SkillType.LANCE, 8, SteelLance) {
@@ -191,10 +191,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 4)
     },
     SlayingLance("キラーランス鍛", Skill.SkillType.LANCE, 10, SteelLance) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     SlayingLance2("キラーランス鍛＋", Skill.SkillType.LANCE, 14, SlayingLance) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     Fensalir("フェンサリル", Skill.SkillType.LANCE, 16, SilverLance),
     Siegmund("ジークムント", Skill.SkillType.LANCE, 16, SilverLance),
@@ -203,7 +203,7 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     },
     Vidofinir("ヴィドフニル", Skill.SkillType.LANCE, 16, SilverLance) {
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit {
-            val weapon = battleUnit.enemy!!.battleClass.weaponType
+            val weapon = battleUnit.enemy!!.armedClass.battleClass.weaponType
             if (weapon == WeaponType.SWORD || weapon == WeaponType.LANCE || weapon == WeaponType.AXE) {
                 battleUnit.defEffect += 7
             }
@@ -211,11 +211,11 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         }
     },
     CursedLance("魔性の槍", Skill.SkillType.LANCE, 16, SilverLance) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(equipAtk(equipSpd(battleClass, 2), 2), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(equipAtk(equipSpd(armedClass, 2), 2), lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackHpLoss(battleUnit, 4)
     },
     Geirskogul("ゲイルスケグル", Skill.SkillType.LANCE, 16, SilverLance) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = super.equip(equipDef(battleClass, 3), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = super.equip(equipDef(armedClass, 3), lv)
     },
 
 
@@ -224,17 +224,17 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     SilverAxe("銀の斧", Skill.SkillType.AXE, 11, SteelAxe),
     SilverAxe2("銀の斧＋", Skill.SkillType.AXE, 15, SilverAxe),
     KillerAxe("キラーアクス", Skill.SkillType.AXE, 7, SteelAxe) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     KillerAxe2("キラーアクス＋", Skill.SkillType.AXE, 11, KillerAxe) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     BraveAxe("勇者の斧", Skill.SkillType.AXE, 5, SteelAxe) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
     BraveAxe2("勇者の斧＋", Skill.SkillType.AXE, 8, BraveAxe) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
     Hammer("ハンマー", Skill.SkillType.AXE, 8, SteelAxe) {
@@ -250,10 +250,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, 3)
     },
     SlayingAxe("キラーアクス鍛", Skill.SkillType.AXE, 10, SteelAxe) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     SlayingAxe2("キラーアクス鍛", Skill.SkillType.AXE, 14, SlayingAxe) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
 
     CarrotAxe("ニンジンの斧", Skill.SkillType.AXE, 9, SteelAxe) {
@@ -274,14 +274,14 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     LilithFloatie2("リリスの浮き輪＋", Skill.SkillType.AXE, 14, LilithFloatie),
     Noatun("ノーアトゥーン", Skill.SkillType.AXE, 16, SilverAxe),
     Hauteclere("オートクレール", Skill.SkillType.AXE, 16, SilverAxe) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     Armoads("アルマーズ", Skill.SkillType.AXE, 16, SilverAxe) {
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, lv)
     },
 
     Urvan("ウルヴァン", Skill.SkillType.AXE, 16, SilverAxe) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
         override fun prevent(battleUnit: BattleUnit, damage: Int, results: List<AttackResult>, lv: Int): Int =
                 if (results.isNotEmpty() && results.last().side != battleUnit.side) damage - damage * 8 / 10 else damage
     },
@@ -296,18 +296,18 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     SilverBow("銀の弓", Skill.SkillType.BOW, 9, SteelBow),
     SilverBow2("銀の弓＋", Skill.SkillType.BOW, 13, SilverBow),
     BraveBow("勇者の弓", Skill.SkillType.BOW, 4, SteelBow) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.attackEffect(doubleAttack(battleUnit), lv)
     },
     BraveBow2("勇者の弓＋", Skill.SkillType.BOW, 7, BraveBow) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.attackEffect(doubleAttack(battleUnit), lv)
     },
     KillerBow("キラーボウ", Skill.SkillType.BOW, 5, SteelBow) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     KillerBow2("キラーボウ＋", Skill.SkillType.BOW, 9, KillerBow) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     AssassinsBow("暗器殺しの弓", Skill.SkillType.BOW, 7, SteelBow) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.bothEffect(weaponBreaker(battleUnit, WeaponType.DAGGER, lv), lv)
@@ -332,10 +332,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     ClarissesBow("クライネの弓", Skill.SkillType.BOW, 7, SteelBow),
     ClarissesBow2("クライネの弓＋", Skill.SkillType.BOW, 11, ClarissesBow),
     SlayingBow("キラーボウ鍛", Skill.SkillType.BOW, 10, SteelBow) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     SlayingBow2("キラーボウ鍛＋", Skill.SkillType.BOW, 12) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipKiller(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     Parthia("パルティア", Skill.SkillType.BOW, 14, SilverBow) {
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.attackEffect(blowRes(battleUnit, 2), lv)
@@ -343,7 +343,7 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     FujinYumi("風神弓", Skill.SkillType.BOW, 14, SilverBow),
     Nidhogg("ニーズヘッグ", Skill.SkillType.BOW, 14, SilverBow),
     Mulagir("ミュルグレ", Skill.SkillType.BOW, 14, SilverBow) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = super.equip(equipDef(battleClass, 3), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = super.equip(equipDef(armedClass, 3), lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.bothEffect(antiBuffBonus(battleUnit), lv)
     },
     MonstrousBow("怪物の弓", Skill.SkillType.BOW, 8, SteelBow),
@@ -415,11 +415,11 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
     Rauorblade("ラウアブレード", Skill.SkillType.RTOME, 9) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBlade(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Rauorblade2("ラウアブレード＋", Skill.SkillType.RTOME, 13) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBlade(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Rauorowl("ラウアアウル", Skill.SkillType.RTOME, 6),
@@ -454,11 +454,11 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
     Gronnblade("グルンブレード", Skill.SkillType.GTOME, 9) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBlade(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Gronnblade2("グルンブレード＋", Skill.SkillType.GTOME, 13) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBlade(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Gronnowl("グルンアウル", Skill.SkillType.GTOME, 6),
@@ -507,11 +507,11 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
     Blarblade("ブラーブレード", Skill.SkillType.RTOME, 9) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBlade(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Blarblade2("ブラーブレード＋", Skill.SkillType.RTOME, 13) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBlade(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Blarowl("ブラーアウル", Skill.SkillType.BTOME, 6),
@@ -532,22 +532,22 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     },
     Aura("オーラ", Skill.SkillType.BTOME, 14),
     DireThunder("ダイムサンダ", Skill.SkillType.BTOME, 9) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBrave(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
 
     WeirdingTome("奇異ルーテの書", Skill.SkillType.BTOME, 14, Thoron) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = super.equip(equipSpd(battleClass, 3), lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = super.equip(equipSpd(armedClass, 3), lv)
     },
 
     FireBreath("火のブレス", Skill.SkillType.BTOME, 6),
     FireBreath2("火炎のブレス", Skill.SkillType.BTOME, 8),
     LightningBreath("雷のブレス", Skill.SkillType.BTOME, 8) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBlade(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
     LightningBreath2("雷のブレス＋", Skill.SkillType.BTOME, 11) {
-        override fun equip(battleClass: BattleClass, lv: Int): BattleClass = equipBlade(battleClass, lv)
+        override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
 
