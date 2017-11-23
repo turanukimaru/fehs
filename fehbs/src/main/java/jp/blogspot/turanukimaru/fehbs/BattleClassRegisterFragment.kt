@@ -88,31 +88,7 @@ class BattleClassRegisterFragment : Fragment() {
                 return@setOnClickListener
             }
             val baseClass = BattleUnitRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setOnClickListener
-            val individuals = Equipment(
-                    rootView.findViewById<TextView>(R.id.unitName).text.toString()
-                    , Weapons.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
-                    , Assists.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.assistRadioButton).text.toString())
-                    , Specials.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.specialRadioButton).text.toString())
-                    , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.aSkillRadioButton).text.toString())
-                    , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.bSkillRadioButton).text.toString())
-                    , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text.toString())
-                    , Seals.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.sealRadioButton).text.toString())
-
-                    , rootView.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
-                    , rootView.findViewById<Spinner>(R.id.levelBoostSpinner).selectedItem.toString().toInt()
-                    , BoonType.boonTypeOf(rootView.findViewById<RadioButton>(R.id.boonRadioButton).text.toString())
-                    , BoonType.boonTypeOf(rootView.findViewById<RadioButton>(R.id.baneRadioButton).text.toString())
-                    , rootView.findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked
-                    , rootView.findViewById<Spinner>(R.id.atkBuffSpinner).selectedItem.toString().toInt()
-                    , rootView.findViewById<Spinner>(R.id.spdBuffSpinner).selectedItem.toString().toInt()
-                    , rootView.findViewById<Spinner>(R.id.defBuffSpinner).selectedItem.toString().toInt()
-                    , rootView.findViewById<Spinner>(R.id.resBuffSpinner).selectedItem.toString().toInt()
-                    , rootView.findViewById<Spinner>(R.id.atkSpurSpinner).selectedItem.toString().toInt()
-                    , rootView.findViewById<Spinner>(R.id.spdSpurSpinner).selectedItem.toString().toInt()
-                    , rootView.findViewById<Spinner>(R.id.defSpurSpinner).selectedItem.toString().toInt()
-                    , rootView.findViewById<Spinner>(R.id.resSpurSpinner).selectedItem.toString().toInt()
-            )
-            baseClass.equipment = individuals
+            baseClass.equip( equipment(rootView))
             BattleUnitRepository.createItem(
                     baseClass
             )
@@ -120,6 +96,33 @@ class BattleClassRegisterFragment : Fragment() {
             createUnitRadioButton(rootView, R.id.baseUnitRadioButton, R.string.unit_name_title)
         }
         return rootView
+    }
+
+    private fun equipment(rootView: View): Equipment {
+        return Equipment(
+                rootView.findViewById<TextView>(R.id.unitName).text.toString()
+                , Weapons.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
+                , Assists.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.assistRadioButton).text.toString())
+                , Specials.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.specialRadioButton).text.toString())
+                , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.aSkillRadioButton).text.toString())
+                , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.bSkillRadioButton).text.toString())
+                , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text.toString())
+                , Seals.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.sealRadioButton).text.toString())
+
+                , rootView.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.levelBoostSpinner).selectedItem.toString().toInt()
+                , BoonType.boonTypeOf(rootView.findViewById<RadioButton>(R.id.boonRadioButton).text.toString())
+                , BoonType.boonTypeOf(rootView.findViewById<RadioButton>(R.id.baneRadioButton).text.toString())
+                , rootView.findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked
+                , rootView.findViewById<Spinner>(R.id.atkBuffSpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.spdBuffSpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.defBuffSpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.resBuffSpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.atkSpurSpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.spdSpurSpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.defSpurSpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.resSpurSpinner).selectedItem.toString().toInt()
+        )
     }
 
     /**
@@ -150,20 +153,8 @@ class BattleClassRegisterFragment : Fragment() {
     fun equip(view: View) {
         val battleClass = BattleUnitRepository.getById(view.findViewById<Button>(R.id.baseUnitRadioButton)?.text.toString()) ?: return
         battleClass.apply {
-            boon = BoonType.boonTypeOf(view.findViewById<RadioButton>(R.id.boonRadioButton).text.toString())
-            bane = BoonType.boonTypeOf(view.findViewById<RadioButton>(R.id.baneRadioButton).text.toString())
-            rarity = (view.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt())
-            levelBoost = (view.findViewById<Spinner>(R.id.levelBoostSpinner).selectedItem.toString().toInt())
-
-            weapon = Weapons.valueOfOrNONE(view.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
-            assist = Weapons.valueOfOrNONE(view.findViewById<RadioButton>(R.id.assistRadioButton).text.toString())
-            special = Weapons.valueOfOrNONE(view.findViewById<RadioButton>(R.id.specialRadioButton).text.toString())
-            aSkill = Skills.valueOfOrNONE(view.findViewById<RadioButton>(R.id.aSkillRadioButton).text.toString())
-            bSkill = Skills.valueOfOrNONE(view.findViewById<RadioButton>(R.id.bSkillRadioButton).text.toString())
-            cSkill = Skills.valueOfOrNONE(view.findViewById<RadioButton>(R.id.cSkillRadioButton).text.toString())
-            seal = Seals.valueOfOrNONE(view.findViewById<RadioButton>(R.id.sealRadioButton).text.toString())
+            equip( equipment(view))
             //スキル変更後の能力値を再計算
-            equip()
             showParams(view, this)
         }
     }

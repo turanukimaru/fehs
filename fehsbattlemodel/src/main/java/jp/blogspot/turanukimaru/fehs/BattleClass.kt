@@ -4,10 +4,15 @@ import java.util.*
 
 
 /**
- * ユニットの持つスキルやレベル・能力値。DBに保存したり、レベルアップや装備の変更をしない限り変わらない部分
+ * ユニットの持つスキルやレベル・能力値。DBに保存したり、レベルアップや装備の変更をしない限り変わらない部分。
+ * 装備・得意不得意のequipmentとは参照方向が逆なのだが戦闘時にこのクラスにパラメータを集約させたほうが確実なのでこの方法をとる。
  */
-class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SWORD, val moveType: MoveType = MoveType.INFANTRY, val minRarity: Int = 5, val name: String = "", val usName: String = "", val hitPoint: Int = 0, val attack: Int = 0, val speed: Int = 0, val defense: Int = 0, val resistance: Int = 0, val hpGrowth: Int = 0, val atkGrowth: Int = 0, val spdGrowth: Int = 0, val defGrowth: Int = 0, val resGrowth: Int = 0, var weapon: Skill = Skill.NONE, var assist: Skill = Skill.NONE, var special: Skill = Skill.NONE, var aSkill: Skill = Skill.NONE, var bSkill: Skill = Skill.NONE, var cSkill: Skill = Skill.NONE, var seal: Skill = Skill.NONE, var equipment: Equipment = Equipment()) {
+class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SWORD, val moveType: MoveType = MoveType.INFANTRY, val minRarity: Int = 5, val name: String = "", val usName: String = "", val hitPoint: Int = 0, val attack: Int = 0, val speed: Int = 0, val defense: Int = 0, val resistance: Int = 0, val hpGrowth: Int = 0, val atkGrowth: Int = 0, val spdGrowth: Int = 0, val defGrowth: Int = 0, val resGrowth: Int = 0, var weapon: Skill = Skill.NONE, var assist: Skill = Skill.NONE, var special: Skill = Skill.NONE, var aSkill: Skill = Skill.NONE, var bSkill: Skill = Skill.NONE, var cSkill: Skill = Skill.NONE, var seal: Skill = Skill.NONE, private var  _equipment: Equipment = Equipment()) {
 
+    /**
+     * 装備／得意不得意のゲッタ。コンストラクタにget専用プロパティを直接書けないので内部と外部に分ける
+     */
+    val equipment get() = _equipment
     /**
      * スキルのリスト。戦闘時などにすべてのスキルをなめるのに使う。読み取り専用プロパティにすることで毎回その時のプロパティからリストを作れるはず
      * 個体が編集されているときは編集後のスキルを使う
@@ -97,7 +102,6 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
         get() = defense + boonDef
     val boonedRes
         get() = resistance + boonRes
-
     /**
      * 得意不得意の能力値。最大が0なのはダミーデータ。アーダンの能力値↑は設定限界を超えるため
      */
@@ -205,7 +209,7 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
             color, weaponType, moveType, minRarity, name, usName, hitPoint, attack, speed, defense, resistance, hpGrowth, atkGrowth, spdGrowth, defGrowth, resGrowth, weapon, assist, special, aSkill, bSkill, cSkill, seal, equipment.copy()
     )
 
-    fun lvUpStatus() {
+    private fun lvUpStatus() {
         hpBoost = 0
         atkBoost = 0
         spdBoost = 0
@@ -249,13 +253,14 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
     }
 
     fun equip(equipment: Equipment? = null) {
-        this.equipment = equipment ?: this.equipment
+        _equipment = equipment ?: _equipment
         hpEqp = 0
         atkEqp = 0
         spdEqp = 0
         defEqp = 0
         resEqp = 0
         reduceSpecialCooldown = 0//ビルドが失敗してこの行だけ反映されないことがある。デバッガで確認すると０が入らないので加速する一方…
+        lvUpStatus()
         skills.fold(this, { bc, skill -> skill.equip(bc) })
     }
 

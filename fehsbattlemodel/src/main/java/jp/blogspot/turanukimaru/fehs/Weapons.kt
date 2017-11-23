@@ -386,7 +386,12 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     Pain("ペイン", Skill.SkillType.STAFF, 3) {
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, 10)
     },
-    Absorb("アブソーブ", Skill.SkillType.STAFF, 4),
+    Absorb("アブゾーブ", Skill.SkillType.STAFF, 4){
+        override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int {
+            battleUnit.heal(damage * 5 / 10)
+            return damage
+        }
+    },
     Slow("スロウ", Skill.SkillType.STAFF, 5),
     Fear("フィアー", Skill.SkillType.STAFF, 5),
     Panic("パニック", Skill.SkillType.STAFF, 6),

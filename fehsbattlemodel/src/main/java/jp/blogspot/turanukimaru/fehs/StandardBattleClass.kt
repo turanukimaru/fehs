@@ -7,7 +7,7 @@ object StandardBattleClass {
     //initブロックと同じ優先順位、つまりinitの前に書かないと作成されない
     private val ITEMS = ArrayList<BattleClass>()
     private val ITEMMAP = HashMap<String, BattleClass>()
-    fun get(id: String): BattleClass? = ITEMMAP[id]?.clone() ?: null
+    fun get(id: String): BattleClass? = ITEMMAP[id]?.clone()
     fun get(id: Int): BattleClass? = ITEMS[id].clone()
     fun containsKey(id: String): Boolean = ITEMMAP.containsKey(id)
     fun allItems(): MutableList<BattleClass> = ITEMS.fold(mutableListOf(), { list, e -> list.add(e);list })
@@ -128,7 +128,7 @@ object StandardBattleClass {
                 Weapons.Rauorwolf2, Assists.RallyAttack, Skill.NONE, Skills.Hp.lv(3), Skills.SealRes.lv(3), Skill.NONE, Skill.NONE)
         createItem("レオン", 1, WeaponType.RTOME, MoveType.CAVALRY, "Leo", 5, 17, 7, 5, 6, 8, 6, 6, 4, 5, 6,
                 Weapons.Brynhildr, Skill.NONE, Specials.BlazingLight, Skill.NONE, Skills.QuickRiposte.lv(3), Skills.SavageBlow.lv(3), Skill.NONE)
-        createItem("レオン（水着）", 1, WeaponType.RTOME, MoveType.INFANTRY, "Leo (Summer)", 5, 18, 8, 5, 6, 7, 5, 7, 6, 1, 9,
+        createItem("レオン（夏）", 1, WeaponType.RTOME, MoveType.INFANTRY, "Leo (Summer)", 5, 18, 8, 5, 6, 7, 5, 7, 6, 1, 9,
                 Weapons.TomatoTome2, Skill.NONE, Specials.Iceberg, Skill.NONE, Skills.SealRes.lv(3), Skills.AtkPloy.lv(3), Skill.NONE)
         createItem("チキ（大人）", 1, WeaponType.BREATH, MoveType.DRAGON, "Tiki(A)", 3, 18, 7, 6, 9, 7, 6, 9, 4, 8, 4,
                 Weapons.LightningBreath2, Skill.NONE, Specials.Boonfire, Skills.DefiantAtk.lv(3), Skill.NONE, Skills.SpurRes.lv(3), Skill.NONE)
@@ -162,11 +162,11 @@ object StandardBattleClass {
                 Weapons.SilverLance2, Assists.HarshCommand, Skill.NONE, Skill.NONE, Skills.HitAndRun, Skills.SpurSpd.lv(3), Skill.NONE)
         createItem("クレーベ", 2, WeaponType.LANCE, MoveType.CAVALRY, "Clive", 4, 19, 9, 6, 8, 4, 8, 7, 5, 7, 3,
                 Weapons.SilverLance2, Skill.NONE, Specials.Escutcheon, Skills.Defense.lv(3), Skills.HitAndRun, Skill.NONE, Skill.NONE)
-        createItem("シーダ（嫁）", 2, WeaponType.BTOME, MoveType.INFANTRY, "Caeda (Bride)", 5, 16, 7, 9, 4, 8, 4, 6, 9, 3, 6,
+        createItem("シーダ（花嫁）", 2, WeaponType.BTOME, MoveType.INFANTRY, "Caeda (Bride)", 5, 16, 7, 9, 4, 8, 4, 6, 9, 3, 6,
                 Weapons.BlessedBouquet2, Skill.NONE, Specials.Iceberg, Skills.AtkRes.lv(2), Skill.NONE, Skills.HoneSpd.lv(3), Skill.NONE)
         createItem("ジェイガン", 2, WeaponType.LANCE, MoveType.CAVALRY, "Jagen", 3, 20, 8, 7, 8, 11, 4, 5, 4, 4, 7,
                 Weapons.SilverLance2, Skill.NONE, Specials.Aegis, Skills.Furry.lv(3), Skill.NONE, Skills.FortifyCavalry, Skill.NONE)
-        createItem("シャーロッテ（嫁）", 2, WeaponType.LANCE, MoveType.INFANTRY, "Charlotte (Bride)", 5, 20, 10, 8, 5, 4, 8, 8, 7, 5, 3,
+        createItem("シャーロッテ（花嫁）", 2, WeaponType.LANCE, MoveType.INFANTRY, "Charlotte (Bride)", 5, 20, 10, 8, 5, 4, 8, 8, 7, 5, 3,
                 Weapons.FirstBite2, Assists.Smite, Skill.NONE, Skills.WindBoost.lv(3), Skill.NONE, Skills.ThreatenAtk.lv(3), Skill.NONE)
         createItem("シャニー", 2, WeaponType.LANCE, MoveType.FLIER, "Shanna", 3, 17, 8, 9, 6, 7, 6, 6, 8, 5, 6,
                 Weapons.KillerLance2, Skill.NONE, Specials.Iceberg, Skill.NONE, Skills.Desperation.lv(3), Skills.ThreatenSpd.lv(3), Skill.NONE)
@@ -202,7 +202,7 @@ object StandardBattleClass {
                 Weapons.BlueEgg2, Assists.RallySpeed, Skill.NONE, Skills.SwiftSparrow.lv(2), Skills.SealRes.lv(3), Skill.NONE, Skill.NONE)
         createItem("ルキナ（総選挙）", 2, WeaponType.LANCE, MoveType.INFANTRY, "Lucina (Brave Heroes)", 5, 17, 8, 10, 8, 4, 7, 8, 8, 5, 3,
                 Weapons.Geirskogul, Skill.NONE, Specials.Aether, Skills.SturdyBlow.lv(2), Skill.NONE, Skills.DriveSpd.lv(2), Skill.NONE)
-        createItem("ルフレ（水着）", 2, WeaponType.LANCE, MoveType.INFANTRY, "Robin(F) (Summer)", 5, 18, 8, 8, 6, 7, 4, 7, 8, 6, 6,
+        createItem("ルフレ（夏）", 2, WeaponType.LANCE, MoveType.INFANTRY, "Robin(F) (Summer)", 5, 18, 8, 8, 6, 7, 4, 7, 8, 6, 6,
      Weapons.DeftHarpoon2,           Assists.Reposition, Skill.NONE, Skills.HpDef.lv(2), Skill.NONE, Skills.LanceValor.lv(3), Skill.NONE)
         createItem("ロディ", 2, WeaponType.LANCE, MoveType.CAVALRY, "Roderick", 5, 18, 7, 8, 6, 7, 6, 7, 8, 5, 4,
                 Weapons.FiresweepLance2, Assists.RallyDefRes, Skill.NONE, Skill.NONE, Skills.DragBack, Skills.DriveDef.lv(2), Skill.NONE)
@@ -212,7 +212,7 @@ object StandardBattleClass {
                 Weapons.Blarblade2, Skill.NONE, Specials.Moonbow, Skills.DefiantAtk.lv(3), Skills.RTomeBreaker.lv(3), Skill.NONE, Skill.NONE)
         createItem("オルエン", 2, WeaponType.BTOME, MoveType.CAVALRY, "Olwen", 5, 17, 7, 8, 5, 6, 4, 5, 8, 3, 7,
                 Weapons.DireThunder, Assists.Reposition, Skill.NONE, Skills.WardingBlow.lv(3), Skill.NONE, Skills.WardCavalry, Skill.NONE)
-        createItem("カムイ（水着）", 2, WeaponType.BTOME, MoveType.FLIER, "Corrin(F) (Summer)", 5, 17, 7, 8, 5, 7, 4, 7, 8, 4, 5,
+        createItem("カムイ（夏）", 2, WeaponType.BTOME, MoveType.FLIER, "Corrin(F) (Summer)", 5, 17, 7, 8, 5, 7, 4, 7, 8, 4, 5,
                 Weapons.SealifeTome2, Skill.NONE, Specials.DragonFang, Skills.SwiftStrike.lv(2), Skill.NONE, Skills.FortifyFliers, Skill.NONE)
         createItem("シグレ（舞踏祭）", 2, WeaponType.BTOME, MoveType.INFANTRY, "Shigure (Performing Arts)", 5, 15, 7, 5, 4, 5, 5, 7, 7, 4, 5,
                 Weapons.DancersScore2, Assists.Sing, Skill.NONE, Skill.NONE, Skills.GeyserDance.lv(2), Skills.BTomeValor.lv(3), Skill.NONE)
@@ -250,7 +250,7 @@ object StandardBattleClass {
                 Weapons.KillerAxe2, Skill.NONE, Specials.Escutcheon, Skills.SvalinnShield, Skill.NONE, Skills.FortifyArmor, Skill.NONE)
         createItem("セルジュ", 3, WeaponType.AXE, MoveType.FLIER, "Cherche", 3, 20, 10, 6, 8, 3, 8, 9, 5, 7, 2,
                 Weapons.Hammer2, Assists.Pivot, Skill.NONE, Skills.Attack.lv(3), Skill.NONE, Skills.FortifyDef.lv(3), Skill.NONE)
-        createItem("チキ（水着）", 3, WeaponType.AXE, MoveType.INFANTRY, "Tiki(A) (Summer)", 5, 18, 8, 6, 8, 7, 4, 9, 7, 7, 4,
+        createItem("チキ（夏）", 3, WeaponType.AXE, MoveType.INFANTRY, "Tiki(A) (Summer)", 5, 18, 8, 6, 8, 7, 4, 9, 7, 7, 4,
                 Weapons.MelonCrusher2, Skill.NONE, Specials.Sol, Skills.CloseDef.lv(3), Skill.NONE, Skills.AxeValor.lv(3), Skill.NONE)
         createItem("ティアマト", 3, WeaponType.AXE, MoveType.CAVALRY, "Titania", 5, 18, 6, 8, 6, 8, 5, 6, 8, 5, 6,
                 Weapons.EmeraldAxe2, Assists.ReciprocalAid, Skill.NONE, Skills.ArmoredBlow.lv(3), Skills.Guard.lv(3), Skill.NONE, Skill.NONE)
@@ -274,7 +274,7 @@ object StandardBattleClass {
                 Weapons.KillerAxe2, Skill.NONE, Specials.Glimmer, Skills.DefiantDef.lv(3), Skills.Lunge, Skill.NONE, Skill.NONE)
         createItem("ホークアイ", 3, WeaponType.AXE, MoveType.INFANTRY, "Hawkeye", 4, 21, 9, 5, 6, 6, 7, 7, 4, 6, 7,
                 Weapons.KillerAxe2, Skill.NONE, Specials.GrowingLight, Skills.DeathBlow.lv(3), Skill.NONE, Skills.ThreatenAtk.lv(3), Skill.NONE)
-        createItem("マークス（水着）", 3, WeaponType.AXE, MoveType.INFANTRY, "Xander (Summer)", 5, 19, 8, 6, 8, 6, 7, 7, 7, 9, 1,
+        createItem("マークス（夏）", 3, WeaponType.AXE, MoveType.INFANTRY, "Xander (Summer)", 5, 19, 8, 6, 8, 6, 7, 7, 7, 9, 1,
                 Weapons.LilithFloatie2, Skill.NONE, Specials.Boonfire, Skills.FireBoost.lv(3), Skill.NONE, Skills.InfantryPulse.lv(3), Skill.NONE)
         createItem("ミシェイル", 3, WeaponType.AXE, MoveType.FLIER, "Michalis", 3, 19, 8, 7, 9, 4, 7, 8, 5, 8, 3,
                 Weapons.Hauteclere, Skill.NONE, Specials.BlazingThunder, Skills.IotesShield, Skill.NONE, Skills.ThreatenDef.lv(3), Skill.NONE)
@@ -286,7 +286,7 @@ object StandardBattleClass {
                 Weapons.LegionsAxe2, Skill.NONE, Specials.Reprisal, Skills.Furry.lv(3), Skills.Obstruct.lv(3), Skill.NONE, Skill.NONE)
         createItem("アズール（舞踏祭）", 3, WeaponType.GTOME, MoveType.INFANTRY, "Inigo (Performing Arts)", 5, 15, 6, 7, 5, 3, 6, 6, 8, 4, 4,
                 Weapons.DancersRing2, Assists.Dance, Skill.NONE, Skill.NONE, Skills.GaleDance.lv(3), Skills.HoneAtk.lv(3), Skill.NONE)
-        createItem("エリーゼ（水着）", 3, WeaponType.GTOME, MoveType.INFANTRY, "Elise (Summer)", 5, 17, 10, 8, 3, 6, 4, 8, 8, 3, 5,
+        createItem("エリーゼ（夏）", 3, WeaponType.GTOME, MoveType.INFANTRY, "Elise (Summer)", 5, 17, 10, 8, 3, 6, 4, 8, 8, 3, 5,
                 Weapons.HibiscusTome2, Assists.RallyAtkRes, Skill.NONE, Skills.SpdRes.lv(2), Skill.NONE, Skills.GTomeValor.lv(3), Skill.NONE)
         createItem("カミラ（春）", 3, WeaponType.GTOME, MoveType.FLIER, "Camilla (Spring)", 5, 17, 9, 6, 8, 4, 6, 8, 5, 6, 3,
                 Weapons.GreenEgg2, Assists.RallyAttack, Skill.NONE, Skills.DefiantSpd.lv(3), Skills.LiveForBounty, Skill.NONE, Skill.NONE)
@@ -318,7 +318,7 @@ object StandardBattleClass {
                 Weapons.DancersFan2, Assists.Dance, Skill.NONE, Skills.DistantDef.lv(3), Skills.BlazeDance.lv(3), Skill.NONE, Skill.NONE)
         createItem("ガイア", 0, WeaponType.DAGGER, MoveType.INFANTRY, "Gaius", 3, 18, 7, 10, 5, 4, 7, 6, 8, 4, 3,
                 Weapons.RogueDagger2, Assists.RallySpeed, Skill.NONE, Skills.DefiantAtk.lv(3), Skills.Pass.lv(3), Skill.NONE, Skill.NONE)
-        createItem("ガイア（水着）", 0, WeaponType.BOW, MoveType.INFANTRY, "Gaius (Summer)", 5, 17, 8, 9, 4, 6, 4, 6, 9, 3, 6,
+        createItem("ガイア（夏）", 0, WeaponType.BOW, MoveType.INFANTRY, "Gaius (Summer)", 5, 17, 8, 9, 4, 6, 4, 6, 9, 3, 6,
                 Weapons.RefreshingBolt2, Skill.NONE, Specials.Astra, Skill.NONE, Skills.Vantage.lv(3), Skills.DefPloy.lv(3), Skill.NONE)
         createItem("カゲロウ", 0, WeaponType.DAGGER, MoveType.INFANTRY, "Kagero", 4, 16, 9, 8, 5, 6, 3, 8, 7, 4, 6,
                 Weapons.PoisonDagger2, Skill.NONE, Specials.Reprisal, Skills.WardingBlow.lv(3), Skills.DaggerBreaker.lv(3), Skill.NONE, Skill.NONE)
@@ -350,7 +350,7 @@ object StandardBattleClass {
                 Weapons.KillerBow2, Skill.NONE, Specials.Iceberg, Skills.WardingBlow.lv(3), Skill.NONE, Skills.SpurRes.lv(3), Skill.NONE)
         createItem("タクミ", 0, WeaponType.BOW, MoveType.INFANTRY, "Takumi", 5, 18, 8, 7, 6, 5, 6, 7, 8, 5, 2,
                 Weapons.FujinYumi, Skill.NONE, Specials.Vengeance, Skills.CloseCounter, Skill.NONE, Skills.ThreatenSpd.lv(3), Skill.NONE)
-        createItem("ティアモ（嫁）", 0, WeaponType.BOW, MoveType.INFANTRY, "Cordelia (Bride)", 5, 17, 9, 9, 4, 5, 5, 8, 8, 3, 4,
+        createItem("ティアモ（花嫁）", 0, WeaponType.BOW, MoveType.INFANTRY, "Cordelia (Bride)", 5, 17, 9, 9, 4, 5, 5, 8, 8, 3, 4,
                 Weapons.CupidArrow2, Assists.RallyAtkSpd, Skill.NONE, Skill.NONE, Skills.EscapeRoute.lv(3), Skills.BreathOfLife.lv(3), Skill.NONE)
         createItem("ヒーニアス", 0, WeaponType.BOW, MoveType.INFANTRY, "Innes", 5, 16, 9, 8, 4, 7, 5, 7, 8, 1, 7,
                 Weapons.Nidhogg, Skill.NONE, Specials.Iceberg, Skills.FortressRes.lv(3), Skills.CancelAffinity.lv(3), Skill.NONE, Skill.NONE)
@@ -358,7 +358,7 @@ object StandardBattleClass {
                 Weapons.SilverDagger2, Skill.NONE, Specials.Glacies, Skills.Resistance.lv(3), Skill.NONE, Skills.BreathOfLife.lv(3), Skill.NONE)
         createItem("プリシラ", 0, WeaponType.STAFF, MoveType.CAVALRY, "Priscilla", 4, 17, 7, 7, 4, 8, 5, 6, 6, 3, 7,
                 Weapons.Panic, Assists.Rehabilitate, Specials.StillWaterBalm, Skill.NONE, Skill.NONE, Skills.SpurDef.lv(3), Skill.NONE)
-        createItem("フレデリク（水着）", 0, WeaponType.DAGGER, MoveType.INFANTRY, "Frederick (Summer)", 5, 18, 8, 7, 6, 5, 6, 7, 7, 6, 2,
+        createItem("フレデリク（夏）", 0, WeaponType.DAGGER, MoveType.INFANTRY, "Frederick (Summer)", 5, 18, 8, 7, 6, 5, 6, 7, 7, 6, 2,
                 Weapons.Seashell2,Assists.ArdentSacrifice, Skill.NONE, Skills.ArmoredBlow.lv(3), Skills.SealAtkSpd.lv(2), Skill.NONE, Skill.NONE)
         createItem("マシュー", 0, WeaponType.DAGGER, MoveType.INFANTRY, "Matthew", 3, 17, 6, 10, 6, 5, 7, 5, 7, 7, 2,
                 Weapons.RogueDagger2, Assists.ReciprocalAid, Skill.NONE, Skill.NONE, Skills.PoisonStrike.lv(3), Skills.HoneSpd.lv(3), Skill.NONE)
@@ -372,7 +372,7 @@ object StandardBattleClass {
                 Weapons.Gravity, Assists.Rehabilitate, Specials.KindledFireBalm, Skill.NONE, Skills.Renewal.lv(3), Skill.NONE, Skill.NONE)
         createItem("リフ", 0, WeaponType.STAFF, MoveType.INFANTRY, "Wrys", 3, 18, 5, 6, 5, 10, 7, 5, 4, 4, 8,
                 Weapons.Slow, Assists.Rehabilitate, Specials.HeavenlyLight, Skill.NONE, Skills.LiveToServe.lv(3), Skill.NONE, Skill.NONE)
-        createItem("リン（嫁）", 0, WeaponType.STAFF, MoveType.INFANTRY, "Lyn (Bride)", 5, 17, 6, 10, 6, 5, 6, 6, 7, 4, 5,
+        createItem("リン（花嫁）", 0, WeaponType.STAFF, MoveType.INFANTRY, "Lyn (Bride)", 5, 17, 6, 10, 6, 5, 6, 6, 7, 4, 5,
                 Weapons.Candlelight, Assists.Rehabilitate, Specials.SwiftWindsBalm, Skill.NONE, Skills.DazzlingStaff.lv(3), Skill.NONE, Skill.NONE)
         createItem("リン（総選挙）", 0, WeaponType.BOW, MoveType.CAVALRY, "Lyn (Brave Heroes)", 5, 16, 7, 9, 5, 6, 5, 8, 8, 2, 6,
                 Weapons.Mulagir, Skill.NONE, Specials.DragonGaze, Skills.SwiftSparrow.lv(2), Skills.SacaesBlessing, Skills.AtkSmoke.lv(3), Skill.NONE)
@@ -385,7 +385,7 @@ object StandardBattleClass {
 
         createItem("ヘンリー（収穫祭）", 0, WeaponType.GTOME, MoveType.INFANTRY, "Henry (Trick or Defeat)", 5, 17, 9, 10, 4, 12, 5, 7, 7, 6, 7,
                 Weapons.SpectralTome2, Skill.NONE, Specials.Reprisal, Skill.NONE, Skills.LiveForHonor, Skills.ArmorMarch.lv(3), Skill.NONE)
-        createItem("ジーカー（収穫祭）", 0, WeaponType.BOW, MoveType.ARMORED, "Jakob (Trick or Defeat)", 5, 20, 9, 6, 9, 8, 6, 8, 4, 7, 7,
+        createItem("ジョーカー（収穫祭）", 0, WeaponType.BOW, MoveType.ARMORED, "Jakob (Trick or Defeat)", 5, 20, 9, 6, 9, 8, 6, 8, 4, 7, 7,
                 Weapons.MonstrousBow2, Skill.NONE, Skill.NONE, Skills.BracingBlow.lv(2), Skills.WaryFighter.lv(3), Skill.NONE, Skill.NONE)
         createItem("ノノ（収穫祭）", 1, WeaponType.RTOME, MoveType.FLIER, "Nowi (Trick or Defeat)", 5, 17, 8, 6, 5, 8, 4, 8, 8, 3, 5,
                 Weapons.Grimoire, Assists.Reposition, Skill.NONE, Skills.AtkResBond.lv(3), Skills.LiveForBounty, Skills.HoneAtk.lv(3), Skill.NONE)
@@ -399,8 +399,6 @@ object StandardBattleClass {
         createItem("ワユ", 1, WeaponType.SWORD, MoveType.INFANTRY, "Mia", 5, 16, 8, 12, 6, 6, 6, 7, 9, 6, 5,
                 Weapons.ResoluteBlade, Skill.NONE, Specials.Luna, Skills.FlashingBlade.lv(3), Skills.Vantage.lv(3), Skill.NONE, Skill.NONE)
 
-        //最終的に日本語名でソート。英語のほうが良いか・・・？
-//        ITEMS.sortBy { e -> (if (e.color == 0) 4 else e.color).toString() + e.weaponType.range.toString() + e.name }
     }
 
     fun createItem(
