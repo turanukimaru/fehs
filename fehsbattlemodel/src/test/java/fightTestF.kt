@@ -1,8 +1,5 @@
 import jp.blogspot.turanukimaru.fehs.*
-import jp.blogspot.turanukimaru.fehs.skill.Skill
-import jp.blogspot.turanukimaru.fehs.skill.SkillC
-import jp.blogspot.turanukimaru.fehs.skill.Special
-import jp.blogspot.turanukimaru.fehs.skill.Weapon
+import jp.blogspot.turanukimaru.fehs.skill.*
 import org.junit.Assert
 import org.junit.Test
 
@@ -18,7 +15,7 @@ class fightTestF {
     fun killerBow() {
         val unitA = ArmedClass(StandardBattleClass.get("レオ")!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.armedClass.bSkill = SkillC.BowBreaker.lv(3)
+        attacker.armedClass.bSkill = SkillB.BowBreaker.lv(3)
         attacker.armedClass.equip()
 
         val unitB = ArmedClass(StandardBattleClass.get("リン（総選挙）")!!)
@@ -41,7 +38,7 @@ class fightTestF {
 
     @Test
     fun lv410() {
-        val unitA = ArmedClass(StandardBattleClass.get("ソフィーヤ")!!, "ソフィーヤ10", Weapon.Fenrir2, Skill.NONE, Special.DragonFang, SkillC.WardingBlow.lv(3), Skill.NONE, Skill.NONE, Skill.NONE, 4
+        val unitA = ArmedClass(StandardBattleClass.get("ソフィーヤ")!!, "ソフィーヤ10", Weapon.Fenrir2, Skill.NONE, Special.DragonFang, SkillA.WardingBlow.lv(3), Skill.NONE, Skill.NONE, Skill.NONE, 4
                 , 10, BoonType.NONE, BoonType.NONE, false, 0, 0, 0, 0, 0, 0, 0, 0)
         val attacker = BattleUnit(unitA, unitA.maxHp)
         attacker.armedClass.equip()

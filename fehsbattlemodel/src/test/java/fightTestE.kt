@@ -1,4 +1,5 @@
 import jp.blogspot.turanukimaru.fehs.*
+import jp.blogspot.turanukimaru.fehs.skill.SkillA
 import jp.blogspot.turanukimaru.fehs.skill.SkillC
 import org.junit.Assert
 import org.junit.Test
@@ -207,7 +208,7 @@ class fightTestE {
     fun ravenTestD() {
         val unitA = ArmedClass(StandardBattleClass.get("セシリア")!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.armedClass.aSkill = SkillC.TriangleAdept.lv(3)
+        attacker.armedClass.aSkill = SkillA.TriangleAdept.lv(3)
         attacker.armedClass.equip()
         val unitB = ArmedClass(StandardBattleClass.get("ヴィオール")!!)
         val fightResult = attacker.fight(BattleUnit(unitB, unitB.maxHp))
