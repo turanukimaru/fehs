@@ -1,11 +1,13 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.fehs.skill
 
+import jp.blogspot.turanukimaru.fehs.AttackResult
+import jp.blogspot.turanukimaru.fehs.BattleUnit
 import java.util.*
 
 /**
  * スキル。武器/補助/奥義
  */
-enum class Specials(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE) : Skill {
+enum class Special(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE) : Skill {
 
 
     DayLight("陽影", Skill.SkillType.SPECIAL_A, 4) {

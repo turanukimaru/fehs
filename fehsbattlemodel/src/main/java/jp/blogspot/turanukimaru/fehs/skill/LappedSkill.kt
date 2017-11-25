@@ -1,4 +1,4 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.fehs.skill
 
 import java.util.*
 
@@ -10,7 +10,7 @@ class LappedSkill(val skill: Skill, override val level: Int, val containSkill: S
         val NONE = LappedSkill(Skill.NONE, 0)
         fun nameOf(weapon: String): Skill {
 //            val name = weapon.mat
-            return LappedSkill(Skills.valueOf(weapon), 0)
+            return LappedSkill(SkillC.valueOf(weapon), 0)
         }
     }
 
@@ -38,7 +38,7 @@ class LappedSkill(val skill: Skill, override val level: Int, val containSkill: S
      * スキルとレベルが等しいときはequal.Skills側でガードはしているがついで。
      */
     override fun equals(other: Any?): Boolean = when (other) {
-        is Skills -> other == skill && other.level == level
+        is Skill -> other == skill && other.level == level
         is LappedSkill -> other.skill == skill && other.level == level
         else -> false
     }

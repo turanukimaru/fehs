@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
+import jp.blogspot.turanukimaru.fehs.skill.*
 import jp.blogspot.turanukimaru.repos.BattleClassContent
 import org.jetbrains.anko.contentView
 import java.util.*
@@ -101,13 +102,13 @@ class BattleClassRegisterFragment : Fragment() {
         return ArmedClass(
                 baseClass,
                 rootView.findViewById<TextView>(R.id.unitName).text.toString()
-                , Weapons.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
-                , Assists.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.assistRadioButton).text.toString())
-                , Specials.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.specialRadioButton).text.toString())
-                , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.aSkillRadioButton).text.toString())
-                , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.bSkillRadioButton).text.toString())
-                , Skills.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text.toString())
-                , Seals.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.sealRadioButton).text.toString())
+                , Weapon.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
+                , Assist.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.assistRadioButton).text.toString())
+                , Special.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.specialRadioButton).text.toString())
+                , SkillC.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.aSkillRadioButton).text.toString())
+                , SkillC.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.bSkillRadioButton).text.toString())
+                , SkillC.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text.toString())
+                , Seal.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.sealRadioButton).text.toString())
 
                 , rootView.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
                 , rootView.findViewById<Spinner>(R.id.levelBoostSpinner).selectedItem.toString().toInt()
@@ -285,14 +286,14 @@ class BattleClassRegisterFragment : Fragment() {
 
                     showParams(rootView, it)
                     //装備制限はとりあえず後で考える
-                    val allSkills = Skills.spreadItems()
-                    createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapons.spreadItems().filter { e -> e.type == it.battleClass.weaponType.skillType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
-                    createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assists.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
-                    createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Specials.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
+                    val allSkills = SkillC.spreadItems()
+                    createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapon.spreadItems().filter { e -> e.type == it.battleClass.weaponType.skillType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assist.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Special.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, allSkills.filter { e -> e.type == Skill.SkillType.A || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.bSkillRadioButton, R.string.bSkill_title, allSkills.filter { e -> e.type == Skill.SkillType.B || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.cSkillRadioButton, R.string.cSkill_title, allSkills.filter { e -> e.type == Skill.SkillType.C || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
-                    createSkillRadioButton(rootView, R.id.sealRadioButton, R.string.seal_title, Seals.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.sealRadioButton, R.string.seal_title, Seal.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
                 }
                 dialog.dismiss()
             })

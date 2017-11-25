@@ -1,5 +1,6 @@
 package jp.blogspot.turanukimaru.fehs
 
+import jp.blogspot.turanukimaru.fehs.skill.Skill
 import java.util.*
 
 /**

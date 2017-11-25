@@ -4,7 +4,7 @@ import android.util.Log
 import io.realm.Realm
 import jp.blogspot.turanukimaru.fehs.ArmedClass
 import jp.blogspot.turanukimaru.fehs.BoonType
-import jp.blogspot.turanukimaru.fehs.Skill
+import jp.blogspot.turanukimaru.fehs.skill.Skill
 import kotlin.properties.Delegates
 
 /**
@@ -66,9 +66,9 @@ object BattleClassContent : RealmContent<ArmedClass>() {
         Log.i("RealmBattleClass", "weapon $weapon ")
         Log.i("RealmBattleClass", "assist $assist ")
         Log.i("RealmBattleClass", "special $special ")
-        Log.i("RealmBattleClass", "aSkill $aSkill ")
-        Log.i("RealmBattleClass", "bSkill $bSkill ")
-        Log.i("RealmBattleClass", "cSkill $cSkill ")
+        Log.i("RealmBattleClass", "SkillA $aSkill ")
+        Log.i("RealmBattleClass", "SkillB $bSkill ")
+        Log.i("RealmBattleClass", "SkillC $cSkill ")
         Log.i("RealmBattleClass", "seal $seal ")
         Log.i("RealmBattleClass", "rarity $rarity ")
         Log.i("RealmBattleClass", "levelBoost $boost ")

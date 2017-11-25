@@ -71,7 +71,6 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
     fun buildFightPlan(attacker: BattleUnit, target: BattleUnit) {
         attacker.side = SIDES.ATTACKER
         target.side = SIDES.COUNTER
-        //順番変更不可の時はデフォルトに戻す
         //速度が足りないか追撃不可の時は追撃梨
         log("attack")
         log(attacker.armedClass.battleClass)

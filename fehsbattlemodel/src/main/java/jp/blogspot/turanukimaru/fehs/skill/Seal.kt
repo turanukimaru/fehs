@@ -1,11 +1,14 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.fehs.skill
 
+import jp.blogspot.turanukimaru.fehs.ArmedClass
+import jp.blogspot.turanukimaru.fehs.AttackResult
+import jp.blogspot.turanukimaru.fehs.BattleUnit
 import java.util.*
 
 /**
- * スキル。A/B/C/聖印。聖印は未実装
+ * 聖印
  */
-enum class Seals(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3) : Skill {
+enum class Seal(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3) : Skill {
 
     Hp("HP", Skill.SkillType.A) {
         override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipHp(armedClass, lv)
@@ -126,7 +129,7 @@ enum class Seals(override val jp: String, override val type: Skill.SkillType, ov
 
     companion object {
         fun spreadItems(): List<Skill> = values().fold(arrayListOf<Skill>(Skill.NONE), { list, e -> (1..e.maxLevel).forEach({ i -> list.add(e.lv(i)) });list })
-        val itemMap = mutableMapOf<String, Seals>()
+        val itemMap = mutableMapOf<String, Seal>()
 
         fun valueOfOrNONE(key: String?): Skill = if (key == null) Skill.NONE
         else {

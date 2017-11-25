@@ -14,7 +14,7 @@
         <item>剣</item>
         <item>槍</item>
         <item>斧</item>
-        <item>ブレス</item>
+        <item>竜</item>
         <item>赤魔</item>
         <item>青魔</item>
         <item>緑魔</item>
@@ -27,7 +27,6 @@
         <item>歩行</item>
         <item>飛行</item>
         <item>騎馬</item>
-        <item>竜</item>
         <item>重装</item>
     </string-array>
     <string name="hp_title">HP</string>

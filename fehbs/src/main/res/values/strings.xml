@@ -14,7 +14,7 @@
         <item>SWORD</item>
         <item>LANCE</item>
         <item>AXE</item>
-        <item>BREATH</item>
+        <item>DRAGON</item>
         <item>RTOME</item>
         <item>BTOME</item>
         <item>GTOME</item>
@@ -27,7 +27,6 @@
         <item>INFANTRY</item>
         <item>FLIER</item>
         <item>CAVALRY</item>
-        <item>DRAGON</item>
         <item>ARMORED</item>
     </string-array>
     <string name="hp_title">HP</string>

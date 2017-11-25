@@ -1,5 +1,7 @@
 package jp.blogspot.turanukimaru.fehs
 
+import jp.blogspot.turanukimaru.fehs.skill.Skill
+
 /**
  * ユニット（戦闘単位）。主にステータスを保持する
  */
@@ -65,7 +67,7 @@ data class BattleUnit(val armedClass: ArmedClass
         /**
          * 特効
          */
-                      , var effectiveAgainst: EFFECTIVE_AGAINSTS = EFFECTIVE_AGAINSTS.NONE
+                      , var effectiveAgainst: EffectiveAgainst = EffectiveAgainst.NONE
 
         /**
          * 距離に関係なく反撃できるか
@@ -332,7 +334,7 @@ data class BattleUnit(val armedClass: ArmedClass
 
 
         //何らかの特効があったら
-        val effectiveDamage = (effectedBladeAtk * if (effectiveAgainst != EFFECTIVE_AGAINSTS.NONE) 15 else 10) / 10
+        val effectiveDamage = (effectedBladeAtk * if (effectiveAgainst != EffectiveAgainst.NONE) 15 else 10) / 10
 
         val damage = (effectiveDamage + effectiveDamage * colorPow / 100)
         return if (armedClass.battleClass.weaponType != WeaponType.STAFF) damage else damage - damage / 2

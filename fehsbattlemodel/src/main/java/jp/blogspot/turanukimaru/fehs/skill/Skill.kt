@@ -1,10 +1,11 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.fehs.skill
 
+import jp.blogspot.turanukimaru.fehs.*
 import java.util.*
 
 interface Skill {
     val level: Int get() = 0
-    val type: Skill.SkillType get() = SkillType.NONE
+    val type: SkillType get() = SkillType.NONE
     val value: String get() = ""
     val jp: String get() = ""
     val maxLevel: Int get() = 0
@@ -25,7 +26,7 @@ interface Skill {
      * 弓だけはここで特効のチェックするか…
      */
     fun bothEffect(battleUnit: BattleUnit, lv: Int = level): BattleUnit {
-        if (type == SkillType.BOW && battleUnit.enemy!!.armedClass.battleClass.moveType == MoveType.FLIER) battleUnit.effectiveAgainst = EFFECTIVE_AGAINSTS.FLIER
+        if (type == SkillType.BOW && battleUnit.enemy!!.armedClass.battleClass.moveType == MoveType.FLIER) battleUnit.effectiveAgainst = EffectiveAgainst.FLIER
         return battleUnit
     }
 
@@ -107,7 +108,7 @@ interface Skill {
     /**
      * 装備時の能力値変化
      */
-    fun equip(armedClass:ArmedClass, lv: Int = level): ArmedClass {
+    fun equip(armedClass: ArmedClass, lv: Int = level): ArmedClass {
         if (type.isWeapon) {
             armedClass.atkEqp += level
         }
@@ -242,7 +243,7 @@ interface Skill {
         return battleUnit
     }
 
-    fun furry(armedClass:ArmedClass, lv: Int): ArmedClass {
+    fun furry(armedClass: ArmedClass, lv: Int): ArmedClass {
         armedClass.atkEqp += lv
         armedClass.spdEqp += lv
         armedClass.defEqp += lv
@@ -250,7 +251,7 @@ interface Skill {
         return armedClass
     }
 
-    fun lifeAndDeath(armedClass:ArmedClass, lv: Int): ArmedClass {
+    fun lifeAndDeath(armedClass: ArmedClass, lv: Int): ArmedClass {
         armedClass.atkEqp += lv
         armedClass.spdEqp += lv
         armedClass.defEqp -= lv
@@ -262,47 +263,47 @@ interface Skill {
         println(s)
     }
 
-    fun equipHp(armedClass:ArmedClass, lv: Int): ArmedClass {
+    fun equipHp(armedClass: ArmedClass, lv: Int): ArmedClass {
         armedClass.hpEqp += lv + 2
         return armedClass
     }
 
-    fun equipAtk(armedClass:ArmedClass, lv: Int): ArmedClass {
+    fun equipAtk(armedClass: ArmedClass, lv: Int): ArmedClass {
         armedClass.atkEqp += lv
         return armedClass
     }
 
-    fun equipKiller(armedClass:ArmedClass, lv: Int): ArmedClass {
+    fun equipKiller(armedClass: ArmedClass, lv: Int): ArmedClass {
         armedClass.atkEqp += lv
         armedClass.reduceSpecialCooldown += 1
         return armedClass
     }
 
-    fun equipSpd(armedClass:ArmedClass, lv: Int): ArmedClass {
+    fun equipSpd(armedClass: ArmedClass, lv: Int): ArmedClass {
         armedClass.spdEqp += lv
         return armedClass
     }
 
-    fun equipDef(armedClass:ArmedClass, lv: Int): ArmedClass {
+    fun equipDef(armedClass: ArmedClass, lv: Int): ArmedClass {
         armedClass.defEqp += lv
         return armedClass
     }
 
-    fun equipRes(armedClass:ArmedClass, lv: Int): ArmedClass {
+    fun equipRes(armedClass: ArmedClass, lv: Int): ArmedClass {
         armedClass.resEqp += lv
         return armedClass
     }
 
     fun effectiveAgainst(moveType: MoveType, battleUnit: BattleUnit): BattleUnit {
         if (battleUnit.enemy!!.armedClass.battleClass.moveType == moveType) {
-            battleUnit.effectiveAgainst = EFFECTIVE_AGAINSTS.valueOfMoveType(moveType)
+            battleUnit.effectiveAgainst = EffectiveAgainst.Companion.valueOfMoveType(moveType)
         }
         return battleUnit
     }
 
     fun effectiveAgainst(weaponType: WeaponType, battleUnit: BattleUnit): BattleUnit {
         if (battleUnit.enemy!!.armedClass.battleClass.weaponType == weaponType) {
-            battleUnit.effectiveAgainst = EFFECTIVE_AGAINSTS.valueOfWeaponType(weaponType)
+            battleUnit.effectiveAgainst = EffectiveAgainst.Companion.valueOfWeaponType(weaponType)
         }
         return battleUnit
     }
@@ -310,7 +311,7 @@ interface Skill {
     //TODO:種類が１：１でないときの処理を考えないと
     fun effectiveAgainstMagic(battleUnit: BattleUnit): BattleUnit {
         if (battleUnit.enemy!!.armedClass.isMagicWeapon()) {
-            battleUnit.effectiveAgainst = EFFECTIVE_AGAINSTS.valueOfWeaponType(battleUnit.enemy!!.armedClass.battleClass.weaponType)
+            battleUnit.effectiveAgainst = EffectiveAgainst.Companion.valueOfWeaponType(battleUnit.enemy!!.armedClass.battleClass.weaponType)
         }
         return battleUnit
     }
@@ -414,7 +415,7 @@ interface Skill {
 
     fun sacasBlessing(battleUnit: BattleUnit, thisLevel: Int): BattleUnit {
         val enemyType = battleUnit.enemy!!.armedClass.battleClass.weaponType
-        if (enemyType == WeaponType.SWORD || enemyType == WeaponType.LANCE || enemyType == WeaponType.AXE) {
+        if (enemyType ==WeaponType.SWORD || enemyType == WeaponType.LANCE || enemyType == WeaponType.AXE) {
             battleUnit.enemy!!.cannotCcounter = true
         }
         return battleUnit
@@ -422,13 +423,13 @@ interface Skill {
 
     fun beorcsBlessing(battleUnit: BattleUnit, thisLevel: Int): BattleUnit {
         val enemyType = battleUnit.enemy!!.armedClass.battleClass.moveType
-        if (enemyType == MoveType.CAVALRY || enemyType == MoveType.FLIER) {
+        if (enemyType == MoveType.CAVALRY || enemyType ==MoveType.FLIER) {
             battleUnit.enemy!!.antiBuffBonus = true
         }
         return battleUnit
     }
 
-    fun equip(armedClass:ArmedClass, type: SkillType): ArmedClass {
+    fun equip(armedClass: ArmedClass, type: SkillType): ArmedClass {
         if (type.isWeapon) {
             armedClass.atkEqp += level
         }
@@ -457,13 +458,13 @@ interface Skill {
     }
 
 
-    fun equipBrave(armedClass:ArmedClass, level: Int): ArmedClass {
+    fun equipBrave(armedClass: ArmedClass, level: Int): ArmedClass {
         armedClass.atkEqp += level
         armedClass.spdEqp -= 5
         return armedClass
     }
 
-    fun equipBlade(armedClass:ArmedClass, level: Int): ArmedClass {
+    fun equipBlade(armedClass: ArmedClass, level: Int): ArmedClass {
         armedClass.atkEqp += level
         armedClass.reduceSpecialCooldown -= 1
         return armedClass
@@ -510,9 +511,9 @@ interface Skill {
         return battleUnit
     }
 
-    fun antiEffectiveAgainst(battleUnit: BattleUnit, type: EFFECTIVE_AGAINSTS): BattleUnit {
+    fun antiEffectiveAgainst(battleUnit: BattleUnit, type: EffectiveAgainst): BattleUnit {
         if (battleUnit.effectiveAgainst == type) {
-            battleUnit.effectiveAgainst = EFFECTIVE_AGAINSTS.NONE
+            battleUnit.effectiveAgainst = EffectiveAgainst.NONE
         }
         return battleUnit
 
@@ -550,7 +551,7 @@ interface Skill {
         SWORD("剣", true),
         LANCE("槍", true),
         AXE("斧", true),
-        BREATH("竜石", true),
+        DRAGON("竜", true),
         RTOME("赤魔", true),
         BTOME("青魔", true),
         GTOME("緑魔", true),

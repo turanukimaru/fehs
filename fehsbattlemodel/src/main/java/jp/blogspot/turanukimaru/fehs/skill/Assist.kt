@@ -1,11 +1,11 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.fehs.skill
 
 import java.util.*
 
 /**
- * スキル。武器/補助/奥義
+ * スキル。補助
  */
-enum class Assists(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE) : Skill {
+enum class Assist(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE) : Skill {
 
 
     RallyAttack("攻撃の応援", Skill.SkillType.ASSIST),

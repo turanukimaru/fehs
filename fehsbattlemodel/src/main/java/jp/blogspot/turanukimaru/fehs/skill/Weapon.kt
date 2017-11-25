@@ -1,11 +1,15 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.fehs.skill
 
+import jp.blogspot.turanukimaru.fehs.ArmedClass
+import jp.blogspot.turanukimaru.fehs.AttackResult
+import jp.blogspot.turanukimaru.fehs.BattleUnit
+import jp.blogspot.turanukimaru.fehs.FightPlan
 import java.util.*
 
 /**
  * スキル。武器/補助/奥義
  */
-enum class Weapons(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE) : Skill {
+enum class Weapon(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = jp.blogspot.turanukimaru.fehs.skill.Skill.Companion.NONE) : Skill {
 
 
     IronSword("鉄の剣", Skill.SkillType.SWORD, 6),
@@ -13,10 +17,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     SilverSword("銀の剣", Skill.SkillType.SWORD, 11, SteelSword),
     SilverSword2("銀の剣＋", Skill.SkillType.SWORD, 15, SilverSword),
     ArmorSlayer("アーマーキラー", Skill.SkillType.SWORD, 8, SteelSword) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.ARMORED, battleUnit)
     },
     ArmorSlayer2("アーマーキラー＋", Skill.SkillType.SWORD, 12, ArmorSlayer) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.ARMORED, battleUnit)
     },
     BraveSword("勇者の剣", Skill.SkillType.SWORD, 5, SteelSword) {
         override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
@@ -45,10 +49,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int, lv: Int): Int = damage + 10
     },
     Zanbato("斬馬刀", Skill.SkillType.SWORD, 10, SteelSword) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     Zanbato2("斬馬刀＋", Skill.SkillType.SWORD, 14, Zanbato) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     SlayingEdge("キルソード鍛", Skill.SkillType.SWORD, 10, SteelSword) {
         override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBrave(armedClass, lv)
@@ -65,7 +69,7 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun turnStart(battleUnit: BattleUnit, lv: Int): BattleUnit = defiantAtk(battleUnit, 2)
     },
     Falchion("ファルシオン", Skill.SkillType.SWORD, 16, SilverSword) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.DRAGON, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.WeaponType.DRAGON, battleUnit)
     },
     BindingBlade("封印の剣", Skill.SkillType.SWORD, 16, SilverSword) {
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 2), 2)
@@ -152,10 +156,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, 3)
     },
     HeavySpear("貫きの槍", Skill.SkillType.LANCE, 8, SteelLance) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.ARMORED, battleUnit)
     },
     HeavySpear2("貫きの槍＋", Skill.SkillType.LANCE, 12, HeavySpear) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.ARMORED, battleUnit)
     },
 
     CarrotLance("ニンジンの槍", Skill.SkillType.LANCE, 9, SteelLance) {
@@ -179,10 +183,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = fullHpBonus(battleUnit, 2)
     },
     Ridersbane("ホースキラー", Skill.SkillType.LANCE, 10, SteelLance) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     Ridersbane2("ホースキラー＋", Skill.SkillType.LANCE, 14, Ridersbane) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     BerkutsLance("ベルクトの槍", Skill.SkillType.LANCE, 10, SteelLance) {
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 4)
@@ -204,7 +208,7 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     Vidofinir("ヴィドフニル", Skill.SkillType.LANCE, 16, SilverLance) {
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit {
             val weapon = battleUnit.enemy!!.armedClass.battleClass.weaponType
-            if (weapon == WeaponType.SWORD || weapon == WeaponType.LANCE || weapon == WeaponType.AXE) {
+            if (weapon == jp.blogspot.turanukimaru.fehs.WeaponType.SWORD || weapon == jp.blogspot.turanukimaru.fehs.WeaponType.LANCE || weapon == jp.blogspot.turanukimaru.fehs.WeaponType.AXE) {
                 battleUnit.defEffect += 7
             }
             return battleUnit
@@ -238,10 +242,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
     Hammer("ハンマー", Skill.SkillType.AXE, 8, SteelAxe) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.ARMORED, battleUnit)
     },
     Hammer2("ハンマー＋", Skill.SkillType.AXE, 12, Hammer) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.ARMORED, battleUnit)
     },
     EmeraldAxe("深緑の斧", Skill.SkillType.AXE, 8, SteelAxe) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, 3)
@@ -310,10 +314,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipKiller(armedClass, lv)
     },
     AssassinsBow("暗器殺しの弓", Skill.SkillType.BOW, 7, SteelBow) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.bothEffect(weaponBreaker(battleUnit, WeaponType.DAGGER, lv), lv)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.bothEffect(weaponBreaker(battleUnit, jp.blogspot.turanukimaru.fehs.WeaponType.DAGGER, lv), lv)
     },
     AssassinsBow2("暗器殺しの弓＋", Skill.SkillType.BOW, 11, AssassinsBow) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.bothEffect(weaponBreaker(battleUnit, WeaponType.DAGGER, lv), lv)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.bothEffect(weaponBreaker(battleUnit, jp.blogspot.turanukimaru.fehs.WeaponType.DAGGER, lv), lv)
     },
     FiresweepBow("火薙ぎの弓", Skill.SkillType.BOW, 7, SteelBow) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = super.bothEffect(disableEachCounter(battleUnit, 0), lv)
@@ -359,10 +363,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     SmokeDagger("紫煙の暗器", Skill.SkillType.DAGGER, 6, SteelDagger),
     SmokeDagger2("紫煙の暗器＋", Skill.SkillType.DAGGER, 9, SmokeDagger),
     PoisonDagger("秘毒の暗器", Skill.SkillType.DAGGER, 2, SteelDagger) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.INFANTRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.INFANTRY, battleUnit)
     },
     PoisonDagger2("秘毒の暗器＋", Skill.SkillType.DAGGER, 5, PoisonDagger) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.INFANTRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.INFANTRY, battleUnit)
     },
     Seashell("貝殻", Skill.SkillType.DAGGER, 7, SteelDagger) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = fullHpBonus(battleUnit, 2)
@@ -403,10 +407,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     Ruin("ルイン", Skill.SkillType.RTOME, 6),
     Elfire("エルファイアー", Skill.SkillType.RTOME, 6),
     Rauorwolf("ラウアウルフ", Skill.SkillType.RTOME, 6) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     Rauorwolf2("ラウアウルフ＋", Skill.SkillType.RTOME, 10) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     Rauorraven("ラウアレイヴン", Skill.SkillType.RTOME, 7) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
@@ -442,10 +446,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     Wind("ウィンド", Skill.SkillType.GTOME, 4),
     Elwind("エルウィンド", Skill.SkillType.GTOME, 6),
     Gronnwolf("グルンウルフ", Skill.SkillType.GTOME, 6) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     Gronnwolf2("グルンウルフ＋", Skill.SkillType.GTOME, 10) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     Gronnraven("グルンレイヴン", Skill.SkillType.GTOME, 7) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
@@ -477,17 +481,17 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     DancersRing2("舞踏祭の輪＋", Skill.SkillType.GTOME, 12),
     Elivagar("エリヴァーガル", Skill.SkillType.GTOME, 14),
     Excalibur("エクスカリバー", Skill.SkillType.GTOME, 14) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.FLIER, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.FLIER, battleUnit)
     },
     Naga("ナーガ", Skill.SkillType.GTOME, 14) {
-        override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.DRAGON, blowDef(blowRes(battleUnit, 2), 2))
-        override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.DRAGON, battleUnit)
+        override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.WeaponType.DRAGON, blowDef(blowRes(battleUnit, 2), 2))
+        override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.WeaponType.DRAGON, battleUnit)
     },
     DarkExcalibur("共鳴エクスカリバー", Skill.SkillType.GTOME, 14) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int, lv: Int): Int = damage + 10
     },
     DivineNaga("聖書ナーガ", Skill.SkillType.GTOME, 14) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.DRAGON, battleUnit))
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(jp.blogspot.turanukimaru.fehs.WeaponType.DRAGON, battleUnit))
     },
     SpectralTome("ゴーストの魔導書", Skill.SkillType.GTOME, 14),
     SpectralTome2("ゴーストの魔導書+", Skill.SkillType.GTOME, 14, SpectralTome),
@@ -495,10 +499,10 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
     Thunder("サンダー", Skill.SkillType.BTOME, 4),
     Elthunder("エルサンダー", Skill.SkillType.BTOME, 6),
     Blarwolf("ブラーウルフ", Skill.SkillType.BTOME, 6) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     Blarwolf2("ブラーウルフ＋", Skill.SkillType.BTOME, 10) {
-        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(jp.blogspot.turanukimaru.fehs.MoveType.CAVALRY, battleUnit)
     },
     Blarraven("ブラーレイヴン", Skill.SkillType.BTOME, 7) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
@@ -540,23 +544,23 @@ enum class Weapons(override val jp: String, override val type: Skill.SkillType, 
         override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = super.equip(equipSpd(armedClass, 3), lv)
     },
 
-    FireBreath("火のブレス", Skill.SkillType.BTOME, 6),
-    FireBreath2("火炎のブレス", Skill.SkillType.BTOME, 8),
-    LightningBreath("雷のブレス", Skill.SkillType.BTOME, 8) {
+    FireBreath("火のブレス", Skill.SkillType.DRAGON, 6),
+    FireBreath2("火炎のブレス", Skill.SkillType.DRAGON, 8),
+    LightningBreath("雷のブレス", Skill.SkillType.DRAGON, 8) {
         override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
-    LightningBreath2("雷のブレス＋", Skill.SkillType.BTOME, 11) {
+    LightningBreath2("雷のブレス＋", Skill.SkillType.DRAGON, 11) {
         override fun equip(armedClass: ArmedClass, lv: Int): ArmedClass = equipBlade(armedClass, lv)
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
 
-    Flametongue("灼熱のブレス", Skill.SkillType.BTOME, 11),
-    Flametongue2("灼熱のブレス＋", Skill.SkillType.BTOME, 15),
-    LightBreath("光のブレス", Skill.SkillType.BTOME, 9),
-    LightBreath2("光のブレス＋", Skill.SkillType.BTOME, 13),
-    DarkBreath("闇のブレス", Skill.SkillType.BTOME, 9),
-    DarkBreath2("闇のブレス＋", Skill.SkillType.BTOME, 13),
+    Flametongue("灼熱のブレス", Skill.SkillType.DRAGON, 11),
+    Flametongue2("灼熱のブレス＋", Skill.SkillType.DRAGON, 15),
+    LightBreath("光のブレス", Skill.SkillType.DRAGON, 9),
+    LightBreath2("光のブレス＋", Skill.SkillType.DRAGON, 13),
+    DarkBreath("闇のブレス", Skill.SkillType.DRAGON, 9),
+    DarkBreath2("闇のブレス＋", Skill.SkillType.DRAGON, 13),
 
     ;
 
