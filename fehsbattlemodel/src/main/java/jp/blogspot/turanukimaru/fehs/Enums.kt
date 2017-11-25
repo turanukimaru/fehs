@@ -25,7 +25,7 @@ enum class WeaponType(val range: Int, val isMaterial: Boolean, val skillType: Sk
     ;
 
     companion object {
-        val weaponTypeMap = mapOf("剣" to WeaponType.SWORD, "槍" to WeaponType.LANCE, "斧" to WeaponType.AXE, "弓" to WeaponType.BOW, "暗器" to WeaponType.DAGGER, "赤魔" to WeaponType.RTOME, "緑魔" to WeaponType.GTOME, "青魔" to WeaponType.BTOME, "杖" to WeaponType.STAFF,"竜" to DRAGON)
+        val weaponTypeMap = mapOf("剣" to WeaponType.SWORD, "槍" to WeaponType.LANCE, "斧" to WeaponType.AXE, "弓" to WeaponType.BOW, "暗器" to WeaponType.DAGGER, "赤魔" to WeaponType.RTOME, "緑魔" to WeaponType.GTOME, "青魔" to WeaponType.BTOME, "杖" to WeaponType.STAFF, "竜" to DRAGON)
         /**
          * 日本語の武器名を変換する。ここにあるべきかは疑問だが将来画面とのやり取り以外にも使うかもしれない
          */
@@ -50,7 +50,7 @@ enum class MoveType(val steps: Int) {
     ;
 
     companion object {
-        val moveTypeMap = mapOf("歩行" to MoveType.INFANTRY,  "飛行" to MoveType.FLIER, "騎馬" to MoveType.CAVALRY, "重装" to MoveType.ARMORED)
+        val moveTypeMap = mapOf("歩行" to MoveType.INFANTRY, "飛行" to MoveType.FLIER, "騎馬" to MoveType.CAVALRY, "重装" to MoveType.ARMORED)
         fun moveTypeOf(key: String) = when {
             moveTypeMap.containsKey(key) -> moveTypeMap[key]
             MoveType.values().any { e -> e.name == key } -> MoveType.valueOf(key)

@@ -1,6 +1,9 @@
 package jp.blogspot.turanukimaru.fehs.skill
 
-import jp.blogspot.turanukimaru.fehs.*
+import jp.blogspot.turanukimaru.fehs.AttackResult
+import jp.blogspot.turanukimaru.fehs.BattleUnit
+import jp.blogspot.turanukimaru.fehs.FightPlan
+import jp.blogspot.turanukimaru.fehs.WeaponType
 import java.util.*
 
 /**

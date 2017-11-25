@@ -16,7 +16,7 @@ class fightTestD {
     @Test
     fun specialPreventTestA() {
         val unitA = ArmedClass(StandardBattleClass.get("アルフォンス")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("ジェイガン")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("ジェイガン")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -30,10 +30,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 19, fightResult[1].target.hp)
         Assert.assertEquals("size == 2", 2, fightResult.size)
     }
+
     @Test
     fun effectiveAgainstTestA() {
-        val unitA =ArmedClass(StandardBattleClass.get("アルム")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("アーダン")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("アルム")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("アーダン")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -42,10 +43,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 49, fightResult[0].target.hp)
         Assert.assertEquals("size == 1", 1, fightResult.size)
     }
+
     @Test
     fun effectiveAgainstTestB() {
-        val unitA =ArmedClass(StandardBattleClass.get("マチルダ")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("ルーナ")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("マチルダ")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("ルーナ")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -59,10 +61,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 9, fightResult[1].target.hp)
         Assert.assertEquals("size == 3", 2, fightResult.size)
     }
+
     @Test
     fun effectiveAgainstTestC() {
-        val unitA =ArmedClass(StandardBattleClass.get("マチルダ")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("ティアマト")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("マチルダ")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("ティアマト")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -71,10 +74,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 0, fightResult[0].target.hp)
         Assert.assertEquals("size == 3", 1, fightResult.size)
     }
+
     @Test
     fun effectiveAgainstTestD() {
-        val unitA =ArmedClass(StandardBattleClass.get("マチルダ")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("アテナ")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("マチルダ")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("アテナ")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -96,8 +100,8 @@ class fightTestD {
 
     @Test
     fun BraveTestA() {
-        val unitA =ArmedClass(StandardBattleClass.get("アベル")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("エルトシャン")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("アベル")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("エルトシャン")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -126,10 +130,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 0, fightResult[4].target.hp)
         Assert.assertEquals("size == 3", 5, fightResult.size)
     }
+
     @Test
     fun BraveTestB() {
-        val unitA =ArmedClass(StandardBattleClass.get("アベル")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("シグルド")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("アベル")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("シグルド")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -161,8 +166,8 @@ class fightTestD {
 
     @Test
     fun BraveTestC() {
-        val unitA =ArmedClass(StandardBattleClass.get("アベル")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("アイラ")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("アベル")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("アイラ")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -186,10 +191,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 0, fightResult[3].target.hp)
         Assert.assertEquals("size == 3", 4, fightResult.size)
     }
+
     @Test
     fun BraveTestD() {
-        val unitA =ArmedClass(StandardBattleClass.get("アベル")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("クロム（春）")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("アベル")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("クロム（春）")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -213,10 +219,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 37, fightResult[3].target.hp)
         Assert.assertEquals("size == 3", 4, fightResult.size)
     }
+
     @Test
     fun BraveTestE() {
-        val unitA =ArmedClass(StandardBattleClass.get("アベル")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("ティアマト")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("アベル")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("ティアマト")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -240,10 +247,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 37, fightResult[3].target.hp)
         Assert.assertEquals("size == 3", 4, fightResult.size)
     }
+
     @Test
     fun BraveTestF() {
-        val unitA =ArmedClass(StandardBattleClass.get("アベル")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("アクア（舞踏祭）")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("アベル")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("アクア（舞踏祭）")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -267,10 +275,11 @@ class fightTestD {
         Assert.assertEquals("hitPoint fail", 25, fightResult[3].target.hp)
         Assert.assertEquals("size == 3", 4, fightResult.size)
     }
+
     @Test
     fun BraveTestG() {
-        val unitA =ArmedClass(StandardBattleClass.get("アベル")!!)
-        val unitB =ArmedClass(StandardBattleClass.get("ローロー")!!)
+        val unitA = ArmedClass(StandardBattleClass.get("アベル")!!)
+        val unitB = ArmedClass(StandardBattleClass.get("ローロー")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)

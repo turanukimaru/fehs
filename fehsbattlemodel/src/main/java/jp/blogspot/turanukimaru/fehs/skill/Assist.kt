@@ -53,7 +53,7 @@ enum class Assist(override val jp: String, override val type: Skill.SkillType, o
 
     companion object {
         val itemMap = mutableMapOf<String, Skill>()
-        fun spreadItems(): List<Skill> = values().fold(arrayListOf<Skill>(Skill.NONE), { list, e -> list.add(e) ;list })
+        fun spreadItems(): List<Skill> = values().fold(arrayListOf<Skill>(Skill.NONE), { list, e -> list.add(e);list })
 
         fun valueOfOrNONE(key: String?): Skill = if (key == null) Skill.NONE else try {
             if (itemMap.isEmpty()) {

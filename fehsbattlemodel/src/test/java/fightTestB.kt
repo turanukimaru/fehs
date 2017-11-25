@@ -1,7 +1,7 @@
+import jp.blogspot.turanukimaru.fehs.ArmedClass
 import jp.blogspot.turanukimaru.fehs.BattleUnit
 import jp.blogspot.turanukimaru.fehs.SIDES
 import jp.blogspot.turanukimaru.fehs.StandardBattleClass
-import jp.blogspot.turanukimaru.fehs.ArmedClass
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -17,7 +17,7 @@ class fightTestB {
     fun swordBreakerTestA() {
         val unitA = ArmedClass(StandardBattleClass.get("アイク")!!)
         val unitB = ArmedClass(StandardBattleClass.get("マルス")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp / 2-1).fight(BattleUnit(unitB, unitB.maxHp))
+        val fightResult = BattleUnit(unitA, unitA.maxHp / 2 - 1).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
         assertEquals("damage fail", 22, fightResult[0].damage)
@@ -30,6 +30,7 @@ class fightTestB {
         assertEquals("hitPoint fail", 19, fightResult[1].target.hp)
         assertEquals("size == 4", 2, fightResult.size)
     }
+
     @Test
     fun swordBreakerTestB() {
         val unitA = ArmedClass(StandardBattleClass.get("アイク")!!)
@@ -52,11 +53,12 @@ class fightTestB {
         assertEquals("hitPoint fail", 0, fightResult[2].target.hp)
         assertEquals("size == 3", 3, fightResult.size)
     }
+
     @Test
     fun swordBreakerTestC() {
         val unitB = ArmedClass(StandardBattleClass.get("アイク")!!)
         val unitA = ArmedClass(StandardBattleClass.get("マルス")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp / 2-1))
+        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp / 2 - 1))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
         assertEquals("damage fail", 15, fightResult[0].damage)
@@ -69,6 +71,7 @@ class fightTestB {
         assertEquals("hitPoint fail", 5, fightResult[1].target.hp)
         assertEquals("size == 2", 2, fightResult.size)
     }
+
     @Test
     fun swordBreakerTestD() {
         val unitB = ArmedClass(StandardBattleClass.get("アイク")!!)
@@ -96,7 +99,7 @@ class fightTestB {
     fun swordBreakerTestE() {
         val unitA = ArmedClass(StandardBattleClass.get("アイク")!!)
         val unitB = ArmedClass(StandardBattleClass.get("ロンクー")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp / 2-1).fight(BattleUnit(unitB, unitB.maxHp))
+        val fightResult = BattleUnit(unitA, unitA.maxHp / 2 - 1).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
         assertEquals("damage fail", 29, fightResult[0].damage)
@@ -114,6 +117,7 @@ class fightTestB {
         assertEquals("hitPoint fail", 16, fightResult[2].target.hp)
         assertEquals("size == 3", 3, fightResult.size)
     }
+
     @Test
     fun swordBreakerTestF() {
         val unitA = ArmedClass(StandardBattleClass.get("アイク")!!)
@@ -136,6 +140,7 @@ class fightTestB {
         assertEquals("hitPoint fail", 0, fightResult[2].target.hp)
         assertEquals("size == 3", 3, fightResult.size)
     }
+
     @Test
     fun swordBreakerTestG() {
         val unitB = ArmedClass(StandardBattleClass.get("アイク")!!)

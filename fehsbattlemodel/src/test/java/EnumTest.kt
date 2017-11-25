@@ -5,40 +5,47 @@ import org.junit.Test
  */
 class EnumTest {
     @Test
-    fun mainTest(){
+    fun mainTest() {
         main()
     }
 }
 
 interface A {
     fun hoge()
-    fun hage(){
+    fun hage() {
         println(getInt())
     }
-    fun hugo(){
+
+    fun hugo() {
         hage()
     }
-    fun hageInt(i:Int){
+
+    fun hageInt(i: Int) {
         println("base $i")
     }
-    fun callHageInt(){
+
+    fun callHageInt() {
         hageInt(0)
     }
-    fun getInt():Int  {
+
+    fun getInt(): Int {
         return 0
     }
-    val prop : String
-    fun oops(i:Int){
+
+    val prop: String
+    fun oops(i: Int) {
 
     }
-    fun oopsI(i:Int = getInt()){
+
+    fun oopsI(i: Int = getInt()) {
         println("oops $i")
     }
 }
 
 class AImpl() : A {
-    override val prop : String
+    override val prop: String
         get() = "Delegation is pretty!"
+
     override fun hoge() {
         println("Hello delegation!")
     }
@@ -48,30 +55,36 @@ class AImpl() : A {
     }
 }
 
-class B(a : A) : A by a
-class C(val a : A) : A by a {
+class B(a: A) : A by a
+class C(val a: A) : A by a {
     override fun getInt(): Int {
         return 3
     }
+
     override fun hoge() {
         a.hoge()
         println("Override method!")
     }
+
     override fun hugo() {
         //a.hage()が呼ばれる…まではいいのだがそこからのgetInt()がaのgetInt()だわ
         hage()
     }
-    override fun callHageInt(){
+
+    override fun callHageInt() {
         hageInt(10)
     }
 
 }
-class D(var i:Int):A{
-    override val prop : String
+
+class D(var i: Int) : A {
+    override val prop: String
         get() = "Delegation is pretty!"
+
     override fun getInt(): Int {
         return i
     }
+
     override fun hoge() {
         println("Override method!")
     }
@@ -80,9 +93,11 @@ class D(var i:Int):A{
         this.i = i
     }
 }
-enum class Outs(val a : A) : A by a {
+
+enum class Outs(val a: A) : A by a {
     X(D(5))
 }
+
 fun main() {
     val a = AImpl()
     val b = B(a)
@@ -92,7 +107,7 @@ fun main() {
     val c = C(a)
     c.hoge() // Hello delegation!(line break)Override method!
     c.hugo()
-c.callHageInt()
+    c.callHageInt()
     val d = D(1)
     d.hugo()
     d.i = 10

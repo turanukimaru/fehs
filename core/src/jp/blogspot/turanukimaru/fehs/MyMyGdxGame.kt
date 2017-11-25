@@ -154,7 +154,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val hectorImage = Image(hectorTexture)
         hectorImage.setScale(0.5f)
         imageDisposer.add(hectorImage)
-        val piece3 = MyPiece(BattleUnit(BattleUnitRepository.getById("ヘクトル")!!,40), UiPiece(hectorImage, uiBoard!!), board!!, enemy)
+        val piece3 = MyPiece(BattleUnit(BattleUnitRepository.getById("ヘクトル")!!, 40), UiPiece(hectorImage, uiBoard!!), board!!, enemy)
         enemy.pieceList.add(piece3)
         hectorImage.addListener(piece3.uiPiece)
         board!!.put(piece3, 3, 3)

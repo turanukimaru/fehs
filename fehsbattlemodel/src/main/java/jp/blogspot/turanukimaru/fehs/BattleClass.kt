@@ -23,11 +23,11 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
     /**
      * 得意不得意の能力値。最大が0なのはダミーデータ。アーダンの能力値↑は設定限界を超えるため
      */
-    val growths = listOf(listOf(6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26,0),
-            listOf(7, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 26, 28,0),
-            listOf(7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29,31,33,0 ),
-            listOf(8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 31, 33,35,0),
-            listOf(8, 10, 13, 15, 17, 19, 22, 24, 26, 28, 30, 33, 35, 37,0))
+    val growths = listOf(listOf(6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 0),
+            listOf(7, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 26, 28, 0),
+            listOf(7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 0),
+            listOf(8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 31, 33, 35, 0),
+            listOf(8, 10, 13, 15, 17, 19, 22, 24, 26, 28, 30, 33, 35, 37, 0))
 
 
     /**
@@ -36,12 +36,14 @@ class BattleClass(val color: Int = 0, val weaponType: WeaponType = WeaponType.SW
     fun isMagicWeapon(): Boolean {
         return weaponType == WeaponType.RTOME || weaponType == WeaponType.GTOME || weaponType == WeaponType.BTOME// || weaponType == WeaponType.STAFF
     }
+
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */
     fun isMeleeWeapon(): Boolean {
         return weaponType == WeaponType.SWORD || weaponType == WeaponType.LANCE || weaponType == WeaponType.AXE
     }
+
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */

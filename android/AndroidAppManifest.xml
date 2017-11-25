@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="jp.blogspot.turanukimaru.fehs"
           android:versionCode="1"
-          android:versionName="1.0" >
+          android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="25" />
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="25"/>
     <!-- 普通のAndroidアプリで起動してからLibGDXアプリに飛ぶお試しXML。LibGDX側は特に何もしなくてよい。当たり前か -->
     <application
         android:name="jp.blogspot.turanukimaru.fehs.BattleSimApplication"
@@ -14,13 +14,13 @@
         android:theme="@style/GdxTheme">
         <activity
             android:name="jp.blogspot.turanukimaru.fehs.AndroidLauncher"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/GdxTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 

@@ -65,10 +65,10 @@ class BattleClassRegisterActivity : AppCompatActivity() {
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //　戻るボタンで親に戻ることを登録
             val upIntent = NavUtils.getParentActivityIntent(this)
-            if(NavUtils.shouldUpRecreateTask(this,upIntent)){
+            if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                 // up先のタスクがないので生成するなど
 //                TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities()
-            }else {
+            } else {
                 // 存在してるのでそのままupする
                 NavUtils.navigateUpTo(this, upIntent)
             }

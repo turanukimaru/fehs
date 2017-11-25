@@ -15,10 +15,10 @@ class LappedSkill(val skill: Skill, override val level: Int, val containSkill: S
     }
 
     override fun localeName(locale: Locale): String {
-        return when (locale){
-            Locale.JAPAN ->skill.jp + if (level > 0) " " + level else ""
-            Locale.JAPANESE ->skill.jp + if (level > 0) " " + level else ""
-            else->skill.value + if (level > 0) " " + level else ""
+        return when (locale) {
+            Locale.JAPAN -> skill.jp + if (level > 0) " " + level else ""
+            Locale.JAPANESE -> skill.jp + if (level > 0) " " + level else ""
+            else -> skill.value + if (level > 0) " " + level else ""
         }
     }
 

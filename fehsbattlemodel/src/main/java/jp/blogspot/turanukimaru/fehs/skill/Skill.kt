@@ -415,7 +415,7 @@ interface Skill {
 
     fun sacasBlessing(battleUnit: BattleUnit, thisLevel: Int): BattleUnit {
         val enemyType = battleUnit.enemy!!.armedClass.battleClass.weaponType
-        if (enemyType ==WeaponType.SWORD || enemyType == WeaponType.LANCE || enemyType == WeaponType.AXE) {
+        if (enemyType == WeaponType.SWORD || enemyType == WeaponType.LANCE || enemyType == WeaponType.AXE) {
             battleUnit.enemy!!.cannotCcounter = true
         }
         return battleUnit
@@ -423,7 +423,7 @@ interface Skill {
 
     fun beorcsBlessing(battleUnit: BattleUnit, thisLevel: Int): BattleUnit {
         val enemyType = battleUnit.enemy!!.armedClass.battleClass.moveType
-        if (enemyType == MoveType.CAVALRY || enemyType ==MoveType.FLIER) {
+        if (enemyType == MoveType.CAVALRY || enemyType == MoveType.FLIER) {
             battleUnit.enemy!!.antiBuffBonus = true
         }
         return battleUnit
@@ -521,7 +521,7 @@ interface Skill {
 
 
     fun antiAccelerateCooldown(battleUnit: BattleUnit, lv: Int): BattleUnit {
-        if (battleUnit.hp * 10 >= battleUnit.armedClass.maxHp * (11-lv)) {
+        if (battleUnit.hp * 10 >= battleUnit.armedClass.maxHp * (11 - lv)) {
             battleUnit.enemy!!.InflictCooldown = 1
         }
         return battleUnit

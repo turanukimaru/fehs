@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="jp.blogspot.turanukimaru.fehs.jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true"
+                                                 tools:context="jp.blogspot.turanukimaru.fehs.jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -19,11 +19,12 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlways">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -64,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     />
+
                 <Button
                     android:id="@+id/button"
                     android:layout_width="match_parent"
@@ -104,8 +106,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:background="@android:color/holo_red_dark"
+                    android:orientation="horizontal"
                     android:padding="4dp">
 
                     <TextView
@@ -204,7 +206,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/fight_result_list" />
+        <include layout="@layout/fight_result_list"/>
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton

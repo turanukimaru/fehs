@@ -3,8 +3,8 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/start_fight"
+        android:checkable="true"
         android:orderInCategory="100"
         android:title="戦闘開始"
-        android:checkable="true"
         app:showAsAction="never"/>
 </menu>

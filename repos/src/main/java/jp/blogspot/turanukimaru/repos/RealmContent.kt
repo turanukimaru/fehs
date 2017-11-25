@@ -10,7 +10,7 @@ open class RealmContent<T> : ModelObjectRepository<T> {
         return listOf()
     }
 
-    override fun getById(id: String): T? =null
+    override fun getById(id: String): T? = null
 
     override fun find(item: T): T? {
         return null

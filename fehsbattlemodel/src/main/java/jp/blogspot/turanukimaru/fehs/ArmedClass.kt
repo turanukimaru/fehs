@@ -108,14 +108,14 @@ data class ArmedClass(
 
     init {
         //名前が無いときは変更なしとして扱い、ベースになるクラスの装備を使う
-        if(name.isEmpty()){
-             weapon =battleClass.weapon
-             assist =battleClass.assist
-             special =battleClass.special
-             aSkill =battleClass.aSkill
-             bSkill =battleClass.bSkill
-             cSkill =battleClass.cSkill
-             seal =battleClass.seal
+        if (name.isEmpty()) {
+            weapon = battleClass.weapon
+            assist = battleClass.assist
+            special = battleClass.special
+            aSkill = battleClass.aSkill
+            bSkill = battleClass.bSkill
+            cSkill = battleClass.cSkill
+            seal = battleClass.seal
 
         }
         equip()
@@ -191,14 +191,16 @@ data class ArmedClass(
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */
     fun isMagicWeapon(): Boolean = battleClass.isMagicWeapon()
+
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */
-    fun isMeleeWeapon(): Boolean =battleClass.isMeleeWeapon()
+    fun isMeleeWeapon(): Boolean = battleClass.isMeleeWeapon()
+
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */
-    fun isMissileWeapon(): Boolean =battleClass.isMissileWeapon()
+    fun isMissileWeapon(): Boolean = battleClass.isMissileWeapon()
 
     fun have(weaponType: WeaponType?, moveType: MoveType?): Boolean = (weaponType == null || battleClass.weaponType == weaponType) && (moveType == null || battleClass.moveType == moveType)
 
@@ -262,7 +264,7 @@ data class ArmedClass(
         resEqp = 0
         reduceSpecialCooldown = 0
         //杖は最初武器を装備していない
-        (0 until 5 - rarity).fold(if(battleClass.weaponType == WeaponType.STAFF) Skill.NONE else weapon, { w, _ -> w.preSkill }).equip(this)
+        (0 until 5 - rarity).fold(if (battleClass.weaponType == WeaponType.STAFF) Skill.NONE else weapon, { w, _ -> w.preSkill }).equip(this)
 
         val result = BattleParam(
                 boonedHp + hpEqp + hpBoost,

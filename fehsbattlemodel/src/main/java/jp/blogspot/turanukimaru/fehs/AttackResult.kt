@@ -19,13 +19,13 @@ data class AttackResult(val source: BattleUnit, val target: BattleUnit, val dama
             when (side) {
                 SIDES.ATTACKER -> "${source.armedClass.name} attacks $damage damage"
                 else -> "${target.armedClass.name} attacks $damage damage"
-            } + if (sourceSpecial!= null  || targetSpecial!= null ) " wakeup ${sourceSpecial?.value?:""} ${targetSpecial?.value?:""}" else ""
+            } + if (sourceSpecial != null || targetSpecial != null) " wakeup ${sourceSpecial?.value ?: ""} ${targetSpecial?.value ?: ""}" else ""
 
-    fun detailsShort(baseSide :SIDES,locale:Locale): String =
+    fun detailsShort(baseSide: SIDES, locale: Locale): String =
             when (baseSide) {
                 side -> "↓ $damage "
                 else -> "↑ $damage "
-            } + (if (sourceSpecial!= null) "☆${sourceSpecial.localeName(locale)} " else "")+if(targetSpecial!= null ) "☆${targetSpecial.localeName(locale)} " else ""
+            } + (if (sourceSpecial != null) "☆${sourceSpecial.localeName(locale)} " else "") + if (targetSpecial != null) "☆${targetSpecial.localeName(locale)} " else ""
 
 
 }

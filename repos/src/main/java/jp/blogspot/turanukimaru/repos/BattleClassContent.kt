@@ -28,7 +28,7 @@ object BattleClassContent : RealmContent<ArmedClass>() {
 
         // テスト中はマイグレーションが面倒なので全部削除
         realm.executeTransaction {
-//            realm.deleteAll()
+            //            realm.deleteAll()
         }
     }
 

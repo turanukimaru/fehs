@@ -18,7 +18,8 @@ interface ModelObjectRepository<T> {
      * 削除
      */
     fun delete(item: T): Int
-    fun deleteById(id:String): Int
+
+    fun deleteById(id: String): Int
 
     /**
      * 条件付き検索
@@ -27,5 +28,5 @@ interface ModelObjectRepository<T> {
 
     fun allItems(): List<T>
 
-    fun getById(id:String):T?
+    fun getById(id: String): T?
 }

@@ -61,17 +61,21 @@ enum class Seal(override val jp: String, override val type: Skill.SkillType, ove
             if (battleUnit.hp >= battleUnit.armedClass.maxHp * (150 - lv * 50) / 100) {
                 battleUnit.enemy!!.disableChangePlan = true
             }
-                return super.bothEffect(battleUnit, lv)
+            return super.bothEffect(battleUnit, lv)
         }
 
     },
     PhantomSpeed("速さの虚勢", Skill.SkillType.SEAL) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit {
-            battleUnit.phantomSpeed = when(lv){1->5 2->8 3->10 else->0}
+            battleUnit.phantomSpeed = when (lv) {1 -> 5
+                2 -> 8
+                3 -> 10
+                else -> 0
+            }
             return super.bothEffect(battleUnit, lv)
         }
     },
-    QuickenedPulse("奥義の鼓動", Skill.SkillType.SEAL,maxLevel = 0),
+    QuickenedPulse("奥義の鼓動", Skill.SkillType.SEAL, maxLevel = 0),
 
     /**
      * 連撃防御。武器の種類はなんか定数に定数を持たせるべきか…

@@ -272,7 +272,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         return seq
     }
 
-    enum class FillType(val color: Color){
+    enum class FillType(val color: Color) {
         MOVABLE(Color.BLUE),
         ATTACKABLE(Color.RED),
         PASS(Color.GREEN)

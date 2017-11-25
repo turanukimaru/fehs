@@ -56,7 +56,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
                 val weaponType = WeaponType.weaponTypeOf(spinnerWeapon.selectedItem.toString())
                 val moveType = MoveType.moveTypeOf(spinnerMove.selectedItem.toString())
                 val units = BattleUnitRepository.allItems(true)
-                val texts = units.filter { e -> e.have(weaponType, moveType) }.sortedBy { e ->  e.localeName(locale)  }.map { e -> e.localeName(locale) }
+                val texts = units.filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> e.localeName(locale) }.map { e -> e.localeName(locale) }
 
                 createRadioButton(contentView!!, R.id.attackerRadioButton, R.string.unit_name_title, texts)
             }
@@ -90,17 +90,17 @@ class BattleSimulatorActivity : AppCompatActivity() {
             Log.i("BattleSimulatorActivity", "moveType : $moveType")
             val includeDB = findViewById<CheckBox>(R.id.includeDbCheckBox)!!.isChecked
             val switch = findViewById<CheckBox>(R.id.switchCheckBox)!!.isChecked
-            val filteredUnits = BattleUnitRepository.allItems(includeDB).filter { e -> e.have(weaponType, moveType) }.sortedBy  { e -> (if (e.battleClass.color == 0) 4 else e.battleClass.color).toString() + e.battleClass.weaponType.sortOrder.toString() + e.localeName(locale)  }
+            val filteredUnits = BattleUnitRepository.allItems(includeDB).filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> (if (e.battleClass.color == 0) 4 else e.battleClass.color).toString() + e.battleClass.weaponType.sortOrder.toString() + e.localeName(locale) }
             val atkBuff = findViewById<Spinner>(R.id.atkTargetBuffSpinner).selectedItem.toString().toInt()
             val spdBuff = findViewById<Spinner>(R.id.spdTargetBuffSpinner).selectedItem.toString().toInt()
             val defBuff = findViewById<Spinner>(R.id.defTargetBuffSpinner).selectedItem.toString().toInt()
             val resBuff = findViewById<Spinner>(R.id.resTargetBuffSpinner).selectedItem.toString().toInt()
             val defensiveTerrain = findViewById<CheckBox>(R.id.defTerrainTargetCheckBox).isChecked
-            fun BattleUnit.buff() : BattleUnit {
-                if(armedClass.name.isNotEmpty()) return this
+            fun BattleUnit.buff(): BattleUnit {
+                if (armedClass.name.isNotEmpty()) return this
                 this.atkBuff = atkBuff
                 this.spdBuff = spdBuff
-                this.defBuff =defBuff
+                this.defBuff = defBuff
                 this.resBuff = resBuff
                 this.defensiveTerrain = defensiveTerrain
                 return this
@@ -221,10 +221,10 @@ class BattleSimulatorActivity : AppCompatActivity() {
 //            holder.progressText.text = mItem.detail
 //            holder.unitText.text = mItem.date
 
-            holder.progressText.text = mItem.fold("", { string, item -> string + " "+item.detailsShort(if (switch) SIDES.COUNTER else SIDES.ATTACKER,locale) })
+            holder.progressText.text = mItem.fold("", { string, item -> string + " " + item.detailsShort(if (switch) SIDES.COUNTER else SIDES.ATTACKER, locale) })
             //オンクリック時の動作。TODO:スキル効果を全部書きたいところだが
 //            holder.mView.setOnClickListener { _ ->
-                //                if (mTwoPane) {
+            //                if (mTwoPane) {
 //                    val arguments = Bundle()
 //                    arguments.putString(ArmedClassRegisterFragment.ARG_ITEM_ID, holder.mItem!!.id.toString())//!!はnullの時に例外
 //                    val fragment = ArmedClassRegisterFragment()

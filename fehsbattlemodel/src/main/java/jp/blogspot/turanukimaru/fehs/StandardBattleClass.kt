@@ -205,7 +205,7 @@ object StandardBattleClass {
         createItem("ルキナ（総選挙）", 2, WeaponType.LANCE, MoveType.INFANTRY, "Lucina (Brave Heroes)", 5, 17, 8, 10, 8, 4, 7, 8, 8, 5, 3,
                 Weapon.Geirskogul, Skill.NONE, Special.Aether, SkillA.SturdyBlow.lv(2), Skill.NONE, SkillC.DriveSpd.lv(2), Skill.NONE)
         createItem("ルフレ（夏）", 2, WeaponType.LANCE, MoveType.INFANTRY, "Robin(F) (Summer)", 5, 18, 8, 8, 6, 7, 4, 7, 8, 6, 6,
-     Weapon.DeftHarpoon2,           Assist.Reposition, Skill.NONE, SkillA.HpDef.lv(2), Skill.NONE, SkillC.LanceValor.lv(3), Skill.NONE)
+                Weapon.DeftHarpoon2, Assist.Reposition, Skill.NONE, SkillA.HpDef.lv(2), Skill.NONE, SkillC.LanceValor.lv(3), Skill.NONE)
         createItem("ロディ", 2, WeaponType.LANCE, MoveType.CAVALRY, "Roderick", 5, 18, 7, 8, 6, 7, 6, 7, 8, 5, 4,
                 Weapon.FiresweepLance2, Assist.RallyDefRes, Skill.NONE, Skill.NONE, SkillB.DragBack, SkillC.DriveDef.lv(2), Skill.NONE)
         createItem("ウルスラ", 2, WeaponType.BTOME, MoveType.CAVALRY, "Ursula", 3, 16, 7, 8, 4, 8, 5, 6, 7, 3, 6,

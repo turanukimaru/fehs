@@ -4,7 +4,9 @@ import android.util.Log
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
-import jp.blogspot.turanukimaru.fehs.*
+import jp.blogspot.turanukimaru.fehs.ArmedClass
+import jp.blogspot.turanukimaru.fehs.BoonType
+import jp.blogspot.turanukimaru.fehs.StandardBattleClass
 import jp.blogspot.turanukimaru.fehs.skill.*
 
 /**
@@ -27,30 +29,30 @@ open class RealmBattleClass(
         var boon: String = "NONE",
         var bane: String = "NONE",
         var defensiveTerrain: Boolean = false,
-        var atkBuff:Int = 0,
-        var spdBuff:Int = 0,
-        var defBuff:Int = 0,
-        var resBuff:Int = 0,
-        var atkSpur:Int = 0,
-        var spdSpur:Int = 0,
-        var defSpur:Int = 0,
-        var resSpur:Int = 0
+        var atkBuff: Int = 0,
+        var spdBuff: Int = 0,
+        var defBuff: Int = 0,
+        var resBuff: Int = 0,
+        var atkSpur: Int = 0,
+        var spdSpur: Int = 0,
+        var defSpur: Int = 0,
+        var resSpur: Int = 0
 ) : RealmObject() {
     fun toModelObject(): ArmedClass {
         val result = StandardBattleClass.get(baseName)!!
-        Log.i("RealmBattleClass","CREATE BattleClass FROM RealmBattleClass")
-        Log.i("RealmBattleClass","nickname $nickname ")
-        Log.i("RealmBattleClass","weapon $weapon ")
-        Log.i("RealmBattleClass","assist $assist ")
-        Log.i("RealmBattleClass","special $special ")
-        Log.i("RealmBattleClass","SkillA $aSkill ")
-        Log.i("RealmBattleClass","SkillB $bSkill ")
-        Log.i("RealmBattleClass","SkillC $cSkill ")
-        Log.i("RealmBattleClass","seal $seal ")
-        Log.i("RealmBattleClass","rarity $rarity ")
-        Log.i("RealmBattleClass","levelBoost $boost ")
-        Log.i("RealmBattleClass","boon $boon ")
-        Log.i("RealmBattleClass","bane $bane ")
-        return         ArmedClass(result, nickname, Weapon.valueOfOrNONE(weapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), cSkill.valueOfOrNONE(aSkill), cSkill.valueOfOrNONE(bSkill), cSkill.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
+        Log.i("RealmBattleClass", "CREATE BattleClass FROM RealmBattleClass")
+        Log.i("RealmBattleClass", "nickname $nickname ")
+        Log.i("RealmBattleClass", "weapon $weapon ")
+        Log.i("RealmBattleClass", "assist $assist ")
+        Log.i("RealmBattleClass", "special $special ")
+        Log.i("RealmBattleClass", "SkillA $aSkill ")
+        Log.i("RealmBattleClass", "SkillB $bSkill ")
+        Log.i("RealmBattleClass", "SkillC $cSkill ")
+        Log.i("RealmBattleClass", "seal $seal ")
+        Log.i("RealmBattleClass", "rarity $rarity ")
+        Log.i("RealmBattleClass", "levelBoost $boost ")
+        Log.i("RealmBattleClass", "boon $boon ")
+        Log.i("RealmBattleClass", "bane $bane ")
+        return ArmedClass(result, nickname, Weapon.valueOfOrNONE(weapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
     }
 }

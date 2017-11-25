@@ -42,6 +42,7 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
         target.counterPlan(this)
         return this
     }
+
     /**
      * 戦闘
      */
