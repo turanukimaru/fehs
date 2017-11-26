@@ -2,7 +2,7 @@ package jp.blogspot.turanukimaru.repos
 
 import android.util.Log
 import io.realm.Realm
-import jp.blogspot.turanukimaru.fehs.ArmedClass
+import jp.blogspot.turanukimaru.fehs.ArmedHero
 import jp.blogspot.turanukimaru.fehs.BoonType
 import jp.blogspot.turanukimaru.fehs.skill.Skill
 import kotlin.properties.Delegates
@@ -10,9 +10,9 @@ import kotlin.properties.Delegates
 /**
  * 戦闘用クラスのDBアクセス。名前が酷いのでそのうち変えたい
  */
-object BattleClassContent : RealmContent<ArmedClass>() {
+object RealmArmedHeroContent : RealmContent<ArmedHero>() {
 
-    private val tag = "BattleClassContent"
+    private val tag = "RealmArmedHeroContent"
     /**
      * realmのkotlin用ハンドラ
      */
@@ -60,21 +60,21 @@ object BattleClassContent : RealmContent<ArmedClass>() {
             defSpur: Int = 0,
             resSpur: Int = 0
     ) {
-        Log.i("RealmBattleClass", "CRERATE RealmBattleClass")
-        Log.i("RealmBattleClass", "nickname $name ")
-        Log.i("RealmBattleClass", "baseName $baseName ")
-        Log.i("RealmBattleClass", "weapon $weapon ")
-        Log.i("RealmBattleClass", "assist $assist ")
-        Log.i("RealmBattleClass", "special $special ")
-        Log.i("RealmBattleClass", "SkillA $aSkill ")
-        Log.i("RealmBattleClass", "SkillB $bSkill ")
-        Log.i("RealmBattleClass", "SkillC $cSkill ")
-        Log.i("RealmBattleClass", "seal $seal ")
-        Log.i("RealmBattleClass", "rarity $rarity ")
-        Log.i("RealmBattleClass", "levelBoost $boost ")
-        Log.i("RealmBattleClass", "boon $boon ")
-        Log.i("RealmBattleClass", "bane $bane ")
-        val item = RealmBattleClass(name, baseName, weapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, boost, boon.toString(), bane.toString(),
+        Log.i("RealmArmedHero", "CRERATE RealmArmedHero")
+        Log.i("RealmArmedHero", "nickname $name ")
+        Log.i("RealmArmedHero", "baseName $baseName ")
+        Log.i("RealmArmedHero", "weapon $weapon ")
+        Log.i("RealmArmedHero", "assist $assist ")
+        Log.i("RealmArmedHero", "special $special ")
+        Log.i("RealmArmedHero", "SkillA $aSkill ")
+        Log.i("RealmArmedHero", "SkillB $bSkill ")
+        Log.i("RealmArmedHero", "SkillC $cSkill ")
+        Log.i("RealmArmedHero", "seal $seal ")
+        Log.i("RealmArmedHero", "rarity $rarity ")
+        Log.i("RealmArmedHero", "levelBoost $boost ")
+        Log.i("RealmArmedHero", "boon $boon ")
+        Log.i("RealmArmedHero", "bane $bane ")
+        val item = RealmArmedHero(name, baseName, weapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, boost, boon.toString(), bane.toString(),
                 defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
         realm.executeTransaction {
             realm.copyToRealmOrUpdate(item)
@@ -82,12 +82,12 @@ object BattleClassContent : RealmContent<ArmedClass>() {
 
     }
 
-    override fun complexQuery(item: ArmedClass): List<ArmedClass> {
+    override fun complexQuery(item: ArmedHero): List<ArmedHero> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(item: ArmedClass): Int {
-        val results = realm.where(RealmBattleClass::class.java).equalTo("nickname", item.name).findAll()
+    override fun delete(item: ArmedHero): Int {
+        val results = realm.where(RealmArmedHero::class.java).equalTo("nickname", item.name).findAll()
         realm.executeTransaction {
             results.deleteAllFromRealm()
         }
@@ -97,7 +97,7 @@ object BattleClassContent : RealmContent<ArmedClass>() {
     override fun deleteById(id: String): Int {
         Log.i(tag, "delete $id")
         println(id)
-        val results = realm.where(RealmBattleClass::class.java).equalTo("nickname", id).findAll()
+        val results = realm.where(RealmArmedHero::class.java).equalTo("nickname", id).findAll()
         realm.executeTransaction {
             Log.i(tag, results.toString())
             results.deleteAllFromRealm()
@@ -106,25 +106,25 @@ object BattleClassContent : RealmContent<ArmedClass>() {
     }
 
 
-    override fun createOrUpdate(item: ArmedClass): ArmedClass {
+    override fun createOrUpdate(item: ArmedHero): ArmedHero {
         item.apply {
             realm.executeTransaction {
-                realm.copyToRealmOrUpdate(RealmBattleClass(name, battleClass.name, weapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
+                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.name, weapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
                         , defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
             }
         }
         return item
     }
 
-    override fun find(item: ArmedClass): ArmedClass? {
+    override fun find(item: ArmedHero): ArmedHero? {
         //TODO:複数項目指定しての検索をうまくやるほうほうがそのうち必要になるはず
-        return realm.where(RealmBattleClass::class.java).equalTo("nickname", item.name).findFirst()?.toModelObject()
+        return realm.where(RealmArmedHero::class.java).equalTo("nickname", item.name).findFirst()?.toModelObject()
     }
 
-    override fun allItems(): List<ArmedClass> {
-        return realm.where(RealmBattleClass::class.java).findAll().map { e -> e.toModelObject() }
+    override fun allItems(): List<ArmedHero> {
+        return realm.where(RealmArmedHero::class.java).findAll().map { e -> e.toModelObject() }
     }
 
-    override fun getById(id: String): ArmedClass? = realm.where(RealmBattleClass::class.java).equalTo("nickname", id).findFirst()?.toModelObject()
+    override fun getById(id: String): ArmedHero? = realm.where(RealmArmedHero::class.java).equalTo("nickname", id).findFirst()?.toModelObject()
 
 }

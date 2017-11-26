@@ -13,7 +13,7 @@ import jp.blogspot.turanukimaru.fehs.R
  * item details are presented side-by-side with a list of items
  * 登録画面。タブレットで2ペインでも動作するコードを基にしているが手元にタブレットが無い…
  */
-class BattleClassRegisterActivity : AppCompatActivity() {
+class HeroRegisterActivity : AppCompatActivity() {
     /**
      * 初期化
      */
@@ -42,7 +42,7 @@ class BattleClassRegisterActivity : AppCompatActivity() {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             val arguments = Bundle()
-            val fragment = BattleClassRegisterFragment()
+            val fragment = HeroRegisterFragment()
             fragment.arguments = arguments
             supportFragmentManager.beginTransaction()
                     .add(R.id.sake_detail_container, fragment)

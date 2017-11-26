@@ -1,0 +1,18 @@
+@startuml
+'scale 600 width
+
+class ArmedHero{
+    Param boon
+    Param bane
+}
+class BattleUnit{
+    int hp
+    fight(BattleUnit)
+}
+ ArmedHero <-- BattleUnit
+BattleSimulatorActivity "戦う"--> BattleUnit
+BattleSimulatorActivity "\r\r装備・個体値設定" --> ArmedHero
+BattleSimulatorActivity "出してもらう" --> ArmedHeroRepository
+ArmedHeroRepository "保持" -> ArmedHero
+
+@enduml

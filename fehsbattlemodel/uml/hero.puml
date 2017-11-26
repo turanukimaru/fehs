@@ -1,0 +1,48 @@
+@startuml
+'scale 600 width
+
+class BaseHero{
+Int hp
+Int atk
+              }
+class ArmedHero{
+    Param boon
+    Param bane
+}
+class BattleUnit{
+    int hp
+    fight(BattleUnit)
+}
+BaseHero <-- ArmedHero
+BaseHero -->  Skill
+ArmedHero -->Skill
+ ArmedHero <-- BattleUnit
+interface Skill{
+戦闘時効果(BattleUnit)
+攻撃時効果(BattleUnit)
+防御時効果(BattleUnit)
+戦闘終了時効果(BattleUnit)
+攻撃時攻撃順変更効果(FightPlan)
+防御時攻撃順変更効果(FightPlan)
+武器ダメージ計算式()
+奥義効果()
+連撃とかダメージ軽減効果()
+
+}
+enum Weapon {
+鉄の剣
+ラグネル
+}
+enum Assist {
+引き戻し
+ヒール
+}
+enum SkillA {
+剛剣
+獅子奮迅
+}
+Skill <|-- Weapon
+Skill <|-- Assist
+Skill <|-- SkillA
+
+@enduml

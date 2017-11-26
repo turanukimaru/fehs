@@ -3,8 +3,8 @@ package jp.blogspot.turanukimaru.fehbs
 import android.app.Application
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import jp.blogspot.turanukimaru.fehs.BattleUnitRepository
-import jp.blogspot.turanukimaru.repos.BattleClassContent
+import jp.blogspot.turanukimaru.fehs.ArmedHeroRepository
+import jp.blogspot.turanukimaru.repos.RealmArmedHeroContent
 
 /**
  * 戦闘シミュレータ起動アプリケーション
@@ -17,6 +17,6 @@ class BattleSimApp : Application() {
         val realmConfig = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
         Realm.setDefaultConfiguration(realmConfig)
         //オブジェクト構文で作った奴をそのまま渡しても大丈夫.Realm.init()より後に評価される
-        BattleUnitRepository.repo = BattleClassContent
+        ArmedHeroRepository.repo = RealmArmedHeroContent
     }
 }

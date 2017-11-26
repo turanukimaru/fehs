@@ -74,14 +74,14 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
         target.side = SIDES.COUNTER
         //速度が足りないか追撃不可の時は追撃梨
         log("attack")
-        log(attacker.armedClass.battleClass)
+        log(attacker.armedHero.baseHero)
         log(attacker)
         log(attacker.effectedSpd)
         if ((attacker.followupable == attacker.antiFollowup && attacker.effectedSpd - target.effectedSpd < 5) || (!attacker.followupable && attacker.antiFollowup)) {
 
             plan.remove(secondAttack)
         }
-        log(target.armedClass.battleClass)
+        log(target.armedHero.baseHero)
         log(target)
         log(target.effectedSpd)
         if ((target.followupable == target.antiFollowup && target.effectedSpd - attacker.effectedSpd < 5) || (!target.followupable && target.antiFollowup)) {
@@ -90,7 +90,7 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
         }
 
         //射程外の時は全ての反撃を抜く
-        if (attacker.armedClass.battleClass.weaponType.range != target.armedClass.battleClass.weaponType.range && !target.counterAllRange) {
+        if (attacker.armedHero.baseHero.weaponType.range != target.armedHero.baseHero.weaponType.range && !target.counterAllRange) {
             plan.remove(firstCounter)
             plan.remove(secondCounter)
         }

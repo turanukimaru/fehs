@@ -6,8 +6,8 @@ import java.util.*
 /**
  * Created by turanukimaru on 2017/11/13.
  */
-data class ArmedClass(
-        val battleClass: BattleClass,
+data class ArmedHero(
+        val baseHero: BaseHero,
         val name: String = "",
         var weapon: Skill = Skill.NONE,
         var assist: Skill = Skill.NONE,
@@ -40,13 +40,13 @@ data class ArmedClass(
      * 移動力。直接見てもいいか？いやアイテムやスキルの効果で変動するか。
      */
     val movableSteps: Int
-        get() = battleClass.movableSteps
+        get() = baseHero.movableSteps
 
     /**
      * 攻撃可能範囲。直接見てもいいか？今のところは変動しないし。
      */
     val effectiveRange: Int
-        get() = battleClass.effectiveRange
+        get() = baseHero.effectiveRange
 
     /**
      * killer系武器での加速
@@ -56,11 +56,11 @@ data class ArmedClass(
     /**
      * 能力値。下にあるのは計算用
      */
-    val maxHp: Int get() = boonedHp + hpEqp + hpBoost + growths[rarity - 1][battleClass.hpGrowth + boonHp]
-    val atk: Int get() = boonedAtk + atkEqp + atkBoost + growths[rarity - 1][battleClass.atkGrowth + boonAtk]
-    val spd: Int get() = boonedSpd + spdEqp + spdBoost + growths[rarity - 1][battleClass.spdGrowth + boonSpd]
-    val def: Int get() = boonedDef + defEqp + defBoost + growths[rarity - 1][battleClass.defGrowth + boonDef]
-    val res: Int get() = boonedRes + resEqp + resBoost + growths[rarity - 1][battleClass.resGrowth + boonRes]
+    val maxHp: Int get() = boonedHp + hpEqp + hpBoost + growths[rarity - 1][baseHero.hpGrowth + boonHp]
+    val atk: Int get() = boonedAtk + atkEqp + atkBoost + growths[rarity - 1][baseHero.atkGrowth + boonAtk]
+    val spd: Int get() = boonedSpd + spdEqp + spdBoost + growths[rarity - 1][baseHero.spdGrowth + boonSpd]
+    val def: Int get() = boonedDef + defEqp + defBoost + growths[rarity - 1][baseHero.defGrowth + boonDef]
+    val res: Int get() = boonedRes + resEqp + resBoost + growths[rarity - 1][baseHero.resGrowth + boonRes]
 
     var hpEqp: Int = 0
     var atkEqp: Int = 0
@@ -90,32 +90,32 @@ data class ArmedClass(
         }
 
     val boonedHp
-        get() = battleClass.hitPoint + boonHp
+        get() = baseHero.hitPoint + boonHp
     val boonedAtk
-        get() = battleClass.attack + boonAtk
+        get() = baseHero.attack + boonAtk
     val boonedSpd
-        get() = battleClass.speed + boonSpd
+        get() = baseHero.speed + boonSpd
     val boonedDef
-        get() = battleClass.defense + boonDef
+        get() = baseHero.defense + boonDef
     val boonedRes
-        get() = battleClass.resistance + boonRes
+        get() = baseHero.resistance + boonRes
     /**
      * 得意不得意の能力値。最大が0なのはダミーデータ。アーダンの能力値↑は設定限界を超えるため
      */
-    val growths = battleClass.growths
+    val growths = baseHero.growths
     val specialCoolDownTime: Int get() = special.level - reduceSpecialCooldown
     val statusText: String get() = "H%2sA%2sS%2sD%2sR%2s".format(maxHp, atk, spd, def, res)
 
     init {
         //名前が無いときは変更なしとして扱い、ベースになるクラスの装備を使う
         if (name.isEmpty()) {
-            weapon = battleClass.weapon
-            assist = battleClass.assist
-            special = battleClass.special
-            aSkill = battleClass.aSkill
-            bSkill = battleClass.bSkill
-            cSkill = battleClass.cSkill
-            seal = battleClass.seal
+            weapon = baseHero.weapon
+            assist = baseHero.assist
+            special = baseHero.special
+            aSkill = baseHero.aSkill
+            bSkill = baseHero.bSkill
+            cSkill = baseHero.cSkill
+            seal = baseHero.seal
 
         }
         equip()
@@ -184,25 +184,25 @@ data class ArmedClass(
      * 攻撃が物理か。物理でないなら魔法。武器種類側に持たせるのもあり
      */
     fun isMaterialWeapon(): Boolean {
-        return battleClass.weaponType.isMaterial
+        return baseHero.weaponType.isMaterial
     }
 
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */
-    fun isMagicWeapon(): Boolean = battleClass.isMagicWeapon()
+    fun isMagicWeapon(): Boolean = baseHero.isMagicWeapon()
 
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */
-    fun isMeleeWeapon(): Boolean = battleClass.isMeleeWeapon()
+    fun isMeleeWeapon(): Boolean = baseHero.isMeleeWeapon()
 
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */
-    fun isMissileWeapon(): Boolean = battleClass.isMissileWeapon()
+    fun isMissileWeapon(): Boolean = baseHero.isMissileWeapon()
 
-    fun have(weaponType: WeaponType?, moveType: MoveType?): Boolean = (weaponType == null || battleClass.weaponType == weaponType) && (moveType == null || battleClass.moveType == moveType)
+    fun have(weaponType: WeaponType?, moveType: MoveType?): Boolean = (weaponType == null || baseHero.weaponType == weaponType) && (moveType == null || baseHero.moveType == moveType)
 
     private fun lvUpStatus() {
         hpBoost = 0
@@ -211,7 +211,7 @@ data class ArmedClass(
         defBoost = 0
         resBoost = 0
         if (rarity < 5) {
-            val sortedRarityBonus = listOf(Pair(battleClass.attack + 0.4f, BoonType.ATK), Pair(battleClass.speed + 0.3f, BoonType.SPD), Pair(battleClass.defense + 0.2f, BoonType.DEF), Pair(battleClass.resistance + 0.1f, BoonType.RES)).sortedBy { pair -> -pair.first }.plus(Pair(battleClass.hitPoint + 0.5f, BoonType.HP))
+            val sortedRarityBonus = listOf(Pair(baseHero.attack + 0.4f, BoonType.ATK), Pair(baseHero.speed + 0.3f, BoonType.SPD), Pair(baseHero.defense + 0.2f, BoonType.DEF), Pair(baseHero.resistance + 0.1f, BoonType.RES)).sortedBy { pair -> -pair.first }.plus(Pair(baseHero.hitPoint + 0.5f, BoonType.HP))
             (0 until (rarity - 1) * 5 / 2).forEach({ i ->
                 when (sortedRarityBonus[i % 5].second) {
                     BoonType.HP -> hpBoost++
@@ -228,7 +228,7 @@ data class ArmedClass(
             defBoost -= 2
             resBoost -= 2
         }
-        val priority = listOf(Pair(battleClass.hitPoint + boonHp + 0.5f, BoonType.HP), Pair(battleClass.attack + boonAtk + 0.4f, BoonType.ATK), Pair(battleClass.speed + boonSpd + 0.3f, BoonType.SPD), Pair(battleClass.defense + boonDef + 0.2f, BoonType.DEF), Pair(battleClass.resistance + boonRes + 0.1f, BoonType.RES)).sortedBy { pair -> -pair.first }
+        val priority = listOf(Pair(baseHero.hitPoint + boonHp + 0.5f, BoonType.HP), Pair(baseHero.attack + boonAtk + 0.4f, BoonType.ATK), Pair(baseHero.speed + boonSpd + 0.3f, BoonType.SPD), Pair(baseHero.defense + boonDef + 0.2f, BoonType.DEF), Pair(baseHero.resistance + boonRes + 0.1f, BoonType.RES)).sortedBy { pair -> -pair.first }
         (0 until levelBoost * 2).forEach({ i ->
             when (priority[i % 5].second) {
                 BoonType.HP -> hpBoost++
@@ -264,7 +264,7 @@ data class ArmedClass(
         resEqp = 0
         reduceSpecialCooldown = 0
         //杖は最初武器を装備していない
-        (0 until 5 - rarity).fold(if (battleClass.weaponType == WeaponType.STAFF) Skill.NONE else weapon, { w, _ -> w.preSkill }).equip(this)
+        (0 until 5 - rarity).fold(if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else weapon, { w, _ -> w.preSkill }).equip(this)
 
         val result = BattleParam(
                 boonedHp + hpEqp + hpBoost,
@@ -279,18 +279,18 @@ data class ArmedClass(
     }
 
     fun goodStatus(): BattleParam =
-            BattleParam(growths[rarity - 1][battleClass.hpGrowth + 1] + growths[rarity - 1][battleClass.hpGrowth - 1] - growths[rarity - 1][battleClass.hpGrowth] * 2,
-                    growths[rarity - 1][battleClass.atkGrowth + 1] + growths[rarity - 1][battleClass.atkGrowth - 1] - growths[rarity - 1][battleClass.atkGrowth] * 2,
-                    growths[rarity - 1][battleClass.spdGrowth + 1] + growths[rarity - 1][battleClass.spdGrowth - 1] - growths[rarity - 1][battleClass.spdGrowth] * 2,
-                    growths[rarity - 1][battleClass.defGrowth + 1] + growths[rarity - 1][battleClass.defGrowth - 1] - growths[rarity - 1][battleClass.defGrowth] * 2,
-                    growths[rarity - 1][battleClass.resGrowth + 1] + growths[rarity - 1][battleClass.resGrowth - 1] - growths[rarity - 1][battleClass.resGrowth] * 2)
+            BattleParam(growths[rarity - 1][baseHero.hpGrowth + 1] + growths[rarity - 1][baseHero.hpGrowth - 1] - growths[rarity - 1][baseHero.hpGrowth] * 2,
+                    growths[rarity - 1][baseHero.atkGrowth + 1] + growths[rarity - 1][baseHero.atkGrowth - 1] - growths[rarity - 1][baseHero.atkGrowth] * 2,
+                    growths[rarity - 1][baseHero.spdGrowth + 1] + growths[rarity - 1][baseHero.spdGrowth - 1] - growths[rarity - 1][baseHero.spdGrowth] * 2,
+                    growths[rarity - 1][baseHero.defGrowth + 1] + growths[rarity - 1][baseHero.defGrowth - 1] - growths[rarity - 1][baseHero.defGrowth] * 2,
+                    growths[rarity - 1][baseHero.resGrowth + 1] + growths[rarity - 1][baseHero.resGrowth - 1] - growths[rarity - 1][baseHero.resGrowth] * 2)
 
     fun localeName(locale: Locale): String {
         if (name.isNotEmpty()) return name
         return when (locale) {
-            Locale.JAPAN -> battleClass.name
-            Locale.JAPANESE -> battleClass.name
-            else -> battleClass.usName
+            Locale.JAPAN -> baseHero.name
+            Locale.JAPANESE -> baseHero.name
+            else -> baseHero.usName
         }
 
     }

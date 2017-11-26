@@ -11,8 +11,8 @@ import org.junit.Test
 class fightTestA {
     @Test
     fun noSkillSpeedTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         assertEquals("size == 2", 2, fightResult.size)
         println(fightResult[0])
@@ -29,8 +29,8 @@ class fightTestA {
 
     @Test
     fun noSkillSpeedTestB() {
-        val unitA = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
-        val kazahanaA = ArmedClass(StandardBattleClass.get("カザハナ")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
+        val kazahanaA = ArmedHero(StandardBaseHero.get("カザハナ")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(kazahanaA, kazahanaA.maxHp))
         assertEquals("size == 3", 3, fightResult.size)
         println(fightResult[0])
@@ -60,9 +60,9 @@ class fightTestA {
 
     @Test
     fun noSkillSpeedTestC() {
-        val unitA = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
 
-        val grayA = ArmedClass(StandardBattleClass.get("グレイ")!!)
+        val grayA = ArmedHero(StandardBaseHero.get("グレイ")!!)
         val fightPlan = FightPlan(BattleUnit(grayA, grayA.maxHp), BattleUnit(unitA, unitA.maxHp))
         val fightResult = fightPlan.fight()
         assertEquals("size == 2", 2, fightResult.size)
@@ -74,8 +74,8 @@ class fightTestA {
 
     @Test
     fun noBravTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
-        val dogaA = ArmedClass(StandardBattleClass.get("ドーガ")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
+        val dogaA = ArmedHero(StandardBaseHero.get("ドーガ")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(dogaA, dogaA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -97,8 +97,8 @@ class fightTestA {
 
     @Test
     fun bravTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
-        val dogaA = ArmedClass(StandardBattleClass.get("ドーガ")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
+        val dogaA = ArmedHero(StandardBaseHero.get("ドーガ")!!)
         val fightResult = BattleUnit(dogaA, dogaA.maxHp).fight(BattleUnit(unitA, unitA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -125,8 +125,8 @@ class fightTestA {
 
     @Test
     fun bravTestB() {
-        val unitA = ArmedClass(StandardBattleClass.get("エリンシア")!!)
-        val dogaA = ArmedClass(StandardBattleClass.get("ドーガ")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("エリンシア")!!)
+        val dogaA = ArmedHero(StandardBaseHero.get("ドーガ")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(dogaA, dogaA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -158,8 +158,8 @@ class fightTestA {
 
     @Test
     fun vantageTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("ルーナ")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("ロンクー")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("ルーナ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ロンクー")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp * 3 / 4))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.COUNTER)
@@ -181,8 +181,8 @@ class fightTestA {
 
     @Test
     fun vantageTestB() {
-        val unitA = ArmedClass(StandardBattleClass.get("ルーナ")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("ロンクー")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("ルーナ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ロンクー")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp * 3 / 4 + 1))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -204,8 +204,8 @@ class fightTestA {
 
     @Test
     fun vantageTestC() {
-        val unitA = ArmedClass(StandardBattleClass.get("ルーナ")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("ロンクー")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("ルーナ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ロンクー")!!)
         val fightResult = BattleUnit(unitB, unitB.maxHp * 3 / 4).fight(BattleUnit(unitA, unitA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -227,8 +227,8 @@ class fightTestA {
 
     @Test
     fun vantageTestD() {
-        val unitA = ArmedClass(StandardBattleClass.get("ルーナ")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("ロンクー")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("ルーナ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ロンクー")!!)
         val fightResult = BattleUnit(unitB, unitB.maxHp * 3 / 4 + 1).fight(BattleUnit(unitA, unitA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -250,8 +250,8 @@ class fightTestA {
 
     @Test
     fun desperationTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("アルム")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("シャニー")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("アルム")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("シャニー")!!)
         val fightResult = BattleUnit(unitB, unitB.maxHp * 3 / 4).fight(BattleUnit(unitA, unitA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -273,8 +273,8 @@ class fightTestA {
 
     @Test
     fun desperationTestB() {
-        val unitA = ArmedClass(StandardBattleClass.get("アルム")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("シャニー")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("アルム")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("シャニー")!!)
         val fightResult = BattleUnit(unitB, unitB.maxHp * 3 / 4 + 1).fight(BattleUnit(unitA, unitA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -296,8 +296,8 @@ class fightTestA {
 
     @Test
     fun desperationTestC() {
-        val unitA = ArmedClass(StandardBattleClass.get("グレイ")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("シャニー")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("グレイ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("シャニー")!!)
         val fightResultA = BattleUnit(unitB, unitB.maxHp * 3 / 4).fight(BattleUnit(unitA, unitA.maxHp))
         assertEquals("size == 2", 2, fightResultA.size)
         val fightResultB = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp * 3 / 4))
@@ -306,8 +306,8 @@ class fightTestA {
 
     @Test
     fun QuickRiposteTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("ツバキ")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("シャニー")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("ツバキ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("シャニー")!!)
         val fightResult = BattleUnit(unitB, unitB.maxHp).fight(BattleUnit(unitA, unitA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -329,8 +329,8 @@ class fightTestA {
 
     @Test
     fun QuickRiposteTestB() {
-        val unitA = ArmedClass(StandardBattleClass.get("クレイン")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("オルエン")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("クレイン")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("オルエン")!!)
         val fightResult = BattleUnit(unitB, unitB.maxHp).fight(BattleUnit(unitA, unitA.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -357,8 +357,8 @@ class fightTestA {
 
     @Test
     fun QuickRiposteTestC() {
-        val unitA = ArmedClass(StandardBattleClass.get("クレイン")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("オルエン")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("クレイン")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("オルエン")!!)
         val buffedUnitA = BattleUnit(unitA, unitA.maxHp)
         val buffedUnitB = BattleUnit(unitB, unitB.maxHp)
         buffedUnitA.resBuff = 4
@@ -400,8 +400,8 @@ class fightTestA {
 
     @Test
     fun brashAssaultTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("ヒナタ")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("マルス")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("ヒナタ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("マルス")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp / 2).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -428,8 +428,8 @@ class fightTestA {
 
     @Test
     fun brashAssaultTestB() {
-        val unitA = ArmedClass(StandardBattleClass.get("ヒナタ")!!)
-        val unitB = ArmedClass(StandardBattleClass.get("マルス")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("ヒナタ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("マルス")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp / 2 + 1).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
@@ -451,8 +451,8 @@ class fightTestA {
 
     @Test
     fun brashAssaultTestC() {
-        val unitB = ArmedClass(StandardBattleClass.get("ヒナタ")!!)
-        val unitA = ArmedClass(StandardBattleClass.get("マルス")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ヒナタ")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("マルス")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp / 2))
         println(fightResult[0])
         assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)

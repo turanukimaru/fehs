@@ -55,7 +55,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val weaponType = WeaponType.weaponTypeOf(spinnerWeapon.selectedItem.toString())
                 val moveType = MoveType.moveTypeOf(spinnerMove.selectedItem.toString())
-                val units = BattleUnitRepository.allItems(true)
+                val units = ArmedHeroRepository.allItems(true)
                 val texts = units.filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> e.localeName(locale) }.map { e -> e.localeName(locale) }
 
                 createRadioButton(contentView!!, R.id.attackerRadioButton, R.string.unit_name_title, texts)
@@ -71,8 +71,8 @@ class BattleSimulatorActivity : AppCompatActivity() {
         //計算実行ボタン作成
         findViewById<Button>(R.id.button).onClick { _ ->
             Log.i("BattleSimulatorActivity", "fightStartButton onClick")
-            val armedClass = BattleUnitRepository.getById(findViewById<Button>(R.id.attackerRadioButton)!!.text.toString()) ?: return@onClick//無いときはそのまま戻れるみたい。凄い！
-            Log.i("BattleSimulatorActivity", "armedClass : $armedClass")
+            val armedClass = ArmedHeroRepository.getById(findViewById<Button>(R.id.attackerRadioButton)!!.text.toString()) ?: return@onClick//無いときはそのまま戻れるみたい。凄い！
+            Log.i("BattleSimulatorActivity", "armedHero : $armedClass")
             val battleUnit = BattleUnit(armedClass, armedClass.maxHp)
             battleUnit.atkBuff = armedClass.atkBuff
             battleUnit.spdBuff = armedClass.spdBuff
@@ -90,7 +90,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
             Log.i("BattleSimulatorActivity", "moveType : $moveType")
             val includeDB = findViewById<CheckBox>(R.id.includeDbCheckBox)!!.isChecked
             val switch = findViewById<CheckBox>(R.id.switchCheckBox)!!.isChecked
-            val filteredUnits = BattleUnitRepository.allItems(includeDB).filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> (if (e.battleClass.color == 0) 4 else e.battleClass.color).toString() + e.battleClass.weaponType.sortOrder.toString() + e.localeName(locale) }
+            val filteredUnits = ArmedHeroRepository.allItems(includeDB).filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> (if (e.baseHero.color == 0) 4 else e.baseHero.color).toString() + e.baseHero.weaponType.sortOrder.toString() + e.localeName(locale) }
             val atkBuff = findViewById<Spinner>(R.id.atkTargetBuffSpinner).selectedItem.toString().toInt()
             val spdBuff = findViewById<Spinner>(R.id.spdTargetBuffSpinner).selectedItem.toString().toInt()
             val defBuff = findViewById<Spinner>(R.id.defTargetBuffSpinner).selectedItem.toString().toInt()
@@ -118,16 +118,16 @@ class BattleSimulatorActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             if (mTwoPane) {
                 val arguments = Bundle()
-                arguments.putString(BattleClassRegisterFragment.ARG_ITEM_ID, "")
+                arguments.putString(HeroRegisterFragment.ARG_ITEM_ID, "")
 
-                val fragment = BattleClassRegisterFragment()
+                val fragment = HeroRegisterFragment()
                 fragment.arguments = arguments
                 supportFragmentManager.beginTransaction()//FragmentActivity.getSupportFragmentManager
                         .replace(R.id.sake_detail_container, fragment)
                         .commit()
             } else {
                 val context = view.context
-                val intent = Intent(context, BattleClassRegisterActivity::class.java)
+                val intent = Intent(context, HeroRegisterActivity::class.java)
                 context.startActivity(intent)
             }
         }
@@ -140,7 +140,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
         //項目選択.
         val button = rootView.findViewById<RadioButton>(radioButton)
         button.text = texts.first()
-        rootView.findViewById<TextView>(R.id.statusView).text = BattleUnitRepository.getById(texts.first())?.statusSkillText(locale)
+        rootView.findViewById<TextView>(R.id.statusView).text = ArmedHeroRepository.getById(texts.first())?.statusSkillText(locale)
 
         button.setOnClickListener { v ->
             val index = texts.indexOf(rootView.findViewById<RadioButton>(radioButton).text)
@@ -148,7 +148,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
             builder.setTitle(title).setCancelable(true).setSingleChoiceItems(texts.toTypedArray(), if (index >= 0) index else 0
                     , { dialog, which ->
                 rootView.findViewById<RadioButton>(radioButton).text = texts[which]
-                val selectedUnit = BattleUnitRepository.getById(texts[which])
+                val selectedUnit = ArmedHeroRepository.getById(texts[which])
                 rootView.findViewById<TextView>(R.id.statusView).text = selectedUnit?.statusSkillText(locale)
 
                 dialog.dismiss()
@@ -197,25 +197,25 @@ class BattleSimulatorActivity : AppCompatActivity() {
             if (switch) {
                 holder.sourceHp.text = target.hp.toString()
                 holder.targetHp.text = source.hp.toString()
-//                holder.mSpecView.text = source.armedClass.localeName(locale)
-                holder.unitText.text = source.armedClass.localeName(locale)
+//                holder.mSpecView.text = source.armedHero.localeName(locale)
+                holder.unitText.text = source.armedHero.localeName(locale)
                 holder.mView.findViewById<TextView>(R.id.unitText).setTextColor(when {
                     target.hp == 0 -> Color.RED
                     source.hp == 0 -> Color.BLUE
                     else -> Color.BLACK
                 })
-                holder.statusText.text = source.armedClass.statusText
+                holder.statusText.text = source.armedHero.statusText
             } else {
                 holder.sourceHp.text = source.hp.toString()
                 holder.targetHp.text = target.hp.toString()
-//                holder.mSpecView.text = target.armedClass.localeName(locale)
-                holder.unitText.text = target.armedClass.localeName(locale)
+//                holder.mSpecView.text = target.armedHero.localeName(locale)
+                holder.unitText.text = target.armedHero.localeName(locale)
                 holder.mView.findViewById<TextView>(R.id.unitText).setTextColor(when {
                     source.hp == 0 -> Color.RED
                     target.hp == 0 -> Color.BLUE
                     else -> Color.BLACK
                 })
-                holder.statusText.text = target.armedClass.statusText
+                holder.statusText.text = target.armedHero.statusText
             }
             //結果表示用の領域をもう1行用意してあるんだけど要らないかなあ
 //            holder.progressText.text = mItem.detail

@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.skill.Skill
 /**
  * ユニット（戦闘単位）。主にステータスを保持する
  */
-data class BattleUnit(val armedClass: ArmedClass
+data class BattleUnit(val armedHero: ArmedHero
                       , var hp: Int = 0
                       , var specialCount: Int = 0
                       , var atkBuff: Int = 0
@@ -109,12 +109,12 @@ data class BattleUnit(val armedClass: ArmedClass
      */
     var enemy: BattleUnit? = null
     //射程はともかく移動距離は制限を受ける可能性がある。いやそれを言うなら全てのステータスがそうであるが・・・これDelegateでできれば楽だと思ったけどBuff考えるとできないな
-    val movableSteps: Int get() = armedClass.movableSteps
-    val effectiveRange: Int get() = armedClass.effectiveRange
-    val atk: Int get() = armedClass.atk + atkDebuff + if (!antiBuffBonus) atkBuff else 0
-    val spd: Int get() = armedClass.spd + spdDebuff + if (!antiBuffBonus) spdBuff else 0
-    val def: Int get() = armedClass.def + defDebuff + if (!antiBuffBonus) defBuff else 0
-    val res: Int get() = armedClass.res + resDebuff + if (!antiBuffBonus) resBuff else 0
+    val movableSteps: Int get() = armedHero.movableSteps
+    val effectiveRange: Int get() = armedHero.effectiveRange
+    val atk: Int get() = armedHero.atk + atkDebuff + if (!antiBuffBonus) atkBuff else 0
+    val spd: Int get() = armedHero.spd + spdDebuff + if (!antiBuffBonus) spdBuff else 0
+    val def: Int get() = armedHero.def + defDebuff + if (!antiBuffBonus) defBuff else 0
+    val res: Int get() = armedHero.res + resDebuff + if (!antiBuffBonus) resBuff else 0
     // 他人や自分のスキルにより戦闘中のみ変化する能力値
     val effectedAtk: Int get() = atk + atkEffect
     val effectedSpd: Int get() = spd + spdEffect
@@ -135,7 +135,7 @@ data class BattleUnit(val armedClass: ArmedClass
      * コピー。data classなら書く必要はないのでいずれdata classにしてこれは削除したほうが良いかも
      */
 //    fun clone(): BattleUnit {
-//        return BattleUnit(armedClass, hitPoint, specialCount, atkBuff, spdBuff, defBuff, resBuff, atkDebuff, spdDebuff, defDebuff, resDebuff, atkEffect, spdEffect, defEffect, resEffect, side)
+//        return BattleUnit(armedHero, hitPoint, specialCount, atkBuff, spdBuff, defBuff, resBuff, atkDebuff, spdDebuff, defDebuff, resDebuff, atkEffect, spdEffect, defEffect, resEffect, side)
 //    }
 
     fun buffAtk(buff: Int) {
@@ -159,40 +159,40 @@ data class BattleUnit(val armedClass: ArmedClass
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */
     fun bothEffect(): BattleUnit {
-        return armedClass.bothEffect(this)
+        return armedHero.bothEffect(this)
     }
 
     /**
      * 攻撃側戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */
     fun attackEffect(): BattleUnit {
-        return armedClass.attackEffect(this)
+        return armedHero.attackEffect(this)
     }
 
     /**
      * 受け側戦闘効果。スキルの反撃効果を再帰でなめて受け時効果を計算する。主に能力値変化
      */
     fun counterEffect(): BattleUnit {
-        return armedClass.counterEffect(this)
+        return armedHero.counterEffect(this)
     }
 
     /**
      * 能力値計算後に適応する必要のある攻撃側戦闘効果。
      */
     fun effectedAttackEffect(): BattleUnit {
-        return armedClass.effectedAttackEffect(this)
+        return armedHero.effectedAttackEffect(this)
     }
 
     /**
      * 能力値計算後に適応する必要のある受け側戦闘効果
      */
     fun effectedCcounterEffect(): BattleUnit {
-        return armedClass.effectedCcounterEffect(this)
+        return armedHero.effectedCcounterEffect(this)
     }
 
     fun afterFightEffect() {
         lossHp(hpLossAtEndOfFight)
-        armedClass.afterFightEffect(this)
+        armedHero.afterFightEffect(this)
     }
 
 
@@ -223,14 +223,14 @@ data class BattleUnit(val armedClass: ArmedClass
      * 攻撃側戦闘プラン。スキルの攻撃プランを再帰でなめて攻撃時効果を計算する。主に行動順の制御
      */
     fun attackPlan(fightPlan: FightPlan): FightPlan {
-        return if (disableChangePlan) fightPlan else armedClass.attackPlan(fightPlan)
+        return if (disableChangePlan) fightPlan else armedHero.attackPlan(fightPlan)
     }
 
     /**
      * 受け側戦闘プラン。スキルの反撃プランを再帰でなめて受け時効果を計算する。主に行動順の制御
      */
     fun counterPlan(fightPlan: FightPlan): FightPlan {
-        return if (disableChangePlan) fightPlan else armedClass.counterPlan(fightPlan)
+        return if (disableChangePlan) fightPlan else armedHero.counterPlan(fightPlan)
     }
 
     fun fightAndAfterEffect(targetUnit: BattleUnit): List<AttackResult> {
@@ -241,7 +241,7 @@ data class BattleUnit(val armedClass: ArmedClass
     }
 //    fun fightTest(target: BattleUnit): AttackResult {
 //        val testUnit = this.clone()
-//        val fightPlan = armedClass.fightPlan(testUnit, target)
+//        val fightPlan = armedHero.fightPlan(testUnit, target)
 //        //planで能力値は計算済みだからここは簡略化してもいいかなあ。でもウルヴァンで奥義関係なくダメージ減少してるんだよなあ
 //        val dealDamage = Skill.NONE.damage(testUnit, target, 1)
 //        val counterDamage = Skill.NONE.damage(target, testUnit, 1)
@@ -272,15 +272,15 @@ data class BattleUnit(val armedClass: ArmedClass
     }
 
     fun damage(target: BattleUnit, results: List<AttackResult>): Pair<Int, Skill?> {
-        println("level / cooldown ${armedClass.special.level}  ${armedClass.reduceSpecialCooldown}")
-        if (specialCount == armedClass.specialCoolDownTime) {
-            val damage = armedClass.special.damage(this, target, results)
+        println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
+        if (specialCount == armedHero.specialCoolDownTime) {
+            val damage = armedHero.special.damage(this, target, results)
             specialCount = if (damage.second != null) 0 else specialCount
-            return if (damage.second != null) Pair(damage.first + armedClass.skills.fold(0, { d, skill -> skill.specialTriggered(this, d) }), damage.second) else damage
+            return if (damage.second != null) Pair(damage.first + armedHero.skills.fold(0, { d, skill -> skill.specialTriggered(this, d) }), damage.second) else damage
         }
-        println("level / cooldown ${armedClass.special.level}  ${armedClass.reduceSpecialCooldown}")
+        println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
         specialCount += if (accelerateAttackCooldown + 1 > InflictCooldown) accelerateAttackCooldown + 1 - InflictCooldown else 0
-        specialCount = if (specialCount > armedClass.specialCoolDownTime) armedClass.specialCoolDownTime else specialCount
+        specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
         return Skill.NONE.damage(this, target, results, null)
     }
 
@@ -295,16 +295,16 @@ data class BattleUnit(val armedClass: ArmedClass
      * スキル・奥義によるダメージ減少.ターゲットって全部Enemyにしたほうがいいか・・・？
      */
     fun preventBySkill(damage: Int, results: List<AttackResult>): Pair<Int, Skill?> {
-        val prevented = armedClass.skills.fold(damage, { d, skill -> skill.prevent(this, d, results) })
+        val prevented = armedHero.skills.fold(damage, { d, skill -> skill.prevent(this, d, results) })
 
-        if (specialCount == armedClass.specialCoolDownTime) {
+        if (specialCount == armedHero.specialCoolDownTime) {
 
-            val specialPrevented = armedClass.special.specialPrevent(this, prevented)
+            val specialPrevented = armedHero.special.specialPrevent(this, prevented)
             specialCount = if (specialPrevented.second != null) 0 else specialCount
             return specialPrevented
         }
         specialCount += if (accelerateTargetCooldown + 1 > InflictCooldown) accelerateTargetCooldown + 1 - InflictCooldown else 0
-        specialCount = if (specialCount > armedClass.specialCoolDownTime) armedClass.specialCoolDownTime else specialCount
+        specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
         return Pair(prevented, null)
     }
 
@@ -318,11 +318,11 @@ data class BattleUnit(val armedClass: ArmedClass
      * 色の倍率と特効が乗った攻撃。
      */
     fun colorAdvantage(): Int {
-        val colorDiff = enemy!!.armedClass.battleClass.color - armedClass.battleClass.color
+        val colorDiff = enemy!!.armedHero.baseHero.color - armedHero.baseHero.color
 
-        return if (colorlessAdvantage && enemy!!.armedClass.battleClass.color == 0) 1
-        else if (enemy!!.colorlessAdvantage && armedClass.battleClass.color == 0) -1
-        else if (enemy!!.armedClass.battleClass.color == 0 || armedClass.battleClass.color == 0 || colorDiff == 0) 0
+        return if (colorlessAdvantage && enemy!!.armedHero.baseHero.color == 0) 1
+        else if (enemy!!.colorlessAdvantage && armedHero.baseHero.color == 0) -1
+        else if (enemy!!.armedHero.baseHero.color == 0 || armedHero.baseHero.color == 0 || colorDiff == 0) 0
         else if (colorDiff == -1 || colorDiff == 2) 1
         else if (colorDiff == 1 || colorDiff == -2) -1 else 0
     }
@@ -337,13 +337,13 @@ data class BattleUnit(val armedClass: ArmedClass
         val effectiveDamage = (effectedBladeAtk * if (effectiveAgainst != EffectiveAgainst.NONE) 15 else 10) / 10
 
         val damage = (effectiveDamage + effectiveDamage * colorPow / 100)
-        return if (armedClass.battleClass.weaponType != WeaponType.STAFF) damage else damage - damage / 2
+        return if (armedHero.baseHero.weaponType != WeaponType.STAFF) damage else damage - damage / 2
     }
 
     fun heal(life: Int) {
         hp += life
-        if (hp > armedClass.maxHp) {
-            hp = armedClass.maxHp
+        if (hp > armedHero.maxHp) {
+            hp = armedHero.maxHp
         }
     }
 

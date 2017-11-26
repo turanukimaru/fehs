@@ -9,7 +9,7 @@ import android.view.*
 import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
 import jp.blogspot.turanukimaru.fehs.skill.*
-import jp.blogspot.turanukimaru.repos.BattleClassContent
+import jp.blogspot.turanukimaru.repos.RealmArmedHeroContent
 import org.jetbrains.anko.contentView
 import java.util.*
 
@@ -24,7 +24,7 @@ import java.util.*
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class BattleClassRegisterFragment : Fragment() {
+class HeroRegisterFragment : Fragment() {
 
     val locale = Locale.getDefault()
 
@@ -85,21 +85,21 @@ class BattleClassRegisterFragment : Fragment() {
         //保存ボタンの動作。長いときは別にしたほうが良いけどこっちの描き方だとクロージャが使えるんだよな
         rootView.findViewById<Button>(R.id.ok_button).setOnClickListener { _ ->
             //デフォルトの名前をそのまま使ったときはエラーを吐いてもどる
-            if (BattleUnitRepository.isStandardBattleClass(rootView.findViewById<TextView>(R.id.unitName).text.toString())) {
+            if (ArmedHeroRepository.isStandardBattleClass(rootView.findViewById<TextView>(R.id.unitName).text.toString())) {
                 Toast.makeText(rootView.context, R.string.alert_default_name, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val baseClass = BattleUnitRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setOnClickListener
-            val armedClass = equipment(rootView, baseClass.battleClass)
-            BattleUnitRepository.createItem(armedClass)
+            val baseClass = ArmedHeroRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setOnClickListener
+            val armedClass = equipment(rootView, baseClass.baseHero)
+            ArmedHeroRepository.createItem(armedClass)
             Toast.makeText(rootView.context, R.string.alert_create_unit, Toast.LENGTH_SHORT).show()
             createUnitRadioButton(rootView, R.id.baseUnitRadioButton, R.string.unit_name_title)
         }
         return rootView
     }
 
-    private fun equipment(rootView: View, baseClass: BattleClass): ArmedClass {
-        return ArmedClass(
+    private fun equipment(rootView: View, baseClass: BaseHero): ArmedHero {
+        return ArmedHero(
                 baseClass,
                 rootView.findViewById<TextView>(R.id.unitName).text.toString()
                 , Weapon.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
@@ -152,12 +152,12 @@ class BattleClassRegisterFragment : Fragment() {
     }
 
     fun equip(view: View) {
-        val baseClass = BattleUnitRepository.getById(view.findViewById<Button>(R.id.baseUnitRadioButton)?.text.toString()) ?: return
-        val armedClass = equipment(view, baseClass.battleClass)
+        val baseClass = ArmedHeroRepository.getById(view.findViewById<Button>(R.id.baseUnitRadioButton)?.text.toString()) ?: return
+        val armedClass = equipment(view, baseClass.baseHero)
         showParams(view, armedClass)
     }
 
-    private fun showParams(rootView: View, it: ArmedClass) {
+    private fun showParams(rootView: View, it: ArmedHero) {
 //        rootView.findViewById<TextView>(R.id.statusView2).text = it.baseStatusText
 //        rootView.findViewById<TextView>(R.id.statusView1).text = it.statusText
         val goodStatus = it.goodStatus()
@@ -209,7 +209,7 @@ class BattleClassRegisterFragment : Fragment() {
         val spinnerMove = rootView.findViewById<Spinner>(R.id.spinner_move3)
         val weaponType = WeaponType.weaponTypeOf(spinnerWeapon.selectedItem.toString())
         val moveType = MoveType.moveTypeOf(spinnerMove.selectedItem.toString())
-        val texts = BattleUnitRepository.allItems(true).filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> e.localeName(locale) }.map { e -> e.localeName(locale) }.toTypedArray()
+        val texts = ArmedHeroRepository.allItems(true).filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> e.localeName(locale) }.map { e -> e.localeName(locale) }.toTypedArray()
 
 
         if (texts.isEmpty()) {
@@ -249,7 +249,7 @@ class BattleClassRegisterFragment : Fragment() {
                     // 選択したときは文字列をそのまま置き換える
                     , { dialog, which ->
                 rootView.findViewById<RadioButton>(radioButton).text = texts[which]
-                val armedClass = BattleUnitRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setSingleChoiceItems
+                val armedClass = ArmedHeroRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString()) ?: return@setSingleChoiceItems
                 armedClass.let {
                     rootView.findViewById<TextView>(R.id.unitName).text = it.localeName(locale)
                     if (it.name.isEmpty()) {
@@ -287,7 +287,7 @@ class BattleClassRegisterFragment : Fragment() {
                     showParams(rootView, it)
                     //装備制限はとりあえず後で考える
                     val allSkills = SkillC.spreadItems()
-                    createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapon.spreadItems().filter { e -> e.type == it.battleClass.weaponType.skillType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapon.spreadItems().filter { e -> e.type == it.baseHero.weaponType.skillType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assist.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Special.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, allSkills.filter { e -> e.type == Skill.SkillType.A || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
@@ -337,11 +337,11 @@ class BattleClassRegisterFragment : Fragment() {
             val builder = AlertDialog.Builder(this.context).setMessage(R.string.action_delete).setTitle(R.string.action_delete)
             builder.setPositiveButton(R.string.action_delete, { _, _ ->
                 val target = activity.findViewById<TextView>(R.id.unitName)
-                if (BattleUnitRepository.isStandardBattleClass(target.text.toString())) {
+                if (ArmedHeroRepository.isStandardBattleClass(target.text.toString())) {
 //                    Toast.makeText(this.context, R.string.alert_default_name, Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
-                BattleClassContent.deleteById(target.text.toString())
+                RealmArmedHeroContent.deleteById(target.text.toString())
 
                 createUnitRadioButton(activity.contentView!!, R.id.baseUnitRadioButton, R.string.unit_name_title)
                 target.text = ""

@@ -13,12 +13,12 @@ class fightTestF {
 
     @Test
     fun killerBow() {
-        val unitA = ArmedClass(StandardBattleClass.get("レオ")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("レオ")!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.armedClass.bSkill = SkillB.BowBreaker.lv(3)
-        attacker.armedClass.equip()
+        attacker.armedHero.bSkill = SkillB.BowBreaker.lv(3)
+        attacker.armedHero.equip()
 
-        val unitB = ArmedClass(StandardBattleClass.get("リン（総選挙）")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("リン（総選挙）")!!)
         val fightResult = attacker.fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -38,12 +38,12 @@ class fightTestF {
 
     @Test
     fun lv410() {
-        val unitA = ArmedClass(StandardBattleClass.get("ソフィーヤ")!!, "ソフィーヤ10", Weapon.Fenrir2, Skill.NONE, Special.DragonFang, SkillA.WardingBlow.lv(3), Skill.NONE, Skill.NONE, Skill.NONE, 4
+        val unitA = ArmedHero(StandardBaseHero.get("ソフィーヤ")!!, "ソフィーヤ10", Weapon.Fenrir2, Skill.NONE, Special.DragonFang, SkillA.WardingBlow.lv(3), Skill.NONE, Skill.NONE, Skill.NONE, 4
                 , 10, BoonType.NONE, BoonType.NONE, false, 0, 0, 0, 0, 0, 0, 0, 0)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.armedClass.equip()
+        attacker.armedHero.equip()
 
-        val unitB = ArmedClass(StandardBattleClass.get("ソフィーヤ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ソフィーヤ")!!)
         val fightResult = attacker.fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)

@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="jp.blogspot.turanukimaru.fehbs.BattleClassRegisterActivity"
+            android:name="jp.blogspot.turanukimaru.fehbs.HeroRegisterActivity"
             android:label="@string/title_unit_detail"
             android:parentActivityName="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
             android:theme="@style/AppTheme.NoActionBar">

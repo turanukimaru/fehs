@@ -5,14 +5,14 @@ import jp.blogspot.turanukimaru.fehs.skill.*
 /**
  * Created by turanukimaru on 2017/11/01.
  */
-object StandardBattleClass {
+object StandardBaseHero {
     //initブロックと同じ優先順位、つまりinitの前に書かないと作成されない
-    private val ITEMS = ArrayList<BattleClass>()
-    private val ITEMMAP = HashMap<String, BattleClass>()
-    fun get(id: String): BattleClass? = ITEMMAP[id]?.clone()
-    fun get(id: Int): BattleClass? = ITEMS[id].clone()
+    private val ITEMS = ArrayList<BaseHero>()
+    private val ITEMMAP = HashMap<String, BaseHero>()
+    fun get(id: String): BaseHero? = ITEMMAP[id]?.clone()
+    fun get(id: Int): BaseHero? = ITEMS[id].clone()
     fun containsKey(id: String): Boolean = ITEMMAP.containsKey(id)
-    fun allItems(): MutableList<BattleClass> = ITEMS.fold(mutableListOf(), { list, e -> list.add(e);list })
+    fun allItems(): MutableList<BaseHero> = ITEMS.fold(mutableListOf(), { list, e -> list.add(e);list })
 
     init {
         creates()
@@ -429,7 +429,7 @@ object StandardBattleClass {
             cSkill: Skill = Skill.NONE,
             seal: Skill = Skill.NONE
     ) {
-        val item = BattleClass(color, weaponType, moveType, minRarity, name, usName, hp, atk, spd, def, res, hpgrowth, atkgrowth, spdgrowth, defgrowth, resgrowth, weapon, assist, special, aSkill, bSkill, cSkill, seal)
+        val item = BaseHero(color, weaponType, moveType, minRarity, name, usName, hp, atk, spd, def, res, hpgrowth, atkgrowth, spdgrowth, defgrowth, resgrowth, weapon, assist, special, aSkill, bSkill, cSkill, seal)
         ITEMS.add(item)
         ITEMMAP.put(item.name, item)
         ITEMMAP.put(item.usName, item)

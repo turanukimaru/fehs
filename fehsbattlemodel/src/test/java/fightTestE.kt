@@ -1,6 +1,5 @@
 import jp.blogspot.turanukimaru.fehs.*
 import jp.blogspot.turanukimaru.fehs.skill.SkillA
-import jp.blogspot.turanukimaru.fehs.skill.SkillC
 import org.junit.Assert
 import org.junit.Test
 
@@ -13,10 +12,10 @@ import org.junit.Test
 class fightTestE {
     @Test
     fun noSkillSpeedTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
         unitA.boon = BoonType.ATK
         unitA.bane = BoonType.RES
-        val unitB = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
         unitB.boon = BoonType.SPD
         unitB.bane = BoonType.DEF
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
@@ -35,10 +34,10 @@ class fightTestE {
 
     @Test
     fun noSkillSpeedTestB() {
-        val unitA = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
         unitA.boon = BoonType.SPD
         unitA.bane = BoonType.RES
-        val unitB = ArmedClass(StandardBattleClass.get("マルス（仮面）")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
         unitB.boon = BoonType.DEF
         unitB.bane = BoonType.RES
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
@@ -57,9 +56,9 @@ class fightTestE {
 
     @Test
     fun noSkillSpeedTestC() {
-        val unitA = ArmedClass(StandardBattleClass.get("アイク")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("アイク")!!)
 
-        val unitB = ArmedClass(StandardBattleClass.get("ゼフィール")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ゼフィール")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -81,14 +80,14 @@ class fightTestE {
 
     @Test
     fun buffBladeTestA() {
-        val classA = ArmedClass(StandardBattleClass.get("ニノ")!!)
+        val classA = ArmedHero(StandardBaseHero.get("ニノ")!!)
         val unitA = BattleUnit(classA, classA.maxHp)
         unitA.atkBuff = 4
         unitA.spdBuff = 4
         unitA.defBuff = 4
         unitA.resBuff = 4
 
-        val unitB = ArmedClass(StandardBattleClass.get("アイク")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("アイク")!!)
         val fightResult = unitA.fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -105,14 +104,14 @@ class fightTestE {
 
     @Test
     fun buffBladeTestB() {
-        val classA = ArmedClass(StandardBattleClass.get("ニノ")!!)
+        val classA = ArmedHero(StandardBaseHero.get("ニノ")!!)
         val unitA = BattleUnit(classA, classA.maxHp)
         unitA.atkBuff = 4
         unitA.spdBuff = 4
         unitA.defBuff = 4
         unitA.resBuff = 4
 
-        val unitB = ArmedClass(StandardBattleClass.get("ディアドラ")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ディアドラ")!!)
         val fightResult = unitA.fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -134,9 +133,9 @@ class fightTestE {
 
     @Test
     fun ravenTestA() {
-        val unitA = ArmedClass(StandardBattleClass.get("セシリア")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("セシリア")!!)
 
-        val unitB = ArmedClass(StandardBattleClass.get("アイク")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("アイク")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -158,9 +157,9 @@ class fightTestE {
 
     @Test
     fun ravenTestB() {//TODO:激化のダメージが4ほど大きいので計算の確認が必要
-        val unitA = ArmedClass(StandardBattleClass.get("セシリア")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("セシリア")!!)
 
-        val unitB = ArmedClass(StandardBattleClass.get("ヴィオール")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("ヴィオール")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -182,9 +181,9 @@ class fightTestE {
 
     @Test
     fun ravenTestC() {
-        val unitA = ArmedClass(StandardBattleClass.get("ヴィオール")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("ヴィオール")!!)
 
-        val unitB = ArmedClass(StandardBattleClass.get("セシリア")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("セシリア")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
@@ -206,11 +205,11 @@ class fightTestE {
 
     @Test
     fun ravenTestD() {
-        val unitA = ArmedClass(StandardBattleClass.get("セシリア")!!)
+        val unitA = ArmedHero(StandardBaseHero.get("セシリア")!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.armedClass.aSkill = SkillA.TriangleAdept.lv(3)
-        attacker.armedClass.equip()
-        val unitB = ArmedClass(StandardBattleClass.get("ヴィオール")!!)
+        attacker.armedHero.aSkill = SkillA.TriangleAdept.lv(3)
+        attacker.armedHero.equip()
+        val unitB = ArmedHero(StandardBaseHero.get("ヴィオール")!!)
         val fightResult = attacker.fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
