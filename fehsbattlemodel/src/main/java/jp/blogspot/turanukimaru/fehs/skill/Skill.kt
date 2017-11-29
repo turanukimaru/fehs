@@ -369,10 +369,10 @@ interface Skill {
         return fightPlan
     }
 
-    fun brashAssault(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun brashAssault(battleUnit: BattleUnit, percentile: Int): BattleUnit {
         if ((battleUnit.armedHero.baseHero.weaponType.range == battleUnit.enemy!!.armedHero.baseHero.weaponType.range || battleUnit.enemy!!.counterAllRange)
                 && !battleUnit.enemy!!.cannotCcounter
-                && (battleUnit.hp <= battleUnit.armedHero.maxHp * (lv * 10 + 20) / 100)) {
+                && (battleUnit.hp <= battleUnit.armedHero.maxHp * percentile  / 100)) {
             battleUnit.followupable = true
         }
         return battleUnit
@@ -563,7 +563,9 @@ interface Skill {
         SPECIAL_B("", false),
         SPECIAL_C("", false),
         SPECIAL_D("", false),
-        SEAL("", false)
+        SEAL("", false),
+
+        REFINERY("",false)
 
     }
 }

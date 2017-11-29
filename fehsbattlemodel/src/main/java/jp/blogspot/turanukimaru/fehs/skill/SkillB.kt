@@ -51,7 +51,7 @@ enum class SkillB(override val jp: String, override val type: Skill.SkillType, o
     },
 
     BrashAssault("差し違え", Skill.SkillType.B) {
-        override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = brashAssault(battleUnit, lv)
+        override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = brashAssault(battleUnit, (lv * 10 + 20))
 
     },
     Renewal("回復", Skill.SkillType.B),

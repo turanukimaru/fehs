@@ -6,7 +6,7 @@ import java.util.*
 /**
  * スキル。武器/補助/奥義
  */
-enum class Weapon(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE) : Skill {
+enum class Weapon(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE,val refineryType: Refinery.RefineryType = Refinery.RefineryType.NONE) : Skill {
 
 
     IronSword("鉄の剣", Skill.SkillType.SWORD, 6),
@@ -17,6 +17,9 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
     },
     ArmorSlayer2("アーマーキラー＋", Skill.SkillType.SWORD, 12, ArmorSlayer) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+    },
+    Armorsmasher2("アーマーキラー鍛＋", Skill.SkillType.SWORD, 14, ArmorSlayer2) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
     },
     BraveSword("勇者の剣", Skill.SkillType.SWORD, 5, SteelSword) {
@@ -158,6 +161,9 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
     HeavySpear2("貫きの槍＋", Skill.SkillType.LANCE, 12, HeavySpear) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
     },
+    SlayingSpear2("貫きの槍鍛＋", Skill.SkillType.LANCE, 14, HeavySpear2) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+    },
 
     CarrotLance("ニンジンの槍", Skill.SkillType.LANCE, 9, SteelLance) {
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4)
@@ -242,6 +248,9 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
     },
     Hammer2("ハンマー＋", Skill.SkillType.AXE, 12, Hammer) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
+    },
+    SlayingHammer2("ハンマー鍛＋", Skill.SkillType.AXE, 14, Hammer2) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit)
     },
     EmeraldAxe("深緑の斧", Skill.SkillType.AXE, 8, SteelAxe) {
@@ -406,7 +415,10 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
     Rauorwolf("ラウアウルフ", Skill.SkillType.RTOME, 6) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
     },
-    Rauorwolf2("ラウアウルフ＋", Skill.SkillType.RTOME, 10) {
+    Rauorwolf2("ラウアウルフ＋", Skill.SkillType.RTOME, 10,Rauorwolf) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+    },
+    KeenRauorwolf2("ラウアウルフ鍛＋", Skill.SkillType.RTOME, 12,Rauorwolf2) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
     },
     Rauorraven("ラウアレイヴン", Skill.SkillType.RTOME, 7) {
@@ -446,6 +458,9 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
     },
     Gronnwolf2("グルンウルフ＋", Skill.SkillType.GTOME, 10) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+    },
+    KeenGronnwolf2("グルンウルフ鍛＋", Skill.SkillType.GTOME, 12) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
     },
     Gronnraven("グルンレイヴン", Skill.SkillType.GTOME, 7) {
@@ -499,6 +514,9 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
     },
     Blarwolf2("ブラーウルフ＋", Skill.SkillType.BTOME, 10) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
+    },
+    KeenBlarwolf2("ブラーウルフ鍛＋", Skill.SkillType.BTOME, 12) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit)
     },
     Blarraven("ブラーレイヴン", Skill.SkillType.BTOME, 7) {

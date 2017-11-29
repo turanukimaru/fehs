@@ -59,7 +59,28 @@ enum class MoveType(val steps: Int) {
 
     }
 }
-
+//
+///**
+// * 移動タイプ
+// */
+//enum class RefineryType(val equip:(a:ArmedHero)->ArmedHero = {a->a}){
+//    SPECIAL({a:ArmedHero->a}),
+//    ATK,
+//    SPD,
+//    DEF,
+//    RES,
+//    ;
+//
+//    companion object {
+//        val refineryTypeMap = mapOf("歩行" to MoveType.INFANTRY, "飛行" to MoveType.FLIER, "騎馬" to MoveType.CAVALRY, "重装" to MoveType.ARMORED)
+//        fun refineryTypeOf(key: String) = when {
+//            refineryTypeMap.containsKey(key) -> refineryTypeMap[key]
+//            RefineryType.values().any { e -> e.name == key } -> RefineryType.valueOf(key)
+//            else -> null
+//        }
+//
+//    }
+//}
 enum class BoonType(val jp: String) {
     NONE("-"),
     HP("HP"),

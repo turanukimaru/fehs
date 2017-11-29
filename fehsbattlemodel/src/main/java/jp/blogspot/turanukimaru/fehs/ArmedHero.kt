@@ -16,6 +16,7 @@ data class ArmedHero(
         var bSkill: Skill = Skill.NONE,
         var cSkill: Skill = Skill.NONE,
         var seal: Skill = Skill.NONE,
+        var refinery: Skill = Skill.NONE,
         var rarity: Int = 5,
         var levelBoost: Int = 0,
         var boon: BoonType = BoonType.NONE,
@@ -34,7 +35,7 @@ data class ArmedHero(
      * スキルのリスト。戦闘時などにすべてのスキルをなめるのに使う。読み取り専用プロパティにすることで毎回その時のプロパティからリストを作れるはず
      * 個体が編集されているときは編集後のスキルを使う
      */
-    val skills get() = listOfNotNull(weapon, assist, special, aSkill, bSkill, cSkill, seal)
+    val skills get() = listOfNotNull(weapon, assist, special, aSkill, bSkill, cSkill, seal,refinery)
 
     /**
      * 移動力。直接見てもいいか？いやアイテムやスキルの効果で変動するか。
@@ -115,8 +116,6 @@ data class ArmedHero(
             aSkill = baseHero.aSkill
             bSkill = baseHero.bSkill
             cSkill = baseHero.cSkill
-            seal = baseHero.seal
-
         }
         equip()
     }
