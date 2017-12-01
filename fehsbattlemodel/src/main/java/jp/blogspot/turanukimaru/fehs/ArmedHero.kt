@@ -1,5 +1,6 @@
 package jp.blogspot.turanukimaru.fehs
 
+import jp.blogspot.turanukimaru.fehs.skill.RefineSkill
 import jp.blogspot.turanukimaru.fehs.skill.Skill
 import java.util.*
 
@@ -9,14 +10,14 @@ import java.util.*
 data class ArmedHero(
         val baseHero: BaseHero,
         val name: String = "",
-        var weapon: Skill = Skill.NONE,
+        var baseWeapon: Skill = Skill.NONE,
+        var refinedWeapon: Skill = Skill.NONE,
         var assist: Skill = Skill.NONE,
         var special: Skill = Skill.NONE,
         var aSkill: Skill = Skill.NONE,
         var bSkill: Skill = Skill.NONE,
         var cSkill: Skill = Skill.NONE,
         var seal: Skill = Skill.NONE,
-        var refinery: Skill = Skill.NONE,
         var rarity: Int = 5,
         var levelBoost: Int = 0,
         var boon: BoonType = BoonType.NONE,
@@ -31,11 +32,12 @@ data class ArmedHero(
         var defSpur: Int = 0,
         var resSpur: Int = 0
 ) {
+    val weapon get()= if (refinedWeapon != Skill.NONE) RefineSkill.valueOfWeapon(baseWeapon) ?: baseWeapon else baseWeapon
     /**
      * スキルのリスト。戦闘時などにすべてのスキルをなめるのに使う。読み取り専用プロパティにすることで毎回その時のプロパティからリストを作れるはず
      * 個体が編集されているときは編集後のスキルを使う
      */
-    val skills get() = listOfNotNull(weapon, assist, special, aSkill, bSkill, cSkill, seal,refinery)
+    val skills get() = listOfNotNull(weapon, refinedWeapon, assist, special, aSkill, bSkill, cSkill, seal)
 
     /**
      * 移動力。直接見てもいいか？いやアイテムやスキルの効果で変動するか。
@@ -110,17 +112,18 @@ data class ArmedHero(
     init {
         //名前が無いときは変更なしとして扱い、ベースになるクラスの装備を使う
         if (name.isEmpty()) {
-            weapon = baseHero.weapon
+            baseWeapon = baseHero.weapon
             assist = baseHero.assist
             special = baseHero.special
             aSkill = baseHero.aSkill
             bSkill = baseHero.bSkill
             cSkill = baseHero.cSkill
         }
+
         equip()
     }
 
-    override fun toString(): String = "$name MaxHP:$maxHp , atk:$atk , spd:$spd , def:$def , res:$res , hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
+    override fun toString(): String = "$name MaxHP:$maxHp , totalAtk:$atk , spd:$spd , def:$def , res:$res ,weapon:$weapon, refinedWeapon:$refinedWeapon, assist:$assist, special:$special, skillA,$aSkill, skillB:$bSkill, skillC:$cSkill, seal:$seal, hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
 
     /**
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化

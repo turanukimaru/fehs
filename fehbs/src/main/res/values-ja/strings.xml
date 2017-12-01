@@ -92,6 +92,7 @@
     <string name="spd_s_title">S</string>
     <string name="def_s_title">D</string>
     <string name="res_s_title">R</string>
+    <string name="refine_title">錬成</string>
     <string-array name="buff">
         <item>0</item>
         <item>1</item>

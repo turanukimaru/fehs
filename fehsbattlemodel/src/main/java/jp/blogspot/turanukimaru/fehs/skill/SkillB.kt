@@ -78,8 +78,9 @@ enum class SkillB(override val jp: String, override val type: Skill.SkillType, o
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, lv)
     },
     ShieldPulse("盾の鼓動", Skill.SkillType.B),
-    //TODO:杖の処理が終わったら
-    WrathfulStaff("神罰の杖", Skill.SkillType.B),
+    WrathfulStaff("神罰の杖", Skill.SkillType.B){
+        override  fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, lv)
+    },
     DazzlingStaff("幻惑の杖", Skill.SkillType.B) {
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, lv)
 

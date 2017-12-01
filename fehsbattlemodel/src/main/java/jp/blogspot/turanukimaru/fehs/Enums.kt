@@ -10,18 +10,19 @@ import java.util.*
 /**
  * 武器種類
  */
-enum class WeaponType(val range: Int, val isMaterial: Boolean, val skillType: Skill.SkillType, val sortOrder: Int) {
-    SWORD(1, true, Skill.SkillType.SWORD, 0),
-    LANCE(1, true, Skill.SkillType.LANCE, 0),
-    AXE(1, true, Skill.SkillType.AXE, 0),
-    DRAGON(1, false, Skill.SkillType.DRAGON, 1),
-    RTOME(2, false, Skill.SkillType.RTOME, 2),
-    BTOME(2, false, Skill.SkillType.BTOME, 2),
-    GTOME(2, false, Skill.SkillType.GTOME, 2),
-    BOW(2, true, Skill.SkillType.BOW, 3),
+enum class WeaponType(val range: Int, val isMaterial: Boolean, val sortOrder: Int) {
+    SWORD(1, true, 0),
+    LANCE(1, true, 0),
+    AXE(1, true, 0),
+    DRAGON(1, false, 1),
+    RTOME(2, false, 2),
+    BTOME(2, false, 2),
+    GTOME(2, false, 2),
+    BOW(2, true, 3),
 
-    DAGGER(2, true, Skill.SkillType.DAGGER, 4),
-    STAFF(2, false, Skill.SkillType.STAFF, 5)
+    DAGGER(2, true, 4),
+    STAFF(2, false, 5),
+//    NONE(0, true, Skill.SkillType.NONE, 6),
     ;
 
     companion object {
@@ -63,7 +64,7 @@ enum class MoveType(val steps: Int) {
 ///**
 // * 移動タイプ
 // */
-//enum class RefineryType(val equip:(a:ArmedHero)->ArmedHero = {a->a}){
+//enum class RefineType(val equip:(a:ArmedHero)->ArmedHero = {a->a}){
 //    SPECIAL({a:ArmedHero->a}),
 //    ATK,
 //    SPD,
@@ -75,7 +76,7 @@ enum class MoveType(val steps: Int) {
 //        val refineryTypeMap = mapOf("歩行" to MoveType.INFANTRY, "飛行" to MoveType.FLIER, "騎馬" to MoveType.CAVALRY, "重装" to MoveType.ARMORED)
 //        fun refineryTypeOf(key: String) = when {
 //            refineryTypeMap.containsKey(key) -> refineryTypeMap[key]
-//            RefineryType.values().any { e -> e.name == key } -> RefineryType.valueOf(key)
+//            RefineType.values().any { e -> e.name == key } -> RefineType.valueOf(key)
 //            else -> null
 //        }
 //

@@ -97,7 +97,7 @@ interface Skill {
      * ほぼ奥義専用。攻撃時のダメージ計算。デフォルトで奥義なしのダメージ
      */
     fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill? = null): Pair<Int, Skill?> {
-        val damage = target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.armedHero.baseHero.weaponType)
+        val damage = battleUnit.halfByStaff(target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.armedHero.weapon.type))
         return Pair(if (damage > 0) damage else 0, skill)
     }
 
@@ -264,7 +264,7 @@ interface Skill {
     }
 
     fun equipHp(armedHero: ArmedHero, lv: Int): ArmedHero {
-        armedHero.hpEqp += lv + 2
+        armedHero.hpEqp += lv
         return armedHero
     }
 
@@ -397,6 +397,13 @@ interface Skill {
     fun dazzling(battleUnit: BattleUnit, lv: Int): BattleUnit {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50)) {
             battleUnit.enemy!!.cannotCcounter = true
+        }
+        return battleUnit
+    }
+
+    fun wrathfulStaff(battleUnit: BattleUnit, lv: Int): BattleUnit {
+        if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50)) {
+            battleUnit.wrathfulStaff = true
         }
         return battleUnit
     }
@@ -543,29 +550,30 @@ interface Skill {
     }
 
 
-    enum class SkillType(val jp: String, val isWeapon: Boolean) {
-        NONE("", false),
-        A("", false),
-        B("", false),
-        C("", false),
-        SWORD("剣", true),
-        LANCE("槍", true),
-        AXE("斧", true),
-        DRAGON("竜", true),
-        RTOME("赤魔", true),
-        BTOME("青魔", true),
-        GTOME("緑魔", true),
-        BOW("弓", true),
-        DAGGER("暗器", true),
-        STAFF("杖", true),
-        ASSIST("", false),
-        SPECIAL_A("", false),
-        SPECIAL_B("", false),
-        SPECIAL_C("", false),
-        SPECIAL_D("", false),
-        SEAL("", false),
-
-        REFINERY("",false)
-
+    enum class SkillType(val jp: String, val weaponType : WeaponType? = null) {
+        NONE(""),
+        A(""),
+        B(""),
+        C(""),
+        SWORD("剣", WeaponType.SWORD),
+        LANCE("槍", WeaponType.LANCE),
+        AXE("斧", WeaponType.AXE),
+        DRAGON("竜", WeaponType.DRAGON),
+        REFINED_DRAGON("竜", WeaponType.DRAGON),
+        RTOME("赤魔", WeaponType.RTOME),
+        BTOME("青魔", WeaponType.BTOME),
+        GTOME("緑魔", WeaponType.GTOME),
+        BOW("弓", WeaponType.BOW),
+        DAGGER("暗器", WeaponType.DAGGER),
+        STAFF("杖", WeaponType.STAFF),
+        ASSIST(""),
+        SPECIAL_A(""),
+        SPECIAL_B(""),
+        SPECIAL_C(""),
+        SPECIAL_D(""),
+        SEAL(""),
+        REFINERY("")
+;
+        val isWeapon get() = weaponType != null
     }
 }

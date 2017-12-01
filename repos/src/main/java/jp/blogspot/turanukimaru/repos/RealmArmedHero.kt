@@ -18,6 +18,7 @@ open class RealmArmedHero(
         var nickname: String = "",
         var baseName: String = "",
         var weapon: String = "NONE",
+        var refinedWeapon: String = "NONE",
         var assist: String = "NONE",
         var special: String = "NONE",
         var aSkill: String = "NONE",
@@ -43,6 +44,7 @@ open class RealmArmedHero(
         Log.i("RealmArmedHero", "CREATE BaseHero FROM RealmArmedHero")
         Log.i("RealmArmedHero", "nickname $nickname ")
         Log.i("RealmArmedHero", "weapon $weapon ")
+        Log.i("RealmArmedHero", "refinedWeapon $refinedWeapon ")
         Log.i("RealmArmedHero", "assist $assist ")
         Log.i("RealmArmedHero", "special $special ")
         Log.i("RealmArmedHero", "SkillA $aSkill ")
@@ -53,6 +55,6 @@ open class RealmArmedHero(
         Log.i("RealmArmedHero", "levelBoost $boost ")
         Log.i("RealmArmedHero", "boon $boon ")
         Log.i("RealmArmedHero", "bane $bane ")
-        return ArmedHero(result, nickname, Weapon.valueOfOrNONE(weapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
+        return ArmedHero(result, nickname, Weapon.valueOfOrNONE(weapon), RefineSkill.valueOfOrNONE(refinedWeapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
     }
 }

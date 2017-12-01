@@ -10,13 +10,13 @@ import java.util.*
  */
 enum class SkillA(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.Companion.NONE, override val maxLevel: Int = 3) : Skill {
     Hp("HP", Skill.SkillType.A) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv+2)
     },
     HpSpd("HP速さ", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipHp(armedHero, lv), lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipHp(armedHero, lv+2), lv)
     },
     HpRes("HP魔防", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(equipHp(armedHero, lv), lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(equipHp(armedHero, lv+2), lv)
     },
     Attack("攻撃", Skill.SkillType.A) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, lv)
@@ -43,7 +43,7 @@ enum class SkillA(override val jp: String, override val type: Skill.SkillType, o
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(equipAtk(armedHero, lv), lv)
     },
     HpDef("HP守備", Skill.SkillType.A, maxLevel = 2) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(equipHp(armedHero, lv), lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(equipHp(armedHero, lv+2), lv)
     },
     Resistance("魔防", Skill.SkillType.A) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, lv)

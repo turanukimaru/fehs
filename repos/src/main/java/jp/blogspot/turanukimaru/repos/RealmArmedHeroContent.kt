@@ -32,55 +32,6 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
         }
     }
 
-    /**
-     * アイテムを作成する。
-     */
-
-    fun createItem(
-            name: String = "",
-            baseName: String = "",
-            weapon: Skill = Skill.NONE,
-            assist: Skill = Skill.NONE,
-            special: Skill = Skill.NONE,
-            aSkill: Skill = Skill.NONE,
-            bSkill: Skill = Skill.NONE,
-            cSkill: Skill = Skill.NONE,
-            seal: Skill = Skill.NONE,
-            rarity: Int = 5,
-            boost: Int = 0,
-            boon: BoonType = BoonType.NONE,
-            bane: BoonType = BoonType.NONE,
-            defensiveTerrain: Boolean = false,
-            atkBuff: Int = 0,
-            spdBuff: Int = 0,
-            defBuff: Int = 0,
-            resBuff: Int = 0,
-            atkSpur: Int = 0,
-            spdSpur: Int = 0,
-            defSpur: Int = 0,
-            resSpur: Int = 0
-    ) {
-        Log.i("RealmArmedHero", "CRERATE RealmArmedHero")
-        Log.i("RealmArmedHero", "nickname $name ")
-        Log.i("RealmArmedHero", "baseName $baseName ")
-        Log.i("RealmArmedHero", "weapon $weapon ")
-        Log.i("RealmArmedHero", "assist $assist ")
-        Log.i("RealmArmedHero", "special $special ")
-        Log.i("RealmArmedHero", "SkillA $aSkill ")
-        Log.i("RealmArmedHero", "SkillB $bSkill ")
-        Log.i("RealmArmedHero", "SkillC $cSkill ")
-        Log.i("RealmArmedHero", "seal $seal ")
-        Log.i("RealmArmedHero", "rarity $rarity ")
-        Log.i("RealmArmedHero", "levelBoost $boost ")
-        Log.i("RealmArmedHero", "boon $boon ")
-        Log.i("RealmArmedHero", "bane $bane ")
-        val item = RealmArmedHero(name, baseName, weapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, boost, boon.toString(), bane.toString(),
-                defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
-        realm.executeTransaction {
-            realm.copyToRealmOrUpdate(item)
-        }
-
-    }
 
     override fun complexQuery(item: ArmedHero): List<ArmedHero> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -107,9 +58,10 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
 
 
     override fun createOrUpdate(item: ArmedHero): ArmedHero {
+        println(item)
         item.apply {
             realm.executeTransaction {
-                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.name, weapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
+                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.name, weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
                         , defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
             }
         }

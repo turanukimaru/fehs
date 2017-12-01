@@ -101,6 +101,10 @@ data class BattleUnit(val armedHero: ArmedHero
          * 攻撃順変更スキルが無効か
          */
                       , var disableChangePlan: Boolean = false
+        /**
+         * 神罰が発動しているか
+         */
+                      , var wrathfulStaff: Boolean = false
 
 ) {
     /**
@@ -123,6 +127,7 @@ data class BattleUnit(val armedHero: ArmedHero
     val effectedBladeAtk: Int get() = effectedAtk + if (blade && !antiBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
 
+    /** マップ上で戦う際には必要になると思われる*/
     fun clearEffect() {
         atkEffect = 0
         spdEffect = 0
@@ -284,15 +289,18 @@ data class BattleUnit(val armedHero: ArmedHero
         return Skill.NONE.damage(this, target, results, null)
     }
 
-    fun effectedPrevent(weaponType: WeaponType) = if (weaponType.isMaterial) effectedDef else effectedRes
+    fun effectedPrevent(weaponType: Skill.SkillType) = if (weaponType == Skill.SkillType.REFINED_DRAGON && armedHero.baseHero.weaponType.range == 2) if (effectedDef < effectedRes) effectedDef else effectedRes
+    else if (weaponType.weaponType!!.isMaterial) effectedDef else effectedRes
+
+    fun halfByStaff(damage: Int):Int = damage - if(armedHero.baseHero.weaponType == WeaponType.STAFF && !wrathfulStaff) damage / 2 else 0
     /**
-     * スキル・奥義によるダメージ減少.ターゲットって全部Enemyにしたほうがいいか・・・？
+     * スキル・奥義によるダメージ減少.
      */
-    fun preventByDefResTerrain(damage: Int, weaponType: WeaponType, mitModPercent: Int = 0): Int =
+    fun preventByDefResTerrain(damage: Int, weaponType: Skill.SkillType, mitModPercent: Int = 0): Int =
             damage - effectedPrevent(weaponType) * (if (defensiveTerrain) 130 else 100) / 100 + (effectedPrevent(weaponType) * mitModPercent) / 100
 
     /**
-     * スキル・奥義によるダメージ減少.ターゲットって全部Enemyにしたほうがいいか・・・？
+     * スキル・奥義によるダメージ減少.
      */
     fun preventBySkill(damage: Int, results: List<AttackResult>): Pair<Int, Skill?> {
         val prevented = armedHero.skills.fold(damage, { d, skill -> skill.prevent(this, d, results) })
@@ -336,23 +344,24 @@ data class BattleUnit(val armedHero: ArmedHero
         //何らかの特効があったら
         val effectiveDamage = (effectedBladeAtk * if (effectiveAgainst != EffectiveAgainst.NONE) 15 else 10) / 10
 
-        val damage = (effectiveDamage + effectiveDamage * colorPow / 100)
-        return if (armedHero.baseHero.weaponType != WeaponType.STAFF) damage else damage - damage / 2
+        return effectiveDamage + effectiveDamage * colorPow / 100
     }
 
-    fun heal(life: Int) {
+    fun heal(life: Int): Int {
         hp += life
         if (hp > armedHero.maxHp) {
             hp = armedHero.maxHp
         }
+        return life
     }
 
-    fun lossHp(damage: Int) {
+    fun lossHp(damage: Int): Int {
         hp = when {
             hp <= 0 -> 0
             hp in 1..damage -> 1
             else -> hp - damage
         }
+        return damage
     }
 
 
