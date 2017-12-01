@@ -130,6 +130,9 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipAtk(armedHero, 3), lv)
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int, lv: Int): Int = damage + 10
     },
+    Audhulma("アウドムラ", Skill.SkillType.SWORD, 16, SilverSword) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(equipRes(armedHero, 5), lv)
+    },
 
     IronLance("鉄の槍", Skill.SkillType.LANCE, 6),
     SteelLance("鋼の槍", Skill.SkillType.LANCE, 8, IronLance),
@@ -396,23 +399,23 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
     Absorb("アブゾーブ", Skill.SkillType.STAFF, 4, Assault) {
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int = battleUnit.heal(damage * 5 / 10)
     },
-    Absorb2("アブゾーブ＋", Skill.SkillType.STAFF, 7, Absorb,RefineSkill.RefineType.Staff) {
+    Absorb2("アブゾーブ＋", Skill.SkillType.STAFF, 7, Absorb, RefineSkill.RefineType.Staff) {
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int = battleUnit.heal(damage * 5 / 10)
     },
     Candlelight("キャンドルサービス", Skill.SkillType.STAFF, 7, Assault),
-    Candlelight2("キャンドルサービス＋", Skill.SkillType.STAFF, 11, Assault,RefineSkill.RefineType.Staff),
+    Candlelight2("キャンドルサービス＋", Skill.SkillType.STAFF, 11, Assault, RefineSkill.RefineType.Staff),
     Gravity("グラビティ", Skill.SkillType.STAFF, 7, Assault),
-    Gravity2("グラビティ＋", Skill.SkillType.STAFF, 10, Gravity,RefineSkill.RefineType.Staff),
+    Gravity2("グラビティ＋", Skill.SkillType.STAFF, 10, Gravity, RefineSkill.RefineType.Staff),
     Fear("フィアー", Skill.SkillType.STAFF, 5, Assault),
-    Fear2("フィアー＋", Skill.SkillType.STAFF, 12,Fear,RefineSkill.RefineType.Staff),
+    Fear2("フィアー＋", Skill.SkillType.STAFF, 12, Fear, RefineSkill.RefineType.Staff),
     Slow("スロウ", Skill.SkillType.STAFF, 5, Assault),
-    Slow2("スロウ＋", Skill.SkillType.STAFF, 12, Slow,RefineSkill.RefineType.Staff),
+    Slow2("スロウ＋", Skill.SkillType.STAFF, 12, Slow, RefineSkill.RefineType.Staff),
     Panic("パニック", Skill.SkillType.STAFF, 6, Assault),
-    Panic2("パニック＋", Skill.SkillType.STAFF, 11, Panic,RefineSkill.RefineType.Staff),
+    Panic2("パニック＋", Skill.SkillType.STAFF, 11, Panic, RefineSkill.RefineType.Staff),
     Pain("ペイン", Skill.SkillType.STAFF, 3, Assault) {
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, 10)
     },
-    Pain2("ペイン＋", Skill.SkillType.STAFF, 10, Pain,RefineSkill.RefineType.Staff) {
+    Pain2("ペイン＋", Skill.SkillType.STAFF, 10, Pain, RefineSkill.RefineType.Staff) {
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, 10)
     },
 

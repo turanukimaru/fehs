@@ -401,6 +401,8 @@ object StandardBaseHero {
         createItem("ワユ", 1, WeaponType.SWORD, MoveType.INFANTRY, "Mia", 5, 16, 8, 12, 6, 6, 6, 7, 9, 6, 5,
                 Weapon.ResoluteBlade, null, Special.Luna, SkillA.FlashingBlade.lv(3), SkillB.Vantage.lv(3), Skill.NONE, Skill.NONE)
 
+        createItem("ヨシュア", 1, WeaponType.SWORD, MoveType.INFANTRY, "Joshua", 5, 18, 7, 9, 8, 6, 6, 7, 8, 6, 6,
+                Weapon.Audhulma, null, Special.Moonbow, SkillA.CloseDef.lv(3), SkillB.Windsweep.lv(3), Skill.NONE, Skill.NONE)
     }
 
     fun createItem(

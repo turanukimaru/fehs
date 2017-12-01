@@ -10,38 +10,38 @@ import java.util.*
 enum class Special(override val jp: String, override val type: Skill.SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE) : Skill {
 
 
-    DayLight("陽影", Skill.SkillType.SPECIAL_A, 4) {
+    DayLight("陽影", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> = super.damage(battleUnit, target, results, this)
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int {
             battleUnit.heal(damage * 3 / 10)
             return damage
         }
     },
-    Noontime("夕陽", Skill.SkillType.SPECIAL_A, 3) {
+    Noontime("夕陽", Skill.SkillType.SPECIAL_A, 2) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> = super.damage(battleUnit, target, results, this)
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int {
             battleUnit.heal(damage * 3 / 10)
             return damage
         }
     },
-    Sol("太陽", Skill.SkillType.SPECIAL_A, 4) {
+    Sol("太陽", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> = super.damage(battleUnit, target, results, this)
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int {
             battleUnit.heal(damage * 5 / 10)
             return damage
         }
     },
-    NightSky("星影", Skill.SkillType.SPECIAL_A, 4) {
+    NightSky("星影", Skill.SkillType.SPECIAL_A, 3) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
             return Pair(super.damage(battleUnit, target, results, this).first * 15 / 10, this)
         }
     },
-    Glimmer("凶星", Skill.SkillType.SPECIAL_A, 3) {
+    Glimmer("凶星", Skill.SkillType.SPECIAL_A, 2) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
             return Pair(super.damage(battleUnit, target, results, this).first * 15 / 10, this)
         }
     },
-    Astra("流星", Skill.SkillType.SPECIAL_A, 5) {
+    Astra("流星", Skill.SkillType.SPECIAL_A, 4) {
         override fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill?): Pair<Int, Skill?> {
             return Pair(super.damage(battleUnit, target, results, this).first * 25 / 10, this)
         }
@@ -206,18 +206,18 @@ enum class Special(override val jp: String, override val type: Skill.SkillType, 
     KindledFireBalm("業火の祝福", Skill.SkillType.SPECIAL_A, 1),
     StillWaterBalm("静水の祝福", Skill.SkillType.SPECIAL_A, 1),
 
-    RisingFlame("砕火", Skill.SkillType.SPECIAL_A, 5),
-    BlazingFlame("烈火", Skill.SkillType.SPECIAL_A, 5),
-    GrowingFlame("爆火", Skill.SkillType.SPECIAL_A, 5),
-    RisingLight("砕光", Skill.SkillType.SPECIAL_A, 5),
-    BlazingLight("烈光", Skill.SkillType.SPECIAL_A, 5),
-    GrowingLight("爆光", Skill.SkillType.SPECIAL_A, 5),
-    RisingWind("砕風", Skill.SkillType.SPECIAL_A, 5),
-    BlazingWind("烈風", Skill.SkillType.SPECIAL_A, 5),
-    GrowingWind("爆風", Skill.SkillType.SPECIAL_A, 5),
-    RisingThunder("砕雷", Skill.SkillType.SPECIAL_A, 5),
-    BlazingThunder("烈雷", Skill.SkillType.SPECIAL_A, 5),
-    GrowingThunder("爆雷", Skill.SkillType.SPECIAL_A, 5),
+    RisingFlame("砕火", Skill.SkillType.SPECIAL_A, 4),
+    BlazingFlame("烈火", Skill.SkillType.SPECIAL_A, 4),
+    GrowingFlame("爆火", Skill.SkillType.SPECIAL_A, 4),
+    RisingLight("砕光", Skill.SkillType.SPECIAL_A, 4),
+    BlazingLight("烈光", Skill.SkillType.SPECIAL_A, 4),
+    GrowingLight("爆光", Skill.SkillType.SPECIAL_A, 4),
+    RisingWind("砕風", Skill.SkillType.SPECIAL_A, 4),
+    BlazingWind("烈風", Skill.SkillType.SPECIAL_A, 4),
+    GrowingWind("爆風", Skill.SkillType.SPECIAL_A, 4),
+    RisingThunder("砕雷", Skill.SkillType.SPECIAL_A, 4),
+    BlazingThunder("烈雷", Skill.SkillType.SPECIAL_A, 4),
+    GrowingThunder("爆雷", Skill.SkillType.SPECIAL_A, 4),
 
     ;
 
