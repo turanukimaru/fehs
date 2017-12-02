@@ -308,7 +308,6 @@ interface Skill {
         return battleUnit
     }
 
-    //TODO:種類が１：１でないときの処理を考えないと
     fun effectiveAgainstMagic(battleUnit: BattleUnit): BattleUnit {
         if (battleUnit.enemy!!.armedHero.isMagicWeapon()) {
             battleUnit.effectiveAgainst = EffectiveAgainst.Companion.valueOfWeaponType(battleUnit.enemy!!.armedHero.baseHero.weaponType)

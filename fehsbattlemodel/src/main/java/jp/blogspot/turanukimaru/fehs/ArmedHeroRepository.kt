@@ -10,8 +10,6 @@ object ArmedHeroRepository {
     fun getById(id: String): ArmedHero? = if (StandardBaseHero.containsKey(id)) ArmedHero(StandardBaseHero.get(id)!!) else repo!!.getById(id)
     fun allItems(includeDb: Boolean = false): List<ArmedHero> = if (includeDb) StandardBaseHero.allItems().map { e -> ArmedHero(e) }.union(repo!!.allItems()).toList() else StandardBaseHero.allItems().map { e -> ArmedHero(e) }
     fun isStandardBattleClass(id: String): Boolean = StandardBaseHero.containsKey(id)
-    fun createItem(battleHero: ArmedHero) {
-        repo!!.createOrUpdate(battleHero)
+    fun createItem(battleHero: ArmedHero) = repo!!.createOrUpdate(battleHero)
 
-    }
 }

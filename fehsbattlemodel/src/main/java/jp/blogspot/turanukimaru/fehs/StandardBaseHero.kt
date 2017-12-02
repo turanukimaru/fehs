@@ -385,7 +385,7 @@ object StandardBaseHero {
         createItem("レベッカ", 0, WeaponType.BOW, MoveType.INFANTRY, "Rebecca", 4, 18, 7, 8, 6, 5, 5, 6, 8, 3, 6,
                 Weapon.SilverBow2, Assist.ArdentSacrifice, null, SkillA.DartingBlow.lv(3), SkillB.SealAtk.lv(3), Skill.NONE, Skill.NONE)
 
-        createItem("ヘンリー（収穫祭）", 0, WeaponType.GTOME, MoveType.INFANTRY, "Henry (Trick or Defeat)", 5, 17, 9, 10, 4, 12, 5, 7, 7, 6, 7,
+        createItem("ヘンリー（収穫祭）", 3, WeaponType.GTOME, MoveType.INFANTRY, "Henry (Trick or Defeat)", 5, 17, 9, 10, 4, 12, 5, 7, 7, 6, 7,
                 Weapon.SpectralTome2,null, Special.Reprisal, Skill.NONE, SkillB.LiveForHonor, SkillC.ArmorMarch.lv(3), Skill.NONE)
         createItem("ジョーカー（収穫祭）", 0, WeaponType.BOW, MoveType.ARMORED, "Jakob (Trick or Defeat)", 5, 20, 9, 6, 9, 8, 6, 8, 4, 7, 7,
                 Weapon.MonstrousBow2,null, null, SkillA.BracingBlow.lv(2), SkillB.WaryFighter.lv(3), Skill.NONE, Skill.NONE)
