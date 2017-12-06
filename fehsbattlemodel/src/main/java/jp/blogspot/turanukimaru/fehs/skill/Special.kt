@@ -177,6 +177,16 @@ enum class Special(override val jp: String, override val type: Skill.SkillType, 
             return if (battleUnit.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
         }
     },
+    IceMirror("氷の聖鏡", Skill.SkillType.SPECIAL_C, 2) {
+        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> {
+            return if (battleUnit.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(damage - damage * 3 / 10, this) else super.specialPrevent(battleUnit, damage, lv)
+        }
+        override fun reducedDamage(battleUnit: BattleUnit, damage: Int, lv: Int): BattleUnit {
+            battleUnit.oneTimeOnlyAdditionalDamage = damage
+            return battleUnit
+        }
+
+    },
     Aegis("聖盾", Skill.SkillType.SPECIAL_C, 3) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> {
             return if (battleUnit.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(damage - damage * 5 / 10, this) else super.specialPrevent(battleUnit, damage, lv)

@@ -105,6 +105,10 @@ data class BattleUnit(val armedHero: ArmedHero
          * 神罰が発動しているか
          */
                       , var wrathfulStaff: Boolean = false
+        /**
+         * 一回だけダメージを追加する。今のところ氷の聖鏡専用。
+         */
+                      , var oneTimeOnlyAdditionalDamage: Int = 0
 
 ) {
     /**
@@ -200,6 +204,12 @@ data class BattleUnit(val armedHero: ArmedHero
         armedHero.afterFightEffect(this)
     }
 
+    fun reducedDamage(damage:Int) {
+        //初期化
+        oneTimeOnlyAdditionalDamage = 0
+        armedHero.reducedDamage(this,damage)
+    }
+
 
     /**
      * 戦闘。スキルで戦闘時効果を計算したうえで実行しその結果を返す
@@ -265,6 +275,8 @@ data class BattleUnit(val armedHero: ArmedHero
         //damageと一緒に奥義を飛ばせば効果も計算できるか？
         val preventedDamage = target.preventBySkill(damage.first, results)
 
+        //氷鏡のによる追加。簡単に済んで良かった。
+        target.reducedDamage( damage.first - preventedDamage.first)
         //スキルが発動していたら吸収効果を発動する。九州のないスキルは何も起こらない
         damage.second?.absorb(this, target, if (target.hp > preventedDamage.first) preventedDamage.first else target.hp)
         target.hp = if (target.hp > preventedDamage.first) {
@@ -286,6 +298,7 @@ data class BattleUnit(val armedHero: ArmedHero
         println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
         specialCount += if (accelerateAttackCooldown + 1 > InflictCooldown) accelerateAttackCooldown + 1 - InflictCooldown else 0
         specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
+        //ここにレイプトがかかってくるのか・・・どうすっかなあこれ。
         return Skill.NONE.damage(this, target, results, null)
     }
 

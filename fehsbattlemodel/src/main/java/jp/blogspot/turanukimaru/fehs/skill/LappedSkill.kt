@@ -2,17 +2,7 @@ package jp.blogspot.turanukimaru.fehs.skill
 
 import java.util.*
 
-class LappedSkill(val skill: Skill, override val level: Int, val containSkill: Skill? = null) : Skill by skill {
-
-
-    //enum側に持たせたし不要かなあ
-    companion object {
-        val NONE = LappedSkill(Skill.NONE, 0)
-        fun nameOf(weapon: String): Skill {
-//            val name = weapon.mat
-            return LappedSkill(SkillC.valueOf(weapon), 0)
-        }
-    }
+class LappedSkill(val skill: Skill, override val level: Int) : Skill by skill {
 
     override fun localeName(locale: Locale): String {
         return when (locale) {

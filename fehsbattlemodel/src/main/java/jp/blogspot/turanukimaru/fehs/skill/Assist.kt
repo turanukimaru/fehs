@@ -2,6 +2,7 @@ package jp.blogspot.turanukimaru.fehs.skill
 
 import java.util.*
 
+
 /**
  * スキル。補助
  */
@@ -13,6 +14,7 @@ enum class Assist(override val jp: String, override val type: Skill.SkillType, o
     RallyDefense("守備の応援", Skill.SkillType.ASSIST),
     RallyResistance("魔防の応援", Skill.SkillType.ASSIST),
     RallyAtkSpd("攻撃速さの応援", Skill.SkillType.ASSIST),
+    RallyAtkDef("攻撃守備の応援", Skill.SkillType.ASSIST),
     RallyAtkRes("攻撃魔防の応援", Skill.SkillType.ASSIST),
     RallyDefRes("守備魔防の応援", Skill.SkillType.ASSIST),
     RallySpdDef("速さ守備の応援", Skill.SkillType.ASSIST),

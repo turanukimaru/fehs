@@ -61,7 +61,8 @@ enum class SkillC(override val jp: String, override val type: Skill.SkillType, o
     SpdSmoke("速さの紫煙", Skill.SkillType.C),
     ArmorMarch("重装の行軍", Skill.SkillType.C),
     Guidance("空からの先導", Skill.SkillType.C),
-
+    DefTactic("守備の指揮", Skill.SkillType.C),
+    AtkTactic("攻撃の指揮", Skill.SkillType.C),
 
     ;
 
@@ -109,4 +110,5 @@ enum class SkillC(override val jp: String, override val type: Skill.SkillType, o
             }
         }
     }
+
 }

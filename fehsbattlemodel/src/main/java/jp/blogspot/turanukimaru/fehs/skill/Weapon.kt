@@ -133,6 +133,15 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
     Audhulma("アウドムラ", Skill.SkillType.SWORD, 16, SilverSword) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(equipRes(armedHero, 5), lv)
     },
+    DarkGreatsword("黒き血の大剣", Skill.SkillType.SWORD, 16, SilverSword) {
+        override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowSpd(blowAtk(battleUnit,4),4)
+    },
+    FiresweepSword("火薙ぎの槍", Skill.SkillType.SWORD, 11, SteelSword) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = disableEachCounter(battleUnit, 0)
+    },
+    FiresweepSword2("火薙ぎの槍＋", Skill.SkillType.SWORD, 15, FiresweepSword) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = disableEachCounter(battleUnit, 0)
+    },
 
     IronLance("鉄の槍", Skill.SkillType.LANCE, 6),
     SteelLance("鋼の槍", Skill.SkillType.LANCE, 8, IronLance),
@@ -227,7 +236,12 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
     Geirskogul("ゲイルスケグル", Skill.SkillType.LANCE, 16, SilverLance) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipDef(armedHero, 3), lv)
     },
-
+    Leiptr("レイプト", Skill.SkillType.LANCE, 16, SilverLance) {
+        override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
+    },
+    BrightNaginata("白き血の薙刀", Skill.SkillType.LANCE, 16, SilverLance) {
+        override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowRes(blowDef(battleUnit,4),4)
+    },
 
     IronAxe("鉄の斧", Skill.SkillType.AXE, 6),
     SteelAxe("鋼の斧", Skill.SkillType.AXE, 8, IronAxe),

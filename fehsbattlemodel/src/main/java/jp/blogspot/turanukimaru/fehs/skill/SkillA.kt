@@ -178,6 +178,7 @@ enum class SkillA(override val jp: String, override val type: Skill.SkillType, o
         override fun effectedAttackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, EffectiveAgainst.CAVALRY)
         override fun effectedCounterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, EffectiveAgainst.CAVALRY)
     },
+    AtkDefBond("攻撃守備の絆", Skill.SkillType.A, maxLevel = 3),
     AtkResBond("攻撃魔防の絆", Skill.SkillType.A, maxLevel = 3),
 
 

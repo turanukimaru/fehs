@@ -97,7 +97,9 @@ interface Skill {
      * ほぼ奥義専用。攻撃時のダメージ計算。デフォルトで奥義なしのダメージ
      */
     fun damage(battleUnit: BattleUnit, target: BattleUnit, results: List<AttackResult>, skill: Skill? = null): Pair<Int, Skill?> {
-        val damage = battleUnit.halfByStaff(target.preventByDefResTerrain(battleUnit.colorAttack(), battleUnit.armedHero.weapon.type))
+        val damage = battleUnit.halfByStaff(target.preventByDefResTerrain(battleUnit.colorAttack() + battleUnit.oneTimeOnlyAdditionalDamage, battleUnit.armedHero.weapon.type))
+        //一回限りの追加ダメージ。氷の聖鏡専用だが今後増えそう※奥義には追加していない（複数の奥義は持てないため）が普通のスキル効果で増えたなら奥義にも追加する必要がある
+        battleUnit.oneTimeOnlyAdditionalDamage = 0
         return Pair(if (damage > 0) damage else 0, skill)
     }
 
@@ -126,6 +128,13 @@ interface Skill {
      * 先頭終了後のダメージとかバフとか。画面にエフェクトを出す処理を追加する必要があるな
      */
     fun afterFightEffect(battleUnit: BattleUnit, lv: Int = level): BattleUnit {
+        return battleUnit
+    }
+
+    /**
+     * スキルによるダメージ軽減のあとそれをどうするか。氷鏡専用
+     */
+    fun reducedDamage(battleUnit: BattleUnit, damage: Int = 0, lv: Int = level): BattleUnit {
         return battleUnit
     }
 
@@ -371,7 +380,7 @@ interface Skill {
     fun brashAssault(battleUnit: BattleUnit, percentile: Int): BattleUnit {
         if ((battleUnit.armedHero.baseHero.weaponType.range == battleUnit.enemy!!.armedHero.baseHero.weaponType.range || battleUnit.enemy!!.counterAllRange)
                 && !battleUnit.enemy!!.cannotCcounter
-                && (battleUnit.hp <= battleUnit.armedHero.maxHp * percentile  / 100)) {
+                && (battleUnit.hp <= battleUnit.armedHero.maxHp * percentile / 100)) {
             battleUnit.followupable = true
         }
         return battleUnit
@@ -549,7 +558,7 @@ interface Skill {
     }
 
 
-    enum class SkillType(val jp: String, val weaponType : WeaponType? = null) {
+    enum class SkillType(val jp: String, val weaponType: WeaponType? = null) {
         NONE(""),
         A(""),
         B(""),
@@ -572,7 +581,8 @@ interface Skill {
         SPECIAL_D(""),
         SEAL(""),
         REFINERY("")
-;
+        ;
+
         val isWeapon get() = weaponType != null
     }
 }

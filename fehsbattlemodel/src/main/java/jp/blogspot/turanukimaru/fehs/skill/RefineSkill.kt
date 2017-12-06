@@ -27,8 +27,8 @@ enum class RefineSkill(val us: String = "", override val jp: String, val hp: Int
     Range2Def("Def(Ranged)", "守備(遠)", 2, 0, 0, 3, 0, RefineType.Range2),
     Range2Res("Res(Ranged)", "魔防(遠)", 2, 0, 0, 0, 3, RefineType.Range2),
 
-    WrathfulStaff("WrathfulStaff", "神罰", 0, 0, 0, 0, 0, RefineType.Staff){
-        override  fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, 3)
+    WrathfulStaff("WrathfulStaff", "神罰", 0, 0, 0, 0, 0, RefineType.Staff) {
+        override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, 3)
     },
     DazzlingStaff("DazzlingStaff", "幻惑", 0, 0, 0, 0, 0, RefineType.Staff) {
         override fun attackEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, 3)
@@ -89,42 +89,42 @@ enum class RefineSkill(val us: String = "", override val jp: String, val hp: Int
     },
 
     //武器自体を置き換えるもの
-    SilverSword2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverSword2, 15, Skill.SkillType.SWORD),
-    SilverLance2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverLance2, 15, Skill.SkillType.LANCE),
-    SilverAxe2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverAxe2, 15, Skill.SkillType.AXE),
-    SilverBow2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverBow2, 14, Skill.SkillType.BOW),
-    SilverDagger2("", "", 0, 4, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverDagger2, 10, Skill.SkillType.DAGGER),
-    Bolganone2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Bolganone2, 14, Skill.SkillType.RTOME),
-    Fenrir2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Fenrir2, 14, Skill.SkillType.RTOME),
-    Thoron2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Thoron2, 14, Skill.SkillType.BTOME),
-    Rexcalibur2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Rexcalibur2, 14, Skill.SkillType.GTOME),
-    Rauorowl2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Rauorowl2, 10, Skill.SkillType.RTOME),
-    Blarowl2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Blarowl2, 10, Skill.SkillType.BTOME),
-    Gronnowl2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Gronnowl2, 10, Skill.SkillType.GTOME),
-    SmokeDagger2("", "", 0, 3, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SmokeDagger2, 9, Skill.SkillType.DAGGER),
-    RogueDagger2("", "", 0, 5, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Gronnowl2, 6, Skill.SkillType.DAGGER),
-    Flametongue2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Flametongue2, 15, Skill.SkillType.REFINED_DRAGON),
-    LightBreath2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.LightBreath2, 13, Skill.SkillType.REFINED_DRAGON),
+    SilverSword2("SilverSword+", "銀の剣＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverSword2, 15, Skill.SkillType.SWORD),
+    SilverLance2("SilverLance+", "銀の槍＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverLance2, 15, Skill.SkillType.LANCE),
+    SilverAxe2("SilverAxe+", "銀の斧＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverAxe2, 15, Skill.SkillType.AXE),
+    SilverBow2("SilverBow+", "銀の弓＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverBow2, 14, Skill.SkillType.BOW),
+    SilverDagger2("SilverDagger+", "銀の暗器＋", 0, 4, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SilverDagger2, 10, Skill.SkillType.DAGGER),
+    Bolganone2("Bolganone+", "ボルガノン＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Bolganone2, 14, Skill.SkillType.RTOME),
+    Fenrir2("Fenrir+", "ノスフェラート＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Fenrir2, 14, Skill.SkillType.RTOME),
+    Thoron2("Thoron+", "トロン＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Thoron2, 14, Skill.SkillType.BTOME),
+    Rexcalibur2("Rexcalibur+", "レクスカリバー＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Rexcalibur2, 14, Skill.SkillType.GTOME),
+    Rauorowl2("Rauorowl+", "ラウアアウル＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Rauorowl2, 10, Skill.SkillType.RTOME),
+    Blarowl2("Blarowl+", "ブラーアウル＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Blarowl2, 10, Skill.SkillType.BTOME),
+    Gronnowl2("Gronnowl+", "グルンアウル＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Gronnowl2, 10, Skill.SkillType.GTOME),
+    SmokeDagger2("SmokeDagger+", "紫煙の暗器＋", 0, 3, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.SmokeDagger2, 9, Skill.SkillType.DAGGER),
+    RogueDagger2("RogueDagger+", "盗賊の暗器＋", 0, 5, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Gronnowl2, 6, Skill.SkillType.DAGGER),
+    Flametongue2("Flametongue+", "灼熱のブレス＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Flametongue2, 15, Skill.SkillType.REFINED_DRAGON),
+    LightBreath2("LightBreath+", "光のブレス＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.LightBreath2, 13, Skill.SkillType.REFINED_DRAGON),
 
-    CarrotLance2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.CarrotLance2, 13, Skill.SkillType.LANCE) {
+    CarrotLance2("CarrotLance", "ニンジンの槍＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.CarrotLance2, 13, Skill.SkillType.LANCE) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4)
     },
-    CarrotAxe2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.CarrotAxe2, 13, Skill.SkillType.AXE) {
+    CarrotAxe2("CarrotAxe+", "ニンジンの斧＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.CarrotAxe2, 13, Skill.SkillType.AXE) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4)
     },
-    BlueEgg2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.BlueEgg2, 11, Skill.SkillType.BTOME) {
+    BlueEgg2("BlueEgg+", "青の卵＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.BlueEgg2, 11, Skill.SkillType.BTOME) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4)
     },
-    GreenEgg2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.GreenEgg2, 11, Skill.SkillType.GTOME) {
+    GreenEgg2("GreenEgg+", "緑の卵＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.GreenEgg2, 11, Skill.SkillType.GTOME) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4)
     },
-    DancersFan2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.DancersFan2, 11, Skill.SkillType.DAGGER),
+    DancersFan2("DancersFan+", "舞踏祭の扇子＋", 0, 2, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.DancersFan2, 10, Skill.SkillType.DAGGER),
 
-    LightningBreath2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.LightningBreath2, 11, Skill.SkillType.REFINED_DRAGON) {
+    LightningBreath2("LightningBreath+", "雷のブレス＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.LightningBreath2, 11, Skill.SkillType.REFINED_DRAGON) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
-    DarkBreath2("", "", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.DarkBreath2, 13, Skill.SkillType.REFINED_DRAGON),
+    DarkBreath2("DarkBreath+", "闇のブレス＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.DarkBreath2, 13, Skill.SkillType.REFINED_DRAGON),
     BerkutsLance2("BerkutsLance+", "ベルクトの槍＋", 0, 1, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.BerkutsLance2, 16, Skill.SkillType.LANCE) {
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 4)
     },
@@ -172,7 +172,7 @@ enum class RefineSkill(val us: String = "", override val jp: String, val hp: Int
         fun spreadItems(weapon: Skill, range: RefineType = (weapon as? Weapon)?.refineSkillType ?: RefineType.NOT_WEAPON): List<Skill>
                 = values().fold(arrayListOf<Skill>(Skill.NONE), { list, e -> if (e.refineSkillType == range || (e.refineSkillType == RefineType.DependWeapon && (e.preSkill == weapon || e.preSkill == weapon.preSkill))) list.add(e);list })
 
-        fun valueOfWeapon(weapon: Skill) = values().find { e ->e.refineSkillType == RefineType.ReplaceWeapon && e.preSkill == weapon }
+        fun valueOfWeapon(weapon: Skill) = values().find { e -> e.refineSkillType == RefineType.ReplaceWeapon && e.preSkill == weapon }
         fun valueOfOrNONE(key: String?): Skill = if (key == null || key.isEmpty()) Skill.NONE else try {
             if (itemMap.isEmpty()) {
                 values().forEach { e -> itemMap.put(e.jp, e); itemMap.put(e.us, e);itemMap.put(e.value, e) }

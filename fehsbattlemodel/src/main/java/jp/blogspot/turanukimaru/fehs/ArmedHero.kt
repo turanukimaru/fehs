@@ -181,6 +181,13 @@ data class ArmedHero(
         return skills.fold(battleUnit, { b, skill -> skill.afterFightEffect(b) })
     }
 
+    /**
+     * スキルにより減少したダメージ。
+     */
+    fun reducedDamage(battleUnit: BattleUnit,damage:Int): BattleUnit {
+        return skills.fold(battleUnit, { b, skill -> skill.reducedDamage(b,damage) })
+    }
+
 
     /**
      * 攻撃が物理か。物理でないなら魔法。武器種類側に持たせるのもあり
