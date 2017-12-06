@@ -240,7 +240,7 @@ enum class Weapon(override val jp: String, override val type: Skill.SkillType, o
         override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
     BrightNaginata("白き血の薙刀", Skill.SkillType.LANCE, 16, SilverLance) {
-        override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowRes(blowDef(battleUnit,4),4)
+        override fun counterEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = blowDef(blowAtk(battleUnit,4),4)
     },
 
     IronAxe("鉄の斧", Skill.SkillType.AXE, 6),

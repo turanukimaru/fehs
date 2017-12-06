@@ -410,9 +410,9 @@ object StandardBaseHero {
         createItem( "シノノメ",2,WeaponType.LANCE,MoveType.INFANTRY,"Shiro",5,19,9,6,9,5,6,8,7,8,4,
         Weapon.BrightNaginata, Assist.Swap,null,SkillA.SteadyStance.lv(3),Skill.NONE,SkillC.DefTactic.lv(3))
         createItem("ジークベルト",1,WeaponType.SWORD,MoveType.CAVALRY,"Siegbert",5,19,8,9,7,3,6,8,8,7,2,
-                Weapon.DarkGreatsword, null, Special.DragonFang,SkillA.DeathBlow.lv(3),Skill.NONE,SkillC.AtkTactic)
+                Weapon.DarkGreatsword, null, Special.DragonFang,SkillA.DeathBlow.lv(3),Skill.NONE,SkillC.AtkTactic.lv(3))
         createItem("ソレイユ",1,WeaponType.SWORD,MoveType.INFANTRY,"Soleil",5,18,10,9,6,5,5,9,8,6,5,
-              Weapon.FiresweepSword2,null,Special.BlazingWind,SkillA.DartingBlow,Skill.NONE,SkillC.DriveRes.lv(2)  )
+              Weapon.FiresweepSword2,null,Special.BlazingWind,SkillA.DartingBlow.lv(3),Skill.NONE,SkillC.DriveRes.lv(2)  )
     }
 
     fun createItem(
