@@ -9,6 +9,42 @@
     <string name="unit_name_title">ユニット名</string>
     <string name="fight_button_title">計算開始</string>
     <string name="defensive_terrain_title">防御地形</string>
+    <string name="hp_title">HP</string>
+    <string name="atk_title">攻撃</string>
+    <string name="spd_title">速さ</string>
+    <string name="def_title">守備</string>
+    <string name="res_title">魔防</string>
+    <string name="base_title">ユニット</string>
+    <string name="boon_title">得意</string>
+    <string name="bane_title">苦手</string>
+    <string name="unit_detail_name">名前</string>
+    <string name="weaponType_title">武器種</string>
+    <string name="moveType_title">移動タイプ</string>
+    <string name="weapon_title">武器</string>
+    <string name="assist_title">補助</string>
+    <string name="special_title">奥義</string>
+    <string name="aSkill_title">A</string>
+    <string name="bSkill_title">B</string>
+    <string name="cSkill_title">C</string>
+    <string name="seal_title">聖印</string>
+    <string name="none">-</string>
+    <string name="alert_default_name">デフォルト以外の名前を入力してください</string>
+    <string name="alert_create_unit">ユニットを作成しました</string>
+    <string name="attacked_title">敵から攻撃する</string>
+    <string name="include_db_title">登録したユニットも計算対象にする</string>
+    <string name="rarities_title">☆</string>
+    <string name="levelBoost_title">Lvl40+</string>
+    <string name="buff_title">バフ</string>
+    <string name="spur_title">紋章</string>
+    <string name="hp_s_title">HP</string>
+    <string name="atk_s_title">ATK</string>
+    <string name="spd_s_title">SPD</string>
+    <string name="def_s_title">DEF</string>
+    <string name="res_s_title">RES</string>
+    <string name="refine_title">錬成</string>
+    <string name="filter_title">攻撃側選択</string>
+    <string name="hero_title">攻撃側を選んでください</string>
+    <string name="enemy_title">対戦相手フィルタ</string>
     <string-array name="weapon_type">
         <item>武器</item>
         <item>剣</item>
@@ -29,11 +65,6 @@
         <item>騎馬</item>
         <item>重装</item>
     </string-array>
-    <string name="hp_title">HP</string>
-    <string name="atk_title">攻撃</string>
-    <string name="spd_title">速さ</string>
-    <string name="def_title">守備</string>
-    <string name="res_title">魔防</string>
     <string-array name="boon_type">
         <item>@string/none</item>
         <item>@string/hp_title</item>
@@ -42,30 +73,6 @@
         <item>@string/def_title</item>
         <item>@string/res_title</item>
     </string-array>
-    <string name="base_title">ユニット</string>
-    <string name="boon_title">得意</string>
-    <string name="bane_title">苦手</string>
-
-    <string name="unit_detail_name">名前</string>
-    <string name="weaponType_title">武器種</string>
-    <string name="moveType_title">移動タイプ</string>
-    <string name="weapon_title">武器</string>
-    <string name="assist_title">補助</string>
-    <string name="special_title">奥義</string>
-    <string name="aSkill_title">A</string>
-    <string name="bSkill_title">B</string>
-    <string name="cSkill_title">C</string>
-    <string name="seal_title">聖印</string>
-
-    <string name="none">-</string>
-    <string name="alert_default_name">デフォルト以外の名前を入力してください</string>
-    <string name="alert_create_unit">ユニットを作成しました</string>
-    <string name="include_db_title">登録したユニットも計算対象にする</string>
-    <string name="attacked_title">攻守を逆にする</string>
-    <string name="rarities_title">☆</string>
-    <string name="levelBoost_title">Lvl40+</string>
-    <string name="buff_title">バフ</string>
-    <string name="spur_title">紋章</string>
     <string-array name="rarities">
         <item>1</item>
         <item>2</item>
@@ -87,12 +94,6 @@
         <item>9</item>
         <item>10</item>
     </string-array>
-    <string name="hp_s_title">H</string>
-    <string name="atk_s_title">A</string>
-    <string name="spd_s_title">S</string>
-    <string name="def_s_title">D</string>
-    <string name="res_s_title">R</string>
-    <string name="refine_title">錬成</string>
     <string-array name="buff">
         <item>0</item>
         <item>1</item>
@@ -122,7 +123,7 @@
         <item>@string/none</item>
     </string-array>
 
-    <string-array name="weapons_daggaers">
+    <string-array name="weapons_daggers">
         <item>@string/none</item>
     </string-array>
 
@@ -162,4 +163,5 @@
     <string-array name="seals">
         <item>@string/none</item>
     </string-array>
+
 </resources>

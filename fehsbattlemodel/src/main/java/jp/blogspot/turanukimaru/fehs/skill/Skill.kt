@@ -18,7 +18,6 @@ interface Skill {
         val NONE = None()
     }
 
-
     fun localeName(locale: Locale): String = ""
 
     /**

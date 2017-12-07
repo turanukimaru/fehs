@@ -9,6 +9,42 @@
     <string name="unit_name_title">Unit</string>
     <string name="fight_button_title">Calculate</string>
     <string name="defensive_terrain_title">Defensive terrain</string>
+    <string name="hp_title">HP</string>
+    <string name="atk_title">ATK</string>
+    <string name="spd_title">SPD</string>
+    <string name="def_title">DEF</string>
+    <string name="res_title">RES</string>
+    <string name="base_title">Base Unit</string>
+    <string name="boon_title">Boon</string>
+    <string name="bane_title">Bane</string>
+    <string name="unit_detail_name">NickName</string>
+    <string name="weaponType_title">Weapon type</string>
+    <string name="moveType_title">Move type</string>
+    <string name="weapon_title">Weapon</string>
+    <string name="assist_title">Assist</string>
+    <string name="special_title">Special</string>
+    <string name="aSkill_title">Skill A</string>
+    <string name="bSkill_title">Skill B</string>
+    <string name="cSkill_title">Skill C</string>
+    <string name="seal_title">Seal</string>
+    <string name="none">-</string>
+    <string name="alert_default_name">please input non-default name</string>
+    <string name="alert_create_unit">target unit created</string>
+    <string name="attacked_title">Enemy inisiates</string>
+    <string name="include_db_title">Include registered unit</string>
+    <string name="rarities_title">☆</string>
+    <string name="levelBoost_title">Lvl40+</string>
+    <string name="buff_title">Buff</string>
+    <string name="spur_title">Spur</string>
+    <string name="hp_s_title">HP</string>
+    <string name="atk_s_title">ATK</string>
+    <string name="spd_s_title">SPD</string>
+    <string name="def_s_title">DEF</string>
+    <string name="res_s_title">RES</string>
+    <string name="refine_title">Refine</string>
+    <string name="filter_title">Select Hero</string>
+    <string name="hero_title">Select Hero</string>
+    <string name="enemy_title">Enemies filter</string>
     <string-array name="weapon_type">
         <item>WEAPON</item>
         <item>SWORD</item>
@@ -29,11 +65,6 @@
         <item>CAVALRY</item>
         <item>ARMORED</item>
     </string-array>
-    <string name="hp_title">HP</string>
-    <string name="atk_title">ATK</string>
-    <string name="spd_title">SPD</string>
-    <string name="def_title">DEF</string>
-    <string name="res_title">RES</string>
     <string-array name="boon_type">
         <item>@string/none</item>
         <item>@string/hp_title</item>
@@ -42,30 +73,6 @@
         <item>@string/def_title</item>
         <item>@string/res_title</item>
     </string-array>
-    <string name="base_title">Base Unit</string>
-    <string name="boon_title">Boon</string>
-    <string name="bane_title">Bane</string>
-
-    <string name="unit_detail_name">NickName</string>
-    <string name="weaponType_title">Weapon type</string>
-    <string name="moveType_title">Move type</string>
-    <string name="weapon_title">Weapon</string>
-    <string name="assist_title">Assist</string>
-    <string name="special_title">Special</string>
-    <string name="aSkill_title">Skill A</string>
-    <string name="bSkill_title">Skill B</string>
-    <string name="cSkill_title">Skill C</string>
-    <string name="seal_title">Seal</string>
-
-    <string name="none">-</string>
-    <string name="alert_default_name">please input non-default name</string>
-    <string name="alert_create_unit">target unit created</string>
-    <string name="attacked_title">attacked</string>
-    <string name="rarities_title">☆</string>
-    <string name="levelBoost_title">Lvl40+</string>
-    <string name="include_db_title">include registered unit</string>
-    <string name="buff_title">Buff</string>
-    <string name="spur_title">Spur</string>
     <string-array name="rarities">
         <item>1</item>
         <item>2</item>
@@ -87,12 +94,6 @@
         <item>9</item>
         <item>10</item>
     </string-array>
-    <string name="hp_s_title">H</string>
-    <string name="atk_s_title">A</string>
-    <string name="spd_s_title">S</string>
-    <string name="def_s_title">D</string>
-    <string name="res_s_title">R</string>
-    <string name="refine_title">Refine</string>
     <string-array name="buff">
         <item>0</item>
         <item>1</item>
@@ -114,11 +115,15 @@
         <item>@string/none</item>
     </string-array>
 
+    <string-array name="weapons_breath">
+        <item>@string/none</item>
+    </string-array>
+
     <string-array name="weapons_bows">
         <item>@string/none</item>
     </string-array>
 
-    <string-array name="weapons_daggaers">
+    <string-array name="weapons_daggers">
         <item>@string/none</item>
     </string-array>
 
@@ -133,7 +138,7 @@
         <item>@string/none</item>
     </string-array>
 
-    <string-array name="weapons_stave">
+    <string-array name="weapons_staves">
         <item>@string/none</item>
     </string-array>
 
