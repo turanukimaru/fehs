@@ -17,7 +17,7 @@ import org.junit.Assert.*
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class RoomInstrumentedTest {
     @Test
     @Throws(Exception::class)
     fun useAppContext() {
@@ -25,7 +25,6 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getTargetContext()
 
         assertEquals("jp.blogspot.turanukimaru.reposroom", appContext.packageName)
-        appContext.deleteDatabase("hero.db")
         appContext.deleteDatabase("Sample.db")
         val dao = UsersDatabase.getInstance(appContext).userDao()
         val user = User(userName = "turanukimal")
@@ -36,7 +35,7 @@ class ExampleInstrumentedTest {
         val deletedUser = dao.getUserById(user.id)
         assertEquals("null?exception?",deletedUser,null)
 
-        val heroDao =HeroesDatabase.getInstance(appContext).heroDao()
+        val heroDao =UsersDatabase.getInstance(appContext).heroDao()
         val hero = RoomArmedHero()
         heroDao.insertHero(hero)
         val insertedHero =heroDao.getHeroById("")

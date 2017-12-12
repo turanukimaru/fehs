@@ -16,7 +16,7 @@ object RoomArmedHeroContent : ModelObjectRepository<ArmedHero> {
      */
 
     var appContext: Context? = null
-    val heroDao get() = HeroesDatabase.getInstance(appContext!!).heroDao()
+    val heroDao get() = UsersDatabase.getInstance(appContext!!).heroDao()
 
 
     override fun complexQuery(item: ArmedHero): List<ArmedHero> {
@@ -53,6 +53,6 @@ object RoomArmedHeroContent : ModelObjectRepository<ArmedHero> {
         return heroDao.allHeroes().map { e -> e.toModelObject() }
     }
 
-    override fun getById(id: String): ArmedHero? = heroDao.getHeroById(id).toModelObject()
+    override fun getById(id: String): ArmedHero? = heroDao.getHeroById(id)?.toModelObject()
 
 }

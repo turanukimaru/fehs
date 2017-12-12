@@ -32,7 +32,7 @@ open class RealmContent<T> : ModelObjectRepository<T> {
         return listOf()
     }
 
-// TODO:where(S::class.java)さえ綺麗に掛ければかなり共通化できるのだが・・・
+// where(S::class.java)さえ綺麗に掛ければかなり共通化できるのだが・・・>ジェネリクスになった
 //    /**
 //     * 条件付き検索
 //     */
