@@ -1,10 +1,6 @@
 package jp.blogspot.turanukimaru.fehs.skill
 
-import jp.blogspot.turanukimaru.fehs.ArmedHero
-import jp.blogspot.turanukimaru.fehs.BattleUnit
-import jp.blogspot.turanukimaru.fehs.FightPlan
-import jp.blogspot.turanukimaru.fehs.MoveType
-import java.util.*
+import jp.blogspot.turanukimaru.fehs.*
 
 
 //enumで使う文字列が宣言できない…Javaもこうだっけ？
@@ -137,7 +133,7 @@ enum class RefineSkill(val us: String = "", override val jp: String, val hp: Int
     ;
 
     override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero {
-        println("$jp hp:$hp")
+        //println("$jp hp:$hp")
         equipHp(armedHero, hp)
         equipAtk(armedHero, atk)
         equipSpd(armedHero, spd)
@@ -150,25 +146,24 @@ enum class RefineSkill(val us: String = "", override val jp: String, val hp: Int
      * nameは誤動作するので共通処理としてはvalueを使う。ただしこのスキルに限りスキル名はそのままは使わない
      */
     override val value get() = name
-    private val paramString = "${if (hp > 0) "HP+$hp " else ""}${if (spd > 0) "速さ+$spd " else ""}${if (def > 0) "守備+$def " else ""}${if (res > 0) "魔防+$res " else ""}"
-    val paramStringJp = paramString + jp
-    val paramStringUs = paramString + us
+    //private val paramString = "${if (hp > 0) "HP+$hp " else ""}${if (spd > 0) "速さ+$spd " else ""}${if (def > 0) "守備+$def " else ""}${if (res > 0) "魔防+$res " else ""}"
+    //val paramStringJp = paramString + jp
+    //val paramStringUs = paramString + us
     /**
      * 武器名は使えないのでUSを格納してそれを使う
      */
-    override fun localeName(locale: Locale): String {
-        return when (locale) {
-            Locale.JAPAN -> jp
-            Locale.JAPANESE -> jp
-            else -> us
-        }
+    override fun localeName(locale: Locale): String
+            = when (locale) {
+        Locale.JAPAN -> jp
+        Locale.JAPANESE -> jp
+        else -> us
     }
 
 //    fun totalAtk(weapon: Skill): String = "威力" + (weapon.level  + atk).toString() + " "
 
     companion object {
 
-        val itemMap = mutableMapOf<String, Skill>()
+        private val itemMap = mutableMapOf<String, Skill>()
         fun spreadItems(weapon: Skill, range: RefineType = (weapon as? Weapon)?.refineSkillType ?: RefineType.NOT_WEAPON): List<Skill>
                 = values().fold(arrayListOf<Skill>(Skill.NONE), { list, e -> if (e.refineSkillType == range || (e.refineSkillType == RefineType.DependWeapon && (e.preSkill == weapon || e.preSkill == weapon.preSkill))) list.add(e);list })
 
@@ -177,7 +172,7 @@ enum class RefineSkill(val us: String = "", override val jp: String, val hp: Int
             if (itemMap.isEmpty()) {
                 values().forEach { e -> itemMap.put(e.jp, e); itemMap.put(e.us, e);itemMap.put(e.value, e) }
             }
-            println(key)
+            //println(key)
             itemMap[key] ?: valueOf(key)
         } catch (e: Exception) {
             Skill.NONE

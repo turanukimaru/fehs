@@ -12,21 +12,16 @@ import jp.blogspot.turanukimaru.fehs.skill.*
 import jp.blogspot.turanukimaru.repos.RealmArmedHeroContent
 import org.jetbrains.anko.contentView
 import java.util.*
+import java.util.Locale
 
 
-/**
- * A fragment representing a single Sake detail screen.
- * This fragment is either contained in a
- * in two-pane mode (on tablets) or a [ArmedClassRegisterActivity]
- * on handsets.
- */
 /**
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
 class HeroRegisterFragment : Fragment() {
 
-    val locale = Locale.getDefault()
+    private val locale = LocaleAdapter(Locale.getDefault()).locale()
 
     /**
      * 画面初期化

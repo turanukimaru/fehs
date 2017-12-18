@@ -1,7 +1,6 @@
 package jp.blogspot.turanukimaru.fehs
 
 import jp.blogspot.turanukimaru.fehs.skill.Skill
-import java.util.*
 
 /**
  * 戦闘結果
@@ -23,8 +22,8 @@ data class AttackResult(val source: BattleUnit, val target: BattleUnit, val dama
 
     fun detailsShort(baseSide: SIDES, locale: Locale): String =
             when (baseSide) {
-                side -> "↓ $damage "
-                else -> "↑ $damage "
+                side -> "↓$damage "
+                else -> "↑$damage "
             } + (if (sourceSpecial != null) "☆${sourceSpecial.localeName(locale)} " else "") + if (targetSpecial != null) "☆${targetSpecial.localeName(locale)} " else ""
 
 

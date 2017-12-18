@@ -13,7 +13,7 @@ import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.onClick
-import java.util.*
+import java.util.Locale
 
 
 /**
@@ -37,7 +37,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    private val locale = Locale.getDefault()
+    private val locale = LocaleAdapter(Locale.getDefault()).locale()
 
     /**
      * 画面の要素作成
@@ -171,9 +171,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
     /**
      * メニュー項目を推したときの処理
      */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = super.onOptionsItemSelected(item)
 
     /**
      * リスト作ってるところ。ここでRealmから取り出せばいいか
@@ -239,9 +237,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
 //            }
         }
 
-        override fun getItemCount(): Int {
-            return mValues.size
-        }
+        override fun getItemCount(): Int = mValues.size
 
         /**
          * リスト内のviewを管理する
@@ -258,9 +254,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
 //            val mImageView: ImageView = mView.findViewById(R.id.itemIimageView)
             val progressText: TextView = mView.findViewById(R.id.progressText)
 
-            override fun toString(): String {
-                return mItem!!.last().side.name
-            }
+            override fun toString(): String = mItem!!.last().side.name
         }
     }
 }
