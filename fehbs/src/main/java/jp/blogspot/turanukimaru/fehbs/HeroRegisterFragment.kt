@@ -286,15 +286,15 @@ class HeroRegisterFragment : Fragment() {
 
                     showParams(rootView, it)
                     //装備制限はとりあえず後で考える
-                    createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapon.spreadItems().filter { e -> e.type.weaponType == it.baseHero.weaponType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapon.spreadItems(true).filter { e -> e.type.weaponType == it.baseHero.weaponType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
                     createSkillRadioButton(rootView, R.id.refineRadioButton, R.string.refine_title, RefineSkill.spreadItems(armedClass.baseWeapon).map { e -> e.localeName(locale) }.toTypedArray())
 
-                    createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assist.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
-                    createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Special.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
-                    createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, SkillA.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
-                    createSkillRadioButton(rootView, R.id.bSkillRadioButton, R.string.bSkill_title, SkillB.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
-                    createSkillRadioButton(rootView, R.id.cSkillRadioButton, R.string.cSkill_title, SkillC.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
-                    createSkillRadioButton(rootView, R.id.sealRadioButton, R.string.seal_title, Seal.spreadItems().map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assist.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Special.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, SkillA.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.bSkillRadioButton, R.string.bSkill_title, SkillB.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.cSkillRadioButton, R.string.cSkill_title, SkillC.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+                    createSkillRadioButton(rootView, R.id.sealRadioButton, R.string.seal_title, Seal.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
                 }
                 dialog.dismiss()
             })

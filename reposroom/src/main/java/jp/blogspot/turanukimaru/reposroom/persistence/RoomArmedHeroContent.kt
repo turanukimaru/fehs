@@ -38,7 +38,7 @@ object RoomArmedHeroContent : ModelObjectRepository<ArmedHero> {
     override fun createOrUpdate(item: ArmedHero): ArmedHero {
         println(item)
         item.apply {
-            heroDao.insertHero(RoomArmedHero(name, baseHero.name, weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
+            heroDao.insertHero(RoomArmedHero(name, baseHero.name.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
                     , defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
         }
         return item

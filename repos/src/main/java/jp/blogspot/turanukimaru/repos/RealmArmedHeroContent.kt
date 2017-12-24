@@ -61,7 +61,7 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
         println(item)
         item.apply {
             realm.executeTransaction {
-                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.name, weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
+                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.name.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
                         , defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
             }
         }
