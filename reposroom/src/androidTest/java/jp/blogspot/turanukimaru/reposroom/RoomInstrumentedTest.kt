@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * Instrumented Solution, which will execute on an Android device.
  *
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
@@ -21,7 +21,7 @@ class RoomInstrumentedTest {
     @Test
     @Throws(Exception::class)
     fun useAppContext() {
-        // Context of the app under test.
+        // Context of the app under Solution.
         val appContext = InstrumentationRegistry.getTargetContext()
 
         assertEquals("jp.blogspot.turanukimaru.reposroom", appContext.packageName)

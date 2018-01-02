@@ -14,7 +14,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * Instrumented Solution, which will execute on an Android device.
  *
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
@@ -23,10 +23,10 @@ class RealmInstrumentedTest {
     @Test
     @Throws(Exception::class)
     fun useAppContext() {
-        // Context of the app under test.
+        // Context of the app under Solution.
         val appContext = InstrumentationRegistry.getTargetContext()
 
-        assertEquals("jp.blogspot.turanukimaru.repos.test", appContext.packageName)
+        assertEquals("jp.blogspot.turanukimaru.repos.Solution", appContext.packageName)
         // Initialize Realm. Should only be done once when the application starts.
         Realm.init(appContext)
         val realmConfig = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
