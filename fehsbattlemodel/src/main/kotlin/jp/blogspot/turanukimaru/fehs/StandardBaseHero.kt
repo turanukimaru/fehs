@@ -431,6 +431,8 @@ object StandardBaseHero {
                 Weapon.Kadomatsu2, null, Special.DraconicAura, SkillA.SpdDefBond.lv(3), Skill.NONE, SkillC.WardFliers)
         createItem(Name.タクミ__正月_, 0, WeaponType.DAGGER, MoveType.INFANTRY,  5, 18, 8, 10, 4, 5, 6, 8, 7, 2, 6,
                 Weapon.KagamiMochi2, null, Special.Moonbow, SkillA.AtkResBond.lv(3), SkillB.BowBreaker.lv(3), Skill.NONE)
+        createItem(Name.カムイ__正月_, 0, WeaponType.BOW, MoveType.INFANTRY,  5, 18, 8, 8, 6, 5, 5, 7, 6, 9, 2,
+                Weapon.HamaYa2, Assist.RallyDefRes, null, SkillA.AtkDef.lv(2), Skill.NONE, SkillC.SpurDefRes.lv(2))
     }
 
     private fun createItem(

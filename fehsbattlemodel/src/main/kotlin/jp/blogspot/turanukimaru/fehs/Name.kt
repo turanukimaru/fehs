@@ -374,6 +374,8 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     MelonCrusher2("スイカ割りの棍棒＋", "MelonCrusher+", "打西瓜的棍棒＋"),
     MonstrousBow("怪物の弓", "Monstrous Bow", "怪物弓"),
     MonstrousBow2("怪物の弓＋", "Monstrous Bow+", "怪物弓＋"),
+    HamaYa("破魔矢", "Hama Ya", "Hama Ya"),
+    HamaYa2("破魔矢＋", "Hama Ya+", "Hama Ya+"),
     Mulagir("ミュルグレ", "Mulagir", "妙爾葛雷"),
     Mystletainn("ミストルティン", "Mystletainn", "米斯特汀"),
     Naga("ナーガ", "Naga", "那迦"),
@@ -756,6 +758,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     アクア__正月_("アクア（正月）","Azura (Happy New Year!)","阿庫婭 (Happy New Year!)"),
     カミラ__正月_("カミラ（正月）","Camilla (Happy New Year!)","卡美拉 (Happy New Year!)"),
     タクミ__正月_("タクミ（正月）","Takumi (Happy New Year!)","拓海 (Happy New Year!)"),
+    カムイ__正月_("カムイ（正月）","Corrin (Happy New Year!)","神威 (Happy New Year!)"),
 
     Blizzard("ブリザード","Blizzard","暴風雪"),
     ChillingSeal("冰の封印","Chilling Seal",""),

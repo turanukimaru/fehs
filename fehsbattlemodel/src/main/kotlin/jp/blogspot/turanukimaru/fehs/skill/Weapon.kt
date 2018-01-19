@@ -394,6 +394,8 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     },
     MonstrousBow(Name.MonstrousBow, SkillType.BOW, 8, SteelBow),
         MonstrousBow2(Name.MonstrousBow2, SkillType.BOW, 12, MonstrousBow,RefineSkill.RefineType.Range2),
+    HamaYa(Name.HamaYa, SkillType.BOW, 8, SteelBow,RefineSkill.RefineType.Range2),
+    HamaYa2(Name.HamaYa2, SkillType.BOW, 12, HamaYa,RefineSkill.RefineType.Range2),
 
 
     IronDagger(Name.IronDagger, SkillType.DAGGER, 3),

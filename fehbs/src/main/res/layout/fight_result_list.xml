@@ -9,5 +9,5 @@
                                         android:layout_marginLeft="16dp"
                                         android:layout_marginRight="16dp"
                                         app:layoutManager="LinearLayoutManager"
-                                        tools:context="jp.blogspot.turanukimaru.fehs.jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
+                                        tools:context="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
                                         tools:listitem="@layout/fight_result_list_content"/>
