@@ -11,4 +11,6 @@
     <dimen name="text_margin">2dp</dimen>
     <dimen name="param_text_size">18sp</dimen>
     <dimen name="buff_title_text_size">9sp</dimen>
+    <dimen name="mini_param_text_size">12sp</dimen>
+
 </resources>

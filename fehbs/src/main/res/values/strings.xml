@@ -45,6 +45,13 @@
     <string name="filter_title">Select Hero</string>
     <string name="hero_title">Select Hero</string>
     <string name="enemy_title">Enemies filter</string>
+    <string name="Damage_taken">HP %</string>
+    <string name="AdjacentAlly">Adjacent Ally</string>
+    <string name="Special_charge">Special</string>
+    <string name="Threaten">Threaten/Ploy</string>
+    <string name="merge10">LV40+10</string>
+    <string name="clear">clear</string>
+    <string name="buffSpur">Buff/Spur</string>
     <string-array name="weapon_type">
         <item>WEAPON</item>
         <item>SWORD</item>
@@ -94,6 +101,20 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string-array name="empty10">
+        <item>-</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
     <string-array name="buff">
         <item>0</item>
         <item>1</item>
@@ -103,6 +124,25 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+    <string-array name="empty6">
+        <item>@string/none</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="percentage">
+        <item>100</item>
+        <item>90</item>
+        <item>80</item>
+        <item>70</item>
+        <item>60</item>
+        <item>50</item>
+    </string-array>
+
 
     <string-array name="weapons_swords">
         <item>@string/none</item>

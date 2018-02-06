@@ -73,10 +73,271 @@
                     android:ems="10"
                     />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/reset_button"
+                        style="@style/Widget.AppCompat.Button.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/clear"/>
+
+                    <TextView
+                        android:id="@+id/boonTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/boon_title"/>
+
+                    <Spinner
+                        android:id="@+id/boonSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/boon_type"/>
+
+                    <TextView
+                        android:id="@+id/baneTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/bane_title"/>
+
+                    <Spinner
+                        android:id="@+id/baneSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/boon_type"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/mergeTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/levelBoost_title"/>
+
+                    <Spinner
+                        android:id="@+id/levelBoostSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                    <TextView
+                        android:id="@+id/specialChargeTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/Special_charge"/>
+
+                    <Spinner
+                        android:id="@+id/specialChargeSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/buff"/>
+
+                    <TextView
+                        android:id="@+id/damageTakenTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/Damage_taken"/>
+
+                    <Spinner
+                        android:id="@+id/damageTakenSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/percentage"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/defTerrainCheckBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/defensive_terrain_title"/>
+
+                    <CheckBox
+                        android:id="@+id/adjacentCheckBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/AdjacentAlly"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/buffTitleTextViewH"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/buffSpur"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <TextView
+                        android:id="@+id/atkBuffTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/atk_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/atkBuffSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/empty6"/>
+
+                    <TextView
+                        android:id="@+id/spdBuffTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/spd_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/spdBuffSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/empty6"/>
+
+                    <TextView
+                        android:id="@+id/defBuffTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/def_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/defBuffSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/empty6"/>
+
+                    <TextView
+                        android:id="@+id/resBuffTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/res_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/resBuffSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/empty6"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <TextView
+                        android:id="@+id/atkSpurTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/atk_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/atkSpurSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                    <TextView
+                        android:id="@+id/spdSpurTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/spd_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/spdSpurSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                    <TextView
+                        android:id="@+id/defSpurTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/def_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/defSpurSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                    <TextView
+                        android:id="@+id/resSpurTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/res_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/resSpurSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/holo_red_dark"
                     android:orientation="horizontal">
 
                     <TextView
@@ -105,12 +366,63 @@
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/holo_red_dark"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/merge10TargetCheckBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_red_dark"
+                        android:text="@string/merge10"/>
+
+                    <CheckBox
+                        android:id="@+id/defTerrainTargetCheckBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_red_dark"
+                        android:text="@string/defensive_terrain_title"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/holo_red_dark"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/switchCheckBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_red_dark"
+                        android:text="@string/attacked_title"/>
+
+                    <CheckBox
+                        android:id="@+id/includeDbCheckBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_red_dark"
+                        android:checked="true"
+                        android:text="@string/include_db_title"/>
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@android:color/holo_red_dark"
-                    android:text="@string/buff_title"/>
+                    android:text="@string/buffSpur"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -130,9 +442,9 @@
                     <Spinner
                         android:id="@+id/atkTargetBuffSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/buff"/>
+                        android:entries="@array/empty6"/>
 
                     <TextView
                         android:id="@+id/spdTargetBuffTitleView"
@@ -145,9 +457,9 @@
                     <Spinner
                         android:id="@+id/spdTargetBuffSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/buff"/>
+                        android:entries="@array/empty6"/>
 
                     <TextView
                         android:id="@+id/defTargetBuffTitleView"
@@ -160,9 +472,9 @@
                     <Spinner
                         android:id="@+id/defTargetBuffSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/buff"/>
+                        android:entries="@array/empty6"/>
 
                     <TextView
                         android:id="@+id/resTargetBuffTitleView"
@@ -175,33 +487,80 @@
                     <Spinner
                         android:id="@+id/resTargetBuffSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/buff"/>
+                        android:entries="@array/empty6"/>
 
                 </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/defTerrainTargetCheckBox"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/holo_red_dark"
-                    android:text="@string/defensive_terrain_title"/>
+                    android:orientation="horizontal"
+                    android:padding="4dp">
 
-                <CheckBox
-                    android:id="@+id/switchCheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/holo_red_dark"
-                    android:text="@string/attacked_title"/>
+                    <TextView
+                        android:id="@+id/atkTargetSpurTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/atk_s_title"/>
 
-                <CheckBox
-                    android:id="@+id/includeDbCheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/holo_red_dark"
-                    android:checked="true"
-                    android:text="@string/include_db_title"/>
+                    <Spinner
+                        android:id="@+id/atkTargetSpurSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                    <TextView
+                        android:id="@+id/spdTargetSpurTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/spd_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/spdTargetSpurSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                    <TextView
+                        android:id="@+id/defTargetSpurTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/def_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/defTargetSpurSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                    <TextView
+                        android:id="@+id/resTargetSpurTitleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="1"
+                        android:text="@string/res_s_title"/>
+
+                    <Spinner
+                        android:id="@+id/resTargetSpurSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/empty10"/>
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/button"

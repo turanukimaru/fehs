@@ -58,19 +58,19 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
         //その駒の情報を表示する。別クラスにするべきか
         board.uiBoard.updateInfo = { b ->
             //フォントサイズ替えたいところではある
-            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name, 80f, 940f)
-            b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
-            b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 100f, 900f)
-            b.bitmapFont.draw(b.batch, "/", 140f, 900f)
-            b.bitmapFont.draw(b.batch, containUnit.armedHero.maxHp.toString(), 160f, 900f)
-            b.bitmapFont.draw(b.batch, "攻撃", 50f, 860f)
-            b.bitmapFont.draw(b.batch, containUnit.atk.toString(), 120f, 860f)
-            b.bitmapFont.draw(b.batch, "早さ", 180f, 860f)
-            b.bitmapFont.draw(b.batch, containUnit.spd.toString(), 240f, 860f)
-            b.bitmapFont.draw(b.batch, "守備", 50f, 820f)
-            b.bitmapFont.draw(b.batch, containUnit.def.toString(), 120f, 820f)
-            b.bitmapFont.draw(b.batch, "魔防", 180f, 820f)
-            b.bitmapFont.draw(b.batch, containUnit.res.toString(), 240f, 820f)
+//            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name, 80f, 940f)
+//            b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
+//            b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 100f, 900f)
+//            b.bitmapFont.draw(b.batch, "/", 140f, 900f)
+//            b.bitmapFont.draw(b.batch, containUnit.armedHero.maxHp.toString(), 160f, 900f)
+//            b.bitmapFont.draw(b.batch, "攻撃", 50f, 860f)
+//            b.bitmapFont.draw(b.batch, containUnit.atk.toString(), 120f, 860f)
+//            b.bitmapFont.draw(b.batch, "早さ", 180f, 860f)
+//            b.bitmapFont.draw(b.batch, containUnit.spd.toString(), 240f, 860f)
+//            b.bitmapFont.draw(b.batch, "守備", 50f, 820f)
+//            b.bitmapFont.draw(b.batch, containUnit.def.toString(), 120f, 820f)
+//            b.bitmapFont.draw(b.batch, "魔防", 180f, 820f)
+//            b.bitmapFont.draw(b.batch, containUnit.res.toString(), 240f, 820f)
             true
         }
         return true
@@ -91,15 +91,15 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
             val expected = fightResult.last()
 
             board.uiBoard.updateInfo = { b ->
-                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name, 50f, 940f)
-                b.bitmapFont.draw(b.batch, target.armedHero.baseHero.name, 320f, 940f)
-                b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
-                b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
-                b.bitmapFont.draw(b.batch, "→", 80f, 900f)
-                b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
-                b.bitmapFont.draw(b.batch, target.hp.toString(), 290f, 900f)
-                b.bitmapFont.draw(b.batch, "→", 350f, 900f)
-                b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
+//                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name, 50f, 940f)
+//                b.bitmapFont.draw(b.batch, target.armedHero.baseHero.name, 320f, 940f)
+//                b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
+//                b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
+//                b.bitmapFont.draw(b.batch, "→", 80f, 900f)
+//                b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
+//                b.bitmapFont.draw(b.batch, target.hp.toString(), 290f, 900f)
+//                b.bitmapFont.draw(b.batch, "→", 350f, 900f)
+//                b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
 
                 //ダメージｘ回数表示は後でいいか
                 true

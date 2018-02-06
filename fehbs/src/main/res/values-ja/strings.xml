@@ -31,7 +31,7 @@
     <string name="alert_default_name">デフォルト以外の名前を入力してください</string>
     <string name="alert_create_unit">ユニットを作成しました</string>
     <string name="attacked_title">敵から攻撃する</string>
-    <string name="include_db_title">登録したユニットも計算対象にする</string>
+    <string name="include_db_title">登録ユニットも計算</string>
     <string name="rarities_title">☆</string>
     <string name="levelBoost_title">Lvl40+</string>
     <string name="buff_title">バフ</string>
@@ -45,6 +45,13 @@
     <string name="filter_title">攻撃側選択</string>
     <string name="hero_title">攻撃側を選んでください</string>
     <string name="enemy_title">対戦相手フィルタ</string>
+    <string name="Damage_taken">HP%</string>
+    <string name="AdjacentAlly">味方隣接</string>
+    <string name="Threaten">威嚇／謀策</string>
+    <string name="Special_charge">奥義</string>
+    <string name="merge10">LV40+10</string>
+    <string name="clear">clear</string>
+    <string name="buffSpur">鼓舞・紋章</string>
     <string-array name="weapon_type">
         <item>武器</item>
         <item>剣</item>
@@ -94,6 +101,20 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string-array name="empty10">
+        <item>@string/none</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
     <string-array name="buff">
         <item>0</item>
         <item>1</item>
@@ -103,6 +124,25 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+    <string-array name="empty6">
+        <item>@string/none</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="percentage">
+        <item>100</item>
+        <item>90</item>
+        <item>80</item>
+        <item>70</item>
+        <item>60</item>
+        <item>50</item>
+    </string-array>
+
 
     <string-array name="weapons_swords">
         <item>@string/none</item>
