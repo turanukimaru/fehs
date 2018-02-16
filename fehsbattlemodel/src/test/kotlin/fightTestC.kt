@@ -72,6 +72,7 @@ class fightTestC {
         Assert.assertEquals("size == 3", 2, fightResult.size)
     }
 
+    //レイヴァンの武器が変わったからテスト結果が変わってしまった…
     @Test
     fun effectiveAgainstTestC() {
         val unitA = ArmedHero(StandardBaseHero.get("ロイ")!!)
@@ -84,8 +85,8 @@ class fightTestC {
         Assert.assertEquals("hitPoint fail", 2, fightResult[0].target.hp)
         println(fightResult[1])
         Assert.assertEquals("attack side fail", fightResult[1].side, SIDES.COUNTER)
-        Assert.assertEquals("damage fail", 1, fightResult[1].damage)
-        Assert.assertEquals("hitPoint fail", 43, fightResult[1].source.hp)
+        Assert.assertEquals("damage fail", 5, fightResult[1].damage)
+        Assert.assertEquals("hitPoint fail", 39, fightResult[1].source.hp)
         Assert.assertEquals("hitPoint fail", 2, fightResult[1].target.hp)
         Assert.assertEquals("size == 3", 2, fightResult.size)
     }
