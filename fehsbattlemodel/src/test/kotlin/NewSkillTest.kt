@@ -7,7 +7,7 @@ import org.junit.Test
  * キラー武器・☆4+10のテスト
  * Created by turanukimaru on 2017/11/02.
  */
-class fightTestF {
+class NewSkillTest {
 
     @Test
     fun killerBow() {

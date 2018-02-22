@@ -6,100 +6,12 @@ import org.junit.Assert
 import org.junit.Test
 
 /**
- * モジュールを新規作成したときは他のプロジェクトに対応するようにbulid.gradleが作成されるが
- * libGDXのプロジェクトはtestディレクトリが無いので自分で作る必要がある
- * testディレクトリ以外ではjunitが参照できずテストが作れない。
+ * 新キャラのテスト
  * Created by turanukimaru on 2017/11/02.
  */
 class fightTestD {
-
     @Test
-    fun specialPreventTestA() {
-        val unitA = ArmedHero(StandardBaseHero.get("アルフォンス")!!)
-        val unitB = ArmedHero(StandardBaseHero.get("ジェイガン")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
-        println(fightResult[0])
-        Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
-        Assert.assertEquals("damage fail", 18, fightResult[0].damage)
-        Assert.assertEquals("hitPoint fail", 43, fightResult[0].source.hp)
-        Assert.assertEquals("hitPoint fail", 19, fightResult[0].target.hp)
-        println(fightResult[1])
-        Assert.assertEquals("attack side fail", fightResult[1].side, SIDES.COUNTER)
-        Assert.assertEquals("damage fail", 22, fightResult[1].damage)
-        Assert.assertEquals("hitPoint fail", 21, fightResult[1].source.hp)
-        Assert.assertEquals("hitPoint fail", 19, fightResult[1].target.hp)
-        Assert.assertEquals("size == 2", 2, fightResult.size)
-    }
-
-    @Test
-    fun effectiveAgainstTestA() {
-        val unitA = ArmedHero(StandardBaseHero.get("アルム")!!)
-        val unitB = ArmedHero(StandardBaseHero.get("アーダン")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
-        println(fightResult[0])
-        Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
-        Assert.assertEquals("damage fail", 11, fightResult[0].damage)
-        Assert.assertEquals("hitPoint fail", 45, fightResult[0].source.hp)
-        Assert.assertEquals("hitPoint fail", 49, fightResult[0].target.hp)
-        Assert.assertEquals("size == 1", 1, fightResult.size)
-    }
-
-    @Test
-    fun effectiveAgainstTestB() {
-        val unitA = ArmedHero(StandardBaseHero.get("マチルダ")!!)
-        val unitB = ArmedHero(StandardBaseHero.get("ルーナ")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
-        println(fightResult[0])
-        Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
-        Assert.assertEquals("damage fail", 28, fightResult[0].damage)
-        Assert.assertEquals("hitPoint fail", 35, fightResult[0].source.hp)
-        Assert.assertEquals("hitPoint fail", 9, fightResult[0].target.hp)
-        println(fightResult[1])
-        Assert.assertEquals("attack side fail", fightResult[1].side, SIDES.COUNTER)
-        Assert.assertEquals("damage fail", 0, fightResult[1].damage)
-        Assert.assertEquals("hitPoint fail", 35, fightResult[1].source.hp)
-        Assert.assertEquals("hitPoint fail", 9, fightResult[1].target.hp)
-        Assert.assertEquals("size == 3", 2, fightResult.size)
-    }
-
-    @Test
-    fun effectiveAgainstTestC() {
-        val unitA = ArmedHero(StandardBaseHero.get("マチルダ")!!)
-        val unitB = ArmedHero(StandardBaseHero.get("ティアマト")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
-        println(fightResult[0])
-        Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
-        Assert.assertEquals("damage fail", 39, fightResult[0].damage)
-        Assert.assertEquals("hitPoint fail", 35, fightResult[0].source.hp)
-        Assert.assertEquals("hitPoint fail", 0, fightResult[0].target.hp)
-        Assert.assertEquals("size == 3", 1, fightResult.size)
-    }
-
-    @Test
-    fun effectiveAgainstTestD() {
-        val unitA = ArmedHero(StandardBaseHero.get("マチルダ")!!)
-        val unitB = ArmedHero(StandardBaseHero.get("アテナ")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
-        println(fightResult[0])
-        Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
-        Assert.assertEquals("damage fail", 24, fightResult[0].damage)
-        Assert.assertEquals("hitPoint fail", 35, fightResult[0].source.hp)
-        Assert.assertEquals("hitPoint fail", 12, fightResult[0].target.hp)
-        println(fightResult[1])
-        Assert.assertEquals("attack side fail", fightResult[1].side, SIDES.COUNTER)
-        Assert.assertEquals("damage fail", 12, fightResult[1].damage)
-        Assert.assertEquals("hitPoint fail", 23, fightResult[1].source.hp)
-        Assert.assertEquals("hitPoint fail", 12, fightResult[1].target.hp)
-        println(fightResult[2])
-        Assert.assertEquals("attack side fail", fightResult[2].side, SIDES.COUNTER)
-        Assert.assertEquals("damage fail", 29, fightResult[2].damage)
-        Assert.assertEquals("hitPoint fail", 0, fightResult[2].source.hp)
-        Assert.assertEquals("hitPoint fail", 12, fightResult[2].target.hp)
-        Assert.assertEquals("size == 3", 3, fightResult.size)
-    }
-
-    @Test
-    fun BraveTestA() {
+    fun braveTestEl() {
         val unitA = ArmedHero(StandardBaseHero.get("アベル")!!)
         val unitB = ArmedHero(StandardBaseHero.get("エルトシャン")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
@@ -132,7 +44,7 @@ class fightTestD {
     }
 
     @Test
-    fun BraveTestB() {
+    fun braveTestSig() {
         val unitA = ArmedHero(StandardBaseHero.get("アベル")!!)
         val unitB = ArmedHero(StandardBaseHero.get("シグルド")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
@@ -165,35 +77,7 @@ class fightTestD {
     }
 
     @Test
-    fun BraveTestC() {
-        val unitA = ArmedHero(StandardBaseHero.get("アベル")!!)
-        val unitB = ArmedHero(StandardBaseHero.get("アイラ")!!)
-        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
-        println(fightResult[0])
-        Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
-        Assert.assertEquals("damage fail", 18, fightResult[0].damage)
-        Assert.assertEquals("hitPoint fail", 44, fightResult[0].source.hp)
-        Assert.assertEquals("hitPoint fail", 23, fightResult[0].target.hp)
-        println(fightResult[1])
-        Assert.assertEquals("attack side fail", fightResult[1].side, SIDES.ATTACKER)
-        Assert.assertEquals("damage fail", 18, fightResult[1].damage)
-        Assert.assertEquals("hitPoint fail", 44, fightResult[1].source.hp)
-        Assert.assertEquals("hitPoint fail", 5, fightResult[1].target.hp)
-        println(fightResult[2])
-        Assert.assertEquals("attack side fail", fightResult[2].side, SIDES.COUNTER)
-        Assert.assertEquals("damage fail", 31, fightResult[2].damage)
-        Assert.assertEquals("hitPoint fail", 13, fightResult[2].source.hp)
-        Assert.assertEquals("hitPoint fail", 5, fightResult[2].target.hp)
-        println(fightResult[3])
-        Assert.assertEquals("attack side fail", fightResult[3].side, SIDES.ATTACKER)
-        Assert.assertEquals("damage fail", 18, fightResult[3].damage)
-        Assert.assertEquals("hitPoint fail", 13, fightResult[3].source.hp)
-        Assert.assertEquals("hitPoint fail", 0, fightResult[3].target.hp)
-        Assert.assertEquals("size == 3", 4, fightResult.size)
-    }
-
-    @Test
-    fun BraveTestD() {
+    fun braveTestCl() {
         val unitA = ArmedHero(StandardBaseHero.get("アベル")!!)
         val unitB = ArmedHero(StandardBaseHero.get("クロム（春）")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
@@ -221,7 +105,7 @@ class fightTestD {
     }
 
     @Test
-    fun BraveTestE() {
+    fun braveTestT() {
         val unitA = ArmedHero(StandardBaseHero.get("アベル")!!)
         val unitB = ArmedHero(StandardBaseHero.get("ティアマト")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
@@ -249,7 +133,7 @@ class fightTestD {
     }
 
     @Test
-    fun BraveTestF() {
+    fun braveTestAz() {
         val unitA = ArmedHero(StandardBaseHero.get("アベル")!!)
         val unitB = ArmedHero(StandardBaseHero.get("アクア（舞踏祭）")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
@@ -277,7 +161,7 @@ class fightTestD {
     }
 
     @Test
-    fun BraveTestG() {
+    fun braveTestLeg() {
         val unitA = ArmedHero(StandardBaseHero.get("アベル")!!)
         val unitB = ArmedHero(StandardBaseHero.get("ローロー")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))

@@ -3,6 +3,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
+ * 主に速さ・スキルを使用した際の行動順のテスト
  * モジュールを新規作成したときは他のプロジェクトに対応するようにbulid.gradleが作成されるが
  * libGDXのプロジェクトはtestディレクトリが無いので自分で作る必要がある
  * testディレクトリ以外ではjunitが参照できずテストが作れない。
@@ -73,7 +74,7 @@ class fightTestA {
     }
 
     @Test
-    fun noBravTestA() {
+    fun noBraveTestA() {
         val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
         val dogaA = ArmedHero(StandardBaseHero.get("ドーガ")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(dogaA, dogaA.maxHp))
@@ -96,7 +97,7 @@ class fightTestA {
     }
 
     @Test
-    fun bravTestA() {
+    fun braveTestA() {
         val unitA = ArmedHero(StandardBaseHero.get("マルス（仮面）")!!)
         val dogaA = ArmedHero(StandardBaseHero.get("ドーガ")!!)
         val fightResult = BattleUnit(dogaA, dogaA.maxHp).fight(BattleUnit(unitA, unitA.maxHp))
@@ -124,7 +125,7 @@ class fightTestA {
     }
 
     @Test
-    fun bravTestB() {
+    fun braveTestB() {
         val unitA = ArmedHero(StandardBaseHero.get("エリンシア")!!)
         val dogaA = ArmedHero(StandardBaseHero.get("ドーガ")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(dogaA, dogaA.maxHp))
@@ -305,7 +306,7 @@ class fightTestA {
     }
 
     @Test
-    fun QuickRiposteTestA() {
+    fun quickRiposteTestA() {
         val unitA = ArmedHero(StandardBaseHero.get("ツバキ")!!)
         val unitB = ArmedHero(StandardBaseHero.get("シャニー")!!)
         val fightResult = BattleUnit(unitB, unitB.maxHp).fight(BattleUnit(unitA, unitA.maxHp))
@@ -328,7 +329,7 @@ class fightTestA {
     }
 
     @Test
-    fun QuickRiposteTestB() {
+    fun quickRiposteTestB() {
         val unitA = ArmedHero(StandardBaseHero.get("クレイン")!!)
         val unitB = ArmedHero(StandardBaseHero.get("オルエン")!!)
         val fightResult = BattleUnit(unitB, unitB.maxHp).fight(BattleUnit(unitA, unitA.maxHp))
@@ -356,7 +357,7 @@ class fightTestA {
     }
 
     @Test
-    fun QuickRiposteTestC() {
+    fun quickRiposteTestC() {
         val unitA = ArmedHero(StandardBaseHero.get("クレイン")!!)
         val unitB = ArmedHero(StandardBaseHero.get("オルエン")!!)
         val buffedUnitA = BattleUnit(unitA, unitA.maxHp)

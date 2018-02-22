@@ -4,9 +4,7 @@ import org.junit.Assert
 import org.junit.Test
 
 /**
- * モジュールを新規作成したときは他のプロジェクトに対応するようにbulid.gradleが作成されるが
- * libGDXのプロジェクトはtestディレクトリが無いので自分で作る必要がある
- * testディレクトリ以外ではjunitが参照できずテストが作れない。
+ * ブレード・レイヴンのテスト
  * Created by turanukimaru on 2017/11/02.
  */
 class fightTestE {

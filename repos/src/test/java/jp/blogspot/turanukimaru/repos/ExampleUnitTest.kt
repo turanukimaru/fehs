@@ -7,7 +7,7 @@ import org.junit.Assert.assertEquals
 /**
  * Example local unit Solution, which will execute on the development machine (host).
  *
- * @see [Testing documentation](http://d.android.com/tools/testing)
+ * @see [Testing documentation](http://baseDamage.android.com/tools/testing)
  */
 class ExampleUnitTest {
     @Test
