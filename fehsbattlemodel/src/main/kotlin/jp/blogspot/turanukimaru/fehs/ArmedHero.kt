@@ -170,7 +170,7 @@ data class ArmedHero(
     /**
      * スキルにより減少したダメージ。
      */
-    fun reducedDamage(battleUnit: BattleUnit, damage: Int): BattleUnit = skills.fold(battleUnit, { b, skill -> skill.reducedDamage(b, damage) })
+    fun reducedDamage(battleUnit: BattleUnit, damage: Int): BattleUnit = skills.fold(battleUnit, { b, skill -> skill.preventedDamage(b, damage) })
 
 
     /**

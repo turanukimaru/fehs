@@ -76,10 +76,10 @@ interface Skill {
     /**
      * ほぼ奥義専用。攻撃時のダメージ計算。デフォルトで奥義なしのダメージ
      */
-    fun damage(source: BattleUnit, prevent: Int): Int = Math.max(baseDamage(source) - prevent, 0)
+    fun damage(source: BattleUnit, prevent: Int): Int = handmaidMath.max(baseDamage(source) - prevent, 0)
 
     /**
-     * もう名前考えるの面倒になってきた…
+     * 基本ダメージ。奥義でダメージを追加するときはここ
      */
     fun baseDamage(source: BattleUnit): Int = source.colorAttack()
 
@@ -108,7 +108,7 @@ interface Skill {
     /**
      * スキルによるダメージ軽減のあとそれをどうするか。氷鏡専用
      */
-    fun reducedDamage(battleUnit: BattleUnit, damage: Int = 0, lv: Int = level): BattleUnit = battleUnit
+    fun preventedDamage(battleUnit: BattleUnit, damage: Int = 0, lv: Int = level): BattleUnit = battleUnit
 
     //ここからスキル効果
 //   試しに作ったけど〇〇の覚醒ってターン開始時効果だから今は要らなかったんじゃ・・・？

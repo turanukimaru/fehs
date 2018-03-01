@@ -575,11 +575,11 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Blarraven2(Name.Blarraven2, SkillType.BTOME, 11, Blarraven) {
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
-    Blarblade(Name.Blarblade, SkillType.RTOME, 9, Elthunder) {
+    Blarblade(Name.Blarblade, SkillType.BTOME, 9, Elthunder) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
-    Blarblade2(Name.Blarblade2, SkillType.RTOME, 13, Blarblade) {
+    Blarblade2(Name.Blarblade2, SkillType.BTOME, 13, Blarblade) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
         override fun bothEffect(battleUnit: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },

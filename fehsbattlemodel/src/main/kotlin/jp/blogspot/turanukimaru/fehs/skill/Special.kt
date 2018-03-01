@@ -1,6 +1,6 @@
 package jp.blogspot.turanukimaru.fehs.skill
 
-import jp.blogspot.turanukimaru.fehs.BattleUnit
+import jp.blogspot.turanukimaru.fehs.*
 import jp.blogspot.turanukimaru.fehs.Name
 import jp.blogspot.turanukimaru.fehs.SkillType
 
@@ -114,33 +114,33 @@ enum class Special(override val jp: Name, override val type: SkillType, override
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.hp in 2..damage) Pair(battleUnit.hp - 1, this) else super.specialPrevent(battleUnit, damage, lv)
     },
     HolyVestments(Name.HolyVestments, SkillType.SPECIAL_C, 3) {
-        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(Math.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
+        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(handmaidMath.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
     },
     SacredCowl(Name.SacredCowl, SkillType.SPECIAL_C, 2) {
-        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(Math.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
+        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(handmaidMath.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
     },
     IceMirror(Name.IceMirror, SkillType.SPECIAL_C, 2) {
-        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(Math.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
+        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(handmaidMath.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
 
-        override fun reducedDamage(battleUnit: BattleUnit, damage: Int, lv: Int): BattleUnit {
+        override fun preventedDamage(battleUnit: BattleUnit, damage: Int, lv: Int): BattleUnit {
             battleUnit.oneTimeOnlyAdditionalDamage = damage
             return battleUnit
         }
 
     },
     Aegis(Name.Aegis, SkillType.SPECIAL_C, 3) {
-        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(Math.max(0, damage - damage * 5 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
+        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 2) Pair(handmaidMath.max(0, damage - damage * 5 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
     },
     Buckler(Name.Buckler, SkillType.SPECIAL_C, 3) {
-        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 1) Pair(Math.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
+        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 1) Pair(handmaidMath.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
     },
     Escutcheon(Name.Escutcheon, SkillType.SPECIAL_C, 2) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?>
 //            log(battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range)
-                = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 1) Pair(Math.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
+                = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 1) Pair(handmaidMath.max(0, damage - damage * 3 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
     },
     Pavise(Name.Pavise, SkillType.SPECIAL_C, 3) {
-        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 1) Pair(Math.max(0, damage - damage * 5 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
+        override fun specialPrevent(battleUnit: BattleUnit, damage: Int, lv: Int): Pair<Int, Skill?> = if (battleUnit.enemy!!.armedHero.baseHero.weapon.type.weaponType!!.range == 1) Pair(handmaidMath.max(0, damage - damage * 5 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, lv)
     },
     Galeforce(Name.Galeforce, SkillType.SPECIAL_D, 5),
     Imbue(Name.Imbue, SkillType.SPECIAL_D, 1),
