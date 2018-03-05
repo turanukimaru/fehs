@@ -55,4 +55,36 @@ class NewSkillTest {
         Assert.assertEquals("hitPoint fail", 32, fightResult[1].source.hp)
         Assert.assertEquals("hitPoint fail", 21, fightResult[1].target.hp)
     }
+
+    @Test
+    fun solarBrace() {
+        val unitA = ArmedHero(StandardBaseHero.get("エフラム（伝承英雄）")!!)
+        val unitB = ArmedHero(StandardBaseHero.get("エフラム（伝承英雄）")!!)
+        val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
+        println(fightResult[0])
+        Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
+        Assert.assertEquals("buildDamage fail", 18, fightResult[0].damage)
+        Assert.assertEquals("hitPoint fail", 43, fightResult[0].source.hp)
+        Assert.assertEquals("hitPoint fail", 25, fightResult[0].target.hp)
+        println(fightResult[1])
+        Assert.assertEquals("attack side fail", fightResult[1].side, SIDES.COUNTER)
+        Assert.assertEquals("buildDamage fail", 26, fightResult[1].damage)
+        Assert.assertEquals("hitPoint fail", 17, fightResult[1].source.hp)
+        Assert.assertEquals("hitPoint fail", 25, fightResult[1].target.hp)
+        println(fightResult[2])
+        Assert.assertEquals("attack side fail", fightResult[2].side, SIDES.ATTACKER)
+        Assert.assertEquals("buildDamage fail", 18, fightResult[2].damage)
+        Assert.assertEquals("hitPoint fail", 17, fightResult[2].source.hp)
+        Assert.assertEquals("hitPoint fail", 7, fightResult[2].target.hp)
+        println(fightResult[3])
+        Assert.assertEquals("attack side fail", fightResult[3].side, SIDES.COUNTER)
+        Assert.assertEquals("buildDamage fail", 26, fightResult[3].damage)
+        Assert.assertEquals("hitPoint fail", 0, fightResult[3].source.hp)
+        Assert.assertEquals("hitPoint fail", 20, fightResult[3].target.hp)
+        Assert.assertEquals("Noontime fail", Special.Sol, fightResult[3].sourceSpecial)
+        Assert.assertEquals("size == 4", 4, fightResult.size)
+
+    }
+
+
 }

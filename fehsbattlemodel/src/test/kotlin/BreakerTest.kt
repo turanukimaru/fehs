@@ -86,7 +86,7 @@ class BreakerTest {
         assertEquals("buildDamage fail", 22, fightResult[1].damage)
         assertEquals("hitPoint fail", 19, fightResult[1].source.hp)
         assertEquals("hitPoint fail", 6, fightResult[1].target.hp)
-        println(fightResult[1])
+        println(fightResult[2])
         assertEquals("attack side fail", fightResult[2].side, SIDES.COUNTER)
         assertEquals("buildDamage fail", 22, fightResult[2].damage)
         assertEquals("hitPoint fail", 0, fightResult[2].source.hp)
