@@ -21,13 +21,19 @@ class Damage(source: BattleUnit, val special: Skill, weaponType: SkillType, flat
 //    }
 }
 
-data class DamageResult(val damage: Int,val preventSkill: Skill,val lossHp:Int)
+data class DamageResult(val damage: Int, val preventSkill: Skill, val lossHp: Int)
 //等価
 //fun damageCodeBlock(source: BattleUnit, special: Skill, weaponType: SkillType, flat: Int, staff: Int, results: List<AttackResult>): (BattleUnit) -> Pair<Int, Skill?> = { target ->
 //    target.damaged(special.damage(source, target.preventByDefResTerrain(weaponType, special.penetrate)) * staff + flat)
 //}
 
-data class Hero(var hp: Int, var atk: Int, var spd: Int, var def: Int, var res: Int, var weapon: Weapon) {
+data class Hero(var hp: Int, var atk: Int, var spd: Int, var def: Int, var res: Int, var weapon: Weapon, var special : Special) {
+    enum class Special(val spcStatSpcMod: (Hero) -> Int = { _ -> 0 }, val mitMod: Float = 0f, val offMult: Float = 0f) {
+        緋炎(spcStatSpcMod = { hero: Hero -> hero.def / 2 }),
+        月光(mitMod = -0.5f),
+        流星(offMult = 1.5f)
+    }
+
     enum class Weapon(val selectPreventParam: (target: Hero) -> Int = { 0 }, val isRanged: Boolean = false) {
         FeliciasPlate({ target -> if (target.def < target.res) target.def else target.res }),
         RefinedBreath({ target -> if (target.weapon.isRanged && target.def < target.res) target.def else target.res }),

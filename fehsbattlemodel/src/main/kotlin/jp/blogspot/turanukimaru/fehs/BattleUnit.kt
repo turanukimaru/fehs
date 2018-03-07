@@ -281,7 +281,7 @@ data class BattleUnit(val armedHero: ArmedHero
     fun damaged(damage: Int, specialPrevented: Pair<Int, Skill>): DamageResult {
         oneTimeOnlyAdditionalDamage = 0
         armedHero.reducedDamage(this, damage)
-        if (specialCount == armedHero.specialCoolDownTime && specialPrevented.second != null) {
+        if (specialCount == armedHero.specialCoolDownTime && specialPrevented.second != Skill.NONE) {
             specialCount = 0
             val loss = damageToHp(specialPrevented.first)
             armedHero.skills.forEach { e -> e.preventedDamage(this, damage - specialPrevented.first) }

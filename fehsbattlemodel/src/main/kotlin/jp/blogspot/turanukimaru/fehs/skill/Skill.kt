@@ -8,7 +8,11 @@ interface Skill {
     val value: String get() = ""
     val jp: Name get() = Name.NONE
     val maxLevel: Int get() = 0
+    val mitMod: Int get() = 0
+    val offMlt: Int get() = 10
     val penetrate: Int get() = 0
+    val stateDamage: (BattleUnit)->Int get() = {_->0}
+    val heal: Int get() = 0
     // nullオブジェクト。もっといいやり方があればいいのだが
     val preSkill: Skill get() = Skill.NONE
 
@@ -81,14 +85,14 @@ interface Skill {
     /**
      * ほぼ奥義専用。攻撃時のダメージ計算。デフォルトで奥義なしのダメージ
      */
-    fun damage(source: BattleUnit, target: BattleUnit, prevent: Int): Int = HandmaidMath.max(baseDamage(source, target) - prevent, 0)
+    fun damage(source: BattleUnit, target: BattleUnit, prevent: Int): Int = HandmaidMath.max(baseDamage(source, target) - prevent, 0) * offMlt / 10
 
     /**
      * 基本ダメージ。奥義でダメージを追加するときはここ
      */
-    fun baseDamage(source: BattleUnit, target: BattleUnit): Int = source.colorAttack(target)
+    fun baseDamage(source: BattleUnit, target: BattleUnit): Int = source.colorAttack(target) + stateDamage(source)
 
-    fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int = damage
+    fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int) =battleUnit.heal(damage * heal / 100)
 
     /**
      * 装備時の能力値変化
