@@ -89,11 +89,6 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     ;
 
     /**
-     * ほぼ奥義専用。攻撃時のダメージ計算。デフォルトで奥義なしのダメージ
-     */
-    override fun damage(source: BattleUnit, target: BattleUnit, prevent: Int): Int = HandmaidMath.max(baseDamage(source, target) - prevent, 0) * offMlt / 10
-
-    /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      * なお2を＋に置き換える。
      */

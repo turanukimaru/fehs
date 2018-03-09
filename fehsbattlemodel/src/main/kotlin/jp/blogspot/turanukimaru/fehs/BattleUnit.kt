@@ -318,16 +318,16 @@ data class BattleUnit(val armedHero: ArmedHero
         else if (colorDiff == 1 || colorDiff == -2) -1 else 0
     }
 
-    fun colorAttack(enemy: BattleUnit): Int {
-        val advantageLevel = if (colorAdvantageLevel >= enemy.colorAdvantageLevel) colorAdvantageLevel else enemy.colorAdvantageLevel
-        val colorAd = colorAdvantage(enemy)
+    val colorAttack: (BattleUnit) -> Int = {
+        val advantageLevel = if (colorAdvantageLevel >= it.colorAdvantageLevel) colorAdvantageLevel else it.colorAdvantageLevel
+        val colorAd = colorAdvantage(it)
         val colorPow = (if (advantageLevel == 0) 20 else (advantageLevel * 5 + 5) * antiColorAdvantage + 20) * colorAd
 
 
         //何らかの特効があったら
         val effectiveDamage = (effectedBladeAtk * if (effectiveAgainst != EffectiveAgainst.NONE) 15 else 10) / 10
 
-        return effectiveDamage + effectiveDamage * colorPow / 100
+        effectiveDamage + effectiveDamage * colorPow / 100
     }
 
     fun heal(life: Int): Int {

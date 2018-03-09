@@ -20,7 +20,7 @@ import java.util.Locale
 
 
 /**
- * 戦闘シミュ画面。Appから呼ばれる。TODO:タブレットで2ペインのテストをすること
+ * 戦闘シミュ画面。Appから呼ばれる。
  */
 
 class BattleSimulatorActivity : AppCompatActivity() {
