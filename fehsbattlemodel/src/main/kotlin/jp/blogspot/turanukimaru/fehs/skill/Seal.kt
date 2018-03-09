@@ -8,7 +8,7 @@ import jp.blogspot.turanukimaru.fehs.*
 enum class Seal(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3) : Skill {
 
     Hp(Name.Hp, SkillType.SEAL) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv+2)
     },
     Attack(Name.Attack, SkillType.SEAL) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, lv)
@@ -23,7 +23,7 @@ enum class Seal(override val jp: Name, override val type: SkillType, override va
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, lv)
     },
     SquadAceA(Name.SquadAceA, SkillType.SEAL) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv+2)
     },
     SquadAceB(Name.SquadAceB, SkillType.SEAL) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, lv)
@@ -38,7 +38,7 @@ enum class Seal(override val jp: Name, override val type: SkillType, override va
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, lv)
     },
     SquadAceF(Name.SquadAceC, SkillType.SEAL) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv+2)
     },
     CloseDef(Name.CloseDef, SkillType.SEAL) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = closeDef(battleUnit, enemy, lv * 2)
@@ -159,7 +159,7 @@ enum class Seal(override val jp: Name, override val type: SkillType, override va
                 if (itemMap.isEmpty()) {
                     values().forEach { e -> itemMap.put(e.value, e);itemMap.put(e.jp.jp, e);itemMap.put(e.jp.us, e);itemMap.put(e.jp.tw, e) }
                 }
-                val regex = " \\baseDamage".toRegex()
+                val regex = " \\d".toRegex()
 
                 val lv = regex.find(key)
                 if (lv != null) {
