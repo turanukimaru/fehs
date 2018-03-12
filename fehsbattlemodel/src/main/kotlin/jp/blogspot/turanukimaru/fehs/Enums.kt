@@ -127,6 +127,9 @@ object PreventType {
     val feliciaPrevent: (BattleUnit) -> Int = { battleUnit -> if (battleUnit.effectedDef < battleUnit.effectedRes) battleUnit.effectedDef else battleUnit.effectedRes }
 }
 
+/**
+ *
+ */
 enum class SkillType(val jp: String, val weaponType: WeaponType? = null, val prevent: (BattleUnit) -> Int = PreventType.materialPrevent) {
     NONE(""),
     A(""),
