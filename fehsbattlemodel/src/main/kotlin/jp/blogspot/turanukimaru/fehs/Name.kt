@@ -1,6 +1,7 @@
 package jp.blogspot.turanukimaru.fehs
 
 /**
+ * ロケールで使い分ける名前
  * Created by turanukimaru on 2017/12/23.
  *
  **/
@@ -864,9 +865,17 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     DullRanged("強化無効・遠距離", "Dull Ranged", "Dull Ranged"),
     Blarserpent("ブラーサーペント", "Blárserpent", "Blárserpent"),
     Blarserpent2("ブラーサーペント＋", "Blárserpent+", "Blárserpent+"),
+    WindsBrand("深き印の風","Wind's Brand","Wind's Brand"),
+
+    セネリオ2("セネリオ＋", "Soren+", "賽涅里歐＋"),
+
     MirrorStance("鬼神明鏡の構え", "MirrorStance", "鬼神明鏡架勢"),
+    Owl("Atk/Spd/Def/Res + 隣接ユニットx2", "Atk/Spd/Def/Res + allies × 2", "Atk/Spd/Def/Res + allies × 2"),
     ;
 
+    /**
+     * ロケールから対応する文字列を出す
+     */
     fun localeName(l: Locale): String =
             when (l) {
                 Locale.JAPANESE -> jp

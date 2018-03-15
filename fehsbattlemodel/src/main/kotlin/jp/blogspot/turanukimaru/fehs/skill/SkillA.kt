@@ -3,7 +3,7 @@ package jp.blogspot.turanukimaru.fehs.skill
 import jp.blogspot.turanukimaru.fehs.*
 
 /**
- * スキル。A/B/C/聖印。聖印は未実装
+ * スキルA
  */
 enum class SkillA(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.Companion.NONE, override val maxLevel: Int = 3) : Skill {
     Hp(Name.Hp, SkillType.A) {
@@ -69,7 +69,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = lifeAndDeath(armedHero, lv + 2)
     },
     Fury(Name.Fury, SkillType.A) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = furry(armedHero, lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = fury(armedHero, lv)
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHpLoss(battleUnit, lv * 2)
     },
     FortressDef(Name.FortressDef, SkillType.A) {
@@ -239,7 +239,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         else {
             try {
                 if (itemMap.isEmpty()) {
-                    values().forEach { e -> itemMap.put(e.value, e);itemMap.put(e.jp.jp, e);itemMap.put(e.jp.us, e);itemMap.put(e.jp.tw, e) }
+                    values().forEach { e -> itemMap[e.value] = e;itemMap[e.jp.jp] = e;itemMap[e.jp.us] = e;itemMap[e.jp.tw] = e }
                 }
                 val regex = " \\d".toRegex()
 

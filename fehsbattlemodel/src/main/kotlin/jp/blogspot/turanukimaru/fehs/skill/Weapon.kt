@@ -3,7 +3,7 @@ package jp.blogspot.turanukimaru.fehs.skill
 import jp.blogspot.turanukimaru.fehs.*
 
 /**
- * スキル。武器/補助/奥義
+ * スキル。武器
  */
 enum class Weapon(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, val refineSkillType: RefineSkill.RefineType = RefineSkill.RefineType.NONE) : Skill {
 
@@ -91,7 +91,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Raijinto(Name.Raijinto, SkillType.SWORD, 16, SilverSword) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
-    Sieglinde(Name.Sieglinde, SkillType.SWORD, 16, SilverSword),
+    Sieglinde(Name.Sieglinde, SkillType.SWORD, 16, SilverSword, RefineSkill.RefineType.Range1),
     Tyrfing(Name.Tyrfing, SkillType.SWORD, 16, SilverSword) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (battleUnit.hp <= battleUnit.armedHero.maxHp / 2) {
@@ -547,7 +547,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Bolganone2(Name.Bolganone2, SkillType.RTOME, 13, Bolganone, RefineSkill.RefineType.Range2),
     TomatoTome(Name.TomatoTome, SkillType.RTOME, 8, Elfire),
     TomatoTome2(Name.TomatoTome2, SkillType.RTOME, 12, TomatoTome, RefineSkill.RefineType.Range2),
-    Brynhildr(Name.Brynhildr, SkillType.RTOME, 14, Bolganone),
+    Brynhildr(Name.Brynhildr, SkillType.RTOME, 14, Bolganone, RefineSkill.RefineType.Range2),
     Cymbeline(Name.Cymbeline, SkillType.RTOME, 14, Bolganone, RefineSkill.RefineType.Range2),
     Ragnarok(Name.Ragnarok, SkillType.RTOME, 14, Bolganone) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkSpdBonus(battleUnit, 5)
@@ -719,6 +719,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     GrimasTruth(Name.GrimasTruth, SkillType.GTOME, 14, Rexcalibur) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipDef(armedHero, 3), lv)
     },
+    WindsBrand(Name.WindsBrand, SkillType.GTOME, 14, Rexcalibur, RefineSkill.RefineType.Range2),
 
     FireBreath(Name.FireBreath, SkillType.DRAGON, 6),
     FireBreath2(Name.FireBreath2, SkillType.DRAGON, 8, FireBreath),
@@ -759,7 +760,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
 
         fun valueOfOrNONE(key: String?): Skill = if (key == null) Skill.NONE else try {
             if (itemMap.isEmpty()) {
-                values().forEach { e -> itemMap.put(e.jp.jp, e);itemMap.put(e.value, e);itemMap.put(e.jp.us, e);itemMap.put(e.jp.tw, e); }
+                values().forEach { e -> itemMap[e.jp.jp] = e;itemMap[e.value] = e;itemMap[e.jp.us] = e;itemMap[e.jp.tw] = e; }
             }
             itemMap[key] ?: valueOf(key)
         } catch (e: Exception) {
