@@ -6,7 +6,9 @@ import jp.blogspot.turanukimaru.board.UiBoard.Position
 /**
  * 論理駒。ゲームのルールによらない部分
  */
-open class Piece<UNIT, GROUND>(val containUnit: UNIT, val uiPiece: UiPiece, var board: Board<GROUND>, val owner: Board.Player) {
+open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<GROUND>, val owner: Board.Player) {
+
+    var uiPiece:UiPiece?=null
 
     /**
      * 向き。駒の向きで移動する方向が変わるときに使う予定
@@ -19,8 +21,6 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, val uiPiece: UiPiece, var 
     var actionPhase = ActionPhase.DISABLED
 
     init {
-        //Pieceを継承したときに動かない。うーんどうしよっかなボードもopenにすると同じことになるか・・・
-        uiPiece.piece = this
     }
 
     /**
@@ -51,20 +51,14 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, val uiPiece: UiPiece, var 
     /**
      * この枡に移動することで消費する効果範囲。ただ枡を通過できるかはともかく効果範囲が減るとかいうゲーム無かった気がするから不要か？
      */
-    open fun countEffectiveStep(piece: Piece<*, *>?, ground: GROUND?, orientation: Int, steps: Int): Int {
-        return if (steps == 0) {
-            1
-        } else {
-            -1
-        }
-    }
+    open fun countEffectiveStep(piece: Piece<*, *>?, ground: GROUND?, orientation: Int, steps: Int): Int = if (steps == 0) 1 else -1
+
 
     /**
-     * その枡に止まれるか。移動範囲内かはこれより先に判定している
+     * 別のユニットがいた場合にその枡に止まれるか。例えば敵に重なることはできるが味方には重なれないかも。移動範囲内かはこれより先に判定している
      */
-    open fun isStopable(otherUnit: UNIT?): Boolean {
-        return otherUnit == null
-    }
+    open fun isStopable(otherUnit: UNIT?): Boolean =         otherUnit == null
+
 
     /**行動前・選択状態・移動後は行動可能
      *
@@ -106,7 +100,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, val uiPiece: UiPiece, var 
             return false
         }
         //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
-        if (!board.uiBoard.positionIsOnBoard(position) || (board.searchedRoute[position.x][position.y] < 0 && board.effectiveRoute[position.x][position.y] < 0)) {
+        if (!board.positionIsOnBoard(position) || (board.searchedRoute[position.x][position.y] < 0 && board.effectiveRoute[position.x][position.y] < 0)) {
             board.moveCancel()
             this.actionPhase = ActionPhase.READY
             return false
@@ -123,9 +117,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, val uiPiece: UiPiece, var 
      */
     open fun boardClicked(event: Any, position: Position): Boolean {
         //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
-        if (!board.uiBoard.positionIsOnBoard(position) || (board.searchedRoute[position.x][position.y] < 0 && board.effectiveRoute[position.x][position.y] < 0)) {
+        if (!board.positionIsOnBoard(position) || (board.searchedRoute[position.x][position.y] < 0 && board.effectiveRoute[position.x][position.y] < 0)) {
             board.moveCancel()
-            board.uiBoard.updateInfo = { _ -> true }
+            board.updateInfo = { _ -> true }
             this.actionPhase = ActionPhase.READY
             return false
         }
@@ -147,13 +141,6 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, val uiPiece: UiPiece, var 
             board.selectPiece(this)
         }
         return true
-    }
-
-    /**
-     * boardからのUpdate指示が来たらuiPiceceをUpdateさせるのは整理したほうがよさそう。論理とUIは完全に切り離すか？
-     */
-    open fun update() {
-        uiPiece.update()
     }
 
     /**

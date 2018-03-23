@@ -19,7 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 /**
  * 盤面とlibGDXの間
  */
-class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer, val bitmapFont: BitmapFont, val horizontalLines: Int, val verticalLines: Int, val width: Float, val height: Float, val marginTop: Float, val marginBottom: Float, val marginLeft: Float, val marginRight: Float) : ClickListener() {
+class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer, val bitmapFont: BitmapFont, val width: Float, val height: Float, val marginTop: Float, val marginBottom: Float, val marginLeft: Float, val marginRight: Float,
+              /**
+               * 論理的な盤面。この盤面に操作を伝える
+               */
+              val board: Board<*>
+) : ClickListener() {
     /**
      * 10の位の数字を表示するためのアクション。桁数を増やすなら配列の配列にしないとなあ
      */
@@ -51,14 +56,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      * 盤面の背景画像
      */
     var stageTexture: Texture? = null
-    /**
-     * 論理的な盤面。この盤面に操作を伝える
-     */
-    var board: Board<*>? = null
-    /**
-     * update時に盤外に表示する関数
-     */
-    var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
 
     /**
      * 盤面に駒のアクターを配置する
@@ -81,24 +78,24 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         liner.color = Color.WHITE
         val h = squareHeight()
         //枠を引く
-        if (verticalLines > 1) {
+        if (board.verticalLines > 1) {
             liner.line(1f, marginBottom, width, marginBottom)
-            (1..verticalLines).forEach { v ->
+            (1..board.verticalLines).forEach { v ->
                 liner.line(1f, v * h + marginBottom, width, v * h + marginBottom)
 
             }
         }
         val w = squareWidth()
-        if (horizontalLines > 1) {
+        if (board.horizontalLines > 1) {
             liner.line(1f, marginBottom, 1f, height - marginTop)
-            (1..horizontalLines).forEach { v ->
+            (1..board.horizontalLines).forEach { v ->
                 liner.line(v * w, marginBottom, v * w, height - marginTop)
 
             }
         }
         liner.end()
 
-        board!!.update()
+        board.update(this)
     }
 
     /**
@@ -122,12 +119,12 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     /**
      * 枡幅
      */
-    private fun squareWidth() = width / horizontalLines
+    private fun squareWidth() = width / board.horizontalLines
 
     /**
      * 枡高さ
      */
-    private fun squareHeight() = (height - marginBottom - marginTop) / verticalLines
+    private fun squareHeight() = (height - marginBottom - marginTop) / board.verticalLines
 
     private fun posXtoSquareX(x: Float) = (x / squareWidth()).toInt()
 
@@ -136,13 +133,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     private fun posYtoSquareY(y: Int) = y * squareHeight() + marginBottom
 
     private fun squareXtoPosX(x: Int) = x * squareWidth()
-
-    /**
-     * 論理盤面をセットする
-     */
-    fun setBoardListener(board: Board<*>) {
-        this.board = board
-    }
 
     /**
      * libGDXの座標から盤面の座標に変換
@@ -218,15 +208,8 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     fun updateSpriteBatch(batch: SpriteBatch) {
         batch.draw(stageTexture, 0f, marginBottom)
         //情報更新。場合によってはクリッピング
-        updateInfo(this)
+       board. updateInfo(this)
 
-    }
-
-    /**
-     * 盤面の座標が盤上に有るか。つまりIndexがマイナスになったり幅を超えたりしていないか
-     */
-    fun positionIsOnBoard(position: Position): Boolean {
-        return position.x >= 0 && position.y >= 0 && position.x < horizontalLines && position.y < verticalLines
     }
 
     /**

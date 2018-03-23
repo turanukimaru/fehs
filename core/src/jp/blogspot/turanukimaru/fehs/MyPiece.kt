@@ -10,11 +10,11 @@ import jp.blogspot.turanukimaru.board.UiPiece
 /**
  * 駒を継承してそのゲームにおける駒のルールを記述。画像としての処理もとりあえずここ。Actionは括りだすべきか？
  */
-class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, owner: Board.Player) : Piece<BattleUnit, Ground>(containUnit, uiPiece, board, owner) {
+class MyPiece(containUnit: BattleUnit, board: Board<Ground>, owner: Board.Player) : Piece<BattleUnit, Ground>(containUnit,  board, owner) {
 
-    override fun isStopable(otherUnit: BattleUnit?): Boolean {
-        return otherUnit == null
-    }
+    override fun isStopable(otherUnit: BattleUnit?): Boolean =
+            otherUnit == null
+
 
     override fun isMovable(piece: Piece<*, *>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
         //デフォルトでは上下左右0,2,4,6にしておこう
@@ -56,7 +56,7 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
             return false
         }
         //その駒の情報を表示する。別クラスにするべきか
-        board.uiBoard.updateInfo = { b ->
+        board.updateInfo = { b ->
             //フォントサイズ替えたいところではある
 //            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name, 80f, 940f)
 //            b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
@@ -90,7 +90,7 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
             }
             val expected = fightResult.last()
 
-            board.uiBoard.updateInfo = { b ->
+            board.updateInfo = { b ->
 //                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name, 50f, 940f)
 //                b.bitmapFont.draw(b.batch, target.armedHero.baseHero.name, 320f, 940f)
 //                b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
@@ -133,7 +133,7 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
     fun actionTouchedPoint(position: UiBoard.Position): ActionPhase {
         println("actionTouchedPoint")
         println("position: $position")
-        println("position: " + board.uiBoard.positionIsOnBoard(position))
+        println("position: " + board.positionIsOnBoard(position))
         println("routeStack: $board.routeStack")
 
         //攻撃範囲かつユニットがいたらそいつにアクション.とりあえず攻撃位置に移動しているかドラッグで攻撃位置を経由しているかに限る
@@ -150,7 +150,7 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
                 println("attack from $attackPos")
                 println(board.routeStack)
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-                uiPiece.actor.clearActions()
+                uiPiece!!.actor.clearActions()
                 //とりあえずノーモーションで枡に戻してからアニメさせているが、一度不通に戻すべきかなあ
                 board.setToPosition(this, attackPos)
 
@@ -166,11 +166,11 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
                     if (result.side == SIDES.ATTACKER) {
                         sourceSeq.addAction(attackAction(attackPos.x, attackPos.y, position.x, position.y))
                         targetSeq.addAction(Actions.delay(0.4f))
-                        board.uiBoard.showNumbers(position.x, position.y, result.damage, attackCount++ * 0.4f + 0.2f)
+                        uiPiece!!.uiBoard.showNumbers(position.x, position.y, result.damage, attackCount++ * 0.4f + 0.2f)
                     } else {
                         targetSeq.addAction(attackAction(position.x, position.y, attackPos.x, attackPos.y))
                         sourceSeq.addAction(Actions.delay(0.4f))
-                        board.uiBoard.showNumbers(attackPos.x, attackPos.y, result.damage, attackCount++ * 0.4f + 0.2f)
+                        uiPiece!!.uiBoard.showNumbers(attackPos.x, attackPos.y, result.damage, attackCount++ * 0.4f + 0.2f)
                     }
                     containUnit.hp = result.source.hp
                     target.containUnit.hp = result.target.hp
@@ -185,11 +185,11 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
                     }
                 }
                 //行動終了
-                this.uiPiece.actor.addAction(sourceSeq)
+                uiPiece!!.actor.addAction(sourceSeq)
 
-                target.uiPiece.actor.addAction(targetSeq)
+                target.uiPiece!!.actor.addAction(targetSeq)
                 board.deselectPiece()
-                board.uiBoard.updateInfo = { _ -> true }
+                board.updateInfo = { _ -> true }
                 return ActionPhase.ACTED
             } else {
                 throw RuntimeException("lost attackpos to $position")
@@ -213,7 +213,7 @@ class MyPiece(containUnit: BattleUnit, uiPiece: UiPiece, board: Board<Ground>, o
             //行動終了
             board.moveToPosition(this, position)
             board.deselectPiece()
-            board.uiBoard.updateInfo = { _ -> true }
+            board.updateInfo = { _ -> true }
             return ActionPhase.ACTED
         }
         //目標に誰もおらず移動範囲外の時は移動キャンセル

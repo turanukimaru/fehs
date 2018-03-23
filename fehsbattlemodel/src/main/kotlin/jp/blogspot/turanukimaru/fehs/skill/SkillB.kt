@@ -155,6 +155,7 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     ChillingSeal(Name.ChillingSeal, SkillType.B),
     ChillSpd(Name.ChillSpd, SkillType.B),
     ChillDef(Name.ChillDef, SkillType.B),
+    ChillRes(Name.ChillRes, SkillType.B),
 
     ;
 

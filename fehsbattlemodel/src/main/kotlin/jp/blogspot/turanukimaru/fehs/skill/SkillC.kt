@@ -66,6 +66,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     InfantryPulse(Name.InfantryPulse, SkillType.C),
     AtkSmoke(Name.AtkSmoke, SkillType.C),
     SpdSmoke(Name.SpdSmoke, SkillType.C),
+    DefSmoke(Name.DefSmoke, SkillType.C),
     ArmorMarch(Name.ArmorMarch, SkillType.C),
     Guidance(Name.Guidance, SkillType.C),
     AtkTactic(Name.AtkTactic, SkillType.C),

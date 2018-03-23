@@ -24,7 +24,7 @@ import jp.blogspot.turanukimaru.board.UiBoard
 import jp.blogspot.turanukimaru.board.UiPiece
 
 /**
- * ゲーム本体。LibGDXサンプルソースがところどころ残ってるので削除せねば
+ * ゲーム本体。LibGDXサンプルソースがところどころ残ってるので削除せねば...
  */
 class MyMyGdxGame : ApplicationAdapter() {
 
@@ -40,21 +40,15 @@ class MyMyGdxGame : ApplicationAdapter() {
 
     val LOGICAL_WIDTH = 540f//720f
     val LOGICAL_HEIGHT = 960f//1280f
-    val FOOTER_HEIGHT = 80f
-    val HEADER_HEIGHT = 160f
-    val MARGIN_LEFT = 0f
-    val MARGIN_RIGHT = 0f
-    val vLines = 8
-    val hLines = 6
-    var board: Board<Ground>? = null
-    var uiBoard: UiBoard? = null
+    var bitmapFont: BitmapFont? = null
+
+
 
     var textureDisposer = arrayListOf<Texture>()
     var imageDisposer = arrayListOf<Image>()
     var buttons = arrayListOf<Image>()
 
     var fontGenerator: FreeTypeFontGenerator? = null
-    var bitmapFont: BitmapFont? = null
 
     var user = Board.Player()
     var enemy = Board.Player()
@@ -85,6 +79,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         param.incremental = true
         bitmapFont = fontGenerator!!.generateFont(param)
 
+        val myGame = MyGame(stage!!,batch!!,liner!!,bitmapFont!!,LOGICAL_WIDTH,LOGICAL_HEIGHT)
         //ここからサンプルと言うか雨が落ちてくるアニメ用
         dropImage = Texture(Gdx.files.internal("droplet.png"))
         bucketImage = Texture(Gdx.files.internal("bucket.png"))
@@ -105,18 +100,14 @@ class MyMyGdxGame : ApplicationAdapter() {
 
         camera = stage!!.camera
 
-        uiBoard = UiBoard(stage!!, batch!!, liner!!, bitmapFont!!, hLines, vLines, LOGICAL_WIDTH, LOGICAL_HEIGHT, HEADER_HEIGHT, FOOTER_HEIGHT, MARGIN_LEFT, MARGIN_RIGHT)
-        stage!!.addListener(uiBoard)
-        stage!!.addListener(uiBoard)
-        board = Board(uiBoard!!)
-        uiBoard!!.stageTexture = loadTexture("map1.png")
+myGame.        uiBoard.stageTexture = loadTexture("map1.png")
 
         //ダメージの数字はステージに追加して隠しておく。
 
         val numberTexture = loadTexture("number.png")
         (0..9).forEach { i ->
             val region = TextureRegion(numberTexture, i * 51, 0, 51, 96)
-            uiBoard!!.numberRegions.add(region)
+            myGame.uiBoard.numberRegions.add(region)
 
         }
 //TODO:一人目のキャラここから
@@ -133,34 +124,37 @@ class MyMyGdxGame : ApplicationAdapter() {
         val group = Group()
         group.addActor(medjedImageA)
         group.addActor(medjedImageB)
-        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), UiPiece(group, uiBoard!!), board!!, user)
+        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user)
+        val uiPiece=UiPiece(group, myGame.uiBoard,piece1)
         user.pieceList.add(piece1)
-        group.addListener(piece1.uiPiece)
-        piece1.uiPiece.actors.add(medjedImageA)
-        piece1.uiPiece.actors.add(medjedImageB)
-        board!!.put(piece1, 5, 0)
+        group.addListener(uiPiece)
+        uiPiece.actors.add(medjedImageA)
+        uiPiece.actors.add(medjedImageB)
+        myGame.board.put(piece1, 5, 0)
 //TODO:ここまで。なお現在の一覧画面から移動するようにした奴は別スレッドなのでRealmにアクセスすると落ちる。別インスタンスなら生きてるかな？
 
         val stageDroplet = loadTexture("lucina.png")
         val stageDropletImage1 = Image(stageDroplet)
         stageDropletImage1.setScale(0.5f)
         imageDisposer.add(stageDropletImage1)
-        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), UiPiece(stageDropletImage1, uiBoard!!), board!!, enemy)
+        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.board, enemy)
+        val uiPiece2 =UiPiece(stageDropletImage1, myGame.uiBoard,piece2)
         enemy.pieceList.add(piece2)
-        stageDropletImage1.addListener(piece2.uiPiece)
-        board!!.put(piece2, 1, 3)
+        stageDropletImage1.addListener(uiPiece2)
+        myGame.       board.put(piece2, 1, 3)
 
         val hectorTexture = loadTexture("hector.png")
         val hectorImage = Image(hectorTexture)
         hectorImage.setScale(0.5f)
         imageDisposer.add(hectorImage)
-        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), UiPiece(hectorImage, uiBoard!!), board!!, enemy)
+        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame. board, enemy)
+        val uiPiece3 =UiPiece(hectorImage, myGame.uiBoard,piece3)
         enemy.pieceList.add(piece3)
-        hectorImage.addListener(piece3.uiPiece)
-        board!!.put(piece3, 3, 3)
+        hectorImage.addListener(uiPiece3)
+        myGame. board.put(piece3, 3, 3)
 
         //地形を盤面にコピー
-        board!!.copyGroundSwitchXY(battleGround)
+        myGame. board.copyGroundSwitchXY(battleGround)
 
         //盤外のボタンなど。これも処理考え直す必要がありそう
         val turnendTexture = loadTexture("turnend.png")
@@ -169,10 +163,10 @@ class MyMyGdxGame : ApplicationAdapter() {
         turnendImage.setPosition(64f, 0f)
         turnendImage.setScale(0.5f)
         buttons.add(turnendImage)
-        turnendImage.addListener({ _ -> println("pushed turnend");turnend(board!!) })
+        turnendImage.addListener({ _ -> println("pushed turnend");turnend(myGame.board) })
         //どこでボタン管理するか考えないとなー
-        stage!!.addActor(turnendImage!!)
-        board!!.turn(user)
+        stage!!.addActor(turnendImage)
+        myGame. board.turn(user)
     }
 
     //ファイルからテクスチャ読み込み。実際には1ファイルに複数テクスチャを入れるので座標とかTextureのリストを返すとかの処理が必要になる
@@ -210,12 +204,13 @@ class MyMyGdxGame : ApplicationAdapter() {
         // arguments to glClearColor are the red, green
         // blue and alpha component in the range [0,1]
         // of the color to be used to clear the screen.
+        //UIoardに出してもいいけどBoardに出しちゃいけない部分だよなあ
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         // tell the camera to update its matrices.
         camera!!.update()
 
-        uiBoard!!.update()
+//        myGame. uiBoard.update()
         // tell the SpriteBatch to render in the
         // coordinate system specified by the camera.
         batch!!.projectionMatrix = camera!!.combined
@@ -223,7 +218,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         // begin a new batch and draw the bucket and
         // all drops
         batch!!.begin()
-        uiBoard!!.updateSpriteBatch(batch!!)
+//        uiBoard.updateSpriteBatch(batch!!)
         batch!!.draw(bucketImage, bucket!!.x, bucket!!.y)
         for (raindrop in raindrops) {
             batch!!.draw(dropImage, raindrop.x, raindrop.y)
@@ -231,7 +226,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         //なぜか消すと画面のFillが表示されなくなる。image.drawでstageとの調整をしているのでその都合かと思われる。
         buttons.forEach { b -> b.draw(batch, 100f) }
 
-        bitmapFont!!.draw(batch, "${board?.oldPosition}\nデバッグ用文字", 50f, 300f)
+//        bitmapFont!!.draw(batch, "${board?.oldPosition}\nデバッグ用文字", 50f, 300f)
         batch!!.end()
         stage!!.act(Gdx.graphics.deltaTime)
         stage!!.draw()
@@ -240,7 +235,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         if (Gdx.input.isTouched) {
             val touchPos = Vector3()
             touchPos.set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
-            uiBoard!!.touched(touchPos)
+//            uiBoard.touched(touchPos)
             camera!!.unproject(touchPos)
             bucket!!.x = touchPos.x - 64 / 2
             //yは下から上へ計算する

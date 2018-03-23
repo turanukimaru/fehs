@@ -867,6 +867,22 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     Blarserpent2("ブラーサーペント＋", "Blárserpent+", "Blárserpent+"),
     WindsBrand("深き印の風","Wind's Brand","Wind's Brand"),
 
+    カゲロウ__春_("カゲロウ（春）", "Kagero (Hares at the Fair)", "陽炎 (Spring)"),
+    シャロン__春_("シャロン（春）", "Sharena (Hares at the Fair)", "夏蓉 (Spring)"),
+    カチュア__春_("カチュア（春）", "Catria (Hares at the Fair)", "卡秋雅 (Spring)"),
+    アルフォンス__春_("アルフォンス（春）", "Alfonse (Hares at the Fair)", "阿爾馮斯 (Spring)"),
+
+    HuginnsEgg("","Huginn's Egg",""),
+    ChillRes("","Chill Res",""),
+    MuninnsEgg("","Muninn's Egg",""),
+    SwiftStance("","Swift Stance",""),
+    GiantSpoon("","Giant Spoon",""),
+    GiantSpoon2("","Giant Spoon+",""),
+    DefSmoke ("","Def Smoke ",""),
+    LethalCarrot("","Lethal Carrot",""),
+    LethalCarrot2("","Lethal Carrot+",""),
+    SpdResBond("","Spd/Res Bond ",""),
+
     セネリオ2("セネリオ＋", "Soren+", "賽涅里歐＋"),
 
     MirrorStance("鬼神明鏡の構え", "MirrorStance", "鬼神明鏡架勢"),

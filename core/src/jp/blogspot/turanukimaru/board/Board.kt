@@ -1,12 +1,13 @@
 package jp.blogspot.turanukimaru.board
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import jp.blogspot.turanukimaru.board.UiBoard.Position
 import java.util.*
 
 /**
  * 論理盤面
  */
-class Board<GROUND>(val uiBoard: UiBoard) {
+class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 現在盤上で選択されている駒
      */
@@ -46,12 +47,12 @@ class Board<GROUND>(val uiBoard: UiBoard) {
      * 横の0..last
      * 0..x-1 は 0 until x と書ける。関数にすることはなかったな・・・
      */
-    fun horizontalIndexes() = 0 until uiBoard.horizontalLines
+    fun horizontalIndexes() = 0 until horizontalLines
 
     /**
      * 縦の0..last
      */
-    fun verticalIndexes() = 0 until uiBoard.verticalLines
+    fun verticalIndexes() = 0 until verticalLines
 
     init {
         horizontalIndexes().forEach {
@@ -63,7 +64,7 @@ class Board<GROUND>(val uiBoard: UiBoard) {
             verticalIndexes().forEach { boxLine.add(null) }
             groundMatrix.add(boxLine)
         }
-        uiBoard.setBoardListener(this)
+//        uiBoard.setBoardListener(this)
     }
 
     /**
@@ -72,7 +73,7 @@ class Board<GROUND>(val uiBoard: UiBoard) {
     fun copyGroundSwitchXY(matrix: Array<Array<GROUND>>) {
         groundMatrix.forEach { e -> e.clear() }
         groundMatrix.forEachIndexed { x, line ->
-            verticalIndexes().forEach { y -> line.add(matrix[uiBoard.verticalLines - 1 - y][x]) }
+            verticalIndexes().forEach { y -> line.add(matrix[verticalLines - 1 - y][x]) }
         }
     }
 
@@ -97,7 +98,7 @@ class Board<GROUND>(val uiBoard: UiBoard) {
     fun put(piece: Piece<*, GROUND>, x: Int, y: Int) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         pieceMatrix[x][y] = piece
-        uiBoard.put(piece.uiPiece, x, y)
+//        uiBoard.put(piece.uiPiece, x, y)
     }
 
     /**
@@ -107,8 +108,8 @@ class Board<GROUND>(val uiBoard: UiBoard) {
         if (isAnotherPiece(piece, x, y)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         println("moveToPosition $piece $x $y")
         setToPositionWithoutAction(piece, x, y)
-        piece.uiPiece.actor.clearActions()
-        piece.uiPiece.actor.addAction(uiBoard.actionMoveToPosition(piece.uiPiece, x, y))
+//        piece.uiPiece.actor.clearActions()
+//        piece.uiPiece.actor.addAction(uiBoard.actionMoveToPosition(piece.uiPiece, x, y))
     }
 
     /**
@@ -118,9 +119,9 @@ class Board<GROUND>(val uiBoard: UiBoard) {
     fun setPosition(piece: Piece<*, GROUND>, x: Int, y: Int) {
         val oldSquare = searchUnitPosition(piece)!!
         //移動範囲外は旧枡に戻す.キャンセルはやりすぎかなあ
-        if (x < 0 || y < 0 || x >= uiBoard.horizontalLines || y >= uiBoard.verticalLines || searchedRoute[x][y] < 0) {
-            piece.uiPiece.actor.actions.clear()
-            piece.uiPiece.actor.addAction(uiBoard.actionMoveToPosition(piece.uiPiece, oldSquare.x, oldSquare.y))
+        if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || searchedRoute[x][y] < 0) {
+//            piece.uiPiece.actor.actions.clear()
+//            piece.uiPiece.actor.addAction(uiBoard.actionMoveToPosition(piece.uiPiece, oldSquare.x, oldSquare.y))
             return
         }
         //移動元を消して今回の駒をセット
@@ -137,7 +138,7 @@ class Board<GROUND>(val uiBoard: UiBoard) {
     }
 
     fun setToPositionWithoutAction(piece: Piece<*, GROUND>, x: Int, y: Int) {
-        uiBoard.setToPosition(piece.uiPiece, x, y)
+//        uiBoard.setToPosition(piece.uiPiece, x, y)
         setPosition(piece, x, y)
     }
 
@@ -146,9 +147,16 @@ class Board<GROUND>(val uiBoard: UiBoard) {
     }
 
     /**
+     * 盤面の座標が盤上に有るか。つまりIndexがマイナスになったり幅を超えたりしていないか
+     */
+    fun positionIsOnBoard(position: Position): Boolean {
+        return position.x >= 0 && position.y >= 0 && position.x < horizontalLines && position.y < verticalLines
+    }
+
+    /**
      * uiBoardから呼ばれて枡の枠線を引く。また、駒のUpdateを起動する
      */
-    fun update() {
+    fun update(uiBoard:UiBoard) {
         if (selectedPiece != null) {
             horizontalIndexes().forEach { x ->
                 verticalIndexes().forEach { y ->
@@ -165,8 +173,12 @@ class Board<GROUND>(val uiBoard: UiBoard) {
                 uiBoard.fillSquare(x, y, UiBoard.FillType.PASS)
             }
         }
-        pieceMatrix.forEach { h -> h.forEach { v -> v?.update() } }
+//        pieceMatrix.forEach { h -> h.forEach { v -> v?.update() } }
     }
+    /**
+     * update時に盤外に表示する関数
+     */
+    var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
 
     /**
      * 移動可能な経路を調べる
@@ -198,7 +210,7 @@ class Board<GROUND>(val uiBoard: UiBoard) {
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
             //枠内
-            if (targetPos.x >= 0 && targetPos.x < uiBoard.horizontalLines && targetPos.y >= 0 && targetPos.y < uiBoard.verticalLines) {
+            if (targetPos.x >= 0 && targetPos.x < horizontalLines && targetPos.y >= 0 && targetPos.y < verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
                 //targetStepsが-1のときに終了するという技もあるがどうしよう？
@@ -248,7 +260,7 @@ class Board<GROUND>(val uiBoard: UiBoard) {
             val targetPos = moveWithOrientation(v, position)
 //            println("effect to $targetPos")
             //枠内
-            if (targetPos.x >= 0 && targetPos.x < uiBoard.horizontalLines && targetPos.y >= 0 && targetPos.y < uiBoard.verticalLines) {
+            if (targetPos.x >= 0 && targetPos.x < horizontalLines && targetPos.y >= 0 && targetPos.y < verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
                 //targetStepsが-1のときに終了するという技もあるがどうしよう？

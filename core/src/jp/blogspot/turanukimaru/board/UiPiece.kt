@@ -8,16 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 /**
  * 駒とLibGDXの間
  */
-class UiPiece(val actor: Actor, val uiBoard: UiBoard) : ClickListener() {
+class UiPiece(val actor: Actor, val uiBoard: UiBoard,
+              /**
+               * 論理駒
+               */
+              var piece: Piece<*, *>
+              ) : ClickListener() {
     /**
      * 中に含むActorのリスト。アニメーションで体の部位を動かすのに使うのだがボーンモデル別に作るべき
      */
     val actors = arrayListOf<Actor>()
 
-    /**
-     * 論理駒
-     */
-    var piece: Piece<*, *>? = null
 
     /**
      * その駒に触れてる最中かどうか。Piece側から状態を取得するために使う

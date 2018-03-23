@@ -132,6 +132,9 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     MirrorStance(Name.MirrorStance, SkillType.A) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowRes(battleUnit, lv * 2), lv * 2)
     },
+    SwiftStance(Name.SwiftStance, SkillType.A) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(blowRes(battleUnit, lv * 2), lv * 2)
+    },
     WardingBreath(Name.WardingBreath, SkillType.A, maxLevel = 0) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.accelerateAttackCooldown = 1
@@ -200,6 +203,9 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     },
     SpdDefBond(Name.SpdDefBond, SkillType.A) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowSpd(blowDef(battleUnit, lv + 2), lv + 2) else battleUnit
+    },
+    SpdResBond(Name.SpdResBond, SkillType.A) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowSpd(blowRes(battleUnit, lv + 2), lv + 2) else battleUnit
     },
 
     BrazenAtkDef(Name.BrazenAtkDef, SkillType.A) {
