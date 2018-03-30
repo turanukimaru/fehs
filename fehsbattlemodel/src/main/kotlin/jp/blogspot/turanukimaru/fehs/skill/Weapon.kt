@@ -377,6 +377,12 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     GiantSpoon2(Name.GiantSpoon2, SkillType.AXE, 13, GiantSpoon, RefineSkill.RefineType.Range1) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
+    Poleaxe(Name.Poleaxe, SkillType.AXE, 9, SteelAxe) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy)
+    },
+    Poleaxe2(Name.Poleaxe2, SkillType.AXE, 13, Poleaxe, RefineSkill.RefineType.Range1) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy)
+    },
 
 
     IronBow(Name.IronBow, SkillType.BOW, 4),

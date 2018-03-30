@@ -507,6 +507,11 @@ object StandardBaseHero {
                 Weapon.LethalCarrot2, null, Special.Glimmer, SkillA.SpdResBond.lv(3), SkillB.LiveForHonor, SkillC.GoadFliers)
 
 
+        createItem(Name.ジェローム, 3, WeaponType.AXE, MoveType.FLIER,  4, 9,10 , 6, 8, 4, 8, 9, 5, 8, 3,
+                Weapon.Poleaxe2, Assist.RallyAtkDef, null, SkillA.FortressDef.lv(3), SkillB.HitAndRun, Skill.NONE)
+        createItem(Name.ルフレ__女闇_, 0, WeaponType.DRAGON, MoveType.FLIER,  5, 16, 8, 9, 8, 6, 7, 7, 8, 6, 5,
+                Weapon.Expiration, null, Special.Bonfire, SkillA.Dragonskin, SkillB.CancelAffinity.lv(3), SkillC.ResSmoke.lv(3))
+
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }

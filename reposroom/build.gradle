@@ -41,7 +41,7 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:1.0.0"
 
     // DDDなのでモデルのモジュールに依存する
-    compile project(':fehsbattlemodel')
+    implementation project(':fehsbattlemodel')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

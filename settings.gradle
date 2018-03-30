@@ -1,2 +1,2 @@
-include ':fehsbattlemodel', ':fehbs', ':repos', ':reposroom'
+include ':fehsbattlemodel', ':fehbs', ':repos'//, ':reposroom'
 include 'desktop', 'android', 'core'//, 'html'
