@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 /**
  * 駒とLibGDXの間
  */
-class UiPiece(val actor: Actor, val uiBoard: UiBoard,
+open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
               /**
                * 論理駒
                */
-              var piece: Piece<*, *>
+             open var piece: Piece<*, *>
               ) : ClickListener() {
     /**
      * 中に含むActorのリスト。アニメーションで体の部位を動かすのに使うのだがボーンモデル別に作るべき
@@ -37,7 +37,7 @@ class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         super.clicked(event, x, y)
 //        event.stop()
         val touchedSquare = uiBoard.touchedPosition()
-        piece?.clicked(touchedSquare)
+        piece.clicked(touchedSquare)
     }
 
     /**
@@ -47,7 +47,7 @@ class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
 //ドラッグしたら駒の表示を追従させているが移動量検出しないとちゃたるなこれ
-        if (piece?.isActionable() == true) {
+        if (piece.isActionable()) {
             actor.setPosition(actor.x + x, actor.y + y)
         }
         //升目以外にドラッグした場合は無視
@@ -56,7 +56,7 @@ class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         }
         //現在位置取得はこっち
         val touchedSquare = uiBoard.touchedPosition()
-        piece?.touchDragged(touchedSquare)
+        piece.touchDragged(touchedSquare)
     }
 
     /**
@@ -68,7 +68,7 @@ class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         touched = false
         val position = uiBoard.touchedPosition()
 
-        piece?.touchUp(position)
+        piece.touchUp(position)
     }
 
     /**
@@ -78,36 +78,12 @@ class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         val result = super.touchDown(event, x, y, pointer, button)
 //        actor.zIndex = 0
         touched = true
-        piece?.touchDown()
+        piece.touchDown()
         return result
     }
 
     /**
      * LibGDXのアップデートで呼ばれる。TODO:アニメを作っていたがActionsのループ処理を作るべきか
      */
-    fun update() {
-        //アニメーションが登録されていないときは適当に動かす。行動前後で色とアニメーションを変える。これアニメーションをくくりださないと大変だな
-        if (piece?.actionPhase == Piece.ActionPhase.ACTED) {
-            actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
-        } else {
-            actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
-            //TODO:ループアクションを設定する
-//            if (actors.size < 2) return
-//            val base = actors[0]
-//            val face = actors[1]
-//            if (animateCount == 8) {
-//                base.y = base.y + 2
-//                face.x = face.x + 2
-//            } else if (animateCount == 15) {
-//                base.y = base.y - 2
-//                face.x = face.x - 2
-//            }
-//            animateCount = if (animateCount < 16) {
-//                animateCount + 1
-//            } else {
-//                0
-//            }
-        }
-    }
-
+  open  fun update() {    }
 }

@@ -482,7 +482,7 @@ object StandardBaseHero {
         createItem(Name.マーク__男_, 1, WeaponType.RTOME, MoveType.INFANTRY, 4, 18, 7, 8, 5, 7, 5, 8, 8, 3, 5,
                 Weapon.GrimasTruth, null, Special.DragonFang, Skill.NONE, SkillB.DullRanged.lv(3), SkillC.SpurDefRes.lv(2))
         createItem(Name.マーク__女_, 2, WeaponType.BTOME, MoveType.FLIER, 5, 18, 8, 6, 3, 9, 5, 8, 7, 2, 7,
-                Weapon.Blarserpent2, null, Special.Iceberg, SkillA.MirrorStance.lv(3), SkillB.Guard.lv(3), SkillC.AtkPloy.lv(3))
+                Weapon.Blarserpent2, null, Special.Iceberg, SkillA.MirrorStance.lv(2), SkillB.Guard.lv(3), SkillC.AtkPloy.lv(3))
 
         createItem(Name.セツナ2, 0, WeaponType.BOW, MoveType.INFANTRY, 3, 18, 6, 9, 5, 6, 5, 6, 9, 4, 4,
                 Weapon.GuardBow2, Assist.ReciprocalAid, null, SkillA.Hp.lv(3), SkillB.BowBreaker.lv(3), Skill.NONE)
@@ -495,21 +495,21 @@ object StandardBaseHero {
         createItem(Name.セネリオ2, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 7, 9, 4, 7, 5, 8, 7, 2, 6,
                 Weapon.Rexcalibur2, null, Special.GrowingWind, Skill.NONE, SkillB.Watersweep.lv(3), SkillC.FortifyRes.lv(3))
 
-                createItem(Name.カチュア__春_, 2, WeaponType.BTOME, MoveType.CAVALRY,  5, 17, 6, 9, 5, 6, 5, 8, 8, 2, 4,
+        createItem(Name.カチュア__春_, 2, WeaponType.BTOME, MoveType.CAVALRY, 5, 17, 6, 9, 5, 6, 5, 8, 8, 2, 4,
                 Weapon.HuginnsEgg, Assist.DrawBack, null, Skill.NONE, SkillB.ChillRes.lv(3), SkillC.DriveSpd.lv(3))
-        createItem(Name.アルフォンス__春_, 3, WeaponType.AXE, MoveType.CAVALRY,  5, 19, 9, 7, 6, 5, 6, 8, 8, 7, 2,
+        createItem(Name.アルフォンス__春_, 3, WeaponType.AXE, MoveType.CAVALRY, 5, 19, 9, 7, 6, 5, 6, 8, 8, 7, 2,
                 Weapon.GiantSpoon2, null, Special.Noontime, SkillA.SturdyBlow.lv(2), Skill.NONE, SkillC.DefSmoke.lv(3))
 
-        createItem(Name.シャロン__春_, 3, WeaponType.GTOME, MoveType.INFANTRY,  5, 18, 8, 10, 3, 6, 5, 7, 8, 2, 7,
+        createItem(Name.シャロン__春_, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 18, 8, 10, 3, 6, 5, 7, 8, 2, 7,
                 Weapon.MuninnsEgg, Assist.RallyAtkSpd, null, SkillA.SwiftStance.lv(2), SkillB.LiveForBounty, SkillC.ResTactic.lv(3))
 
-        createItem(Name.カゲロウ__春_, 0, WeaponType.DAGGER, MoveType.FLIER,  5, 17, 9, 8, 5, 5, 5, 8, 8, 2, 6,
+        createItem(Name.カゲロウ__春_, 0, WeaponType.DAGGER, MoveType.FLIER, 5, 17, 9, 8, 5, 5, 5, 8, 8, 2, 6,
                 Weapon.LethalCarrot2, null, Special.Glimmer, SkillA.SpdResBond.lv(3), SkillB.LiveForHonor, SkillC.GoadFliers)
 
 
-        createItem(Name.ジェローム, 3, WeaponType.AXE, MoveType.FLIER,  4, 9,10 , 6, 8, 4, 8, 9, 5, 8, 3,
+        createItem(Name.ジェローム, 3, WeaponType.AXE, MoveType.FLIER, 4, 9, 10, 6, 8, 4, 8, 9, 5, 8, 3,
                 Weapon.Poleaxe2, Assist.RallyAtkDef, null, SkillA.FortressDef.lv(3), SkillB.HitAndRun, Skill.NONE)
-        createItem(Name.ルフレ__女闇_, 0, WeaponType.DRAGON, MoveType.FLIER,  5, 16, 8, 9, 8, 6, 7, 7, 8, 6, 5,
+        createItem(Name.ルフレ__女闇_, 0, WeaponType.DRAGON, MoveType.FLIER, 5, 16, 8, 9, 8, 6, 7, 7, 8, 6, 5,
                 Weapon.Expiration, null, Special.Bonfire, SkillA.Dragonskin, SkillB.CancelAffinity.lv(3), SkillC.ResSmoke.lv(3))
 
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
@@ -541,7 +541,8 @@ object StandardBaseHero {
             cSkill: Skill? = null
     ) {
         val item = BaseHero(color, weaponType, moveType, minRarity, name, hp, atk, spd, def, res, hpGrowth, atkGrowth, spdGrowth, defGrowth, resGrowth, weapon
-                ?: Skill.NONE, assist ?: Skill.NONE, special ?: Skill.NONE, aSkill?: Skill.NONE, bSkill?: Skill.NONE, cSkill?: Skill.NONE)
+                ?: Skill.NONE, assist ?: Skill.NONE, special ?: Skill.NONE, aSkill
+                ?: Skill.NONE, bSkill ?: Skill.NONE, cSkill ?: Skill.NONE)
         ITEMS.add(item)
         ITEM_MAP[item.name.jp] = item
         ITEM_MAP[item.name.tw] = item

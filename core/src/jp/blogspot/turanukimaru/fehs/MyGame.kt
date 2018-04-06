@@ -17,8 +17,8 @@ class MyGame(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer,
     val MARGIN_RIGHT = 0f
     val vLines = 8
     val hLines = 6
-    val board: Board<Ground> =         Board( hLines, vLines)
-    var uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, LOGICAL_WIDTH, LOGICAL_HEIGHT, HEADER_HEIGHT, FOOTER_HEIGHT, MARGIN_LEFT, MARGIN_RIGHT,board)
+    val board: Board<BattleUnit, Ground> = Board(hLines, vLines)
+    val uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, LOGICAL_WIDTH, LOGICAL_HEIGHT, HEADER_HEIGHT, FOOTER_HEIGHT, MARGIN_LEFT, MARGIN_RIGHT, board)
 
     init {
         stage.addListener(uiBoard)

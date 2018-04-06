@@ -7,19 +7,19 @@ import java.util.*
 /**
  * 論理盤面
  */
-class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
+class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 現在盤上で選択されている駒
      */
-    var selectedPiece: Piece<*, GROUND>? = null
+    var selectedPiece: Piece<UNIT, GROUND>? = null
     /**
      * 盤上の駒
      * 駒が無いところはnull
      */
-    val pieceMatrix = arrayListOf<ArrayList<Piece<*, *>?>>()
+    val pieceMatrix = arrayListOf<ArrayList<Piece<UNIT, GROUND>?>>()
     /**
      * 盤上の地形
-     * 地形が無いところはnull
+     * 地形が無いところはnull.nullObjectとか床を作るべきか？そっちのが良い気がするな。
      */
     val groundMatrix = arrayListOf<ArrayList<GROUND?>>()
     /**
@@ -47,21 +47,21 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 横の0..last
      * 0..x-1 は 0 until x と書ける。関数にすることはなかったな・・・
      */
-    fun horizontalIndexes() = 0 until horizontalLines
+    val horizontalIndexes = 0 until horizontalLines
 
     /**
      * 縦の0..last
      */
-    fun verticalIndexes() = 0 until verticalLines
+    val verticalIndexes = 0 until verticalLines
 
     init {
-        horizontalIndexes().forEach {
-            val unitLine = arrayListOf<Piece<*, *>?>()
-            verticalIndexes().forEach { unitLine.add(null) }
+        horizontalIndexes.forEach {
+            val unitLine = arrayListOf<Piece<UNIT, GROUND>?>()
+            verticalIndexes.forEach { unitLine.add(null) }
             pieceMatrix.add(unitLine)
 
             val boxLine = arrayListOf<GROUND?>()
-            verticalIndexes().forEach { boxLine.add(null) }
+            verticalIndexes.forEach { boxLine.add(null) }
             groundMatrix.add(boxLine)
         }
 //        uiBoard.setBoardListener(this)
@@ -73,17 +73,17 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun copyGroundSwitchXY(matrix: Array<Array<GROUND>>) {
         groundMatrix.forEach { e -> e.clear() }
         groundMatrix.forEachIndexed { x, line ->
-            verticalIndexes().forEach { y -> line.add(matrix[verticalLines - 1 - y][x]) }
+            verticalIndexes.forEach { y -> line.add(matrix[verticalLines - 1 - y][x]) }
         }
     }
 
     /**
      * 駒の位置を探す。見つからなかったらnullを返すようにしてるけど例外を投げるべきか？何らかの原因であるべき駒が無いんだから。
      */
-    fun searchUnitPosition(piece: Piece<*, GROUND>): Position? {
+  private   fun searchUnitPosition(piece: Piece<*, *>): Position? {
         println("searchUnitPosition $piece")
-        horizontalIndexes().forEach { x ->
-            verticalIndexes().forEach { y ->
+        horizontalIndexes.forEach { x ->
+            verticalIndexes.forEach { y ->
                 if (pieceMatrix[x][y] == piece) {
                     return Position(x, y)
                 }
@@ -95,7 +95,7 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の枡に駒を置く。駒が配置済みだったら例外を吐く。自分がすでにいるところにPutしたケースはまだけんとうしなくていいか
      */
-    fun put(piece: Piece<*, GROUND>, x: Int, y: Int) {
+    fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         pieceMatrix[x][y] = piece
 //        uiBoard.put(piece.uiPiece, x, y)
@@ -104,7 +104,7 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の枡に駒を移動する。自分以外の駒が配置済みだったら例外を吐く
      */
-    fun moveToPosition(piece: Piece<*, GROUND>, x: Int, y: Int) {
+    fun moveToPosition(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (isAnotherPiece(piece, x, y)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         println("moveToPosition $piece $x $y")
         setToPositionWithoutAction(piece, x, y)
@@ -116,7 +116,7 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 対象の枡に駒を置く。移動元が見つからないときは例外を吐く
      * Actionとの関係を整理したほうが良いな
      */
-    fun setPosition(piece: Piece<*, GROUND>, x: Int, y: Int) {
+    fun setPosition(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         val oldSquare = searchUnitPosition(piece)!!
         //移動範囲外は旧枡に戻す.キャンセルはやりすぎかなあ
         if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || searchedRoute[x][y] < 0) {
@@ -133,16 +133,16 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         pieceMatrix[x][y] = piece
     }
 
-    fun moveToPosition(piece: Piece<*, GROUND>, position: Position) {
+    fun moveToPosition(piece: Piece<UNIT, GROUND>, position: Position) {
         moveToPosition(piece, position.x, position.y)
     }
 
-    fun setToPositionWithoutAction(piece: Piece<*, GROUND>, x: Int, y: Int) {
+    fun setToPositionWithoutAction(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
 //        uiBoard.setToPosition(piece.uiPiece, x, y)
         setPosition(piece, x, y)
     }
 
-    fun setToPosition(piece: Piece<*, GROUND>, attackPos: UiBoard.Position) {
+    fun setToPosition(piece: Piece<UNIT, GROUND>, attackPos: UiBoard.Position) {
         setToPositionWithoutAction(piece, attackPos.x, attackPos.y)
     }
 
@@ -154,28 +154,6 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     /**
-     * uiBoardから呼ばれて枡の枠線を引く。また、駒のUpdateを起動する
-     */
-    fun update(uiBoard:UiBoard) {
-        if (selectedPiece != null) {
-            horizontalIndexes().forEach { x ->
-                verticalIndexes().forEach { y ->
-                    if (searchedRoute[x][y] != null && searchedRoute[x][y] >= 0) {
-                        uiBoard.fillSquare(x, y, UiBoard.FillType.MOVABLE)
-                    } else if (effectiveRoute[x][y] != null && effectiveRoute[x][y] >= 0) {
-                        uiBoard.fillSquare(x, y, UiBoard.FillType.ATTACKABLE)
-                    }
-                }
-            }
-            //ルートから外れたら掘りなおさないとなあ。移動力超えたらか？直線矢印で十分かなあ
-            //This inspection reports any declarations that can be destructuredが出たらこう書ける
-            routeStack.forEach { (x, y) ->
-                uiBoard.fillSquare(x, y, UiBoard.FillType.PASS)
-            }
-        }
-//        pieceMatrix.forEach { h -> h.forEach { v -> v?.update() } }
-    }
-    /**
      * update時に盤外に表示する関数
      */
     var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
@@ -183,12 +161,12 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 移動可能な経路を調べる
      */
-    fun searchRoute(piece: Piece<*, GROUND>): ArrayList<ArrayList<Int>> {
+    fun searchRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
         println("searchRoute $piece")
         val routeMatrix = arrayListOf<ArrayList<Int>>()
-        horizontalIndexes().forEach {
+        horizontalIndexes.forEach {
             val unitLine = arrayListOf<Int>()
-            verticalIndexes().forEach { unitLine.add(-1) }
+            verticalIndexes.forEach { unitLine.add(-1) }
             routeMatrix.add(unitLine)
         }
         //nullの時例外を吐きたいならこう
@@ -204,7 +182,7 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 経路探索中に一歩進んで再帰する
      */
-    private fun step(piece: Piece<*, GROUND>, position: Position, steps: Int, routeMatrix: ArrayList<ArrayList<Int>>) {
+    private fun step(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: ArrayList<ArrayList<Int>>) {
         routeMatrix[position.x][position.y] = steps
         val orientations = piece.orientations()
         orientations.forEach { v ->
@@ -227,17 +205,17 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲を探す。
      */
-    fun searchEffectiveRoute(piece: Piece<*, GROUND>): ArrayList<ArrayList<Int>> {
+    fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
         println("searchEffectiveRoute $piece")
         val routeMatrix = arrayListOf<ArrayList<Int>>()
-        horizontalIndexes().forEach {
+        horizontalIndexes.forEach {
             val unitLine = arrayListOf<Int>()
-            verticalIndexes().forEach { unitLine.add(-1) }
+            verticalIndexes.forEach { unitLine.add(-1) }
             routeMatrix.add(unitLine)
 
         }
-        horizontalIndexes().forEach { x ->
-            verticalIndexes().forEach { y ->
+        horizontalIndexes.forEach { x ->
+            verticalIndexes.forEach { y ->
                 val square = Position(x, y)
                 //移動範囲から計算。これ移動しないときと処理が区別できるようにしたほうが良いな
                 if (searchedRoute[x][y] >= 0) stepEffect(piece, square, 0, routeMatrix)
@@ -251,7 +229,7 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲探索中に一歩進んで再帰するけどこれ再帰しないほうが良い気がしてきた
      */
-    private fun stepEffect(piece: Piece<*, GROUND>, position: Position, steps: Int, routeMatrix: ArrayList<ArrayList<Int>>) {
+    private fun stepEffect(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: ArrayList<ArrayList<Int>>) {
         if (steps > 0) {
             routeMatrix[position.x][position.y] = steps
         }
@@ -339,7 +317,7 @@ class Board<GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 駒を選択状態にする。掴むとかそういう名前のほうが良いか？
      */
-    fun selectPiece(piece: Piece<*, GROUND>) {
+    fun selectPiece(piece: Piece<UNIT, GROUND>) {
         println("selectPiece $piece")
         if (selectedPiece != null) {
             deselectPiece()

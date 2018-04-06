@@ -1,19 +1,18 @@
 package jp.blogspot.turanukimaru.board
 
 import jp.blogspot.turanukimaru.board.UiBoard.Position
+import jp.blogspot.turanukimaru.fehs.AttackResult
 
 
 /**
  * 論理駒。ゲームのルールによらない部分
  */
-open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<GROUND>, val owner: Board.Player) {
-
-    var uiPiece:UiPiece?=null
+open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Board.Player) {
 
     /**
      * 向き。駒の向きで移動する方向が変わるときに使う予定
      */
-    var orientation = null
+    var orientation = 0
 
     /**
      * 操作的な意味での状態。駒を動かせるかとか動かした後だとか。
@@ -57,7 +56,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<GROUND>, 
     /**
      * 別のユニットがいた場合にその枡に止まれるか。例えば敵に重なることはできるが味方には重なれないかも。移動範囲内かはこれより先に判定している
      */
-    open fun isStopable(otherUnit: UNIT?): Boolean =         otherUnit == null
+    open fun isStopable(otherUnit: UNIT?): Boolean = otherUnit == null
 
 
     /**行動前・選択状態・移動後は行動可能
@@ -161,11 +160,17 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<GROUND>, 
      * 駒の状態。準備完了や選択された、移動済みだけど行動は完了していないなど
      */
     enum class ActionPhase {
+        //自分の手番でないので動かせない
         DISABLED,
+        //自分の手番で動かせる
         READY,
+        //選択状態
         SELECTED,
+        //移動したけど行動が確定してない
         MOVED,
+        //移動範囲用だけどなくていいかなあ
         MARK,
+        //行動確定後
         ACTED
     }
 

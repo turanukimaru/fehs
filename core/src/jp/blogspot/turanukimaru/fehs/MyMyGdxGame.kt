@@ -42,7 +42,7 @@ class MyMyGdxGame : ApplicationAdapter() {
     val LOGICAL_HEIGHT = 960f//1280f
     var bitmapFont: BitmapFont? = null
 
-
+   private val myGame:MyGame by lazy { MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT) }
 
     var textureDisposer = arrayListOf<Texture>()
     var imageDisposer = arrayListOf<Image>()
@@ -67,6 +67,7 @@ class MyMyGdxGame : ApplicationAdapter() {
 
     /**
      * 初期化。レンダラを毎回作ったりするのは重いのでここで一回で済ます。
+     * kotlinでもここ必要なのかな…？
      */
     override fun create() {
         //レンダラは重い
@@ -79,7 +80,6 @@ class MyMyGdxGame : ApplicationAdapter() {
         param.incremental = true
         bitmapFont = fontGenerator!!.generateFont(param)
 
-        val myGame = MyGame(stage!!,batch!!,liner!!,bitmapFont!!,LOGICAL_WIDTH,LOGICAL_HEIGHT)
         //ここからサンプルと言うか雨が落ちてくるアニメ用
         dropImage = Texture(Gdx.files.internal("droplet.png"))
         bucketImage = Texture(Gdx.files.internal("bucket.png"))
@@ -100,7 +100,7 @@ class MyMyGdxGame : ApplicationAdapter() {
 
         camera = stage!!.camera
 
-myGame.        uiBoard.stageTexture = loadTexture("map1.png")
+        myGame.uiBoard.stageTexture = loadTexture("map1.png")
 
         //ダメージの数字はステージに追加して隠しておく。
 
@@ -125,7 +125,7 @@ myGame.        uiBoard.stageTexture = loadTexture("map1.png")
         group.addActor(medjedImageA)
         group.addActor(medjedImageB)
         val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user)
-        val uiPiece=UiPiece(group, myGame.uiBoard,piece1)
+        val uiPiece = MyUiPiece(group, myGame.uiBoard, piece1)
         user.pieceList.add(piece1)
         group.addListener(uiPiece)
         uiPiece.actors.add(medjedImageA)
@@ -138,23 +138,23 @@ myGame.        uiBoard.stageTexture = loadTexture("map1.png")
         stageDropletImage1.setScale(0.5f)
         imageDisposer.add(stageDropletImage1)
         val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.board, enemy)
-        val uiPiece2 =UiPiece(stageDropletImage1, myGame.uiBoard,piece2)
+        val uiPiece2 = MyUiPiece(stageDropletImage1, myGame.uiBoard, piece2)
         enemy.pieceList.add(piece2)
         stageDropletImage1.addListener(uiPiece2)
-        myGame.       board.put(piece2, 1, 3)
+        myGame.board.put(piece2, 1, 3)
 
         val hectorTexture = loadTexture("hector.png")
         val hectorImage = Image(hectorTexture)
         hectorImage.setScale(0.5f)
         imageDisposer.add(hectorImage)
-        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame. board, enemy)
-        val uiPiece3 =UiPiece(hectorImage, myGame.uiBoard,piece3)
+        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.board, enemy)
+        val uiPiece3 = MyUiPiece(hectorImage, myGame.uiBoard, piece3)
         enemy.pieceList.add(piece3)
         hectorImage.addListener(uiPiece3)
-        myGame. board.put(piece3, 3, 3)
+        myGame.board.put(piece3, 3, 3)
 
         //地形を盤面にコピー
-        myGame. board.copyGroundSwitchXY(battleGround)
+        myGame.board.copyGroundSwitchXY(battleGround)
 
         //盤外のボタンなど。これも処理考え直す必要がありそう
         val turnendTexture = loadTexture("turnend.png")
@@ -166,7 +166,7 @@ myGame.        uiBoard.stageTexture = loadTexture("map1.png")
         turnendImage.addListener({ _ -> println("pushed turnend");turnend(myGame.board) })
         //どこでボタン管理するか考えないとなー
         stage!!.addActor(turnendImage)
-        myGame. board.turn(user)
+        myGame.board.turn(user)
     }
 
     //ファイルからテクスチャ読み込み。実際には1ファイルに複数テクスチャを入れるので座標とかTextureのリストを返すとかの処理が必要になる
@@ -179,7 +179,7 @@ myGame.        uiBoard.stageTexture = loadTexture("map1.png")
     /**
      * ターンを終了して相手にターンを渡す
      */
-    private fun turnend(board: Board<Ground>): Boolean {
+    private fun turnend(board: Board<BattleUnit, Ground>): Boolean {
         println("fire turnend!")
         if (board.owner == user) {
             board.turn(enemy)
@@ -210,7 +210,6 @@ myGame.        uiBoard.stageTexture = loadTexture("map1.png")
         // tell the camera to update its matrices.
         camera!!.update()
 
-//        myGame. uiBoard.update()
         // tell the SpriteBatch to render in the
         // coordinate system specified by the camera.
         batch!!.projectionMatrix = camera!!.combined
@@ -218,16 +217,17 @@ myGame.        uiBoard.stageTexture = loadTexture("map1.png")
         // begin a new batch and draw the bucket and
         // all drops
         batch!!.begin()
-//        uiBoard.updateSpriteBatch(batch!!)
+        myGame.uiBoard.updateSpriteBatch(batch!!)
         batch!!.draw(bucketImage, bucket!!.x, bucket!!.y)
         for (raindrop in raindrops) {
             batch!!.draw(dropImage, raindrop.x, raindrop.y)
         }
         //なぜか消すと画面のFillが表示されなくなる。image.drawでstageとの調整をしているのでその都合かと思われる。
-        buttons.forEach { b -> b.draw(batch, 100f) }
+//        buttons.forEach { b -> b.draw(batch, 100f) }
 
-//        bitmapFont!!.draw(batch, "${board?.oldPosition}\nデバッグ用文字", 50f, 300f)
+        bitmapFont!!.draw(batch, "${myGame.board.oldPosition}\nデバッグ用文字", 50f, 300f)
         batch!!.end()
+        myGame. uiBoard.update()
         stage!!.act(Gdx.graphics.deltaTime)
         stage!!.draw()
 
@@ -235,7 +235,7 @@ myGame.        uiBoard.stageTexture = loadTexture("map1.png")
         if (Gdx.input.isTouched) {
             val touchPos = Vector3()
             touchPos.set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
-//            uiBoard.touched(touchPos)
+            myGame.uiBoard.touched(touchPos)
             camera!!.unproject(touchPos)
             bucket!!.x = touchPos.x - 64 / 2
             //yは下から上へ計算する

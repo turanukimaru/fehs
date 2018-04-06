@@ -1,20 +1,18 @@
 package jp.blogspot.turanukimaru.fehs
 
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import jp.blogspot.turanukimaru.board.Board
 import jp.blogspot.turanukimaru.board.Piece
 import jp.blogspot.turanukimaru.board.UiBoard
-import jp.blogspot.turanukimaru.board.UiPiece
 
 /**
  * 駒を継承してそのゲームにおける駒のルールを記述。画像としての処理もとりあえずここ。Actionは括りだすべきか？
  */
-class MyPiece(containUnit: BattleUnit, board: Board<Ground>, owner: Board.Player) : Piece<BattleUnit, Ground>(containUnit,  board, owner) {
-
-    override fun isStopable(otherUnit: BattleUnit?): Boolean =
-            otherUnit == null
-
+class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Board.Player) : Piece<BattleUnit, Ground>(containUnit, board, owner) {
+    var fightResult:FightResult?=null
+    override fun isStopable(otherUnit: BattleUnit?): Boolean = otherUnit == null
 
     override fun isMovable(piece: Piece<*, *>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
         //デフォルトでは上下左右0,2,4,6にしておこう
@@ -58,19 +56,19 @@ class MyPiece(containUnit: BattleUnit, board: Board<Ground>, owner: Board.Player
         //その駒の情報を表示する。別クラスにするべきか
         board.updateInfo = { b ->
             //フォントサイズ替えたいところではある
-//            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name, 80f, 940f)
-//            b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
-//            b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 100f, 900f)
-//            b.bitmapFont.draw(b.batch, "/", 140f, 900f)
-//            b.bitmapFont.draw(b.batch, containUnit.armedHero.maxHp.toString(), 160f, 900f)
-//            b.bitmapFont.draw(b.batch, "攻撃", 50f, 860f)
-//            b.bitmapFont.draw(b.batch, containUnit.atk.toString(), 120f, 860f)
-//            b.bitmapFont.draw(b.batch, "早さ", 180f, 860f)
-//            b.bitmapFont.draw(b.batch, containUnit.spd.toString(), 240f, 860f)
-//            b.bitmapFont.draw(b.batch, "守備", 50f, 820f)
-//            b.bitmapFont.draw(b.batch, containUnit.def.toString(), 120f, 820f)
-//            b.bitmapFont.draw(b.batch, "魔防", 180f, 820f)
-//            b.bitmapFont.draw(b.batch, containUnit.res.toString(), 240f, 820f)
+            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 80f, 940f)
+            b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
+            b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 100f, 900f)
+            b.bitmapFont.draw(b.batch, "/", 140f, 900f)
+            b.bitmapFont.draw(b.batch, containUnit.armedHero.maxHp.toString(), 160f, 900f)
+            b.bitmapFont.draw(b.batch, "攻撃", 50f, 860f)
+            b.bitmapFont.draw(b.batch, containUnit.atk.toString(), 120f, 860f)
+            b.bitmapFont.draw(b.batch, "早さ", 180f, 860f)
+            b.bitmapFont.draw(b.batch, containUnit.spd.toString(), 240f, 860f)
+            b.bitmapFont.draw(b.batch, "守備", 50f, 820f)
+            b.bitmapFont.draw(b.batch, containUnit.def.toString(), 120f, 820f)
+            b.bitmapFont.draw(b.batch, "魔防", 180f, 820f)
+            b.bitmapFont.draw(b.batch, containUnit.res.toString(), 240f, 820f)
             true
         }
         return true
@@ -83,7 +81,6 @@ class MyPiece(containUnit: BattleUnit, board: Board<Ground>, owner: Board.Player
         val target = board.pieceMatrix[touchedSquare.x][touchedSquare.y]?.containUnit as? BattleUnit
         //敵ユニットに重ねたときは戦闘結果を計算して表示
         if (board.selectedPiece != null && board.effectiveRoute[touchedSquare.x][touchedSquare.y] > 0 && target != null && target != board.selectedPiece?.containUnit) {
-            //キャストしたくないなあ。Boardにユニットの型入れるかなぁ
             val fightResult = containUnit.fight(target)
             for (result in fightResult) {
                 println(result)
@@ -91,15 +88,15 @@ class MyPiece(containUnit: BattleUnit, board: Board<Ground>, owner: Board.Player
             val expected = fightResult.last()
 
             board.updateInfo = { b ->
-//                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name, 50f, 940f)
-//                b.bitmapFont.draw(b.batch, target.armedHero.baseHero.name, 320f, 940f)
-//                b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
-//                b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
-//                b.bitmapFont.draw(b.batch, "→", 80f, 900f)
-//                b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
-//                b.bitmapFont.draw(b.batch, target.hp.toString(), 290f, 900f)
-//                b.bitmapFont.draw(b.batch, "→", 350f, 900f)
-//                b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
+                                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
+                b.bitmapFont.draw(b.batch, target.armedHero.baseHero.name.jp, 320f, 940f)
+                b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
+                b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
+                b.bitmapFont.draw(b.batch, "→", 80f, 900f)
+                b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
+                b.bitmapFont.draw(b.batch, target.hp.toString(), 290f, 900f)
+                b.bitmapFont.draw(b.batch, "→", 350f, 900f)
+                b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
 
                 //ダメージｘ回数表示は後でいいか
                 true
@@ -115,20 +112,8 @@ class MyPiece(containUnit: BattleUnit, board: Board<Ground>, owner: Board.Player
         this.actionPhase = actionTouchedPoint(position)
         return true
     }
-
-//    //これ要らない気がするな？touchupで動くはずだし
-//    override fun boardClicked(event: InputEvent, position: UiBoard.Position): Boolean {
-//        if (!super.boardClicked(event, position)) {
-//            return false
-//        }
-//        //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
-//        this.actionPhase =
-//                actionTouchedPoint(position)
-//        return true
-//    }
-
     /**
-     * touchUp/boardのタッチから呼び出される。
+     * touchUp/boardのタッチから呼び出される。MyUiPieceが要るか…？
      */
     fun actionTouchedPoint(position: UiBoard.Position): ActionPhase {
         println("actionTouchedPoint")
@@ -150,45 +135,22 @@ class MyPiece(containUnit: BattleUnit, board: Board<Ground>, owner: Board.Player
                 println("attack from $attackPos")
                 println(board.routeStack)
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-                uiPiece!!.actor.clearActions()
                 //とりあえずノーモーションで枡に戻してからアニメさせているが、一度不通に戻すべきかなあ
                 board.setToPosition(this, attackPos)
 
-                //キャストしたくないなあ。Boardにユニットの型入れるかなぁ
-                val fightResult = containUnit.fight(target.containUnit as BattleUnit)
-                val sourceSeq = SequenceAction()
-                val targetSeq = SequenceAction()
+                 fightResult =FightResult(attackPos, position,containUnit.fight(target.containUnit))
+                //HP減らすのきついな…表示は分けるか…？
+                containUnit.hp = fightResult!!.attackResults.last().source.hp
+                target.containUnit.hp = fightResult!!.attackResults.last().target.hp
 
-                var attackCount = 0
-                for (result in fightResult) {
-                    println(result)
-                    //ダメージを与える側が攻撃側の時
-                    if (result.side == SIDES.ATTACKER) {
-                        sourceSeq.addAction(attackAction(attackPos.x, attackPos.y, position.x, position.y))
-                        targetSeq.addAction(Actions.delay(0.4f))
-                        uiPiece!!.uiBoard.showNumbers(position.x, position.y, result.damage, attackCount++ * 0.4f + 0.2f)
-                    } else {
-                        targetSeq.addAction(attackAction(position.x, position.y, attackPos.x, attackPos.y))
-                        sourceSeq.addAction(Actions.delay(0.4f))
-                        uiPiece!!.uiBoard.showNumbers(attackPos.x, attackPos.y, result.damage, attackCount++ * 0.4f + 0.2f)
-                    }
-                    containUnit.hp = result.source.hp
-                    target.containUnit.hp = result.target.hp
-
-                    if (containUnit.hp == 0) {
-                        sourceSeq.addAction(Actions.fadeOut(1f))
-                        board.removePiece(this, attackPos)
-                    }
-                    if (target.containUnit.hp == 0) {
-                        targetSeq.addAction(Actions.fadeOut(1f))
-                        board.removePiece(target, position)
-                    }
+                if (containUnit.hp == 0) {
+                    board.removePiece(this, attackPos)
                 }
-                //行動終了
-                uiPiece!!.actor.addAction(sourceSeq)
-
-                target.uiPiece!!.actor.addAction(targetSeq)
+                if (target.containUnit.hp == 0) {
+                    board.removePiece(target, position)
+                }
                 board.deselectPiece()
+
                 board.updateInfo = { _ -> true }
                 return ActionPhase.ACTED
             } else {
@@ -229,18 +191,6 @@ class MyPiece(containUnit: BattleUnit, board: Board<Ground>, owner: Board.Player
         return ActionPhase.MOVED
     }
 
-    //
-    /**
-     * 攻撃処理のアニメ。移動差分を駒に登録する.TODO:アクターのサイズが分からないから中心が出ない...あと単にタイミングがおかしい
-     * */
-    fun attackAction(x: Int, y: Int, targetX: Int, targetY: Int): SequenceAction {
-        val seq = SequenceAction()
-        val toX = targetX - x
-        val toY = targetY - y
-        seq.addAction(Actions.moveBy(96 * toX.toFloat(), 96 * toY.toFloat(), 0.2f))
-        seq.addAction(Actions.moveBy(-96 * toX.toFloat(), -96 * toY.toFloat(), 0.2f))
-        return seq
-    }
-
 }
 
+data class FightResult(val attackPos: UiBoard.Position, val targetPos: UiBoard.Position,val attackResults: List<AttackResult>)

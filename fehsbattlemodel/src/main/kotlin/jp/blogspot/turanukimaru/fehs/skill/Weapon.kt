@@ -621,7 +621,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Blarserpent(Name.Blarserpent, SkillType.BTOME, 8, Elthunder, RefineSkill.RefineType.Range2) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6)
     },
-    Blarserpent2(Name.Blarowl2, SkillType.BTOME, 12, Blarserpent, RefineSkill.RefineType.Range2) {
+    Blarserpent2(Name.Blarserpent2, SkillType.BTOME, 12, Blarserpent, RefineSkill.RefineType.Range2) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6)
     },
     Thoron(Name.Thoron, SkillType.BTOME, 9, Elthunder),

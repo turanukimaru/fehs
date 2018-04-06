@@ -23,7 +23,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
               /**
                * 論理的な盤面。この盤面に操作を伝える
                */
-              val board: Board<*>
+              val board: Board<*,*>
 ) : ClickListener() {
     /**
      * 10の位の数字を表示するためのアクション。桁数を増やすなら配列の配列にしないとなあ
@@ -36,6 +36,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     val numberRegions = arrayListOf<TextureRegion>()
 
+    val uiPieceList = arrayListOf<UiPiece>()
     /**
      * 盤面がクリックされたときに起動する…のだがタッチとかタッチアップとかとの使い分け方が分からない。これをメインにしないほうが良いかもしれない
      */
@@ -76,26 +77,39 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         liner.projectionMatrix = stage.camera.combined
         liner.begin(ShapeRenderer.ShapeType.Line)
         liner.color = Color.WHITE
-        val h = squareHeight()
         //枠を引く
         if (board.verticalLines > 1) {
             liner.line(1f, marginBottom, width, marginBottom)
             (1..board.verticalLines).forEach { v ->
-                liner.line(1f, v * h + marginBottom, width, v * h + marginBottom)
-
+                liner.line(1f, v * squareHeight + marginBottom, width, v * squareHeight + marginBottom)
             }
         }
-        val w = squareWidth()
         if (board.horizontalLines > 1) {
             liner.line(1f, marginBottom, 1f, height - marginTop)
             (1..board.horizontalLines).forEach { v ->
-                liner.line(v * w, marginBottom, v * w, height - marginTop)
-
+                liner.line(v * squareWidth, marginBottom, v * squareWidth, height - marginTop)
             }
         }
         liner.end()
+        //駒が選択されていたら移動範囲を表示する。モードを切り替えるならボード側に色情報を持たせる必要があるな
+        if (board.selectedPiece != null) {
+            board.horizontalIndexes.forEach { x ->
+                board.verticalIndexes.forEach { y ->
+                    if (board.searchedRoute[x][y] != null && board.searchedRoute[x][y] >= 0) {
+                        fillSquare(x, y, UiBoard.FillType.MOVABLE)
+                    } else if (board.effectiveRoute[x][y] != null && board.effectiveRoute[x][y] >= 0) {
+                        fillSquare(x, y, UiBoard.FillType.ATTACKABLE)
+                    }
+                }
+            }
+            //ルートから外れたら掘りなおさないとなあ。移動力超えたらか？直線矢印で十分かなあ
+            //This inspection reports any declarations that can be destructuredが出たらこう書ける
+            board.routeStack.forEach { (x, y) ->
+                fillSquare(x, y, UiBoard.FillType.PASS)
+            }
+        }
 
-        board.update(this)
+        uiPieceList.forEach { it.update() }
     }
 
     /**
@@ -105,8 +119,8 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         val pos = Vector3(touchPos)
         stage.camera.unproject(pos)
         if (pos.y > marginBottom && pos.y < height - marginBottom) {
-            val lengthX = squareWidth()
-            val lengthY = squareHeight()
+            val lengthX = squareWidth
+            val lengthY = squareHeight
 
             liner.begin(ShapeRenderer.ShapeType.Line)
             liner.color = Color.RED
@@ -119,20 +133,20 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     /**
      * 枡幅
      */
-    private fun squareWidth() = width / board.horizontalLines
+    private val squareWidth = width / board.horizontalLines
 
     /**
      * 枡高さ
      */
-    private fun squareHeight() = (height - marginBottom - marginTop) / board.verticalLines
+    private val squareHeight = (height - marginBottom - marginTop) / board.verticalLines
 
-    private fun posXtoSquareX(x: Float) = (x / squareWidth()).toInt()
+    private fun posXtoSquareX(x: Float) = (x / squareWidth).toInt()
 
-    private fun posYtoSquareY(y: Float) = ((y - marginBottom) / squareHeight()).toInt()
+    private fun posYtoSquareY(y: Float) = ((y - marginBottom) / squareHeight).toInt()
 
-    private fun posYtoSquareY(y: Int) = y * squareHeight() + marginBottom
+    private fun posYtoSquareY(y: Int) = y * squareHeight + marginBottom
 
-    private fun squareXtoPosX(x: Int) = x * squareWidth()
+    private fun squareXtoPosX(x: Int) = x * squareWidth
 
     /**
      * libGDXの座標から盤面の座標に変換
@@ -182,14 +196,14 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     /**
      * 枡を塗る。a blendingを毎回設定してendしてるので無茶苦茶遅いはず。処理の順番見直さないとな
      */
-    fun fillSquare(x: Int, y: Int, fillType: FillType) {
+    private fun fillSquare(x: Int, y: Int, fillType: FillType) {
         Gdx.gl.glEnable(GL20.GL_BLEND)
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
         liner.projectionMatrix = stage.camera.combined
         liner.begin(ShapeRenderer.ShapeType.Filled)
         liner.color = fillType.color
-        val lengthX = squareWidth()
-        val lengthY = squareHeight()
+        val lengthX = squareWidth
+        val lengthY = squareHeight
         liner.rect(x * lengthX, y * lengthY + marginBottom, lengthX, lengthY)
         liner.end()
         Gdx.gl.glDisable(GL20.GL_BLEND)
@@ -201,15 +215,13 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     data class Position(val x: Int, val y: Int)
 
-
     /**
      * updateSpriteBatch時に呼ぶこと。背景や盤外の情報を描く。枠線を引くより前に呼ぶ必要があるのでSpriteBatchじゃないほうがいいかも・・・？
      */
     fun updateSpriteBatch(batch: SpriteBatch) {
         batch.draw(stageTexture, 0f, marginBottom)
         //情報更新。場合によってはクリッピング
-       board. updateInfo(this)
-
+        let(board.updateInfo)
     }
 
     /**
