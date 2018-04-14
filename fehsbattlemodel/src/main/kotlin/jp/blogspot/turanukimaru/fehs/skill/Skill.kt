@@ -733,7 +733,7 @@ interface Skill {
     }
 
     fun defHigherThanResBonus(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
-        if(enemy.def > enemy.res) battleUnit.atkEffect+=7
+        if(enemy.def-5>= enemy.res) battleUnit.atkEffect+=7
         return battleUnit
     }
 

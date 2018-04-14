@@ -54,10 +54,10 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy)
     },
     SlayingEdge(Name.SlayingEdge, SkillType.SWORD, 10, SteelSword) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBrave(armedHero, lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
     SlayingEdge2(Name.SlayingEdge2, SkillType.SWORD, 14, SlayingEdge, RefineSkill.RefineType.Range1) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBrave(armedHero, lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
     AyrasBlade(Name.AyrasBlade, SkillType.SWORD, 16, SilverSword) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipSpd(armedHero, 3), lv)
@@ -159,7 +159,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     },
     LightBrand(Name.LightBrand,SkillType.SWORD,16, SilverSword) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipDef(armedHero, 3), lv)
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(effectiveAgainst(WeaponType.DRAGON, battleUnit, enemy), enemy)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy)
     },
     Meisterschwert(Name.Meisterschwert,SkillType.SWORD,11, SilverSword) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBrave(armedHero, lv)
@@ -196,8 +196,11 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     HeavySpear2(Name.HeavySpear2, SkillType.LANCE, 12, HeavySpear) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit, enemy)
     },
-    SlayingSpear2(Name.SlayingSpear2, SkillType.LANCE, 14, HeavySpear2, RefineSkill.RefineType.Range1) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit, enemy)
+    SlayingSpear(Name.SlayingSpear2, SkillType.LANCE, 14, SteelLance, RefineSkill.RefineType.Range1) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+    },
+    SlayingSpear2(Name.SlayingSpear2, SkillType.LANCE, 14, SlayingSpear, RefineSkill.RefineType.Range1) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
 
     CarrotLance(Name.CarrotLance, SkillType.LANCE, 9, SteelLance) {
