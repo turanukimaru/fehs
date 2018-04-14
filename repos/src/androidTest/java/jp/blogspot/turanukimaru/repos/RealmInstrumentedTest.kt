@@ -36,8 +36,8 @@ class RealmInstrumentedTest {
 
         val heroes = ArmedHeroRepository.allItems()
         assertTrue(heroes.size > 0)
-        println("start println")
-        heroes.forEach{e->println(e)}
-        println("end println")
+//        println("start println")
+//        heroes.forEach{e->println(e)}
+//        println("end println")
     }
 }

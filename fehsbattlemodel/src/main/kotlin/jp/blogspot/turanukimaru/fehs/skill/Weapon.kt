@@ -196,7 +196,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     HeavySpear2(Name.HeavySpear2, SkillType.LANCE, 12, HeavySpear) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(MoveType.ARMORED, battleUnit, enemy)
     },
-    SlayingSpear(Name.SlayingSpear2, SkillType.LANCE, 14, SteelLance, RefineSkill.RefineType.Range1) {
+    SlayingSpear(Name.SlayingSpear, SkillType.LANCE, 10) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
     SlayingSpear2(Name.SlayingSpear2, SkillType.LANCE, 14, SlayingSpear, RefineSkill.RefineType.Range1) {

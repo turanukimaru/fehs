@@ -47,7 +47,7 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
 
     override fun deleteById(id: String): Int {
         Log.i(tag, "delete $id")
-        println(id)
+//        println(id)
         val results = realm.where(RealmArmedHero::class.java).equalTo("nickname", id).findAll()
         realm.executeTransaction {
             Log.i(tag, results.toString())
@@ -58,7 +58,7 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
 
 
     override fun createOrUpdate(item: ArmedHero): ArmedHero {
-        println(item)
+        Log.i("RealmArmedHeroContent", item.toString())
         item.apply {
             realm.executeTransaction {
                 realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.name.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name

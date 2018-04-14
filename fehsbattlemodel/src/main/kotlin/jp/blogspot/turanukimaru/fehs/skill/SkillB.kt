@@ -199,7 +199,7 @@ SDrink(Name.SDrink,SkillType.B, maxLevel = 0){
                     (itemMap[skill] ?: valueOf(skill)).lv(lv.value.trim().toInt())
                 } else itemMap[key] ?: valueOf(key)
             } catch (e: Exception) {
-                println(e)
+//                println(e)
                 Skill.NONE
             }
         }

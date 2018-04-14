@@ -115,7 +115,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
                     (itemMap[skill] ?: valueOf(skill)).lv(lv.value.trim().toInt())
                 } else itemMap[key] ?: valueOf(key)
             } catch (e: Exception) {
-                println(e)
+//                println(e)
                 Skill.NONE
             }
         }
