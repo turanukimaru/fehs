@@ -49,11 +49,14 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         }
     }
 
+    /**
+     * タッチされたときの処理。
+     */
     override fun touchDown(): Boolean {
         if (!super.touchDown()) {
             return false
         }
-        //その駒の情報を表示する。別クラスにするべきか
+        //その駒の情報を表示する。enumにしたいけどcontainUnitがなあ。
         board.updateInfo = { b ->
             //フォントサイズ替えたいところではある
             b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 80f, 940f)
@@ -74,6 +77,9 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         return true
     }
 
+    /**
+     * ドラッグされたときの処理
+     */
     override fun touchDragged(touchedSquare: UiBoard.Position): Boolean {
         if (!super.touchDragged(touchedSquare)) {
             return false
@@ -105,6 +111,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         return true
     }
 
+    //抽象化するならここか
     override fun touchUp(position: UiBoard.Position): Boolean {
         if (!super.touchUp(position)) {
             return false
@@ -139,6 +146,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 board.setToPosition(this, attackPos)
 
                  fightResult =FightResult(attackPos, position,containUnit.fight(target.containUnit))
+//                target.fightResult = fightResult
                 //HP減らすのきついな…表示は分けるか…？
                 containUnit.hp = fightResult!!.attackResults.last().source.hp
                 target.containUnit.hp = fightResult!!.attackResults.last().target.hp
@@ -193,4 +201,4 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
 
 }
 
-data class FightResult(val attackPos: UiBoard.Position, val targetPos: UiBoard.Position,val attackResults: List<AttackResult>)
+data class FightResult( val attackPos: UiBoard.Position, val targetPos: UiBoard.Position,val attackResults: List<AttackResult>)

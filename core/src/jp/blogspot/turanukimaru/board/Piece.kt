@@ -110,6 +110,10 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         return true
     }
 
+    open fun movePiece() : Boolean{
+        return true
+    }
+
     /**
      * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
      * イベントどうすっかな。なくていいか。後で削除しよう
@@ -171,7 +175,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         //移動範囲用だけどなくていいかなあ
         MARK,
         //行動確定後
-        ACTED
+        ACTED,
     }
 
     /**

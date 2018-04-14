@@ -1,6 +1,5 @@
 package jp.blogspot.turanukimaru.board
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import jp.blogspot.turanukimaru.board.UiBoard.Position
 import java.util.*
 
@@ -104,7 +103,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の枡に駒を移動する。自分以外の駒が配置済みだったら例外を吐く
      */
-    fun moveToPosition(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
+  private  fun moveToPosition(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (isAnotherPiece(piece, x, y)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         println("moveToPosition $piece $x $y")
         setToPositionWithoutAction(piece, x, y)
@@ -116,7 +115,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 対象の枡に駒を置く。移動元が見つからないときは例外を吐く
      * Actionとの関係を整理したほうが良いな
      */
-    fun setPosition(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
+   private fun setPiece(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         val oldSquare = searchUnitPosition(piece)!!
         //移動範囲外は旧枡に戻す.キャンセルはやりすぎかなあ
         if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || searchedRoute[x][y] < 0) {
@@ -139,11 +138,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
 
     fun setToPositionWithoutAction(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
 //        uiBoard.setToPosition(piece.uiPiece, x, y)
-        setPosition(piece, x, y)
+        setPiece(piece, x, y)
     }
 
-    fun setToPosition(piece: Piece<UNIT, GROUND>, attackPos: UiBoard.Position) {
-        setToPositionWithoutAction(piece, attackPos.x, attackPos.y)
+    fun setToPosition(piece: Piece<UNIT, GROUND>, position: Position) {
+        setToPositionWithoutAction(piece, position.x, position.y)
     }
 
     /**
@@ -401,7 +400,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     /**
-     * 盤上から駒を取り除く
+     * 盤上から駒を取り除く.とりあえず駒と場所が一致しているか判定するか？どちらかだけでいいことにするか？
      */
     fun removePiece(piece: Piece<*, *>, position: Position) {
         pieceMatrix[position.x][position.y] = null

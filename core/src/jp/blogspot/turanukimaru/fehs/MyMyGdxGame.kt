@@ -239,7 +239,7 @@ class MyMyGdxGame : ApplicationAdapter() {
             camera!!.unproject(touchPos)
             bucket!!.x = touchPos.x - 64 / 2
             //yは下から上へ計算する
-//            stageBucketImage!!.setPosition(touchPos.x - 64 / 2, touchPos.y - 64 / 2)
+//            stageBucketImage!!.setPiece(touchPos.x - 64 / 2, touchPos.y - 64 / 2)
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket!!.x -= 200 * Gdx.graphics.deltaTime
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket!!.x += 200 * Gdx.graphics.deltaTime

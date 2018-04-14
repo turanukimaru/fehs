@@ -9,19 +9,24 @@ import jp.blogspot.turanukimaru.board.UiBoard
 import jp.blogspot.turanukimaru.board.UiPiece
 
 class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(actor, uiBoard, myPiece) {
-  override  fun update() {
+    //一連の動作を実行中。アニメーションが終わったらコールバックにより状態が戻る
+    var nowAnimation = false
+
+    override fun update() {
+        if (nowAnimation) return
         //アニメーションが登録されていないときは適当に動かす。行動前後で色とアニメーションを変える。これアニメーションをくくりださないと大変だな
         if (myPiece.actionPhase == Piece.ActionPhase.ACTED) {
             //戦闘結果を持ってるときはそれを動かす
-            if(myPiece.fightResult != null){
-
+            if (myPiece.fightResult != null) {
+                nowAnimation = true
                 resultToSeq(
                         myPiece.fightResult!!
                 )
                 myPiece.fightResult = null
+            } else {
+                //アニメーション中でなければ灰色にする
+                actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
             }
-            //一連の動作が終わってるか判定したいんだけど…
-//            actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
         } else {
             actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
             //TODO:ループアクションを設定する
@@ -43,43 +48,63 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
         }
     }
 
-fun resultToSeq(fightResult:FightResult){
-    var attackCount = 0
-    val sourceSeq = SequenceAction()
-    val targetSeq = SequenceAction()
-    for (result in myPiece.fightResult!!.attackResults) {
-    println(result)
-    //ダメージを与える側が攻撃側の時
-    if (result.side == SIDES.ATTACKER) {
-        sourceSeq.addAction(attackAction(fightResult.attackPos.x, fightResult.attackPos.y, fightResult.targetPos.x, fightResult.targetPos.y))
-        targetSeq.addAction(Actions.delay(0.4f))
-        uiBoard.showNumbers(fightResult.targetPos.x, fightResult.targetPos.y, result.damage, attackCount++ * 0.4f + 0.2f)
-    } else {
-        targetSeq.addAction(attackAction(fightResult.targetPos.x, fightResult.targetPos.y,  fightResult.attackPos.x,  fightResult.attackPos.y))
-        sourceSeq.addAction(Actions.delay(0.4f))
-        uiBoard.showNumbers( fightResult.attackPos.x,  fightResult.attackPos.y, result.damage, attackCount++ * 0.4f + 0.2f)
-    }
-    if (result.source.hp == 0) {
-        sourceSeq.addAction(Actions.fadeOut(1f))
-    }
-    if (result.target.hp == 0) {
-        targetSeq.addAction(Actions.fadeOut(1f))
-    }
-    }
-    sourceSeq.addAction(CallbackAction({true}))
-    //行動終了
-    actor.addAction(sourceSeq)
+    fun resultToSeq(fightResult: FightResult) {
+        var attackCount = 0
+        val sourceSeq = SequenceAction()
+        val targetSeq = SequenceAction()
+        for (result in myPiece.fightResult!!.attackResults) {
+            println(result)
+            //ダメージを与える側が攻撃側の時
+            if (result.side == SIDES.ATTACKER) {
+                sourceSeq.addAction(attackAction(fightResult.attackPos.x, fightResult.attackPos.y, fightResult.targetPos.x, fightResult.targetPos.y))
+                targetSeq.addAction(Actions.delay(0.4f))
+                uiBoard.showNumbers(fightResult.targetPos.x, fightResult.targetPos.y, result.damage, attackCount++ * 0.4f + 0.2f)
+            } else {
+                targetSeq.addAction(attackAction(fightResult.targetPos.x, fightResult.targetPos.y, fightResult.attackPos.x, fightResult.attackPos.y))
+                sourceSeq.addAction(Actions.delay(0.4f))
+                uiBoard.showNumbers(fightResult.attackPos.x, fightResult.attackPos.y, result.damage, attackCount++ * 0.4f + 0.2f)
+            }
+            if (result.source.hp == 0) {
+                sourceSeq.addAction(Actions.fadeOut(1f))
+            }
+            if (result.target.hp == 0) {
+                targetSeq.addAction(Actions.fadeOut(1f))
+            }
+        }
+        sourceSeq.addAction(CallbackAction({ true }))
+        sourceSeq.addAction(EndOfAnimationAction(this))
+//    targetSeq.addAction(EndOfAnimationAction(fightResult.attackResults.last().target))
+        sourceSeq.addAction(EndOfAnimationAction(this))
+        //行動終了
+        actor.addAction(sourceSeq)
 //    fightResult.attackResults.last().target.uiPiece!!.actor.addAction(targetSeq)
 
-}    //
-    class CallbackAction(val f:()->Boolean) :Action (){
+    }
 
-        override fun  act ( delta:Float) :Boolean{
+    /**
+     * 汎用コールバックアクション
+     */
+    class CallbackAction(val f: () -> Boolean) : Action() {
+
+        override fun act(delta: Float): Boolean {
             f()
             return true
         }
 
     }
+
+    /**
+     * アニメーションが終了したことを自分に伝えるアクション
+     */
+    class EndOfAnimationAction(private val myUiPiece: MyUiPiece) : Action() {
+
+        override fun act(delta: Float): Boolean {
+            myUiPiece.nowAnimation = false
+            return true
+        }
+
+    }
+
     /**
      * 攻撃処理のアニメ。移動差分を駒に登録する.TODO:アクターのサイズが分からないから中心が出ない...あと単にタイミングがおかしい
      * */
@@ -92,8 +117,9 @@ fun resultToSeq(fightResult:FightResult){
         return seq
     }
 
-    val attackAction:(actor: Actor) ->Boolean= {
+    val attackAction: (actor: Actor) -> Boolean = {
         it.clearActions()
-        true}
+        true
+    }
 
 }
