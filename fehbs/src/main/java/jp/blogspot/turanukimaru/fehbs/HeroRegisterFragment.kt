@@ -92,6 +92,10 @@ class HeroRegisterFragment : Fragment() {
         return rootView
     }
 
+   override fun onDestroy() {
+       context.stopService(Intent(context, HeroStatusService::class.java))
+        super.onDestroy()
+    }
 
     /**
      * メニュー初期化

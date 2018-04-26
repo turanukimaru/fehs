@@ -6,7 +6,11 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.IBinder
 import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.Spinner
 import jp.blogspot.turanukimaru.fehs.R
@@ -21,7 +25,8 @@ class HeroStatusService : Service() {
     private var view: View? = null
     private var windowManager: WindowManager? = null
     private var dpScale: Int = 0
-
+    private var y = 88
+    private var touchedY = 0
     override fun onCreate() {
         super.onCreate()
 
@@ -54,7 +59,8 @@ class HeroStatusService : Service() {
 
         // 配置は考える必要があるけどサイズギリギリだから考えるだけ無駄かな…
         params.gravity = Gravity.TOP or Gravity.END
-        params.y = 88 * dpScale // 80dp
+        y = 88 * dpScale
+        params.y = y
 
         // レイアウトファイルからInfalteするViewを作成
 //        val nullParent: ViewGroup? = null
@@ -73,13 +79,38 @@ class HeroStatusService : Service() {
         view!!.findViewById<Spinner>(R.id.levelBoostSpinner).onItemSelectedListener = viewBuilder.boostsListener(view!!)
 
         view!!.findViewById<Button>(R.id.close_button).onClick {
-           val name =  view!!.findViewById<Spinner>(R.id.baseUnitSpinner).selectedItem.toString()
-           val boon =  view!!.findViewById<Spinner>(R.id.boonRadioButton).selectedItem.toString()
-           val bane =  view!!.findViewById<Spinner>(R.id.baneRadioButton).selectedItem.toString()
-           val rarity =  view!!.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
+            val name = view!!.findViewById<Spinner>(R.id.baseUnitSpinner).selectedItem.toString()
+            val boon = view!!.findViewById<Spinner>(R.id.boonRadioButton).selectedItem.toString()
+            val bane = view!!.findViewById<Spinner>(R.id.baneRadioButton).selectedItem.toString()
+            val rarity = view!!.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
             HeroRepoReceiver.sendMessage(this, name, boon, bane, rarity)
             //    stopSelf()
         }
+        view!!.setOnTouchListener({ v, e ->
+
+            println(v)
+            println(e)
+            if (e.action != ACTION_MOVE) {
+                touchedY = e.rawY.toInt()
+                true
+            } else {
+                val newParams = WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.WRAP_CONTENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT,
+                        typeLayer,
+                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        , PixelFormat.TRANSPARENT
+                )
+                y +=   e.rawY.toInt() - touchedY
+                println(y)
+                newParams.gravity = Gravity.TOP or Gravity.END
+                newParams.y = y
+                windowManager!!.updateViewLayout(v, newParams)
+
+                touchedY = e.rawY.toInt()
+                true
+            }
+        })
 
         // Viewを画面上に追加
         windowManager!!.addView(view, params)
