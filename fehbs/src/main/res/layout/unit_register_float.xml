@@ -1,0 +1,424 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@android:color/background_dark"
+              android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="1dp"
+        >
+
+
+        <Spinner
+            android:id="@+id/baseUnitSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/weapons_swords"
+
+            android:text="------------------"/>
+
+        <Spinner
+            android:id="@+id/spinner_weapon3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/weapon_type"/>
+
+        <Spinner
+            android:id="@+id/spinner_move3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/move_type"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="1dp"
+        >
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="0dp"
+            android:paddingEnd="1dp"
+            android:paddingStart="1dp"
+            android:paddingTop="0dp"
+            android:text="@string/top_rarities_title"
+            android:textSize="@dimen/mini_param_text_size"/>
+
+        <Spinner
+            android:id="@+id/raritySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/rarities"
+            android:text="5"/>
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="0dp"
+            android:paddingEnd="1dp"
+            android:paddingStart="1dp"
+            android:paddingTop="0dp"
+            android:text="@string/bottom_rarities_title"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/mini_param_text_size"
+
+            />
+
+        <Spinner
+            android:id="@+id/targetRaritySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/rarities"
+            android:text="0"/>
+
+        <TextView
+            android:id="@+id/textView6"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/plus"
+
+            android:textIsSelectable="true"
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <Spinner
+            android:id="@+id/levelBoostSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/levelBoosts"
+            android:text="0"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="1dp"
+        >
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/boon_title"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/param_text_size"
+
+            />
+
+        <Spinner
+            android:id="@+id/boonRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/boon_type"
+            android:text="@string/none"
+
+            />
+
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/bane_title"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/param_text_size"
+
+            />
+
+        <Spinner
+            android:id="@+id/baneRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/boon_type"
+            android:text="@string/none"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="        "/>
+
+        <Button
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light"
+        android:orientation="horizontal"
+        android:padding="1dp">
+
+        <TextView
+            android:id="@+id/hpBaseTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/hp_title"
+            />
+
+        <TextView
+            android:id="@+id/hpBaseView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <TextView
+            android:id="@+id/atkBaseTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/atk_title"
+            />
+
+        <TextView
+            android:id="@+id/atkBaseView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <TextView
+            android:id="@+id/spdBaseTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/spd_title"
+            />
+
+        <TextView
+            android:id="@+id/spdBaseView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <TextView
+            android:id="@+id/defBaseTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/def_title"
+            />
+
+        <TextView
+            android:id="@+id/defBaseView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <TextView
+            android:id="@+id/resBaseTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/res_title"
+            />
+
+        <TextView
+            android:id="@+id/resBaseView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:orientation="horizontal"
+        android:padding="1dp"
+        >
+
+        <TextView
+            android:id="@+id/hpTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/hp_title"
+            />
+
+        <TextView
+            android:id="@+id/hpView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <TextView
+            android:id="@+id/atkTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/atk_title"
+            />
+
+        <TextView
+            android:id="@+id/atkView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <TextView
+            android:id="@+id/spdTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/spd_title"
+            />
+
+        <TextView
+            android:id="@+id/spdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <TextView
+            android:id="@+id/defTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/def_title"
+            />
+
+        <TextView
+            android:id="@+id/defView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <TextView
+            android:id="@+id/resTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="6"
+            android:text="@string/res_title"
+            />
+
+        <TextView
+            android:id="@+id/resView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="5"
+
+            android:textSize="@dimen/param_text_size"
+            />
+
+    </LinearLayout>
+
+    <!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="1dp"
+        >
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/unit_detail_name"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/param_text_size"
+            />
+
+        <EditText
+            android:id="@+id/unitName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:visibility="visible"/>
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@android:string/ok"
+            />
+    </LinearLayout>
+-->
+</LinearLayout>

@@ -514,16 +514,23 @@ object StandardBaseHero {
 
         createItem(Name.リーフ, 1, WeaponType.SWORD, MoveType.INFANTRY,  5, 18, 6,10 ,8 ,6 ,6 ,8 ,9 , 6, 4,
                 Weapon.LightBrand, null, Special.BlazingLight, SkillA.SteadyBlow.lv(2), SkillB.SDrink, SkillC.DriveAtk.lv(2))
-        createItem(Name.ナンナ, 0, WeaponType.STAFF, MoveType.CAVALRY,  5, 17, 5, 8, 6, 7,  5, 6, 8, 3,5,
+        createItem(Name.ナンナ, 0, WeaponType.STAFF, MoveType.CAVALRY,  4, 17, 5, 8, 6, 7,  5, 6, 8, 3,5,
                 Weapon.Absorb2, Assist.Restore, Special.HeavenlyLight, SkillA.SpdRes.lv(2), Skill.NONE, SkillC.DriveDef.lv(2))
         createItem(Name.ラインハルト__トラキア_, 1, WeaponType.SWORD, MoveType.CAVALRY,  5, 18, 9, 6, 7, 6, 6, 8, 4, 7, 6,
                 Weapon.Meisterschwert, null, Special.Pavise, SkillA.DeathBlow.lv(3), SkillB.Vantage.lv(3), SkillC.SpurAtkSpd.lv(2))
         createItem(Name.オルエン__トラキア_, 3, WeaponType.GTOME, MoveType.CAVALRY,  5, 17, 8, 9, 4, 5, 4, 6, 8, 3, 6,
                 Weapon.Thunderhead, null, Special.BlazingWind, SkillA.SwiftSparrow.lv(2), SkillB.Renewal.lv(3), SkillC.GTomeValor.lv(3))
-        createItem(Name.フィン, 2, WeaponType.LANCE, MoveType.CAVALRY,  5, 18, 8, 9, 8, 3, 6, 8, 7, 7, 3,
+        createItem(Name.フィン, 2, WeaponType.LANCE, MoveType.CAVALRY,  4, 18, 8, 9, 8, 3, 6, 8, 7, 7, 3,
                 Weapon.BraveLance2, null, Special.Miracle, SkillA.AtkDef.lv(2), Skill.NONE, SkillC.GoadCavalry)
         createItem(Name.サイアス, 2, WeaponType.BTOME, MoveType.INFANTRY,  5, 17, 7, 8, 5, 8, 5, 8, 6, 2, 8,
                 Weapon.WargodsTome, null, Special.Glacies, Skill.NONE, SkillB.EscapeRoute.lv(3), SkillC.SpdPloy.lv(3))
+
+                createItem(Name.ヒノカ__白き翼_, 0, WeaponType.BOW, MoveType.FLIER,  5, 18, 6, 9, 4, 7, 5, 8, 8, 2, 6,
+                Weapon.WarriorPrincess, null, Special.Luna, SkillA.AtkSpdBond.lv(3), SkillB.FlierFormation.lv(3), SkillC.FlierGuidance.lv(3))
+        createItem(Name.シグレ__白き翼_, 2, WeaponType.LANCE, MoveType.FLIER,  5, 18, 7, 9, 5, 8, 6, 8, 9, 6, 4,
+                Weapon.HarmonicLance2, null, Special.Noontime, SkillA.DartingStance.lv(3), Skill.NONE, SkillC.WardFliers)
+        createItem(Name.カンナ__女_, 3, WeaponType.DRAGON, MoveType.INFANTRY,  5, 18, 8, 8, 7, 7, 6, 6, 8, 8, 5,
+               Weapon.WaterBreath2, null, Special.DraconicAura, SkillA.FierceStance.lv(3), Skill.NONE, SkillC.GoadDragons)
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }

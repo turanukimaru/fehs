@@ -3,7 +3,9 @@
 
     <string name="app_name">FEHBS</string>
     <string name="pre_name">FEH Battle Simulator</string>
-    <string name="action_delete">削除</string>
+    <string name="action_delete">選択ユニット削除</string>
+    <string name="action_float">個体値 計算機</string>
+    <string name="close_float">←閉じる</string>
     <string name="action_cancel">キャンセル</string>
     <string name="title_unit_detail">ユニット登録</string>
     <string name="unit_name_title">ユニット名</string>
@@ -30,6 +32,7 @@
     <string name="none">-</string>
     <string name="alert_default_name">デフォルト以外の名前を入力してください</string>
     <string name="alert_create_unit">ユニットを作成しました</string>
+    <string name="alert_update_unit">ユニットを更新しました</string>
     <string name="attacked_title">敵から攻撃する</string>
     <string name="include_db_title">登録ユニットも計算</string>
     <string name="rarities_title">☆</string>
@@ -52,6 +55,11 @@
     <string name="merge10">LV40+10</string>
     <string name="clear">clear</string>
     <string name="buffSpur">鼓舞・紋章</string>
+    <string name="top_rarities_title">↑Lv1☆</string>
+    <string name="bottom_rarities_title">↓Lv40☆</string>
+    <string name="plus">+</string>
+    <string name="add">追加</string>
+    <string name="write">更新</string>
     <string-array name="weapon_type">
         <item>武器</item>
         <item>剣</item>
@@ -100,6 +108,12 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
+    </string-array>
+    <string-array name="levelUps">
+        <item>☆5L40</item>
+        <item>☆5L40+10</item>
+        <item>☆4L40</item>
+        <item>☆4L40+10</item>
     </string-array>
     <string-array name="empty10">
         <item>@string/none</item>

@@ -2,6 +2,7 @@ package jp.blogspot.turanukimaru.fehbs
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -30,17 +31,17 @@ class BattleSimulatorActivity : AppCompatActivity() {
      * device.
      */
     private var mTwoPane: Boolean = false
-
     /**
      * 初期化。
      */
     override fun onCreate(savedInstanceState: Bundle?) {//?:nullable
         super.onCreate(savedInstanceState)
         Log.i("BattleSimulatorActivity", "onCreate")
+
         setContentView(R.layout.activity_main)
     }
 
-    private val locale = LocaleAdapter(Locale.getDefault()).locale()
+    private val locale = LocaleAdapter(Locale.getDefault()).locale
 
     /**
      * 画面の要素作成

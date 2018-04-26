@@ -10,7 +10,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
+
+        <Button
+            android:id="@+id/float_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/action_float"/>
+
+        <Button
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/close_float"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="2dp">
 
         <Spinner
             android:id="@+id/spinner_weapon3"
@@ -18,13 +40,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:entries="@array/weapon_type"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="4dp">
 
         <Spinner
             android:id="@+id/spinner_move3"
@@ -39,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
 
@@ -57,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_weight="2"
             android:text="@string/none"/>
 
     </LinearLayout>
@@ -65,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <TextView
             android:id="@+id/hpBaseTitleView"
@@ -158,7 +174,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
@@ -249,20 +265,21 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
             style="?android:attr/textAppearanceLarge"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:paddingEnd="4dp"
             android:paddingStart="4dp"
-            android:text="@string/rarities_title"
+            android:text="@string/top_rarities_title"
+            android:textSize="@dimen/mini_param_text_size"
             android:textIsSelectable="true"
             />
 
@@ -274,21 +291,34 @@
             android:entries="@array/rarities"
             android:text="5"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="4dp"
-        >
-
         <TextView
             style="?android:attr/textAppearanceLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/levelBoost_title"
+            android:layout_weight="1"
+            android:text="@string/bottom_rarities_title"
+            android:textSize="@dimen/mini_param_text_size"
+            android:textIsSelectable="true"/>
+
+        <Spinner
+            android:id="@+id/targetRaritySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:entries="@array/rarities"
+            android:text="5"/>
+
+        <TextView
+            android:id="@+id/textView8"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@string/plus"
+            android:textSize="@dimen/mini_param_text_size"
             android:textIsSelectable="true"
             />
 
@@ -297,6 +327,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:entries="@array/levelBoosts"
             android:text="0"/>
 
@@ -306,7 +337,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
@@ -318,12 +349,13 @@
             android:textIsSelectable="true"
             />
 
-        <RadioButton
+        <Spinner
             android:id="@+id/boonRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/none"
+            android:entries="@array/boon_type"
             />
 
     </LinearLayout>
@@ -332,7 +364,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
@@ -344,12 +376,13 @@
             android:textIsSelectable="true"
             />
 
-        <RadioButton
+        <Spinner
             android:id="@+id/baneRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/none"
+            android:entries="@array/boon_type"
             />
     </LinearLayout>
 
@@ -364,7 +397,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
@@ -392,7 +425,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
@@ -417,7 +450,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
@@ -442,7 +475,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
@@ -469,7 +502,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
+        android:padding="2dp"
         >
 
         <TextView
@@ -494,7 +527,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <TextView
             style="?android:attr/textAppearanceLarge"
@@ -520,7 +553,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <TextView
             style="?android:attr/textAppearanceLarge"
@@ -545,7 +578,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <TextView
             style="?android:attr/textAppearanceLarge"
@@ -571,7 +604,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
 
 
         <TextView
@@ -613,7 +646,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <TextView
             android:id="@+id/atkBuffTitleView"
@@ -689,7 +722,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
 
 
         <TextView
@@ -756,15 +789,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <Button
-            android:id="@+id/ok_button"
-            android:layout_width="match_parent"
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@android:string/ok"/>
+            android:layout_weight="1"
+            android:text="@string/add"/>
+
+        <Button
+            android:id="@+id/write_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write"/>
 
     </LinearLayout>
 </LinearLayout>

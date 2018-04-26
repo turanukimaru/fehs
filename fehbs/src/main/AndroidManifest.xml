@@ -24,6 +24,8 @@
         </application>
     -->
     <!-- 普通のAndroidアプリで起動してからLibGDXアプリに飛ぶお試しXML。LibGDX側は特に何もしなくてよい。当たり前か -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <application
         android:name="jp.blogspot.turanukimaru.fehbs.BattleSimApp"
         android:allowBackup="true"
@@ -53,6 +55,14 @@
                 android:value="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"/>
         </activity>
 
+        <service android:name="jp.blogspot.turanukimaru.fehbs.HeroStatusService"/>
+
+
+        <receiver android:name="jp.blogspot.turanukimaru.fehbs.HeroRepoReceiver">
+            <intent-filter>
+                <action android:name="jp.blogspot.turanukimaru.fehbs.ADD_HERO"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -3,7 +3,9 @@
 
     <string name="app_name">FEHBS</string>
     <string name="pre_name">FEH Battle Simulator</string>
-    <string name="action_delete">Delete</string>
+    <string name="action_float">Floating Status Calc</string>
+    <string name="close_float">←Close</string>
+    <string name="action_delete">Delete Base Unit</string>
     <string name="action_cancel">Cancel</string>
     <string name="title_unit_detail">Register Unit</string>
     <string name="unit_name_title">Unit</string>
@@ -30,6 +32,7 @@
     <string name="none">-</string>
     <string name="alert_default_name">please input non-default name</string>
     <string name="alert_create_unit">target unit created</string>
+    <string name="alert_update_unit">target unit updated</string>
     <string name="attacked_title">Enemy inisiates</string>
     <string name="include_db_title">Include registered unit</string>
     <string name="rarities_title">☆</string>
@@ -52,6 +55,12 @@
     <string name="merge10">LV40+10</string>
     <string name="clear">clear</string>
     <string name="buffSpur">Buff/Spur</string>
+    <string name="top_rarities_title">↑Lv1☆</string>
+    <string name="bottom_rarities_title">↓Lv40☆</string>
+    <string name="plus">+</string>
+    <string name="add">Add</string>
+    <string name="write">Update</string>
+
     <string-array name="weapon_type">
         <item>WEAPON</item>
         <item>SWORD</item>
