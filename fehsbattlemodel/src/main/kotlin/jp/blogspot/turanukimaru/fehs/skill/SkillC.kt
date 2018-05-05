@@ -74,6 +74,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     ArmorMarch(Name.ArmorMarch, SkillType.C),
     Guidance(Name.Guidance, SkillType.C),
     AtkTactic(Name.AtkTactic, SkillType.C),
+    SpdTactic(Name.SpdTactic, SkillType.C),
     DefTactic(Name.DefTactic, SkillType.C),
     ResTactic(Name.ResTactic, SkillType.C),
     FlierGuidance(Name.FlierGuidance, SkillType.C),

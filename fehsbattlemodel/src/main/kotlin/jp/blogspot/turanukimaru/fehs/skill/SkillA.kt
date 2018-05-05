@@ -141,12 +141,14 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     WardingBreath(Name.WardingBreath, SkillType.A, maxLevel = 0) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.accelerateAttackCooldown = 1
+            battleUnit.accelerateTargetCooldown = 1
             return blowRes(battleUnit, 4)
         }
     },
     SteadyBreath(Name.SteadyBreath, SkillType.A, maxLevel = 0) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.accelerateAttackCooldown = 1
+            battleUnit.accelerateTargetCooldown = 1
             return blowDef(battleUnit, 4)
         }
     },
@@ -225,6 +227,10 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     },
     BrazenDefRes(Name.BrazenAtkSpd, SkillType.A) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenDef(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
+    },
+    LawsOfSacae(Name.LawsOfSacae, SkillType.A, maxLevel = 0) {
+        //実際は2以上。これ比較対象をユニットに持たせなきゃだめだな
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4) else battleUnit
     },
     ;
 
