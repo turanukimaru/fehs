@@ -110,7 +110,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         return true
     }
 
-    open fun movePiece() : Boolean{
+    open fun movePiece(): Boolean {
         return true
     }
 

@@ -23,7 +23,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
               /**
                * 論理的な盤面。この盤面に操作を伝える
                */
-              val board: Board<*,*>
+              val board: Board<*, *>
 ) : ClickListener() {
     /**
      * 10の位の数字を表示するためのアクション。桁数を増やすなら配列の配列にしないとなあ
@@ -92,7 +92,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         }
         liner.end()
         //駒が選択されていたら移動範囲を表示する。モードを切り替えるならボード側に色情報を持たせる必要があるな
-        if (board.selectedPiece != null) {
+        if (board.hand.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
                     if (board.searchedRoute[x][y] != null && board.searchedRoute[x][y] >= 0) {
@@ -104,7 +104,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
             }
             //ルートから外れたら掘りなおさないとなあ。移動力超えたらか？直線矢印で十分かなあ
             //This inspection reports any declarations that can be destructuredが出たらこう書ける
-            board.routeStack.forEach { (x, y) ->
+            board.hand.routeStack.forEach { (x, y) ->
                 fillSquare(x, y, UiBoard.FillType.PASS)
             }
         }

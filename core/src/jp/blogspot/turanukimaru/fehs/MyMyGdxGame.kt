@@ -42,7 +42,7 @@ class MyMyGdxGame : ApplicationAdapter() {
     val LOGICAL_HEIGHT = 960f//1280f
     var bitmapFont: BitmapFont? = null
 
-   private val myGame:MyGame by lazy { MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT) }
+    private val myGame: MyGame by lazy { MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT) }
 
     var textureDisposer = arrayListOf<Texture>()
     var imageDisposer = arrayListOf<Image>()
@@ -225,9 +225,9 @@ class MyMyGdxGame : ApplicationAdapter() {
         //なぜか消すと画面のFillが表示されなくなる。image.drawでstageとの調整をしているのでその都合かと思われる。
 //        buttons.forEach { b -> b.draw(batch, 100f) }
 
-        bitmapFont!!.draw(batch, "${myGame.board.oldPosition}\nデバッグ用文字", 50f, 300f)
+        bitmapFont!!.draw(batch, "${myGame.board.hand.oldPosition}\nデバッグ用文字", 50f, 300f)
         batch!!.end()
-        myGame. uiBoard.update()
+        myGame.uiBoard.update()
         stage!!.act(Gdx.graphics.deltaTime)
         stage!!.draw()
 

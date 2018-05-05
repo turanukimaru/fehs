@@ -8,17 +8,13 @@ import java.util.*
  */
 class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
-     * 現在盤上で選択されている駒
-     */
-    var selectedPiece: Piece<UNIT, GROUND>? = null
-    /**
      * 盤上の駒
      * 駒が無いところはnull
      */
     val pieceMatrix = arrayListOf<ArrayList<Piece<UNIT, GROUND>?>>()
     /**
      * 盤上の地形
-     * 地形が無いところはnull.nullObjectとか床を作るべきか？そっちのが良い気がするな。
+     * 地形が無いところはnull.nullObjectとか床を作るべきか？でも床のないボードゲームのが多いよな
      */
     val groundMatrix = arrayListOf<ArrayList<GROUND?>>()
     /**
@@ -33,18 +29,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 現在盤上の所有権を持つプレイヤー
      */
     var owner: Player? = null
-    /**
-     * 選択されている駒が動かされて移動が確定していないときの動かした道筋
-     */
-    val routeStack = ArrayDeque<Position>()
-    /**
-     * 駒を移動中に移動元の枡を記録しておく
-     */
-    var oldPosition: Position? = null
 
+    val hand = Hand<UNIT, GROUND>()
     /**
      * 横の0..last
-     * 0..x-1 は 0 until x と書ける。関数にすることはなかったな・・・
+     * 0..x-1 は 0 until x と書ける
      */
     val horizontalIndexes = 0 until horizontalLines
 
@@ -63,7 +52,6 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             verticalIndexes.forEach { boxLine.add(null) }
             groundMatrix.add(boxLine)
         }
-//        uiBoard.setBoardListener(this)
     }
 
     /**
@@ -79,7 +67,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 駒の位置を探す。見つからなかったらnullを返すようにしてるけど例外を投げるべきか？何らかの原因であるべき駒が無いんだから。
      */
-  private   fun searchUnitPosition(piece: Piece<*, *>): Position? {
+    private fun searchUnitPosition(piece: Piece<*, *>): Position? {
         println("searchUnitPosition $piece")
         horizontalIndexes.forEach { x ->
             verticalIndexes.forEach { y ->
@@ -103,7 +91,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の枡に駒を移動する。自分以外の駒が配置済みだったら例外を吐く
      */
-  private  fun moveToPosition(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
+    private fun moveToPosition(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (isAnotherPiece(piece, x, y)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         println("moveToPosition $piece $x $y")
         setToPositionWithoutAction(piece, x, y)
@@ -115,7 +103,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 対象の枡に駒を置く。移動元が見つからないときは例外を吐く
      * Actionとの関係を整理したほうが良いな
      */
-   private fun setPiece(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
+    private fun setPiece(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         val oldSquare = searchUnitPosition(piece)!!
         //移動範囲外は旧枡に戻す.キャンセルはやりすぎかなあ
         if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || searchedRoute[x][y] < 0) {
@@ -128,7 +116,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         if (targetSquaresUnit != null && targetSquaresUnit != piece) {
             throw RuntimeException("another piece $targetSquaresUnit")
         }
-        pieceMatrix[oldSquare!!.x][oldSquare!!.y] = null
+        pieceMatrix[oldSquare.x][oldSquare.y] = null
         pieceMatrix[x][y] = piece
     }
 
@@ -307,10 +295,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun deselectPiece() {
         println("deselectPiece")
         //移動範囲のリセットってやるべきかなあ？
-        selectedPiece = null
-        oldPosition = null
-        routeStack.clear()
-
+        hand.clear()
     }
 
     /**
@@ -318,13 +303,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun selectPiece(piece: Piece<UNIT, GROUND>) {
         println("selectPiece $piece")
-        if (selectedPiece != null) {
-            deselectPiece()
-        }
+        hand.clear()
         searchRoute(piece)
         searchEffectiveRoute(piece)
-        selectedPiece = piece
-        oldPosition = searchUnitPosition(piece)!!
+        hand.selectedPiece = piece
+        hand.oldPosition = searchUnitPosition(piece)!!
 
     }
 
@@ -333,11 +316,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun moveCancel() {
         println("moveCancel")
-        selectedPiece?.actionPhase = Piece.ActionPhase.READY
-        if (selectedPiece != null) {
-            moveToPosition(selectedPiece!!, oldPosition!!)
-        }
-        deselectPiece()
+        hand.selectedPiece?.actionPhase = Piece.ActionPhase.READY
+//        if (selectedPiece != null) {
+//            moveToPosition(selectedPiece!!, oldPosition!!)
+//        }
+        hand.clear()
     }
 
     /**
@@ -345,21 +328,6 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     class Player {
         val pieceList = arrayListOf<Piece<*, *>>()
-    }
-
-    /**
-     * 駒の移動中に、移動経路を記録する
-     */
-    fun stackRoute(touchedSquare: UiBoard.Position) {
-        println("stackRoute $touchedSquare")
-        if (routeStack.isEmpty() || routeStack.last != touchedSquare && searchedRoute[touchedSquare.x][touchedSquare.y] >= 0) {
-            //ただしスタックに有ったらそこまで戻す
-            while (routeStack.contains(touchedSquare)) {
-                routeStack.pop()
-            }
-            routeStack.push(touchedSquare)
-        }
-
     }
 
     /**
@@ -389,7 +357,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         orientations.forEach { v ->
             //一歩手前を逆算
             val pos = moveWithOrientation(v, position, -1)
-            val lastIndexOfPos = routeStack.lastIndexOf(pos)
+            val lastIndexOfPos = hand.routeStack.lastIndexOf(pos)
             if (lastIndexOfPos > lastIndexOfAttackPos) {
                 lastIndexOfAttackPos = lastIndexOfPos
                 attackPos = pos
@@ -406,6 +374,10 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         pieceMatrix[position.x][position.y] = null
         //死んだときにやることが出来たら追加しないとな
 //        piece.uiPiece.actor.remove()
+    }
+
+    fun stackRoute(position: UiBoard.Position) {
+      if(searchedRoute[position.x][position.y] > 0){  hand.stackRoute(position)}
     }
 
 }

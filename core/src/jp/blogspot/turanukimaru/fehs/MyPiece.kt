@@ -11,7 +11,7 @@ import jp.blogspot.turanukimaru.board.UiBoard
  * 駒を継承してそのゲームにおける駒のルールを記述。画像としての処理もとりあえずここ。Actionは括りだすべきか？
  */
 class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Board.Player) : Piece<BattleUnit, Ground>(containUnit, board, owner) {
-    var fightResult:FightResult?=null
+    var fightResult: FightResult? = null
     override fun isStopable(otherUnit: BattleUnit?): Boolean = otherUnit == null
 
     override fun isMovable(piece: Piece<*, *>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
@@ -86,7 +86,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         }
         val target = board.pieceMatrix[touchedSquare.x][touchedSquare.y]?.containUnit as? BattleUnit
         //敵ユニットに重ねたときは戦闘結果を計算して表示
-        if (board.selectedPiece != null && board.effectiveRoute[touchedSquare.x][touchedSquare.y] > 0 && target != null && target != board.selectedPiece?.containUnit) {
+        if (board.hand.selectedPiece != null && board.effectiveRoute[touchedSquare.x][touchedSquare.y] > 0 && target != null && target != board.hand.selectedPiece?.containUnit) {
             val fightResult = containUnit.fight(target)
             for (result in fightResult) {
                 println(result)
@@ -94,7 +94,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
             val expected = fightResult.last()
 
             board.updateInfo = { b ->
-                                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
+                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
                 b.bitmapFont.draw(b.batch, target.armedHero.baseHero.name.jp, 320f, 940f)
                 b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
                 b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
@@ -119,6 +119,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         this.actionPhase = actionTouchedPoint(position)
         return true
     }
+
     /**
      * touchUp/boardのタッチから呼び出される。MyUiPieceが要るか…？
      */
@@ -130,7 +131,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
 
         //攻撃範囲かつユニットがいたらそいつにアクション.とりあえず攻撃位置に移動しているかドラッグで攻撃位置を経由しているかに限る
         val target = board.pieceMatrix[position.x][position.y]
-        if (board.oldPosition != position && board.effectiveRoute[position.x][position.y] > 0 && target != null && target != this) {
+        if (board.hand.oldPosition != position && board.effectiveRoute[position.x][position.y] > 0 && target != null && target != this) {
             //攻撃位置探索.TODO:見つからなかったら移動可能場所の中から攻撃可能地点を探す必要がある。
 
             val attackPos = board.findAttackPos(this, position)
@@ -140,12 +141,12 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 println(board.pieceMatrix[position.x][position.y])
                 println("attack to $position")
                 println("attack from $attackPos")
-                println(board.routeStack)
+                println(board.hand.routeStack)
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
                 //とりあえずノーモーションで枡に戻してからアニメさせているが、一度不通に戻すべきかなあ
                 board.setToPosition(this, attackPos)
 
-                 fightResult =FightResult(attackPos, position,containUnit.fight(target.containUnit))
+                fightResult = FightResult(attackPos, position, containUnit.fight(target.containUnit))
 //                target.fightResult = fightResult
                 //HP減らすのきついな…表示は分けるか…？
                 containUnit.hp = fightResult!!.attackResults.last().source.hp
@@ -168,7 +169,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
             }
         }
         //動いてないときも画像位置調整のためその場にセット
-        if (target == this && board.oldPosition == position) {
+        if (target == this && board.hand.oldPosition == position) {
 //        if (board.routeStack.isEmpty() || board.oldPosition == position) {
             println("board.moveToPossition(this, $board.oldPosition!!)")
             if (actionPhase == ActionPhase.MOVED) {
@@ -179,7 +180,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
             return ActionPhase.MOVED
         }
         //移動後に自分自身を推したときは行動終了.クリックに移動すると両方起動してしまうから受付時間の処理とか要るな
-        if (target == this && board.oldPosition != position && actionPhase == ActionPhase.MOVED) {
+        if (target == this && board.hand.oldPosition != position && actionPhase == ActionPhase.MOVED) {
             //行動終了
             board.moveToPosition(this, position)
             board.deselectPiece()
@@ -201,4 +202,4 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
 
 }
 
-data class FightResult( val attackPos: UiBoard.Position, val targetPos: UiBoard.Position,val attackResults: List<AttackResult>)
+data class FightResult(val attackPos: UiBoard.Position, val targetPos: UiBoard.Position, val attackResults: List<AttackResult>)

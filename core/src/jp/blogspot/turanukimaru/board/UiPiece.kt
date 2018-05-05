@@ -9,11 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
  * 駒とLibGDXの間
  */
 open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
-              /**
-               * 論理駒
-               */
-             open var piece: Piece<*, *>
-              ) : ClickListener() {
+                   /**
+                    * 論理駒
+                    */
+                   open var piece: Piece<*, *>
+) : ClickListener() {
     /**
      * 中に含むActorのリスト。アニメーションで体の部位を動かすのに使うのだがボーンモデル別に作るべき
      */
@@ -85,5 +85,5 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     /**
      * LibGDXのアップデートで呼ばれる。TODO:アニメを作っていたがActionsのループ処理を作るべきか
      */
-  open  fun update() {    }
+    open fun update() {}
 }
