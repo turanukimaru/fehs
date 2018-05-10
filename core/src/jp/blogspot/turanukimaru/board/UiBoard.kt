@@ -25,6 +25,12 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
                */
               val board: Board<*, *>
 ) : ClickListener() {
+
+    /**
+     * 盤面の座標
+     */
+    data class Position(val x: Int, val y: Int)
+
     /**
      * 10の位の数字を表示するためのアクション。桁数を増やすなら配列の配列にしないとなあ
      */
@@ -37,6 +43,30 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     val numberRegions = arrayListOf<TextureRegion>()
 
     val uiPieceList = arrayListOf<UiPiece>()
+
+    /**
+     * 枡幅
+     */
+    private val squareWidth = width / board.horizontalLines
+    /**
+     * 盤面の背景画像
+     */
+    var stageTexture: Texture? = null
+
+
+    /**
+     * 枡高さ
+     */
+    private val squareHeight = (height - marginBottom - marginTop) / board.verticalLines
+
+    private fun posXtoSquareX(x: Float) = (x / squareWidth).toInt()
+
+    private fun posYtoSquareY(y: Float) = ((y - marginBottom) / squareHeight).toInt()
+
+    private fun posYtoSquareY(y: Int) = y * squareHeight + marginBottom
+
+    private fun squareXtoPosX(x: Int) = x * squareWidth
+
     /**
      * 盤面がクリックされたときに起動する…のだがタッチとかタッチアップとかとの使い分け方が分からない。これをメインにしないほうが良いかもしれない
      */
@@ -52,11 +82,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 //            board?.clicked(event, posToPosition(Vector3(x, y, 0f)))
 //        }
     }
-
-    /**
-     * 盤面の背景画像
-     */
-    var stageTexture: Texture? = null
 
     /**
      * 盤面に駒のアクターを配置する
@@ -95,9 +120,9 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         if (board.hand.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
-                    if (board.searchedRoute[x][y] != null && board.searchedRoute[x][y] >= 0) {
+                    if (board.searchedRoute[x][y] >= 0) {
                         fillSquare(x, y, UiBoard.FillType.MOVABLE)
-                    } else if (board.effectiveRoute[x][y] != null && board.effectiveRoute[x][y] >= 0) {
+                    } else if (board.effectiveRoute[x][y] >= 0) {
                         fillSquare(x, y, UiBoard.FillType.ATTACKABLE)
                     }
                 }
@@ -113,40 +138,18 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
-     * 盤面がタッチされたときに起動する。盤面の触っている枡の色を変えるコードがあるがこれもう変えたほうが良いか
+     * 盤面がタッチされたときにupdateタイミングで呼び出される。盤面の触っている枡の色を変えるコードがあるが一般的にはカーソルとかエフェクトが出るやつ
      */
     fun touched(touchPos: Vector3) {
         val pos = Vector3(touchPos)
         stage.camera.unproject(pos)
         if (pos.y > marginBottom && pos.y < height - marginBottom) {
-            val lengthX = squareWidth
-            val lengthY = squareHeight
-
             liner.begin(ShapeRenderer.ShapeType.Line)
             liner.color = Color.RED
-            liner.rect(posXtoSquareX(pos.x) * lengthX, posYtoSquareY(pos.y) * lengthY + marginBottom, lengthX, lengthY)
+            liner.rect(posXtoSquareX(pos.x) * squareWidth, posYtoSquareY(pos.y) * squareHeight + marginBottom, squareWidth, squareHeight)
             liner.end()
         }
-
     }
-
-    /**
-     * 枡幅
-     */
-    private val squareWidth = width / board.horizontalLines
-
-    /**
-     * 枡高さ
-     */
-    private val squareHeight = (height - marginBottom - marginTop) / board.verticalLines
-
-    private fun posXtoSquareX(x: Float) = (x / squareWidth).toInt()
-
-    private fun posYtoSquareY(y: Float) = ((y - marginBottom) / squareHeight).toInt()
-
-    private fun posYtoSquareY(y: Int) = y * squareHeight + marginBottom
-
-    private fun squareXtoPosX(x: Int) = x * squareWidth
 
     /**
      * libGDXの座標から盤面の座標に変換
@@ -211,11 +214,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
-     * 盤面の座標
-     */
-    data class Position(val x: Int, val y: Int)
-
-    /**
      * updateSpriteBatch時に呼ぶこと。背景や盤外の情報を描く。枠線を引くより前に呼ぶ必要があるのでSpriteBatchじゃないほうがいいかも・・・？
      */
     fun updateSpriteBatch(batch: SpriteBatch) {
@@ -271,7 +269,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         MOVABLE(Color.BLUE),
         ATTACKABLE(Color.RED),
         PASS(Color.GREEN)
-
     }
 }
 
