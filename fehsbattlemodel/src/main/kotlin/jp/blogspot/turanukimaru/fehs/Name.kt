@@ -935,7 +935,9 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     BarbShuriken("暗殺手裏剣＋", "Barb Shuriken", "Barb Shuriken"),
     BarbShuriken2("暗殺手裏剣＋", "Barb Shuriken+", "Barb Shuriken+"),
     Forblaze("フォルブレイズ","Forblaze","Forblaze"),
-    NamelessBlade("無名の一門の剣","Nameless Blade","Nameless Blade")
+    NamelessBlade("無名の一門の剣","Nameless Blade","Nameless Blade"),
+    Rhomphaia("ロムファイア","Rhomphaia","Rhomphaia"),
+    CamillasAxe("カミラの斧","Camilla's Axe","Camilla's Axe"),
     ;
 
     /**
