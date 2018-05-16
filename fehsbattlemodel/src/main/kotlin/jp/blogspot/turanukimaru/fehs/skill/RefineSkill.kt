@@ -173,7 +173,7 @@ enum class RefineSkill(override val jp: Name, val hp: Int, val atk: Int, val spd
     Sieglinde(Name.Sieglinde, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Sieglinde),
     WindsBrand(Name.Owl, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.WindsBrand) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
-        },
+    },
     Brynhildr(Name.Brynhildr, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Brynhildr) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiFollowupRangedDef(battleUnit, enemy)
     },
@@ -181,11 +181,12 @@ enum class RefineSkill(override val jp: Name, val hp: Int, val atk: Int, val spd
     Forblaze(Name.DeathBlow, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Forblaze) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 6)
     },
-    BindingBlade(Name.BindingBlade, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.BindingBlade,16 , SkillType.SWORD) {
+    BindingBlade(Name.BindingBlade, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.BindingBlade, 16, SkillType.SWORD) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 4), 4)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(WeaponType.DRAGON, battleUnit, enemy)
     },
     BindingBlade2(Name.QuickRiposte, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.BindingBlade) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit,  5)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
     },
     NamelessBlade(Name.SpecialDamage, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.NamelessBlade) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
