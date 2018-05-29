@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 
 /**
  * 駒とLibGDXの間
+ * 駒をドラッグ中は駒を動かすことになるがそうすると離したときにクリック扱いになるのでonClickを使わないように
  */
 open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
                    /**
@@ -31,29 +32,19 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     var disabled = false
 
     /**
-     * クリックされたら駒に伝える予定だけど使わないほうがよさそう
-     */
-    override fun clicked(event: InputEvent, x: Float, y: Float) {
-        super.clicked(event, x, y)
-//        event.stop()
-        val touchedSquare = uiBoard.touchedPosition()
-        piece.clicked(touchedSquare)
-    }
-
-    /**
      * ドラッグを駒に伝える
      * ドラッグはクリックではない.x,yは移動量。//駒の動きを駒に書くのは妥当か//無効の時に動かさないのどうすっかなこれ
      */
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
 //ドラッグしたら駒の表示を追従させているが移動量検出しないとちゃたるなこれ
-        if (piece.isActionable()) {
-            actor.setPosition(actor.x + x, actor.y + y)
+        if (!piece.isActionable()) {return
         }
         //升目以外にドラッグした場合は無視
         if (!uiBoard.posIsOnBoard(Vector3(x, y, 0f))) {
             return
         }
+        actor.setPosition(actor.x + x, actor.y + y)
         //現在位置取得はこっち
         val touchedSquare = uiBoard.touchedPosition()
         piece.touchDragged(touchedSquare)
@@ -76,6 +67,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
         val result = super.touchDown(event, x, y, pointer, button)
+        uiBoard.board.hand.startPiece(piece)
 //        actor.zIndex = 0
         touched = true
         piece.touchDown()

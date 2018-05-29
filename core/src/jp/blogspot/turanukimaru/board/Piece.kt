@@ -1,7 +1,7 @@
 package jp.blogspot.turanukimaru.board
 
 import jp.blogspot.turanukimaru.board.UiBoard.Position
-import jp.blogspot.turanukimaru.fehs.AttackResult
+import java.util.*
 
 
 /**
@@ -77,26 +77,28 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * x,yは移動量。
-     */
-    open fun touchDragged(position: Position): Boolean {
-        //行動できないときは反応しない
-        if (!isActionable()) {
-            return false
-        }
-        //ドラッグしてる絵を動かす
-        //移動可能範囲内で移動したらスタックに積む...
-        board.stackRoute(position)
-        return true
-
-    }
-
-    /**
      * タッチから指を離したとき。移動範囲・効果範囲外のときは駒をもとの場所に戻す
      */
-    open fun touchUp(position: Position): Boolean {
-        if (!isActionable()) {
-            return false
+    fun touchUp(position: Position): Boolean {
+        //あードラッグかどうかを先に判定しないといけないのか選択状態化で挙動が変わる
+        val selected = board.hand.selectedPiece
+        when (selected) {
+            //選択状態でなければ選択
+            null -> {
+                //行動準備時のみ動く
+                if (!isActionable()) {
+                    return false
+                }
+                //未選択時は選択。選択後は何もしない。これREADYであるかよりもボードの選択駒がこれかどうかで見るべきだよなあ
+                if (this.actionPhase == ActionPhase.READY) {
+                    this.actionPhase = ActionPhase.SELECTED
+                    board.selectPiece(this)
+                }
+            }
+            this -> {
+            }
+            else -> {
+            }
         }
         //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
         if (!board.positionIsOnBoard(position) || (board.searchedRoute[position.x][position.y] < 0 && board.effectiveRoute[position.x][position.y] < 0)) {
@@ -109,6 +111,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         }
         return true
     }
+
+    open fun touchRelease(position: Position): Boolean=true
 
     open fun movePiece(): Boolean {
         return true
@@ -131,20 +135,35 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
 
 
     /**
-     * タッチしたときはその駒を選択状態にする
+     * タッチしたときはコマを選択済みの時はその駒にアクションし、そうでないときはその駒を選択状態にする...
+     * upのタイミングじゃないとダメか？
      */
-    open fun touchDown(): Boolean {
-        //行動準備時のみ動く
+    fun touchDown(): Boolean {
+//        board.hand.touchDownPiece = this
+//        board.hand.holdStart = Date().time
+        return touched()
+    }
+
+    /**
+     * オーバーライド用
+     */
+    open fun touched(): Boolean = true
+
+    /**
+     * x,yは移動量。
+     */
+    fun touchDragged(position: Position): Boolean {
+        //行動できないときは反応しない
         if (!isActionable()) {
             return false
         }
-        //未選択時は選択。選択後は何もしない。これREADYであるかよりもボードの選択駒がこれかどうかで見るべきだよなあ
-        if (this.actionPhase == ActionPhase.READY) {
-            this.actionPhase = ActionPhase.SELECTED
-            board.selectPiece(this)
-        }
-        return true
+        //ドラッグしてる絵を動かす
+        //移動可能範囲内で移動したらスタックに積む...
+        board.stackRoute(position)
+        return dragged(position)
     }
+
+    open fun dragged(position: Position): Boolean = true
 
     /**
      * 移動可能方向

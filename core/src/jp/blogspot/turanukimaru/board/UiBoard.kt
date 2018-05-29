@@ -68,7 +68,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     private fun squareXtoPosX(x: Int) = x * squareWidth
 
     /**
-     * 盤面がクリックされたときに起動する…のだがタッチとかタッチアップとかとの使い分け方が分からない。これをメインにしないほうが良いかもしれない
+     * 盤面がクリックされたときに起動する…のだがタッチとタッチアップが同じときはクリックと判定するようでボードのクリックは拾いすぎて役に立たないな
      */
     override fun clicked(event: InputEvent, x: Float, y: Float) {
         super.clicked(event, x, y)

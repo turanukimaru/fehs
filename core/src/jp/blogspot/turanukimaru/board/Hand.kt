@@ -2,18 +2,28 @@ package jp.blogspot.turanukimaru.board
 
 import java.util.*
 
+/**
+ * 駒の操作状態と移動経路。タッチ時間・ドラッグ判定もここ。
+ */
 class Hand<UNIT, GROUND> {
-    fun clear() {
-        selectedPiece = null
-        oldPosition = null
-        routeStack.clear()
+    var dx = 0
+    var dy = 0
+    var holdStart = 0L
+    var holdNow = 0L
+    val select get()=selectedPiece != null
+    /**
+     * ドラッグ中か。一定値以上ドラッグかホールド時間で判定しとくか
+     */
+    val dragging: Boolean get() = holdNow - holdStart > 500 || dx > 24 || dx < -24 || dy > 24 || dy < -24
 
-    }
-
+    /**
+     * タッチ開始したときの駒。タッチ開始とUp開始が同じ駒の時でないとタッチ判定しないほうが良いだろう
+     */
+    var touchDownPiece: Piece<*, *>? = null
     /**
      * 現在盤上で選択されている駒
      */
-    var selectedPiece: Piece<UNIT, GROUND>? = null
+    var selectedPiece: Piece<*, *>? = null
     /**
      * 駒を移動中に移動元の枡を記録しておく
      */
@@ -26,6 +36,29 @@ class Hand<UNIT, GROUND> {
      * 選択されている駒が動かされて移動が確定していないときの動かした道筋
      */
     val routeStack = ArrayDeque<UiBoard.Position>()
+    fun clear() {
+        selectedPiece = null
+        oldPosition = null
+        dx = 0
+        dy = 0
+        routeStack.clear()
+    }
+
+    //フィールドから押し始めた場合は何にも反応させない
+    fun startField(){
+        clear()
+    }
+    //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする
+    fun startPiece(piece:Piece<*, *>){
+        dx = 0
+        dy = 0
+        touchDownPiece=piece
+        if(select && piece == selectedPiece){
+            return
+        }
+        clear()
+        touchDownPiece=piece
+    }
 
     /**
      * 駒の移動中に、移動経路を記録する

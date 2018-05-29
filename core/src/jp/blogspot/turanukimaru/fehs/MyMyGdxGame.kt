@@ -15,13 +15,13 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Group
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jp.blogspot.turanukimaru.board.Board
-import jp.blogspot.turanukimaru.board.UiBoard
-import jp.blogspot.turanukimaru.board.UiPiece
 
 /**
  * ゲーム本体。LibGDXサンプルソースがところどころ残ってるので削除せねば...
@@ -163,7 +163,13 @@ class MyMyGdxGame : ApplicationAdapter() {
         turnendImage.setPosition(64f, 0f)
         turnendImage.setScale(0.5f)
         buttons.add(turnendImage)
-        turnendImage.addListener({ _ -> println("pushed turnend");turnend(myGame.board) })
+        turnendImage.addListener(object : ClickListener() {
+            //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                println("pushed turnend")
+                turnend(myGame.board)
+            }
+        })
         //どこでボタン管理するか考えないとなー
         stage!!.addActor(turnendImage)
         myGame.board.turn(user)

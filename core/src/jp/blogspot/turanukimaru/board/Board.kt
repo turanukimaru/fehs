@@ -308,7 +308,6 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         searchEffectiveRoute(piece)
         hand.selectedPiece = piece
         hand.oldPosition = searchUnitPosition(piece)!!
-
     }
 
     /**

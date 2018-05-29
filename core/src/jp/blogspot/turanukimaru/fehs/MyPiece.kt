@@ -50,12 +50,9 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     /**
-     * タッチされたときの処理。
+     * タッチされたときの処理。コマの動きは共通処理なのでここは表示とか
      */
-    override fun touchDown(): Boolean {
-        if (!super.touchDown()) {
-            return false
-        }
+    override fun touched(): Boolean {
         //その駒の情報を表示する。enumにしたいけどcontainUnitがなあ。
         board.updateInfo = { b ->
             //フォントサイズ替えたいところではある
@@ -77,16 +74,10 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         return true
     }
 
-    /**
-     * ドラッグされたときの処理
-     */
-    override fun touchDragged(touchedSquare: UiBoard.Position): Boolean {
-        if (!super.touchDragged(touchedSquare)) {
-            return false
-        }
-        val target = board.pieceMatrix[touchedSquare.x][touchedSquare.y]?.containUnit as? BattleUnit
+    override fun dragged(position: UiBoard.Position): Boolean {
+        val target = board.pieceMatrix[position.x][position.y]?.containUnit
         //敵ユニットに重ねたときは戦闘結果を計算して表示
-        if (board.hand.selectedPiece != null && board.effectiveRoute[touchedSquare.x][touchedSquare.y] > 0 && target != null && target != board.hand.selectedPiece?.containUnit) {
+        if (board.hand.selectedPiece != null && board.effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.selectedPiece?.containUnit) {
             val fightResult = containUnit.fight(target)
             for (result in fightResult) {
                 println(result)
@@ -112,10 +103,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     //抽象化するならここか
-    override fun touchUp(position: UiBoard.Position): Boolean {
-        if (!super.touchUp(position)) {
-            return false
-        }
+    override fun touchRelease(position: UiBoard.Position): Boolean {
         this.actionPhase = actionTouchedPoint(position)
         return true
     }
