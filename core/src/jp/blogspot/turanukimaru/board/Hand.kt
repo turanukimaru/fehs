@@ -29,6 +29,10 @@ class Hand<UNIT, GROUND> {
      */
     var oldPosition: UiBoard.Position? = null
     /**
+     * タッチ開始したときの位置
+     */
+    var touchedPosition: UiBoard.Position? = null
+    /**
      * 駒を移動中に移動先の枡を記録しておく
      */
     var newPosition: UiBoard.Position? = null
@@ -48,18 +52,19 @@ class Hand<UNIT, GROUND> {
     fun startField(){
         clear()
     }
-    //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする
+    //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする。推し始めデータだけ初期化して終了
     fun startPiece(piece:Piece<*, *>){
         dx = 0
         dy = 0
         touchDownPiece=piece
-        if(select && piece == selectedPiece){
-            return
-        }
-        clear()
-        touchDownPiece=piece
+        touchedPosition
+        holdNow = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
     }
 
+//    fun releasePiece(piece:Piece<*, *>){
+//
+//    }
+//    fun dragg
     /**
      * 駒の移動中に、移動経路を記録する
      */
