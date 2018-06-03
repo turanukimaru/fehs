@@ -1,11 +1,11 @@
 buildscript {
-    ext.kotlin_version = '1.2.20'
+    ext.kotlin_version = '1.2.41'
     repositories {
         mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
@@ -15,7 +15,7 @@ buildscript {
 
         //DB FW
         classpath "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
-        classpath "io.realm:realm-gradle-plugin:4.2.0"
+        classpath "io.realm:realm-gradle-plugin:5.1.0"
         // NOTE by realm : Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
