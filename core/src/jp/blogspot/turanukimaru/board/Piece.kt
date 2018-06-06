@@ -19,6 +19,18 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      */
     var actionPhase = ActionPhase.DISABLED
 
+    /**
+     * 盤上の位置。なくても良いが盤上をサーチすると時間かかるんだよな。ボード上でのみ変更すること
+     */
+    var x:Int? = null
+
+    /**
+     * 盤上の位置。なくても良いが盤上をサーチすると時間かかるんだよな。ボード上でのみ変更すること
+     */
+    var y:Int? = null
+
+    val isOnBoard get() = x != null && y != null
+
     init {
     }
 
@@ -159,7 +171,6 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         }
         //ドラッグしてる絵を動かす
         //移動可能範囲内で移動したらスタックに積む...
-        board.stackRoute(position)
         return dragged(position)
     }
 

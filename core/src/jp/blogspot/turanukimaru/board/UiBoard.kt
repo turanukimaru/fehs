@@ -173,6 +173,12 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     fun touchedPosition(): Position {
         return posToPosition(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f))
     }
+    fun stackTouchedRoute():UiBoard.Position
+    {
+        val touchedSquare = touchedPosition()
+         board.stackRoute(touchedSquare)
+        return touchedSquare
+    }
 
     //TODO:アクターのサイズが分からないから中心が出ない...
     /**

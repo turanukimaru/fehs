@@ -85,7 +85,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         pieceMatrix[x][y] = piece
-//        uiBoard.put(piece.uiPiece, x, y)
+        piece.x = x
+        piece.y = y
     }
 
     /**
@@ -375,7 +376,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
 //        piece.uiPiece.actor.remove()
     }
 
-    fun stackRoute(position: UiBoard.Position) {
+    fun stackRoute(position: UiBoard.Position){
       if(searchedRoute[position.x][position.y] > 0){  hand.stackRoute(position)}
     }
 

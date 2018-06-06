@@ -38,15 +38,19 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
 //ドラッグしたら駒の表示を追従させているが移動量検出しないとちゃたるなこれ
-        if (!piece.isActionable()) {return
+        if (!piece.isActionable()) {
+            return
         }
         //升目以外にドラッグした場合は無視
         if (!uiBoard.posIsOnBoard(Vector3(x, y, 0f))) {
             return
         }
+        if (!uiBoard.board.hand.dragging(x.toInt(), y.toInt())) {
+            return
+        }
         actor.setPosition(actor.x + x, actor.y + y)
         //現在位置取得はこっち
-        val touchedSquare = uiBoard.touchedPosition()
+        val touchedSquare = uiBoard.stackTouchedRoute()
         piece.touchDragged(touchedSquare)
     }
 
@@ -75,7 +79,16 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     }
 
     /**
-     * LibGDXのアップデートで呼ばれる。TODO:アニメを作っていたがActionsのループ処理を作るべきか
+     * LibGDXのアップデートで呼ばれる。localと名前を逆にすべきだなこれ
      */
-    open fun update() {}
+    fun update() {
+        if(!piece.isOnBoard){
+            return // ボード上に無いときは何もしない。消す処理を書いてもいいか？
+        }
+        localUpdate()
+    }
+
+    open fun localUpdate(){
+
+    }
 }

@@ -10,11 +10,15 @@ class Hand<UNIT, GROUND> {
     var dy = 0
     var holdStart = 0L
     var holdNow = 0L
-    val select get()=selectedPiece != null
+    val select get() = selectedPiece != null
     /**
      * ドラッグ中か。一定値以上ドラッグかホールド時間で判定しとくか
      */
-    val dragging: Boolean get() = holdNow - holdStart > 500 || dx > 24 || dx < -24 || dy > 24 || dy < -24
+    fun dragging(dx: Int = 0, dy: Int = 0): Boolean {
+        this.dx += dx
+        this.dy += dy
+        return holdNow - holdStart > 500 || dx > 24 || dx < -24 || dy > 24 || dy < -24
+    }
 
     /**
      * タッチ開始したときの駒。タッチ開始とUp開始が同じ駒の時でないとタッチ判定しないほうが良いだろう
@@ -40,6 +44,7 @@ class Hand<UNIT, GROUND> {
      * 選択されている駒が動かされて移動が確定していないときの動かした道筋
      */
     val routeStack = ArrayDeque<UiBoard.Position>()
+
     fun clear() {
         selectedPiece = null
         oldPosition = null
@@ -49,14 +54,15 @@ class Hand<UNIT, GROUND> {
     }
 
     //フィールドから押し始めた場合は何にも反応させない
-    fun startField(){
+    fun startField() {
         clear()
     }
+
     //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする。推し始めデータだけ初期化して終了
-    fun startPiece(piece:Piece<*, *>){
+    fun startPiece(piece: Piece<*, *>) {
         dx = 0
         dy = 0
-        touchDownPiece=piece
+        touchDownPiece = piece
         touchedPosition
         holdNow = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
     }
