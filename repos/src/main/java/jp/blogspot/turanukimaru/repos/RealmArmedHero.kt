@@ -1,6 +1,5 @@
 package jp.blogspot.turanukimaru.repos
 
-import android.util.Log
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
@@ -41,20 +40,28 @@ open class RealmArmedHero(
 ) : RealmObject() {
     fun toModelObject(): ArmedHero {
         val result = StandardBaseHero.get(baseName)!!
-        Log.d("RealmArmedHero", "CREATE BaseHero FROM RealmArmedHero")
-        Log.d("RealmArmedHero", "nickname $nickname ")
-        Log.d("RealmArmedHero", "weapon $weapon ")
-        Log.d("RealmArmedHero", "refinedWeapon $refinedWeapon ")
-        Log.d("RealmArmedHero", "assist $assist ")
-        Log.d("RealmArmedHero", "special $special ")
-        Log.d("RealmArmedHero", "SkillA $aSkill ")
-        Log.d("RealmArmedHero", "SkillB $bSkill ")
-        Log.d("RealmArmedHero", "SkillC $cSkill ")
-        Log.d("RealmArmedHero", "seal $seal ")
-        Log.d("RealmArmedHero", "rarity $rarity ")
-        Log.d("RealmArmedHero", "levelBoost $boost ")
-        Log.d("RealmArmedHero", "boon $boon ")
-        Log.d("RealmArmedHero", "bane $bane ")
-        return ArmedHero(result, nickname, Weapon.valueOfOrNONE(weapon), RefineSkill.valueOfOrNONE(refinedWeapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
+//        Log.d("RealmArmedHero", "CREATE BaseHero FROM RealmArmedHero")
+//        Log.d("RealmArmedHero", "nickname $nickname ")
+//        Log.d("RealmArmedHero", "weapon $weapon ")
+//        Log.d("RealmArmedHero", "refinedWeapon $refinedWeapon ")
+//        Log.d("RealmArmedHero", "assist $assist ")
+//        Log.d("RealmArmedHero", "special $special ")
+//        Log.d("RealmArmedHero", "SkillA $aSkill ")
+//        Log.d("RealmArmedHero", "SkillB $bSkill ")
+//        Log.d("RealmArmedHero", "SkillC $cSkill ")
+//        Log.d("RealmArmedHero", "seal $seal ")
+//        Log.d("RealmArmedHero", "rarity $rarity ")
+//        Log.d("RealmArmedHero", "levelBoost $boost ")
+//        Log.d("RealmArmedHero", "boon $boon ")
+//        Log.d("RealmArmedHero", "bane $bane ")
+//        Log.d("RealmArmedHero", "atkBuff $atkBuff ")
+//        Log.d("RealmArmedHero", "spdBuff $spdBuff ")
+//        Log.d("RealmArmedHero", "defBuff $defBuff ")
+//        Log.d("RealmArmedHero", "resBuff $resBuff ")
+//        Log.d("RealmArmedHero", "atkSpur $atkSpur ")
+//        Log.d("RealmArmedHero", "spdSpur $spdSpur ")
+//        Log.d("RealmArmedHero", "defSpur $defSpur ")
+//        Log.d("RealmArmedHero", "resSpur $resSpur ")
+        return ArmedHero(result, nickname, Weapon.valueOfOrNONE(weapon), RefinedSkill.valueOfOrNONE(refinedWeapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
     }
 }

@@ -138,6 +138,11 @@ interface Skill {
      */
     fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int) = battleUnit.heal(damage * heal / 100)
 
+
+    /**
+     * 能力値差による固定ダメージ。取り敢えず武器だけ見るので必要に応じて全部のスキルを通す
+     */
+    fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = 0
     /**
      * 装備時の能力値変化
      */
@@ -917,5 +922,9 @@ interface Skill {
      * 怒り
      */
     fun wrath(battleUnit: BattleUnit, damage: Int, percentile: Int): Int = if (battleUnit.hp * 100 <= battleUnit.armedHero.maxHp * percentile) damage + 10 else damage
+
+    fun spdFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = if (battleUnit.effectedPhantomSpd > enemy.effectedSpd) {
+        HandmaidMath.min((battleUnit.effectedPhantomSpd - enemy.effectedSpd) * 7 / 10, 7)
+    } else 0
 
 }

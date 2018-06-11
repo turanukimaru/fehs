@@ -141,6 +141,10 @@ object StandardBaseHero {
                 Weapon.LightningBreath2, null, Special.Bonfire, SkillA.DefiantAtk.lv(3), null, SkillC.SpurRes.lv(3))
         createItem(Name.チキ__幼_, 1, WeaponType.DRAGON, MoveType.INFANTRY, 5, 15, 5, 4, 8, 7, 8, 8, 8, 7, 6,
                 Weapon.Flametongue2, null, Special.GrowingFlame, SkillA.ArmoredBlow.lv(3), null, SkillC.BreathOfLife.lv(3))
+        createItem(Name.チキ__大人_2, 1, WeaponType.DRAGON, MoveType.INFANTRY, 3, 18, 7, 6, 9, 7, 6, 9, 4, 8, 4,
+                Weapon.BreathOfFog, null, Special.Bonfire, SkillA.DefiantAtk.lv(3), null, SkillC.SpurRes.lv(3))
+        createItem(Name.チキ__幼_2, 1, WeaponType.DRAGON, MoveType.INFANTRY, 5, 15, 5, 4, 8, 7, 8, 8, 8, 7, 6,
+                Weapon.BreathOfFog, null, Special.GrowingFlame, SkillA.ArmoredBlow.lv(3), null, SkillC.BreathOfLife.lv(3))
         createItem(Name.アクア, 2, WeaponType.LANCE, MoveType.INFANTRY, 5, 17, 5, 7, 4, 6, 5, 8, 8, 4, 6,
                 Weapon.SapphireLance2, Assist.Sing, null, SkillA.Speed.lv(3), null, SkillC.FortifyRes.lv(3))
         createItem(Name.アベル, 2, WeaponType.LANCE, MoveType.CAVALRY, 4, 17, 7, 8, 8, 6, 6, 8, 7, 4, 5,
@@ -565,6 +569,13 @@ object StandardBaseHero {
 
         createItem(Name.リョウマ__伝承英雄_, 1, WeaponType.SWORD, MoveType.FLIER, 5, 17, 8, 11, 6, 5, 7, 8, 9, 6, 3,
                 Weapon.Raijinto, null, Special.Glimmer, SkillA.KestrelStance.lv(2), SkillB.Bushido, SkillC.Guidance.lv(3))
+
+        createItem(Name.カアラ, 1, WeaponType.SWORD, MoveType.INFANTRY,  5, 18, 7, 10, 6, 7, 7, 9, 10, 4, 3,
+                Weapon.VassalsBlade, null, Special.DraconicAura, null, SkillB.Wrath.lv(3), SkillC.EvenSpdWave.lv(3))
+        createItem(Name.ニノ__失われし牙_, 3, WeaponType.GTOME, MoveType.FLIER,  5, 17, 7, 10, 4, 6, 5, 8, 9, 2, 5,
+                Weapon.GigaExcalibur, null, Special.Moonbow	, SkillA.SwiftSparrow.lv(2), SkillB.Aerobatics.lv(3), SkillC.SpdSmoke.lv(3))
+        createItem(Name.ラガルト, 1, WeaponType.DAGGER, MoveType.INFANTRY,  5, 17, 7, 10, 7, 4, 6, 7, 9, 4, 3,
+                Weapon.TheCleaner2, null, Special.Glimmer, SkillA.SwiftStrike.lv(2), null, SkillC.AtkTactic.lv(3))
 
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())

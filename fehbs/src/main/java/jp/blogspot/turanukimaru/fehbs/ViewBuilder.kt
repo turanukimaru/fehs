@@ -74,12 +74,12 @@ class ViewBuilder(private val locale: Locale) {
 
     fun equipment(rootView: View, baseClass: BaseHero): ArmedHero {
         //    println(rootView.findViewById<RadioButton>(R.id.refineRadioButton).text.toString())
-        //    println(RefineSkill.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.refineRadioButton).text.toString()))
+        //    println(RefinedSkill.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.refineRadioButton).text.toString()))
         return ArmedHero(
                 baseClass,
                 rootView.findViewById<TextView>(R.id.unitName).text.toString()
                 , Weapon.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
-                , RefineSkill.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.refineRadioButton).text.toString())
+                , RefinedSkill.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.refineRadioButton).text.toString())
 
                 , Assist.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.assistRadioButton).text.toString())
                 , Special.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.specialRadioButton).text.toString())
@@ -146,7 +146,7 @@ class ViewBuilder(private val locale: Locale) {
 
     private fun buildRefines(rootView: View, it: ArmedHero) {
         val weapon = Weapon.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text.toString())
-        val texts = RefineSkill.spreadItems(weapon).map { e -> e.localeName(locale) }
+        val texts = RefinedSkill.spreadItems(weapon).map { e -> e.localeName(locale) }
         if (!texts.contains(it.refinedWeapon.localeName(locale))) {
             rootView.findViewById<RadioButton>(R.id.refineRadioButton).text = ""
         }
@@ -192,7 +192,7 @@ class ViewBuilder(private val locale: Locale) {
             showParams(rootView, it, it.rarity)
             //装備制限はとりあえず後で考える
             createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapon.spreadItems(true).filter { e -> e.type.weaponType == it.baseHero.weaponType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
-            createSkillRadioButton(rootView, R.id.refineRadioButton, R.string.refine_title, RefineSkill.spreadItems(armedClass.baseWeapon).map { e -> e.localeName(locale) }.toTypedArray())
+            createSkillRadioButton(rootView, R.id.refineRadioButton, R.string.refine_title, RefinedSkill.spreadItems(armedClass.baseWeapon).map { e -> e.localeName(locale) }.toTypedArray())
 
             createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assist.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Special.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())

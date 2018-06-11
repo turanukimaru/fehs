@@ -140,14 +140,14 @@ class BattleSimulatorActivity : AppCompatActivity() {
             val defensiveTargetTerrain = findViewById<CheckBox>(R.id.defTerrainTargetCheckBox).isChecked
             val levelBoost10 = findViewById<CheckBox>(R.id.merge10TargetCheckBox).isChecked
             fun BattleUnit.buff(): BattleUnit {
-                this.atkBuff = atkBuff ?: this.atkBuff
-                this.spdBuff = spdBuff ?: this.spdBuff
-                this.defBuff = defBuff ?: this.defBuff
-                this.resBuff = resBuff ?: this.resBuff
-                this.atkEffect = atkSpur ?: this.atkEffect
-                this.spdEffect = spdSpur ?: this.spdEffect
-                this.defEffect = defSpur ?: this.defEffect
-                this.resEffect = resSpur ?: this.resEffect
+                this.atkBuff = atkBuff ?: this.armedHero.atkBuff
+                this.spdBuff = spdBuff ?: this.armedHero.spdBuff
+                this.defBuff = defBuff ?: this.armedHero.defBuff
+                this.resBuff = resBuff ?: this.armedHero.resBuff
+                this.atkEffect = atkSpur ?: this.armedHero.atkSpur
+                this.spdEffect = spdSpur ?: this.armedHero.spdSpur
+                this.defEffect = defSpur ?: this.armedHero.defSpur
+                this.resEffect = resSpur ?: this.armedHero.resSpur
                 this.defensiveTerrain = defensiveTargetTerrain || this.defensiveTerrain
                 this.armedHero.levelBoost = if (levelBoost10) 10 else this.armedHero.levelBoost
                 this.armedHero.equip()
