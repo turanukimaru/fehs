@@ -265,11 +265,11 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Tannenboom2(Name.Tannenboom2, SkillType.LANCE, 14, Tannenboom, RefinedSkill.RefineType.Range1) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
-    CasaBlanca(Name.CasaBlanca, SkillType.LANCE, 10, SteelLance) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(battleUnit, enemy)
+    CasaBlanca(Name.CasaBlanca, SkillType.LANCE, 10, SteelLance)  {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
     },
-    CasaBlanca2(Name.CasaBlanca2, SkillType.LANCE, 14, CasaBlanca) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(battleUnit, enemy)
+    CasaBlanca2(Name.CasaBlanca2, SkillType.LANCE, 14, CasaBlanca)  {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
     },
     HinokasSpear(Name.HinokasSpear, SkillType.LANCE, 16, SilverLance, RefinedSkill.RefineType.Range1) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 4), 4) else battleUnit
@@ -517,10 +517,9 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
     TheCleaner(Name.TheCleaner, SkillType.DAGGER, 8, SteelDagger) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = enemy.totalBuff
     },
-    TheCleaner2(Name.TheCleaner2, SkillType.DAGGER, 12, BarbShuriken, RefinedSkill.RefineType.Range2) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+    TheCleaner2(Name.TheCleaner2, SkillType.DAGGER, 12, TheCleaner, RefinedSkill.RefineType.Range2) {
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = enemy.totalBuff
     },
 
