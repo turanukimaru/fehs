@@ -577,6 +577,8 @@ object StandardBaseHero {
         createItem(Name.ラガルト, 0, WeaponType.DAGGER, MoveType.INFANTRY,  5, 17, 7, 10, 7, 4, 6, 7, 9, 4, 3,
                 Weapon.TheCleaner2, null, Special.Glimmer, SkillA.SwiftStrike.lv(2), null, SkillC.AtkTactic.lv(3))
 
+        createItem(Name.ライナス, 3, WeaponType.AXE, MoveType.INFANTRY,  3, 18, 9, 9, 8, 4, 7, 9, 7, 7, 3,
+                Weapon.Basilikos, null, Special.Luna, SkillA.BrazenAtkSpd.lv(3), null, SkillC.DriveDef.lv(2))
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }

@@ -64,7 +64,7 @@ class Hand<UNIT, GROUND> {
         dy = 0
         touchDownPiece = piece
         touchedPosition
-        holdNow = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
+        holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
     }
 
 //    fun releasePiece(piece:Piece<*, *>){

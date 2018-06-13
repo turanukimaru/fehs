@@ -982,6 +982,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     RefinedAura("杖か魔法の味方がいるときAtk/Spd+5","a magic or staff ally, Atk/Spd+5","a magic or staff ally, Atk/Spd+5"),
     BreathOfFog("霧のブレス","Breath of Fog","Breath of Fog"),
     RefinedBreathOfFog("剣か竜の味方がいるときAtk/Def+5","a sword or dragon ally, Atk/Def+5","a sword or dragon ally, Atk/Def+5"),
+    ライナス("ライナス","Linus","莢納斯"),
     ;
 
     /**
