@@ -3,6 +3,8 @@ package jp.blogspot.turanukimaru.board
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 
 /**
@@ -45,11 +47,14 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         if (!uiBoard.posIsOnBoard(Vector3(x, y, 0f))) {
             return
         }
+        //ドラッグ判定に合わないときは無視
         if (!uiBoard.board.hand.dragging(x.toInt(), y.toInt())) {
             return
         }
+        //ドラッグ中は駒は指に追随。Updateでは何もしない
         actor.setPosition(actor.x + x, actor.y + y)
-        //現在位置取得はこっち
+        piece.actionPhase = Piece.ActionPhase.DRAGGING
+        //ルートをスタックする
         val touchedSquare = uiBoard.stackTouchedRoute()
         piece.touchDragged(touchedSquare)
     }
@@ -82,13 +87,43 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      * LibGDXのアップデートで呼ばれる。localと名前を逆にすべきだなこれ
      */
     fun update() {
-        if(!piece.isOnBoard){
+        if (!piece.isOnBoard) {
             return // ボード上に無いときは何もしない。消す処理を書いてもいいか？
         }
         localUpdate()
     }
 
-    open fun localUpdate(){
+    open fun localUpdate() {
+        if (piece.actionPhase == Piece.ActionPhase.DISABLED) {
+            if (piece.animationCount == 0) {
+                actor.setPosition(uiBoard.squareXtoPosX(piece.x ?: 0), uiBoard.squareYtoPosY(piece.y ?: 0))
+                uiBoard.stage.addActor(actor)
+            }
 
+        }
+
+    }
+
+
+    //TODO:アクターのサイズが分からないから中心が出ない...
+    /**
+     * 位置移動のアニメ。移動差分を駒に登録する
+     */
+    fun actionMoveToPosition(x: Int, y: Int): SequenceAction {
+        val seq = SequenceAction()
+        val finalX = uiBoard.squareXtoPosX(x)
+        val finalY =uiBoard. squareYtoPosY(y)
+        seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.2f))
+//        seq.addAction(Actions.moveTo(finalX, finalY))
+        return seq
+    }
+
+    /**
+     * 位置移動のアニメ。移動差分を駒に登録する
+     */
+    fun setToPosition(x: Int, y: Int) {
+        val finalX = uiBoard.squareXtoPosX(x)
+        val finalY = uiBoard.squareYtoPosY(y)
+        actor.setPosition(finalX, finalY)
     }
 }

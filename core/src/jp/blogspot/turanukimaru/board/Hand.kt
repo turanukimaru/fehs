@@ -11,6 +11,7 @@ class Hand<UNIT, GROUND> {
     var holdStart = 0L
     var holdNow = 0L
     val select get() = selectedPiece != null
+    var onRoute = false
     /**
      * ドラッグ中か。一定値以上ドラッグかホールド時間で判定しとくか
      */
@@ -76,13 +77,29 @@ class Hand<UNIT, GROUND> {
      */
     fun stackRoute(touchedSquare: UiBoard.Position) {
         println("stackRoute $touchedSquare")
-        if (routeStack.isEmpty() || routeStack.last != touchedSquare) {
+        //最後の枡のままの時は何もしない
+        if (routeStack.isNotEmpty()&& routeStack.last == touchedSquare) {
+            return
+        }
+        if(onRoute){
             //ただしスタックに有ったらそこまで戻す
             while (routeStack.contains(touchedSquare)) {
                 routeStack.pop()
             }
             routeStack.push(touchedSquare)
+            onRoute = true
         }
+        else{
+            //TODO:いずれルート探索。今は最終枡だけ保持しておくか
+            routeStack.clear()
+            routeStack.push(touchedSquare)
+            onRoute = true
+
+        }
+    }
+
+    fun routeOut() {
+        onRoute = false
     }
 
 }

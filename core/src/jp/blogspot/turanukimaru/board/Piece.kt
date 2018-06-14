@@ -18,7 +18,10 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 操作的な意味での状態。駒を動かせるかとか動かした後だとか。
      */
     var actionPhase = ActionPhase.DISABLED
-
+    /**
+     * アニメーションのカウント
+     */
+    var animationCount = 0
     /**
      * 盤上の位置。なくても良いが盤上をサーチすると時間かかるんだよな。ボード上でのみ変更すること
      */
@@ -74,7 +77,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**行動前・選択状態・移動後は行動可能
      *
      */
-    fun isActionable() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.MOVED
+    fun isActionable() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.DRAGGING || actionPhase == ActionPhase.MOVED
 
     /**
      * ドラッグから指を挙げたときにも反応するのでうまく使えない・・・
@@ -134,7 +137,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
      * イベントどうすっかな。なくていいか。後で削除しよう
      */
-    open fun boardClicked(event: Any, position: Position): Boolean {
+    open fun boardClicked(hand: Hand<UNIT, GROUND>, position: Position): Boolean {
         //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
         if (!board.positionIsOnBoard(position) || (board.searchedRoute[position.x][position.y] < 0 && board.effectiveRoute[position.x][position.y] < 0)) {
             board.moveCancel()
@@ -200,6 +203,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         READY,
         //選択状態
         SELECTED,
+        //ドラッグ中。駒の位置以外はSELECTEDと同じになるはず
+        DRAGGING,
         //移動したけど行動が確定してない
         MOVED,
         //移動範囲用だけどなくていいかなあ
@@ -215,6 +220,13 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         print("READY!! ")
         println(this)
         this.actionPhase = ActionPhase.READY
+    }
+
+    fun putOn(x: Int, y: Int) {
+        this.x = x
+        this.y = y
+        actionPhase = Piece.ActionPhase.DISABLED
+        animationCount = 0
     }
 }
 

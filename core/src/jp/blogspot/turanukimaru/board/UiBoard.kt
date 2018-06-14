@@ -63,33 +63,22 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     private fun posYtoSquareY(y: Float) = ((y - marginBottom) / squareHeight).toInt()
 
-    private fun posYtoSquareY(y: Int) = y * squareHeight + marginBottom
+    fun squareYtoPosY(y: Int) = y * squareHeight + marginBottom
 
-    private fun squareXtoPosX(x: Int) = x * squareWidth
+    fun squareXtoPosX(x: Int) = x * squareWidth
 
     /**
-     * 盤面がクリックされたときに起動する…のだがタッチとタッチアップが同じときはクリックと判定するようでボードのクリックは拾いすぎて役に立たないな
+     * 盤面がクリックされたときに起動する…のだがタッチとタッチアップが同じときはクリックと判定するので全体を覆うときは実質TouchUp
      */
     override fun clicked(event: InputEvent, x: Float, y: Float) {
-        super.clicked(event, x, y)
         println("UiBoardがクリックされた！")
         println(event.isStopped)
         println(event.isCancelled)
         println(event.isTouchFocusCancel)
         println("UiBoardがクリックされた！")
-        //駒がクリックされたのでないときはボードがクリックされたこととする...がとりあえずタッチだけ動かそう
-//        if (!event.isStopped) {
-//            board?.clicked(event, posToPosition(Vector3(x, y, 0f)))
-//        }
+        board.clicked(Position(posXtoSquareX(x),posYtoSquareY(y)))
     }
 
-    /**
-     * 盤面に駒のアクターを配置する
-     */
-    fun put(piece: UiPiece, x: Int, y: Int) {
-        piece.actor.setPosition(squareXtoPosX(x), posYtoSquareY(y))
-        stage.addActor(piece.actor)
-    }
 
     init {
         //inputProcessor セットしようとしたがするとアクターが動かない
@@ -173,34 +162,13 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     fun touchedPosition(): Position {
         return posToPosition(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f))
     }
-    fun stackTouchedRoute():UiBoard.Position
-    {
+
+    fun stackTouchedRoute(): UiBoard.Position {
         val touchedSquare = touchedPosition()
-         board.stackRoute(touchedSquare)
+        board.stackRoute(touchedSquare)
         return touchedSquare
     }
 
-    //TODO:アクターのサイズが分からないから中心が出ない...
-    /**
-     * 位置移動のアニメ。移動差分を駒に登録する
-     */
-    fun actionMoveToPosition(piece: UiPiece, x: Int, y: Int): SequenceAction {
-        val seq = SequenceAction()
-        val finalX = squareXtoPosX(x)
-        val finalY = posYtoSquareY(y)
-        seq.addAction(Actions.moveBy(finalX - piece.actor.x, finalY - piece.actor.y, 0.2f))
-//        seq.addAction(Actions.moveTo(finalX, finalY))
-        return seq
-    }
-
-    /**
-     * 位置移動のアニメ。移動差分を駒に登録する
-     */
-    fun setToPosition(piece: UiPiece, x: Int, y: Int) {
-        val finalX = squareXtoPosX(x)
-        val finalY = posYtoSquareY(y)
-        piece.actor.setPosition(finalX, finalY)
-    }
 
     /**
      * 枡を塗る。a blendingを毎回設定してendしてるので無茶苦茶遅いはず。処理の順番見直さないとな
@@ -259,7 +227,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     private fun showNumberAction(x: Int, y: Int, p: Int, delay: Float): SequenceAction {
 
         val seq = SequenceAction()
-        seq.addAction(Actions.moveTo(squareXtoPosX(x) + 52 - p * 52, posYtoSquareY(y)))
+        seq.addAction(Actions.moveTo(squareXtoPosX(x) + 52 - p * 52, squareYtoPosY(y)))
         seq.addAction(Actions.delay(delay))
         seq.addAction(Actions.show())
         seq.addAction(Actions.moveBy(0f, 64f, 0.2f))

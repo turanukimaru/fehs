@@ -85,9 +85,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         pieceMatrix[x][y] = piece
-        piece.x = x
-        piece.y = y
-    }
+piece.putOn(x,y)    }
 
     /**
      * 対象の枡に駒を移動する。自分以外の駒が配置済みだったら例外を吐く
@@ -274,11 +272,19 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     /**
-     * クリック時の動作だけどtouchUpとかぶるので削除予定
+     * クリック時の動作だけど実質touchUp
      */
-//    fun clicked(event: InputEvent, position: Position) {
-//        selectedPiece?.boardClicked(event, position)
-//    }
+    fun clicked(position: Position) {
+        //ドラッグ終了時には攻撃Or移動
+
+        if (hand.dragging()) {
+
+
+            //ドラッグでないときはそこへ移動・行動。底に何があるかは枡経由で見るべきだな
+        } else {
+        }
+//hand.selectedPiece?.boardClicked(hand, position)
+    }
 
     /**
      * ターン開始。盤の所有者をセットして、全ての駒を準備状態にする。動作を変えるときはきっと引数に関数を追加して、その関数を呼ぶのがいいと思う。
@@ -377,7 +383,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     fun stackRoute(position: UiBoard.Position){
-      if(searchedRoute[position.x][position.y] > 0){  hand.stackRoute(position)}
+      if(searchedRoute[position.x][position.y] > 0){  hand.stackRoute(position)}else {hand.routeOut()}
     }
 
 }

@@ -75,10 +75,10 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     override fun dragged(position: UiBoard.Position): Boolean {
-        val target = board.pieceMatrix[position.x][position.y]?.containUnit
+        val target = board.pieceMatrix[position.x][position.y]
         //敵ユニットに重ねたときは戦闘結果を計算して表示
-        if (board.hand.selectedPiece != null && board.effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.selectedPiece?.containUnit) {
-            val fightResult = containUnit.fight(target)
+        if (board.hand.selectedPiece != null && board.effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.selectedPiece) {
+            val fightResult = containUnit.fight(target.containUnit)
             for (result in fightResult) {
                 println(result)
             }
@@ -86,12 +86,12 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
 
             board.updateInfo = { b ->
                 b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
-                b.bitmapFont.draw(b.batch, target.armedHero.baseHero.name.jp, 320f, 940f)
+                b.bitmapFont.draw(b.batch, target.containUnit.armedHero.baseHero.name.jp, 320f, 940f)
                 b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
                 b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
                 b.bitmapFont.draw(b.batch, "→", 80f, 900f)
                 b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
-                b.bitmapFont.draw(b.batch, target.hp.toString(), 290f, 900f)
+                b.bitmapFont.draw(b.batch, target.containUnit.hp.toString(), 290f, 900f)
                 b.bitmapFont.draw(b.batch, "→", 350f, 900f)
                 b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
 
