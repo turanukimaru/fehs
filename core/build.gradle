@@ -27,5 +27,5 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'com.badlogicgames.gdx:gdx-freetype:1.9.6'
+    implementation 'com.badlogicgames.gdx:gdx-freetype:1.9.8'
 }
