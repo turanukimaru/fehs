@@ -272,7 +272,7 @@ piece.putOn(x,y)    }
     }
 
     /**
-     * クリック時の動作だけど実質touchUp
+     * クリック時の動作だけどtouchDown/touchUpが同じオブジェクトの時には常に起動するので画面全体を覆うときは実質touchUp
      */
     fun clicked(position: Position) {
         //ドラッグ終了時には攻撃Or移動
