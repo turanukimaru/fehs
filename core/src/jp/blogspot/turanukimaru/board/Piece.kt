@@ -138,13 +138,6 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * イベントどうすっかな。なくていいか。後で削除しよう
      */
     open fun boardClicked(hand: Hand<UNIT, GROUND>, position: Position): Boolean {
-        //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
-        if (!board.positionIsOnBoard(position) || (board.searchedRoute[position.x][position.y] < 0 && board.effectiveRoute[position.x][position.y] < 0)) {
-            board.moveCancel()
-            board.updateInfo = { _ -> true }
-            this.actionPhase = ActionPhase.READY
-            return false
-        }
         return true
     }
 

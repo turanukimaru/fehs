@@ -5,7 +5,7 @@ import java.util.*
 /**
  * 駒の操作状態と移動経路。タッチ時間・ドラッグ判定もここ。
  */
-class Hand<UNIT, GROUND> {
+class Hand {
     var dx = 0
     var dy = 0
     var holdStart = 0L

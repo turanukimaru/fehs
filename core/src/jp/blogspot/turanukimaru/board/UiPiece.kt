@@ -60,7 +60,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     }
 
     /**
-     * 指を話したのを駒に伝える
+     * 指を話したのを駒に伝える。んだったんだけどこれもういらないよなあ
      * x,yはきっとタッチ始めた位置からの差分
      */
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {

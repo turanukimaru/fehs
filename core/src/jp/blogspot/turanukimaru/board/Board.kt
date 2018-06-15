@@ -30,7 +30,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     var owner: Player? = null
 
-    val hand = Hand<UNIT, GROUND>()
+    val hand = Hand()
     /**
      * 横の0..last
      * 0..x-1 は 0 until x と書ける
@@ -275,6 +275,14 @@ piece.putOn(x,y)    }
      * クリック時の動作だけどtouchDown/touchUpが同じオブジェクトの時には常に起動するので画面全体を覆うときは実質touchUp
      */
     fun clicked(position: Position) {
+        //何も選択してないときは何もしない。ドラッグを選択に含めるかは難しいよなぁ
+        if(!hand.select) return
+        //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
+        if (!positionIsOnBoard(position) || (searchedRoute[position.x][position.y] < 0 && effectiveRoute[position.x][position.y] < 0)) {
+            moveCancel()
+            updateInfo = { _ -> true }
+            return
+        }
         //ドラッグ終了時には攻撃Or移動
 
         if (hand.dragging()) {
@@ -282,6 +290,7 @@ piece.putOn(x,y)    }
 
             //ドラッグでないときはそこへ移動・行動。底に何があるかは枡経由で見るべきだな
         } else {
+                hand.selectedPiece!!.boardClicked(hand, position)
         }
 //hand.selectedPiece?.boardClicked(hand, position)
     }
