@@ -10,7 +10,7 @@ class Hand<UNIT, GROUND> {
     var dy = 0
     var holdStart = 0L
     var holdNow = 0L
-    val select get() = selectedPiece != null
+    var readyToAction = false
     var onRoute = false
     /**
      * ドラッグ中か。一定値以上ドラッグかホールド時間で判定しとくか
@@ -42,10 +42,6 @@ class Hand<UNIT, GROUND> {
      */
     var touchedPosition: UiBoard.Position? = null
     /**
-     * 駒を移動中に移動元の枡を記録しておく
-     */
-    var touchUpPosition: UiBoard.Position? = null
-    /**
      * 駒を移動中に移動先の枡を記録しておく
      */
     var newPosition: UiBoard.Position? = null
@@ -62,8 +58,8 @@ class Hand<UNIT, GROUND> {
 
     fun toggleSelect(piece: Piece<UNIT, GROUND>, xyToPosition: UiBoard.Position) {
         if (selectedPiece == null) {
-                selectedPiece = piece
-                oldPosition = xyToPosition
+            selectedPiece = piece
+            oldPosition = xyToPosition
         } else {
             clear()
         }
@@ -85,6 +81,7 @@ class Hand<UNIT, GROUND> {
         //駒を掴んでないときは掴む。掴んでるときは別の駒へのアクションになるから保留
         holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
     }
+
     /**
      * クリック時の動作だけどtouchDown/touchUpが同じオブジェクトの時には常に起動するので画面全体を覆うときは実質touchUp
      * アルゴリズムはHand側へ移動したいな。そうすればOptionでHand入れ替えで済む。
@@ -99,18 +96,21 @@ class Hand<UNIT, GROUND> {
                 return
             }
             when {
-                //何かをドラッグしてないときは何もしない
-                (touchedPiece == null)->{}
-                (targetPiece != null && targetEffective >=0) -> {
+            //何かをドラッグしてないときは何もしない
+                (touchedPiece == null) -> {
+                }
+                (targetPiece != null && targetEffective >= 0) -> {
+                    newPosition = position//一歩手前判定しないとな
                     touchedPiece?.boardActionCommit(this, position, targetPiece) ?: return
                     //対象が存在しないときはそこへ移動するが移動枠内の時だけ
                 }
             //何もないところへは移動。確定かどうかは設定による
                 (targetPiece == null && targetRoute >= 0) -> {
+                    newPosition = position
                     touchedPiece?.boardMove(this, position, targetPiece) ?: return
                     //効果範囲かつ対象がいないときは範囲外と同じ扱い.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
                 }
-                //あーAssistは効果範囲が違うんだったな…Assistive追加しないとダメか
+            //あーAssistは効果範囲が違うんだったな…Assistive追加しないとダメか
                 else -> {
                     //移動後は移動後の場所へ戻す、移動前は移動キャンセル。これはめんどいな
                     moveCancel()
@@ -119,34 +119,38 @@ class Hand<UNIT, GROUND> {
 
             //ドラッグでないときはそこへ移動・行動。底に何があるかは枡経由で見るべきだな
         } else {
-            //このパターンは全部即行動だから仮移動が要るな
-            when {
+            if ((targetPiece != null && selectedPiece != targetPiece && targetEffective >= 0) && readyToAction) {
+                selectedPiece?.boardActionCommit(this, position, targetPiece)
+
+            } else {
+                readyToAction = false
+                //このパターンは全部即行動だから仮移動が要るな
+                when {
 //未選択の時は選択選択してないときに何もないところをタップしても何も起きない。
-                (selectedPiece == null) -> {
-                    selectedPiece = targetPiece
-                }
-//選択済み＆元の位置をクリックの時は移動またはキャンセル
-                (selectedPiece == targetPiece) -> {
-                    moveCancel()
-                }
-//選択済み＆移動済み＆自分駒をクリックしたときはそこへ移動確定。
-                (targetPiece == null && touchedPiece == selectedPiece) -> {
-                    selectedPiece?.boardMoveCommit(this, position, targetPiece)
-                }
-//選択済み＆駒のあるところをクリックしたときはそこへ行動。コミットかどうかはどこで判定しよう？…まあHandだよなあ
-                (targetPiece != null && selectedPiece != targetPiece && targetEffective >=0) -> {
-                    if(select) {//ここ正確に。移動後のステータスとかに変更したほうがいい FIXME
-                        selectedPiece?.boardAction(this, position, targetPiece)
-                    }else{
-                        selectedPiece?.boardActionCommit(this, position, targetPiece)
+                    (selectedPiece == null) -> {
+                        selectedPiece = targetPiece
                     }
-                }
-            //選択済み＆動いてて相手がいない場合そこへ移動.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
-                (targetPiece == null && targetRoute >= 0) -> {
-                    selectedPiece?.boardMove(this, position, targetPiece)
-                }
-                else -> {
-                    moveCancel()
+//選択済み＆元の位置をクリックの時は移動またはキャンセル
+                    (selectedPiece == targetPiece) -> {
+                        moveCancel()
+                    }
+//選択済み＆移動済み＆自分駒をクリックしたときはそこへ移動確定。
+                    (targetPiece == null && touchedPiece == selectedPiece) -> {
+                        newPosition = position
+                        selectedPiece?.boardMoveCommit(this, position, targetPiece)
+                    }
+//選択済み＆駒のあるところをクリックしたときはそこへ行動。コミットかどうかはどこで判定しよう？…まあHandだよなあ
+                    (targetPiece != null && selectedPiece != targetPiece && targetEffective >= 0) -> {
+                        readyToAction = true//どこでFalseにしよう。If文の構成変えるか？
+                        selectedPiece?.boardAction(this, position, targetPiece)
+                    }
+                //選択済み＆動いてて相手がいない場合そこへ移動.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
+                    (targetPiece == null && targetRoute >= 0) -> {
+                        selectedPiece?.boardMove(this, position, targetPiece)
+                    }
+                    else -> {
+                        moveCancel()
+                    }
                 }
             }
         }
@@ -159,9 +163,6 @@ class Hand<UNIT, GROUND> {
     fun moveCancel() {
         println("moveCancel")
         selectedPiece?.actionPhase = Piece.ActionPhase.READY
-//        if (selectedPiece != null) {
-//            moveToPosition(selectedPiece!!, oldPosition!!)
-//        }
         clear()
     }
 
