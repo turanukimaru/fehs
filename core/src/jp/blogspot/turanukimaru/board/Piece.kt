@@ -1,7 +1,6 @@
 package jp.blogspot.turanukimaru.board
 
 import jp.blogspot.turanukimaru.board.UiBoard.Position
-import java.util.*
 
 
 /**
@@ -40,21 +39,21 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 効果範囲か。再帰して効果範囲を拡大できるかなので名前変えよう
      */
-    open fun isEffective(piece: Piece<*, *>?, ground: GROUND?, orientation: Int, steps: Int): Boolean {
+    open fun isEffective(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Boolean {
         return false
     }
 
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<*, *>?, ground: GROUND?, orientation: Int, steps: Int): Boolean {
+    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Boolean {
         return piece == null && steps == 0
     }
 
     /**
      * この枡に移動することで消費する移動力
      */
-    open fun countStep(piece: Piece<*, *>?, ground: GROUND?, orientation: Int, steps: Int): Int {
+    open fun countStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Int {
         return if (steps == 0) {
             1
         } else {
@@ -65,7 +64,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * この枡に移動することで消費する効果範囲。ただ枡を通過できるかはともかく効果範囲が減るとかいうゲーム無かった気がするから不要か？
      */
-    open fun countEffectiveStep(piece: Piece<*, *>?, ground: GROUND?, orientation: Int, steps: Int): Int = if (steps == 0) 1 else -1
+    open fun countEffectiveStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Int = if (steps == 0) 1 else -1
 
 
     /**
@@ -127,7 +126,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         return true
     }
 
-    open fun touchRelease(position: Position): Boolean=true
+    open fun boardAction(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean=true
+
+    open fun boardActionCommit(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean=true
 
     open fun movePiece(): Boolean {
         return true
@@ -137,7 +138,15 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
      * イベントどうすっかな。なくていいか。後で削除しよう
      */
-    open fun boardClicked(hand: Hand<UNIT, GROUND>, position: Position): Boolean {
+    open fun boardMove(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
+        return true
+    }
+
+    /**
+     * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
+     * イベントどうすっかな。なくていいか。後で削除しよう
+     */
+    open fun boardMoveCommit(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
         return true
     }
 
@@ -147,7 +156,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * upのタイミングじゃないとダメか？
      */
     fun touchDown(): Boolean {
-//        board.hand.touchDownPiece = this
+//        board.hand.touchedPiece = this
 //        board.hand.holdStart = Date().time
         return touched()
     }
@@ -220,6 +229,10 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         this.y = y
         actionPhase = Piece.ActionPhase.DISABLED
         animationCount = 0
+    }
+
+    fun startPiece(xyToPosition: Position) {
+        board.hand.startPiece(this,xyToPosition)
     }
 }
 

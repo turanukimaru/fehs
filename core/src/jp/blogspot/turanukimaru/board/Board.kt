@@ -30,7 +30,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     var owner: Player? = null
 
-    val hand = Hand()
+    val hand = Hand<UNIT, GROUND>()
     /**
      * 横の0..last
      * 0..x-1 は 0 until x と書ける
@@ -85,7 +85,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         pieceMatrix[x][y] = piece
-piece.putOn(x,y)    }
+        piece.putOn(x, y)
+    }
 
     /**
      * 対象の枡に駒を移動する。自分以外の駒が配置済みだったら例外を吐く
@@ -273,26 +274,21 @@ piece.putOn(x,y)    }
 
     /**
      * クリック時の動作だけどtouchDown/touchUpが同じオブジェクトの時には常に起動するので画面全体を覆うときは実質touchUp
+     * アルゴリズムはHand側へ移動したいな。そうすればOptionでHand入れ替えで済む。
      */
     fun clicked(position: Position) {
-        //何も選択してないときは何もしない。ドラッグを選択に含めるかは難しいよなぁ
-        if(!hand.select) return
         //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
         if (!positionIsOnBoard(position) || (searchedRoute[position.x][position.y] < 0 && effectiveRoute[position.x][position.y] < 0)) {
-            moveCancel()
-            updateInfo = { _ -> true }
+         hand.   moveCancel()
+//            updateInfo = { _ -> true }
             return
         }
-        //ドラッグ終了時には攻撃Or移動
+        //対象は有るかもないかも。なお移動前の配置を参照しているのでボード上の自分はまだ移動前
+        val targetPiece = pieceMatrix[position.x][position.y]
+        val targetRoute = searchedRoute[position.x][position.y]
+        val targetEffective = effectiveRoute[position.x][position.y]
+        hand.clicked(position, targetPiece,targetRoute, targetEffective)
 
-        if (hand.dragging()) {
-
-
-            //ドラッグでないときはそこへ移動・行動。底に何があるかは枡経由で見るべきだな
-        } else {
-                hand.selectedPiece!!.boardClicked(hand, position)
-        }
-//hand.selectedPiece?.boardClicked(hand, position)
     }
 
     /**
@@ -300,7 +296,7 @@ piece.putOn(x,y)    }
      */
     fun turn(owner: Player) {
         println("TODO:ターン移動処理")
-        moveCancel()
+       hand. moveCancel()
         this.owner = owner
         owner.pieceList.forEach { p -> p.ready() }
     }
@@ -324,18 +320,6 @@ piece.putOn(x,y)    }
         searchEffectiveRoute(piece)
         hand.selectedPiece = piece
         hand.oldPosition = searchUnitPosition(piece)!!
-    }
-
-    /**
-     * 選択した駒の移動をキャンセルして非選択にする。選択してる駒の状態も変化させる
-     */
-    fun moveCancel() {
-        println("moveCancel")
-        hand.selectedPiece?.actionPhase = Piece.ActionPhase.READY
-//        if (selectedPiece != null) {
-//            moveToPosition(selectedPiece!!, oldPosition!!)
-//        }
-        hand.clear()
     }
 
     /**
@@ -391,8 +375,13 @@ piece.putOn(x,y)    }
 //        piece.uiPiece.actor.remove()
     }
 
-    fun stackRoute(position: UiBoard.Position){
-      if(searchedRoute[position.x][position.y] > 0){  hand.stackRoute(position)}else {hand.routeOut()}
+    //対象の枡が通れるときはスタックに積む…とまれるときか？
+    fun stackRoute(position: UiBoard.Position) {
+        if (searchedRoute[position.x][position.y] > 0) {
+            hand.stackRoute(position)
+        } else {
+            hand.routeOut()
+        }
     }
 
 }

@@ -5,7 +5,7 @@ import java.util.*
 /**
  * 駒の操作状態と移動経路。タッチ時間・ドラッグ判定もここ。
  */
-class Hand {
+class Hand<UNIT, GROUND> {
     var dx = 0
     var dy = 0
     var holdStart = 0L
@@ -24,11 +24,15 @@ class Hand {
     /**
      * タッチ開始したときの駒。タッチ開始とUp開始が同じ駒の時でないとタッチ判定しないほうが良いだろう
      */
-    var touchDownPiece: Piece<*, *>? = null
+    var touchedPiece: Piece<UNIT, GROUND>? = null
     /**
      * 現在盤上で選択されている駒
      */
-    var selectedPiece: Piece<*, *>? = null
+    var selectedPiece: Piece<UNIT, GROUND>? = null
+    /**
+     * 選択されたかドラッグ中に対象になってる駒。移動範囲とかの表示対象
+     */
+    val targetPiece get() = selectedPiece ?: touchedPiece
     /**
      * 駒を移動中に移動元の枡を記録しておく
      */
@@ -37,6 +41,10 @@ class Hand {
      * タッチ開始したときの位置
      */
     var touchedPosition: UiBoard.Position? = null
+    /**
+     * 駒を移動中に移動元の枡を記録しておく
+     */
+    var touchUpPosition: UiBoard.Position? = null
     /**
      * 駒を移動中に移動先の枡を記録しておく
      */
@@ -49,53 +57,135 @@ class Hand {
     fun clear() {
         selectedPiece = null
         oldPosition = null
-        dx = 0
-        dy = 0
         routeStack.clear()
     }
 
-    //フィールドから押し始めた場合は何にも反応させない
-    fun startField() {
-        clear()
+    fun toggleSelect(piece: Piece<UNIT, GROUND>, xyToPosition: UiBoard.Position) {
+        if (selectedPiece == null) {
+                selectedPiece = piece
+                oldPosition = xyToPosition
+        } else {
+            clear()
+        }
+    }
+
+    //離したときはタッチユニットをNullにする。リセット処理はない。キャラ選択が外れるわけではないので。
+    fun touchRelease() {
+        touchedPiece = null
+        dx = 0
+        dy = 0
     }
 
     //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする。推し始めデータだけ初期化して終了
-    fun startPiece(piece: Piece<*, *>) {
+    fun startPiece(piece: Piece<UNIT, GROUND>, xyToPosition: UiBoard.Position) {
         dx = 0
         dy = 0
-        touchDownPiece = piece
-        touchedPosition
+        touchedPiece = piece
+        touchedPosition = xyToPosition
+        //駒を掴んでないときは掴む。掴んでるときは別の駒へのアクションになるから保留
         holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
     }
+    /**
+     * クリック時の動作だけどtouchDown/touchUpが同じオブジェクトの時には常に起動するので画面全体を覆うときは実質touchUp
+     * アルゴリズムはHand側へ移動したいな。そうすればOptionでHand入れ替えで済む。
+     */
+    fun clicked(position: UiBoard.Position, targetPiece: Piece<UNIT, GROUND>?, targetRoute: Int, targetEffective: Int) {
+        //ドラッグ終了時には攻撃Or移動。対象の枡は枡の中心からの移動量で計算するべきか。
+        if (dragging()) {
+            //ユニットのタッチから始まってたらそこへアクションか移動。移動してないときは移動キャンセル
+            if (targetPiece == touchedPiece) {
+                moveCancel()
+//                updateInfo = { _ -> true }
+                return
+            }
+            when {
+                //何かをドラッグしてないときは何もしない
+                (touchedPiece == null)->{}
+                (targetPiece != null && targetEffective >=0) -> {
+                    touchedPiece?.boardActionCommit(this, position, targetPiece) ?: return
+                    //対象が存在しないときはそこへ移動するが移動枠内の時だけ
+                }
+            //何もないところへは移動。確定かどうかは設定による
+                (targetPiece == null && targetRoute >= 0) -> {
+                    touchedPiece?.boardMove(this, position, targetPiece) ?: return
+                    //効果範囲かつ対象がいないときは範囲外と同じ扱い.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
+                }
+                //あーAssistは効果範囲が違うんだったな…Assistive追加しないとダメか
+                else -> {
+                    //移動後は移動後の場所へ戻す、移動前は移動キャンセル。これはめんどいな
+                    moveCancel()
+                }
+            }
 
-//    fun releasePiece(piece:Piece<*, *>){
-//
-//    }
-//    fun dragg
+            //ドラッグでないときはそこへ移動・行動。底に何があるかは枡経由で見るべきだな
+        } else {
+            //このパターンは全部即行動だから仮移動が要るな
+            when {
+//未選択の時は選択選択してないときに何もないところをタップしても何も起きない。
+                (selectedPiece == null) -> {
+                    selectedPiece = targetPiece
+                }
+//選択済み＆元の位置をクリックの時は移動またはキャンセル
+                (selectedPiece == targetPiece) -> {
+                    moveCancel()
+                }
+//選択済み＆移動済み＆自分駒をクリックしたときはそこへ移動確定。
+                (targetPiece == null && touchedPiece == selectedPiece) -> {
+                    selectedPiece?.boardMoveCommit(this, position, targetPiece)
+                }
+//選択済み＆駒のあるところをクリックしたときはそこへ行動。コミットかどうかはどこで判定しよう？…まあHandだよなあ
+                (targetPiece != null && selectedPiece != targetPiece && targetEffective >=0) -> {
+                    if(select) {//ここ正確に。移動後のステータスとかに変更したほうがいい FIXME
+                        selectedPiece?.boardAction(this, position, targetPiece)
+                    }else{
+                        selectedPiece?.boardActionCommit(this, position, targetPiece)
+                    }
+                }
+            //選択済み＆動いてて相手がいない場合そこへ移動.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
+                (targetPiece == null && targetRoute >= 0) -> {
+                    selectedPiece?.boardMove(this, position, targetPiece)
+                }
+                else -> {
+                    moveCancel()
+                }
+            }
+        }
+        touchRelease()
+    }
+
+    /**
+     * 選択した駒の移動をキャンセルして非選択にする。選択してる駒の状態も変化させる
+     */
+    fun moveCancel() {
+        println("moveCancel")
+        selectedPiece?.actionPhase = Piece.ActionPhase.READY
+//        if (selectedPiece != null) {
+//            moveToPosition(selectedPiece!!, oldPosition!!)
+//        }
+        clear()
+    }
+
     /**
      * 駒の移動中に、移動経路を記録する
      */
     fun stackRoute(touchedSquare: UiBoard.Position) {
         println("stackRoute $touchedSquare")
         //最後の枡のままの時は何もしない
-        if (routeStack.isNotEmpty()&& routeStack.last == touchedSquare) {
+        if (routeStack.isNotEmpty() && routeStack.last == touchedSquare) {
             return
         }
-        if(onRoute){
+        if (onRoute) {
             //ただしスタックに有ったらそこまで戻す
             while (routeStack.contains(touchedSquare)) {
                 routeStack.pop()
             }
             routeStack.push(touchedSquare)
-            onRoute = true
-        }
-        else{
+        } else {
             //TODO:いずれルート探索。今は最終枡だけ保持しておくか
             routeStack.clear()
             routeStack.push(touchedSquare)
-            onRoute = true
-
         }
+        onRoute = true
     }
 
     fun routeOut() {

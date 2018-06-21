@@ -67,7 +67,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     fun squareXtoPosX(x: Int) = x * squareWidth
 
-   private fun xyToPosition(x: Float,y: Float) = Position(posXtoSquareX(x),posYtoSquareY(y))
+   fun xyToPosition(x: Float,y: Float) = Position(posXtoSquareX(x),posYtoSquareY(y))
     /**
      * 盤面がクリックされたときに起動する…のだがタッチとタッチアップが同じときはクリックと判定するので全体を覆うときは実質TouchUp
      */

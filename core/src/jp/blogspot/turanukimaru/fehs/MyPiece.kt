@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import jp.blogspot.turanukimaru.board.Board
+import jp.blogspot.turanukimaru.board.Hand
 import jp.blogspot.turanukimaru.board.Piece
 import jp.blogspot.turanukimaru.board.UiBoard
 
@@ -14,18 +15,18 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     var fightResult: FightResult? = null
     override fun isStopable(otherUnit: BattleUnit?): Boolean = otherUnit == null
 
-    override fun isMovable(piece: Piece<*, *>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
+    override fun isMovable(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
         //デフォルトでは上下左右0,2,4,6にしておこう
         println("move to $piece $ground $orientation $steps")
         return piece == null && ((ground == Ground.P && steps < containUnit.movableSteps) || (ground == Ground.W && steps + 1 < containUnit.movableSteps))
     }
 
-    override fun isEffective(piece: Piece<*, *>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
+    override fun isEffective(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
         println("step:$steps range:${containUnit.effectiveRange}")
         return steps < containUnit.effectiveRange
     }
 
-    override fun countStep(piece: Piece<*, *>?, ground: Ground?, orientation: Int, steps: Int): Int {
+    override fun countStep(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Int {
         println("count step $piece $ground $orientation $steps")
         return if (steps < containUnit.movableSteps) {
             steps + (ground?.cost ?: 0)
@@ -40,7 +41,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         //return arrayOf(1, 3, 5, 7, 8, 12, 16, 20)
     }
 
-    override fun countEffectiveStep(piece: Piece<*, *>?, ground: Ground?, orientation: Int, steps: Int): Int {
+    override fun countEffectiveStep(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Int {
         //とりあえず再帰しないのでこれで
         return if (steps == 0) {
             containUnit.effectiveRange
@@ -103,7 +104,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     //抽象化するならここか
-    override fun touchRelease(position: UiBoard.Position): Boolean {
+    override fun boardAction(hand: Hand<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
         this.actionPhase = actionTouchedPoint(position)
         return true
     }

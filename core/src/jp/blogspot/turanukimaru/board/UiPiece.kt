@@ -76,7 +76,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
         val result = super.touchDown(event, x, y, pointer, button)
-        uiBoard.board.hand.startPiece(piece)
+        piece.startPiece(uiBoard.xyToPosition(x,y))
 //        actor.zIndex = 0
         touched = true
         piece.touchDown()
