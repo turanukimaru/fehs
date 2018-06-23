@@ -126,6 +126,9 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
             return damage
         }
     },
+    DullClose(Name.DullClose, SkillType.B) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiMeleeWeaponBuffBonus(battleUnit, enemy, lv)
+    },
     DullRanged(Name.DullRanged, SkillType.B) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, lv)
     },
@@ -168,6 +171,7 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
 
     },
     SpdFeint(Name.SpdFeint, SkillType.B),
+    DefFeint(Name.DefFeint, SkillType.B),
     DefResLink(Name.DefResLink, SkillType.B),
     Aerobatics(Name.Aerobatics, SkillType.B),
     ;

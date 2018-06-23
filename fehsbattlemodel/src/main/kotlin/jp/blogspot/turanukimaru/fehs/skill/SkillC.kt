@@ -80,7 +80,8 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     FlierGuidance(Name.FlierGuidance, SkillType.C),
     OddAtkWave(Name.OddAtkWave, SkillType.C),
     EvenSpdWave(Name.EvenSpdWave, SkillType.C),
-    ;
+    InfantryRush(Name.InfantryRush, SkillType.C),
+       ;
 
     /**
      * 同じスキルの別レベルを作成する。レベルがそのままなら自分自身のまま。

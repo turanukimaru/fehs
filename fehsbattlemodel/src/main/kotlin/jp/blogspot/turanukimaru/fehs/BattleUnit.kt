@@ -114,6 +114,14 @@ data class BattleUnit(val armedHero: ArmedHero
          * debuffで強化されるダメージ量。今のところブリザード専用
          */
                       , var debuffBonus: Int = 0
+        /**
+         * 攻撃を実行したか。攻撃時にダメージを受ける効果用
+         */
+                      , var attacked: Boolean = false
+        /**
+         * 戦闘後のHP減少
+         */
+                      , var attackedHpLossAtEndOfFight: Int = 0
 
 
 ) {
@@ -131,7 +139,7 @@ data class BattleUnit(val armedHero: ArmedHero
     val effectedRes: Int get() = res + resEffect
     val effectedBladeAtk: Int get() = effectedAtk + if (blade && !antiBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0 + debuffBonus
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
-    val totalBuff: Int get() = atkBuff+spdBuff + defBuff+resBuff
+    val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
 
     /** マップ上で戦う際には必要になると思われる*/
     fun clearEffect() {
@@ -195,7 +203,8 @@ data class BattleUnit(val armedHero: ArmedHero
      * 戦闘後効果。HP減らしてからスキル総なめ。
      */
     private fun afterFightEffect() {
-        lossHp(hpLossAtEndOfFight)
+        lossHp(hpLossAtEndOfFight + if (attacked) attackedHpLossAtEndOfFight else 0)
+
         armedHero.afterFightEffect(this)
     }
 
@@ -245,6 +254,8 @@ data class BattleUnit(val armedHero: ArmedHero
      * 攻撃。
      */
     fun attack(target: BattleUnit, results: List<AttackResult>): AttackResult {
+        //攻撃実行フラグ
+        attacked = true
         val damage = buildDamage(results)
 
         //damageと一緒に奥義を飛ばせば効果も計算できるか？
@@ -303,8 +314,8 @@ data class BattleUnit(val armedHero: ArmedHero
         return DamageResult(damage, Skill.NONE, loss.first, loss.second)
     }
 
-    private fun damageToHp(damage: Int): Pair<Int,Int?> {
-        val result = if(hp > damage) Pair(damage, null) else Pair(hp, damage - hp)
+    private fun damageToHp(damage: Int): Pair<Int, Int?> {
+        val result = if (hp > damage) Pair(damage, null) else Pair(hp, damage - hp)
         hp = if (hp > damage) hp - damage else 0
         return result
     }
@@ -340,7 +351,7 @@ data class BattleUnit(val armedHero: ArmedHero
         effectiveDamage + effectiveDamage * colorPow / 100
     }
 
-    val stateFlat: (BattleUnit) -> Int = {armedHero.weapon.stateFlat(this, it)}
+    val stateFlat: (BattleUnit) -> Int = { armedHero.weapon.stateFlat(this, it) }
 
     fun heal(life: Int): Int {
         hp += life

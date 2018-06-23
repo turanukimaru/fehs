@@ -143,6 +143,7 @@ interface Skill {
      * 能力値差による固定ダメージ。取り敢えず武器だけ見るので必要に応じて全部のスキルを通す
      */
     fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = 0
+
     /**
      * 装備時の能力値変化
      */
@@ -271,7 +272,7 @@ interface Skill {
     /**
      * 色固定殺し
      */
-    fun weaponBreaker(battleUnit: BattleUnit, enemy: BattleUnit, weapon: WeaponType, lv: Int, color:Int): BattleUnit {
+    fun weaponBreaker(battleUnit: BattleUnit, enemy: BattleUnit, weapon: WeaponType, lv: Int, color: Int): BattleUnit {
         log("HP:${battleUnit.hp}")
         log("threashold:${battleUnit.armedHero.maxHp * (lv * 20 - 10) / 100}")
         if ((battleUnit.hp >= battleUnit.armedHero.maxHp * (lv * 20 - 10) / 100) && enemy.armedHero.baseHero.weaponType == weapon && enemy.armedHero.baseHero.color == color) {
@@ -641,9 +642,7 @@ interface Skill {
             battleUnit.spdEffect += 2
             battleUnit.defEffect += 2
             battleUnit.resEffect += 2
-            if (battleUnit.side == SIDES.ATTACKER) {
-                battleUnit.hpLossAtEndOfFight += 2
-            }
+            battleUnit.attackedHpLossAtEndOfFight += 2
         }
         return battleUnit
     }
@@ -707,14 +706,11 @@ interface Skill {
     /**
      * HP満タン時に攻撃と速さボーナス
      */
-    fun fullHpAtkSpdBonus(battleUnit: BattleUnit, i: Int): BattleUnit {
+    fun fullHpAtkSpdBonus(battleUnit: BattleUnit, i: Int, d: Int): BattleUnit {
         if (battleUnit.hp == battleUnit.armedHero.maxHp) {
-            battleUnit.atkEffect += 5
-            battleUnit.spdEffect += 5
-            if (battleUnit.side == SIDES.ATTACKER) {
-                battleUnit.hpLossAtEndOfFight += 5
-            }
-
+            battleUnit.atkEffect += i
+            battleUnit.spdEffect += i
+            battleUnit.attackedHpLossAtEndOfFight += d
         }
         return battleUnit
     }
@@ -728,9 +724,7 @@ interface Skill {
             battleUnit.spdEffect += i
             battleUnit.defEffect += i
             battleUnit.resEffect += i
-            if (battleUnit.side == SIDES.ATTACKER) {
-                battleUnit.hpLossAtEndOfFight += i
-            }
+            battleUnit.attackedHpLossAtEndOfFight += i
 
         }
         return battleUnit
@@ -781,10 +775,20 @@ interface Skill {
     }
 
     /**
+     * 相手が1射程武器の時バフ無効か
+     */
+    fun antiMeleeWeaponBuffBonus(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = 3): BattleUnit {
+        if (enemy.armedHero.baseHero.weaponType.range == 1 && battleUnit.hp * 100 >= battleUnit.armedHero.maxHp * (150 - lv * 50)) {
+            enemy.antiBuffBonus = true
+        }
+        return battleUnit
+    }
+
+    /**
      * 相手が2射程武器の時バフ無効か
      */
     fun antiRangedWeaponBuffBonus(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = 3): BattleUnit {
-        if (enemy.armedHero.baseHero.weaponType.range == 2 && battleUnit.hp * 100 >= battleUnit.armedHero.maxHp * (150 - lv * 50) ) {
+        if (enemy.armedHero.baseHero.weaponType.range == 2 && battleUnit.hp * 100 >= battleUnit.armedHero.maxHp * (150 - lv * 50)) {
             enemy.antiBuffBonus = true
         }
         return battleUnit
@@ -863,15 +867,23 @@ interface Skill {
     }
 
     /**
-     * 攻撃時のHP減少
+     * 戦闘時のHP減少
      */
-    fun attackHpLoss(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun fightHpLoss(battleUnit: BattleUnit, lv: Int): BattleUnit {
         battleUnit.hpLossAtEndOfFight += lv
         return battleUnit
     }
 
     /**
-     * 攻撃時のHP回復
+     * 攻撃時のHP減少
+     */
+    fun attackHpLoss(battleUnit: BattleUnit, lv: Int): BattleUnit {
+        battleUnit.attackedHpLossAtEndOfFight += lv
+        return battleUnit
+    }
+
+    /**
+     * 戦闘時のHP回復
      */
     fun attackHeal(battleUnit: BattleUnit, lv: Int): BattleUnit {
         battleUnit.hpLossAtEndOfFight -= lv

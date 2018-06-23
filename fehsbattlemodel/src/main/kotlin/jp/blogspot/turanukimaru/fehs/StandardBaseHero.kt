@@ -579,6 +579,14 @@ object StandardBaseHero {
 
         createItem(Name.ライナス, 3, WeaponType.AXE, MoveType.INFANTRY,  3, 18, 9, 9, 8, 4, 7, 9, 7, 7, 3,
                 Weapon.Basilikos, null, Special.Luna, SkillA.BrazenAtkSpd.lv(3), null, SkillC.DriveDef.lv(2))
+        createItem(Name.ターナ__夏_, 1, WeaponType.RTOME, MoveType.FLIER,  5, 16, 7, 10, 5, 6, 5, 8, 8, 3, 5,
+                Weapon.FruitOfIdunn, null, null, SkillA.AtkSpdPush.lv(3), SkillB.Renewal.lv(3), SkillC.SpurAtkDef.lv(2))
+        createItem(Name.ティアモ__夏_, 2, WeaponType.LANCE, MoveType.CAVALRY,  5, 17, 8, 10, 6, 5, 7, 7, 9, 6, 2,
+                Weapon.ShellLance2, Assist.HarshCommand, null, SkillA.SturdyBlow.lv(2), SkillB.DullRanged.lv(3), null)
+        createItem(Name.ヒーニアス__夏_, 3, WeaponType.AXE, MoveType.FLIER,  5, 18, 9, 9, 6, 5, 7, 7, 9, 7, 3,
+                Weapon.BeachBanner2, Assist.RallyAtkDef, null, null, SkillB.DefFeint.lv(3), SkillC.GoadFliers)
+        createItem(Name.ノワール__夏_, 0, WeaponType.BOW, MoveType.INFANTRY,  5, 17, 8, 10, 5, 5, 5, 7, 8, 6, 3,
+                Weapon.Cocobow2, Assist.ArdentSacrifice, null, SkillA.AtkSpd.lv(2), null, SkillC.InfantryRush.lv(3))
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }

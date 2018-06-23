@@ -70,7 +70,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     },
     Fury(Name.Fury, SkillType.A) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = fury(armedHero, lv)
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHpLoss(battleUnit, lv * 2)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fightHpLoss(battleUnit, lv * 2)
     },
     FortressDef(Name.FortressDef, SkillType.A) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipDef(armedHero, lv + 2), -3)
@@ -234,6 +234,9 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     LawsOfSacae(Name.LawsOfSacae, SkillType.A, maxLevel = 0) {
         //実際は2以上。これ比較対象をユニットに持たせなきゃだめだな
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4) else battleUnit
+    },
+    AtkSpdPush(Name.AtkSpdPush, SkillType.A) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =fullHpAtkSpdBonus( battleUnit,lv * 2+ 1,1)
     },
     ;
 
