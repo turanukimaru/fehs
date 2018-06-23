@@ -995,7 +995,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     DullClose("強化無効・近距離","Dull Close","Dull Close"),
     BeachBanner("ビーチフラッグ","Beach Banner","Beach Banner"),
     BeachBanner2("ビーチフラッグ＋","Beach Banner+","Beach Banner+"),
-    Cocobow("ヤシの実の弓＋","Cocobow","Cocobow"),
+    Cocobow("ヤシの実の弓","Cocobow","Cocobow"),
     Cocobow2("ヤシの実の弓＋","Cocobow+","Cocobow+"),
     InfantryRush("歩行の剛撃","Infantry Rush","Infantry Rush"),
     ;

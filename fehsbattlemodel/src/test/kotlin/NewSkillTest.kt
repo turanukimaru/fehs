@@ -87,4 +87,27 @@ class NewSkillTest {
     }
 
 
+    @Test
+    fun celicaTest() {
+        val unitA = ArmedHero(StandardBaseHero.get("セリカ")!!)
+        val attacker = BattleUnit(unitA, unitA.maxHp)
+
+        val unitB = ArmedHero(StandardBaseHero.get("アイク")!!)
+        val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
+        println(fightResult[0])
+        Assert.assertEquals("size == 3", 3, fightResult.size)
+        Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
+        Assert.assertEquals("buildDamage fail", 33, fightResult[0].damage)
+        Assert.assertEquals("hitPoint fail", 39, fightResult[0].source.hp)
+        Assert.assertEquals("hitPoint fail", 9, fightResult[0].target.hp)
+        Assert.assertEquals("attack side fail", SIDES.COUNTER, fightResult[1].side)
+        Assert.assertEquals("buildDamage fail", 29, fightResult[1].damage)
+        Assert.assertEquals("hitPoint fail", 10, fightResult[1].source.hp)
+        Assert.assertEquals("hitPoint fail", 9, fightResult[1].target.hp)
+        Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[2].side)
+        Assert.assertEquals("buildDamage fail", 33, fightResult[2].damage)
+        Assert.assertEquals("hitPoint fail", 5, fightResult[2].source.hp)
+        Assert.assertEquals("hitPoint fail", 0, fightResult[2].target.hp)
+    }
+
 }
