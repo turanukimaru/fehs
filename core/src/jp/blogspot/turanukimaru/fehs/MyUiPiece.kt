@@ -9,46 +9,64 @@ import jp.blogspot.turanukimaru.board.UiBoard
 import jp.blogspot.turanukimaru.board.UiPiece
 
 class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(actor, uiBoard, myPiece) {
-    //一連の動作を実行中。アニメーションが終わったらコールバックにより状態が戻る
-    var nowAnimation = false
 
     override fun update() {
-        if (nowAnimation) return
-        //アニメーションが登録されていないときは適当に動かす。行動前後で色とアニメーションを変える。これアニメーションをくくりださないと大変だな
-        if (myPiece.actionPhase == Piece.ActionPhase.ACTED) {
-            //戦闘結果を持ってるときはそれを動かす
-            if (myPiece.fightResult != null) {
-                nowAnimation = true
-                resultToSeq(
-                        myPiece.fightResult!!
-                )
-                myPiece.fightResult = null
-            } else {
-                //アニメーション中でなければ灰色にする
-                actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
+        if (piece.animationCount > 0) return
+        //ターンが違うなど操作不能の時は枡に合わせてセット
+        when (piece.actionPhase) {
+            Piece.ActionPhase.DISABLED ->
+                actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
+//                uiBoard.stage.addActor(actor)
+            Piece.ActionPhase.READY -> {//現在位置に表示。ずれてる場合は徐々に移動させる
+                //TODO:ループアクションを設定する
+                if (actors.size < 2) return
+                val base = actors[0]
+                val face = actors[1]
+                if (piece.animationCount == 8) {
+                    base.y = base.y + 2
+                    face.x = face.x + 2
+                } else if (piece.animationCount == 15) {
+                    base.y = base.y - 2
+                    face.x = face.x - 2
+                }
+                piece.animationCount = if (piece.animationCount < 16) {
+                    piece.animationCount + 1
+                } else {
+                    0
+                }
+
             }
-        } else {
-            actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
-            //TODO:ループアクションを設定する
-//            if (actors.size < 2) return
-//            val base = actors[0]
-//            val face = actors[1]
-//            if (animateCount == 8) {
-//                base.y = base.y + 2
-//                face.x = face.x + 2
-//            } else if (animateCount == 15) {
-//                base.y = base.y - 2
-//                face.x = face.x - 2
-//            }
-//            animateCount = if (animateCount < 16) {
-//                animateCount + 1
-//            } else {
-//                0
-//            }
+
+            Piece.ActionPhase.MOVED -> {//移動予定個所に表示。ずれてる場合は徐々に移動させる
+                actionMoveToPosition(uiBoard.board.hand.newPosition)
+            }
+            Piece.ActionPhase.DRAGGING -> {
+            }//ドラッグ中は指に追随する。駒に書くかここに書くかは難しいな
+            Piece.ActionPhase.ATTACK -> {
+                //戦闘結果を持ってるときはそれを動かす
+                if (myPiece.fightResult != null) {
+                    attackResultToSeq(
+                            myPiece.fightResult!!
+                    ,true)
+                    myPiece.fightResult = null
+                } else {
+                    //アニメーション中でなければ灰色にする
+                    actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
+                }
+            }//ドラッグ中は指に追随する。駒に書くかここに書くかは難しいな
+            Piece.ActionPhase.ACTED -> {
+                setToPosition(piece.position)
+                actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
+            }//行動後の現在位置に表示。ずれてる場合は直接移動させる
+            Piece.ActionPhase.REMOVED -> {
+            }//画面から消す
+
         }
+        //カウントを一つ進める。開始かのBooleanのがいいかなあ
+        piece.animationCount++
     }
 
-    fun resultToSeq(fightResult: FightResult) {
+    fun attackResultToSeq(fightResult: FightResult, isAttacker :Boolean) {
         var attackCount = 0
         val sourceSeq = SequenceAction()
         val targetSeq = SequenceAction()
@@ -73,8 +91,8 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
         }
         sourceSeq.addAction(CallbackAction({ true }))
         sourceSeq.addAction(EndOfAnimationAction(this))
-//    targetSeq.addAction(EndOfAnimationAction(fightResult.attackResults.last().target))
-        sourceSeq.addAction(EndOfAnimationAction(this))
+   if(isAttacker) sourceSeq.addAction(EndOfAnimationAction(this)) else targetSeq.addAction(EndOfAnimationAction(this))
+
         //行動終了
         actor.addAction(sourceSeq)
 //    fightResult.attackResults.last().target.uiPiece!!.actor.addAction(targetSeq)
@@ -93,8 +111,10 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
 
     }
 
+    var nowAnimation = false
+
     /**
-     * アニメーションが終了したことを自分に伝えるアクション
+     * アニメーションが終了したことを自分に伝えるアクション.ボードに伝えたいところだが
      */
     class EndOfAnimationAction(private val myUiPiece: MyUiPiece) : Action() {
 

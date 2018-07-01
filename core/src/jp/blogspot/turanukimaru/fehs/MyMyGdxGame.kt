@@ -110,6 +110,27 @@ class MyMyGdxGame : ApplicationAdapter() {
             myGame.uiBoard.numberRegions.add(region)
 
         }
+
+        //地形を盤面にコピー
+        myGame.board.copyGroundSwitchXY(battleGround)
+
+        //盤外のボタンなど。これも処理考え直す必要がありそう
+        val turnendTexture = loadTexture("turnend.png")
+        val turnendImage = Image(turnendTexture)
+        imageDisposer.add(turnendImage)
+        turnendImage.setPosition(64f, 0f)
+        turnendImage.setScale(0.5f)
+        buttons.add(turnendImage)
+        turnendImage.addListener(object : ClickListener() {
+            //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                println("pushed turnend")
+                turnend(myGame.board)
+            }
+        })
+        //どこでボタン管理するか考えないとなー
+        stage!!.addActor(turnendImage)
+
 //TODO:一人目のキャラここから
         //グループ作るのやばいな。重い。
         val medjedTexture = loadTexture("medjed.png")
@@ -131,17 +152,20 @@ class MyMyGdxGame : ApplicationAdapter() {
         uiPiece.actors.add(medjedImageA)
         uiPiece.actors.add(medjedImageB)
         myGame.board.put(piece1, 5, 0)
+        //この辺もっとスムーズにできるようにしないとな
+        myGame.uiBoard.stage.addActor(group)
 //TODO:ここまで。なお現在の一覧画面から移動するようにした奴は別スレッドなのでRealmにアクセスすると落ちる。別インスタンスなら生きてるかな？
 
-        val stageDroplet = loadTexture("lucina.png")
-        val stageDropletImage1 = Image(stageDroplet)
-        stageDropletImage1.setScale(0.5f)
-        imageDisposer.add(stageDropletImage1)
+        val lucinaTexture = loadTexture("lucina.png")
+        val lucinaImage = Image(lucinaTexture)
+        lucinaImage.setScale(0.5f)
+        imageDisposer.add(lucinaImage)
         val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.board, enemy)
-        val uiPiece2 = MyUiPiece(stageDropletImage1, myGame.uiBoard, piece2)
+        val uiPiece2 = MyUiPiece(lucinaImage, myGame.uiBoard, piece2)
         enemy.pieceList.add(piece2)
-        stageDropletImage1.addListener(uiPiece2)
+        lucinaImage.addListener(uiPiece2)
         myGame.board.put(piece2, 1, 3)
+        myGame.uiBoard.stage.addActor(lucinaImage)
 
         val hectorTexture = loadTexture("hector.png")
         val hectorImage = Image(hectorTexture)
@@ -152,26 +176,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         enemy.pieceList.add(piece3)
         hectorImage.addListener(uiPiece3)
         myGame.board.put(piece3, 3, 3)
-
-        //地形を盤面にコピー
-        myGame.board.copyGroundSwitchXY(battleGround)
-
-        //盤外のボタンなど。これも処理考え直す必要がありそう
-        val turnendTexture = loadTexture("turnend.png")
-        val turnendImage = Image(turnendTexture)
-        imageDisposer.add(turnendImage)
-        turnendImage.setPosition(64f, 0f)
-        turnendImage.setScale(0.5f)
-        buttons.add(turnendImage)
-        turnendImage.addListener(object : ClickListener() {
-            //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                println("pushed turnend")
-                turnend(myGame.board)
-            }
-        })
-        //どこでボタン管理するか考えないとなー
-        stage!!.addActor(turnendImage)
+        myGame.uiBoard.stage.addActor(hectorImage)
         myGame.board.turn(user)
     }
 
@@ -213,7 +218,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         //UIoardに出してもいいけどBoardに出しちゃいけない部分だよなあ
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        // tell the camera to update its matrices.
+        // tell the camera to libUpdate its matrices.
         camera!!.update()
 
         // tell the SpriteBatch to render in the
@@ -233,7 +238,7 @@ class MyMyGdxGame : ApplicationAdapter() {
 
         bitmapFont!!.draw(batch, "${myGame.board.hand.oldPosition}\nデバッグ用文字", 50f, 300f)
         batch!!.end()
-        myGame.uiBoard.update()
+        myGame.uiBoard.libUpdate()
         stage!!.act(Gdx.graphics.deltaTime)
         stage!!.draw()
 

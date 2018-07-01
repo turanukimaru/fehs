@@ -998,6 +998,9 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     Cocobow("ヤシの実の弓","Cocobow","Cocobow"),
     Cocobow2("ヤシの実の弓＋","Cocobow+","Cocobow+"),
     InfantryRush("歩行の剛撃","Infantry Rush","Infantry Rush"),
+    ヘクトル__伝承英雄_("ヘクトル（伝承英雄）", "Hector (Vanguard Legend)", "海克托爾 (Vanguard Legend)"),
+    ThunderArmoads("天雷アルマーズ", "Thunder Armoads", "Thunder Armoads"),
+    OstiasPulse("オスティアの鼓動","Ostia's Pulse","Ostia's Pulse"),
     ;
 
     /**

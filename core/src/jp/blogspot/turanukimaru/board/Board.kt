@@ -13,6 +13,10 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     val pieceMatrix = arrayListOf<ArrayList<Piece<UNIT, GROUND>?>>()
     /**
+     * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
+     */
+    val pieceList = arrayListOf<Piece<UNIT, GROUND>>()
+    /**
      * 盤上の地形
      * 地形が無いところはnull.nullObjectとか床を作るべきか？でも床のないボードゲームのが多いよな
      */
@@ -30,7 +34,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     var owner: Player? = null
 
-    val hand = Hand<UNIT, GROUND>()
+    val hand = Hand(this)
+
     /**
      * 横の0..last
      * 0..x-1 は 0 until x と書ける
@@ -85,6 +90,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         pieceMatrix[x][y] = piece
+        pieceList.add(piece)
         piece.putOn(x, y)
     }
 
@@ -279,7 +285,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun clicked(position: Position) {
         //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
         if (!positionIsOnBoard(position) || (searchedRoute[position.x][position.y] < 0 && effectiveRoute[position.x][position.y] < 0)) {
-         hand.   moveCancel()
+            hand.moveCancel()
 //            updateInfo = { _ -> true }
             return
         }
@@ -287,7 +293,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         val targetPiece = pieceMatrix[position.x][position.y]
         val targetRoute = searchedRoute[position.x][position.y]
         val targetEffective = effectiveRoute[position.x][position.y]
-        hand.clicked(position, targetPiece,targetRoute, targetEffective)
+        hand.clicked(position, targetPiece, targetRoute, targetEffective)
 
     }
 
@@ -296,9 +302,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun turn(owner: Player) {
         println("TODO:ターン移動処理")
-       hand. moveCancel()
+        hand.moveCancel()
         this.owner = owner
-        owner.pieceList.forEach { p -> p.ready() }
+//一度全部の駒を使用不可にしてから手番の人の駒を有効にする
+        pieceList.forEach { it.action(Piece.ActionPhase.DISABLED) }
+        owner.pieceList.forEach { it.ready() }
     }
 
     /**
@@ -345,7 +353,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     /**
-     * 対象の位置から移動経路をさかのぼり攻撃場所を探す。 TODO:経路中に無いときに適切な経路を逆算
+     * 対象の位置から移動経路をさかのぼり攻撃場所を探す。 経路中に無いときには攻撃可能位置を探す
+     * 単にLastを出力しないのは射程２の武器のため
      */
     fun <T1> findAttackPos(piece: Piece<T1, GROUND>, position: Position): Position? {
         println("findAttackPos $position")
@@ -362,8 +371,20 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
                 attackPos = pos
             }
         }
-        //もしnullだったら経路逆算しなきゃな・・・
-        return attackPos
+        return attackPos ?: findAttackablePos(piece, position)
+    }
+
+    /**
+     * 対象の位置へ攻撃できる場所を探す。移動経路の逆算はよく考えたら必要ないな
+     */
+  private  fun <T1> findAttackablePos(piece: Piece<T1, GROUND>, position: Position): Position? {
+        println("findAttackPos $position")
+        val orientations = piece.effectiveOrientations()
+        val attackableOrientation = orientations.find { v ->
+            val pos = moveWithOrientation(v, position, -1)
+            searchedRoute[pos.x][pos.y] > -1
+        }
+        return if (attackableOrientation != null) moveWithOrientation(attackableOrientation, position, -1) else null
     }
 
     /**
@@ -383,5 +404,4 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             hand.routeOut()
         }
     }
-
 }

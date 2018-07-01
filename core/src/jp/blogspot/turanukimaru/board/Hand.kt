@@ -5,7 +5,7 @@ import java.util.*
 /**
  * 駒の操作状態と移動経路。タッチ時間・ドラッグ判定もここ。
  */
-class Hand<UNIT, GROUND> {
+class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     var dx = 0
     var dy = 0
     var holdStart = 0L
@@ -99,10 +99,10 @@ class Hand<UNIT, GROUND> {
             //何かをドラッグしてないときは何もしない
                 (touchedPiece == null) -> {
                 }
+            //対象が存在するときはそこへアクション
                 (targetPiece != null && targetEffective >= 0) -> {
                     newPosition = position//一歩手前判定しないとな
                     touchedPiece?.boardActionCommit(this, position, targetPiece) ?: return
-                    //対象が存在しないときはそこへ移動するが移動枠内の時だけ
                 }
             //何もないところへは移動。確定かどうかは設定による
                 (targetPiece == null && targetRoute >= 0) -> {
@@ -123,9 +123,9 @@ class Hand<UNIT, GROUND> {
                 selectedPiece?.boardActionCommit(this, position, targetPiece)
 
             } else {
+                //行動準備は基本False
                 readyToAction = false
-                //このパターンは全部即行動だから仮移動が要るな
-                when {
+                when {//敵と味方で判定別にしないといけないんだよな辛い
 //未選択の時は選択選択してないときに何もないところをタップしても何も起きない。
                     (selectedPiece == null) -> {
                         selectedPiece = targetPiece
@@ -139,13 +139,17 @@ class Hand<UNIT, GROUND> {
                         newPosition = position
                         selectedPiece?.boardMoveCommit(this, position, targetPiece)
                     }
-//選択済み＆駒のあるところをクリックしたときはそこへ行動。コミットかどうかはどこで判定しよう？…まあHandだよなあ
+//選択済み＆駒のあるところをクリックしたときは攻撃位置へ移動しそこへ行動。
                     (targetPiece != null && selectedPiece != targetPiece && targetEffective >= 0) -> {
-                        readyToAction = true//どこでFalseにしよう。If文の構成変えるか？
+                        readyToAction = true
+                        val attackablePosition = board.findAttackPos(selectedPiece!!, position)
+                        stackRoute(position)
+                        selectedPiece?.boardMove(this, attackablePosition!!, targetPiece)
                         selectedPiece?.boardAction(this, position, targetPiece)
                     }
                 //選択済み＆動いてて相手がいない場合そこへ移動.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
                     (targetPiece == null && targetRoute >= 0) -> {
+                        stackRoute(position)
                         selectedPiece?.boardMove(this, position, targetPiece)
                     }
                     else -> {
@@ -180,12 +184,12 @@ class Hand<UNIT, GROUND> {
             while (routeStack.contains(touchedSquare)) {
                 routeStack.pop()
             }
-            routeStack.push(touchedSquare)
         } else {
             //TODO:いずれルート探索。今は最終枡だけ保持しておくか
             routeStack.clear()
-            routeStack.push(touchedSquare)
         }
+        routeStack.push(touchedSquare)
+        newPosition = touchedSquare
         onRoute = true
     }
 

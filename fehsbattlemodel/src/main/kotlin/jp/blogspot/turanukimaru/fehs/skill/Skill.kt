@@ -581,6 +581,16 @@ interface Skill {
     }
 
     /**
+     * 天雷アルマーズ
+     */
+    fun antiFollowupAdjast(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
+        if (battleUnit.adjacentUnits > 0) {
+            enemy.antiFollowup = true
+        }
+        return battleUnit
+    }
+
+    /**
      * ブリュンヒルデ
      */
     fun antiFollowupRangedDef(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {

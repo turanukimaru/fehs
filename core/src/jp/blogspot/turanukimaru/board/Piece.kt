@@ -18,20 +18,20 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      */
     var actionPhase = ActionPhase.DISABLED
     /**
-     * アニメーションのカウント
+     * アニメーションのカウント.Uiのほうに移動したいがそうするとリセットしにくいな…
      */
     var animationCount = 0
-    /**
-     * 盤上の位置。なくても良いが盤上をサーチすると時間かかるんだよな。ボード上でのみ変更すること
-     */
-    var x:Int? = null
+    var animationTargetPosition: Position? = null
+    fun action(action: ActionPhase, target: Position? = null) {
+        actionPhase = action
+        animationTargetPosition = target
+        animationCount = 0
+    }
 
     /**
-     * 盤上の位置。なくても良いが盤上をサーチすると時間かかるんだよな。ボード上でのみ変更すること
+     * 盤上の位置。なくても良いが盤上をサーチすると時間かかるんだよな。移動確定時のみ変更すること
      */
-    var y:Int? = null
-
-    val isOnBoard get() = x != null && y != null
+    var position: Position? = null
 
     init {
     }
@@ -51,7 +51,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * この枡に移動することで消費する移動力
+     * 引数の枡に移動することで消費する移動力。移動できないときは負の値
      */
     open fun countStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Int {
         return if (steps == 0) {
@@ -70,19 +70,19 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 別のユニットがいた場合にその枡に止まれるか。例えば敵に重なることはできるが味方には重なれないかも。移動範囲内かはこれより先に判定している
      */
-    open fun isStopable(otherUnit: UNIT?): Boolean = otherUnit == null
+    open fun isStoppable(otherUnit: UNIT?): Boolean = otherUnit == null
 
 
     /**行動前・選択状態・移動後は行動可能
      *
      */
-    fun isActionable() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.DRAGGING || actionPhase == ActionPhase.MOVED
+    val isActionable get() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.DRAGGING || actionPhase == ActionPhase.MOVED
 
     /**
      * ドラッグから指を挙げたときにも反応するのでうまく使えない・・・
      */
     open fun clicked(position: Position): Boolean {
-        if (!isActionable()) {
+        if (!isActionable) {
             return false
         }
         println("stageDropletImage1がクリックされた！")
@@ -94,41 +94,12 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * タッチから指を離したとき。移動範囲・効果範囲外のときは駒をもとの場所に戻す
      */
     fun touchUp(position: Position): Boolean {
-        //あードラッグかどうかを先に判定しないといけないのか選択状態化で挙動が変わる
-        val selected = board.hand.selectedPiece
-        when (selected) {
-            //選択状態でなければ選択
-            null -> {
-                //行動準備時のみ動く
-                if (!isActionable()) {
-                    return false
-                }
-                //未選択時は選択。選択後は何もしない。これREADYであるかよりもボードの選択駒がこれかどうかで見るべきだよなあ
-                if (this.actionPhase == ActionPhase.READY) {
-                    this.actionPhase = ActionPhase.SELECTED
-                    board.selectPiece(this)
-                }
-            }
-            this -> {
-            }
-            else -> {
-            }
-        }
-        //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
-        if (!board.positionIsOnBoard(position) || (board.searchedRoute[position.x][position.y] < 0 && board.effectiveRoute[position.x][position.y] < 0)) {
-            board.moveCancel()
-            this.actionPhase = ActionPhase.READY
-            return false
-        }
-        if (board.isAnotherPiece(this, position)) {
-
-        }
         return true
     }
 
-    open fun boardAction(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean=true
+    open fun boardAction(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
 
-    open fun boardActionCommit(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean=true
+    open fun boardActionCommit(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
 
     open fun movePiece(): Boolean {
         return true
@@ -136,17 +107,18 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
 
     /**
      * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
-     * イベントどうすっかな。なくていいか。後で削除しよう
      */
     open fun boardMove(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
+        action(ActionPhase.MOVED)
         return true
     }
 
     /**
-     * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
-     * イベントどうすっかな。なくていいか。後で削除しよう
+     * 移動確定。位置を更新して行動後状態にする
      */
     open fun boardMoveCommit(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
+        this.position = position
+        action(ActionPhase.ACTED)
         return true
     }
 
@@ -171,7 +143,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      */
     fun touchDragged(position: Position): Boolean {
         //行動できないときは反応しない
-        if (!isActionable()) {
+        if (!isActionable) {
             return false
         }
         //ドラッグしてる絵を動かす
@@ -211,8 +183,14 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         MOVED,
         //移動範囲用だけどなくていいかなあ
         MARK,
+        //攻撃
+        ATTACK,
+        //攻撃を受ける
+        ATTACKED,
         //行動確定後
         ACTED,
+        //取り除いた状態。PostionがNullにもなっているはず
+        REMOVED,
     }
 
     /**
@@ -221,18 +199,16 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     fun ready() {
         print("READY!! ")
         println(this)
-        this.actionPhase = ActionPhase.READY
+        action(ActionPhase.READY)
     }
 
     fun putOn(x: Int, y: Int) {
-        this.x = x
-        this.y = y
-        actionPhase = Piece.ActionPhase.DISABLED
-        animationCount = 0
+        position = Position(x, y)
+        action(Piece.ActionPhase.DISABLED)
     }
 
     fun startPiece(xyToPosition: Position) {
-        board.hand.startPiece(this,xyToPosition)
+        board.hand.startPiece(this, xyToPosition)
     }
 }
 

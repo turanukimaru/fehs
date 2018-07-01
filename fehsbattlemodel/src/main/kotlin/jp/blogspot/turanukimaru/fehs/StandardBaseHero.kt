@@ -587,6 +587,8 @@ object StandardBaseHero {
                 Weapon.BeachBanner2, Assist.RallyAtkDef, null, null, SkillB.DefFeint.lv(3), SkillC.GoadFliers)
         createItem(Name.ノワール__夏_, 0, WeaponType.BOW, MoveType.INFANTRY,  5, 17, 8, 10, 5, 5, 5, 7, 8, 6, 3,
                 Weapon.Cocobow2, Assist.ArdentSacrifice, null, SkillA.AtkSpd.lv(2), null, SkillC.InfantryRush.lv(3))
+        createItem(Name.ヘクトル__伝承英雄_, 3, WeaponType.AXE, MoveType.ARMORED, 5, 23, 10, 6, 12, 4, 7, 10, 4, 8, 6,
+                Weapon.ThunderArmoads, null, Special.DraconicAura, SkillA.DistantCounter, SkillB.VengefulFighter, SkillC.OstiasPulse)
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }

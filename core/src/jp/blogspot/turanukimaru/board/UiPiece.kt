@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import javax.swing.text.Position
 
 /**
  * 駒とLibGDXの間
@@ -29,18 +30,14 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     var touched = false
 
     /**
-     * 使用不可能フラグ。TODO:盤側から操作を伝えるかどうかに使う予定。
-     */
-    var disabled = false
-
-    /**
      * ドラッグを駒に伝える
      * ドラッグはクリックではない.x,yは移動量。//駒の動きを駒に書くのは妥当か//無効の時に動かさないのどうすっかなこれ
      */
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
+        if(!uiBoard.pieceActive) return
 //ドラッグしたら駒の表示を追従させているが移動量検出しないとちゃたるなこれ
-        if (!piece.isActionable()) {
+        if (!piece.isActionable) {
             return
         }
         //升目以外にドラッグした場合は無視
@@ -65,6 +62,8 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
+        if(!uiBoard.pieceActive) return
+        actor.zIndex = 0
         touched = false
         val position = uiBoard.touchedPosition()
 
@@ -76,8 +75,9 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
         val result = super.touchDown(event, x, y, pointer, button)
+        if(!uiBoard.pieceActive) return result
         piece.startPiece(uiBoard.xyToPosition(x,y))
-//        actor.zIndex = 0
+        actor.zIndex = 0
         touched = true
         piece.touchDown()
         return result
@@ -86,21 +86,14 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     /**
      * LibGDXのアップデートで呼ばれる。localと名前を逆にすべきだなこれ
      */
-    fun update() {
-        if (!piece.isOnBoard) {
+    fun libUpdate() {
+        if (piece.position == null) {
             return // ボード上に無いときは何もしない。消す処理を書いてもいいか？
         }
-        localUpdate()
+        update()
     }
 
-    open fun localUpdate() {
-        if (piece.actionPhase == Piece.ActionPhase.DISABLED) {
-            if (piece.animationCount == 0) {
-                actor.setPosition(uiBoard.squareXtoPosX(piece.x ?: 0), uiBoard.squareYtoPosY(piece.y ?: 0))
-                uiBoard.stage.addActor(actor)
-            }
-
-        }
+    open fun update() {
 
     }
 
@@ -109,10 +102,11 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     /**
      * 位置移動のアニメ。移動差分を駒に登録する
      */
-    fun actionMoveToPosition(x: Int, y: Int): SequenceAction {
+    fun actionMoveToPosition(position: UiBoard.Position?): SequenceAction {
         val seq = SequenceAction()
-        val finalX = uiBoard.squareXtoPosX(x)
-        val finalY =uiBoard. squareYtoPosY(y)
+        if(position == null) return seq
+        val finalX = uiBoard.squareXtoPosX(position.x)
+        val finalY =uiBoard. squareYtoPosY(position.y)
         seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.2f))
 //        seq.addAction(Actions.moveTo(finalX, finalY))
         return seq
@@ -121,9 +115,10 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     /**
      * 位置移動のアニメ。移動差分を駒に登録する
      */
-    fun setToPosition(x: Int, y: Int) {
-        val finalX = uiBoard.squareXtoPosX(x)
-        val finalY = uiBoard.squareYtoPosY(y)
+    fun setToPosition(position: UiBoard.Position?) {
+        if(position == null) return
+        val finalX = uiBoard.squareXtoPosX(position.x)
+        val finalY = uiBoard.squareYtoPosY(position.y)
         actor.setPosition(finalX, finalY)
     }
 }

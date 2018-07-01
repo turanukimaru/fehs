@@ -349,6 +349,10 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Armoads(Name.Armoads, SkillType.AXE, 16, SilverAxe) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 2)
     },
+    ThunderArmoads(Name.ThunderArmoads, SkillType.AXE, 16, SilverAxe) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipDef(armedHero, 3), lv)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =  antiFollowupAdjast(battleUnit, enemy)
+    },
     Urvan(Name.Urvan, SkillType.AXE, 16, SilverAxe) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =

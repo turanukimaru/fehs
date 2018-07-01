@@ -1,8 +1,5 @@
 package jp.blogspot.turanukimaru.fehs
 
-import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import jp.blogspot.turanukimaru.board.Board
 import jp.blogspot.turanukimaru.board.Hand
 import jp.blogspot.turanukimaru.board.Piece
@@ -13,7 +10,7 @@ import jp.blogspot.turanukimaru.board.UiBoard
  */
 class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Board.Player) : Piece<BattleUnit, Ground>(containUnit, board, owner) {
     var fightResult: FightResult? = null
-    override fun isStopable(otherUnit: BattleUnit?): Boolean = otherUnit == null
+    override fun isStoppable(otherUnit: BattleUnit?): Boolean = otherUnit == null
 
     override fun isMovable(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
         //デフォルトでは上下左右0,2,4,6にしておこう
@@ -75,54 +72,62 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         return true
     }
 
+    //対象がルート上かとかの引数を増やすべきだな
     override fun dragged(position: UiBoard.Position): Boolean {
-        val target = board.pieceMatrix[position.x][position.y]
-        //敵ユニットに重ねたときは戦闘結果を計算して表示
-        if (board.hand.selectedPiece != null && board.effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.selectedPiece) {
-            val fightResult = containUnit.fight(target.containUnit)
-            for (result in fightResult) {
-                println(result)
-            }
-            val expected = fightResult.last()
-
-            board.updateInfo = { b ->
-                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
-                b.bitmapFont.draw(b.batch, target.containUnit.armedHero.baseHero.name.jp, 320f, 940f)
-                b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
-                b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
-                b.bitmapFont.draw(b.batch, "→", 80f, 900f)
-                b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
-                b.bitmapFont.draw(b.batch, target.containUnit.hp.toString(), 290f, 900f)
-                b.bitmapFont.draw(b.batch, "→", 350f, 900f)
-                b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
-
-                //ダメージｘ回数表示は後でいいか
-                true
-            }
+      return  showActionResult(position)
+    }
+fun showActionResult(position: UiBoard.Position):Boolean{
+    val target = board.pieceMatrix[position.x][position.y]
+    //敵ユニットに重ねたときは戦闘結果を計算して表示
+    if (board.effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.touchedPiece && target.owner != owner) {
+        //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
+        val fightResult = containUnit.fight(target.containUnit)
+        for (result in fightResult) {
+            println(result)
         }
-        return true
+        val expected = fightResult.last()
+
+        board.updateInfo = { b ->
+            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
+            b.bitmapFont.draw(b.batch, target.containUnit.armedHero.baseHero.name.jp, 320f, 940f)
+            b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
+            b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
+            b.bitmapFont.draw(b.batch, "→", 80f, 900f)
+            b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
+            b.bitmapFont.draw(b.batch, target.containUnit.hp.toString(), 290f, 900f)
+            b.bitmapFont.draw(b.batch, "→", 350f, 900f)
+            b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
+
+            //ダメージｘ回数表示は後でいいか
+            true
+        }
+    }
+    return true
+
+}
+    //行動結果表示。ドラッグと同じ
+    override fun boardAction(hand: Hand<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
+        return showActionResult(position)
     }
 
-    //抽象化するならここか
-    override fun boardAction(hand: Hand<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
-        this.actionPhase = actionTouchedPoint(position)
+    //行動。相手がいるかは判定済み。
+    override fun boardActionCommit(hand: Hand<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
+        this.actionPhase = actionTouchedPoint(position,targetPiece)
         return true
     }
 
     /**
      * touchUp/boardのタッチから呼び出される。MyUiPieceが要るか…？
      */
-    fun actionTouchedPoint(position: UiBoard.Position): ActionPhase {
+    fun actionTouchedPoint(position: UiBoard.Position, target: Piece<BattleUnit, Ground>?): ActionPhase {
         println("actionTouchedPoint")
         println("position: $position")
         println("position: " + board.positionIsOnBoard(position))
         println("routeStack: $board.routeStack")
 
-        //攻撃範囲かつユニットがいたらそいつにアクション.とりあえず攻撃位置に移動しているかドラッグで攻撃位置を経由しているかに限る
-        val target = board.pieceMatrix[position.x][position.y]
+        //敵は攻撃。味方はアシスト。アシストのロジックまだ考えてないけどな！
         if (board.hand.oldPosition != position && board.effectiveRoute[position.x][position.y] > 0 && target != null && target != this) {
-            //攻撃位置探索.TODO:見つからなかったら移動可能場所の中から攻撃可能地点を探す必要がある。
-
+//戦闘アクションは流石にここで登録してもいい気がするが…いやダメか…Updateで読む方法考えないとな
             val attackPos = board.findAttackPos(this, position)
             if (attackPos != null) {
                 //敵味方判別して行動。攻撃なら一歩手前に移動するし移動補助ならそれが発動する
@@ -133,7 +138,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 println(board.hand.routeStack)
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
                 //とりあえずノーモーションで枡に戻してからアニメさせているが、一度不通に戻すべきかなあ
-                board.setToPosition(this, attackPos)
+//                board.setToPosition(this, attackPos)
 
                 fightResult = FightResult(attackPos, position, containUnit.fight(target.containUnit))
 //                target.fightResult = fightResult
@@ -156,35 +161,6 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 //攻撃位置が見つからなかった場合は戻る
                 //return ActionPhase.MOVED
             }
-        }
-        //動いてないときも画像位置調整のためその場にセット
-        if (target == this && board.hand.oldPosition == position) {
-//        if (board.routeStack.isEmpty() || board.oldPosition == position) {
-            println("board.moveToPossition(this, $board.oldPosition!!)")
-            if (actionPhase == ActionPhase.MOVED) {
-                board.moveCancel()
-                return ActionPhase.READY
-            }
-            board.moveToPosition(this, position)
-            return ActionPhase.MOVED
-        }
-        //移動後に自分自身を推したときは行動終了.クリックに移動すると両方起動してしまうから受付時間の処理とか要るな
-        if (target == this && board.hand.oldPosition != position && actionPhase == ActionPhase.MOVED) {
-            //行動終了
-            board.moveToPosition(this, position)
-            board.deselectPiece()
-            board.updateInfo = { _ -> true }
-            return ActionPhase.ACTED
-        }
-        //目標に誰もおらず移動範囲外の時は移動キャンセル
-        if (target == null && board.searchedRoute[position.x][position.y] < 0) {
-            board.moveCancel()
-            return ActionPhase.READY
-        }
-        //目標に誰もいないときはそこに動く
-        if (target == null) {
-            println("board.moveToPossition(this, $position)")
-            board.moveToPosition(this, position)
         }
         return ActionPhase.MOVED
     }

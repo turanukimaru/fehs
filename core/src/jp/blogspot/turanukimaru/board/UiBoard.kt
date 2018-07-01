@@ -44,6 +44,8 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     val uiPieceList = arrayListOf<UiPiece>()
 
+    var opPhase = OpPhase.ACTIVE
+
     /**
      * 枡幅
      */
@@ -53,6 +55,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     var stageTexture: Texture? = null
 
+    val pieceActive get() = opPhase == OpPhase.ACTIVE
 
     /**
      * 枡高さ
@@ -67,7 +70,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     fun squareXtoPosX(x: Int) = x * squareWidth
 
-   fun xyToPosition(x: Float,y: Float) = Position(posXtoSquareX(x),posYtoSquareY(y))
+    fun xyToPosition(x: Float, y: Float) = Position(posXtoSquareX(x), posYtoSquareY(y))
     /**
      * 盤面がクリックされたときに起動する…のだがタッチとタッチアップが同じときはクリックと判定するので全体を覆うときは実質TouchUp
      */
@@ -78,7 +81,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         println(event.isTouchFocusCancel)
         println("UiBoardがクリックされた！")
         //ここでハンドをドラッグかクリックか判定したほうが良いな
-        board.clicked(xyToPosition(x,y))
+        board.clicked(xyToPosition(x, y))
     }
 
 
@@ -89,7 +92,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     /**
      * libGDXのupdateから呼ぶこと。枠線を引いた後に論理盤面のupdateを呼ぶ
      */
-    fun update() {
+    fun libUpdate() {
         liner.projectionMatrix = stage.camera.combined
         liner.begin(ShapeRenderer.ShapeType.Line)
         liner.color = Color.WHITE
@@ -124,8 +127,11 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
                 fillSquare(x, y, UiBoard.FillType.PASS)
             }
         }
-
-        uiPieceList.forEach { it.update() }
+//一部だけ動かす。…要らない気もしてきたな。 Board.OpPhase.ANIMATIONは操作を受け付けるかだけ見るほうがいいか？
+        when (opPhase) {
+            OpPhase.ACTIVE -> uiPieceList.forEach { it.libUpdate() }
+            OpPhase.ANIMATION -> uiPieceList.filter { it.piece.actionPhase == Piece.ActionPhase.ATTACK || it.piece.actionPhase == Piece.ActionPhase.ATTACKED }.forEach { it.libUpdate() }
+        }
     }
 
     /**
@@ -246,5 +252,12 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         ATTACKABLE(Color.RED),
         PASS(Color.GREEN)
     }
+
+
+    enum class OpPhase {
+        ACTIVE,
+        ANIMATION
+    }
+
 }
 

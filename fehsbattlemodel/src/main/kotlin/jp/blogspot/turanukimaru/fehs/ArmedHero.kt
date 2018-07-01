@@ -244,7 +244,7 @@ data class ArmedHero(
     }
 
     /**
-     * LV1の時の能力値計算。武器以外装備してない・杖は武器も装備してないのでABCスキルは計算しない
+     * LV1の時の能力値計算。武器以外装備してない・杖は武器も装備してないのでABCスキルは計算しない.デフォ武器違ったわ…
      */
     fun lv1equip(): BattleParam {
         hpEqp = 0
@@ -254,7 +254,7 @@ data class ArmedHero(
         resEqp = 0
         reduceSpecialCooldown = 0
         //杖は最初武器を装備していない
-        (0 until 5 - rarity).fold(if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else weapon, { w, _ -> w.preSkill }).equip(this)
+        if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold( weapon, { w, _ -> w.preSkill.preSkill }).equip(this)
 
         val result = BattleParam(
                 boonedHp + hpEqp + hpBoost,
