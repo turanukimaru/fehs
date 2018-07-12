@@ -23,9 +23,9 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
         pair.first.attack(pair.second, results)
     }
     /**
-     * 反撃側追撃
+     * 反撃側追撃.今のところこれの順番を変えるスキルはないからプライベート。まあ他のも操作メソッドをここに移せばいいのだが
      */
-    val secondCounter = { pair: Pair<BattleUnit, BattleUnit>, results: List<AttackResult> ->
+    private val secondCounter = { pair: Pair<BattleUnit, BattleUnit>, results: List<AttackResult> ->
         pair.second.attack(pair.first, results).flip()
     }
     /**
@@ -51,7 +51,7 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
      */
     fun fight(): List<AttackResult> {
         buildFightPlan(attacker, target)
-        var last = AttackResult(attacker, target, 0,null, null, null)
+        var last = AttackResult(attacker, target, 0, null, null, null)
         //foldに書き直すべきかなあ
         for (fight in plan) {
             val s = last.source.copy()

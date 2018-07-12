@@ -60,6 +60,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     RTomeExperience(Name.RTomeExperience, SkillType.C),
     BTomeValor(Name.BTomeValor, SkillType.C),
     GTomeValor(Name.GTomeValor, SkillType.C),
+    DragonValor(Name.DragonValor, SkillType.C),
     GTomeExperience(Name.GTomeExperience, SkillType.C),
     PanicPloy(Name.PanicPloy, SkillType.C),
     AtkPloy(Name.AtkPloy, SkillType.C),
@@ -79,10 +80,11 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     ResTactic(Name.ResTactic, SkillType.C),
     FlierGuidance(Name.FlierGuidance, SkillType.C),
     OddAtkWave(Name.OddAtkWave, SkillType.C),
+    OddResWave(Name.OddResWave, SkillType.C),
     EvenSpdWave(Name.EvenSpdWave, SkillType.C),
     InfantryRush(Name.InfantryRush, SkillType.C),
     OstiasPulse(Name.OstiasPulse, SkillType.C),
-       ;
+    ;
 
     /**
      * 同じスキルの別レベルを作成する。レベルがそのままなら自分自身のまま。
@@ -98,11 +100,11 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     //   override fun localeName(locale: Locale): String =jp.localeName(locale)
 
     companion object {
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf(), { list, e ->
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
-            } else (1..e.maxLevel).forEach({ i -> list.add(e.lv(i)) });list
-        })
+            } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
+        }
 
         private val itemMap = mutableMapOf<String, SkillC>()
 

@@ -1,11 +1,11 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true"
-                                                 tools:context="jp.blogspot.turanukimaru.fehbs.HeroRegisterActivity"
-                                                 tools:ignore="MergeRootFrame">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="jp.blogspot.turanukimaru.fehbs.HeroRegisterActivity"
+    tools:ignore="MergeRootFrame">
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/sake_detail_container"
@@ -20,8 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        >
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -37,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -51,7 +50,7 @@
                 android:scaleType="fitEnd"
                 app:layout_collapseParallaxMultiplier="1.0"
                 app:srcCompat="@color/colorPrimary"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

@@ -29,11 +29,11 @@ class ViewBuilder(private val locale: Locale) {
     /**
      * ラジオボタン作成。スキルとかXML定義の物
      */
-    fun createSkillRadioButton(resources: Resources, rootView: View, radioButton: Int, title: Int, items: Int) {
+    private fun createSkillRadioButton(resources: Resources, rootView: View, radioButton: Int, title: Int, items: Int) {
         createSkillRadioButton(rootView, radioButton, title, resources.getStringArray(items))
     }
 
-    fun createSkillRadioButton(rootView: View, radioButton: Int, title: Int, strings: Array<String>) {
+    private fun createSkillRadioButton(rootView: View, radioButton: Int, title: Int, strings: Array<String>) {
         //項目選択.
         rootView.findViewById<RadioButton>(radioButton).setOnClickListener { v ->
             val index = strings.indexOf(rootView.findViewById<RadioButton>(radioButton).text)
@@ -41,11 +41,11 @@ class ViewBuilder(private val locale: Locale) {
             //if式があれば三項演算子が不要なのはわかるが読みやすくはないな…
             builder.setSingleChoiceItems(strings, if (index >= 0) index else 0
                     // 選択したときは文字列をそのまま置き換える
-                    , { dialog, which ->
+            ) { dialog, which ->
                 rootView.findViewById<RadioButton>(radioButton).text = strings[which]
                 equip(rootView, rootView.findViewById<Button>(R.id.baseUnitRadioButton)?.text.toString())
                 dialog.dismiss()
-            })
+            }
             val dialog = builder.create()
             dialog.show()
         }
@@ -161,7 +161,7 @@ class ViewBuilder(private val locale: Locale) {
         else -> Color.BLACK
     }
 
-    fun createEditButtons(resources: Resources, rootView: View, armedClass: ArmedHero) {
+    private fun createEditButtons(resources: Resources, rootView: View, armedClass: ArmedHero) {
         armedClass.let {
             rootView.findViewById<TextView>(R.id.unitName).text = it.localeName(locale)
             rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.weapon.localeName(locale)
@@ -206,7 +206,7 @@ class ViewBuilder(private val locale: Locale) {
 
     }
 
-    fun clearButtons(rootView: View) {
+    private fun clearButtons(rootView: View) {
         rootView.findViewById<Spinner>(R.id.raritySpinner).setSelection(4)
         rootView.findViewById<Spinner>(R.id.targetRaritySpinner).setSelection(4)
         rootView.findViewById<Spinner>(R.id.levelBoostSpinner).setSelection(0)
@@ -215,7 +215,7 @@ class ViewBuilder(private val locale: Locale) {
 
     }
 
-    fun clearEditButtons(rootView: View) {
+    private fun clearEditButtons(rootView: View) {
         rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = ""
         rootView.findViewById<RadioButton>(R.id.refineRadioButton).text = ""
         rootView.findViewById<RadioButton>(R.id.assistRadioButton).text = ""
@@ -265,17 +265,17 @@ class ViewBuilder(private val locale: Locale) {
         override fun onNothingSelected(parent: AdapterView<*>?) {}
     }
 
-    fun addWriteEnable(rootView: View) :Boolean {
+    fun addWriteEnable(rootView: View): Boolean {
         rootView.findViewById<TextView>(R.id.add_button).enabled = false
         rootView.findViewById<TextView>(R.id.write_button).enabled = false
-        val baseName =rootView.findViewById<RadioButton>(R.id.baseUnitRadioButton)?.text.toString()
+        val baseName = rootView.findViewById<RadioButton>(R.id.baseUnitRadioButton)?.text.toString()
         val targetName = rootView.findViewById<TextView>(R.id.unitName).text.toString()
-        Log.i("addWriteEnable","$baseName $targetName")
+        Log.i("addWriteEnable", "$baseName $targetName")
         if (StandardBaseHero.containsKey(targetName)) {
             return true
         }
         //別名がついてるときは追加可能
-        rootView.findViewById<TextView>(R.id.add_button).enabled =  targetName != baseName
+        rootView.findViewById<TextView>(R.id.add_button).enabled = targetName != baseName
         //ベースがスタンダードでなければ上書きが可能
         rootView.findViewById<TextView>(R.id.write_button).enabled = !StandardBaseHero.containsKey(baseName)
         return true
@@ -308,13 +308,13 @@ class ViewBuilder(private val locale: Locale) {
             //setSingleChoiceItemsでアイテムリストとリスナをセットしている
             builder.setSingleChoiceItems(texts, if (index >= 0) index else 0
                     // 選択したときは文字列をそのまま置き換える
-                    , { dialog, which ->
+            ) { dialog, which ->
                 rootView.findViewById<RadioButton>(radioButton).text = texts[which]
                 val armedClass = ArmedHeroRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString())
                         ?: return@setSingleChoiceItems
                 createEditButtons(resources, rootView, armedClass)
                 dialog.dismiss()
-            })
+            }
             val dialog = builder.create()
             dialog.show()
         }

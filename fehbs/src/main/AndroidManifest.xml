@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="jp.blogspot.turanukimaru.fehs"
-    >
+    package="jp.blogspot.turanukimaru.fehs">
     <!--
         <application
             android:allowBackup="true"
@@ -24,25 +23,23 @@
         </application>
     -->
     <!-- 普通のAndroidアプリで起動してからLibGDXアプリに飛ぶお試しXML。LibGDX側は特に何もしなくてよい。当たり前か -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name="jp.blogspot.turanukimaru.fehbs.BattleSimApp"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <!--        android:theme="@style/GdxTheme" -->
         <activity
             android:name="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
             android:label="@string/pre_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -52,15 +49,15 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"/>
+                android:value="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity" />
         </activity>
 
-        <service android:name="jp.blogspot.turanukimaru.fehbs.HeroStatusService"/>
+        <service android:name="jp.blogspot.turanukimaru.fehbs.HeroStatusService" />
 
 
         <receiver android:name="jp.blogspot.turanukimaru.fehbs.HeroRepoReceiver">
             <intent-filter>
-                <action android:name="jp.blogspot.turanukimaru.fehbs.ADD_HERO"/>
+                <action android:name="jp.blogspot.turanukimaru.fehbs.ADD_HERO" />
             </intent-filter>
         </receiver>
     </application>

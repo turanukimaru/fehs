@@ -137,7 +137,8 @@ data class BattleUnit(val armedHero: ArmedHero
     val effectedSpd: Int get() = spd + spdEffect
     val effectedDef: Int get() = def + defEffect
     val effectedRes: Int get() = res + resEffect
-    val effectedBladeAtk: Int get() = effectedAtk + if (blade && !antiBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0 + debuffBonus
+    //ブレード火力は外部からの参照要らんな
+    private val effectedBladeAtk: Int get() = effectedAtk + if (blade && !antiBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0 + debuffBonus
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
     val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
 
@@ -277,7 +278,7 @@ data class BattleUnit(val armedHero: ArmedHero
         //攻撃時に発動するかの条件がある奥義が出たらどうしよう…
         if (specialCount >= armedHero.specialCoolDownTime && armedHero.special.type == SkillType.SPECIAL_A) {
             specialCount = 0
-            return Damage(this, armedHero.special, armedHero.weapon.type, armedHero.skills.fold(0, { d, skill -> skill.specialTriggered(this, d) }), halfByStaff, results)
+            return Damage(this, armedHero.special, armedHero.weapon.type, armedHero.skills.fold(0) { d, skill -> skill.specialTriggered(this, d) }, halfByStaff, results)
         }
         //println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
         specialCount += if (accelerateAttackCooldown + 1 > InflictCooldown) accelerateAttackCooldown + 1 - InflictCooldown else 0
@@ -293,9 +294,9 @@ data class BattleUnit(val armedHero: ArmedHero
     fun preventByDefResTerrain(weaponType: SkillType, specialPenetrate: Int): Int =
             let(weaponType.prevent) * (if (defensiveTerrain) 130 else 100) / 100 - (let(weaponType.prevent) * specialPenetrate) / 100
 
-    fun prevent(damage: Int, source: BattleUnit, results: List<AttackResult>) = armedHero.skills.fold(damage, { d, skill -> skill.prevent(this, d, source, results) })
+    fun prevent(damage: Int, source: BattleUnit, results: List<AttackResult>) = armedHero.skills.fold(damage) { d, skill -> skill.prevent(this, d, source, results) }
 
-    fun specialPrevent(source: BattleUnit, damage: Int) = armedHero.special.specialPrevent(this, damage, source, armedHero.skills.fold(0, { d, skill -> skill.specialPreventTriggered(this, d) }))
+    fun specialPrevent(source: BattleUnit, damage: Int) = armedHero.special.specialPrevent(this, damage, source, armedHero.skills.fold(0) { d, skill -> skill.specialPreventTriggered(this, d) })
     /**
      * スキル・奥義によるダメージ減少.
      */
@@ -361,7 +362,7 @@ data class BattleUnit(val armedHero: ArmedHero
         return life
     }
 
-    fun lossHp(damage: Int): Int {
+    private fun lossHp(damage: Int): Int {
         hp = when {
             hp <= 0 -> 0
             hp in 1..damage -> 1

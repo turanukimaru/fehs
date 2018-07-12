@@ -143,11 +143,11 @@ enum class Seal(override val jp: Name, override val type: SkillType, override va
     override val value get() = name
 
     companion object {
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf(), { list, e ->
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
-            } else (1..e.maxLevel).forEach({ i -> list.add(e.lv(i)) });list
-        })
+            } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
+        }
 
         private val itemMap = mutableMapOf<String, Seal>()
 

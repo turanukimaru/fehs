@@ -86,7 +86,7 @@ class HeroStatusService : Service() {
             HeroRepoReceiver.sendMessage(this, name, boon, bane, rarity)
             //    stopSelf()
         }
-        view!!.setOnTouchListener({ v, e ->
+        view!!.setOnTouchListener { v, e ->
 
             println(v)
             println(e)
@@ -101,7 +101,7 @@ class HeroStatusService : Service() {
                         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                         , PixelFormat.TRANSPARENT
                 )
-                y +=   e.rawY.toInt() - touchedY
+                y += e.rawY.toInt() - touchedY
                 println(y)
                 newParams.gravity = Gravity.TOP or Gravity.END
                 newParams.y = y
@@ -110,7 +110,7 @@ class HeroStatusService : Service() {
                 touchedY = e.rawY.toInt()
                 true
             }
-        })
+        }
 
         // Viewを画面上に追加
         windowManager!!.addView(view, params)

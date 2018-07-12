@@ -92,8 +92,8 @@ class HeroRegisterFragment : Fragment() {
         return rootView
     }
 
-   override fun onDestroy() {
-       context.stopService(Intent(context, HeroStatusService::class.java))
+    override fun onDestroy() {
+        context.stopService(Intent(context, HeroStatusService::class.java))
         super.onDestroy()
     }
 
@@ -130,7 +130,7 @@ class HeroRegisterFragment : Fragment() {
                 Log.i("ArmedClassRegister", "R.id.action_delete GO!")
                 //削除ダイアログ作成
                 val builder = AlertDialog.Builder(this.context).setMessage(R.string.action_delete).setTitle(R.string.action_delete)
-                builder.setPositiveButton(R.string.action_delete, { _, _ ->
+                builder.setPositiveButton(R.string.action_delete) { _, _ ->
                     val target = activity.findViewById<TextView>(R.id.unitName)
                     if (ArmedHeroRepository.isStandardBattleClass(target.text.toString())) {
 //                    Toast.makeText(this.context, R.string.alert_default_name, Toast.LENGTH_SHORT).show()
@@ -140,7 +140,7 @@ class HeroRegisterFragment : Fragment() {
 
                     viewBuilder.createUnitRadioButton(resources, activity.contentView!!, R.id.baseUnitRadioButton, R.string.unit_name_title)
                     target.text = ""
-                })
+                }
                 //何もしないとき何も書かなくていいのかね
                 builder.setNegativeButton(R.string.action_cancel, { _, _ -> })
 // Create the AlertDialog

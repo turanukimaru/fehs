@@ -1,18 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:background="@android:color/background_dark"
-              android:orientation="vertical"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/background_dark"
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="1dp"
-        >
+        android:padding="1dp">
 
 
         <Spinner
@@ -22,19 +20,19 @@
             android:layout_gravity="center_vertical"
             android:entries="@array/weapons_swords"
 
-            android:text="------------------"/>
+            android:text="------------------" />
 
         <Spinner
             android:id="@+id/spinner_weapon3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/weapon_type"/>
+            android:entries="@array/weapon_type" />
 
         <Spinner
             android:id="@+id/spinner_move3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/move_type"/>
+            android:entries="@array/move_type" />
 
     </LinearLayout>
 
@@ -42,8 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="1dp"
-        >
+        android:padding="1dp">
 
         <TextView
             style="?android:attr/textAppearanceLarge"
@@ -55,7 +52,7 @@
             android:paddingStart="1dp"
             android:paddingTop="0dp"
             android:text="@string/top_rarities_title"
-            android:textSize="@dimen/mini_param_text_size"/>
+            android:textSize="@dimen/mini_param_text_size" />
 
         <Spinner
             android:id="@+id/raritySpinner"
@@ -63,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:entries="@array/rarities"
-            android:text="5"/>
+            android:text="5" />
 
         <TextView
             style="?android:attr/textAppearanceLarge"
@@ -86,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:entries="@array/rarities"
-            android:text="0"/>
+            android:text="0" />
 
         <TextView
             android:id="@+id/textView6"
@@ -97,8 +94,7 @@
             android:text="@string/plus"
 
             android:textIsSelectable="true"
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <Spinner
             android:id="@+id/levelBoostSpinner"
@@ -106,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:entries="@array/levelBoosts"
-            android:text="0"/>
+            android:text="0" />
 
     </LinearLayout>
 
@@ -114,8 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="1dp"
-        >
+        android:padding="1dp">
 
         <TextView
             style="?android:attr/textAppearanceLarge"
@@ -157,22 +152,21 @@
             android:layout_gravity="center_vertical"
             android:entries="@array/boon_type"
             android:text="@string/none"
-            android:textColor="@android:color/black"
-            />
+            android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="        "/>
+            android:text="        " />
 
         <Button
             android:id="@+id/close_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/add"/>
+            android:text="@string/add" />
 
     </LinearLayout>
 
@@ -189,8 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/hp_title"
-            />
+            android:text="@string/hp_title" />
 
         <TextView
             android:id="@+id/hpBaseView"
@@ -199,8 +192,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <TextView
             android:id="@+id/atkBaseTitleView"
@@ -208,8 +200,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/atk_title"
-            />
+            android:text="@string/atk_title" />
 
         <TextView
             android:id="@+id/atkBaseView"
@@ -218,8 +209,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <TextView
             android:id="@+id/spdBaseTitleView"
@@ -227,8 +217,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/spd_title"
-            />
+            android:text="@string/spd_title" />
 
         <TextView
             android:id="@+id/spdBaseView"
@@ -237,8 +226,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <TextView
             android:id="@+id/defBaseTitleView"
@@ -246,8 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/def_title"
-            />
+            android:text="@string/def_title" />
 
         <TextView
             android:id="@+id/defBaseView"
@@ -256,8 +243,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <TextView
             android:id="@+id/resBaseTitleView"
@@ -265,8 +251,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/res_title"
-            />
+            android:text="@string/res_title" />
 
         <TextView
             android:id="@+id/resBaseView"
@@ -275,8 +260,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
     </LinearLayout>
 
@@ -285,8 +269,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/background_light"
         android:orientation="horizontal"
-        android:padding="1dp"
-        >
+        android:padding="1dp">
 
         <TextView
             android:id="@+id/hpTitleView"
@@ -294,8 +277,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/hp_title"
-            />
+            android:text="@string/hp_title" />
 
         <TextView
             android:id="@+id/hpView"
@@ -304,8 +286,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <TextView
             android:id="@+id/atkTitleView"
@@ -313,8 +294,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/atk_title"
-            />
+            android:text="@string/atk_title" />
 
         <TextView
             android:id="@+id/atkView"
@@ -323,8 +303,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <TextView
             android:id="@+id/spdTitleView"
@@ -332,8 +311,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/spd_title"
-            />
+            android:text="@string/spd_title" />
 
         <TextView
             android:id="@+id/spdView"
@@ -342,8 +320,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <TextView
             android:id="@+id/defTitleView"
@@ -351,8 +328,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/def_title"
-            />
+            android:text="@string/def_title" />
 
         <TextView
             android:id="@+id/defView"
@@ -361,8 +337,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
         <TextView
             android:id="@+id/resTitleView"
@@ -370,8 +345,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:text="@string/res_title"
-            />
+            android:text="@string/res_title" />
 
         <TextView
             android:id="@+id/resView"
@@ -380,8 +354,7 @@
             android:layout_weight="1"
             android:ems="5"
 
-            android:textSize="@dimen/param_text_size"
-            />
+            android:textSize="@dimen/param_text_size" />
 
     </LinearLayout>
 

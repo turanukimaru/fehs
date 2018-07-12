@@ -250,7 +250,7 @@ enum class RefinedSkill(override val jp: Name, val hp: Int, val atk: Int, val sp
 
         private val itemMap = mutableMapOf<String, Skill>()
         fun spreadItems(weapon: Skill, range: RefineType = (weapon as? Weapon)?.refinedSkillType
-                ?: RefineType.NOT_WEAPON): List<Skill> = values().fold(arrayListOf<Skill>(Skill.NONE), { list, e -> if (e.refinedSkillType == range || (e.refinedSkillType == RefineType.DependWeapon && (e.preSkill == weapon || e.preSkill == weapon.preSkill))) list.add(e);list })
+                ?: RefineType.NOT_WEAPON): List<Skill> = values().fold(arrayListOf<Skill>(Skill.NONE)) { list, e -> if (e.refinedSkillType == range || (e.refinedSkillType == RefineType.DependWeapon && (e.preSkill == weapon || e.preSkill == weapon.preSkill))) list.add(e);list }
 
         fun valueOfWeapon(weapon: Skill) = values().find { e -> e.refinedSkillType == RefineType.ReplaceWeapon && e.preSkill == weapon }
         fun valueOfOrNONE(key: String?): Skill = if (key == null || key.isEmpty()) Skill.NONE else try {

@@ -75,11 +75,11 @@ data class ArmedHero(
     var defEqp: Int = 0
     var resEqp: Int = 0
 
-    var hpBoost: Int = 0
-    var atkBoost: Int = 0
-    var spdBoost: Int = 0
-    var defBoost: Int = 0
-    var resBoost: Int = 0
+    private var hpBoost: Int = 0
+    private var atkBoost: Int = 0
+    private var spdBoost: Int = 0
+    private var defBoost: Int = 0
+    private var resBoost: Int = 0
     val boonHp
         get() = when {boon == BoonType.HP -> 1; bane == BoonType.HP -> -1;else -> 0
         }
@@ -96,15 +96,15 @@ data class ArmedHero(
         get() = when {boon == BoonType.RES -> 1; bane == BoonType.RES -> -1;else -> 0
         }
 
-    val boonedHp
+    private val boonedHp
         get() = baseHero.hitPoint + boonHp
-    val boonedAtk
+    private val boonedAtk
         get() = baseHero.attack + boonAtk
-    val boonedSpd
+    private val boonedSpd
         get() = baseHero.speed + boonSpd
-    val boonedDef
+    private val boonedDef
         get() = baseHero.defense + boonDef
-    val boonedRes
+    private val boonedRes
         get() = baseHero.resistance + boonRes
     /**
      * 得意不得意の能力値。最大が0なのはダミーデータ。アーダンの能力値↑は設定限界を超えるため
@@ -133,48 +133,48 @@ data class ArmedHero(
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */
     fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit =
-            skills.fold(battleUnit, { b, skill -> skill.bothEffect(b, enemy) })
+            skills.fold(battleUnit) { b, skill -> skill.bothEffect(b, enemy) }
 
 
     /**
      * 攻撃側戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */
-    fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit, { b, skill -> skill.attackEffect(b, enemy) })
+    fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit) { b, skill -> skill.attackEffect(b, enemy) }
 
     /**
      * 受け側戦闘効果。スキルの反撃効果を再帰でなめて受け時効果を計算する。主に能力値変化
      */
-    fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit, { b, skill -> skill.counterEffect(b, enemy) })
+    fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit) { b, skill -> skill.counterEffect(b, enemy) }
 
     /**
      * 能力値計算後に適応する必要のある攻撃側戦闘効果。
      */
-    fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit, { b, skill -> skill.effectedAttackEffect(b, enemy) })
+    fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit) { b, skill -> skill.effectedAttackEffect(b, enemy) }
 
     /**
      * 能力値計算後に適応する必要のある受け側戦闘効果
      */
-    fun effectedCcounterEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit, { b, skill -> skill.effectedCounterEffect(b, enemy) })
+    fun effectedCcounterEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit) { b, skill -> skill.effectedCounterEffect(b, enemy) }
 
     /**
      * 攻撃側戦闘プラン。スキルの攻撃プランを再帰でなめて攻撃時効果を計算する。主に行動順の制御
      */
-    fun attackPlan(fightPlan: FightPlan): FightPlan = skills.fold(fightPlan, { fP, skill -> skill.attackPlan(fP) })
+    fun attackPlan(fightPlan: FightPlan): FightPlan = skills.fold(fightPlan) { fP, skill -> skill.attackPlan(fP) }
 
     /**
      * 受け側戦闘プラン。スキルの反撃プランを再帰でなめて受け時効果を計算する。主に行動順の制御
      */
-    fun counterPlan(fightPlan: FightPlan): FightPlan = skills.fold(fightPlan, { fP, skill -> skill.counterPlan(fP) })
+    fun counterPlan(fightPlan: FightPlan): FightPlan = skills.fold(fightPlan) { fP, skill -> skill.counterPlan(fP) }
 
     /**
      * 攻撃側戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */
-    fun afterFightEffect(battleUnit: BattleUnit): BattleUnit = skills.fold(battleUnit, { b, skill -> skill.afterFightEffect(b) })
+    fun afterFightEffect(battleUnit: BattleUnit): BattleUnit = skills.fold(battleUnit) { b, skill -> skill.afterFightEffect(b) }
 
     /**
      * スキルにより減少したダメージ。
      */
-    fun reducedDamage(battleUnit: BattleUnit, damage: Int): BattleUnit = skills.fold(battleUnit, { b, skill -> skill.preventedDamage(b, damage) })
+    fun reducedDamage(battleUnit: BattleUnit, damage: Int): BattleUnit = skills.fold(battleUnit) { b, skill -> skill.preventedDamage(b, damage) }
 
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
@@ -197,7 +197,7 @@ data class ArmedHero(
         resBoost = 0
         if (rarity < 5) {
             val sortedRarityBonus = listOf(Pair(baseHero.attack + 0.4f, BoonType.ATK), Pair(baseHero.speed + 0.3f, BoonType.SPD), Pair(baseHero.defense + 0.2f, BoonType.DEF), Pair(baseHero.resistance + 0.1f, BoonType.RES)).sortedBy { pair -> -pair.first }.plus(Pair(baseHero.hitPoint + 0.5f, BoonType.HP))
-            (0 until (rarity - 1) * 5 / 2).forEach({ i ->
+            (0 until (rarity - 1) * 5 / 2).forEach { i ->
                 when (sortedRarityBonus[i % 5].second) {
                     BoonType.HP -> hpBoost++
                     BoonType.ATK -> atkBoost++
@@ -207,7 +207,7 @@ data class ArmedHero(
                     BoonType.NONE -> {
                     }
                 }
-            })
+            }
             hpBoost -= 2
             atkBoost -= 2
             spdBoost -= 2
@@ -215,7 +215,7 @@ data class ArmedHero(
             resBoost -= 2
         }
         val priority = listOf(Pair(baseHero.hitPoint + boonHp + 0.5f, BoonType.HP), Pair(baseHero.attack + boonAtk + 0.4f, BoonType.ATK), Pair(baseHero.speed + boonSpd + 0.3f, BoonType.SPD), Pair(baseHero.defense + boonDef + 0.2f, BoonType.DEF), Pair(baseHero.resistance + boonRes + 0.1f, BoonType.RES)).sortedBy { pair -> -pair.first }
-        (0 until levelBoost * 2).forEach({ i ->
+        (0 until levelBoost * 2).forEach { i ->
             when (priority[i % 5].second) {
                 BoonType.HP -> hpBoost++
                 BoonType.ATK -> atkBoost++
@@ -226,7 +226,7 @@ data class ArmedHero(
                 }
             }
 
-        })
+        }
     }
 
     /**
@@ -240,7 +240,7 @@ data class ArmedHero(
         resEqp = 0
         reduceSpecialCooldown = 0//ビルドが失敗してこの行だけ反映されないことがある。デバッガで確認すると０が入らないので加速する一方…
         lvUpStatus()
-        skills.fold(this, { bc, skill -> skill.equip(bc) })
+        skills.fold(this) { bc, skill -> skill.equip(bc) }
     }
 
     /**
@@ -253,8 +253,8 @@ data class ArmedHero(
         defEqp = 0
         resEqp = 0
         reduceSpecialCooldown = 0
-        //杖は最初武器を装備していない
-        if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold( weapon, { w, _ -> w.preSkill.preSkill }).equip(this)
+        //☆が5でないときは初期武器をさかのぼる。杖は最初武器を装備していない
+        if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold(weapon) { w, _ -> w.preSkill.preSkill }.equip(this)
 
         val result = BattleParam(
                 boonedHp + hpEqp + hpBoost,
@@ -289,6 +289,6 @@ data class ArmedHero(
     /**
      * 簡易ステータス。ロケールの扱いは本当に困るな.
      */
-    fun statusSkillText(locale: Locale) = "HP" + maxHp + " A" + atk + " S" + spd + " D" + def + " R" + res + " W:" + (skills.fold("", { string, e -> string + e.localeName(locale) + " " }))
+    fun statusSkillText(locale: Locale) = "HP" + maxHp + " A" + atk + " S" + spd + " D" + def + " R" + res + " W:" + skills.fold("") { string, e -> string + e.localeName(locale) + " " }
 
 }

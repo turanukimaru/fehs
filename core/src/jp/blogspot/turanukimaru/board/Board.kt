@@ -4,7 +4,7 @@ import jp.blogspot.turanukimaru.board.UiBoard.Position
 import java.util.*
 
 /**
- * 論理盤面
+ * 論理盤面.操作系と演算系別にするとかちょっと分割したいな…
  */
 class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
@@ -34,6 +34,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     var owner: Player? = null
 
+    /**
+     * 現在の指し手
+     */
     val hand = Hand(this)
 
     /**
@@ -131,7 +134,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     fun setToPositionWithoutAction(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
-//        uiBoard.setToPosition(piece.uiPiece, x, y)
+//        uiBoard.actionSetToPosition(piece.uiPiece, x, y)
         setPiece(piece, x, y)
     }
 
@@ -154,7 +157,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 移動可能な経路を調べる
      */
-    fun searchRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
+    private fun searchRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
         println("searchRoute $piece")
         val routeMatrix = arrayListOf<ArrayList<Int>>()
         horizontalIndexes.forEach {
@@ -198,7 +201,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲を探す。
      */
-    fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
+    private fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
         println("searchEffectiveRoute $piece")
         val routeMatrix = arrayListOf<ArrayList<Int>>()
         horizontalIndexes.forEach {
@@ -347,7 +350,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の枡に自分以外の駒があるときにtrue
      */
-    fun isAnotherPiece(piece: Piece<*, GROUND>, x: Int, y: Int): Boolean {
+    private fun isAnotherPiece(piece: Piece<*, GROUND>, x: Int, y: Int): Boolean {
         val target = pieceMatrix[x][y]
         return effectiveRoute[x][y] > 0 && target != null && target != piece
     }
@@ -377,7 +380,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の位置へ攻撃できる場所を探す。移動経路の逆算はよく考えたら必要ないな
      */
-  private  fun <T1> findAttackablePos(piece: Piece<T1, GROUND>, position: Position): Position? {
+    private fun <T1> findAttackablePos(piece: Piece<T1, GROUND>, position: Position): Position? {
         println("findAttackPos $position")
         val orientations = piece.effectiveOrientations()
         val attackableOrientation = orientations.find { v ->
@@ -392,11 +395,13 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun removePiece(piece: Piece<*, *>, position: Position) {
         pieceMatrix[position.x][position.y] = null
+        //駒を取り除くときに駒側からアクションするか？不要な気がしてきた
+        piece.action(Piece.ActionPhase.REMOVED)
         //死んだときにやることが出来たら追加しないとな
 //        piece.uiPiece.actor.remove()
     }
 
-    //対象の枡が通れるときはスタックに積む…とまれるときか？
+    //対象の枡が通れるときはスタックに積む…とまれるときか？ともかくこれは駒側主導ではあるが人の操作ではないわけでなんか分けたいなあ。通れる・泊まれるを判断するから無理か。
     fun stackRoute(position: UiBoard.Position) {
         if (searchedRoute[position.x][position.y] > 0) {
             hand.stackRoute(position)

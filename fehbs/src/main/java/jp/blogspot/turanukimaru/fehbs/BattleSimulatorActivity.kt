@@ -31,6 +31,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
      * device.
      */
     private var mTwoPane: Boolean = false
+
     /**
      * 初期化。
      */
@@ -73,7 +74,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
                 //特に何もしない
             }
         }
-        val statusView =  findViewById<TextView>(R.id.statusView)
+        val statusView = findViewById<TextView>(R.id.statusView)
         val unitListener = object : AdapterView.OnItemSelectedListener {
             //作成時にクロージャへのアクセスがあるので初期化してないデータを見てないか注意すること
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -81,7 +82,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
                         ?: return//無いときはそのまま戻れるみたい。凄い！
                 Log.i("BattleSimulatorActivity", "armedHero : $armedClass")
                 val battleUnit = buildBattleUnit(armedClass)
-               statusView?.text = battleUnit.armedHero.statusSkillText(locale)
+                statusView?.text = battleUnit.armedHero.statusSkillText(locale)
 
             }
 
@@ -93,11 +94,11 @@ class BattleSimulatorActivity : AppCompatActivity() {
         spinnerMove.onItemSelectedListener = spinnerListener
 
         //なぜかかっこつけないとコンパイルエラーに。はて？
-        (findViewById<Spinner>(R.id.boonSpinner)).onItemSelectedListener=unitListener
+        (findViewById<Spinner>(R.id.boonSpinner)).onItemSelectedListener = unitListener
 
-        (findViewById<Spinner>(R.id.baneSpinner)).onItemSelectedListener=unitListener
+        (findViewById<Spinner>(R.id.baneSpinner)).onItemSelectedListener = unitListener
 
-        (findViewById<Spinner>(R.id.levelBoostSpinner)).onItemSelectedListener=unitListener
+        (findViewById<Spinner>(R.id.levelBoostSpinner)).onItemSelectedListener = unitListener
 
         //計算実行ボタン作成
         findViewById<Button>(R.id.button).onClick { _ ->
@@ -119,7 +120,8 @@ class BattleSimulatorActivity : AppCompatActivity() {
             battleUnit.defEffect = findSpinnerValOrNull(R.id.defSpurSpinner) ?: armedClass.defSpur
             battleUnit.resEffect = findSpinnerValOrNull(R.id.resSpurSpinner) ?: armedClass.resSpur
             battleUnit.specialCount = findSpinnerValOrNull(R.id.specialChargeSpinner) ?: 0
-            battleUnit.hp = battleUnit.hp * (findSpinnerValOrNull(R.id.damageTakenSpinner) ?: 100) / 100
+            battleUnit.hp = battleUnit.hp * (findSpinnerValOrNull(R.id.damageTakenSpinner)
+                    ?: 100) / 100
             val spinnerEnemyWeapon = findViewById<Spinner>(R.id.spinner_enemy_weapon)
             val spinnerEnemyMove = findViewById<Spinner>(R.id.spinner_enemy_move)
             val weaponType = WeaponType.weaponTypeOf(spinnerEnemyWeapon.selectedItem.toString())
@@ -155,7 +157,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
             }
             Log.i("BattleSimulatorActivity", "targetList : $filteredUnits")
 //            val resultList = filteredUnits.fold(mutableListOf<List<AttackResult>>()) { list, e -> list.add(if (switch) BattleUnit(e, e.maxHp).fight(battleUnit) else battleUnit.fight(BattleUnit(e, e.maxHp)));list }
-            val resultList = filteredUnits.map({ e -> if (switch) BattleUnit(e, e.maxHp).buff().fightAndAfterEffect(battleUnit) else battleUnit.fightAndAfterEffect(BattleUnit(e, e.maxHp).buff()) })
+            val resultList = filteredUnits.map { e -> if (switch) BattleUnit(e, e.maxHp).buff().fightAndAfterEffect(battleUnit) else battleUnit.fightAndAfterEffect(BattleUnit(e, e.maxHp).buff()) }
             Log.i("BattleSimulatorActivity", "resultList : $resultList")
 
             //計算結果
@@ -217,9 +219,9 @@ class BattleSimulatorActivity : AppCompatActivity() {
         battleUnit.armedHero.boon = if (boon != BoonType.NONE) boon else battleUnit.armedHero.boon
         battleUnit.armedHero.bane = if (bane != BoonType.NONE) bane else battleUnit.armedHero.bane
         battleUnit.armedHero.levelBoost = findSpinnerValOrNull(R.id.levelBoostSpinner) ?: armedClass.levelBoost
-        println( findViewById<Spinner>(R.id.levelBoostSpinner))
-        println( findViewById<Spinner>(R.id.levelBoostSpinner)?.selectedItem)
-        println( findViewById<Spinner>(R.id.levelBoostSpinner)?.selectedItem?.toString())
+        println(findViewById<Spinner>(R.id.levelBoostSpinner))
+        println(findViewById<Spinner>(R.id.levelBoostSpinner)?.selectedItem)
+        println(findViewById<Spinner>(R.id.levelBoostSpinner)?.selectedItem?.toString())
         battleUnit.armedHero.equip()
         return battleUnit
     }
@@ -239,13 +241,13 @@ class BattleSimulatorActivity : AppCompatActivity() {
             val index = texts.indexOf(rootView.findViewById<RadioButton>(radioButton).text)
             val builder = AlertDialog.Builder(v.context)
             builder.setTitle(title).setCancelable(true).setSingleChoiceItems(texts.toTypedArray(), if (index >= 0) index else 0
-                    , { dialog, which ->
+            ) { dialog, which ->
                 rootView.findViewById<RadioButton>(radioButton).text = texts[which]
                 val selectedUnit = buildBattleUnit(ArmedHeroRepository.getById(texts[which])!!)
                 rootView.findViewById<TextView>(R.id.statusView).text = selectedUnit.armedHero.statusSkillText(locale)
 
                 dialog.dismiss()
-            })
+            }
             val dialog = builder.create()
             dialog.show()
         }
@@ -312,7 +314,7 @@ class BattleSimulatorActivity : AppCompatActivity() {
 //            holder.progressText.text = mItem.detail
 //            holder.unitText.text = mItem.date
 
-            holder.progressText.text = mItem.fold("", { string, item -> string + " " + item.detailsShort(if (switch) SIDES.COUNTER else SIDES.ATTACKER, locale) })
+            holder.progressText.text = mItem.fold("") { string, item -> string + " " + item.detailsShort(if (switch) SIDES.COUNTER else SIDES.ATTACKER, locale) }
             //オンクリック時の動作。TODO:スキル効果を全部書きたいところだが
 //            holder.mView.setOnClickListener { _ ->
             //                if (mTwoPane) {

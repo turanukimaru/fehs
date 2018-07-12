@@ -27,7 +27,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     /**
      * その駒に触れてる最中かどうか。Piece側から状態を取得するために使う
      */
-    var touched = false
+    private var touched = false
 
     /**
      * ドラッグを駒に伝える
@@ -35,7 +35,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
-        if(!uiBoard.pieceActive) return
+        if (!uiBoard.pieceActive) return
 //ドラッグしたら駒の表示を追従させているが移動量検出しないとちゃたるなこれ
         if (!piece.isActionable) {
             return
@@ -50,7 +50,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         }
         //ドラッグ中は駒は指に追随。Updateでは何もしない
         actor.setPosition(actor.x + x, actor.y + y)
-        piece.actionPhase = Piece.ActionPhase.DRAGGING
+//        piece.action(Piece.ActionPhase.DRAGGING)
         //ルートをスタックする
         val touchedSquare = uiBoard.stackTouchedRoute()
         piece.touchDragged(touchedSquare)
@@ -62,7 +62,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
-        if(!uiBoard.pieceActive) return
+        if (!uiBoard.pieceActive) return
         actor.zIndex = 0
         touched = false
         val position = uiBoard.touchedPosition()
@@ -75,8 +75,8 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
         val result = super.touchDown(event, x, y, pointer, button)
-        if(!uiBoard.pieceActive) return result
-        piece.startPiece(uiBoard.xyToPosition(x,y))
+        if (!uiBoard.pieceActive) return result
+        piece.startPiece(uiBoard.xyToPosition(x, y))
         actor.zIndex = 0
         touched = true
         piece.touchDown()
@@ -84,7 +84,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     }
 
     /**
-     * LibGDXのアップデートで呼ばれる。localと名前を逆にすべきだなこれ
+     * LibGDXのアップデートで呼ばれる。
      */
     fun libUpdate() {
         if (piece.position == null) {
@@ -104,19 +104,20 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     fun actionMoveToPosition(position: UiBoard.Position?): SequenceAction {
         val seq = SequenceAction()
-        if(position == null) return seq
+        if (position == null) return seq
         val finalX = uiBoard.squareXtoPosX(position.x)
-        val finalY =uiBoard. squareYtoPosY(position.y)
+        val finalY = uiBoard.squareYtoPosY(position.y)
         seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.2f))
 //        seq.addAction(Actions.moveTo(finalX, finalY))
         return seq
     }
 
     /**
-     * 位置移動のアニメ。移動差分を駒に登録する
+     * 位置移動直接。アクションをキャンセルして移動差分を駒に登録
      */
-    fun setToPosition(position: UiBoard.Position?) {
-        if(position == null) return
+    fun actionSetToPosition(position: UiBoard.Position?) {
+        if (position == null) return
+        actor.clearActions()
         val finalX = uiBoard.squareXtoPosX(position.x)
         val finalY = uiBoard.squareYtoPosY(position.y)
         actor.setPosition(finalX, finalY)

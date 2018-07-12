@@ -51,7 +51,7 @@ class HeroRepoReceiver : BroadcastReceiver() {
 
         Log.i("HeroRepoReceiver", "$name $bane $boon $rarity")
         val base = StandardBaseHero.get(name)!!
-        val unitName = SimpleDateFormat("yy/MM/dd ").format(Date()) + name + "☆" + rarity + boon.localeName(locale) + "↑" + bane.localeName(locale) + "↓"
+        val unitName = SimpleDateFormat("yy/MM/dd ", Locale.US).format(Date()) + name + "☆" + rarity + boon.localeName(locale) + "↑" + bane.localeName(locale) + "↓"
         val armedHero = ArmedHero(base
                 , unitName
                 , base.weapon

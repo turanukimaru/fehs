@@ -17,7 +17,7 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     },
     //弓殺しは無色限定
     BowBreaker(Name.BowBreaker, SkillType.B) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.BOW, lv,0)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.BOW, lv, 0)
     },
     DaggerBreaker(Name.DaggerBreaker, SkillType.B) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.DAGGER, lv)
@@ -45,15 +45,12 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     },
     Desperation(Name.Desperation, SkillType.B) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, lv)
-
     },
     QuickRiposte(Name.QuickRiposte, SkillType.B) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, lv)
     },
-
     BrashAssault(Name.BrashAssault, SkillType.B) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brashAssault(battleUnit, enemy, (lv * 10 + 20))
-
     },
     Windsweep(Name.Windsweep, SkillType.B) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = windsweep(battleUnit, enemy, lv)
@@ -190,11 +187,11 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     //   override fun localeName(locale: Locale): String=jp.localeName(locale)
 
     companion object {
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf(), { list, e ->
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
-            } else (1..e.maxLevel).forEach({ i -> list.add(e.lv(i)) });list
-        })
+            } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
+        }
 
         private val itemMap = mutableMapOf<String, SkillB>()
 

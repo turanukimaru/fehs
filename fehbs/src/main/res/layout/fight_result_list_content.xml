@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:padding="2dp"
-    >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="2dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/itemIimageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/sourceHp"
@@ -25,14 +22,14 @@
             android:layout_height="wrap_content"
             android:ems="2"
             android:text="0"
-            android:textColor="#0000ff"/>
+            android:textColor="#0000ff" />
 
         <TextView
             android:id="@+id/slash"
             android:layout_width="6dp"
             android:layout_height="wrap_content"
             android:ems="1"
-            android:text="/"/>
+            android:text="/" />
 
         <TextView
             android:id="@+id/targetHp"
@@ -40,7 +37,7 @@
             android:layout_height="wrap_content"
             android:ems="2"
             android:text="0"
-            android:textColor="@android:color/holo_red_dark"/>
+            android:textColor="@android:color/holo_red_dark" />
 
         <TextView
             android:id="@+id/unitText"
@@ -48,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:text="Name"/>
+            android:text="Name" />
 
         <TextView
             android:id="@+id/statusText"
@@ -57,7 +54,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:textSize="@dimen/mini_param_text_size"
-            android:text="Name"/>
+            android:text="Name" />
 
     </LinearLayout>
 
@@ -71,23 +68,20 @@
             android:id="@+id/progressText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/itemSpec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/itemDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            />
+            android:layout_margin="@dimen/text_margin" />
 
     </LinearLayout>
 </LinearLayout>

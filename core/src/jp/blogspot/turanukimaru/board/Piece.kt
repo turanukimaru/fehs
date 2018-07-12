@@ -76,7 +76,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**行動前・選択状態・移動後は行動可能
      *
      */
-    val isActionable get() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.DRAGGING || actionPhase == ActionPhase.MOVED
+    val isActionable get() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.MOVED
 
     /**
      * ドラッグから指を挙げたときにも反応するのでうまく使えない・・・
@@ -171,6 +171,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 駒の状態。準備完了や選択された、移動済みだけど行動は完了していないなど
      */
     enum class ActionPhase {
+        //おかれて初期化を行う前。初期化されたらDisabled
+        PUTTED,
         //自分の手番でないので動かせない
         DISABLED,
         //自分の手番で動かせる
@@ -178,7 +180,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         //選択状態
         SELECTED,
         //ドラッグ中。駒の位置以外はSELECTEDと同じになるはず
-        DRAGGING,
+//        DRAGGING,
         //移動したけど行動が確定してない
         MOVED,
         //移動範囲用だけどなくていいかなあ

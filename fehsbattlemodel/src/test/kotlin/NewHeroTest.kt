@@ -100,6 +100,7 @@ class NewHeroTest {
         Assert.assertEquals("hitPoint fail", 13, fightResult[2].source.hp)
         Assert.assertEquals("hitPoint fail", 26, fightResult[2].target.hp)
     }
+
     @Test
     fun innesRTest() {
         val unitA = ArmedHero(StandardBaseHero.get("アイク")!!)
@@ -146,6 +147,7 @@ class NewHeroTest {
         Assert.assertEquals("hitPoint fail", 14, fightResult[2].source.hp)
         Assert.assertEquals("hitPoint fail", 10, fightResult[2].target.hp)
     }
+
     @Test
     fun noireRTest() {
         val unitA = ArmedHero(StandardBaseHero.get("アイク")!!)

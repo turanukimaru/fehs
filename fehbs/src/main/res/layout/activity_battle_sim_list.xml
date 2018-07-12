@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true"
-                                                 tools:context="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -24,7 +24,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -42,21 +42,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/filter_title"/>
+                        android:text="@string/filter_title" />
 
                     <Spinner
                         android:id="@+id/spinner_weapon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/weapon_type"/>
+                        android:entries="@array/weapon_type" />
 
                     <Spinner
                         android:id="@+id/spinner_move"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/move_type"/>
+                        android:entries="@array/move_type" />
 
                 </LinearLayout>
 
@@ -64,14 +64,13 @@
                     android:id="@+id/attackerRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/hero_title"/>
+                    android:text="@string/hero_title" />
 
                 <TextView
                     android:id="@+id/statusView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    />
+                    android:ems="10" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -84,7 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/clear"/>
+                        android:text="@string/clear" />
 
                     <TextView
                         android:id="@+id/boonTitleView"
@@ -92,14 +91,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/boon_title"/>
+                        android:text="@string/boon_title" />
 
                     <Spinner
                         android:id="@+id/boonSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/boon_type"/>
+                        android:entries="@array/boon_type" />
 
                     <TextView
                         android:id="@+id/baneTitleView"
@@ -107,14 +106,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/bane_title"/>
+                        android:text="@string/bane_title" />
 
                     <Spinner
                         android:id="@+id/baneSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/boon_type"/>
+                        android:entries="@array/boon_type" />
 
                 </LinearLayout>
 
@@ -129,14 +128,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/levelBoost_title"/>
+                        android:text="@string/levelBoost_title" />
 
                     <Spinner
                         android:id="@+id/levelBoostSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                     <TextView
                         android:id="@+id/specialChargeTitleView"
@@ -144,14 +143,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/Special_charge"/>
+                        android:text="@string/Special_charge" />
 
                     <Spinner
                         android:id="@+id/specialChargeSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/buff"/>
+                        android:entries="@array/buff" />
 
                     <TextView
                         android:id="@+id/damageTakenTitleView"
@@ -159,14 +158,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/Damage_taken"/>
+                        android:text="@string/Damage_taken" />
 
                     <Spinner
                         android:id="@+id/damageTakenSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/percentage"/>
+                        android:entries="@array/percentage" />
 
                 </LinearLayout>
 
@@ -180,14 +179,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/defensive_terrain_title"/>
+                        android:text="@string/defensive_terrain_title" />
 
                     <CheckBox
                         android:id="@+id/adjacentCheckBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/AdjacentAlly"/>
+                        android:text="@string/AdjacentAlly" />
 
                 </LinearLayout>
 
@@ -196,7 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/buffSpur"/>
+                    android:text="@string/buffSpur" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -210,14 +209,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/atk_s_title"/>
+                        android:text="@string/atk_s_title" />
 
                     <Spinner
                         android:id="@+id/atkBuffSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty6"/>
+                        android:entries="@array/empty6" />
 
                     <TextView
                         android:id="@+id/spdBuffTitleView"
@@ -225,14 +224,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/spd_s_title"/>
+                        android:text="@string/spd_s_title" />
 
                     <Spinner
                         android:id="@+id/spdBuffSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty6"/>
+                        android:entries="@array/empty6" />
 
                     <TextView
                         android:id="@+id/defBuffTitleView"
@@ -240,14 +239,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/def_s_title"/>
+                        android:text="@string/def_s_title" />
 
                     <Spinner
                         android:id="@+id/defBuffSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty6"/>
+                        android:entries="@array/empty6" />
 
                     <TextView
                         android:id="@+id/resBuffTitleView"
@@ -255,14 +254,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/res_s_title"/>
+                        android:text="@string/res_s_title" />
 
                     <Spinner
                         android:id="@+id/resBuffSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty6"/>
+                        android:entries="@array/empty6" />
 
                 </LinearLayout>
 
@@ -278,14 +277,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/atk_s_title"/>
+                        android:text="@string/atk_s_title" />
 
                     <Spinner
                         android:id="@+id/atkSpurSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                     <TextView
                         android:id="@+id/spdSpurTitleView"
@@ -293,14 +292,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/spd_s_title"/>
+                        android:text="@string/spd_s_title" />
 
                     <Spinner
                         android:id="@+id/spdSpurSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                     <TextView
                         android:id="@+id/defSpurTitleView"
@@ -308,14 +307,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/def_s_title"/>
+                        android:text="@string/def_s_title" />
 
                     <Spinner
                         android:id="@+id/defSpurSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                     <TextView
                         android:id="@+id/resSpurTitleView"
@@ -323,14 +322,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/res_s_title"/>
+                        android:text="@string/res_s_title" />
 
                     <Spinner
                         android:id="@+id/resSpurSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                 </LinearLayout>
 
@@ -346,7 +345,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/holo_red_dark"
-                        android:text="@string/enemy_title"/>
+                        android:text="@string/enemy_title" />
 
                     <Spinner
                         android:id="@+id/spinner_enemy_weapon"
@@ -354,7 +353,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/holo_red_dark"
-                        android:entries="@array/weapon_type"/>
+                        android:entries="@array/weapon_type" />
 
                     <Spinner
                         android:id="@+id/spinner_enemy_move"
@@ -362,7 +361,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/holo_red_dark"
-                        android:entries="@array/move_type"/>
+                        android:entries="@array/move_type" />
 
                 </LinearLayout>
 
@@ -379,7 +378,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/holo_red_dark"
-                        android:text="@string/merge10"/>
+                        android:text="@string/merge10" />
 
                     <CheckBox
                         android:id="@+id/defTerrainTargetCheckBox"
@@ -387,7 +386,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/holo_red_dark"
-                        android:text="@string/defensive_terrain_title"/>
+                        android:text="@string/defensive_terrain_title" />
 
                 </LinearLayout>
 
@@ -403,7 +402,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/holo_red_dark"
-                        android:text="@string/attacked_title"/>
+                        android:text="@string/attacked_title" />
 
                     <CheckBox
                         android:id="@+id/includeDbCheckBox"
@@ -412,7 +411,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/holo_red_dark"
                         android:checked="true"
-                        android:text="@string/include_db_title"/>
+                        android:text="@string/include_db_title" />
 
                 </LinearLayout>
 
@@ -422,7 +421,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/holo_red_dark"
-                    android:text="@string/buffSpur"/>
+                    android:text="@string/buffSpur" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -437,14 +436,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/atk_s_title"/>
+                        android:text="@string/atk_s_title" />
 
                     <Spinner
                         android:id="@+id/atkTargetBuffSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty6"/>
+                        android:entries="@array/empty6" />
 
                     <TextView
                         android:id="@+id/spdTargetBuffTitleView"
@@ -452,14 +451,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/spd_s_title"/>
+                        android:text="@string/spd_s_title" />
 
                     <Spinner
                         android:id="@+id/spdTargetBuffSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty6"/>
+                        android:entries="@array/empty6" />
 
                     <TextView
                         android:id="@+id/defTargetBuffTitleView"
@@ -467,14 +466,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/def_s_title"/>
+                        android:text="@string/def_s_title" />
 
                     <Spinner
                         android:id="@+id/defTargetBuffSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty6"/>
+                        android:entries="@array/empty6" />
 
                     <TextView
                         android:id="@+id/resTargetBuffTitleView"
@@ -482,14 +481,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/res_s_title"/>
+                        android:text="@string/res_s_title" />
 
                     <Spinner
                         android:id="@+id/resTargetBuffSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:entries="@array/empty6"/>
+                        android:entries="@array/empty6" />
 
                 </LinearLayout>
 
@@ -506,14 +505,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/atk_s_title"/>
+                        android:text="@string/atk_s_title" />
 
                     <Spinner
                         android:id="@+id/atkTargetSpurSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                     <TextView
                         android:id="@+id/spdTargetSpurTitleView"
@@ -521,14 +520,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/spd_s_title"/>
+                        android:text="@string/spd_s_title" />
 
                     <Spinner
                         android:id="@+id/spdTargetSpurSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                     <TextView
                         android:id="@+id/defTargetSpurTitleView"
@@ -536,14 +535,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/def_s_title"/>
+                        android:text="@string/def_s_title" />
 
                     <Spinner
                         android:id="@+id/defTargetSpurSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                     <TextView
                         android:id="@+id/resTargetSpurTitleView"
@@ -551,14 +550,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="1"
-                        android:text="@string/res_s_title"/>
+                        android:text="@string/res_s_title" />
 
                     <Spinner
                         android:id="@+id/resTargetSpurSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:entries="@array/empty10"/>
+                        android:entries="@array/empty10" />
 
                 </LinearLayout>
 
@@ -566,7 +565,7 @@
                     android:id="@+id/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/fight_button_title"/>
+                    android:text="@string/fight_button_title" />
 
             </LinearLayout>
 
@@ -580,7 +579,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/fight_result_list"/>
+        <include layout="@layout/fight_result_list" />
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -590,7 +589,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@android:drawable/ic_input_add"/>
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 
 </android.support.design.widget.CoordinatorLayout>

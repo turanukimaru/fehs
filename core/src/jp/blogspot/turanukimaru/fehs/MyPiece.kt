@@ -74,37 +74,39 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
 
     //対象がルート上かとかの引数を増やすべきだな
     override fun dragged(position: UiBoard.Position): Boolean {
-      return  showActionResult(position)
+        return showActionResult(position)
     }
-fun showActionResult(position: UiBoard.Position):Boolean{
-    val target = board.pieceMatrix[position.x][position.y]
-    //敵ユニットに重ねたときは戦闘結果を計算して表示
-    if (board.effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.touchedPiece && target.owner != owner) {
-        //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
-        val fightResult = containUnit.fight(target.containUnit)
-        for (result in fightResult) {
-            println(result)
-        }
-        val expected = fightResult.last()
 
-        board.updateInfo = { b ->
-            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
-            b.bitmapFont.draw(b.batch, target.containUnit.armedHero.baseHero.name.jp, 320f, 940f)
-            b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
-            b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
-            b.bitmapFont.draw(b.batch, "→", 80f, 900f)
-            b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
-            b.bitmapFont.draw(b.batch, target.containUnit.hp.toString(), 290f, 900f)
-            b.bitmapFont.draw(b.batch, "→", 350f, 900f)
-            b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
+    private fun showActionResult(position: UiBoard.Position): Boolean {
+        val target = board.pieceMatrix[position.x][position.y]
+        //敵ユニットに重ねたときは戦闘結果を計算して表示
+        if (board.effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.touchedPiece && target.owner != owner) {
+            //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
+            val fightResult = containUnit.fight(target.containUnit)
+            for (result in fightResult) {
+                println(result)
+            }
+            val expected = fightResult.last()
 
-            //ダメージｘ回数表示は後でいいか
-            true
+            board.updateInfo = { b ->
+                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
+                b.bitmapFont.draw(b.batch, target.containUnit.armedHero.baseHero.name.jp, 320f, 940f)
+                b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
+                b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
+                b.bitmapFont.draw(b.batch, "→", 80f, 900f)
+                b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
+                b.bitmapFont.draw(b.batch, target.containUnit.hp.toString(), 290f, 900f)
+                b.bitmapFont.draw(b.batch, "→", 350f, 900f)
+                b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
+
+                //ダメージｘ回数表示は後でいいか
+                true
+            }
         }
+        return true
+
     }
-    return true
 
-}
     //行動結果表示。ドラッグと同じ
     override fun boardAction(hand: Hand<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
         return showActionResult(position)
@@ -112,14 +114,14 @@ fun showActionResult(position: UiBoard.Position):Boolean{
 
     //行動。相手がいるかは判定済み。
     override fun boardActionCommit(hand: Hand<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
-        this.actionPhase = actionTouchedPoint(position,targetPiece)
+        this.actionPhase = actionTouchedPoint(position, targetPiece)
         return true
     }
 
     /**
      * touchUp/boardのタッチから呼び出される。MyUiPieceが要るか…？
      */
-    fun actionTouchedPoint(position: UiBoard.Position, target: Piece<BattleUnit, Ground>?): ActionPhase {
+    private fun actionTouchedPoint(position: UiBoard.Position, target: Piece<BattleUnit, Ground>?): ActionPhase {
         println("actionTouchedPoint")
         println("position: $position")
         println("position: " + board.positionIsOnBoard(position))
@@ -138,7 +140,7 @@ fun showActionResult(position: UiBoard.Position):Boolean{
                 println(board.hand.routeStack)
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
                 //とりあえずノーモーションで枡に戻してからアニメさせているが、一度不通に戻すべきかなあ
-//                board.setToPosition(this, attackPos)
+//                board.actionSetToPosition(this, attackPos)
 
                 fightResult = FightResult(attackPos, position, containUnit.fight(target.containUnit))
 //                target.fightResult = fightResult

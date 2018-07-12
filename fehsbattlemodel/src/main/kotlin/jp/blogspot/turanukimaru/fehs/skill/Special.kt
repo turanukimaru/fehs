@@ -90,15 +90,14 @@ enum class Special(override val jp: Name, override val type: SkillType, override
 
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
-     * なお2を＋に置き換える。
+     * なお2を＋に置き換える。...けどこれもう要らないか？多言語対応したし
      */
     override val value get() = name.replace("2", "+")
 
-    //  override fun localeName(locale: Locale): String =jp.localeName(locale)
-
     companion object {
         private val itemMap = mutableMapOf<String, Skill>()
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf(), { list, e -> list.add(e);list })
+
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e -> list.add(e);list }
 
         fun valueOfOrNONE(key: String?): Skill = if (key == null) Skill.NONE else try {
             if (itemMap.isEmpty()) {

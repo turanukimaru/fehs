@@ -228,6 +228,9 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     BrazenAtkSpd(Name.BrazenAtkSpd, SkillType.A) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenSpd(battleUnit, lv * 2 + 1), lv * 2 + 1)
     },
+    BrazenAtkRes(Name.BrazenAtkRes, SkillType.A) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
+    },
     BrazenDefRes(Name.BrazenAtkSpd, SkillType.A) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenDef(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
     },
@@ -236,7 +239,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4) else battleUnit
     },
     AtkSpdPush(Name.AtkSpdPush, SkillType.A) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =fullHpAtkSpdBonus( battleUnit,lv + 2,1)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkSpdBonus(battleUnit, lv + 2, 1)
     },
     ;
 
@@ -254,11 +257,11 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     // override fun localeName(locale: Locale): String = jp.localeName(locale)
 
     companion object {
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf(), { list, e ->
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
-            } else (1..e.maxLevel).forEach({ i -> list.add(e.lv(i)) });list
-        })
+            } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
+        }
 
         private val itemMap = mutableMapOf<String, SkillA>()
 

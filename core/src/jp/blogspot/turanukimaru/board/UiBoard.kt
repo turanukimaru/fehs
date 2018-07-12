@@ -42,9 +42,9 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     val numberRegions = arrayListOf<TextureRegion>()
 
-    val uiPieceList = arrayListOf<UiPiece>()
+    private val uiPieceList = arrayListOf<UiPiece>()
 
-    var opPhase = OpPhase.ACTIVE
+    private var opPhase = OpPhase.ACTIVE
 
     /**
      * 枡幅
