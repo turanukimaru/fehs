@@ -2,12 +2,13 @@ package jp.blogspot.turanukimaru.fehs.skill
 
 import jp.blogspot.turanukimaru.fehs.Name
 import jp.blogspot.turanukimaru.fehs.SkillType
+import jp.blogspot.turanukimaru.fehs.SpType
 
 
 /**
  * スキル。補助
  */
-enum class Assist(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE) : Skill {
+enum class Assist(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.ASSIST) : Skill {
 
 
     RallyAttack(Name.RallyAttack, SkillType.ASSIST),

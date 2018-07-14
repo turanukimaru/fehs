@@ -68,6 +68,7 @@ data class ArmedHero(
     val spd: Int get() = boonedSpd + spdEqp + spdBoost + growths[rarity - 1][baseHero.spdGrowth + boonSpd]
     val def: Int get() = boonedDef + defEqp + defBoost + growths[rarity - 1][baseHero.defGrowth + boonDef]
     val res: Int get() = boonedRes + resEqp + resBoost + growths[rarity - 1][baseHero.resGrowth + boonRes]
+    val totalParam get()=maxHp+atk+spd+def+res
 
     var hpEqp: Int = 0
     var atkEqp: Int = 0
@@ -129,6 +130,8 @@ data class ArmedHero(
 
     override fun toString(): String = "$name MaxHP:$maxHp , totalAtk:$atk , spd:$spd , def:$def , res:$res ,weapon:$weapon, refinedWeapon:$refinedWeapon, assist:$assist, special:$special, skillA,$aSkill, skillB:$bSkill, skillC:$cSkill, seal:$seal, hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
 
+    val totalSp get()= skills.fold(0) { point, skill -> point + skill.sp() }
+    val score get() = totalSp + totalParam+levelBoost//LVは４０固定でいい気がする…
     /**
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */

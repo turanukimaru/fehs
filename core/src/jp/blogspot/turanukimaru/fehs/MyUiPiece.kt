@@ -4,9 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import jp.blogspot.turanukimaru.board.Piece
-import jp.blogspot.turanukimaru.board.UiBoard
-import jp.blogspot.turanukimaru.board.UiPiece
+import jp.blogspot.turanukimaru.board.*
 
 class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(actor, uiBoard, myPiece) {
 
@@ -111,33 +109,6 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
         //行動終了
         actor.addAction(sourceSeq)
 //    fightResult.attackResults.last().target.uiPiece!!.actor.addAction(targetSeq)
-
-    }
-
-    /**
-     * 汎用コールバックアクション
-     */
-    class CallbackAction(val f: () -> Boolean) : Action() {
-
-        override fun act(delta: Float): Boolean {
-            f()
-            return true
-        }
-
-    }
-
-    var nowAnimation = false
-
-    /**
-     * アニメーションが終了したことを自分に伝えるアクション.ボードに伝えたいところだが
-     * TODO:Myの外に移動
-     */
-    class EndOfAnimationAction(private val myUiPiece: MyUiPiece) : Action() {
-
-        override fun act(delta: Float): Boolean {
-            myUiPiece.nowAnimation = false
-            return true
-        }
 
     }
 

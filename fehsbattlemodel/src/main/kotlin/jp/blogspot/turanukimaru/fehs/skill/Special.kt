@@ -1,14 +1,11 @@
 package jp.blogspot.turanukimaru.fehs.skill
 
-import jp.blogspot.turanukimaru.fehs.BattleUnit
-import jp.blogspot.turanukimaru.fehs.HandmaidMath
-import jp.blogspot.turanukimaru.fehs.Name
-import jp.blogspot.turanukimaru.fehs.SkillType
+import jp.blogspot.turanukimaru.fehs.*
 
 /**
  * スキル。奥義
  */
-enum class Special(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val mitMod: Int = 0, override val penetrate: Int = 0, override val heal: Int = 0, override val offMlt: Int = 10, override val stateDamage: (BattleUnit) -> Int = { _ -> 0 }) : Skill {
+enum class Special(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val mitMod: Int = 0, override val penetrate: Int = 0, override val heal: Int = 0, override val offMlt: Int = 10, override val stateDamage: (BattleUnit) -> Int = { _ -> 0 }, override val spType: SpType =SpType.SPECIAL4) : Skill {
     DayLight(Name.Daylight, SkillType.SPECIAL_A, 3, heal = 30),
     Noontime(Name.Noontime, SkillType.SPECIAL_A, 2, heal = 30),
     Sol(Name.Sol, SkillType.SPECIAL_A, 3, heal = 50),

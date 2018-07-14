@@ -164,3 +164,24 @@ enum class SkillType(val jp: String, val weaponType: WeaponType? = null, val pre
 
     val isWeapon get() = weaponType != null
 }
+
+//シンプルな関数のリストをもつこともできそう。ENUMにはならんだろうが.コンストラクタに入れる関数はEnum内へのスコープを持たないからこうするしかないのか
+val spLevel2n:(n:Int) ->Int ={n->when(n){1->1;2->2;3->4;else ->0}}
+enum class SpType(val sp:(lv: Int)->Int){
+    NONE({_ -> 0}),
+    IRON({_ -> 50}),
+    STEEL({_ -> 100}),
+    SILVER({_ -> 200}),
+    PLUS({_ -> 300}),
+    LEGEND({_ -> 500}),
+    ASSIST({_ -> 150}),
+    SPECIAL3({_ -> 100}),
+    SPECIAL4({_ -> 200}),
+    SPECIAL5({_ -> 500}),
+    BASE30({lv -> 30 * spLevel2n(lv)}),
+    BASE50({lv -> 50 * spLevel2n(lv)}),
+    BASE60({lv -> 60 * spLevel2n(lv)}),
+    ;
+    //javascriptにするときはMath使えないんだよな…3までなんだからwhenでいいな
+
+}

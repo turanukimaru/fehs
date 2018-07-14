@@ -2,11 +2,12 @@ package jp.blogspot.turanukimaru.fehs.skill
 
 import jp.blogspot.turanukimaru.fehs.Name
 import jp.blogspot.turanukimaru.fehs.SkillType
+import jp.blogspot.turanukimaru.fehs.SpType
 
 /**
  * スキル。C
  */
-enum class SkillC(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.Companion.NONE, override val maxLevel: Int = 3) : Skill {
+enum class SkillC(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.Companion.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
 
 
     SpurAtk(Name.SpurAtk, SkillType.C),

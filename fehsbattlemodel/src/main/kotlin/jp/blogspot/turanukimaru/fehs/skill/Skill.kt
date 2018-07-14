@@ -54,6 +54,9 @@ interface Skill {
     val effectiveAgainstMoveType: Array<MoveType> get() = arrayOf()
     val effectiveAgainstWeaponType: Array<WeaponType> get() = arrayOf()
 
+    val spType:SpType get()= SpType.NONE
+    //デフォルトパラメータにすることでoverrideが機能する
+    fun sp(lv:Int = level, s:SpType = spType)= s.sp(lv)
     /**
      * nullおぶじぇくと。そうかNoneからNone参照するときはthisでいいのか
      */
