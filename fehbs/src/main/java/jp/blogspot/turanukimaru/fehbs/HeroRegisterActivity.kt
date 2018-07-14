@@ -27,6 +27,7 @@ class HeroRegisterActivity : AppCompatActivity() {
 
         // Show the Up button in the action bar.
         val actionBar = supportActionBar
+
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         // savedInstanceState is non-null when there is fragment state
