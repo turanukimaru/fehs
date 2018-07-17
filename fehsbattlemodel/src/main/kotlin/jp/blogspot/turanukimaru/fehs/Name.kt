@@ -1021,9 +1021,9 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     FishieBow2("魚の弓＋", "Fishie Bow+", "Fishie Bow+"),
     Starfish("ヒトデ", "Starfish", "Starfish"),
     Starfish2("ヒトデ＋", "Starfish+", "Starfish+"),
-    DraconicPoleax("傭兵団の戦斧","Draconic Poleax","Draconic Poleax"),
-    ReesesTome("カタリナの書","Reese's Tome","Reese's Tome"),
-    DauntlessLance("義勇の槍","Dauntless Lance","Dauntless Lance"),
+    DraconicPoleax("傭兵団の戦斧", "Draconic Poleax", "Draconic Poleax"),
+    ReesesTome("カタリナの書", "Reese's Tome", "Reese's Tome"),
+    DauntlessLance("義勇の槍", "Dauntless Lance", "Dauntless Lance"),
     ;
 
     /**

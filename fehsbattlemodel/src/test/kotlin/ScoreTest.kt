@@ -10,7 +10,10 @@ class ScoreTest {
         val unitA = ArmedHero(StandardBaseHero.get("アイク")!!)
         val score = unitA.score
         val totalSp = unitA.totalSp
+        val totalParam = unitA.totalParam
         println("score: $score")
         println("totalSp: $totalSp")
+        println("totalParam: $totalParam")
         throw Exception()
-    }}
+    }
+}

@@ -132,6 +132,7 @@ idea {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'realm-android'
+configurations { natives }
 
 repositories {
     mavenCentral()

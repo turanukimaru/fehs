@@ -100,41 +100,41 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     Bushido(Name.Bushido, SkillType.B, maxLevel = 0) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, 100)
     },
-    PoisonStrike(Name.PoisonStrike, SkillType.B) {
+    PoisonStrike(Name.PoisonStrike, SkillType.B, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, lv * 3 + 1)
     },
-    FollowUpRing(Name.FollowUpRing, SkillType.B, maxLevel = 0) {
+    FollowUpRing(Name.FollowUpRing, SkillType.B, maxLevel = 0, spType = SpType.SHIELD) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
     },
-    SacaesBlessing(Name.SacaesBlessing, SkillType.B) {
+    SacaesBlessing(Name.SacaesBlessing, SkillType.B, spType = SpType.SHIELD) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = sacasBlessing(battleUnit, enemy, lv)
 
     },
-    BeorcsBlessing(Name.BeorcsBlessing, SkillType.B, maxLevel = 0) {
+    BeorcsBlessing(Name.BeorcsBlessing, SkillType.B, maxLevel = 0, spType = SpType.SHIELD) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = beorcsBlessing(battleUnit, enemy, lv)
     },
-    CrusadersWard(Name.CrusadersWard, SkillType.B, maxLevel = 0) {
+    CrusadersWard(Name.CrusadersWard, SkillType.B, maxLevel = 0, spType = SpType.SHIELD) {
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
                 if (source.effectiveRange == 2 && results.isNotEmpty() && results.last().side != battleUnit.side) damage - damage * 8 / 10 else damage
     },
-    SolarBrace(Name.SolarBrace, SkillType.B, maxLevel = 0) {
+    SolarBrace(Name.SolarBrace, SkillType.B, maxLevel = 0, spType = SpType.SHIELD) {
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int {
             battleUnit.heal(damage * 3 / 10)
             return damage
         }
     },
-    DullClose(Name.DullClose, SkillType.B) {
+    DullClose(Name.DullClose, SkillType.B, spType = SpType.BASE60) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiMeleeWeaponBuffBonus(battleUnit, enemy, lv)
     },
-    DullRanged(Name.DullRanged, SkillType.B) {
+    DullRanged(Name.DullRanged, SkillType.B, spType = SpType.BASE60) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, lv)
     },
 
-    EscapeRoute(Name.EscapeRoute, SkillType.B),
-    RecoverRing(Name.RecoverRing, SkillType.B, maxLevel = 0),
-    Renewal(Name.Renewal, SkillType.B),
+    EscapeRoute(Name.EscapeRoute, SkillType.B, spType = SpType.BASE60),
+    RecoverRing(Name.RecoverRing, SkillType.B, maxLevel = 0, spType = SpType.SHIELD),
+    Renewal(Name.Renewal, SkillType.B, spType = SpType.BASE60),
     LiveToServe(Name.LiveToServe, SkillType.B),
-    WingsOfMercy(Name.WingsOfMercy, SkillType.B),
+    WingsOfMercy(Name.WingsOfMercy, SkillType.B, spType = SpType.BASE60),
     Pass(Name.Pass, SkillType.B),
     Obstruct(Name.Obstruct, SkillType.B),
     SealAtk(Name.SealAtk, SkillType.B),
@@ -151,12 +151,12 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     EarthDance(Name.EarthDance, SkillType.B),
     GeyserDance(Name.GeyserDance, SkillType.B, maxLevel = 2),
     FirestormDance(Name.FirestormDance, SkillType.B, maxLevel = 2),
-    KnockBack(Name.KnockBack, SkillType.B, maxLevel = 0),
-    DragBack(Name.DragBack, SkillType.B, maxLevel = 0),
-    Lunge(Name.Lunge, SkillType.B, maxLevel = 0),
-    HitAndRun(Name.HitAndRun, SkillType.B, maxLevel = 0),
-    LiveForBounty(Name.LiveForBounty, SkillType.B, maxLevel = 0),
-    LiveForHonor(Name.LiveForHonor, SkillType.B, maxLevel = 0),
+    KnockBack(Name.KnockBack, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
+    DragBack(Name.DragBack, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
+    Lunge(Name.Lunge, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
+    HitAndRun(Name.HitAndRun, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
+    LiveForBounty(Name.LiveForBounty, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
+    LiveForHonor(Name.LiveForHonor, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
     WarpPowder(Name.WarpPowder, SkillType.B),
     ChillingSeal(Name.ChillingSeal, SkillType.B),
     ChillAtk(Name.ChillAtk, SkillType.B),
