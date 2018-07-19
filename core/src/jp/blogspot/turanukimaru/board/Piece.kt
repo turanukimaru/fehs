@@ -21,11 +21,13 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * アニメーションのカウント.Uiのほうに移動したいがそうするとリセットしにくいな…
      */
     var animationCount = 0
+    var animationStart = false
     var animationTargetPosition: Position? = null
     fun action(action: ActionPhase, target: Position? = null) {
         actionPhase = action
         animationTargetPosition = target
         animationCount = 0
+        animationStart = true
     }
 
     /**

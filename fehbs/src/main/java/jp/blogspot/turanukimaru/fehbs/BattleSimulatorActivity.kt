@@ -219,9 +219,6 @@ class BattleSimulatorActivity : AppCompatActivity() {
         battleUnit.armedHero.boon = if (boon != BoonType.NONE) boon else battleUnit.armedHero.boon
         battleUnit.armedHero.bane = if (bane != BoonType.NONE) bane else battleUnit.armedHero.bane
         battleUnit.armedHero.levelBoost = findSpinnerValOrNull(R.id.levelBoostSpinner) ?: armedClass.levelBoost
-        println(findViewById<Spinner>(R.id.levelBoostSpinner))
-        println(findViewById<Spinner>(R.id.levelBoostSpinner)?.selectedItem)
-        println(findViewById<Spinner>(R.id.levelBoostSpinner)?.selectedItem?.toString())
         battleUnit.armedHero.equip()
         return battleUnit
     }

@@ -6,6 +6,7 @@
     <string name="hero_list_name">Registered Heroes</string>
     <string name="action_float">Floating Status Calc</string>
     <string name="close_float">←Close</string>
+    <string name="action_list">Heroes List</string>
     <string name="action_delete">Delete Base Unit</string>
     <string name="action_cancel">Cancel</string>
     <string name="title_unit_detail">Register Unit</string>

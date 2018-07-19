@@ -53,7 +53,7 @@
         </activity>
         <activity
             android:name="jp.blogspot.turanukimaru.fehbs.RegisteredHeroesActivity"
-            android:parentActivityName="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
+            android:parentActivityName="jp.blogspot.turanukimaru.fehbs.HeroRegisterActivity"
             android:label="@string/hero_list_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

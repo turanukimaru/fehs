@@ -68,7 +68,6 @@ data class ArmedHero(
     val spd: Int get() = boonedSpd + spdEqp + spdBoost + growths[rarity - 1][baseHero.spdGrowth + boonSpd]
     val def: Int get() = boonedDef + defEqp + defBoost + growths[rarity - 1][baseHero.defGrowth + boonDef]
     val res: Int get() = boonedRes + resEqp + resBoost + growths[rarity - 1][baseHero.resGrowth + boonRes]
-    val totalParam get() = maxHp + atk + spd + def + res
 
     var hpEqp: Int = 0
     var atkEqp: Int = 0
@@ -81,6 +80,10 @@ data class ArmedHero(
     private var spdBoost: Int = 0
     private var defBoost: Int = 0
     private var resBoost: Int = 0
+    /**
+     * Score計算用のスキルとか抜きのパラメータ合計
+     */
+    val totalParam get() = maxHp + growths[rarity - 1][baseHero.atkGrowth + boonAtk] + growths[rarity - 1][baseHero.spdGrowth + boonSpd] + growths[rarity - 1][baseHero.defGrowth + boonDef] + growths[rarity - 1][baseHero.resGrowth + boonRes]
     val boonHp
         get() = when {boon == BoonType.HP -> 1; bane == BoonType.HP -> -1;else -> 0
         }
@@ -131,7 +134,7 @@ data class ArmedHero(
     override fun toString(): String = "$name MaxHP:$maxHp , totalAtk:$atk , spd:$spd , def:$def , res:$res ,weapon:$weapon, refinedWeapon:$refinedWeapon, assist:$assist, special:$special, skillA,$aSkill, skillB:$bSkill, skillC:$cSkill, seal:$seal, hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
 
     val totalSp get() = skills.fold(0) { point, skill -> point + skill.sp() }
-    val score get() = 40 + totalSp / 500 + totalParam / 5 + levelBoost//☆5、LV40固定でいい気がする…
+    val score get() = (totalSp / 100)*2 + totalParam / 5 + levelBoost*2+rarity*rarity+20//☆5、LV40固定でいい気がする…
     /**
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */

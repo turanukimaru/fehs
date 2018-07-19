@@ -3,6 +3,7 @@
 
     <string name="app_name">FEHBS</string>
     <string name="pre_name">FEH Battle Simulator</string>
+    <string name="action_list">ユニット一覧</string>
     <string name="action_delete">選択ユニット削除</string>
     <string name="action_float">個体値 計算機</string>
     <string name="close_float">←閉じる</string>

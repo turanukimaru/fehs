@@ -8,15 +8,16 @@ import jp.blogspot.turanukimaru.board.*
 
 class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(actor, uiBoard, myPiece) {
 
-    //これMy側じゃない気がしてきた
     override fun update() {
-        //アニメーション中かどうかは別の基準がいるかなあ。ループ中でも位置の移動は有るしなあ
-        if (piece.animationCount > 0) return
-
+        // アニメーションはシーケンスで管理するので一回だけ動かす今のStateと前のStateを管理して差分を取る手もあるがどっちがいいかな。
+        if (!piece.animationStart) return
+        //タッチ中はアクション無視
         if (uiBoard.board.hand.touchedPiece == myPiece && uiBoard.board.hand.dragging()) {
             actor.clearActions()
             return
         }
+
+        piece.animationStart = false
         //アクションフェイズよりもここにドラッグ判定があるべきか
         when (piece.actionPhase) {
             Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabledに
@@ -50,8 +51,6 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
             Piece.ActionPhase.MOVED -> {//移動予定個所に表示。ずれてる場合は徐々に移動させる
                 actionMoveToPosition(uiBoard.board.hand.newPosition)
             }
-//            Piece.ActionPhase.DRAGGING -> {//ドラッグ中は指に追随する。駒に書くかここに書くかは難しいな
-//            }
             Piece.ActionPhase.ATTACK -> {//戦闘中のアクションはそのうち考える
             }
             Piece.ActionPhase.ACTED -> {

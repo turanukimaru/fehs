@@ -126,6 +126,9 @@ class HeroRegisterFragment : Fragment() {
         Log.i("ArmedClassRegister", R.id.action_delete.toString())
         //新規の時はなにもしない。削除項目を出さないほうが良いかね
         when (id) {
+            R.id.action_list ->{
+
+            }
             R.id.action_delete -> {
                 Log.i("ArmedClassRegister", "R.id.action_delete GO!")
                 //削除ダイアログ作成
