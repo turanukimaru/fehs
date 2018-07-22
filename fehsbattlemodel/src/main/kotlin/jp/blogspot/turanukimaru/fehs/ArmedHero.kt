@@ -60,14 +60,20 @@ data class ArmedHero(
      */
     var reduceSpecialCooldown = 0
 
+    val growthHp get() = growths[rarity - 1][baseHero.hpGrowth + boonHp]
+    val growthAtk get() = growths[rarity - 1][baseHero.atkGrowth + boonAtk]
+    val growthSpd get() = growths[rarity - 1][baseHero.spdGrowth + boonSpd]
+    val growthDef get() = growths[rarity - 1][baseHero.defGrowth + boonDef]
+    val growthRes get() = growths[rarity - 1][baseHero.resGrowth + boonRes]
+
     /**
      * 能力値。下にあるのは計算用
      */
-    val maxHp: Int get() = boonedHp + hpEqp + hpBoost + growths[rarity - 1][baseHero.hpGrowth + boonHp]
-    val atk: Int get() = boonedAtk + atkEqp + atkBoost + growths[rarity - 1][baseHero.atkGrowth + boonAtk]
-    val spd: Int get() = boonedSpd + spdEqp + spdBoost + growths[rarity - 1][baseHero.spdGrowth + boonSpd]
-    val def: Int get() = boonedDef + defEqp + defBoost + growths[rarity - 1][baseHero.defGrowth + boonDef]
-    val res: Int get() = boonedRes + resEqp + resBoost + growths[rarity - 1][baseHero.resGrowth + boonRes]
+    val maxHp: Int get() = boonedHp + hpEqp + hpBoost + growthHp
+    val atk: Int get() = boonedAtk + atkEqp + atkBoost + growthAtk
+    val spd: Int get() = boonedSpd + spdEqp + spdBoost + growthSpd
+    val def: Int get() = boonedDef + defEqp + defBoost + growthDef
+    val res: Int get() = boonedRes + resEqp + resBoost + growthRes
 
     var hpEqp: Int = 0
     var atkEqp: Int = 0
@@ -83,7 +89,7 @@ data class ArmedHero(
     /**
      * Score計算用のスキルとか抜きのパラメータ合計
      */
-    val totalParam get() = maxHp + growths[rarity - 1][baseHero.atkGrowth + boonAtk] + growths[rarity - 1][baseHero.spdGrowth + boonSpd] + growths[rarity - 1][baseHero.defGrowth + boonDef] + growths[rarity - 1][baseHero.resGrowth + boonRes]
+    val totalParam get() = boonedHp + boonedAtk + boonedSpd + boonedDef + boonedRes + growthHp + growthAtk + growthSpd + growthDef + growthRes
     val boonHp
         get() = when {boon == BoonType.HP -> 1; bane == BoonType.HP -> -1;else -> 0
         }
@@ -134,7 +140,7 @@ data class ArmedHero(
     override fun toString(): String = "$name MaxHP:$maxHp , totalAtk:$atk , spd:$spd , def:$def , res:$res ,weapon:$weapon, refinedWeapon:$refinedWeapon, assist:$assist, special:$special, skillA,$aSkill, skillB:$bSkill, skillC:$cSkill, seal:$seal, hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
 
     val totalSp get() = skills.fold(0) { point, skill -> point + skill.sp() }
-    val score get() = (totalSp / 100)*2 + totalParam / 5 + levelBoost*2+rarity*rarity+20//☆5、LV40固定でいい気がする…
+    val score get() = ((totalSp / 100) + totalParam / 5 + levelBoost * 2 + rarity * rarity + 45 + 78 + 150) * 2//LV40固定でいいか
     /**
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */

@@ -11,9 +11,13 @@ class ScoreTest {
         val score = unitA.score
         val totalSp = unitA.totalSp
         val totalParam = unitA.totalParam
+        println("baseHp: ${unitA.growthHp}")
+        println("baseAtk: ${unitA.growthAtk}")
+        println("baseSpd: ${unitA.growthSpd}")
+        println("baseDef: ${unitA.growthDef}")
+        println("baseRes: ${unitA.growthRes}")
         println("score: $score")
         println("totalSp: $totalSp")
         println("totalParam: $totalParam")
-        throw Exception()
     }
 }
