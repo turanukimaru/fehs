@@ -141,6 +141,9 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     KestrelStance(Name.KestrelStance, SkillType.A, maxLevel = 2) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowSpd(battleUnit, lv * 2), lv * 2)
     },
+    BracingStance(Name.BracingStance, SkillType.A, maxLevel = 2) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, lv * 2), lv * 2)
+    },
     WardingBreath(Name.WardingBreath, SkillType.A, maxLevel = 0) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.accelerateAttackCooldown = 1

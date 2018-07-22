@@ -926,6 +926,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     SDrink("Sドリンク", "S Drink", "S Drink"),
     Meisterschwert("マスターソード", "Meisterschwert", "Meisterschwert"),
     SpurAtkDef("攻撃守備の紋章", "Spur Atk/Def", "Spur Atk/Def"),
+    SpurAtkRes("攻撃魔防の紋章", "Spur Atk/Res", "Spur Atk/Res"),
     WargodsTome("Wargod's Tome", "Wargod's Tome", "Wargod's Tome"),
     Restore("レスト", "Restore", "Restore"),
     Thunderhead("雷旋の書", "Thunderhead", "Thunderhead"),
@@ -1024,6 +1025,20 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     DraconicPoleax("傭兵団の戦斧", "Draconic Poleax", "Draconic Poleax"),
     ReesesTome("カタリナの書", "Reese's Tome", "Reese's Tome"),
     DauntlessLance("義勇の槍", "Dauntless Lance", "Dauntless Lance"),
+    スミア("スミア","Sumia",""),
+    マリアベル("","Maribelle",""),
+    オリヴィエ__聖王国_("オリヴィエ（聖王国）", "Olivia (Ylissean Travelers)", "奧利薇 (Ylissean Travelers)"),
+    リベラ("リベラ","Libra",""),
+    ReprisalLance("","Reprisal Lance","Reprisal Lance"),
+    ReprisalLance2("","Reprisal Lance+","Reprisal Lance+"),
+    AtkDefLink("","Atk/Def Link","Atk/Def Link"),
+    Trilemma ("","Trilemma","Trilemma"),
+    Trilemma2 ("","Trilemma+","Trilemma+"),
+    StaffValor("","Staff Valor","Staff Valor"),
+    Skuld("Skuld","","Skuld"),
+    BracingStance("","Bracing Stance","Bracing Stance"),
+    WoGun("","Wo Gùn","Wo Gùn"),
+    WoGun2("","Wo Gùn+","Wo Gùn+"),
     ;
 
     /**

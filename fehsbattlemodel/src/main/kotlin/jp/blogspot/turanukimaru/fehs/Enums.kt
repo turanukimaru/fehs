@@ -176,7 +176,6 @@ enum class SpType(val sp: (lv: Int) -> Int) {
     IRON({ _ -> 50 }),
     STEEL({ _ -> 100 }),
     SILVER({ _ -> 200 }),
-    STAFF({ _ -> 150 }),
     PLUS({ _ -> 300 }),
     LEGEND({ _ -> 400 }),
     ASSIST({ _ -> 150 }),

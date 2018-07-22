@@ -164,6 +164,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
     },
+    Skuld(Name.WingSword, SkillType.SWORD, 16, ArmorSlayer2, SpType.LEGEND),
 
     //LANCE
     IronLance(Name.IronLance, SkillType.LANCE, 6),
@@ -278,23 +279,28 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipAtk(armedHero, 3), lv)
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 10)
     },
-    HarmonicLance(Name.HarmonicLance, SkillType.LANCE, 9, SteelLance, SpType.LEGEND, RefinedSkill.RefineType.Range1) {
+    HarmonicLance(Name.HarmonicLance, SkillType.LANCE, 9, SteelLance) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
-    HarmonicLance2(Name.HarmonicLance2, SkillType.LANCE, 13, HarmonicLance, SpType.LEGEND, RefinedSkill.RefineType.Range1) {
+    HarmonicLance2(Name.HarmonicLance2, SkillType.LANCE, 13, HarmonicLance,refinedSkillType=  RefinedSkill.RefineType.Range1) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     Rhomphaia(Name.Rhomphaia, SkillType.LANCE, 16, SilverLance2, SpType.LEGEND, RefinedSkill.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY, MoveType.ARMORED)),
     ShellLance(Name.ShellLance, SkillType.LANCE, 10, SteelLance) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
-    ShellLance2(Name.ShellLance2, SkillType.LANCE, 14, ShellLance, SpType.LEGEND, RefinedSkill.RefineType.Range1) {
+    ShellLance2(Name.ShellLance2, SkillType.LANCE, 14, ShellLance,refinedSkillType= RefinedSkill.RefineType.Range1) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
     DauntlessLance(Name.DauntlessLance, SkillType.LANCE, 16, SlayingSpear2, SpType.LEGEND, RefinedSkill.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-
+    ReprisalLance(Name.ReprisalLance, SkillType.LANCE, 10, SteelLance) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 6)
+    },
+    ReprisalLance2(Name.ReprisalLance2, SkillType.LANCE, 14, ReprisalLance, refinedSkillType= RefinedSkill.RefineType.Range1) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 6)
+    },
     //AXE
     IronAxe(Name.IronAxe, SkillType.AXE, 6),
     SteelAxe(Name.SteelAxe, SkillType.AXE, 8, IronAxe),
@@ -407,6 +413,12 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     },
     DraconicPoleax(Name.DraconicPoleax, SkillType.AXE, 16, EmeraldAxe) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, 3)
+    },
+    WoGun(Name.WoGun, SkillType.AXE, 9, SteelAxe) {
+        override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
+    },
+    WoGun2(Name.WoGun2, SkillType.AXE, 13, WoGun, SpType.LEGEND, RefinedSkill.RefineType.Range1) {
+        override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
 
     //BOW
@@ -573,22 +585,23 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int = battleUnit.heal(damage * 5 / 10)
     },
     Candlelight(Name.Candlelight, SkillType.STAFF, 7, Assault),
-    Candlelight2(Name.Candlelight2, SkillType.STAFF, 11, Assault, SpType.LEGEND, RefinedSkill.RefineType.Staff),
-    Gravity(Name.Gravity, SkillType.STAFF, 7, Assault),
+    Candlelight2(Name.Candlelight2, SkillType.STAFF, 11, Assault, SpType.IRON, RefinedSkill.RefineType.Staff),
+    Gravity(Name.Gravity, SkillType.STAFF, 7, Assault, SpType.SILVER),
     Gravity2(Name.Gravity2, SkillType.STAFF, 10, Gravity, SpType.LEGEND, RefinedSkill.RefineType.Staff),
-    Fear(Name.Fear, SkillType.STAFF, 5, Assault),
-    Fear2(Name.Fear2, SkillType.STAFF, 12, Fear, SpType.LEGEND, RefinedSkill.RefineType.Staff),
-    Slow(Name.Slow, SkillType.STAFF, 5, Assault),
-    Slow2(Name.Slow2, SkillType.STAFF, 12, Slow, SpType.LEGEND, RefinedSkill.RefineType.Staff),
-    Panic(Name.Panic, SkillType.STAFF, 6, Assault),
-    Panic2(Name.Panic2, SkillType.STAFF, 11, Panic, SpType.LEGEND, RefinedSkill.RefineType.Staff),
-    Pain(Name.Pain, SkillType.STAFF, 3, Assault) {
+    Fear(Name.Fear, SkillType.STAFF, 5, Assault, SpType.SILVER),
+    Fear2(Name.Fear2, SkillType.STAFF, 12, Fear, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Slow(Name.Slow, SkillType.STAFF, 5, Assault, SpType.SILVER),
+    Slow2(Name.Slow2, SkillType.STAFF, 12, Slow, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Panic(Name.Panic, SkillType.STAFF, 6, Assault, SpType.SILVER),
+    Panic2(Name.Panic2, SkillType.STAFF, 11, Panic, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Pain(Name.Pain, SkillType.STAFF, 3, Assault, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10)
     },
-    Pain2(Name.Pain2, SkillType.STAFF, 10, Pain, SpType.LEGEND, RefinedSkill.RefineType.Staff) {
+    Pain2(Name.Pain2, SkillType.STAFF, 10, Pain, SpType.PLUS, RefinedSkill.RefineType.Staff) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10)
     },
-
+    Trilemma(Name.Trilemma, SkillType.STAFF, 8, Assault, SpType.SILVER),
+    Trilemma2(Name.Trilemma2, SkillType.STAFF, 12, Trilemma, SpType.PLUS, RefinedSkill.RefineType.Staff),
     //RTOME
     Flux(Name.Flux, SkillType.RTOME, 4),
     Fire(Name.Fire, SkillType.RTOME, 4),

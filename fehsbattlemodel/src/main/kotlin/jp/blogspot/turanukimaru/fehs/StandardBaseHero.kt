@@ -604,6 +604,16 @@ object StandardBaseHero {
                 Weapon.Starfish2, Assist.ArdentSacrifice, null, SkillA.BrazenAtkSpd.lv(3), SkillB.CancelAffinity.lv(3), null)
         createItem(Name.タクミ__夏_, 0, WeaponType.BOW, MoveType.FLIER, 5, 18, 9, 7, 6, 4, 6, 8, 9, 3, 3,
                 Weapon.FishieBow2, null, Special.Glimmer, SkillA.Fury.lv(3), null, SkillC.OddResWave.lv(3))
+        createItem(Name.スミア ,2, WeaponType.LANCE, MoveType.FLIER,  5, 17, 6, 11, 7, 6, 6, 7, 9, 6, 5,
+                Weapon.ReprisalLance2, Assist.Reposition, null, SkillA.CloseDef.lv(3), SkillB.AtkDefLink.lv(3), null)
+        createItem(Name.マリアベル, 0, WeaponType.STAFF, MoveType.CAVALRY,  5, 17, 9, 9, 3, 5, 4, 8, 7, 2, 6,
+                Weapon.Trilemma2, Assist.Martyr, Special.Miracle, null, SkillB.DazzlingStaff .lv(3), SkillC.StaffValor.lv(3))
+        createItem(Name.オリヴィエ__聖王国_, 1, WeaponType.SWORD, MoveType.FLIER,  5, 17, 6, 8, 4, 4, 5, 7, 8, 6, 5,
+                Weapon.Skuld, Assist.Dance, null, SkillA.BracingStance.lv(3), SkillB.ChillSpd.lv(3), SkillC.Guidance.lv(3))
+        createItem(Name.リベラ, 3, WeaponType.AXE, MoveType.INFANTRY,  5, 18, 9, 8, 6, 7, 6, 8, 7, 6, 6,
+                Weapon.WoGun2, null, Special.Noontime, null, SkillB.Renewal.lv(3), SkillC.SpurAtkRes.lv(3))
+
+
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }
