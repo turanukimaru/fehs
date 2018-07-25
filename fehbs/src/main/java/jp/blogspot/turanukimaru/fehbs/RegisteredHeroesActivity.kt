@@ -25,7 +25,7 @@ import java.util.Locale
  * 登録したユニット一覧
  */
 
-class RegisteredHeroesActivity : AppCompatActivity() {
+class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener() {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -42,13 +42,13 @@ class RegisteredHeroesActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_heroes)
 
-        val toolbar = findViewById<Toolbar>(R.id.detail_toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         // Show the Up button in the action bar.
         val actionBar = supportActionBar
         //ぬるぽでおちる。画面との整合性が合わないか
-//        actionBar!!.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 

@@ -45,7 +45,7 @@
         <activity
             android:name="jp.blogspot.turanukimaru.fehbs.HeroRegisterActivity"
             android:label="@string/title_unit_detail"
-            android:parentActivityName="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
+            android:parentActivityName="jp.blogspot.turanukimaru.fehbs.RegisteredHeroesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -53,7 +53,7 @@
         </activity>
         <activity
             android:name="jp.blogspot.turanukimaru.fehbs.RegisteredHeroesActivity"
-            android:parentActivityName="jp.blogspot.turanukimaru.fehbs.HeroRegisterActivity"
+            android:parentActivityName="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
             android:label="@string/hero_list_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

@@ -31,7 +31,7 @@ class HeroRegisterFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.unit_register_body, container, false)
 
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
 
         viewBuilder.createRadioButtons(resources, rootView)
 
@@ -128,7 +128,7 @@ class HeroRegisterFragment : Fragment() {
         when (id) {
             R.id.action_list -> {
                 val context = view!!.context
-                val intent = Intent(context, RegisteredHeroesActivity::class.java)
+                val intent = Intent(context,  HeroRegisterActivity::class.java)
                 context.startActivity(intent)
             }
             R.id.action_delete -> {

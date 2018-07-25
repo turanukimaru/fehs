@@ -24,7 +24,7 @@ import java.util.Locale
  * 戦闘シミュ画面。Appから呼ばれる。
  */
 
-class BattleSimulatorActivity : AppCompatActivity() {
+class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener()  {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -195,20 +195,9 @@ class BattleSimulatorActivity : AppCompatActivity() {
         }
         //登録ボタン作成。ここはほぼテンプレートのまま
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            if (mTwoPane) {
-                val arguments = Bundle()
-                arguments.putString(HeroRegisterFragment.ARG_ITEM_ID, "")
-
-                val fragment = HeroRegisterFragment()
-                fragment.arguments = arguments
-                supportFragmentManager.beginTransaction()//FragmentActivity.getSupportFragmentManager
-                        .replace(R.id.sake_detail_container, fragment)
-                        .commit()
-            } else {
                 val context = view.context
-                val intent = Intent(context, HeroRegisterActivity::class.java)
+                val intent = Intent(context,RegisteredHeroesActivity::class.java)
                 context.startActivity(intent)
-            }
         }
     }
 
@@ -351,5 +340,21 @@ class BattleSimulatorActivity : AppCompatActivity() {
 
             override fun toString(): String = mItem!!.last().side.name
         }
+    }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        when (item.itemId) {
+            R.id.nav_open_calc -> {
+                context.startService(Intent(context, HeroStatusService::class.java))
+            }
+            R.id.nav_close_calc -> {
+                context.stopService(Intent(context, HeroStatusService::class.java))
+            }
+        }
+
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
     }
 }
