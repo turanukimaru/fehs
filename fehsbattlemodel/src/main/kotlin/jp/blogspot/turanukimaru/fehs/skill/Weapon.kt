@@ -164,7 +164,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
     },
-    Skuld(Name.WingSword, SkillType.SWORD, 16, ArmorSlayer2, SpType.LEGEND),
+    Skuld(Name.Skuld, SkillType.SWORD, 16, SilverSword, SpType.LEGEND),
 
     //LANCE
     IronLance(Name.IronLance, SkillType.LANCE, 6),

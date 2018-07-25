@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -37,16 +38,17 @@ class RegisteredHeroesActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {//?:nullable
         super.onCreate(savedInstanceState)
-        Log.i("BattleSimulatorActivity", "onCreate")
+        Log.i("RegisteredHeroesAc", "onCreate")
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_heroes)
 
         val toolbar = findViewById<Toolbar>(R.id.detail_toolbar)
         setSupportActionBar(toolbar)
 
         // Show the Up button in the action bar.
         val actionBar = supportActionBar
-        actionBar.setDisplayHomeAsUpEnabled(true)
+        //ぬるぽでおちる。画面との整合性が合わないか
+//        actionBar!!.setDisplayHomeAsUpEnabled(true)
 
     }
 
@@ -108,8 +110,8 @@ class RegisteredHeroesActivity : AppCompatActivity() {
     /**
      * メニュー初期化
      */
-    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, menuInflater)
+     fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu)
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.detail, menu)
     }
@@ -121,7 +123,7 @@ class RegisteredHeroesActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.fight_result_list_content, parent, false)
+                    .inflate(R.layout.heroes_list_content, parent, false)
             return ViewHolder(view)
         }
 
@@ -130,12 +132,13 @@ class RegisteredHeroesActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val mItem = mValues[position]
             holder.mItem = mItem
-            holder.statusText.text = mItem.statusText
+            holder.status.text = mItem.statusText
+            holder.name.text = mItem.name
+            holder.rarity.text = mItem.rarity.toString()
+            holder.boost.text = mItem.levelBoost.toString()
+            holder.score.text = mItem.score.toString()
             //結果表示用の領域をもう1行用意してあるんだけど要らないかなあ
-//            holder.progressText.text = mItem.detail
-//            holder.unitText.text = mItem.date
-
-//            holder.progressText.text = mItem.fold("") { string, item -> string + " " + item.detailsShort(if (switch) SIDES.COUNTER else SIDES.ATTACKER, locale) }
+            holder.skillText.text = mItem.skillText(locale)
         }
 
         override fun getItemCount(): Int = mValues.size
@@ -146,16 +149,14 @@ class RegisteredHeroesActivity : AppCompatActivity() {
         inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
             //("Can be joined with assignment") が出たらこう書ける。元はinitで初期化していた。
             var mItem: ArmedHero? = null
-            val name: TextView = mView.findViewById(R.id.sourceHp)
-            val rareAndBoost: TextView = mView.findViewById(R.id.targetHp)
-            val score: TextView = mView.findViewById(R.id.unitText)
-            val statusText: TextView = mView.findViewById(R.id.statusText)
-            //            val mSpecView: TextView = mView.findViewById(R.id.itemSpec)
+            val name: TextView = mView.findViewById(R.id.unitText)
+            val rarity: TextView = mView.findViewById(R.id.rarityText)
+            val boost: TextView = mView.findViewById(R.id.boostText)
+            val score: TextView = mView.findViewById(R.id.scoreText)
+            val status: TextView = mView.findViewById(R.id.statusText)
             //途中経過や顔を表示しようとしていた領域
 //            val mImageView: ImageView = mView.findViewById(R.id.itemIimageView)
-            val progressText: TextView = mView.findViewById(R.id.progressText)
-
-            override fun toString(): String = mItem!!.last().side.name
+            val skillText: TextView = mView.findViewById(R.id.skillText)
         }
     }
 }
