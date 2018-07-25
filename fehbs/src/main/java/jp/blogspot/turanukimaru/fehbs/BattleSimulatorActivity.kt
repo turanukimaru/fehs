@@ -6,7 +6,9 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.NavigationView
 import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -15,6 +17,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
+import kotlinx.android.synthetic.main.activity_heroes.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.onClick
 import java.util.Locale
@@ -24,7 +27,7 @@ import java.util.Locale
  * 戦闘シミュ画面。Appから呼ばれる。
  */
 
-class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener()  {
+class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener  {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -347,14 +350,14 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_open_calc -> {
-                context.startService(Intent(context, HeroStatusService::class.java))
+                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
             }
             R.id.nav_close_calc -> {
-                context.stopService(Intent(context, HeroStatusService::class.java))
+                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
             }
         }
-
         drawer_layout.closeDrawer(GravityCompat.START)
+
         return true
     }
 }
