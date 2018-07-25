@@ -6,7 +6,9 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.NavigationView
 import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -16,6 +18,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
+import kotlinx.android.synthetic.main.activity_heroes.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.onClick
 import java.util.Locale
@@ -25,7 +28,7 @@ import java.util.Locale
  * 登録したユニット一覧
  */
 
-class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener() {
+class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -158,5 +161,21 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
 //            val mImageView: ImageView = mView.findViewById(R.id.itemIimageView)
             val skillText: TextView = mView.findViewById(R.id.skillText)
         }
+    }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        when (item.itemId) {
+            R.id.nav_open_calc -> {
+                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+            }
+            R.id.nav_close_calc -> {
+                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
+            }
+        }
+        drawer_layout.closeDrawer(GravityCompat.START)
+
+        return true
     }
 }
