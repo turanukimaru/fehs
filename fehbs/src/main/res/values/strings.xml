@@ -9,7 +9,7 @@
     <string name="action_list">Heroes List</string>
     <string name="action_delete">Delete Base Unit</string>
     <string name="action_cancel">Cancel</string>
-    <string name="title_unit_detail">Register Unit</string>
+    <string name="title_unit_detail">Register Hero</string>
     <string name="unit_name_title">Unit</string>
     <string name="fight_button_title">Calculate</string>
     <string name="defensive_terrain_title">Defensive terrain</string>

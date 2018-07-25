@@ -34,29 +34,29 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     Vantage(Name.Vantage, SkillType.B) {
         override fun counterPlan(fightPlan: FightPlan, lv: Int): FightPlan = vantage(fightPlan, lv)
     },
-    WaryFighter(Name.WaryFighter, SkillType.B) {
+    WaryFighter(Name.WaryFighter, SkillType.B, spType = SpType.BASE60) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = eachNofollowupable(battleUnit, enemy, lv)
     },
-    BoldFighter(Name.BoldFighter, SkillType.B) {
+    BoldFighter(Name.BoldFighter, SkillType.B, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 10), 11)
     },
-    VengefulFighter(Name.VengefulFighter, SkillType.B) {
+    VengefulFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 5), 6)
     },
     Desperation(Name.Desperation, SkillType.B) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, lv)
     },
-    QuickRiposte(Name.QuickRiposte, SkillType.B) {
+    QuickRiposte(Name.QuickRiposte, SkillType.B, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, lv)
     },
     BrashAssault(Name.BrashAssault, SkillType.B) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brashAssault(battleUnit, enemy, (lv * 10 + 20))
     },
-    Windsweep(Name.Windsweep, SkillType.B) {
+    Windsweep(Name.Windsweep, SkillType.B, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = windsweep(battleUnit, enemy, lv)
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = noFollowupAttack(fightPlan)
     },
-    Watersweep(Name.Watersweep, SkillType.B) {
+    Watersweep(Name.Watersweep, SkillType.B, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = watersweep(battleUnit, enemy, lv)
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = noFollowupAttack(fightPlan)
     },
@@ -64,13 +64,13 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     Guard(Name.Guard, SkillType.B) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, lv)
     },
-    ShieldPulse(Name.ShieldPulse, SkillType.B) {
+    ShieldPulse(Name.ShieldPulse, SkillType.B, spType = SpType.BASE60) {
         override fun specialPreventTriggered(battleUnit: BattleUnit, damage: Int): Int = damage - 5
     },
-    WrathfulStaff(Name.WrathfulStaff, SkillType.B) {
+    WrathfulStaff(Name.WrathfulStaff, SkillType.B, spType = SpType.BASE60) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv)
     },
-    DazzlingStaff(Name.DazzlingStaff, SkillType.B) {
+    DazzlingStaff(Name.DazzlingStaff, SkillType.B, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, lv)
 
     },
@@ -94,30 +94,30 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
             return battleUnit
         }
     },
-    Wrath(Name.Wrath, SkillType.B) {
+    Wrath(Name.Wrath, SkillType.B, spType = SpType.BASE60) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, level * 25)
     },
-    Bushido(Name.Bushido, SkillType.B, maxLevel = 0) {
+    Bushido(Name.Bushido, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, 100)
     },
     PoisonStrike(Name.PoisonStrike, SkillType.B, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, lv * 3 + 1)
     },
-    FollowUpRing(Name.FollowUpRing, SkillType.B, maxLevel = 0, spType = SpType.SHIELD) {
+    FollowUpRing(Name.FollowUpRing, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
     },
-    SacaesBlessing(Name.SacaesBlessing, SkillType.B, spType = SpType.SHIELD) {
+    SacaesBlessing(Name.SacaesBlessing, SkillType.B, spType = SpType.EXCLUSIVE) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = sacasBlessing(battleUnit, enemy, lv)
 
     },
-    BeorcsBlessing(Name.BeorcsBlessing, SkillType.B, maxLevel = 0, spType = SpType.SHIELD) {
+    BeorcsBlessing(Name.BeorcsBlessing, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = beorcsBlessing(battleUnit, enemy, lv)
     },
-    CrusadersWard(Name.CrusadersWard, SkillType.B, maxLevel = 0, spType = SpType.SHIELD) {
+    CrusadersWard(Name.CrusadersWard, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE) {
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
                 if (source.effectiveRange == 2 && results.isNotEmpty() && results.last().side != battleUnit.side) damage - damage * 8 / 10 else damage
     },
-    SolarBrace(Name.SolarBrace, SkillType.B, maxLevel = 0, spType = SpType.SHIELD) {
+    SolarBrace(Name.SolarBrace, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE) {
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int {
             battleUnit.heal(damage * 3 / 10)
             return damage
@@ -141,37 +141,37 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     SealSpd(Name.SealSpd, SkillType.B),
     SealDef(Name.SealDef, SkillType.B),
     SealRes(Name.SealRes, SkillType.B),
-    SealAtkSpd(Name.SealAtkSpd, SkillType.B, maxLevel = 2),
-    SealAtkDef(Name.SealAtkDef, SkillType.B, maxLevel = 2),
-    SealDefRes(Name.SealDefRes, SkillType.B, maxLevel = 2),
+    SealAtkSpd(Name.SealAtkSpd, SkillType.B, maxLevel = 2, spType = SpType.BASE100),
+    SealAtkDef(Name.SealAtkDef, SkillType.B, maxLevel = 2, spType = SpType.BASE100),
+    SealDefRes(Name.SealDefRes, SkillType.B, maxLevel = 2, spType = SpType.BASE100),
     FlierFormation(Name.FlierFormation, SkillType.B),
     BlazeDance(Name.BlazeDance, SkillType.B),
     GaleDance(Name.GaleDance, SkillType.B),
     TorrentDance(Name.TorrentDance, SkillType.B),
     EarthDance(Name.EarthDance, SkillType.B),
-    GeyserDance(Name.GeyserDance, SkillType.B, maxLevel = 2),
-    FirestormDance(Name.FirestormDance, SkillType.B, maxLevel = 2),
+    GeyserDance(Name.GeyserDance, SkillType.B, maxLevel = 2, spType = SpType.BASE120),
+    FirestormDance(Name.FirestormDance, SkillType.B, maxLevel = 2, spType = SpType.BASE120),
     KnockBack(Name.KnockBack, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
     DragBack(Name.DragBack, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
     Lunge(Name.Lunge, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
     HitAndRun(Name.HitAndRun, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
     LiveForBounty(Name.LiveForBounty, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
     LiveForHonor(Name.LiveForHonor, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
-    WarpPowder(Name.WarpPowder, SkillType.B),
-    ChillingSeal(Name.ChillingSeal, SkillType.B),
-    ChillAtk(Name.ChillAtk, SkillType.B),
-    ChillSpd(Name.ChillSpd, SkillType.B),
-    ChillDef(Name.ChillDef, SkillType.B),
-    ChillRes(Name.ChillRes, SkillType.B),
-    SDrink(Name.SDrink, SkillType.B, maxLevel = 0) {
+    WarpPowder(Name.WarpPowder, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE),
+    ChillingSeal(Name.ChillingSeal, SkillType.B, spType = SpType.EXCLUSIVE),
+    ChillAtk(Name.ChillAtk, SkillType.B, spType = SpType.BASE60),
+    ChillSpd(Name.ChillSpd, SkillType.B, spType = SpType.BASE60),
+    ChillDef(Name.ChillDef, SkillType.B, spType = SpType.BASE60),
+    ChillRes(Name.ChillRes, SkillType.B, spType = SpType.BASE60),
+    SDrink(Name.SDrink, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
 
     },
-    SpdFeint(Name.SpdFeint, SkillType.B),
-    DefFeint(Name.DefFeint, SkillType.B),
-    AtkDefLink(Name.AtkDefLink, SkillType.B),
-    DefResLink(Name.DefResLink, SkillType.B),
-    Aerobatics(Name.Aerobatics, SkillType.B),
+    SpdFeint(Name.SpdFeint, SkillType.B, spType = SpType.BASE60),
+    DefFeint(Name.DefFeint, SkillType.B, spType = SpType.BASE60),
+    AtkDefLink(Name.AtkDefLink, SkillType.B, spType = SpType.BASE60),
+    DefResLink(Name.DefResLink, SkillType.B, spType = SpType.BASE60),
+    Aerobatics(Name.Aerobatics, SkillType.B, spType = SpType.BASE60),
     ;
 
     /**

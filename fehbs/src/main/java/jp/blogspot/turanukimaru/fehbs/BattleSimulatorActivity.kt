@@ -346,6 +346,9 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
     }
 
 
+    /**
+     * ナビゲーションと個体値計算ツールは同時には動かないみたい…
+     */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
