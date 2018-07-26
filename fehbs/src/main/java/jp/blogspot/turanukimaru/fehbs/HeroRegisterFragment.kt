@@ -31,7 +31,7 @@ class HeroRegisterFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.unit_register_body, container, false)
 
-//        setHasOptionsMenu(true)
+       setHasOptionsMenu(true)
 
         viewBuilder.createRadioButtons(resources, rootView)
 
@@ -134,9 +134,9 @@ class HeroRegisterFragment : Fragment() {
             R.id.action_delete -> {
                 Log.i("ArmedClassRegister", "R.id.action_delete GO!")
                 //削除ダイアログ作成
-                val builder = AlertDialog.Builder(this.context).setMessage(R.string.action_delete).setTitle(R.string.action_delete)
+                val target = activity.findViewById<TextView>(R.id.unitName)
+                val builder = AlertDialog.Builder(this.context).setMessage("Delete : "+target.text.toString()).setTitle(R.string.action_delete)
                 builder.setPositiveButton(R.string.action_delete) { _, _ ->
-                    val target = activity.findViewById<TextView>(R.id.unitName)
                     if (ArmedHeroRepository.isStandardBattleClass(target.text.toString())) {
 //                    Toast.makeText(this.context, R.string.alert_default_name, Toast.LENGTH_SHORT).show()
                         return@setPositiveButton

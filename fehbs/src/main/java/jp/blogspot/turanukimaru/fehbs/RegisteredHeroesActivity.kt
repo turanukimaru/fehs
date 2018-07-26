@@ -21,14 +21,16 @@ import jp.blogspot.turanukimaru.fehs.*
 import kotlinx.android.synthetic.main.activity_heroes.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.toast
 import java.util.Locale
 
 
 /**
  * 登録したユニット一覧
+ *
  */
 
-class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class RegisteredHeroesActivity : AppCompatActivity() {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -43,7 +45,8 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
         super.onCreate(savedInstanceState)
         Log.i("RegisteredHeroesAc", "onCreate")
 
-        setContentView(R.layout.activity_heroes)
+        //menuに計算機ボタン作りたいけどレイヤがかぶってるのか動かない…のでとりあえず中身だけにする。なんかの操作が必要になったら_containerを抜けばメニューが出るはず
+        setContentView(R.layout.activity_heroes_container)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -93,21 +96,19 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
 
         //登録ボタン作成。ここはほぼテンプレートのまま
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            if (mTwoPane) {
-                val arguments = Bundle()
-                arguments.putString(HeroRegisterFragment.ARG_ITEM_ID, "")
-
-                val fragment = HeroRegisterFragment()
-                fragment.arguments = arguments
-                supportFragmentManager.beginTransaction()//FragmentActivity.getSupportFragmentManager
-                        .replace(R.id.sake_detail_container, fragment)
-                        .commit()
-            } else {
                 val context = view.context
                 val intent = Intent(context, HeroRegisterActivity::class.java)
                 context.startActivity(intent)
-            }
         }
+
+        //ひょっとしてコンテキストがおかしかったのかなあ。でもコンテキストがおかしかったら落ちてたよな今まで
+        findViewById<Button>(R.id.float_button).setOnClickListener { view ->
+            view.   context.startService(Intent(view.context, HeroStatusService::class.java))
+        }
+        findViewById<Button>(R.id.close_button).setOnClickListener { view ->
+            view.context.stopService(Intent(view.context, HeroStatusService::class.java))
+        }
+
     }
 
     /**
@@ -127,7 +128,9 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.heroes_list_content, parent, false)
-            return ViewHolder(view)
+            val holder = ViewHolder(view)
+            view.onClick { view-> toast(""+holder.adapterPosition)}
+            return holder
         }
 
         //bind時実行
@@ -164,18 +167,4 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
     }
 
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_open_calc -> {
-                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
-            }
-            R.id.nav_close_calc -> {
-                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
-            }
-        }
-        drawer_layout.closeDrawer(GravityCompat.START)
-
-        return true
-    }
 }

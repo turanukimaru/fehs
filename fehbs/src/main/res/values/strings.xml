@@ -5,9 +5,9 @@
     <string name="pre_name">FEH Battle Simulator</string>
     <string name="hero_list_name">Registered Heroes</string>
     <string name="action_float">Floating Status Calc</string>
-    <string name="close_float">←Close</string>
+    <string name="close_float">Close Status Calc</string>
     <string name="action_list">Heroes List</string>
-    <string name="action_delete">Delete Base Unit</string>
+    <string name="action_delete">Delete Hero</string>
     <string name="action_cancel">Cancel</string>
     <string name="title_unit_detail">Register Hero</string>
     <string name="unit_name_title">Unit</string>
@@ -47,7 +47,7 @@
     <string name="def_s_title">DEF</string>
     <string name="res_s_title">RES</string>
     <string name="refine_title">Refine</string>
-    <string name="filter_title">Select Hero</string>
+    <string name="filter_title">Heroes filter</string>
     <string name="hero_title">Select Hero</string>
     <string name="enemy_title">Enemies filter</string>
     <string name="Damage_taken">HP %</string>

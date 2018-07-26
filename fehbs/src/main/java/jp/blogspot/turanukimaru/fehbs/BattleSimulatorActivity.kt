@@ -352,12 +352,12 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_open_calc -> {
-                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
-            }
-            R.id.nav_close_calc -> {
-                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
-            }
+//            R.id.nav_open_calc -> {
+//                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+//            }
+//            R.id.nav_close_calc -> {
+//                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
+//            }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
 
