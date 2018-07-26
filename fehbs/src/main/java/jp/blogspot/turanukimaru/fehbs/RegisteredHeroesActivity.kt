@@ -24,13 +24,15 @@ import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 import java.util.Locale
 
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
 
 /**
  * 登録したユニット一覧
  *
  */
 
-class RegisteredHeroesActivity : AppCompatActivity() {
+class RegisteredHeroesActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -45,8 +47,7 @@ class RegisteredHeroesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.i("RegisteredHeroesAc", "onCreate")
 
-        //menuに計算機ボタン作りたいけどレイヤがかぶってるのか動かない…のでとりあえず中身だけにする。なんかの操作が必要になったら_containerを抜けばメニューが出るはず
-        setContentView(R.layout.activity_heroes_container)
+        setContentView(R.layout.activity_heroes)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -55,6 +56,16 @@ class RegisteredHeroesActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         //ぬるぽでおちる。画面との整合性が合わないか
         actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val drawer=findViewById<DrawerLayout>(R.id.drawer_layout)
+        val toggle=ActionBarDrawerToggle(
+                this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+        drawer.addDrawerListener(toggle)
+        toggle.syncState()
+
+        val navigationView=findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
+
 
     }
 
@@ -102,12 +113,12 @@ class RegisteredHeroesActivity : AppCompatActivity() {
         }
 
         //ひょっとしてコンテキストがおかしかったのかなあ。でもコンテキストがおかしかったら落ちてたよな今まで
-        findViewById<Button>(R.id.float_button).setOnClickListener { view ->
-            view.   context.startService(Intent(view.context, HeroStatusService::class.java))
-        }
-        findViewById<Button>(R.id.close_button).setOnClickListener { view ->
-            view.context.stopService(Intent(view.context, HeroStatusService::class.java))
-        }
+//        findViewById<Button>(R.id.float_button).setOnClickListener { view ->
+//            view.   context.startService(Intent(view.context, HeroStatusService::class.java))
+//        }
+//        findViewById<Button>(R.id.close_button).setOnClickListener { view ->
+//            view.context.stopService(Intent(view.context, HeroStatusService::class.java))
+//        }
 
     }
 
@@ -166,5 +177,22 @@ class RegisteredHeroesActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     *
+     */
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        when (item.itemId) {
+            R.id.nav_open_calc -> {
+                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+            }
+            R.id.nav_close_calc -> {
+                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
+            }
+        }
+        drawer_layout.closeDrawer(GravityCompat.START)
+
+        return true
+    }
 
 }

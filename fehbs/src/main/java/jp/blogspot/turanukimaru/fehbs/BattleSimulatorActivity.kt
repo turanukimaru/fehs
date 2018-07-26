@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -20,6 +23,7 @@ import jp.blogspot.turanukimaru.fehs.*
 import kotlinx.android.synthetic.main.activity_heroes.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.toast
 import java.util.Locale
 
 
@@ -202,6 +206,17 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
                 val intent = Intent(context,RegisteredHeroesActivity::class.java)
                 context.startActivity(intent)
         }
+
+//        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+  //      val drawer=findViewById<DrawerLayout>(R.id.drawer_layout)
+//        val toggle=ActionBarDrawerToggle(
+//                this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+//        drawer.addDrawerListener(toggle)
+//        toggle.syncState()
+
+        val navigationView=findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
+
     }
 
     private fun buildBattleUnit(armedClass: ArmedHero): BattleUnit {
@@ -347,17 +362,17 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
 
 
     /**
-     * ナビゲーションと個体値計算ツールは同時には動かないみたい…
+     *
      */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-//            R.id.nav_open_calc -> {
-//                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
-//            }
-//            R.id.nav_close_calc -> {
-//                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
-//            }
+            R.id.nav_open_calc -> {
+                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+            }
+            R.id.nav_close_calc -> {
+                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
+            }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
 

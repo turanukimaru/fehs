@@ -83,12 +83,12 @@ class HeroRegisterFragment : Fragment() {
             viewBuilder.createUnitRadioButton(resources, rootView, R.id.baseUnitRadioButton, R.string.unit_name_title)
         }
 
-        rootView.findViewById<Button>(R.id.float_button).setOnClickListener { _ ->
-            context.startService(Intent(context, HeroStatusService::class.java))
-        }
-        rootView.findViewById<Button>(R.id.close_button).setOnClickListener { _ ->
-            context.stopService(Intent(context, HeroStatusService::class.java))
-        }
+//        rootView.findViewById<Button>(R.id.float_button).setOnClickListener { _ ->
+//            context.startService(Intent(context, HeroStatusService::class.java))
+//        }
+//        rootView.findViewById<Button>(R.id.close_button).setOnClickListener { _ ->
+//            context.stopService(Intent(context, HeroStatusService::class.java))
+//        }
         return rootView
     }
 
@@ -126,11 +126,11 @@ class HeroRegisterFragment : Fragment() {
         Log.i("ArmedClassRegister", R.id.action_delete.toString())
         //新規の時はなにもしない。削除項目を出さないほうが良いかね
         when (id) {
-            R.id.action_list -> {
-                val context = view!!.context
-                val intent = Intent(context,  HeroRegisterActivity::class.java)
-                context.startActivity(intent)
-            }
+//            R.id.action_list -> {
+//                val context = view!!.context
+//                val intent = Intent(context,  HeroRegisterActivity::class.java)
+//                context.startActivity(intent)
+//            }
             R.id.action_delete -> {
                 Log.i("ArmedClassRegister", "R.id.action_delete GO!")
                 //削除ダイアログ作成

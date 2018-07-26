@@ -46,7 +46,7 @@
     <string name="def_s_title">DEF</string>
     <string name="res_s_title">RES</string>
     <string name="refine_title">錬成</string>
-    <string name="filter_title">攻撃側選択</string>
+    <string name="filter_title">攻撃側</string>
     <string name="hero_title">攻撃側を選んでください</string>
     <string name="enemy_title">対戦相手フィルタ</string>
     <string name="Damage_taken">HP%</string>
