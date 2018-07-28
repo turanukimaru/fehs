@@ -611,7 +611,7 @@ object StandardBaseHero {
         createItem(Name.オリヴィエ__聖王国_, 1, WeaponType.SWORD, MoveType.FLIER,  5, 17, 6, 8, 4, 4, 5, 7, 8, 6, 5,
                 Weapon.Skuld, Assist.Dance, null, SkillA.BracingStance.lv(2), SkillB.ChillSpd.lv(3), SkillC.Guidance.lv(3))
         createItem(Name.リベラ, 3, WeaponType.AXE, MoveType.INFANTRY,  5, 18, 9, 8, 6, 7, 6, 8, 7, 6, 6,
-                Weapon.WoGun2, null, Special.Noontime, null, SkillB.Renewal.lv(3), SkillC.SpurAtkRes.lv(3))
+                Weapon.WoGun2, null, Special.Noontime, null, SkillB.Renewal.lv(3), SkillC.SpurAtkRes.lv(2))
 
 
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
