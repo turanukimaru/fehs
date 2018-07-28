@@ -34,6 +34,14 @@
             android:layout_height="wrap_content"
             android:entries="@array/move_type" />
 
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="000"
+            android:visibility="invisible"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -152,7 +160,8 @@
             android:layout_gravity="center_vertical"
             android:entries="@array/boon_type"
             android:text="@string/none"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            />
 
         <TextView
             android:id="@+id/textView4"

@@ -45,6 +45,11 @@
     <string name="spd_s_title">SPD</string>
     <string name="def_s_title">DEF</string>
     <string name="res_s_title">RES</string>
+    <string name="hp_a_title">H</string>
+    <string name="atk_a_title">A</string>
+    <string name="spd_a_title">S</string>
+    <string name="def_a_title">D</string>
+    <string name="res_a_title">R</string>
     <string name="refine_title">錬成</string>
     <string name="filter_title">攻撃側</string>
     <string name="hero_title">攻撃側を選んでください</string>

@@ -90,9 +90,6 @@ class HeroRegisterFragment : Fragment() {
 //            context.stopService(Intent(context, HeroStatusService::class.java))
 //        }
         val name = activity?.intent?.getStringExtra(HeroRegisterActivity.HERO_NAME)
-        println(activity)
-        println(activity?.intent)
-        println(activity?.intent?.getStringExtra(HeroRegisterActivity.HERO_NAME))
         if (name != null) {
             rootView.findViewById<TextView>(R.id.unitName).text = name
             rootView.findViewById<TextView>(R.id.baseUnitRadioButton).text = name

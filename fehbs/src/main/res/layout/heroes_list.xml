@@ -5,8 +5,8 @@
     android:id="@+id/fight_result_list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="jp.blogspot.turanukimaru.fehbs.RegisteredHeroesActivity"
     tools:listitem="@layout/heroes_list_content" />

@@ -155,7 +155,7 @@ class ViewBuilder(private val locale: Locale) {
     }
 
 
-    private fun goodBadToColor(i: Int): Int = when (i) {
+    fun goodBadToColor(i: Int?): Int = when (i) {
         -1 -> Color.RED
         1 -> Color.BLUE
         else -> Color.BLACK
@@ -265,9 +265,10 @@ class ViewBuilder(private val locale: Locale) {
         override fun onNothingSelected(parent: AdapterView<*>?) {}
     }
 
+    //名前入力イベントを拾えないで旨く動かないことが多い…要らねえかなこれ
     fun addWriteEnable(rootView: View): Boolean {
-        rootView.findViewById<TextView>(R.id.add_button).enabled = false
-        rootView.findViewById<TextView>(R.id.write_button).enabled = false
+//        rootView.findViewById<TextView>(R.id.add_button).enabled = false
+//        rootView.findViewById<TextView>(R.id.write_button).enabled = false
         val baseName = rootView.findViewById<RadioButton>(R.id.baseUnitRadioButton)?.text.toString()
         val targetName = rootView.findViewById<TextView>(R.id.unitName).text.toString()
         Log.i("addWriteEnable", "$baseName $targetName")
@@ -275,9 +276,9 @@ class ViewBuilder(private val locale: Locale) {
             return true
         }
         //別名がついてるときは追加可能 　TODO:DBみて被ってるときはどっちも不可能のがいいか…
-        rootView.findViewById<TextView>(R.id.add_button).enabled = targetName != baseName
+//        rootView.findViewById<TextView>(R.id.add_button).enabled = targetName != baseName
         //ベースがスタンダードでなければ上書きが可能
-        rootView.findViewById<TextView>(R.id.write_button).enabled = !StandardBaseHero.containsKey(baseName)
+//        rootView.findViewById<TextView>(R.id.write_button).enabled = !StandardBaseHero.containsKey(baseName)
         return true
     }
 

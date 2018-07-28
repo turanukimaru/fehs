@@ -44,7 +44,12 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
      * device.
      */
     private var mTwoPane: Boolean = false
+    private val locale = LocaleAdapter(Locale.getDefault()).locale
+    private val viewBuilder = ViewBuilder(locale)
 
+    companion object {
+        val RELOAD_REQ =1
+    }
     /**
      * 初期化。
      */
@@ -71,12 +76,6 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
         val navigationView=findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
-    }
-
-    private val locale = LocaleAdapter(Locale.getDefault()).locale
-
-    constructor(parcel: Parcel) : this() {
-        mTwoPane = parcel.readByte() != 0.toByte()
     }
 
     /**
@@ -127,8 +126,15 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
 //        findViewById<Button>(R.id.close_button).setOnClickListener { view ->
 //            view.context.stopService(Intent(view.context, HeroStatusService::class.java))
 //        }
-        //TODO:受け取れるようならヒーローが追加されたのでリストを更新
-        HeroRepoReceiver.handler = Handler{message -> println("handle!");true }
+        HeroRepoReceiver.handler = Handler{
+            message -> if(message.what == RELOAD_REQ){
+            val weaponType = WeaponType.weaponTypeOf(spinnerWeapon.selectedItem.toString())
+            val moveType = MoveType.moveTypeOf(spinnerMove.selectedItem.toString())
+            val filteredUnits = ArmedHeroRepository.registeredItems().filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> (if (e.baseHero.color == 0) 4 else e.baseHero.color).toString() + e.baseHero.weaponType.sortOrder.toString() + e.localeName(locale) }
+            recyclerView.adapter = SimpleItemRecyclerViewAdapter(filteredUnits)
+
+        }
+            true }
 
     }
 
@@ -158,6 +164,7 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
                 intent.putExtra(HeroRegisterActivity.HERO_NAME, mValues[holder.adapterPosition].name)
                 context?.startActivity(intent)
             }
+
             return holder
         }
 
@@ -173,6 +180,18 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
             holder.score.text = mItem.score.toString()
             //結果表示用の領域をもう1行用意してあるんだけど要らないかなあ
             holder.skillText.text = mItem.skillText(locale)
+
+            holder.hpView.text = mItem?.maxHp.toString()
+            holder.atkView.text = mItem?.atk.toString()
+            holder.spdView.text = mItem?.spd.toString()
+            holder.defView.text = mItem?.def.toString()
+            holder.resView.text = mItem?.res.toString()
+            holder.score.text = mItem?.score.toString()
+            holder.hpTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonHp))
+            holder.atkTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonAtk))
+            holder.spdTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonSpd))
+            holder.defTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonDef))
+            holder.resTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonRes))
         }
 
         override fun getItemCount(): Int = mValues.size
@@ -188,6 +207,16 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
             val boost: TextView = mView.findViewById(R.id.boostText)
             val score: TextView = mView.findViewById(R.id.scoreText)
             val status: TextView = mView.findViewById(R.id.statusText)
+            val hpTitle: TextView = mView.findViewById(R.id.hpTitleView)
+            val hpView: TextView = mView.findViewById(R.id.hpView)
+            val atkTitle: TextView = mView.findViewById(R.id.atkTitleView)
+            val atkView: TextView = mView.findViewById(R.id.atkView)
+            val spdTitle: TextView = mView.findViewById(R.id.spdTitleView)
+            val spdView: TextView = mView.findViewById(R.id.spdView)
+            val defTitle: TextView = mView.findViewById(R.id.defTitleView)
+            val defView: TextView = mView.findViewById(R.id.defView)
+            val resTitle: TextView = mView.findViewById(R.id.resTitleView)
+            val resView: TextView = mView.findViewById(R.id.resView)
             //途中経過や顔を表示しようとしていた領域
 //            val mImageView: ImageView = mView.findViewById(R.id.itemIimageView)
             val skillText: TextView = mView.findViewById(R.id.skillText)

@@ -46,6 +46,11 @@
     <string name="spd_s_title">SPD</string>
     <string name="def_s_title">DEF</string>
     <string name="res_s_title">RES</string>
+    <string name="hp_a_title">H</string>
+    <string name="atk_a_title">A</string>
+    <string name="spd_a_title">S</string>
+    <string name="def_a_title">D</string>
+    <string name="res_a_title">R</string>
     <string name="refine_title">Refine</string>
     <string name="filter_title">Heroes filter</string>
     <string name="hero_title">Select Hero</string>
@@ -64,6 +69,7 @@
     <string name="write">Update</string>
     <string name="navigation_drawer_open">Opennavigationdrawer</string>
 <string name="navigation_drawer_close">Closenavigationdrawer</string>
+    <string name="Score">Score</string>
 
     <string-array name="weapon_type">
         <item>WEAPON</item>

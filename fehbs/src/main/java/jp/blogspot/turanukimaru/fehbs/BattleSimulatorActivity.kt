@@ -32,13 +32,6 @@ import java.util.Locale
  */
 
 class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener  {
-
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private var mTwoPane: Boolean = false
-
     /**
      * 初期化。
      */

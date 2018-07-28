@@ -86,6 +86,8 @@ class HeroRepoReceiver : BroadcastReceiver() {
                 context,
                 "create unit $unitName ",
                 Toast.LENGTH_LONG).show()
-        handler?.sendMessage(Message())
+        val msg = Message()
+        msg.what = RegisteredHeroesActivity.RELOAD_REQ
+        handler?.sendMessage(msg)
     }
 }
