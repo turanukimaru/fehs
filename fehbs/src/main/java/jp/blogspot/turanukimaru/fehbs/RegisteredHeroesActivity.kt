@@ -181,17 +181,17 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
             //結果表示用の領域をもう1行用意してあるんだけど要らないかなあ
             holder.skillText.text = mItem.skillText(locale)
 
-            holder.hpView.text = mItem?.maxHp.toString()
-            holder.atkView.text = mItem?.atk.toString()
-            holder.spdView.text = mItem?.spd.toString()
-            holder.defView.text = mItem?.def.toString()
-            holder.resView.text = mItem?.res.toString()
-            holder.score.text = mItem?.score.toString()
-            holder.hpTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonHp))
-            holder.atkTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonAtk))
-            holder.spdTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonSpd))
-            holder.defTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonDef))
-            holder.resTitle.setTextColor(viewBuilder.goodBadToColor(mItem?.boonRes))
+            holder.hpView.text = mItem.maxHp.toString()
+            holder.atkView.text = mItem.atk.toString()
+            holder.spdView.text = mItem.spd.toString()
+            holder.defView.text = mItem.def.toString()
+            holder.resView.text = mItem.res.toString()
+            holder.score.text = mItem.score.toString()
+            holder.hpTitle.setTextColor(viewBuilder.goodBadToColor(mItem.boonHp))
+            holder.atkTitle.setTextColor(viewBuilder.goodBadToColor(mItem.boonAtk))
+            holder.spdTitle.setTextColor(viewBuilder.goodBadToColor(mItem.boonSpd))
+            holder.defTitle.setTextColor(viewBuilder.goodBadToColor(mItem.boonDef))
+            holder.resTitle.setTextColor(viewBuilder.goodBadToColor(mItem.boonRes))
         }
 
         override fun getItemCount(): Int = mValues.size
