@@ -15,6 +15,9 @@ import jp.blogspot.turanukimaru.fehs.R
  * 登録画面。タブレットで2ペインでも動作するコードを基にしているが手元にタブレットが無い…
  */
 class HeroRegisterActivity : AppCompatActivity() {
+    companion object {
+        val HERO_NAME = "HERO_NAME"
+    }
     /**
      * 初期化
      */

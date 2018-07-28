@@ -88,8 +88,8 @@ class HeroStatusService : Service() {
         }
         view!!.setOnTouchListener { v, e ->
 
-            println(v)
-            println(e)
+//            println(v)
+//            println(e)
             if (e.action != ACTION_MOVE) {
                 touchedY = e.rawY.toInt()
                 true
@@ -102,7 +102,7 @@ class HeroStatusService : Service() {
                         , PixelFormat.TRANSPARENT
                 )
                 y += e.rawY.toInt() - touchedY
-                println(y)
+//                println(y)
                 newParams.gravity = Gravity.TOP or Gravity.END
                 newParams.y = y
                 windowManager!!.updateViewLayout(v, newParams)

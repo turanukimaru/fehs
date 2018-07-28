@@ -1,10 +1,15 @@
 package jp.blogspot.turanukimaru.fehbs
 
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Parcel
+import android.os.Parcelable
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.content.res.ResourcesCompat
@@ -32,7 +37,7 @@ import android.support.v7.app.ActionBarDrawerToggle
  *
  */
 
-class RegisteredHeroesActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
+class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -66,10 +71,13 @@ class RegisteredHeroesActivity : AppCompatActivity() , NavigationView.OnNavigati
         val navigationView=findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
-
     }
 
     private val locale = LocaleAdapter(Locale.getDefault()).locale
+
+    constructor(parcel: Parcel) : this() {
+        mTwoPane = parcel.readByte() != 0.toByte()
+    }
 
     /**
      * 画面の要素作成
@@ -119,6 +127,8 @@ class RegisteredHeroesActivity : AppCompatActivity() , NavigationView.OnNavigati
 //        findViewById<Button>(R.id.close_button).setOnClickListener { view ->
 //            view.context.stopService(Intent(view.context, HeroStatusService::class.java))
 //        }
+        //TODO:受け取れるようならヒーローが追加されたのでリストを更新
+        HeroRepoReceiver.handler = Handler{message -> println("handle!");true }
 
     }
 
@@ -140,7 +150,14 @@ class RegisteredHeroesActivity : AppCompatActivity() , NavigationView.OnNavigati
             val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.heroes_list_content, parent, false)
             val holder = ViewHolder(view)
-            view.onClick { view-> toast(""+holder.adapterPosition)}
+            view.onClick {
+                view->
+                //toast(mValues[holder.adapterPosition].name)
+                val context = view?.context
+                val intent = Intent(context, HeroRegisterActivity::class.java)
+                intent.putExtra(HeroRegisterActivity.HERO_NAME, mValues[holder.adapterPosition].name)
+                context?.startActivity(intent)
+            }
             return holder
         }
 
@@ -194,5 +211,4 @@ class RegisteredHeroesActivity : AppCompatActivity() , NavigationView.OnNavigati
 
         return true
     }
-
 }

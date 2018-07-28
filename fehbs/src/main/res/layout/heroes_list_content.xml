@@ -34,7 +34,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:text="status"
-                android:textSize="@dimen/mini_param_text_size" />
+                 />
 
             <TextView
                 android:id="@+id/rarityName"

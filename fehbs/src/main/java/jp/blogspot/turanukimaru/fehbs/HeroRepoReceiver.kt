@@ -3,6 +3,8 @@ package jp.blogspot.turanukimaru.fehbs
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import jp.blogspot.turanukimaru.fehs.ArmedHero
@@ -16,6 +18,7 @@ import java.util.*
 
 class HeroRepoReceiver : BroadcastReceiver() {
     companion object {
+        var handler : Handler? = null
         val extraName = "name"
         val extraBoon = "boon"
         val extraBane = "bane"
@@ -83,5 +86,6 @@ class HeroRepoReceiver : BroadcastReceiver() {
                 context,
                 "create unit $unitName ",
                 Toast.LENGTH_LONG).show()
+        handler?.sendMessage(Message())
     }
 }

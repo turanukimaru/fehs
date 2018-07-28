@@ -135,12 +135,12 @@ class ViewBuilder(private val locale: Locale) {
         rootView.findViewById<TextView>(R.id.spdView).text = it.spd.toString()
         rootView.findViewById<TextView>(R.id.defView).text = it.def.toString()
         rootView.findViewById<TextView>(R.id.resView).text = it.res.toString()
+        rootView.findViewById<TextView>(R.id.scoreText).text = it.score.toString()
         rootView.findViewById<TextView>(R.id.hpView).setTextColor(goodBadToColor(it.boonHp))
         rootView.findViewById<TextView>(R.id.atkView).setTextColor(goodBadToColor(it.boonAtk))
         rootView.findViewById<TextView>(R.id.spdView).setTextColor(goodBadToColor(it.boonSpd))
         rootView.findViewById<TextView>(R.id.defView).setTextColor(goodBadToColor(it.boonDef))
         rootView.findViewById<TextView>(R.id.resView).setTextColor(goodBadToColor(it.boonRes))
-
 
     }
 
@@ -161,7 +161,7 @@ class ViewBuilder(private val locale: Locale) {
         else -> Color.BLACK
     }
 
-    private fun createEditButtons(resources: Resources, rootView: View, armedClass: ArmedHero) {
+     fun createEditButtons(resources: Resources, rootView: View, armedClass: ArmedHero) {
         armedClass.let {
             rootView.findViewById<TextView>(R.id.unitName).text = it.localeName(locale)
             rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.weapon.localeName(locale)
@@ -274,7 +274,7 @@ class ViewBuilder(private val locale: Locale) {
         if (StandardBaseHero.containsKey(targetName)) {
             return true
         }
-        //別名がついてるときは追加可能
+        //別名がついてるときは追加可能 　TODO:DBみて被ってるときはどっちも不可能のがいいか…
         rootView.findViewById<TextView>(R.id.add_button).enabled = targetName != baseName
         //ベースがスタンダードでなければ上書きが可能
         rootView.findViewById<TextView>(R.id.write_button).enabled = !StandardBaseHero.containsKey(baseName)

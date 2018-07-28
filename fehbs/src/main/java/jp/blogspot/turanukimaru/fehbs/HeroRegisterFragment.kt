@@ -31,7 +31,7 @@ class HeroRegisterFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.unit_register_body, container, false)
 
-       setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
 
         viewBuilder.createRadioButtons(resources, rootView)
 
@@ -89,6 +89,21 @@ class HeroRegisterFragment : Fragment() {
 //        rootView.findViewById<Button>(R.id.close_button).setOnClickListener { _ ->
 //            context.stopService(Intent(context, HeroStatusService::class.java))
 //        }
+        val name = activity?.intent?.getStringExtra(HeroRegisterActivity.HERO_NAME)
+        println(activity)
+        println(activity?.intent)
+        println(activity?.intent?.getStringExtra(HeroRegisterActivity.HERO_NAME))
+        if (name != null) {
+            rootView.findViewById<TextView>(R.id.unitName).text = name
+            rootView.findViewById<TextView>(R.id.baseUnitRadioButton).text = name
+            val armedClass = ArmedHeroRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString())
+
+            if (armedClass != null) {
+                viewBuilder.createEditButtons(resources, rootView, armedClass)
+
+            }
+        }
+
         return rootView
     }
 
@@ -135,7 +150,7 @@ class HeroRegisterFragment : Fragment() {
                 Log.i("ArmedClassRegister", "R.id.action_delete GO!")
                 //削除ダイアログ作成
                 val target = activity.findViewById<TextView>(R.id.unitName)
-                val builder = AlertDialog.Builder(this.context).setMessage("Delete : "+target.text.toString()).setTitle(R.string.action_delete)
+                val builder = AlertDialog.Builder(this.context).setMessage("Delete : " + target.text.toString()).setTitle(R.string.action_delete)
                 builder.setPositiveButton(R.string.action_delete) { _, _ ->
                     if (ArmedHeroRepository.isStandardBattleClass(target.text.toString())) {
 //                    Toast.makeText(this.context, R.string.alert_default_name, Toast.LENGTH_SHORT).show()
