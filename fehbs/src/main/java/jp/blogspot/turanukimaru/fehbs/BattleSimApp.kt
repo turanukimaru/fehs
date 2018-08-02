@@ -7,7 +7,7 @@ import jp.blogspot.turanukimaru.fehs.ArmedHeroRepository
 import jp.blogspot.turanukimaru.repos.RealmArmedHeroContent
 
 /**
- * 戦闘シミュレータ起動アプリケーション
+ * 戦闘シミュレータ起動アプリケーション.シミュレータを統合したら出番があるかも
  */
 class BattleSimApp : Application() {
     override fun onCreate() {

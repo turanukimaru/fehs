@@ -30,6 +30,9 @@ data class ArmedHero(
         var spdSpur: Int = 0,
         var defSpur: Int = 0,
         var resSpur: Int = 0
+        //やんなきゃいけないんだけどあまりやりたくないなあ
+//        var adjustHeroes: Int = 0,
+//        var adjustEnemies: Int = 0
 ) {
     /**
      * 武器。錬成してるときは錬成武器

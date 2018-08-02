@@ -3,19 +3,15 @@ package jp.blogspot.turanukimaru.fehbs
 import android.app.AlertDialog
 import android.content.res.Resources
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
 import jp.blogspot.turanukimaru.fehs.skill.*
-import org.jetbrains.anko.enabled
 
 
 class ViewBuilder(private val locale: Locale) {
 
     fun createRadioButtons(resources: Resources, rootView: View) {
-        //        createSkillRadioButton(rootView, R.id.rarityRadioButton, R.string.rarities_title, R.array.rarities)
-//        createSkillRadioButton(rootView, R.id.levelBoostRadioButton, R.string.levelBoost_title, R.array.levelBoost)
         createSkillRadioButton(resources, rootView, R.id.weaponRadioButton, R.string.weapon_title, R.array.weapons_swords)
         createSkillRadioButton(resources, rootView, R.id.assistRadioButton, R.string.assist_title, R.array.assists)
         createSkillRadioButton(resources, rootView, R.id.specialRadioButton, R.string.special_title, R.array.specials)
@@ -38,7 +34,6 @@ class ViewBuilder(private val locale: Locale) {
         rootView.findViewById<RadioButton>(radioButton).setOnClickListener { v ->
             val index = strings.indexOf(rootView.findViewById<RadioButton>(radioButton).text)
             val builder = AlertDialog.Builder(v.context).setTitle(title).setCancelable(true)
-            //if式があれば三項演算子が不要なのはわかるが読みやすくはないな…
             builder.setSingleChoiceItems(strings, if (index >= 0) index else 0
                     // 選択したときは文字列をそのまま置き換える
             ) { dialog, which ->
@@ -57,7 +52,6 @@ class ViewBuilder(private val locale: Locale) {
         val armedClass = equipment(view, baseClass.baseHero)
         showParams(view, armedClass, view.findViewById<Spinner>(R.id.targetRaritySpinner).selectedItem.toString().toInt())
         buildRefines(view, armedClass)
-        addWriteEnable(view)
     }
 
     fun equipStandard(view: View, id: String) {
@@ -73,8 +67,6 @@ class ViewBuilder(private val locale: Locale) {
     }
 
     fun equipment(rootView: View, baseClass: BaseHero): ArmedHero {
-        //    println(rootView.findViewById<RadioButton>(R.id.refineRadioButton).text.toString())
-        //    println(RefinedSkill.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.refineRadioButton).text.toString()))
         return ArmedHero(
                 baseClass,
                 rootView.findViewById<TextView>(R.id.unitName).text.toString()
@@ -161,7 +153,7 @@ class ViewBuilder(private val locale: Locale) {
         else -> Color.BLACK
     }
 
-     fun createEditButtons(resources: Resources, rootView: View, armedClass: ArmedHero) {
+    fun createEditButtons(resources: Resources, rootView: View, armedClass: ArmedHero) {
         armedClass.let {
             rootView.findViewById<TextView>(R.id.unitName).text = it.localeName(locale)
             rootView.findViewById<RadioButton>(R.id.weaponRadioButton).text = it.weapon.localeName(locale)
@@ -193,15 +185,12 @@ class ViewBuilder(private val locale: Locale) {
             //装備制限はとりあえず後で考える
             createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapon.spreadItems(true).filter { e -> e.type.weaponType == it.baseHero.weaponType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.refineRadioButton, R.string.refine_title, RefinedSkill.spreadItems(armedClass.baseWeapon).map { e -> e.localeName(locale) }.toTypedArray())
-
             createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assist.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Special.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, SkillA.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.bSkillRadioButton, R.string.bSkill_title, SkillB.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.cSkillRadioButton, R.string.cSkill_title, SkillC.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.sealRadioButton, R.string.seal_title, Seal.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
-
-            addWriteEnable(rootView)
         }
 
     }
@@ -263,23 +252,6 @@ class ViewBuilder(private val locale: Locale) {
     fun boostsListener(rootView: View): AdapterView.OnItemSelectedListener? = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) = equipStandard(rootView, rootView.findViewById<Spinner>(R.id.baseUnitSpinner)?.selectedItem.toString())
         override fun onNothingSelected(parent: AdapterView<*>?) {}
-    }
-
-    //名前入力イベントを拾えないで旨く動かないことが多い…要らねえかなこれ
-    fun addWriteEnable(rootView: View): Boolean {
-//        rootView.findViewById<TextView>(R.id.add_button).enabled = false
-//        rootView.findViewById<TextView>(R.id.write_button).enabled = false
-        val baseName = rootView.findViewById<RadioButton>(R.id.baseUnitRadioButton)?.text.toString()
-        val targetName = rootView.findViewById<TextView>(R.id.unitName).text.toString()
-        Log.i("addWriteEnable", "$baseName $targetName")
-        if (StandardBaseHero.containsKey(targetName)) {
-            return true
-        }
-        //別名がついてるときは追加可能 　TODO:DBみて被ってるときはどっちも不可能のがいいか…
-//        rootView.findViewById<TextView>(R.id.add_button).enabled = targetName != baseName
-        //ベースがスタンダードでなければ上書きが可能
-//        rootView.findViewById<TextView>(R.id.write_button).enabled = !StandardBaseHero.containsKey(baseName)
-        return true
     }
 
     /**

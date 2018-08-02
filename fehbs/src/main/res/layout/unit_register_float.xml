@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@android:color/background_dark"
@@ -40,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="000"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -160,8 +159,7 @@
             android:layout_gravity="center_vertical"
             android:entries="@array/boon_type"
             android:text="@string/none"
-            android:textColor="@android:color/black"
-            />
+            android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/textView4"

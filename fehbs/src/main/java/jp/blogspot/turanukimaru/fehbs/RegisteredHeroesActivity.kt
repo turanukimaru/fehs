@@ -1,55 +1,46 @@
 package jp.blogspot.turanukimaru.fehbs
 
-import android.app.AlertDialog
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.os.Parcel
-import android.os.Parcelable
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.TextView
 import jp.blogspot.turanukimaru.fehs.*
 import kotlinx.android.synthetic.main.activity_heroes.*
-import org.jetbrains.anko.contentView
 import org.jetbrains.anko.onClick
-import org.jetbrains.anko.toast
 import java.util.Locale
-
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
 
 /**
  * 登録したユニット一覧
  *
  */
 
-class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
+class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private var mTwoPane: Boolean = false
     private val locale = LocaleAdapter(Locale.getDefault()).locale
     private val viewBuilder = ViewBuilder(locale)
 
     companion object {
-        val RELOAD_REQ =1
+        const val RELOAD_REQ = 1
     }
+
     /**
      * 初期化。
      */
@@ -64,18 +55,16 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
 
         // Show the Up button in the action bar.
         val actionBar = supportActionBar
-        //ぬるぽでおちる。画面との整合性が合わないか
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val drawer=findViewById<DrawerLayout>(R.id.drawer_layout)
-        val toggle=ActionBarDrawerToggle(
-                this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val toggle = ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
-        val navigationView=findViewById<NavigationView>(R.id.nav_view)
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
-
     }
 
     /**
@@ -114,37 +103,21 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
 
         //登録ボタン作成。ここはほぼテンプレートのまま
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-                val context = view.context
-                val intent = Intent(context, HeroRegisterActivity::class.java)
-                context.startActivity(intent)
+            val context = view.context
+            val intent = Intent(context, HeroRegisterActivity::class.java)
+            context.startActivity(intent)
         }
 
-        //ひょっとしてコンテキストがおかしかったのかなあ。でもコンテキストがおかしかったら落ちてたよな今まで
-//        findViewById<Button>(R.id.float_button).setOnClickListener { view ->
-//            view.   context.startService(Intent(view.context, HeroStatusService::class.java))
-//        }
-//        findViewById<Button>(R.id.close_button).setOnClickListener { view ->
-//            view.context.stopService(Intent(view.context, HeroStatusService::class.java))
-//        }
-        HeroRepoReceiver.handler = Handler{
-            message -> if(message.what == RELOAD_REQ){
-            val weaponType = WeaponType.weaponTypeOf(spinnerWeapon.selectedItem.toString())
-            val moveType = MoveType.moveTypeOf(spinnerMove.selectedItem.toString())
-            val filteredUnits = ArmedHeroRepository.registeredItems().filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> (if (e.baseHero.color == 0) 4 else e.baseHero.color).toString() + e.baseHero.weaponType.sortOrder.toString() + e.localeName(locale) }
-            recyclerView.adapter = SimpleItemRecyclerViewAdapter(filteredUnits)
-
+        //更新要求を受け取るレシーバ
+        HeroRepoReceiver.handler = Handler { message ->
+            if (message.what == RELOAD_REQ) {
+                val weaponType = WeaponType.weaponTypeOf(spinnerWeapon.selectedItem.toString())
+                val moveType = MoveType.moveTypeOf(spinnerMove.selectedItem.toString())
+                val filteredUnits = ArmedHeroRepository.registeredItems().filter { e -> e.have(weaponType, moveType) }.sortedBy { e -> (if (e.baseHero.color == 0) 4 else e.baseHero.color).toString() + e.baseHero.weaponType.sortOrder.toString() + e.localeName(locale) }
+                recyclerView.adapter = SimpleItemRecyclerViewAdapter(filteredUnits)
+            }
+            true
         }
-            true }
-
-    }
-
-    /**
-     * メニュー初期化
-     */
-     fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu)
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.detail, menu)
     }
 
     /**
@@ -156,10 +129,8 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
             val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.heroes_list_content, parent, false)
             val holder = ViewHolder(view)
-            view.onClick {
-                view->
-                //toast(mValues[holder.adapterPosition].name)
-                val context = view?.context
+            view.onClick { v ->
+                val context = v?.context
                 val intent = Intent(context, HeroRegisterActivity::class.java)
                 intent.putExtra(HeroRegisterActivity.HERO_NAME, mValues[holder.adapterPosition].name)
                 context?.startActivity(intent)
@@ -199,7 +170,7 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
         /**
          * リスト内のviewを管理する
          */
-        inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
             //("Can be joined with assignment") が出たらこう書ける。元はinitで初期化していた。
             var mItem: ArmedHero? = null
             val name: TextView = mView.findViewById(R.id.unitText)
@@ -218,13 +189,12 @@ class RegisteredHeroesActivity() : AppCompatActivity() , NavigationView.OnNaviga
             val resTitle: TextView = mView.findViewById(R.id.resTitleView)
             val resView: TextView = mView.findViewById(R.id.resView)
             //途中経過や顔を表示しようとしていた領域
-//            val mImageView: ImageView = mView.findViewById(R.id.itemIimageView)
             val skillText: TextView = mView.findViewById(R.id.skillText)
         }
     }
 
     /**
-     *
+     *　ナビゲーションメニュー。左から出てくるやつね。
      */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.

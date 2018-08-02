@@ -1,6 +1,5 @@
 package jp.blogspot.turanukimaru.fehbs
 
-import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
@@ -16,8 +15,9 @@ import jp.blogspot.turanukimaru.fehs.R
  */
 class HeroRegisterActivity : AppCompatActivity() {
     companion object {
-        val HERO_NAME = "HERO_NAME"
+       const val HERO_NAME = "HERO_NAME"
     }
+
     /**
      * 初期化
      */

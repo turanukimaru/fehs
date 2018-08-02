@@ -15,18 +15,21 @@ import jp.blogspot.turanukimaru.fehs.skill.Skill
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/**
+ * サービスから登録・画面の更新を呼ぶためのレシーバ
+ */
 class HeroRepoReceiver : BroadcastReceiver() {
-    companion object {
-        var handler : Handler? = null
-        val extraName = "name"
-        val extraBoon = "boon"
-        val extraBane = "bane"
-        val extraRarity = "rarity"
-        val actionAddHero = "jp.blogspot.turanukimaru.fehbs.ADD_HERO"
 
+    companion object {
+        var handler: Handler? = null
+        const val extraName = "name"
+        const val extraBoon = "boon"
+        const val extraBane = "bane"
+        const val extraRarity = "rarity"
+        private const val actionAddHero = "jp.blogspot.turanukimaru.fehbs.ADD_HERO"
+
+        //送信用関数
         fun sendMessage(caller: Context, name: String, boon: String, bane: String, rarity: Int) {
-//            val intent = Intent(caller, HeroRegisterActivity::class.java)
             val intent = Intent()
             intent.action = actionAddHero
             intent.putExtra(extraName, name)
@@ -34,15 +37,13 @@ class HeroRepoReceiver : BroadcastReceiver() {
             intent.putExtra(extraBane, bane)
             intent.putExtra(extraRarity, rarity)
             caller.sendBroadcast(intent)
-//            val manager = LocalBroadcastManager.getInstance(caller.applicationContext)
-//            manager.sendBroadcast(intent)
             Log.i("HeroStatusService", "send intent $name $boon $bane $rarity")
-
         }
     }
 
     private val locale = LocaleAdapter(Locale.getDefault()).locale
 
+    //受信用メソッド
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.i("HeroRepoReceiver", "onReceive")
         if (intent == null) return
@@ -88,6 +89,7 @@ class HeroRepoReceiver : BroadcastReceiver() {
                 Toast.LENGTH_LONG).show()
         val msg = Message()
         msg.what = RegisteredHeroesActivity.RELOAD_REQ
+        //リスト更新要求
         handler?.sendMessage(msg)
     }
 }

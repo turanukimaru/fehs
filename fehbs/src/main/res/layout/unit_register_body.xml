@@ -357,7 +357,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/Score"
-            android:textIsSelectable="true"/>
+            android:textIsSelectable="true" />
 
         <TextView
             android:id="@+id/scoreText"
@@ -367,7 +367,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="000"
-            android:textIsSelectable="true"/>
+            android:textIsSelectable="true" />
 
     </LinearLayout>
 
@@ -729,7 +729,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/unit_detail_name"
-            android:textIsSelectable="true"/>
+            android:textIsSelectable="true" />
 
         <EditText
             android:id="@+id/unitName"
@@ -739,7 +739,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:visibility="visible"/>
+            android:visibility="visible" />
     </LinearLayout>
 
     <LinearLayout
@@ -753,14 +753,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/add"/>
+            android:text="@string/add" />
 
         <Button
             android:id="@+id/write_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/write"/>
+            android:text="@string/write" />
 
     </LinearLayout>
 </LinearLayout>

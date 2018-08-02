@@ -44,13 +44,11 @@ class HeroRegisterFragment : Fragment() {
         spinnerWeapon.onItemSelectedListener = spinnerListener
         spinnerMove.onItemSelectedListener = spinnerListener
 
-
         rootView.findViewById<Spinner>(R.id.boonRadioButton).onItemSelectedListener = viewBuilder.boostsSpinnerListener(rootView)
         rootView.findViewById<Spinner>(R.id.baneRadioButton).onItemSelectedListener = viewBuilder.boostsSpinnerListener(rootView)
         rootView.findViewById<Spinner>(R.id.raritySpinner).onItemSelectedListener = viewBuilder.boostsSpinnerListener(rootView)
         rootView.findViewById<Spinner>(R.id.targetRaritySpinner).onItemSelectedListener = viewBuilder.boostsSpinnerListener(rootView)
         rootView.findViewById<Spinner>(R.id.levelBoostSpinner).onItemSelectedListener = viewBuilder.boostsSpinnerListener(rootView)
-        rootView.findViewById<TextView>(R.id.unitName).setOnEditorActionListener { _, _, _ -> viewBuilder.addWriteEnable(rootView) }
 
         //保存ボタンの動作。長いときは別にしたほうが良いけどこっちの描き方だとクロージャが使えるんだよな
         rootView.findViewById<Button>(R.id.add_button).setOnClickListener { _ ->
@@ -75,32 +73,22 @@ class HeroRegisterFragment : Fragment() {
             val baseClass = ArmedHeroRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString())
                     ?: return@setOnClickListener
             val armedClass = viewBuilder.equipment(rootView, baseClass.baseHero)
-            //自作のユニットを更新したときは元を消す。…選択式にしたほうが良いか
+            //自作のユニットを更新したときは元を消す。
             RealmArmedHeroContent.deleteById(baseClass.name)
             ArmedHeroRepository.createItem(armedClass)
             rootView.findViewById<Button>(R.id.baseUnitRadioButton).text = armedClass.name
             Toast.makeText(rootView.context, R.string.alert_update_unit, Toast.LENGTH_SHORT).show()
             viewBuilder.createUnitRadioButton(resources, rootView, R.id.baseUnitRadioButton, R.string.unit_name_title)
         }
-
-//        rootView.findViewById<Button>(R.id.float_button).setOnClickListener { _ ->
-//            context.startService(Intent(context, HeroStatusService::class.java))
-//        }
-//        rootView.findViewById<Button>(R.id.close_button).setOnClickListener { _ ->
-//            context.stopService(Intent(context, HeroStatusService::class.java))
-//        }
         val name = activity?.intent?.getStringExtra(HeroRegisterActivity.HERO_NAME)
         if (name != null) {
             rootView.findViewById<TextView>(R.id.unitName).text = name
             rootView.findViewById<TextView>(R.id.baseUnitRadioButton).text = name
             val armedClass = ArmedHeroRepository.getById(rootView.findViewById<Button>(R.id.baseUnitRadioButton).text.toString())
-
             if (armedClass != null) {
                 viewBuilder.createEditButtons(resources, rootView, armedClass)
-
             }
         }
-
         return rootView
     }
 
@@ -119,17 +107,6 @@ class HeroRegisterFragment : Fragment() {
     }
 
     /**
-     * インテント用定数。もう使うことはないかな？
-     */
-    companion object {
-        /**
-         * The fragment argument representing the item ID that this fragment
-         * represents.
-         */
-        const val ARG_ITEM_ID = "item_id"
-    }
-
-    /**
      * メニューとか。今は削除のみ
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -138,11 +115,6 @@ class HeroRegisterFragment : Fragment() {
         Log.i("ArmedClassRegister", R.id.action_delete.toString())
         //新規の時はなにもしない。削除項目を出さないほうが良いかね
         when (id) {
-//            R.id.action_list -> {
-//                val context = view!!.context
-//                val intent = Intent(context,  HeroRegisterActivity::class.java)
-//                context.startActivity(intent)
-//            }
             R.id.action_delete -> {
                 Log.i("ArmedClassRegister", "R.id.action_delete GO!")
                 //削除ダイアログ作成
@@ -150,7 +122,6 @@ class HeroRegisterFragment : Fragment() {
                 val builder = AlertDialog.Builder(this.context).setMessage("Delete : " + target.text.toString()).setTitle(R.string.action_delete)
                 builder.setPositiveButton(R.string.action_delete) { _, _ ->
                     if (ArmedHeroRepository.isStandardBattleClass(target.text.toString())) {
-//                    Toast.makeText(this.context, R.string.alert_default_name, Toast.LENGTH_SHORT).show()
                         return@setPositiveButton
                     }
                     RealmArmedHeroContent.deleteById(target.text.toString())

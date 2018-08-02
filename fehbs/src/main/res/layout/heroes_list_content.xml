@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:padding="2dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="2dp">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/unitText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="2"
+            android:ems="10"
+            android:textColor="@android:color/black"
+            android:text="Name                                                                                                                                                         " />
 
-            <TextView
-                android:id="@+id/unitText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:textColor="@android:color/black"
-                android:text="Name                                                                                                                                                         "/>
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="0"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/statusText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="0"
-                android:visibility="gone"/>
-
-        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +48,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:text="@string/hp_a_title"
-                android:textSize="@dimen/mini_param_text_size"/>
+                android:textSize="@dimen/mini_param_text_size" />
 
             <TextView
                 android:id="@+id/hpView"
@@ -58,7 +57,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00"/>
+                android:text="00" />
 
             <TextView
                 android:id="@+id/atkTitleView"
@@ -67,7 +66,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:text="@string/atk_a_title"
-                android:textSize="@dimen/mini_param_text_size"/>
+                android:textSize="@dimen/mini_param_text_size" />
 
             <TextView
                 android:id="@+id/atkView"
@@ -76,7 +75,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00"/>
+                android:text="00" />
 
             <TextView
                 android:id="@+id/spdTitleView"
@@ -85,7 +84,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:text="@string/spd_a_title"
-                android:textSize="@dimen/mini_param_text_size"/>
+                android:textSize="@dimen/mini_param_text_size" />
 
             <TextView
                 android:id="@+id/spdView"
@@ -94,7 +93,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00"/>
+                android:text="00" />
 
             <TextView
                 android:id="@+id/defTitleView"
@@ -103,7 +102,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:text="@string/def_a_title"
-                android:textSize="@dimen/mini_param_text_size"/>
+                android:textSize="@dimen/mini_param_text_size" />
 
             <TextView
                 android:id="@+id/defView"
@@ -112,7 +111,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00"/>
+                android:text="00" />
 
             <TextView
                 android:id="@+id/resTitleView"
@@ -121,7 +120,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:text="@string/res_a_title"
-                android:textSize="@dimen/mini_param_text_size"/>
+                android:textSize="@dimen/mini_param_text_size" />
 
             <TextView
                 android:id="@+id/resView"
@@ -130,7 +129,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00"/>
+                android:text="00" />
 
         </LinearLayout>
 
@@ -146,14 +145,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/mini_param_text_size"
-                android:text="☆"/>
+                android:text="☆" />
 
             <TextView
                 android:id="@+id/rarityText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"/>
+                android:text="0" />
 
             <TextView
                 android:id="@+id/plusName"
@@ -161,46 +160,46 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/mini_param_text_size"
-                android:text="+"/>
+                android:text="+" />
 
             <TextView
                 android:id="@+id/boostText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"/>
+                android:text="0" />
 
             <TextView
                 android:id="@+id/scoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="score: "/>
+                android:text="score: " />
 
             <TextView
                 android:id="@+id/scoreText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="000"/>
+                android:text="000" />
         </LinearLayout>
 
 
     </LinearLayout>
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/skillText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:visibility="visible">
+            android:text="                      " />
 
-            <TextView
-                android:id="@+id/skillText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="                      " />
-
-        </LinearLayout>
     </LinearLayout>
+</LinearLayout>

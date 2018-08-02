@@ -16,7 +16,9 @@ import android.widget.Spinner
 import jp.blogspot.turanukimaru.fehs.R
 import org.jetbrains.anko.onClick
 
-
+/**
+ * Floating Status Calc ゲームと同時に起動するのでサービス
+ */
 class HeroStatusService : Service() {
 
     private val locale = LocaleAdapter(java.util.Locale.getDefault()).locale
@@ -34,22 +36,12 @@ class HeroStatusService : Service() {
         dpScale = resources.displayMetrics.density.toInt()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (view != null) {
-            return super.onStartCommand(intent, flags, startId)
-        }
-
-        // inflaterの生成
-        val layoutInflater = LayoutInflater.from(this)
-
+    // API ver の高い奴はこっち。昔の奴だと動かないのでとりあえず昔のAPI叩く
 //        val typeLayer = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        val typeLayer = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+    private val typeLayer = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
 
-
-        windowManager = applicationContext
-                .getSystemService(Context.WINDOW_SERVICE) as WindowManager
-
-        val params = WindowManager.LayoutParams(
+    private val windowParams
+        get() = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 typeLayer,
@@ -57,13 +49,26 @@ class HeroStatusService : Service() {
                 , PixelFormat.TRANSPARENT
         )
 
+    /**
+     *     他アプリからStartService()で起動される
+     */
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        //多重起動避け
+        if (view != null) return super.onStartCommand(intent, flags, startId)
+
+        // inflaterの生成
+        val layoutInflater = LayoutInflater.from(this)
+        windowManager = applicationContext
+                .getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+        // background color を書いておかないと透けるので注意が必要。透けないようにする設定は見つからない。
         // 配置は考える必要があるけどサイズギリギリだから考えるだけ無駄かな…
+        val params = windowParams
         params.gravity = Gravity.TOP or Gravity.END
         y = 88 * dpScale
         params.y = y
 
         // レイアウトファイルからInfalteするViewを作成
-//        val nullParent: ViewGroup? = null
         view = layoutInflater.inflate(R.layout.unit_register_float, null)
 
         val spinnerWeapon = view!!.findViewById<Spinner>(R.id.spinner_weapon3)
@@ -84,29 +89,18 @@ class HeroStatusService : Service() {
             val bane = view!!.findViewById<Spinner>(R.id.baneRadioButton).selectedItem.toString()
             val rarity = view!!.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
             HeroRepoReceiver.sendMessage(this, name, boon, bane, rarity)
-            //    stopSelf()
         }
-        view!!.setOnTouchListener { v, e ->
 
-//            println(v)
-//            println(e)
+        view!!.setOnTouchListener { v, e ->
             if (e.action != ACTION_MOVE) {
                 touchedY = e.rawY.toInt()
                 true
             } else {
-                val newParams = WindowManager.LayoutParams(
-                        WindowManager.LayoutParams.WRAP_CONTENT,
-                        WindowManager.LayoutParams.WRAP_CONTENT,
-                        typeLayer,
-                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        , PixelFormat.TRANSPARENT
-                )
+                val newParams = windowParams
                 y += e.rawY.toInt() - touchedY
-//                println(y)
                 newParams.gravity = Gravity.TOP or Gravity.END
                 newParams.y = y
                 windowManager!!.updateViewLayout(v, newParams)
-
                 touchedY = e.rawY.toInt()
                 true
             }
@@ -118,6 +112,7 @@ class HeroStatusService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    //終了時にリソース開放
     override fun onDestroy() {
         super.onDestroy()
         Log.d("debug", "onDestroy")
@@ -126,8 +121,8 @@ class HeroStatusService : Service() {
         view = null
     }
 
+    //インタフェースなので必須だが何もしない
     override fun onBind(intent: Intent): IBinder? {
-        // TODO Auto-generated method stub
         return null
     }
 }

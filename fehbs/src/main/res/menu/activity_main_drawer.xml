@@ -2,18 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view"
-      tools:context="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity"
-    >
+    tools:context="jp.blogspot.turanukimaru.fehbs.BattleSimulatorActivity">
 
     <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_open_calc"
-                    android:icon="@drawable/ic_menu_search"
-                    android:title="Floating Status Calc" />
-                <item
-                    android:id="@+id/nav_close_calc"
-                    android:icon="@drawable/ic_menu_close_clear_cancel"
-                    android:title="Close Status Calc↑" />
+        <item
+            android:id="@+id/nav_open_calc"
+            android:icon="@drawable/ic_menu_search"
+            android:title="Floating Status Calc" />
+        <item
+            android:id="@+id/nav_close_calc"
+            android:icon="@drawable/ic_menu_close_clear_cancel"
+            android:title="Close Status Calc↑" />
         <!--
                 <item
                     android:id="@+id/nav_camera"

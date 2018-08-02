@@ -23,7 +23,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <LinearLayout
@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/filter_title"/>
+                        android:text="@string/filter_title" />
 
                     <Spinner
                         android:id="@+id/spinner_weapon"

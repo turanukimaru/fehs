@@ -2,7 +2,6 @@ package jp.blogspot.turanukimaru.fehbs
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -13,9 +12,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -23,7 +19,6 @@ import jp.blogspot.turanukimaru.fehs.*
 import kotlinx.android.synthetic.main.activity_heroes.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.onClick
-import org.jetbrains.anko.toast
 import java.util.Locale
 
 
@@ -31,7 +26,7 @@ import java.util.Locale
  * 戦闘シミュ画面。Appから呼ばれる。
  */
 
-class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener  {
+class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     /**
      * 初期化。
      */
@@ -108,9 +103,8 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             Log.i("BattleSimulatorActivity", "armedHero : $armedClass")
             val battleUnit = buildBattleUnit(armedClass)
             battleUnit.defensiveTerrain = findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked || battleUnit.defensiveTerrain
-            //TODO:編集画面にも隣接ユニット数を追加すること
+            //adjacentUnitsの扱いは再検討必要だよなあ
             battleUnit.adjacentUnits = if (findViewById<CheckBox>(R.id.adjacentCheckBox).isChecked) 1 else 0
-//            battleUnit.spdBuff =  findSpinnerValOrNull(R.id.spdBuffSpinner) ?: armedClass.spdBuff
             battleUnit.atkBuff = findSpinnerValOrNull(R.id.atkBuffSpinner) ?: armedClass.atkBuff
             battleUnit.spdBuff = findSpinnerValOrNull(R.id.spdBuffSpinner) ?: armedClass.spdBuff
             battleUnit.defBuff = findSpinnerValOrNull(R.id.defBuffSpinner) ?: armedClass.defBuff
@@ -195,19 +189,12 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
         }
         //登録ボタン作成。ここはほぼテンプレートのまま
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-                val context = view.context
-                val intent = Intent(context,RegisteredHeroesActivity::class.java)
-                context.startActivity(intent)
+            val context = view.context
+            val intent = Intent(context, RegisteredHeroesActivity::class.java)
+            context.startActivity(intent)
         }
 
-//        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-  //      val drawer=findViewById<DrawerLayout>(R.id.drawer_layout)
-//        val toggle=ActionBarDrawerToggle(
-//                this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
-//        drawer.addDrawerListener(toggle)
-//        toggle.syncState()
-
-        val navigationView=findViewById<NavigationView>(R.id.nav_view)
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
     }
@@ -219,9 +206,6 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
         battleUnit.armedHero.boon = if (boon != BoonType.NONE) boon else battleUnit.armedHero.boon
         battleUnit.armedHero.bane = if (bane != BoonType.NONE) bane else battleUnit.armedHero.bane
         battleUnit.armedHero.levelBoost = findSpinnerValOrNull(R.id.levelBoostSpinner) ?: armedClass.levelBoost
-        println(findViewById<Spinner>(R.id.levelBoostSpinner))
-        println(findViewById<Spinner>(R.id.levelBoostSpinner)?.selectedItem)
-        println(findViewById<Spinner>(R.id.levelBoostSpinner)?.selectedItem?.toString())
         battleUnit.armedHero.equip()
         return battleUnit
     }
@@ -264,11 +248,6 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
     }
 
     /**
-     * メニュー項目を推したときの処理
-     */
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean = super.onOptionsItemSelected(item)
-
-    /**
      * リスト作ってるところ。ここでRealmから取り出せばいいか
      */
     inner class SimpleItemRecyclerViewAdapter(private val mValues: List<List<AttackResult>>, private val switch: Boolean) : RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
@@ -290,7 +269,6 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             if (switch) {
                 holder.sourceHp.text = target.hp.toString()
                 holder.targetHp.text = source.hp.toString()
-//                holder.mSpecView.text = source.armedHero.localeName(locale)
                 holder.unitText.text = source.armedHero.localeName(locale)
                 holder.mView.findViewById<TextView>(R.id.unitText).setTextColor(when {
                     target.hp == 0 -> Color.RED
@@ -301,7 +279,6 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             } else {
                 holder.sourceHp.text = source.hp.toString()
                 holder.targetHp.text = target.hp.toString()
-//                holder.mSpecView.text = target.armedHero.localeName(locale)
                 holder.unitText.text = target.armedHero.localeName(locale)
                 holder.mView.findViewById<TextView>(R.id.unitText).setTextColor(when {
                     source.hp == 0 -> Color.RED
@@ -310,22 +287,10 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
                 })
                 holder.statusText.text = target.armedHero.statusText
             }
-            //結果表示用の領域をもう1行用意してあるんだけど要らないかなあ
-//            holder.progressText.text = mItem.detail
-//            holder.unitText.text = mItem.date
 
             holder.progressText.text = mItem.fold("") { string, item -> string + " " + item.detailsShort(if (switch) SIDES.COUNTER else SIDES.ATTACKER, locale) }
-            //オンクリック時の動作。TODO:スキル効果を全部書きたいところだが
+            //オンクリック時の動作。スキル効果を全部書きたいところだけど別にテキスト起こさないといけないんだよね…
 //            holder.mView.setOnClickListener { _ ->
-            //                if (mTwoPane) {
-//                    val arguments = Bundle()
-//                    arguments.putString(ArmedClassRegisterFragment.ARG_ITEM_ID, holder.mItem!!.id.toString())//!!はnullの時に例外
-//                    val fragment = ArmedClassRegisterFragment()
-//                    fragment.arguments = arguments
-//                    supportFragmentManager.beginTransaction()//FragmentActivity.getSupportFragmentManager
-//                            .replace(R.id.sake_detail_container, fragment)
-//                            .commit()
-//                } else {
 //                toast(mItem.fold(
 //                        "", { string, item -> string + "\r\n" + item.details() }
 //                ))
@@ -344,9 +309,6 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             val targetHp: TextView = mView.findViewById(R.id.targetHp)
             val unitText: TextView = mView.findViewById(R.id.unitText)
             val statusText: TextView = mView.findViewById(R.id.statusText)
-            //            val mSpecView: TextView = mView.findViewById(R.id.itemSpec)
-            //途中経過や顔を表示しようとしていた領域
-//            val mImageView: ImageView = mView.findViewById(R.id.itemIimageView)
             val progressText: TextView = mView.findViewById(R.id.progressText)
 
             override fun toString(): String = mItem!!.last().side.name

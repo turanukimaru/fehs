@@ -68,7 +68,7 @@
     <string name="add">Add</string>
     <string name="write">Update</string>
     <string name="navigation_drawer_open">Opennavigationdrawer</string>
-<string name="navigation_drawer_close">Closenavigationdrawer</string>
+    <string name="navigation_drawer_close">Closenavigationdrawer</string>
     <string name="Score">Score</string>
 
     <string-array name="weapon_type">
