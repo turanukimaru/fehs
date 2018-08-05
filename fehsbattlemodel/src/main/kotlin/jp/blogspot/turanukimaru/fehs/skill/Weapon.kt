@@ -282,14 +282,14 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     HarmonicLance(Name.HarmonicLance, SkillType.LANCE, 9, SteelLance) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
-    HarmonicLance2(Name.HarmonicLance2, SkillType.LANCE, 13, HarmonicLance,refinedSkillType=  RefinedSkill.RefineType.Range1) {
+    HarmonicLance2(Name.HarmonicLance2, SkillType.LANCE, 13, HarmonicLance, refinedSkillType = RefinedSkill.RefineType.Range1) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     Rhomphaia(Name.Rhomphaia, SkillType.LANCE, 16, SilverLance2, SpType.LEGEND, RefinedSkill.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY, MoveType.ARMORED)),
     ShellLance(Name.ShellLance, SkillType.LANCE, 10, SteelLance) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
-    ShellLance2(Name.ShellLance2, SkillType.LANCE, 14, ShellLance,refinedSkillType= RefinedSkill.RefineType.Range1) {
+    ShellLance2(Name.ShellLance2, SkillType.LANCE, 14, ShellLance, refinedSkillType = RefinedSkill.RefineType.Range1) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
     DauntlessLance(Name.DauntlessLance, SkillType.LANCE, 16, SlayingSpear2, SpType.LEGEND, RefinedSkill.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
@@ -298,7 +298,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     ReprisalLance(Name.ReprisalLance, SkillType.LANCE, 10, SteelLance) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 6)
     },
-    ReprisalLance2(Name.ReprisalLance2, SkillType.LANCE, 14, ReprisalLance, refinedSkillType= RefinedSkill.RefineType.Range1) {
+    ReprisalLance2(Name.ReprisalLance2, SkillType.LANCE, 14, ReprisalLance, refinedSkillType = RefinedSkill.RefineType.Range1) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 6)
     },
     //AXE
@@ -505,17 +505,22 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
             blowAtk(blowSpd(battleUnit, 5), 5)
         } else battleUnit, enemy, lv)
     },
-    Cocobow(Name.Cocobow, SkillType.BOW, 8, SteelBow) {
+    Cocobow(Name.Cocobow, SkillType.BOW, 8, SteelBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
-    Cocobow2(Name.Cocobow2, SkillType.BOW, 12, Cocobow, SpType.LEGEND, RefinedSkill.RefineType.Range1) {
+    Cocobow2(Name.Cocobow2, SkillType.BOW, 12, Cocobow, SpType.LEGEND, RefinedSkill.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
-    FishieBow(Name.FishieBow, SkillType.BOW, 10, SteelBow) {
+    FishieBow(Name.FishieBow, SkillType.BOW, 10, SteelBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
-    FishieBow2(Name.FishieBow2, SkillType.BOW, 12, FishieBow, SpType.LEGEND, RefinedSkill.RefineType.Range2) {
+    FishieBow2(Name.FishieBow2, SkillType.BOW, 12, FishieBow, SpType.LEGEND, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
+    },
+    Thogn(Name.Thogn, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipSpd(armedHero, 3), lv)
+        //マップ実装時には敵ユニット数との判定が必要
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.effectiveRange == 1) allBonus(battleUnit, 4) else battleUnit
     },
 
 

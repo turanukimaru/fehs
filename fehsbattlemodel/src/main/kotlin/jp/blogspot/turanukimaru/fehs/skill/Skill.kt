@@ -662,7 +662,7 @@ interface Skill {
     }
 
     /**
-     * すべてにボーナス。粉塵とか
+     * すべてにボーナス。オウルとか。粉塵はステータスが変化するので違う
      */
     fun allBonus(battleUnit: BattleUnit, i: Int): BattleUnit {
         battleUnit.atkEffect += i

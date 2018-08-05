@@ -614,8 +614,8 @@ object StandardBaseHero {
                 Weapon.WoGun2, null, Special.Noontime, null, SkillB.Renewal.lv(3), SkillC.SpurAtkRes.lv(2))
 
 
-        createItem(Name.ルキナ, 2, WeaponType.BOW, MoveType.INFANTRY, 5, 17, 8, 9, 6, 5, 5, 8, 8, 5, 3,
-                Weapon.Thogn, FutureVision, null, SkillA.SwiftSparrow.lv(3), SkillB.WingsOfMercy, SkillC.DistantGuard.lv(3))
+        createItem(Name.ルキナ__伝承英雄_, 2, WeaponType.BOW, MoveType.INFANTRY, 5, 17, 8, 9, 6, 5, 5, 8, 8, 5, 3,
+                Weapon.Thogn, Assist.FutureVision, null, SkillA.SwiftSparrow.lv(3), SkillB.WingsOfMercy, SkillC.DistantGuard.lv(3))
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }

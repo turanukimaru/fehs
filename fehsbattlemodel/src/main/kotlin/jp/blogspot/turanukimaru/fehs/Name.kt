@@ -1040,9 +1040,9 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     BracingStance("金剛明鏡の構え","Bracing Stance","Bracing Stance"),
     WoGun("倭棍","Wo Gùn","Wo Gùn"),
     WoGun2("倭棍＋","Wo Gùn+","Wo Gùn+"),
-    Thogn ("","Thögn","Thögn"),
-    FutureVision ("","Future Vision","Future Vision"),
-    DistantGuard ("","Distant Guard","Distant Guard"),
+    Thogn ("ソグン","Thögn","索軍"),
+    FutureVision ("未来を映す瞳","Future Vision","映照未來的眼眸"),
+    DistantGuard ("遠距離警戒","Distant Guard","遠距離警戒"),
     ;
 
     /**
