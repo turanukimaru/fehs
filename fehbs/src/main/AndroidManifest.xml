@@ -67,12 +67,13 @@
 
         <service android:name="jp.blogspot.turanukimaru.fehbs.HeroStatusService" />
 
-
+<!--
         <receiver android:name="jp.blogspot.turanukimaru.fehbs.HeroRepoReceiver">
             <intent-filter>
                 <action android:name="jp.blogspot.turanukimaru.fehbs.ADD_HERO" />
             </intent-filter>
         </receiver>
+        -->
     </application>
 
 </manifest>

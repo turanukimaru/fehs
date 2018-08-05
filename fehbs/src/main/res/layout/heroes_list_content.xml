@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -17,7 +18,7 @@
             android:layout_weight="2"
             android:ems="10"
             android:textColor="@android:color/black"
-            android:text="Name                                                                                                                                                         " />
+            android:text="" />                                                                                                                                                         " />
 
         <TextView
             android:id="@+id/statusText"
@@ -30,6 +31,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -45,7 +47,6 @@
                 android:id="@+id/hpTitleView"
                 android:layout_width="16dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:ems="2"
                 android:text="@string/hp_a_title"
                 android:textSize="@dimen/mini_param_text_size" />
@@ -57,7 +58,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/atkTitleView"
@@ -75,7 +76,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/spdTitleView"
@@ -93,7 +94,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/defTitleView"
@@ -111,7 +112,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/resTitleView"
@@ -129,7 +130,7 @@
                 android:layout_weight="1"
                 android:ems="2"
                 android:textColor="@android:color/black"
-                android:text="00" />
+                android:text="" />
 
         </LinearLayout>
 
@@ -143,16 +144,14 @@
                 android:id="@+id/rarityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:textSize="@dimen/mini_param_text_size"
-                android:text="☆" />
+                android:text="@string/rarities_title" />
 
             <TextView
                 android:id="@+id/rarityText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/plusName"
@@ -167,21 +166,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/scoreName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="score: " />
+                android:text="@string/Score_mini" />
 
             <TextView
                 android:id="@+id/scoreText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="000" />
+                android:text="" />
         </LinearLayout>
 
 
@@ -198,8 +197,7 @@
             android:id="@+id/skillText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="                      " />
+            android:text="" />
 
     </LinearLayout>
 </LinearLayout>

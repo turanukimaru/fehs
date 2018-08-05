@@ -87,6 +87,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     EvenSpdWave(Name.EvenSpdWave, SkillType.C, spType = SpType.BASE60),
     InfantryRush(Name.InfantryRush, SkillType.C, spType = SpType.BASE60),
     OstiasPulse(Name.OstiasPulse, SkillType.C, spType = SpType.EXCLUSIVE),
+    DistantGuard(Name.DistantGuard, SkillType.C, spType = SpType.BASE60),
     ;
 
     /**

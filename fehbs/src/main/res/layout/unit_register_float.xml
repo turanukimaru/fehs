@@ -18,8 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:entries="@array/weapons_swords"
-
-            android:text="------------------" />
+            android:text="@string/spacer" />
 
         <Spinner
             android:id="@+id/spinner_weapon3"
@@ -35,10 +34,10 @@
 
         <TextView
             android:id="@+id/scoreText"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="000"
+            android:text=""
             android:visibility="invisible" />
 
     </LinearLayout>
@@ -166,7 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="        " />
+            android:text="@string/spacer" />
 
         <Button
             android:id="@+id/close_button"

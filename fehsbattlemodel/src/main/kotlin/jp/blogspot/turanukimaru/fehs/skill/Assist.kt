@@ -33,7 +33,7 @@ enum class Assist(override val jp: Name, override val type: SkillType, override 
     Shove(Name.Shove, SkillType.ASSIST),
     Smite(Name.Smite, SkillType.ASSIST),
     HarshCommand(Name.HarshCommand, SkillType.ASSIST),
-
+    FutureVision(Name.FutureVision, SkillType.ASSIST, spType = SpType.LEGEND),
     //杖の＋どうするかな。実装のメリットあんましないよなあ
     Heal(Name.Heal, SkillType.ASSIST),
     Reconcile(Name.Reconcile, SkillType.ASSIST),

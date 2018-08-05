@@ -5,7 +5,7 @@
     <string name="pre_name">FEH Battle Simulator</string>
     <string name="hero_list_name"> </string>
     <string name="action_float">Floating Status Calc</string>
-    <string name="close_float">Close Status Calc</string>
+    <string name="close_float">Close Status Calc↑</string>
     <string name="action_list">Heroes List</string>
     <string name="action_delete">Delete Hero</string>
     <string name="action_cancel">Cancel</string>
@@ -70,6 +70,10 @@
     <string name="navigation_drawer_open">Opennavigationdrawer</string>
     <string name="navigation_drawer_close">Closenavigationdrawer</string>
     <string name="Score">Score</string>
+    <string name="Score_mini">score : </string>
+    <string name="spacer">        </string>
+    <string name="max_rarity">5</string>
+    <string name="zero">0</string>
 
     <string-array name="weapon_type">
         <item>WEAPON</item>

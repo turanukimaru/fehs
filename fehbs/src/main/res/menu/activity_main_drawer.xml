@@ -8,11 +8,11 @@
         <item
             android:id="@+id/nav_open_calc"
             android:icon="@drawable/ic_menu_search"
-            android:title="Floating Status Calc" />
+            android:title="@string/action_float" />
         <item
             android:id="@+id/nav_close_calc"
             android:icon="@drawable/ic_menu_close_clear_cancel"
-            android:title="Close Status Calc↑" />
+            android:title="@string/close_float" />
         <!--
                 <item
                     android:id="@+id/nav_camera"

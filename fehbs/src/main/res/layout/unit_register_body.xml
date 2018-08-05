@@ -46,7 +46,7 @@
 
         <RadioButton
             android:id="@+id/baseUnitRadioButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="2"
@@ -253,7 +253,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:entries="@array/rarities"
-            android:text="5" />
+            android:text="@string/max_rarity" />
 
         <TextView
             style="?android:attr/textAppearanceLarge"
@@ -272,7 +272,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:entries="@array/rarities"
-            android:text="5" />
+            android:text="@string/max_rarity" />
 
         <TextView
             android:id="@+id/textView8"
@@ -292,7 +292,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:entries="@array/levelBoosts"
-            android:text="0" />
+            android:text="@string/zero" />
 
     </LinearLayout>
 
@@ -366,7 +366,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="000"
+            android:text=""
             android:textIsSelectable="true" />
 
     </LinearLayout>
@@ -477,7 +477,7 @@
 
         <RadioButton
             android:id="@+id/aSkillRadioButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
@@ -524,7 +524,7 @@
 
         <RadioButton
             android:id="@+id/cSkillRadioButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
@@ -549,7 +549,7 @@
 
         <RadioButton
             android:id="@+id/sealRadioButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
@@ -650,7 +650,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:orientation="horizontal"
         android:padding="2dp">
 
@@ -733,7 +732,7 @@
 
         <EditText
             android:id="@+id/unitName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"

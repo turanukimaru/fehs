@@ -26,6 +26,7 @@
                 android:layout_height="match_parent"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+            <!-- warning出るけどソートとか入れる予定なので残す -->
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"

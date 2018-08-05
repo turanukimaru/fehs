@@ -206,6 +206,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     ルキナ__春_("ルキナ（春）", "Lucina (Spring)", "露琪娜"),
     ルキナ__総選挙_("ルキナ（総選挙）", "Lucina (Brave Heroes)", "露琪娜 (Brave Heroes)"),
     ルセア("ルセア", "Lucius", "魯賽亞"),
+    ルキナ__伝承英雄_("ルキナ（伝承英雄）", "Lucina (Vanguard Legend)", "露琪娜 (Vanguard Legend)"),
     ルフレ__冬_("ルフレ（冬）", "Robin (M) (Winter's Envoy)", "魯弗萊 (Winter's Envoy)"),
     ルフレ__夏_("ルフレ（夏）", "Robin(F) (Summer)", "魯弗萊 (Summer)"),
     ルフレ__女_("ルフレ（女）", "Robin(F)", "魯弗萊(F)"),
@@ -1039,6 +1040,9 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     BracingStance("金剛明鏡の構え","Bracing Stance","Bracing Stance"),
     WoGun("倭棍","Wo Gùn","Wo Gùn"),
     WoGun2("倭棍＋","Wo Gùn+","Wo Gùn+"),
+    Thogn ("","Thögn","Thögn"),
+    FutureVision ("","Future Vision","Future Vision"),
+    DistantGuard ("","Distant Guard","Distant Guard"),
     ;
 
     /**

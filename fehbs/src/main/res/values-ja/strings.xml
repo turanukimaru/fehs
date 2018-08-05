@@ -6,7 +6,7 @@
     <string name="action_list">ユニット一覧</string>
     <string name="action_delete">選択ユニット削除</string>
     <string name="action_float">個体値 計算機</string>
-    <string name="close_float">←閉じる</string>
+    <string name="close_float">計算機 閉じる↑</string>
     <string name="action_cancel">キャンセル</string>
     <string name="title_unit_detail">ユニット登録</string>
     <string name="unit_name_title">ユニット名</string>
@@ -66,6 +66,14 @@
     <string name="plus">+</string>
     <string name="add">追加</string>
     <string name="write">更新</string>
+    <string name="navigation_drawer_open">Opennavigationdrawer</string>
+    <string name="navigation_drawer_close">Closenavigationdrawer</string>
+    <string name="Score">Score</string>
+    <string name="Score_mini">score : </string>
+    <string name="spacer">        </string>
+    <string name="max_rarity">5</string>
+    <string name="zero">0</string>
+
     <string-array name="weapon_type">
         <item>武器</item>
         <item>剣</item>
