@@ -87,7 +87,7 @@ class HeroStatusService : Service() {
             val name = view!!.findViewById<Spinner>(R.id.baseUnitSpinner).selectedItem.toString()
             val boon = view!!.findViewById<Spinner>(R.id.boonRadioButton).selectedItem.toString()
             val bane = view!!.findViewById<Spinner>(R.id.baneRadioButton).selectedItem.toString()
-            val rarity = view!!.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
+            val rarity = view!!.findViewById<Spinner>(R.id.targetRaritySpinner).selectedItem.toString().toInt()
             HeroRepoReceiver.sendMessage(this, name, boon, bane, rarity)
         }
 

@@ -80,7 +80,7 @@ class ViewBuilder(private val locale: Locale) {
                 , SkillC.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text.toString())
                 , Seal.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.sealRadioButton).text.toString())
 
-                , rootView.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
+                , rootView.findViewById<Spinner>(R.id.targetRaritySpinner).selectedItem.toString().toInt()
                 , rootView.findViewById<Spinner>(R.id.levelBoostSpinner).selectedItem.toString().toInt()
                 , BoonType.boonTypeOf(rootView.findViewById<Spinner>(R.id.boonRadioButton).selectedItem.toString())
                 , BoonType.boonTypeOf(rootView.findViewById<Spinner>(R.id.baneRadioButton).selectedItem.toString())
