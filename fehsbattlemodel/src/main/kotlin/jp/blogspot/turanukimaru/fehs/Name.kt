@@ -1043,6 +1043,11 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     Thogn ("ソグン","Thögn","索軍"),
     FutureVision ("未来を映す瞳","Future Vision","映照未來的眼眸"),
     DistantGuard ("遠距離警戒","Distant Guard","遠距離警戒"),
+
+    エリンシア__盆踊り_("エリンシア", "Elincia", "艾琳西亞"),
+    リョウマ__盆踊り_("リョウマ", "Ryoma", "龍馬"),
+    マークス__盆踊り_("マークス（春）", "Xander (Spring)", "馬克斯 (Spring)"),
+    ミカヤ__盆踊り_("ミカヤ", "Micaiah", "米卡雅"),
     ;
 
     /**
