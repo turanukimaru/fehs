@@ -151,6 +151,8 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     EarthDance(Name.EarthDance, SkillType.B),
     GeyserDance(Name.GeyserDance, SkillType.B, maxLevel = 2, spType = SpType.BASE120),
     FirestormDance(Name.FirestormDance, SkillType.B, maxLevel = 2, spType = SpType.BASE120),
+    RockslideDance(Name.RockslideDance, SkillType.B, maxLevel = 2, spType = SpType.BASE120),
+    FirefloodDance(Name.FirefloodDance, SkillType.B, maxLevel = 2, spType = SpType.BASE120),
     KnockBack(Name.KnockBack, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
     DragBack(Name.DragBack, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),
     Lunge(Name.Lunge, SkillType.B, maxLevel = 0, spType = SpType.ASSIST),

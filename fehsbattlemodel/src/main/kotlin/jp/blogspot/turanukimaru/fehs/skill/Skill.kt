@@ -953,4 +953,12 @@ interface Skill {
         HandmaidMath.min((battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd) * 7 / 10, 7)
     } else 0
 
+    fun hardyBearing(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        battleUnit.disableChangePlan = true
+        if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
+            enemy.disableChangePlan = true
+        }
+        return battleUnit
+    }
+
 }

@@ -617,14 +617,14 @@ object StandardBaseHero {
         createItem(Name.ルキナ__伝承英雄_, 2, WeaponType.BOW, MoveType.INFANTRY, 5, 17, 8, 9, 6, 5, 5, 8, 8, 5, 3,
                 Weapon.Thogn, Assist.FutureVision, null, SkillA.SwiftSparrow.lv(3), SkillB.WingsOfMercy, SkillC.DistantGuard.lv(3))
 
-        createItem(Name.エリンシア__盆踊り_, 3, WeaponType.DAGGER, MoveType.INFANTRY, 5, 16, 8, 10, 5, 8, 5, 8, 8, 5, 5,
-                Weapon.Amiti, Assist.Dance, null, SkillA.DeathBlow.lv(3), SkillB.FlierFormation.lv(3))
-        createItem(Name.リョウマ__盆踊り_, 2, WeaponType.DAGGER, MoveType.INFANTRY, 5, 16, 8, 10, 5, 8, 5, 8, 8, 5, 5,
-                Weapon.Amiti, Assist.Dance, null, SkillA.DeathBlow.lv(3), SkillB.FlierFormation.lv(3))
-        createItem(Name.マークス__盆踊り_, 0, WeaponType.DAGGER, MoveType.INFANTRY, 5, 16, 8, 10, 5, 8, 5, 8, 8, 5, 5,
-                Weapon.Amiti, Assist.Dance, null, SkillA.DeathBlow.lv(3), SkillB.FlierFormation.lv(3))
-        createItem(Name.ミカヤ__盆踊り_, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 16, 8, 10, 5, 8, 5, 8, 8, 5, 5,
-                Weapon.Amiti, Assist.Dance, null, SkillA.DeathBlow.lv(3), SkillB.FlierFormation.lv(3))
+        createItem(Name.エリンシア__盆踊り_, 3, WeaponType.DAGGER, MoveType.INFANTRY, 5, 15, 5, 7, 5, 4, 5, 7, 9, 3, 4,
+                Weapon.CloudMaiougi2, Assist.Dance, null, SkillA.AtkSpdPush.lv(3), SkillB.RockslideDance.lv(3),SkillC.DriveRes.lv(2))
+        createItem(Name.リョウマ__盆踊り_, 2, WeaponType.DAGGER, MoveType.INFANTRY, 5, 14, 6, 8, 4, 4, 6, 8, 8, 4, 2,
+                Weapon.SkyMaiougi2, Assist.Dance, null, SkillA.TriangleAdept.lv(3), SkillB.ChillDef.lv(3),SkillC.SpurSpdDef)
+        createItem(Name.マークス__盆踊り_, 0, WeaponType.DAGGER, MoveType.INFANTRY, 5, 16, 7, 4, 6, 3, 6, 9, 2, 9, 2,
+                Weapon.DuskUchiwa2, Assist.Dance, null, SkillA.CloseCounter, SkillB.QuickRiposte.lv(3),SkillC.OddAtkWave)
+        createItem(Name.ミカヤ__盆踊り_, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 14, 8, 5, 3, 6, 5, 8, 3, 3, 9,
+                Weapon.DawnSuzu, Assist.Dance, null, SkillA.AtkResBond.lv(3), SkillB.FirefloodDance.lv(2), SkillC.ResPloy.lv(3))
 
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())

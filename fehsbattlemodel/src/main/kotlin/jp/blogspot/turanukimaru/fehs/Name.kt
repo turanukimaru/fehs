@@ -1044,10 +1044,21 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     FutureVision ("未来を映す瞳","Future Vision","映照未來的眼眸"),
     DistantGuard ("遠距離警戒","Distant Guard","遠距離警戒"),
 
-    エリンシア__盆踊り_("エリンシア", "Elincia", "艾琳西亞"),
-    リョウマ__盆踊り_("リョウマ", "Ryoma", "龍馬"),
-    マークス__盆踊り_("マークス（春）", "Xander (Spring)", "馬克斯 (Spring)"),
-    ミカヤ__盆踊り_("ミカヤ", "Micaiah", "米卡雅"),
+    エリンシア__盆踊り_("エリンシア", "Elincia (Hoshido)", "艾琳西亞"),
+    リョウマ__盆踊り_("リョウマ", "Ryoma (Hoshido)", "龍馬"),
+    マークス__盆踊り_("マークス（春）", "Xander (Hoshido)", "馬克斯 (Spring)"),
+    ミカヤ__盆踊り_("ミカヤ", "Micaiah (Hoshido)", "米卡雅"),
+    CloudMaiougi("緑雲の舞扇","Cloud Maiougi","綠雲舞扇"),
+    CloudMaiougi2("緑雲の舞扇＋","Cloud Maiougi+","綠雲舞扇+"),
+    RockslideDance("疾風大地の舞い","Rockslide Dance","疾風大地之舞"),
+    SkyMaiougi("青天の舞扇","Sky Maiougi","青天舞扇"),
+    SkyMaiougi2("青天の舞扇＋","Sky Maiougi+","青天舞扇+"),
+    SpurSpdRes("速さ魔防の紋章","Spur Spd Res","速度魔防紋章"),
+    DuskUchiwa("宵闇の団扇","Dusk Uchiwa","宵闇團扇"),
+    DuskUchiwa2("宵闇の団扇＋","Dusk Uchiwa+","宵闇團扇+"),
+    OddDefWave("守備の波・奇数","Odd Def Wave","防守之波・奇數"),
+    DawnSuzu("暁天の神楽鈴","Dawn Suzu","曉天的神樂鈴"),
+    FirefloodDance("業火静水の舞い","Fireflood Dance","業火靜水之舞"),
     ;
 
     /**
