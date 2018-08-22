@@ -633,7 +633,7 @@ object StandardBaseHero {
         createItem(Name.セリカ__総選挙_, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 16, 7, 11, 7, 7, 6, 8, 9, 6, 4,
                 Weapon.RoyalSword, null, Special.Galeforce, SkillA.DeathBlow.lv(4), SkillB.DoubleLion, SkillC.AtkTactic.lv(3))
         createItem(Name.ヴェロニカ__総選挙_, 0, WeaponType.STAFF, MoveType.CAVALRY,  5, 17, 8, 10, 4, 4, 5, 7, 8, 4, 3,
-                Weapon.Hliðskjálf, Assist.Recover2, Special.WindfireBalm2, null, SkillB.WrathfulStaff .lv(3), SkillC.StaffValor.lv(3))//TODO:途中で消してしまったからスキルが違う…
+                Weapon.Hliðskjálf, Assist.Recover2, Special.WindfireBalm2, null, SkillB.WrathfulStaff .lv(3), SkillC.CloseGuard.lv(3))
 
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())

@@ -1061,20 +1061,21 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     DawnSuzu("暁天の神楽鈴","Dawn Suzu","曉天的神樂鈴"),
     FirefloodDance("業火静水の舞い","Fireflood Dance","業火靜水之舞"),
 
-    エフラム__総選挙_("エフラム（総選挙）", "Ephraim (Legendary Lord)", "艾夫拉姆 (Legendary Lord)"),
-    ヘクトル__総選挙_("ヘクトル（総選挙）", "Hector (Vanguard Legend)", "海克托爾 (Vanguard Legend)"),
-    セリカ__総選挙_("セリカ（総選挙）", "Celica (Fallen Heroes)", "賽莉卡 (Fallen Heroes)"),
-    ヴェロニカ__総選挙_("ヴェロニカ（総選挙）","",""),
+    エフラム__総選挙_("エフラム（総選挙）", "Ephraim (Brave Heroes)", "艾夫拉姆 (Brave Heroes)"),
+    ヘクトル__総選挙_("ヘクトル（総選挙）", "Hector (Brave Heroes)", "海克托爾 (Brave Heroes)"),
+    セリカ__総選挙_("セリカ（総選挙）", "Celica (Brave Heroes)", "賽莉卡 (Brave Heroes)"),
+    ヴェロニカ__総選挙_("ヴェロニカ（総選挙）","Veronica (Brave Heroes)","維洛妮卡 (Brave Heroes)"),
     //どうせ日本語でUnicode文字使ってるんだしいいか…
     Hliðskjálf("フリズスキャルヴ","Hliðskjálf","至高王座之杖"),
-    WindfireBalm2("","Windfire Balm+",""),
+    WindfireBalm2("業火疾風の祝福＋","Windfire Balm+","業火疾風的祝福+"),
     Garm("ガルム","Garm","加姆"),
     SpecialFighter ("奥義隊形","Special Fighter ","奧義隊形"),
     RoyalSword("王家の剣","Royal Sword","王家之劍"),
     DoubleLion("獅子連斬","Double Lion","獅子連斬"),
     Maltet ("マルテ","Maltet","馬爾堤"),
-    OstianCounter ("","Ostian Counter",""),
-    EvenResWave ("","Even Res Wave",""),
+    OstianCounter ("オスティアの反撃","Ostian Counter","奧斯提亞的反擊"),
+    EvenResWave ("魔防の波・偶数","Even Res Wave","魔防之波・偶數"),
+    CloseGuard("近距離警戒","Close Guard","近距離警戒"),
     ;
 
     /**

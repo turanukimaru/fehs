@@ -165,6 +165,10 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
     },
     Skuld(Name.Skuld, SkillType.SWORD, 16, SilverSword, SpType.LEGEND),
+    RoyalSword(Name.LightBrand, SkillType.SWORD, 16, SilverSword) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipSpd(armedHero, 3), lv)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldownWithAlly(battleUnit)
+    },
 
     //LANCE
     IronLance(Name.IronLance, SkillType.LANCE, 6),

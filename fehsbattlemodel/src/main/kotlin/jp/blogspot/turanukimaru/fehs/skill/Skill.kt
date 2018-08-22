@@ -852,6 +852,16 @@ interface Skill {
     }
 
     /**
+     * 味方ユニットがいるときに攻撃時カウント追加
+     */
+    fun accelerateAttackCooldownWithAlly(battleUnit: BattleUnit): BattleUnit {
+        if (battleUnit.adjacentUnits  >0) {
+            battleUnit.accelerateAttackCooldown = 1
+        }
+        return battleUnit
+    }
+
+    /**
      * 特効無効化
      */
     fun antiEffectiveAgainst(battleUnit: BattleUnit, enemy: BattleUnit, type: EffectiveAgainst): BattleUnit {
