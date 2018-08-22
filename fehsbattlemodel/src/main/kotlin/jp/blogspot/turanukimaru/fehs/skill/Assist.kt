@@ -34,16 +34,20 @@ enum class Assist(override val jp: Name, override val type: SkillType, override 
     Smite(Name.Smite, SkillType.ASSIST),
     HarshCommand(Name.HarshCommand, SkillType.ASSIST),
     FutureVision(Name.FutureVision, SkillType.ASSIST, spType = SpType.LEGEND),
-    //杖の＋どうするかな。実装のメリットあんましないよなあ
+    //杖の＋どうするかな。実装のメリットあんましないよなあ.でもSP計算に要るのか…
     Heal(Name.Heal, SkillType.ASSIST),
     Reconcile(Name.Reconcile, SkillType.ASSIST),
     Rehabilitate(Name.Rehabilitate, SkillType.ASSIST),
+    Rehabilitate2(Name.Rehabilitate2, SkillType.ASSIST),
     Mend(Name.Mend, SkillType.ASSIST),
     Recover(Name.Recover, SkillType.ASSIST),
+    Recover2(Name.Recover2, SkillType.ASSIST),
     Restore(Name.Restore, SkillType.ASSIST),
+    Restore2(Name.Restore2, SkillType.ASSIST),
     Physic(Name.Physic, SkillType.ASSIST),
+    Physic2(Name.Physic2, SkillType.ASSIST),
     Martyr(Name.Martyr, SkillType.ASSIST),
-
+    Martyr2(Name.Martyr2, SkillType.ASSIST),
     ;
 
     /**

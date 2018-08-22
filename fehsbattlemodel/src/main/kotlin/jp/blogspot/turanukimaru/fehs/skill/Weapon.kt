@@ -420,7 +420,11 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     WoGun2(Name.WoGun2, SkillType.AXE, 13, WoGun, SpType.PLUS, RefinedSkill.RefineType.Range1) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
-
+    Garm(Name.Garm, SkillType.AXE, 16, SilverAxe) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+        //TODO:バフがかかってるとき。…いや行軍はかかってるだろうしデフォルトで常に追撃可能でよくね
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 2)
+    },
     //BOW
     IronBow(Name.IronBow, SkillType.BOW, 4, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     SteelBow(Name.SteelBow, SkillType.BOW, 6, IronBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
@@ -626,6 +630,10 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     },
     Trilemma(Name.Trilemma, SkillType.STAFF, 8, Assault, SpType.SILVER),
     Trilemma2(Name.Trilemma2, SkillType.STAFF, 12, Trilemma, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Hliðskjálf(Name.Hliðskjálf, SkillType.STAFF, 14, Trilemma, SpType.PLUS) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, 3)
+    },
+
     //RTOME
     Flux(Name.Flux, SkillType.RTOME, 4),
     Fire(Name.Fire, SkillType.RTOME, 4),

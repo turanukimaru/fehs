@@ -626,6 +626,15 @@ object StandardBaseHero {
         createItem(Name.ミカヤ__盆踊り_, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 14, 8, 5, 3, 6, 5, 8, 3, 3, 9,
                 Weapon.DawnSuzu, Assist.Dance, null, SkillA.AtkResBond.lv(3), SkillB.FirefloodDance.lv(2), SkillC.ResPloy.lv(3))
 
+        createItem(Name.エフラム__総選挙_, 3, WeaponType.AXE, MoveType.ARMORED, 5, 22, 10, 5, 11, 7, 7, 9, 6, 8, 5,
+                Weapon.Garm, null, Special.DraconicAura, SkillA.CloseDef.lv(3), SkillB.SpecialFighter.lv(3), SkillC.ArmorMarch.lv(3))
+        createItem(Name.ヘクトル__総選挙_, 2, WeaponType.LANCE, MoveType.ARMORED, 5, 24, 11, 5, 9, 6, 7, 8, 4, 10, 6,
+                Weapon.Maltet	, null, Special.Ignis, SkillA.OstianCounter, SkillB.BoldFighter.lv(3), SkillC.EvenSpdWave.lv(3))
+        createItem(Name.セリカ__総選挙_, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 16, 7, 11, 7, 7, 6, 8, 9, 6, 4,
+                Weapon.RoyalSword, null, Special.Galeforce, SkillA.DeathBlow.lv(4), SkillB.DoubleLion, SkillC.AtkTactic.lv(3))
+        createItem(Name.ヴェロニカ__総選挙_, 0, WeaponType.STAFF, MoveType.CAVALRY,  5, 17, 8, 10, 4, 4, 5, 7, 8, 4, 3,
+                Weapon.Hliðskjálf, Assist.Recover2, Special.WindfireBalm2, null, SkillB.WrathfulStaff .lv(3), SkillC.StaffValor.lv(3))//TODO:途中で消してしまったからスキルが違う…
+
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }

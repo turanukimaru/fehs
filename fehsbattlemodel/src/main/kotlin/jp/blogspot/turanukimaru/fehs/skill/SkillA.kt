@@ -84,7 +84,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     WardingBlow(Name.WardingBlow, SkillType.A) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, lv * 2)
     },
-    DeathBlow(Name.DeathBlow, SkillType.A) {
+    DeathBlow(Name.DeathBlow, SkillType.A, maxLevel = 4) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, lv * 2)
     },
     DartingBlow(Name.DartingBlow, SkillType.A) {

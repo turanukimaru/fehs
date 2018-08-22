@@ -37,11 +37,15 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     WaryFighter(Name.WaryFighter, SkillType.B, spType = SpType.BASE60) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = eachNofollowupable(battleUnit, enemy, lv)
     },
+    //あれ？LVの考慮忘れてるわ
     BoldFighter(Name.BoldFighter, SkillType.B, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 10), 11)
     },
     VengefulFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 5), 6)
+    },
+    SpecialFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {//TODO:効果英語だから間違えてるかも
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(antiAccelerateCooldown(battleUnit,enemy, lv*2), lv*2)
     },
     Desperation(Name.Desperation, SkillType.B) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, lv)

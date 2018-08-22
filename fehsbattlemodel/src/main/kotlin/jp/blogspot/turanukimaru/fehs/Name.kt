@@ -930,6 +930,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     SpurAtkRes("攻撃魔防の紋章", "Spur Atk/Res", "Spur Atk/Res"),
     WargodsTome("Wargod's Tome", "Wargod's Tome", "Wargod's Tome"),
     Restore("レスト", "Restore", "Restore"),
+    Restore2("レスト＋", "Restore+", "Restore+"),
     Thunderhead("雷旋の書", "Thunderhead", "Thunderhead"),
 
     ヒノカ__白き翼_("ヒノカ（白き翼）", "Hinoka (Wing of Fate)", "火乃香 (Wing of Fate)"),
@@ -1059,6 +1060,21 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     OddDefWave("守備の波・奇数","Odd Def Wave","防守之波・奇數"),
     DawnSuzu("暁天の神楽鈴","Dawn Suzu","曉天的神樂鈴"),
     FirefloodDance("業火静水の舞い","Fireflood Dance","業火靜水之舞"),
+
+    エフラム__総選挙_("エフラム（総選挙）", "Ephraim (Legendary Lord)", "艾夫拉姆 (Legendary Lord)"),
+    ヘクトル__総選挙_("ヘクトル（総選挙）", "Hector (Vanguard Legend)", "海克托爾 (Vanguard Legend)"),
+    セリカ__総選挙_("セリカ（総選挙）", "Celica (Fallen Heroes)", "賽莉卡 (Fallen Heroes)"),
+    ヴェロニカ__総選挙_("ヴェロニカ（総選挙）","",""),
+    //どうせ日本語でUnicode文字使ってるんだしいいか…
+    Hliðskjálf("フリズスキャルヴ","Hliðskjálf","至高王座之杖"),
+    WindfireBalm2("","Windfire Balm+",""),
+    Garm("ガルム","Garm","加姆"),
+    SpecialFighter ("奥義隊形","Special Fighter ","奧義隊形"),
+    RoyalSword("王家の剣","Royal Sword","王家之劍"),
+    DoubleLion("獅子連斬","Double Lion","獅子連斬"),
+    Maltet ("マルテ","Maltet","馬爾堤"),
+    OstianCounter ("","Ostian Counter",""),
+    EvenResWave ("","Even Res Wave",""),
     ;
 
     /**

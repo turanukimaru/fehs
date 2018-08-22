@@ -70,6 +70,7 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     SwiftWindsBalm(Name.SwiftWindsBalm, SkillType.SPECIAL_D, 1),
     KindledFireBalm(Name.KindledFireBalm, SkillType.SPECIAL_D, 1),
     StillWaterBalm(Name.StillWaterBalm, SkillType.SPECIAL_D, 1),
+    WindfireBalm2(Name.WindfireBalm2, SkillType.SPECIAL_D, 1),
 
     RisingFlame(Name.RisingFlame, SkillType.SPECIAL_B, 4),
     BlazingFlame(Name.BlazingFlame, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
