@@ -62,6 +62,7 @@ class NewHeroTest3 {
         Assert.assertEquals("hitPoint fail", 0, fightResult[0].target.hp)
     }
 
+    @Test
     fun ryomaTest2() {
         val unitA = ArmedHero(StandardBaseHero.get(Name.リョウマ__盆踊り_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)

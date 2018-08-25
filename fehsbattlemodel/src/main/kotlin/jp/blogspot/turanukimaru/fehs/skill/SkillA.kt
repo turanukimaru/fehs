@@ -189,6 +189,10 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
 
+    OstianCounter(Name.OstianCounter, SkillType.A, maxLevel = 0, spType = SpType.EXCLUSIVE) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =blowAtk(blowDef(counterAllRange(battleUnit),4),4)
+    },
+
     SvalinnShield(Name.SvalinnShield, SkillType.A, maxLevel = 0, spType = SpType.SHIELD) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.ARMORED)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.ARMORED)
@@ -242,7 +246,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4) else battleUnit
     },
     AtkSpdPush(Name.AtkSpdPush, SkillType.A) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkSpdBonus(battleUnit, lv + 2, 1)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpDoubleAttack(battleUnit,  1)
     },
     ;
 

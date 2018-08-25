@@ -730,6 +730,17 @@ interface Skill {
     }
 
     /**
+     * HP満タン時に2回攻撃
+     */
+    fun fullHpDoubleAttack(battleUnit: BattleUnit, d: Int): BattleUnit {
+        if (battleUnit.hp == battleUnit.armedHero.maxHp) {
+            battleUnit.doubleAttack = true
+            battleUnit.attackedHpLossAtEndOfFight += d
+        }
+        return battleUnit
+    }
+
+    /**
      * HP満タン時にすべてにボーナス
      */
     fun fullHpAllBonus(battleUnit: BattleUnit, i: Int): BattleUnit {

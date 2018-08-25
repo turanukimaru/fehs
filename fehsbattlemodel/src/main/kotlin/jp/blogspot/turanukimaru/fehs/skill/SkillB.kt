@@ -44,8 +44,8 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     VengefulFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 5), 6)
     },
-    SpecialFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {//TODO:効果英語だから間違えてるかも
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(antiAccelerateCooldown(battleUnit,enemy, lv*2), lv*2)
+    SpecialFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(antiAccelerateCooldown(battleUnit, enemy, lv * 2), lv * 2)
     },
     Desperation(Name.Desperation, SkillType.B) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, lv)
@@ -126,6 +126,9 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
             battleUnit.heal(damage * 3 / 10)
             return damage
         }
+    },
+    DoubleLion(Name.DoubleLion, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpDoubleAttack(battleUnit, 1)
     },
     DullClose(Name.DullClose, SkillType.B, spType = SpType.BASE60) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiMeleeWeaponBuffBonus(battleUnit, enemy, lv)

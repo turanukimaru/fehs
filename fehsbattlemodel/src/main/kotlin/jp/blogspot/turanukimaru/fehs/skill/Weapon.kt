@@ -305,6 +305,10 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     ReprisalLance2(Name.ReprisalLance2, SkillType.LANCE, 14, ReprisalLance, SpType.PLUS, refinedSkillType = RefinedSkill.RefineType.Range1) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 6)
     },
+    Maltet(Name.Maltet, SkillType.LANCE, 16, SilverLance, SpType.LEGEND) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
+    },
     //AXE
     IronAxe(Name.IronAxe, SkillType.AXE, 6),
     SteelAxe(Name.SteelAxe, SkillType.AXE, 8, IronAxe),
@@ -425,9 +429,9 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     Garm(Name.Garm, SkillType.AXE, 16, SilverAxe) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipAtk(armedHero, 3), lv)
         //TODO:バフがかかってるとき。…いや行軍はかかってるだろうしデフォルトで常に追撃可能でよくね
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 2)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 10)
     },
     //BOW
     IronBow(Name.IronBow, SkillType.BOW, 4, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
