@@ -128,7 +128,7 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
         }
     },
     DoubleLion(Name.DoubleLion, SkillType.B, maxLevel = 0, spType = SpType.EXCLUSIVE) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpDoubleAttack(battleUnit, 1)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpDoubleAttack(battleUnit, 1)
     },
     DullClose(Name.DullClose, SkillType.B, spType = SpType.BASE60) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiMeleeWeaponBuffBonus(battleUnit, enemy, lv)
