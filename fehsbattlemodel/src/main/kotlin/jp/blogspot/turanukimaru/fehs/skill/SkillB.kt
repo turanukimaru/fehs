@@ -44,8 +44,9 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     VengefulFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 5), 6)
     },
-    SpecialFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(antiAccelerateCooldown(battleUnit, enemy, lv * 2), lv * 2)
+    //あれこれカウンターだけなんだっけ？
+    SpecialFighter(Name.SpecialFighter, SkillType.B, spType = SpType.BASE60) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(antiAccelerateCooldown(battleUnit, enemy, lv * 2), lv * 2)
     },
     Desperation(Name.Desperation, SkillType.B) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, lv)

@@ -638,7 +638,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     },
     Trilemma(Name.Trilemma, SkillType.STAFF, 8, Assault, SpType.SILVER),
     Trilemma2(Name.Trilemma2, SkillType.STAFF, 12, Trilemma, SpType.PLUS, RefinedSkill.RefineType.Staff),
-    Hliðskjálf(Name.Hliðskjálf, SkillType.STAFF, 14, Trilemma, SpType.PLUS) {
+    Hliðskjálf(Name.Hliðskjálf, SkillType.STAFF, 14, Assault, SpType.PLUS) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, 3)
     },
 

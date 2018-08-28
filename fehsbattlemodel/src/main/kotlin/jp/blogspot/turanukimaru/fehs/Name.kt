@@ -1076,6 +1076,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     OstianCounter ("オスティアの反撃","Ostian Counter","奧斯提亞的反擊"),
     EvenResWave ("魔防の波・偶数","Even Res Wave","魔防之波・偶數"),
     CloseGuard("近距離警戒","Close Guard","近距離警戒"),
+    マルス__伝承英雄_("マルス（伝承英雄）", "Marth (Vanguard Legend)", "馬爾斯 (Vanguard Legend)"),
     ;
 
     /**
