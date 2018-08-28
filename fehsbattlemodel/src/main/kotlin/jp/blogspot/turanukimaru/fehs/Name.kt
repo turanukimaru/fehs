@@ -1045,10 +1045,10 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     FutureVision ("未来を映す瞳","Future Vision","映照未來的眼眸"),
     DistantGuard ("遠距離警戒","Distant Guard","遠距離警戒"),
 
-    エリンシア__盆踊り_("エリンシア", "Elincia (Hoshido)", "艾琳西亞"),
-    リョウマ__盆踊り_("リョウマ", "Ryoma (Hoshido)", "龍馬"),
-    マークス__盆踊り_("マークス（春）", "Xander (Hoshido)", "馬克斯 (Spring)"),
-    ミカヤ__盆踊り_("ミカヤ", "Micaiah (Hoshido)", "米卡雅"),
+    エリンシア__夏祭り_("エリンシア（夏祭り）", "Elincia (Hoshido)", "艾琳西亞 (Hoshido)"),
+    リョウマ__夏祭り_("リョウマ（夏祭り）", "Ryoma (Hoshido)", "龍馬 (Hoshido)"),
+    マークス__夏祭り_("マークス（夏祭り）", "Xander (Hoshido)", "馬克斯 (Hoshido)"),
+    ミカヤ__夏祭り_("ミカヤ（夏祭り）", "Micaiah (Hoshido)", "米卡雅 (Hoshido)"),
     CloudMaiougi("緑雲の舞扇","Cloud Maiougi","綠雲舞扇"),
     CloudMaiougi2("緑雲の舞扇＋","Cloud Maiougi+","綠雲舞扇+"),
     RockslideDance("疾風大地の舞い","Rockslide Dance","疾風大地之舞"),
@@ -1061,10 +1061,10 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     DawnSuzu("暁天の神楽鈴","Dawn Suzu","曉天的神樂鈴"),
     FirefloodDance("業火静水の舞い","Fireflood Dance","業火靜水之舞"),
 
-    エフラム__総選挙_("エフラム（総選挙）", "Ephraim (Brave Heroes)", "艾夫拉姆 (Brave Heroes)"),
-    ヘクトル__総選挙_("ヘクトル（総選挙）", "Hector (Brave Heroes)", "海克托爾 (Brave Heroes)"),
-    セリカ__総選挙_("セリカ（総選挙）", "Celica (Brave Heroes)", "賽莉卡 (Brave Heroes)"),
-    ヴェロニカ__総選挙_("ヴェロニカ（総選挙）","Veronica (Brave Heroes)","維洛妮卡 (Brave Heroes)"),
+    エフラム__総選挙_("エフラム（総選挙）", "Ephraim (Brave)", "艾夫拉姆 (Brave)"),
+    ヘクトル__総選挙_("ヘクトル（総選挙）", "Hector (Brave)", "海克托爾 (Brave)"),
+    セリカ__総選挙_("セリカ（総選挙）", "Celica (Brave)", "賽莉卡 (Brave)"),
+    ヴェロニカ__総選挙_("ヴェロニカ（総選挙）","Veronica (Brave)","維洛妮卡 (Brave)"),
     //どうせ日本語でUnicode文字使ってるんだしいいか…
     Hliðskjálf("フリズスキャルヴ","Hliðskjálf","至高王座之杖"),
     WindfireBalm2("業火疾風の祝福＋","Windfire Balm+","業火疾風的祝福+"),
@@ -1077,6 +1077,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     EvenResWave ("魔防の波・偶数","Even Res Wave","魔防之波・偶數"),
     CloseGuard("近距離警戒","Close Guard","近距離警戒"),
     マルス__伝承英雄_("マルス（伝承英雄）", "Marth (Vanguard Legend)", "馬爾斯 (Vanguard Legend)"),
+    ExaltedFalchion("","Exalted Falchion","")
     ;
 
     /**
