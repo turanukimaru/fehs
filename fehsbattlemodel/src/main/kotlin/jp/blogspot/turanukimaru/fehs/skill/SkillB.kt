@@ -137,6 +137,14 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     DullRanged(Name.DullRanged, SkillType.B, spType = SpType.BASE60) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, lv)
     },
+    BindingShield(Name.BindingShield, SkillType.B, spType = SpType.BASE60) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if(enemy.armedHero.baseHero.weaponType == WeaponType.DRAGON){
+                enemy.cannotCounter = true
+                enemy.antiFollowup = true
+            }
+        }
+    },
 
     EscapeRoute(Name.EscapeRoute, SkillType.B, spType = SpType.BASE60),
     RecoverRing(Name.RecoverRing, SkillType.B, maxLevel = 0, spType = SpType.SHIELD),

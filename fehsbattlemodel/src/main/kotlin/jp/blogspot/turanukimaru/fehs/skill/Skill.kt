@@ -508,7 +508,7 @@ interface Skill {
      */
     fun brashAssault(battleUnit: BattleUnit, enemy: BattleUnit, percentile: Int): BattleUnit {
         if ((battleUnit.armedHero.baseHero.weaponType.range == enemy.armedHero.baseHero.weaponType.range || enemy.counterAllRange)
-                && !enemy.cannotCcounter
+                && !enemy.cannotCounter
                 && (battleUnit.hp <= battleUnit.armedHero.maxHp * percentile / 100)) {
             battleUnit.followupable = true
         }
@@ -521,7 +521,7 @@ interface Skill {
     fun windsweep(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (enemy.armedHero.baseHero.weaponType.isMaterial
                 && (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd >= 7 - lv * 2)) {
-            enemy.cannotCcounter = true
+            enemy.cannotCounter = true
         }
         return battleUnit
     }
@@ -532,7 +532,7 @@ interface Skill {
     fun watersweep(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (!enemy.armedHero.baseHero.weaponType.isMaterial
                 && (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd >= 7 - lv * 2)) {
-            enemy.cannotCcounter = true
+            enemy.cannotCounter = true
         }
         return battleUnit
     }
@@ -542,7 +542,7 @@ interface Skill {
      */
     fun dazzling(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50)) {
-            enemy.cannotCcounter = true
+            enemy.cannotCounter = true
         }
         return battleUnit
     }
@@ -569,8 +569,8 @@ interface Skill {
      * 火薙ぎ
      */
     fun disableEachCounter(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-        battleUnit.cannotCcounter = true
-        enemy.cannotCcounter = true
+        battleUnit.cannotCounter = true
+        enemy.cannotCounter = true
         return battleUnit
     }
 
@@ -610,7 +610,7 @@ interface Skill {
     fun sacasBlessing(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         val enemyType = enemy.armedHero.baseHero.weaponType
         if (enemyType == WeaponType.SWORD || enemyType == WeaponType.LANCE || enemyType == WeaponType.AXE) {
-            enemy.cannotCcounter = true
+            enemy.cannotCounter = true
         }
         return battleUnit
     }
@@ -632,7 +632,7 @@ interface Skill {
     fun antiRanged(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         val enemyType = enemy.armedHero.baseHero.weaponType
         if (enemyType == WeaponType.RTOME || enemyType == WeaponType.BTOME || enemyType == WeaponType.GTOME || enemyType == WeaponType.BOW || enemyType == WeaponType.DAGGER || enemyType == WeaponType.STAFF) {
-            enemy.cannotCcounter = true
+            enemy.cannotCounter = true
         }
         return battleUnit
     }

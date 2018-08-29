@@ -96,7 +96,7 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
             plan.remove(secondCounter)
         }
         //薙ぎもカウンターを抜く
-        if (target.cannotCcounter) {
+        if (target.cannotCounter) {
             plan.remove(firstCounter)
             plan.remove(secondCounter)
         }

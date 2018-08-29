@@ -78,7 +78,7 @@ data class BattleUnit(val armedHero: ArmedHero
         /**
          * 火凪などで反撃が封じられているか
          */
-                      , var cannotCcounter: Boolean = false
+                      , var cannotCounter: Boolean = false
         /**
          * buffが無効化されているか
          */

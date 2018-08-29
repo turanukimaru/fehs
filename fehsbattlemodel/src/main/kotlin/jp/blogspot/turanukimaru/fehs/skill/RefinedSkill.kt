@@ -49,7 +49,7 @@ enum class RefinedSkill(override val jp: Name, val hp: Int, val atk: Int, val sp
     DeathlyDagger2(Name.MagicSuppression, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.DeathlyDagger) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (enemy.armedHero.isMagicWeapon()) {
-                enemy.cannotCcounter = true
+                enemy.cannotCounter = true
             }
             return battleUnit
         }
@@ -170,7 +170,7 @@ enum class RefinedSkill(override val jp: Name, val hp: Int, val atk: Int, val sp
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = feliciasBlade(battleUnit, enemy)
     },
 
-    Sieglinde(Name.Sieglinde, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Sieglinde),
+    Sieglinde(Name.Sieglinde, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Sieglinde),//TODO:あれ？ひょっとしてこれ実装し忘れじゃね？
     WindsBrand(Name.Owl, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.WindsBrand) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
     },
