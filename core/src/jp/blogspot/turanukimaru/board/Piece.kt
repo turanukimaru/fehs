@@ -1,6 +1,7 @@
 package jp.blogspot.turanukimaru.board
 
 import jp.blogspot.turanukimaru.board.UiBoard.Position
+import java.util.ArrayList
 
 
 /**
@@ -34,6 +35,15 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 盤上の位置。なくても良いが盤上をサーチすると時間かかるんだよな。移動確定時のみ変更すること
      */
     var position: Position? = null
+
+    /**
+     * 駒の移動可能範囲
+     */
+    var searchedRoute = arrayListOf<ArrayList<Int>>()
+    /**
+     * 駒の移動範囲から更に効果を及ぼすことのできる範囲
+     */
+    var effectiveRoute = arrayListOf<ArrayList<Int>>()
 
     init {
     }
@@ -78,7 +88,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**行動前・選択状態・移動後は行動可能
      *
      */
-    val isActionable get() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.MOVED
+    val isActionable get() = actionPhase == ActionPhase.READY// || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.MOVED
 
     /**
      * ドラッグから指を挙げたときにも反応するのでうまく使えない・・・
@@ -111,7 +121,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
      */
     open fun boardMove(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
-        action(ActionPhase.MOVED)
+//        action(ActionPhase.MOVED)
         return true
     }
 
@@ -170,7 +180,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * 駒の状態。準備完了や選択された、移動済みだけど行動は完了していないなど
+     * 駒の状態。選択・行動前などトランザクションアクションは含まない。そちらは常に一つだからハンド管理
      */
     enum class ActionPhase {
         //おかれて初期化を行う前。初期化されたらDisabled
@@ -179,17 +189,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         DISABLED,
         //自分の手番で動かせる
         READY,
-        //選択状態
-        SELECTED,
-        //ドラッグ中。駒の位置以外はSELECTEDと同じになるはず
-//        DRAGGING,
-        //移動したけど行動が確定してない
-        MOVED,
-        //移動範囲用だけどなくていいかなあ
-        MARK,
-        //攻撃
+        //攻撃・アニメが終わったらACTEDになる予定だけどHand側に統合されそうな気もしてきた
         ATTACK,
-        //攻撃を受ける
+        //攻撃を受ける。同上
         ATTACKED,
         //行動確定後
         ACTED,
@@ -208,7 +210,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
 
     fun putOn(x: Int, y: Int) {
         position = Position(x, y)
-        action(Piece.ActionPhase.DISABLED)
+        action(Piece.ActionPhase.PUTTED)
     }
 
     fun startPiece(xyToPosition: Position) {

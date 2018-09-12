@@ -131,7 +131,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         //どこでボタン管理するか考えないとなー
         stage!!.addActor(turnendImage)
 
-//TODO:一人目のキャラここから
+//一人目のキャラここから
         //グループ作るのやばいな。重い。
         val medjedTexture = loadTexture("medjed.png")
         val regionA = TextureRegion(medjedTexture, 0, 0, 64, 64)
@@ -152,9 +152,10 @@ class MyMyGdxGame : ApplicationAdapter() {
         uiPiece.actors.add(medjedImageA)
         uiPiece.actors.add(medjedImageB)
         myGame.board.put(piece1, 5, 0)
-        //この辺もっとスムーズにできるようにしないとな
+        myGame.uiBoard.uiPieceList.add(uiPiece)
+        //この辺もっとスムーズにできるようにしないとな.スムーズというより1セットか。落とすとバグるかんな
         myGame.uiBoard.stage.addActor(group)
-//TODO:ここまで。なお現在の一覧画面から移動するようにした奴は別スレッドなのでRealmにアクセスすると落ちる。別インスタンスなら生きてるかな？
+//ここまで。なお現在の一覧画面から移動するようにした奴は別スレッドなのでRealmにアクセスすると落ちる。別インスタンスなら生きてるかな？
 
         val lucinaTexture = loadTexture("lucina.png")
         val lucinaImage = Image(lucinaTexture)
@@ -165,6 +166,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         enemy.pieceList.add(piece2)
         lucinaImage.addListener(uiPiece2)
         myGame.board.put(piece2, 1, 3)
+        myGame.uiBoard.uiPieceList.add(uiPiece2)
         myGame.uiBoard.stage.addActor(lucinaImage)
 
         val hectorTexture = loadTexture("hector.png")
@@ -176,6 +178,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         enemy.pieceList.add(piece3)
         hectorImage.addListener(uiPiece3)
         myGame.board.put(piece3, 3, 3)
+        myGame.uiBoard.uiPieceList.add(uiPiece3)
         myGame.uiBoard.stage.addActor(hectorImage)
         myGame.board.turn(user)
     }
@@ -237,6 +240,9 @@ class MyMyGdxGame : ApplicationAdapter() {
 //        buttons.forEach { b -> b.draw(batch, 100f) }
 
         bitmapFont!!.draw(batch, "${myGame.board.hand.oldPosition}\nデバッグ用文字", 50f, 300f)
+        myGame.board.pieceList.forEach{
+            bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.position!!.x} ${it.position!!.y}\n", myGame.uiBoard.squareXtoPosX(it.position!!.x),myGame. uiBoard.squareYtoPosY(it.position!!.y))
+        }
         batch!!.end()
         myGame.uiBoard.libUpdate()
         stage!!.act(Gdx.graphics.deltaTime)

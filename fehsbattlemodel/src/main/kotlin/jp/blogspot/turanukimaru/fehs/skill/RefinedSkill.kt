@@ -170,7 +170,7 @@ enum class RefinedSkill(override val jp: Name, val hp: Int, val atk: Int, val sp
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = feliciasBlade(battleUnit, enemy)
     },
 
-    Sieglinde(Name.Sieglinde, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Sieglinde),//TODO:あれ？ひょっとしてこれ実装し忘れじゃね？
+    Sieglinde(Name.Sieglinde, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Sieglinde),//周りのバフ分捨てアップはこの形式だと書けないよなあ
     WindsBrand(Name.Owl, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.WindsBrand) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
     },

@@ -11,7 +11,7 @@ class NewHeroTest3 {
 
     @Test
     fun mikayaTest() {
-        val unitA = ArmedHero(StandardBaseHero.get(Name.ミカヤ__盆踊り_.jp)!!)
+        val unitA = ArmedHero(StandardBaseHero.get(Name.ミカヤ__夏祭り_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
         val unitB = ArmedHero(StandardBaseHero.get(Name.ヘクトル.jp)!!)
@@ -29,7 +29,7 @@ class NewHeroTest3 {
         val unitA = ArmedHero(StandardBaseHero.get(Name.リン__バレンタイン_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
-        val unitB = ArmedHero(StandardBaseHero.get(Name.ミカヤ__盆踊り_.jp)!!)
+        val unitB = ArmedHero(StandardBaseHero.get(Name.ミカヤ__夏祭り_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("size == 3", 3, fightResult.size)
@@ -49,7 +49,7 @@ class NewHeroTest3 {
 
     @Test
     fun ryomaTest() {
-        val unitA = ArmedHero(StandardBaseHero.get(Name.リョウマ__盆踊り_.jp)!!)
+        val unitA = ArmedHero(StandardBaseHero.get(Name.リョウマ__夏祭り_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
         val unitB = ArmedHero(StandardBaseHero.get(Name.漆黒の騎士.jp)!!)
@@ -64,7 +64,7 @@ class NewHeroTest3 {
 
     @Test
     fun ryomaTest2() {
-        val unitA = ArmedHero(StandardBaseHero.get(Name.リョウマ__盆踊り_.jp)!!)
+        val unitA = ArmedHero(StandardBaseHero.get(Name.リョウマ__夏祭り_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
         val unitB = ArmedHero(StandardBaseHero.get(Name.ヘンリー__収穫祭_.jp)!!)
@@ -87,7 +87,7 @@ class NewHeroTest3 {
         val unitA = ArmedHero(StandardBaseHero.get(Name.ヘンリー__収穫祭_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
-        val unitB = ArmedHero(StandardBaseHero.get(Name.リョウマ__盆踊り_.jp)!!)
+        val unitB = ArmedHero(StandardBaseHero.get(Name.リョウマ__夏祭り_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("size == 1", 1, fightResult.size)
@@ -99,7 +99,7 @@ class NewHeroTest3 {
 
     @Test
     fun xandarTest() {
-        val unitA = ArmedHero(StandardBaseHero.get(Name.マークス__盆踊り_.jp)!!)
+        val unitA = ArmedHero(StandardBaseHero.get(Name.マークス__夏祭り_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
         val unitB = ArmedHero(StandardBaseHero.get("ウルスラ")!!)
@@ -118,7 +118,7 @@ class NewHeroTest3 {
         val unitA = ArmedHero(StandardBaseHero.get("セシリア")!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
-        val unitB = ArmedHero(StandardBaseHero.get(Name.マークス__盆踊り_.jp)!!)
+        val unitB = ArmedHero(StandardBaseHero.get(Name.マークス__夏祭り_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("size == 1", 1, fightResult.size)
@@ -130,7 +130,7 @@ class NewHeroTest3 {
 
     @Test
     fun elinciaTest() {
-        val unitA = ArmedHero(StandardBaseHero.get(Name.エリンシア__盆踊り_.jp)!!)
+        val unitA = ArmedHero(StandardBaseHero.get(Name.エリンシア__夏祭り_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
         val unitB = ArmedHero(StandardBaseHero.get(Name.チキ__大人_.jp)!!)
@@ -153,7 +153,7 @@ class NewHeroTest3 {
         val unitA = ArmedHero(StandardBaseHero.get("ヘンリー")!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
-        val unitB = ArmedHero(StandardBaseHero.get(Name.エリンシア__盆踊り_.jp)!!)
+        val unitB = ArmedHero(StandardBaseHero.get(Name.エリンシア__夏祭り_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         Assert.assertEquals("size == 3", 3, fightResult.size)

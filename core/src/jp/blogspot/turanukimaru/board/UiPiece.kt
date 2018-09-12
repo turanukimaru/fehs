@@ -57,9 +57,22 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         //ドラッグ中は駒は指に追随。Updateでは何もしない
         actor.setPosition(actor.x + x, actor.y + y)
 //        piece.action(Piece.ActionPhase.DRAGGING)
-        //ルートをスタックする
-        val touchedSquare = uiBoard.stackTouchedRoute()
+        //ルートをスタックする:FIXME:ルート探索の前にスタックしようとして落ちてる.graspとか明示的に駒を掴むか？
+        val touchedSquare =stackTouchedRoute()
         piece.touchDragged(touchedSquare)
+    }
+    fun stackTouchedRoute(): UiBoard.Position {
+        val touchedSquare = uiBoard.touchedPosition()
+        stackRoute(touchedSquare)
+        return touchedSquare
+    }
+    //対象の枡が通れるときはスタックに積む…とまれるときか？ともかくこれは駒側主導ではあるが人の操作ではないわけでなんか分けたいなあ。通れる・泊まれるを判断するから無理か。
+    fun stackRoute(position: UiBoard.Position) {
+        if (piece.searchedRoute[position.x][position.y] > 0) {
+           uiBoard.board. hand.stackRoute(position)
+        } else {
+            uiBoard.board. hand.routeOut()
+        }
     }
 
     /**
@@ -100,7 +113,6 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     }
 
     open fun update() {
-
     }
 
 
@@ -113,7 +125,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         if (position == null) return seq
         val finalX = uiBoard.squareXtoPosX(position.x)
         val finalY = uiBoard.squareYtoPosY(position.y)
-        seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.2f))
+        seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.1f))
         seq.addAction(EndOfAnimationAction(this))
         return seq
     }

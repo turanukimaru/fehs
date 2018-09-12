@@ -138,6 +138,9 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     SwiftStance(Name.SwiftStance, SkillType.A, maxLevel = 2, spType = SpType.BASE120) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(blowRes(battleUnit, lv * 2), lv * 2)
     },
+    SteadyPosture(Name.SteadyPosture, SkillType.A) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(blowDef(battleUnit, lv * 2), lv * 2)
+    },
     KestrelStance(Name.KestrelStance, SkillType.A, maxLevel = 2, spType = SpType.BASE120) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowSpd(battleUnit, lv * 2), lv * 2)
     },

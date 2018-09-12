@@ -159,6 +159,12 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Safeguard2(Name.Safeguard2, SkillType.SWORD, 14, Safeguard, SpType.PLUS, RefinedSkill.RefineType.Range1) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(battleUnit, 7)
     },
+    BarrierBlade(Name.BarrierBlade, SkillType.SWORD, 10, SteelSword) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 7)
+    },
+    BarrierBlade2(Name.BarrierBlade2, SkillType.SWORD, 14, Safeguard, SpType.PLUS, RefinedSkill.RefineType.Range1) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 7)
+    },
 
     VassalsBlade(Name.VassalsBlade, SkillType.SWORD, 16, Weapon.SlayingEdge) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
@@ -171,7 +177,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     },
     ExaltedFalchion(Name.ExaltedFalchion, SkillType.SWORD, 16, SilverSword, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipSpd(armedHero, 3), lv)
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldownWithAlly(battleUnit)
+        //周りのバフ分強化するのは周り参照なので書けない…
     },
 
     //LANCE
@@ -313,6 +319,10 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
     },
+    GaeBolg(Name.GaeBolg, SkillType.LANCE, 16, SilverLance, SpType.LEGEND) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.baseHero.moveType == MoveType.INFANTRY || enemy.armedHero.baseHero.moveType == MoveType.ARMORED || enemy.armedHero.baseHero.moveType == MoveType.CAVALRY) blowAtk(blowDef(battleUnit,5),5) else battleUnit
+    },
+
     //AXE
     IronAxe(Name.IronAxe, SkillType.AXE, 6),
     SteelAxe(Name.SteelAxe, SkillType.AXE, 8, IronAxe),
@@ -596,23 +606,23 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Starfish2(Name.Starfish2, SkillType.DAGGER, 12, Starfish, SpType.PLUS, RefinedSkill.RefineType.Range2) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
-    CloudMaiougi(Name.CloudMaiougi, SkillType.DAGGER, 8, SteelDagger, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)){
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =super.bothEffect(hardyBearing(battleUnit,enemy,3), enemy, lv)
+    CloudMaiougi(Name.CloudMaiougi, SkillType.DAGGER, 8, SteelDagger, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = super.bothEffect(hardyBearing(battleUnit, enemy, 3), enemy, lv)
     },
-    CloudMaiougi2(Name.CloudMaiougi2, SkillType.DAGGER, 12, CloudMaiougi, SpType.PLUS,RefinedSkill.RefineType.Range2, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)){
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =super.bothEffect(hardyBearing(battleUnit,enemy,3), enemy, lv)
+    CloudMaiougi2(Name.CloudMaiougi2, SkillType.DAGGER, 12, CloudMaiougi, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = super.bothEffect(hardyBearing(battleUnit, enemy, 3), enemy, lv)
     },
-    SkyMaiougi(Name.SkyMaiougi, SkillType.DAGGER, 8, SteelDagger, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)){
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =super.bothEffect(hardyBearing(battleUnit,enemy,3), enemy, lv)
+    SkyMaiougi(Name.SkyMaiougi, SkillType.DAGGER, 8, SteelDagger, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = super.bothEffect(hardyBearing(battleUnit, enemy, 3), enemy, lv)
     },
-    SkyMaiougi2(Name.SkyMaiougi2, SkillType.DAGGER, 12, SkyMaiougi, SpType.PLUS,RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)){
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =super.bothEffect(hardyBearing(battleUnit,enemy,3), enemy, lv)
+    SkyMaiougi2(Name.SkyMaiougi2, SkillType.DAGGER, 12, SkyMaiougi, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = super.bothEffect(hardyBearing(battleUnit, enemy, 3), enemy, lv)
     },
-    DuskUchiwa(Name.SkyMaiougi, SkillType.DAGGER, 8, SteelDagger, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)){
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =super.bothEffect(hardyBearing(battleUnit,enemy,3), enemy, lv)
+    DuskUchiwa(Name.SkyMaiougi, SkillType.DAGGER, 8, SteelDagger, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = super.bothEffect(hardyBearing(battleUnit, enemy, 3), enemy, lv)
     },
-    DuskUchiwa2(Name.SkyMaiougi2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS,RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)){
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =super.bothEffect(hardyBearing(battleUnit,enemy,3), enemy, lv)
+    DuskUchiwa2(Name.SkyMaiougi2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = super.bothEffect(hardyBearing(battleUnit, enemy, 3), enemy, lv)
     },
 
 
@@ -725,7 +735,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     },
     DawnSuzu(Name.DawnSuzu, SkillType.RTOME, 14, Bolganone2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY, MoveType.ARMORED)) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipAtk(armedHero, 3), lv)
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =super.bothEffect(hardyBearing(battleUnit,enemy,3), enemy, lv)
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = super.bothEffect(hardyBearing(battleUnit, enemy, 3), enemy, lv)
     },
 
     //BTOME
@@ -895,6 +905,10 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     GigaExcalibur(Name.GigaExcalibur, SkillType.GTOME, 14, Rexcalibur) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipSpd(armedHero, 3), lv)
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
+    },
+    Forseti(Name.Forseti, SkillType.GTOME, 14, Rexcalibur) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = super.equip(equipSpd(armedHero, 3), lv)
+        override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = forseti(fightPlan, 2)//攻めたてと同じLV倍率にしとこう
     },
 
     //DRAGON

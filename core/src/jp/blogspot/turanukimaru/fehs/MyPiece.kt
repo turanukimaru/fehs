@@ -80,7 +80,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     private fun showActionResult(position: UiBoard.Position): Boolean {
         val target = board.pieceMatrix[position.x][position.y]
         //敵ユニットに重ねたときは戦闘結果を計算して表示
-        if (board.effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.touchedPiece && target.owner != owner) {
+        if (effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.touchedPiece && target.owner != owner) {
             //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
             val fightResult = containUnit.fight(target.containUnit)
             for (result in fightResult) {
@@ -128,7 +128,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         println("routeStack: $board.routeStack")
 
         //敵は攻撃。味方はアシスト。アシストのロジックまだ考えてないけどな！
-        if (board.hand.oldPosition != position && board.effectiveRoute[position.x][position.y] > 0 && target != null && target != this) {
+        if (board.hand.oldPosition != position && effectiveRoute[position.x][position.y] > 0 && target != null && target != this) {
 //戦闘アクションは流石にここで登録してもいい気がするが…いやダメか…Updateで読む方法考えないとな
             val attackPos = board.findAttackPos(this, position)
             if (attackPos != null) {
@@ -164,7 +164,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 //return ActionPhase.MOVED
             }
         }
-        return ActionPhase.MOVED
+        return ActionPhase.READY
     }
 
 }

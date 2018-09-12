@@ -13,7 +13,7 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     Glimmer(Name.Glimmer, SkillType.SPECIAL_A, 2, offMlt = 15),
     Astra(Name.Astra, SkillType.SPECIAL_A, 4, offMlt = 25),
     RegnalAstra(Name.RegnalAstra, SkillType.SPECIAL_A, 2, stateDamage = { source -> source.effectedSpd * 4 / 10 }, spType = SpType.SPECIAL5),
-    FireEmblem(Name.FireEmblem, SkillType.SPECIAL_A, 3, stateDamage = { source -> source.effectedSpd * 3 / 10 }, spType = SpType.SPECIAL5),
+    FireEmblem(Name.FireEmblem, SkillType.SPECIAL_A, 2, stateDamage = { source -> source.effectedSpd * 3 / 10 }, spType = SpType.SPECIAL5),
     DragonGaze(Name.DragonGaze, SkillType.SPECIAL_A, 4, stateDamage = { source -> source.effectedAtk * 3 / 10 }, spType = SpType.SPECIAL3),
     DraconicAura(Name.DraconicAura, SkillType.SPECIAL_A, 3, stateDamage = { source -> source.effectedAtk * 3 / 10 }),
     DragonFang(Name.DragonFang, SkillType.SPECIAL_A, 4, stateDamage = { source -> source.effectedAtk * 5 / 10 }),

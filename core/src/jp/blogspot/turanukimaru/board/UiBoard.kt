@@ -42,7 +42,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     val numberRegions = arrayListOf<TextureRegion>()
 
-    private val uiPieceList = arrayListOf<UiPiece>()
+    val uiPieceList = arrayListOf<UiPiece>()
 
     private var opPhase = OpPhase.ACTIVE
 
@@ -114,9 +114,9 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         if (board.hand.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
-                    if (board.searchedRoute[x][y] >= 0) {
+                    if (board.hand.selectedPiece!!.searchedRoute[x][y] >= 0) {
                         fillSquare(x, y, UiBoard.FillType.MOVABLE)
-                    } else if (board.effectiveRoute[x][y] >= 0) {
+                    } else if (board.hand.selectedPiece!!.effectiveRoute[x][y] >= 0) {
                         fillSquare(x, y, UiBoard.FillType.ATTACKABLE)
                     }
                 }
@@ -171,11 +171,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         return posToPosition(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f))
     }
 
-    fun stackTouchedRoute(): UiBoard.Position {
-        val touchedSquare = touchedPosition()
-        board.stackRoute(touchedSquare)
-        return touchedSquare
-    }
 
 
     /**

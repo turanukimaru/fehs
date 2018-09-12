@@ -22,14 +22,6 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     val groundMatrix = arrayListOf<ArrayList<GROUND?>>()
     /**
-     * 現在選択されている駒の移動可能範囲
-     */
-    val searchedRoute = arrayListOf<ArrayList<Int>>()
-    /**
-     * 現在選択されている駒の移動範囲から更に効果を及ぼすことのできる範囲
-     */
-    val effectiveRoute = arrayListOf<ArrayList<Int>>()
-    /**
      * 現在盤上の所有権を持つプレイヤー
      */
     var owner: Player? = null
@@ -115,7 +107,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     private fun setPiece(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         val oldSquare = searchUnitPosition(piece)!!
         //移動範囲外は旧枡に戻す.キャンセルはやりすぎかなあ
-        if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || searchedRoute[x][y] < 0) {
+        if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || piece.searchedRoute[x][y] < 0) {
 //            piece.uiPiece.actor.actions.clear()
 //            piece.uiPiece.actor.addAction(uiBoard.actionMoveToPosition(piece.uiPiece, oldSquare.x, oldSquare.y))
             return
@@ -170,8 +162,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         var steps = 0
         println("first step at $piece $square $steps ")
         step(piece, square, steps, routeMatrix)
-        searchedRoute.clear()
-        routeMatrix.forEach { v -> searchedRoute.add(v) }
+        //これ更新形式と新しいマトリックスを渡す形どっちがいいかなあ
+        piece. searchedRoute = routeMatrix
+//        routeMatrix.forEach { v ->piece. searchedRoute.add(v) }
         return routeMatrix
     }
 
@@ -214,11 +207,10 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             verticalIndexes.forEach { y ->
                 val square = Position(x, y)
                 //移動範囲から計算。これ移動しないときと処理が区別できるようにしたほうが良いな
-                if (searchedRoute[x][y] >= 0) stepEffect(piece, square, 0, routeMatrix)
+                if (piece.searchedRoute[x][y] >= 0) stepEffect(piece, square, 0, routeMatrix)
             }
         }
-        effectiveRoute.clear()
-        routeMatrix.forEach { v -> effectiveRoute.add(v) }
+        piece.effectiveRoute = routeMatrix
         return routeMatrix
     }
 
@@ -286,17 +278,20 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * アルゴリズムはHand側へ移動したいな。そうすればOptionでHand入れ替えで済む。
      */
     fun clicked(position: Position) {
+        hand.clicked(position)
+        //TODO:ここで対象のルート確認か
         //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
-        if (!positionIsOnBoard(position) || (searchedRoute[position.x][position.y] < 0 && effectiveRoute[position.x][position.y] < 0)) {
+        if (!positionIsOnBoard(position) || (hand.selectedPiece!!.searchedRoute[position.x][position.y] < 0 && hand.selectedPiece!!.effectiveRoute[position.x][position.y] < 0)) {
             hand.moveCancel()
 //            updateInfo = { _ -> true }
             return
         }
-        //対象は有るかもないかも。なお移動前の配置を参照しているのでボード上の自分はまだ移動前
+        //対象は有るかもないかも。なお移動中の配置はHandで参照しているのでボード上の自分はまだ移動前
         val targetPiece = pieceMatrix[position.x][position.y]
-        val targetRoute = searchedRoute[position.x][position.y]
-        val targetEffective = effectiveRoute[position.x][position.y]
-        hand.clicked(position, targetPiece, targetRoute, targetEffective)
+        val targetRoute = hand.selectedPiece!!.searchedRoute[position.x][position.y]
+        val targetEffective = hand.selectedPiece!!.effectiveRoute[position.x][position.y]
+        //handからルート取り除くべきかな
+        hand.clickedAction(position, targetPiece, targetRoute, targetEffective)
 
     }
 
@@ -327,6 +322,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun selectPiece(piece: Piece<UNIT, GROUND>) {
         println("selectPiece $piece")
         hand.clear()
+        //TODO:ルート探すのはセレクト時かターン開始時
+        //selectできる条件は自分のアクティブなユニットであること。
+        //タイミングとしては何かをセレクトしてる条件で他のユニットに軽く触れてセレクトが移るかで。セレクトもターゲットも良くないか。やっぱりgraspがいいな
         searchRoute(piece)
         searchEffectiveRoute(piece)
         hand.selectedPiece = piece
@@ -348,11 +346,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     /**
-     * 対象の枡に自分以外の駒があるときにtrue
+     * 対象の枡に自分以外の駒があるときにtrue TODO:pieceに移動
      */
     private fun isAnotherPiece(piece: Piece<*, GROUND>, x: Int, y: Int): Boolean {
         val target = pieceMatrix[x][y]
-        return effectiveRoute[x][y] > 0 && target != null && target != piece
+        return piece.effectiveRoute[x][y] > 0 && target != null && target != piece
     }
 
     /**
@@ -385,7 +383,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         val orientations = piece.effectiveOrientations()
         val attackableOrientation = orientations.find { v ->
             val pos = moveWithOrientation(v, position, -1)
-            searchedRoute[pos.x][pos.y] > -1
+            piece.searchedRoute[pos.x][pos.y] > -1
         }
         return if (attackableOrientation != null) moveWithOrientation(attackableOrientation, position, -1) else null
     }
@@ -401,12 +399,4 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
 //        piece.uiPiece.actor.remove()
     }
 
-    //対象の枡が通れるときはスタックに積む…とまれるときか？ともかくこれは駒側主導ではあるが人の操作ではないわけでなんか分けたいなあ。通れる・泊まれるを判断するから無理か。
-    fun stackRoute(position: UiBoard.Position) {
-        if (searchedRoute[position.x][position.y] > 0) {
-            hand.stackRoute(position)
-        } else {
-            hand.routeOut()
-        }
-    }
 }

@@ -635,13 +635,33 @@ object StandardBaseHero {
         createItem(Name.ヴェロニカ__総選挙_, 0, WeaponType.STAFF, MoveType.CAVALRY,  5, 17, 8, 10, 4, 4, 5, 7, 8, 4, 3,
                 Weapon.Hliðskjálf, Assist.Recover2, Special.WindfireBalm2, null, SkillB.WrathfulStaff .lv(3), SkillC.CloseGuard.lv(3))
 
-//        createItem(Name.マルス__伝承英雄_, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 18, 8, 10, 8, 4, 6, 8, 8, 7, 4,
-//                Weapon.FalchionM, Assist.Pivot, null, null, SkillB.EscapeRoute.lv(3), SkillC.SpurSpd.lv(3))
+        createItem(Name.マルス__伝承英雄_, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 18, 8, 10, 8, 4, 6, 8, 8, 7, 4,
+                Weapon.ExaltedFalchion, null, Special.FireEmblem, SkillA.AtkSpdBond.lv(3), SkillB.BindingShield, SkillC.InfantryFlash.lv(3))
+        createItem(Name.ジャムカ, 1, WeaponType.BOW, MoveType.INFANTRY, 3, 16, 8, 10, 7, 4, g50, g65, g50, g50, g30,
+                Weapon.SlayingBow2, null, Special.Astra, SkillA.HeavyBlade.lv(3), SkillB.CancelAffinity.lv(3),null)
+        createItem(Name.シルヴィア, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 16, 5, 8, 4, 6, g55, g50, g65, g30, g55,
+                Weapon.BarrierBlade2, Assist.Dance,null, SkillA.MirrorStance.lv(2), SkillB.DelugeDance.lv(2), null)
+        createItem(Name.キュアン, 2, WeaponType.LANCE, MoveType.CAVALRY, 5, 20, 11, 5, 7, 3, g55, g60, g55, g55, g30,
+                Weapon.GaeBolg, null, Special.DraconicAura, SkillA.SteadyPosture.lv(2), null, SkillC.DriveAtk.lv(2))
+        createItem(Name.レヴィン, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 16, 8, 11, 4, 6, g50, g60, g60, g30, g45,
+                Weapon.Forseti, null, Special.Glimmer, SkillA.SwiftSparrow.lv(2), SkillB.SpecialSpiral.lv(3), SkillC.OddAtkWave.lv(3))
 
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }
 
+    private val g25 = 1
+    private val g30 = 2
+    private val g35 = 3
+    private val g40 = 4
+    private val g45 = 5
+    private val g50 = 6
+    private val g55 = 7
+    private val g60 = 8
+    private val g65 = 9
+    private val g70 = 10
+    private val g75 = 11
+    private val g80 = 12
     private fun createItem(
             name: Name = Name.NONE,
             color: Int = 0,

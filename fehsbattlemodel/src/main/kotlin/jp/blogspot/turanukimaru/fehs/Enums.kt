@@ -167,7 +167,7 @@ enum class SkillType(val jp: String, val weaponType: WeaponType? = null, val pre
 
 //シンプルな関数のリストをもつこともできそう。ENUMにはならんだろうが.コンストラクタに入れる関数はEnum内へのスコープを持たないからこうするしかないのか
 val spLevel2n: (n: Int) -> Int = { n ->
-    when (n) {1 -> 1;2 -> 2;3 -> 4;else -> 0
+    when (n) {1 -> 1;2 -> 2;3 -> 4;4 -> 8;else -> 0
     }
 }
 

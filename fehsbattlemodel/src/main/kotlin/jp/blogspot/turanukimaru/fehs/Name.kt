@@ -1081,6 +1081,17 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     FireEmblem ("炎の紋章","Fire Emblem","火焰紋章"),
     BindingShield("封印の盾","Binding Shield","封印之盾"),
     InfantryFlash("歩行の柔撃","Infantry Flash","步行之柔擊"),
+    シルヴィア("シルヴィア","Silvia",""),
+    BarrierBlade("","Barrier Blade",""),
+    BarrierBlade2("","Barrier Blade+",""),
+    DelugeDance("","Deluge Dance",""),
+    キュアン("キュアン","Quan",""),
+    GaeBolg("ゲイボルグ","",""),
+    SteadyPosture("","Steady Posture",""),
+    レヴィン("レヴィン","Lewyn",""),
+    Forseti("","Forseti",""),
+    SpecialSpiral("","Special Spiral",""),
+    ジャムカ("ジャムカ","Jamke",""),
     ;
 
     /**

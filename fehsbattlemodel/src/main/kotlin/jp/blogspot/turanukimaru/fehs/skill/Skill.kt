@@ -504,6 +504,17 @@ interface Skill {
     }
 
     /**
+     * フォルセティ
+     */
+    fun forseti(fightPlan: FightPlan, lv: Int): FightPlan {
+        if (fightPlan.attacker.hp >= fightPlan.attacker.armedHero.maxHp * (100 - 25 * lv) / 100 && fightPlan.plan.contains(fightPlan.secondAttack)) {
+            fightPlan.plan.remove(fightPlan.secondAttack)
+            fightPlan.plan.add(fightPlan.plan.indexOf(fightPlan.firstAttack) + 1, fightPlan.secondAttack)
+        }
+        return fightPlan
+    }
+
+    /**
      * 刺し違え
      */
     fun brashAssault(battleUnit: BattleUnit, enemy: BattleUnit, percentile: Int): BattleUnit {
@@ -825,6 +836,7 @@ interface Skill {
     fun heavyBlade(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (battleUnit.effectedAtk - enemy.effectedAtk > lv) {
             battleUnit.accelerateAttackCooldown = 1
+            battleUnit.accelerateTargetCooldown = 1
         }
         return battleUnit
     }
@@ -835,6 +847,7 @@ interface Skill {
     fun flashingBlade(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd > lv) {
             battleUnit.accelerateAttackCooldown = 1
+            battleUnit.accelerateTargetCooldown = 1
         }
         return battleUnit
     }

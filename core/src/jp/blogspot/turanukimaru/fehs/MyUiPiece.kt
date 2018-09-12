@@ -6,19 +6,23 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import jp.blogspot.turanukimaru.board.*
 
+/**
+ * 駒UIの拡張。ロジックは親が持つのでこっちは表示関係のみでいいはず
+ */
 class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(actor, uiBoard, myPiece) {
 
     override fun update() {
         // アニメーションはシーケンスで管理するので一回だけ動かす今のStateと前のStateを管理して差分を取る手もあるがどっちがいいかな。
-        if (!piece.animationStart) return
-        //タッチ中はアクション無視
-        if (uiBoard.board.hand.touchedPiece == myPiece && uiBoard.board.hand.dragging()) {
-            actor.clearActions()
-            return
-        }
+//        if (!piece.animationStart) return
+//        //タッチ中はアクション無視
+//        if (uiBoard.board.hand.touchedPiece == myPiece && uiBoard.board.hand.dragging()) {
+//            actor.clearActions()
+//            return
+//        }
 
         piece.animationStart = false
         //アクションフェイズよりもここにドラッグ判定があるべきか
+        println(piece.actionPhase)
         when (piece.actionPhase) {
             Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabledに
                 actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
@@ -48,7 +52,7 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
 
             }
 
-            Piece.ActionPhase.MOVED -> {//移動予定個所に表示。ずれてる場合は徐々に移動させる
+            Piece.ActionPhase.READY -> {//移動予定個所に表示。ずれてる場合は徐々に移動させる
                 actionMoveToPosition(uiBoard.board.hand.newPosition)
             }
             Piece.ActionPhase.ATTACK -> {//戦闘中のアクションはそのうち考える
