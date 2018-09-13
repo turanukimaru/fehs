@@ -52,6 +52,50 @@ class NewHeroTest5 {
     }
 
     @Test
+    fun marTest2() {
+        val unitA = ArmedHero(StandardBaseHero.get(Name.マルス__伝承英雄_.jp)!!)
+        val attacker = BattleUnit(unitA, unitA.maxHp)
+
+        val unitB = ArmedHero(StandardBaseHero.get(Name.ノノ.jp)!!)
+        unitB.spdSpur = 20
+        val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
+        println(fightResult[0])
+        Assert.assertEquals("size == 2", 2, fightResult.size)
+        Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
+        Assert.assertEquals("buildDamage fail", 27, fightResult[0].damage)
+        Assert.assertEquals("hitPoint fail", 40, fightResult[0].source.hp)
+        Assert.assertEquals("hitPoint fail", 18, fightResult[0].target.hp)
+        Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[1].side)
+        Assert.assertEquals("buildDamage fail", 27, fightResult[1].damage)
+        Assert.assertEquals("hitPoint fail", 40, fightResult[1].source.hp)
+        Assert.assertEquals("hitPoint fail", 0, fightResult[1].target.hp)
+    }
+
+    @Test
+    fun marRTest2() {
+        val unitA = ArmedHero(StandardBaseHero.get(Name.ノノ.jp)!!)
+        val attacker = BattleUnit(unitA, unitA.maxHp)
+        unitA.spdSpur = 20
+
+        val unitB = ArmedHero(StandardBaseHero.get(Name.マルス__伝承英雄_.jp)!!)
+        val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
+        println(fightResult[0])
+        Assert.assertEquals("size == 3", 3, fightResult.size)
+        Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
+        Assert.assertEquals("buildDamage fail", 33, fightResult[0].damage)
+        Assert.assertEquals("hitPoint fail", 45, fightResult[0].source.hp)
+        Assert.assertEquals("hitPoint fail", 7, fightResult[0].target.hp)
+        Assert.assertEquals("attack side fail", SIDES.COUNTER, fightResult[1].side)
+        Assert.assertEquals("buildDamage fail", 27, fightResult[1].damage)
+        Assert.assertEquals("hitPoint fail", 18, fightResult[1].source.hp)
+        Assert.assertEquals("hitPoint fail", 7, fightResult[1].target.hp)
+        Assert.assertEquals("attack side fail", SIDES.COUNTER, fightResult[2].side)
+        Assert.assertEquals("buildDamage fail", 38, fightResult[2].damage)
+        Assert.assertEquals("hitPoint fail", 0, fightResult[2].source.hp)
+        Assert.assertEquals("hitPoint fail", 7, fightResult[2].target.hp)
+    }
+
+    @Test
     fun jamTest() {
         val unitA = ArmedHero(StandardBaseHero.get(Name.ジャムカ.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
