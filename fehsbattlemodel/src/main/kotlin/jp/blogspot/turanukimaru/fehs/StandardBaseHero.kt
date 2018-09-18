@@ -642,10 +642,20 @@ object StandardBaseHero {
         createItem(Name.シルヴィア, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 16, 5, 8, 4, 6, g55, g50, g65, g30, g55,
                 Weapon.BarrierBlade2, Assist.Dance,null, SkillA.MirrorStance.lv(2), SkillB.DelugeDance.lv(2), null)
         createItem(Name.キュアン, 2, WeaponType.LANCE, MoveType.CAVALRY, 5, 20, 11, 5, 7, 3, g55, g60, g55, g55, g30,
-                Weapon.GaeBolg, null, Special.DraconicAura, SkillA.SteadyPosture.lv(2), null, SkillC.DriveAtk.lv(2))
+                Weapon.GaeBolg, Assist.RallySpdDef2, Special.DraconicAura, SkillA.SteadyPosture.lv(2), null, SkillC.DriveAtk.lv(2))
         createItem(Name.レヴィン, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 16, 8, 11, 4, 6, g50, g60, g60, g30, g45,
                 Weapon.Forseti, null, Special.Glimmer, SkillA.SwiftSparrow.lv(2), SkillB.SpecialSpiral.lv(3), SkillC.OddAtkWave.lv(3))
 
+        createItem(Name.フローラ, 1, WeaponType.DAGGER, MoveType.INFANTRY,  5, 16, 8, 6, 5, 10, g50, g60, g40, g30, g65,
+                Weapon.HoarfrostKnife, null, Special.Iceberg, SkillA.AtkResBond.lv(3), SkillB.QuickRiposte.lv(3), SkillC.DefPloy.lv(3))
+        createItem(Name.オフェリア, 2, WeaponType.BTOME, MoveType.INFANTRY,  5, 16, 7, 9, 5, 8, g50, g70, g55, g35, g35,
+                Weapon.Missiletainn, Assist.RallyUpAtk2, Special.BlazingLight, SkillA.SturdyBlow.lv(2), SkillB.ChillRes.lv(3), null)
+        createItem(Name.エポニーヌ, 0, WeaponType.BOW, MoveType.INFANTRY,  5, 16, 8, 11, 3, 7, g45, g55, g60, g30, g55,
+                Weapon.ShiningBow2, Assist.DrawBack, Special.Moonbow,null, SkillB.DefResLink.lv(3), SkillC.BowValor.lv(3))
+        createItem(Name.サイラス, 2, WeaponType.LANCE, MoveType.CAVALRY,  5, 18, 9, 5, 10, 4, g50, g60, g45, g60, g40,
+                Weapon.SlayingLance2, Assist.Reposition, null, SkillA.SteadyStance.lv(3), null, SkillC.EvenDefWave.lv(3))
+        createItem(Name.ガロン, 1, WeaponType.DRAGON, MoveType.INFANTRY,  3, 17, 9, 5, 9, 8, g60, g55, g40, g55, g55,
+                Weapon.BreathOfBlight, null, Special.DragonFang, SkillA.DistantDef.lv(3), null, SkillC.PanicPloy.lv(3))
 //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
     }

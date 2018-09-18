@@ -548,7 +548,12 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         //マップ実装時には敵ユニット数との判定が必要
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.effectiveRange == 1) allBonus(battleUnit, 4) else battleUnit
     },
-
+    ShiningBow(Name.ShiningBow, SkillType.BOW, 8, SteelBow, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy)
+    },
+    ShiningBow2(Name.ShiningBow2, SkillType.BOW, 12, ShiningBow, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy)
+    },
 
     //DAGGER
     IronDagger(Name.IronDagger, SkillType.DAGGER, 3),
@@ -624,7 +629,19 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     DuskUchiwa2(Name.SkyMaiougi2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)) {
         override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = super.bothEffect(hardyBearing(battleUnit, enemy, 3), enemy, lv)
     },
-
+    HoarfrostKnife(Name.HoarfrostKnife, SkillType.DAGGER, 14, SilverDagger){
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        //相手が反撃可能かを判定した後判定
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if(enemy.effectiveRange == 1) {
+                battleUnit.defEffect +=20
+                if(enemy.counterAllRange) {
+                    battleUnit.followupable  = true
+                }
+            }
+            return battleUnit
+        }
+    },
 
     //STAFF
     Assault(Name.Assault, SkillType.STAFF, 10),
@@ -825,7 +842,9 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     JuicyWave2(Name.JuicyWave2, SkillType.BTOME, 12, JuicyWave, SpType.PLUS, RefinedSkill.RefineType.Range2) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
-
+    Missiletainn(Name.Missiletainn, SkillType.BTOME, 14, Thoron) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+    },
 
     //GTOME
     Wind(Name.Wind, SkillType.GTOME, 4),
@@ -950,7 +969,12 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
             return battleUnit //blowRes(battleUnit, 4)受け性能アップはなかったよな？
         }
     },
-
+    BreathOfBlight(Name.BreathOfBlight, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
+            antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.DRAGON)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
+                antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.DRAGON)
+    },
     ;
 
     /**

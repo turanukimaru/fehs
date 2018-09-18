@@ -836,7 +836,6 @@ interface Skill {
     fun heavyBlade(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (battleUnit.effectedAtk - enemy.effectedAtk > lv) {
             battleUnit.accelerateAttackCooldown = 1
-            battleUnit.accelerateTargetCooldown = 1
         }
         return battleUnit
     }
@@ -847,7 +846,6 @@ interface Skill {
     fun flashingBlade(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd > lv) {
             battleUnit.accelerateAttackCooldown = 1
-            battleUnit.accelerateTargetCooldown = 1
         }
         return battleUnit
     }

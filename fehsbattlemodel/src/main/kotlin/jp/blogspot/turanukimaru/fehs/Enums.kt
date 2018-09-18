@@ -180,6 +180,7 @@ enum class SpType(val sp: (lv: Int) -> Int) {
     LEGEND({ _ -> 400 }),
     ASSIST({ _ -> 150 }),
     ASSIST2({ _ -> 300 }),
+    ASSIST3({ _ -> 400 }),
     SPECIAL3({ _ -> 100 }),
     SPECIAL4({ _ -> 200 }),
     SPECIALA({ _ -> 300 }),
