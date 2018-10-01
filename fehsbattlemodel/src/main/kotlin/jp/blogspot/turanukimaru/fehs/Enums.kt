@@ -177,21 +177,22 @@ enum class SpType(val sp: (lv: Int) -> Int) {
     STEEL({ _ -> 100 }),
     SILVER({ _ -> 200 }),
     PLUS({ _ -> 300 }),
-    LEGEND({ _ -> 400 }),
+    LEGEND_W({ _ -> 400 }),
     ASSIST({ _ -> 150 }),
     ASSIST2({ _ -> 300 }),
     ASSIST3({ _ -> 400 }),
     SPECIAL3({ _ -> 100 }),
     SPECIAL4({ _ -> 200 }),
-    SPECIALA({ _ -> 300 }),
+    SPECIAL_A({ _ -> 300 }),
     SPECIAL5({ _ -> 500 }),
-    EXCLUSIVE({ _ -> 300 }),
+    LEGEND_S({ _ -> 300 }),
     SHIELD({ _ -> 200 }),
     BREATH({ _ -> 240 }),
     BASE30({ lv -> 30 * spLevel2n(lv) }),//能力値+3
     BASE40({ lv -> 40 * spLevel2n(lv) }),//覚醒
     BASE50({ lv -> 50 * spLevel2n(lv) }),//ほとんどこっち
     BASE60({ lv -> 60 * spLevel2n(lv) }),//回復、蛇毒、紫煙
+    BASE70({ lv -> when (lv){ 1->70;2->150;3->300;else->0}}),//Duel査定系
     BASE80({ lv -> 80 * spLevel2n(lv) }),//能力値+2x2
     BASE100({ lv -> 100 * spLevel2n(lv) }),//最高2LV,Sealスキル
     BASE120({ lv -> 120 * spLevel2n(lv) }),//最高2LV,高級スキル

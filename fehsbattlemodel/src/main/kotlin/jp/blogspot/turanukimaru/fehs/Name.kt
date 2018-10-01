@@ -124,6 +124,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     チキ__大人_2("チキ（大人）＋", "Tiki(A)+", "琪姬(A)+"),
     チキ__幼_2("チキ（幼）＋", "Tiki(Y)+", "琪姬(Y)+"),
     チキ__幼夏_("チキ（幼夏）", "Tiki(Y) (Summer)", "琪姬(Y) (Summer)"),
+    チキ__伝承英雄_("チキ（伝承英雄）", "Tiki(Y) (Vanguard Legend)", "琪姬(Y) (Vanguard Legend)"),
     タクミ__夏_("タクミ（夏）", "Takumi (Summer)", "拓海 (Summer)"),
     リンダ__夏_("リンダ（夏）", "Linde (Summer)", "琳達 (Summer)"),
     カミラ__夏_("カミラ（夏）", "Camilla (Summer)", "卡美拉 (Summer)"),
@@ -962,8 +963,9 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     Safeguard2("守りの剣＋", "Safeguard+", "Safeguard+"),
     FirestormDance("業火疾風の舞い", "Firestorm Dance", "Firestorm Dance"),
     Mjolnir("トールハンマー", "Mjölnir", "Mjölnir"),
-    OddAtkWave("攻撃の波・奇数", "Odd Atk Wave", "Odd Atk Wave"),
-    OddResWave("魔防の波・奇数", "Odd Res Wave", "Odd Res Wave"),
+    OddAtkWave("攻撃の波・奇数", "Odd Atk Wave", "攻擊之波・奇數"),
+    OddSpdWave("速さの波・奇数", "Odd Spd Wave", "速度之波・奇數"),
+    OddResWave("魔防の波・奇数", "Odd Res Wave", "魔防之波・奇數"),
     ユリウス("ユリウス", "Julius", "尤利烏斯"),
     Loptous("ロプトウス", "Loptous", "Loptous"),
 
@@ -1108,6 +1110,23 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     BreathOfBlight("暗夜竜のブレス","Breath of Blight","暗夜龍吐息"),
     EvenDefWave ("守備の波・偶数","Even Def Wave","防守之波・偶數"),
     サイラス("サイラス","Silas","賽萊斯"),
+    ヴェロニカ("ヴェロニカ","Veronica","維洛妮卡"),
+    ザカリア("？？？","???","？？？"),
+    レーヴァテイン("レーヴァテイン","Laevatein","瑞瓦提恩"),
+    ヘルビンディ("ヘルビンディ","Helbindi","赫爾賓迪"),
+    ロキ("ロキ","Loki","洛基"),
+    レーギャルン("レーギャルン","Laegjarn","瑞瓦伽倫"),
+    スルト("スルト","Surtr","斯爾特"),
+    Niu("","Níu",""),
+    Laevatein("","Laevatein",""),
+    RDuelFlying("","R Duel Flying",""),
+    GDuelInfantry("","G Duel Infantry",""),
+    Byleistr("","Býleistr",""),
+    Thokk("セック","Thökk",""),
+    Sinmara("シンモラ","Sinmara",""),
+    FierceBreath("","",""),
+    WithEveryone("","",""),
+    DivineMist("","","")
     ;
 
     /**

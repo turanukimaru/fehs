@@ -63,6 +63,9 @@ interface Skill {
      */
     class None : Skill {
         override val preSkill: Skill get() = this
+        override fun toString(): String {
+            return "NONE"
+        }
     }
 
     companion object {
@@ -80,7 +83,7 @@ interface Skill {
     /**
      * 戦闘時の効果。基本的にunitの能力値を上下したり
      */
-    fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = level): BattleUnit = battleUnit
+    fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = level): BattleUnit = battleUnit
 
     /**
      * 攻撃時の効果。基本的にunitの能力値を上下したり
@@ -91,6 +94,11 @@ interface Skill {
      * 反撃時の効果
      */
     fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = level): BattleUnit = battleUnit
+
+    /**
+     * 戦闘時の効果。基本的にunitの能力値を上下したり
+     */
+    fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = level): BattleUnit = battleUnit
 
     /**
      * 攻撃時の効果。基本的にunitの能力値が上下した後参照したいとき
@@ -151,12 +159,7 @@ interface Skill {
     /**
      * 装備時の能力値変化
      */
-    fun equip(armedHero: ArmedHero, lv: Int = this.level): ArmedHero {
-        if (type.isWeapon) {
-            armedHero.atkEqp += lv
-        }
-        return armedHero
-    }
+    fun equip(armedHero: ArmedHero, lv: Int = this.level): ArmedHero = armedHero
 
     /**
      * ターン開始時。鼓舞や自己バフ
@@ -173,6 +176,10 @@ interface Skill {
      */
     fun preventedDamage(battleUnit: BattleUnit, damage: Int = 0, lv: Int = level): BattleUnit = battleUnit
 
+    /**
+     * スキルによる能力値合計変動。
+     */
+    fun totalParam(n:Int):Int = n
     //ここからスキル効果
     /**
      *  覚醒。   試しに作ったけど〇〇の覚醒ってターン開始時効果だから今は要らなかったんじゃ・・・？
@@ -375,7 +382,6 @@ interface Skill {
      * キラー系カウント-1
      */
     fun equipKiller(armedHero: ArmedHero, lv: Int): ArmedHero {
-        armedHero.atkEqp += lv
         armedHero.reduceSpecialCooldown += 1
         return armedHero
     }
@@ -649,16 +655,6 @@ interface Skill {
     }
 
     /**
-     * 装備の基本。武器の時はLevelを攻撃力に追加するので必ずSuperは呼ぶこと。…別建てにするかなあ
-     */
-    fun equip(armedHero: ArmedHero, type: SkillType): ArmedHero {
-        if (type.isWeapon) {
-            armedHero.atkEqp += level
-        }
-        return armedHero
-    }
-
-    /**
      * HP満タン時ボーナス
      */
     fun fullHpBonus(battleUnit: BattleUnit, i: Int): BattleUnit {
@@ -695,10 +691,9 @@ interface Skill {
     }
 
     /**
-     * 勇者装備。攻撃＋と同時に速さ-5
+     * 勇者装備。速さ-5
      */
     fun equipBrave(armedHero: ArmedHero, lv: Int): ArmedHero {
-        armedHero.atkEqp += lv
         armedHero.spdEqp -= 5
         return armedHero
     }
@@ -707,7 +702,6 @@ interface Skill {
      * ブレード装備。攻撃＋と同時に奥義カウント＋１
      */
     fun equipBlade(armedHero: ArmedHero, lv: Int): ArmedHero {
-        armedHero.atkEqp += lv
         armedHero.reduceSpecialCooldown -= 1
         return armedHero
     }
@@ -785,7 +779,7 @@ interface Skill {
     }
 
     /**
-     * 相手のデバフ分攻撃に追加。
+     * 相手のバフ分攻撃に追加。
      */
     fun debuffBonus(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
         battleUnit.debuffBonus = enemy.atkBuff + enemy.spdBuff + enemy.defBuff + enemy.resBuff
@@ -990,6 +984,12 @@ interface Skill {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
             enemy.disableChangePlan = true
         }
+        return battleUnit
+    }
+
+    //レーヴァテインのダメージ受けてる分攻撃に追加。だけどこんな性能だったっけ？
+    fun addDealtDamage(battleUnit: BattleUnit): BattleUnit {
+        battleUnit.atkEffect+= battleUnit.armedHero.maxHp - battleUnit.hp
         return battleUnit
     }
 

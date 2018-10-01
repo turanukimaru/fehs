@@ -74,17 +74,17 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     WindfireBalm2(Name.WindfireBalm2, SkillType.SPECIAL_D, 1),
 
     RisingFlame(Name.RisingFlame, SkillType.SPECIAL_B, 4),
-    BlazingFlame(Name.BlazingFlame, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
-    GrowingFlame(Name.GrowingFlame, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
+    BlazingFlame(Name.BlazingFlame, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
+    GrowingFlame(Name.GrowingFlame, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
     RisingLight(Name.RisingLight, SkillType.SPECIAL_B, 4),
-    BlazingLight(Name.BlazingLight, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
-    GrowingLight(Name.GrowingLight, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
+    BlazingLight(Name.BlazingLight, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
+    GrowingLight(Name.GrowingLight, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
     RisingWind(Name.RisingWind, SkillType.SPECIAL_B, 4),
-    BlazingWind(Name.BlazingWind, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
-    GrowingWind(Name.GrowingWind, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
+    BlazingWind(Name.BlazingWind, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
+    GrowingWind(Name.GrowingWind, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
     RisingThunder(Name.RisingThunder, SkillType.SPECIAL_B, 4),
-    BlazingThunder(Name.BlazingThunder, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
-    GrowingThunder(Name.GrowingThunder, SkillType.SPECIAL_B, 4, spType = SpType.SPECIALA),
+    BlazingThunder(Name.BlazingThunder, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
+    GrowingThunder(Name.GrowingThunder, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
 
     ;
 
@@ -92,7 +92,7 @@ enum class Special(override val jp: Name, override val type: SkillType, override
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      * なお2を＋に置き換える。...けどこれもう要らないか？多言語対応したし
      */
-    override val value get() = name.replace("2", "+")
+    override val value get() = name
 
     companion object {
         private val itemMap = mutableMapOf<String, Skill>()

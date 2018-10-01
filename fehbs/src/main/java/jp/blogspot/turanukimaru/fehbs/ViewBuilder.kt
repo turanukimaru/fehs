@@ -11,16 +11,16 @@ import jp.blogspot.turanukimaru.fehs.skill.*
 
 class ViewBuilder(private val locale: Locale) {
 
-    fun createRadioButtons(resources: Resources, rootView: View) {
-        createSkillRadioButton(resources, rootView, R.id.weaponRadioButton, R.string.weapon_title, R.array.weapons_swords)
-        createSkillRadioButton(resources, rootView, R.id.assistRadioButton, R.string.assist_title, R.array.assists)
-        createSkillRadioButton(resources, rootView, R.id.specialRadioButton, R.string.special_title, R.array.specials)
-        createSkillRadioButton(resources, rootView, R.id.aSkillRadioButton, R.string.aSkill_title, R.array.aSkills)
-        createSkillRadioButton(resources, rootView, R.id.bSkillRadioButton, R.string.bSkill_title, R.array.bSkills)
-        createSkillRadioButton(resources, rootView, R.id.cSkillRadioButton, R.string.cSkill_title, R.array.cSkills)
-        createSkillRadioButton(resources, rootView, R.id.sealRadioButton, R.string.seal_title, R.array.seals)
-
-    }
+//    fun createRadioButtons(resources: Resources, rootView: View) {
+//        createSkillRadioButton(resources, rootView, R.id.weaponRadioButton, R.string.weapon_title, R.array.weapons_swords)
+//        createSkillRadioButton(resources, rootView, R.id.assistRadioButton, R.string.assist_title, R.array.assists)
+//        createSkillRadioButton(resources, rootView, R.id.specialRadioButton, R.string.special_title, R.array.specials)
+//        createSkillRadioButton(resources, rootView, R.id.aSkillRadioButton, R.string.aSkill_title, R.array.aSkills)
+//        createSkillRadioButton(resources, rootView, R.id.bSkillRadioButton, R.string.bSkill_title, R.array.bSkills)
+//        createSkillRadioButton(resources, rootView, R.id.cSkillRadioButton, R.string.cSkill_title, R.array.cSkills)
+//        createSkillRadioButton(resources, rootView, R.id.sealRadioButton, R.string.seal_title, R.array.seals)
+//
+//    }
 
     /**
      * ラジオボタン作成。スキルとかXML定義の物
@@ -29,9 +29,11 @@ class ViewBuilder(private val locale: Locale) {
         createSkillRadioButton(rootView, radioButton, title, resources.getStringArray(items))
     }
 
-    private fun createSkillRadioButton(rootView: View, radioButton: Int, title: Int, strings: Array<String>) {
+    private fun createSkillRadioButton(rootView: View, radioButton: Int, title: Int, fullStrings: Array<String>, maxLvStrings: Array<String> = fullStrings) {
         //項目選択.
         rootView.findViewById<RadioButton>(radioButton).setOnClickListener { v ->
+            val maxOnly = rootView.findViewById<CheckBox>(R.id.SkillMaxCheckBox).isChecked
+            val strings = if (maxOnly ) maxLvStrings else fullStrings
             val index = strings.indexOf(rootView.findViewById<RadioButton>(radioButton).text)
             val builder = AlertDialog.Builder(v.context).setTitle(title).setCancelable(true)
             builder.setSingleChoiceItems(strings, if (index >= 0) index else 0
@@ -142,7 +144,7 @@ class ViewBuilder(private val locale: Locale) {
         if (!texts.contains(it.refinedWeapon.localeName(locale))) {
             rootView.findViewById<RadioButton>(R.id.refineRadioButton).text = ""
         }
-        createSkillRadioButton(rootView, R.id.refineRadioButton, R.string.refine_title, texts.toTypedArray())
+        createSkillRadioButton(rootView, R.id.refineRadioButton, R.string.refine_title, texts.toTypedArray(), texts.toTypedArray())
 
     }
 
@@ -187,9 +189,9 @@ class ViewBuilder(private val locale: Locale) {
             createSkillRadioButton(rootView, R.id.refineRadioButton, R.string.refine_title, RefinedSkill.spreadItems(armedClass.baseWeapon).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.assistRadioButton, R.string.assist_title, Assist.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.specialRadioButton, R.string.special_title, Special.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
-            createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, SkillA.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
-            createSkillRadioButton(rootView, R.id.bSkillRadioButton, R.string.bSkill_title, SkillB.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
-            createSkillRadioButton(rootView, R.id.cSkillRadioButton, R.string.cSkill_title, SkillC.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+            createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, SkillA.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray(), SkillA.spreadMaxLvItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+            createSkillRadioButton(rootView, R.id.bSkillRadioButton, R.string.bSkill_title, SkillB.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray(), SkillB.spreadMaxLvItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+            createSkillRadioButton(rootView, R.id.cSkillRadioButton, R.string.cSkill_title, SkillC.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray(), SkillC.spreadMaxLvItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.sealRadioButton, R.string.seal_title, Seal.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
         }
 

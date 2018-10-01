@@ -33,7 +33,7 @@ class HeroRegisterFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        viewBuilder.createRadioButtons(resources, rootView)
+//        viewBuilder.createRadioButtons(resources, rootView)
 
         val spinnerWeapon = rootView.findViewById<Spinner>(R.id.spinner_weapon3)
         val spinnerMove = rootView.findViewById<Spinner>(R.id.spinner_move3)

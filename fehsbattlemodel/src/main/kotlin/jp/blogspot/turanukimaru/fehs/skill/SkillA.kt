@@ -63,14 +63,14 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     },
 
     TriangleAdept(Name.TriangleAdept, SkillType.A) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, lv)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, lv)
     },
     LifeAndDeath(Name.LifeAndDeath, SkillType.A) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = lifeAndDeath(armedHero, lv + 2)
     },
     Fury(Name.Fury, SkillType.A) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = fury(armedHero, lv)
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fightHpLoss(battleUnit, lv * 2)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fightHpLoss(battleUnit, lv * 2)
     },
     FortressDef(Name.FortressDef, SkillType.A) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipDef(armedHero, lv + 2), -3)
@@ -90,30 +90,30 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
     DartingBlow(Name.DartingBlow, SkillType.A) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(battleUnit, lv * 2)
     },
-    SwiftSparrow(Name.SwiftSparrow, SkillType.A, maxLevel = 2,spType = SpType.BASE120) {
+    SwiftSparrow(Name.SwiftSparrow, SkillType.A, maxLevel = 2, spType = SpType.BASE120) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowSpd(battleUnit, lv * 2), lv * 2)
     },
-    SturdyBlow(Name.SturdyBlow, SkillType.A, maxLevel = 2,spType = SpType.BASE120) {
+    SturdyBlow(Name.SturdyBlow, SkillType.A, maxLevel = 2, spType = SpType.BASE120) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowDef(battleUnit, lv * 2), lv * 2)
     },
-    SteadyBlow(Name.SteadyBlow, SkillType.A, maxLevel = 2,spType = SpType.BASE120) {
+    SteadyBlow(Name.SteadyBlow, SkillType.A, maxLevel = 2, spType = SpType.BASE120) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(blowDef(battleUnit, lv * 2), lv * 2)
     },
-    MirrorStrike(Name.MirrorStrike, SkillType.A, maxLevel = 2,spType = SpType.BASE120) {
+    MirrorStrike(Name.MirrorStrike, SkillType.A, maxLevel = 2, spType = SpType.BASE120) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowRes(battleUnit, lv * 2), lv * 2)
     },
-    BracingBlow(Name.BracingBlow, SkillType.A, maxLevel = 2,spType = SpType.BASE120) {
+    BracingBlow(Name.BracingBlow, SkillType.A, maxLevel = 2, spType = SpType.BASE120) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(blowDef(battleUnit, lv * 2), lv * 2)
     },
-    SwiftStrike(Name.SwiftStrike, SkillType.A, maxLevel = 2,spType = SpType.BASE120) {
+    SwiftStrike(Name.SwiftStrike, SkillType.A, maxLevel = 2, spType = SpType.BASE120) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(blowSpd(battleUnit, lv * 2), lv * 2)
     },
 
-    DistantDef(Name.DistantDef, SkillType.A,spType = SpType.BASE60) {
+    DistantDef(Name.DistantDef, SkillType.A, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, lv * 2)
     },
 
-    CloseDef(Name.CloseDef, SkillType.A,spType = SpType.BASE60) {
+    CloseDef(Name.CloseDef, SkillType.A, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = closeDef(battleUnit, enemy, lv * 2)
     },
 
@@ -161,39 +161,45 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
             return blowDef(battleUnit, 4)
         }
     },
-
+    FierceBreath(Name.FierceBreath, SkillType.A, maxLevel = 0, spType = SpType.BREATH) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.accelerateAttackCooldown = 1
+            battleUnit.accelerateTargetCooldown = 1
+            return blowAtk(battleUnit, 4)
+        }
+    },
     EarthBoost(Name.EarthBoost, SkillType.A) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostDef(battleUnit, enemy, lv * 2)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostDef(battleUnit, enemy, lv * 2)
     },
     WindBoost(Name.WindBoost, SkillType.A) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostSpd(battleUnit, enemy, lv * 2)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostSpd(battleUnit, enemy, lv * 2)
     },
     FireBoost(Name.FireBoost, SkillType.A) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostAtk(battleUnit, enemy, lv * 2)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostAtk(battleUnit, enemy, lv * 2)
     },
     WaterBoost(Name.WaterBoost, SkillType.A) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostRes(battleUnit, enemy, lv * 2)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostRes(battleUnit, enemy, lv * 2)
     },
 
-    HeavyBlade(Name.HeavyBlade, SkillType.A,spType = SpType.BASE60) {
+    HeavyBlade(Name.HeavyBlade, SkillType.A, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, 7 - lv * 2)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, 7 - lv * 2)
     },
-    FlashingBlade(Name.FlashingBlade, SkillType.A,spType = SpType.BASE60) {
+    FlashingBlade(Name.FlashingBlade, SkillType.A, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 7 - lv * 2)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 7 - lv * 2)
     },
 
-    CloseCounter(Name.CloseCounter, SkillType.A, maxLevel = 0, spType = SpType.EXCLUSIVE) {
+    CloseCounter(Name.CloseCounter, SkillType.A, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
 
-    DistantCounter(Name.DistantCounter, SkillType.A, maxLevel = 0, spType = SpType.EXCLUSIVE) {
+    DistantCounter(Name.DistantCounter, SkillType.A, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
 
-    OstianCounter(Name.OstianCounter, SkillType.A, maxLevel = 0, spType = SpType.EXCLUSIVE) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =blowAtk(blowDef(counterAllRange(battleUnit),4),4)
+    OstianCounter(Name.OstianCounter, SkillType.A, maxLevel = 0, spType = SpType.LEGEND_S) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowDef(counterAllRange(battleUnit), 4), 4)
     },
 
     SvalinnShield(Name.SvalinnShield, SkillType.A, maxLevel = 0, spType = SpType.SHIELD) {
@@ -206,7 +212,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.FLIER)
     },
 
-    Dragonskin(Name.Dragonskin, SkillType.A, maxLevel = 0, spType = SpType.EXCLUSIVE) {
+    Dragonskin(Name.Dragonskin, SkillType.A, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 4), 4)
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.FLIER)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.FLIER)
@@ -217,43 +223,51 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.CAVALRY)
     },
     AtkSpdBond(Name.AtkSpdBond, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, lv + 2), lv + 2) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, lv + 2), lv + 2) else battleUnit
     },
     AtkDefBond(Name.AtkDefBond, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowDef(battleUnit, lv + 2), lv + 2) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowDef(battleUnit, lv + 2), lv + 2) else battleUnit
     },
     AtkResBond(Name.AtkResBond, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowRes(battleUnit, lv + 2), lv + 2) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowRes(battleUnit, lv + 2), lv + 2) else battleUnit
     },
     SpdDefBond(Name.SpdDefBond, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowSpd(blowDef(battleUnit, lv + 2), lv + 2) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowSpd(blowDef(battleUnit, lv + 2), lv + 2) else battleUnit
     },
     SpdResBond(Name.SpdResBond, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowSpd(blowRes(battleUnit, lv + 2), lv + 2) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowSpd(blowRes(battleUnit, lv + 2), lv + 2) else battleUnit
     },
 
     AtkResSolo(Name.AtkResSolo, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) blowAtk(blowRes(battleUnit, lv *2), lv *2) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) blowAtk(blowRes(battleUnit, lv * 2), lv * 2) else battleUnit
     },
 
     BrazenAtkDef(Name.BrazenAtkDef, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenDef(battleUnit, lv * 2 + 1), lv * 2 + 1)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenDef(battleUnit, lv * 2 + 1), lv * 2 + 1)
     },
     BrazenAtkSpd(Name.BrazenAtkSpd, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenSpd(battleUnit, lv * 2 + 1), lv * 2 + 1)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenSpd(battleUnit, lv * 2 + 1), lv * 2 + 1)
     },
     BrazenAtkRes(Name.BrazenAtkRes, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
     },
     BrazenDefRes(Name.BrazenAtkSpd, SkillType.A, spType = SpType.BASE60) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenDef(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenDef(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
     },
     LawsOfSacae(Name.LawsOfSacae, SkillType.A, maxLevel = 0) {
         //実際は2以上。これ比較対象をユニットに持たせなきゃだめだな
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4) else battleUnit
     },
     AtkSpdPush(Name.AtkSpdPush, SkillType.A) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpDoubleAttack(battleUnit,  1)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkSpdBonus(battleUnit, lv  + 2, 1)
+    },
+    RDuelFlying(Name.RDuelFlying, SkillType.A, spType = SpType.BASE70) {
+        override fun totalParam(n: Int): Int =170
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
+    },
+    GDuelInfantry(Name.GDuelInfantry, SkillType.A, spType = SpType.BASE70) {
+        override fun totalParam(n: Int): Int =170
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
     ;
 
@@ -275,6 +289,12 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
             if (e.maxLevel == 0) {
                 list.add(e)
             } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
+        }
+
+        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+            if (e.maxLevel == 0) {
+                list.add(e)
+            } else list.add(e.lv(e.maxLevel));list
         }
 
         private val itemMap = mutableMapOf<String, SkillA>()

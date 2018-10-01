@@ -29,7 +29,7 @@ class NewHeroTest4 {
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[2].side)
         Assert.assertEquals("buildDamage fail", 34, fightResult[2].damage)
         Assert.assertEquals("hitPoint fail", 27, fightResult[2].source.hp)
-        Assert.assertEquals("hitPoint fail", 7, fightResult[2].target.hp)
+        Assert.assertEquals("hitPoint fail", 0, fightResult[2].target.hp)
     }
 
     @Test

@@ -74,6 +74,8 @@
     <string name="spacer">        </string>
     <string name="max_rarity">5</string>
     <string name="zero">0</string>
+    <string name="max_lv">MaxLV</string>
+    <string name="skill_filter">Skill Filter</string>
 
     <string-array name="weapon_type">
         <item>WEAPON</item>

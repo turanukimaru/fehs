@@ -69,16 +69,16 @@ class NewHeroTest3 {
 
         val unitB = ArmedHero(StandardBaseHero.get(Name.ヘンリー__収穫祭_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
-        println(fightResult[0])
-        Assert.assertEquals("size == 1", 1, fightResult.size)
+        fightResult.forEach { println(it) }
+        Assert.assertEquals("size == 2", 2, fightResult.size)
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         Assert.assertEquals("buildDamage fail", 14, fightResult[0].damage)
         Assert.assertEquals("hitPoint fail", 36, fightResult[0].source.hp)
         Assert.assertEquals("hitPoint fail", 22, fightResult[0].target.hp)
-        Assert.assertEquals("attack side fail", SIDES.COUNTER, fightResult[0].side)
-        Assert.assertEquals("buildDamage fail", 42, fightResult[0].damage)
-        Assert.assertEquals("hitPoint fail", 0, fightResult[0].source.hp)
-        Assert.assertEquals("hitPoint fail", 22, fightResult[0].target.hp)
+        Assert.assertEquals("attack side fail", SIDES.COUNTER, fightResult[1].side)
+        Assert.assertEquals("buildDamage fail", 46, fightResult[1].damage)
+        Assert.assertEquals("hitPoint fail", 0, fightResult[1].source.hp)
+        Assert.assertEquals("hitPoint fail", 22, fightResult[1].target.hp)
     }
 
 

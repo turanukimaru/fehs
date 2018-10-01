@@ -84,17 +84,18 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     ResTactic(Name.ResTactic, SkillType.C, spType = SpType.BASE60),
     FlierGuidance(Name.FlierGuidance, SkillType.C, spType = SpType.BASE60),
     OddAtkWave(Name.OddAtkWave, SkillType.C, spType = SpType.BASE60),
+    OddSpdWave(Name.OddSpdWave, SkillType.C, spType = SpType.BASE60),
     OddDefWave(Name.OddDefWave, SkillType.C, spType = SpType.BASE60),
     OddResWave(Name.OddResWave, SkillType.C, spType = SpType.BASE60),
     EvenSpdWave(Name.EvenSpdWave, SkillType.C, spType = SpType.BASE60),
     EvenDefWave(Name.EvenDefWave, SkillType.C, spType = SpType.BASE60),
     EvenResWave(Name.EvenResWave, SkillType.C, spType = SpType.BASE60),
     InfantryRush(Name.InfantryRush, SkillType.C, spType = SpType.BASE60),
-    OstiasPulse(Name.OstiasPulse, SkillType.C, spType = SpType.EXCLUSIVE),
+    OstiasPulse(Name.OstiasPulse, SkillType.C, spType = SpType.LEGEND_S),
     DistantGuard(Name.DistantGuard, SkillType.C, spType = SpType.BASE60),
     CloseGuard(Name.CloseGuard, SkillType.C, spType = SpType.BASE60),
     InfantryFlash(Name.InfantryFlash, SkillType.C, spType = SpType.BASE60),
-
+    WithEveryone(Name.WithEveryone, SkillType.C, spType = SpType.LEGEND_S),
     ;
 
     /**
@@ -115,6 +116,11 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
             if (e.maxLevel == 0) {
                 list.add(e)
             } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
+        }
+        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = SkillA.values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+            if (e.maxLevel == 0) {
+                list.add(e)
+            } else list.add(e.lv(e.maxLevel));list
         }
 
         private val itemMap = mutableMapOf<String, SkillC>()

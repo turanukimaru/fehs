@@ -53,27 +53,27 @@ enum class Seal(override val jp: Name, override val type: SkillType, override va
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brashAssault(battleUnit, enemy, lv)
     },
     HardyBearing(Name.HardyBearing, SkillType.SEAL) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.disableChangePlan = true
             if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
                 enemy.disableChangePlan = true
             }
-            return super.bothEffect(battleUnit, enemy, lv)
+            return super.fightEffect(battleUnit, enemy, lv)
         }
 
     },
     HeavyBlade(Name.BrashAssault, SkillType.B) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, lv)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, lv)
     },
 
     PhantomSpeed(Name.PhantomSpeed, SkillType.SEAL) {
-        override fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.phantomSpeed = when (lv) {1 -> 5
                 2 -> 8
                 3 -> 10
                 else -> 0
             }
-            return super.bothEffect(battleUnit, enemy, lv)
+            return super.fightEffect(battleUnit, enemy, lv)
         }
     },
 

@@ -143,12 +143,13 @@ data class ArmedHero(
     override fun toString(): String = "$name MaxHP:$maxHp , totalAtk:$atk , spd:$spd , def:$def , res:$res ,weapon:$weapon, refinedWeapon:$refinedWeapon, assist:$assist, special:$special, skillA,$aSkill, skillB:$bSkill, skillC:$cSkill, seal:$seal, hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
 
     val totalSp get() = skills.fold(0) { point, skill -> point + skill.sp() }
-    val score get() = ((totalSp / 100) + totalParam / 5 + levelBoost * 2 + rarity * rarity + 45 + 78 + 150) * 2//LV40固定でいいか
+    //合計能力値はASkillだけだろうしこれでいいだろ
+    val score get() = ((totalSp / 100) + aSkill.totalParam(totalParam) / 5 + levelBoost * 2 + rarity * rarity + 45 + 78 + 150) * 2//LV40固定でいいか
     /**
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */
     fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit =
-            skills.fold(battleUnit) { b, skill -> skill.bothEffect(b, enemy) }
+            skills.fold(battleUnit) { b, skill -> skill.fightEffect(b, enemy) }
 
 
     /**

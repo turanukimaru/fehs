@@ -36,7 +36,7 @@ enum class Assist(override val jp: Name, override val type: SkillType, override 
     Shove(Name.Shove, SkillType.ASSIST),
     Smite(Name.Smite, SkillType.ASSIST),
     HarshCommand(Name.HarshCommand, SkillType.ASSIST),
-    FutureVision(Name.FutureVision, SkillType.ASSIST, spType = SpType.LEGEND),
+    FutureVision(Name.FutureVision, SkillType.ASSIST, spType = SpType.LEGEND_W),
     //杖の＋どうするかな。実装のメリットあんましないよなあ.でもSP計算に要るのか…
     Heal(Name.Heal, SkillType.ASSIST),
     Reconcile(Name.Reconcile, SkillType.ASSIST),
@@ -55,9 +55,8 @@ enum class Assist(override val jp: Name, override val type: SkillType, override 
 
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
-     * なお2を＋に置き換える。
      */
-    override val value get() = name.replace("2", "+")
+    override val value get() = name
 
     //  override fun localeName(locale: Locale): String =jp.localeName(locale)
 
