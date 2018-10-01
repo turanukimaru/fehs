@@ -73,7 +73,7 @@
     <string name="spacer">        </string>
     <string name="max_rarity">5</string>
     <string name="zero">0</string>
-    <string name="max_lv">MaxLV</string>
+    <string name="max_lv">A-C Max</string>
     <string name="skill_filter">Skill Filter</string>
 
     <string-array name="weapon_type">
@@ -124,12 +124,6 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
-    </string-array>
-    <string-array name="levelUps">
-        <item>☆5L40</item>
-        <item>☆5L40+10</item>
-        <item>☆4L40</item>
-        <item>☆4L40+10</item>
     </string-array>
     <string-array name="empty10">
         <item>@string/none</item>

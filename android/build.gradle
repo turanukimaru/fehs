@@ -1,6 +1,6 @@
 android {
     //IDEやライブラリのバージョンを挙げると古いバージョンがサポートされなくなる…ver25を指定しているのにエラーメッセージが26が見つかりませんでしたとかjettyプラグインが動かないとかなので辛い。
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
     compileSdkVersion 26
     sourceSets {
         main {

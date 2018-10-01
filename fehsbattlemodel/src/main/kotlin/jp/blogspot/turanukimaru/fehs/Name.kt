@@ -1117,16 +1117,16 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     ロキ("ロキ","Loki","洛基"),
     レーギャルン("レーギャルン","Laegjarn","瑞瓦伽倫"),
     スルト("スルト","Surtr","斯爾特"),
-    Niu("","Níu",""),
-    Laevatein("","Laevatein",""),
-    RDuelFlying("","R Duel Flying",""),
-    GDuelInfantry("","G Duel Infantry",""),
-    Byleistr("","Býleistr",""),
-    Thokk("セック","Thökk",""),
-    Sinmara("シンモラ","Sinmara",""),
-    FierceBreath("","",""),
-    WithEveryone("","",""),
-    DivineMist("","","")
+    Niu("ニーウ","Níu","尼烏"),
+    Laevatein("レーヴァテイン","Laevatein","瑞瓦提恩"),
+    RDuelFlying("赤の死闘・飛行","R Duel Flying","赤色死鬥・飛行"),
+    GDuelInfantry("緑の死闘・歩行","G Duel Infantry","綠色死鬥・步行"),
+    Byleistr("ビューレイスト","Býleistr","貝萊斯特"),
+    Thokk("セック","Thökk","Thökk"),
+    Sinmara("シンモラ","Sinmara","Sinmara"),
+    FierceBreath("鬼神の呼吸","Fierce Breath","鬼神呼吸"),
+    WithEveryone("みんなと一緒に","With Everyone!","和大家一起"),
+    DivineMist("神霧のブレス","Divine Mist","神霧吐息")
     ;
 
     /**

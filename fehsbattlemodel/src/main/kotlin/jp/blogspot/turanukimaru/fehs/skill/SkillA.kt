@@ -259,14 +259,14 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4) else battleUnit
     },
     AtkSpdPush(Name.AtkSpdPush, SkillType.A) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkSpdBonus(battleUnit, lv  + 2, 1)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkSpdBonus(battleUnit, lv + 2, 1)
     },
     RDuelFlying(Name.RDuelFlying, SkillType.A, spType = SpType.BASE70) {
-        override fun totalParam(n: Int): Int =170
+        override fun totalParam(n: Int): Int = 170
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
     GDuelInfantry(Name.GDuelInfantry, SkillType.A, spType = SpType.BASE70) {
-        override fun totalParam(n: Int): Int =170
+        override fun totalParam(n: Int): Int = 170
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
     ;
@@ -292,9 +292,14 @@ enum class SkillA(override val jp: Name, override val type: SkillType, override 
         }
 
         fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
-            if (e.maxLevel == 0) {
-                list.add(e)
-            } else list.add(e.lv(e.maxLevel));list
+            when (e.maxLevel) {
+                0 -> list.add(e)
+                4 -> {
+                    list.add(e.lv(3));list.add(e.lv(4))
+                }
+                else -> list.add(e.lv(e.maxLevel))
+            }
+            list
         }
 
         private val itemMap = mutableMapOf<String, SkillA>()

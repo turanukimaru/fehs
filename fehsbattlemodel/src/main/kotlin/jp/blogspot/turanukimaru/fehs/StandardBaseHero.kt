@@ -662,18 +662,20 @@ object StandardBaseHero {
                 Weapon.Laevatein, Assist.Swap, null, SkillA.Fury.lv(3), SkillB.AtkDefLink.lv(3), SkillC.OddAtkWave.lv(3))
         createItem(Name.ヘルビンディ, 3, WeaponType.AXE, MoveType.INFANTRY, 5, 18, 9, 5, 9, 7, g60, g60, g30, g60, g55,
                 Weapon.Byleistr, null, Special.Vengeance, SkillA.GDuelInfantry.lv(3), SkillB.Guard.lv(3), SkillC.InfantryPulse.lv(3))
-        createItem(Name.ロキ, 0, WeaponType.STAFF, MoveType.INFANTRY, 5, 18, 9, 9, 4, 8, g55, g55, g60, g35, g50,
-                Weapon.Thokk, null, null, null, null, null)
-        createItem(Name.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,
-                Weapon.Sinmara, null, null, null, null, null)
-        createItem(Name.ザカリア, 2, WeaponType.BTOME, MoveType.CAVALRY, 5, 16, 7, 9, 5, 6, g40, g50, g60, g40, g45,
-                Weapon.Valaskjalf, null, null, null, null, null)
-        createItem(Name.ヴェロニカ, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 16, 7, 9, 5, 6, g40, g50, g60, g40, g45,
-                Weapon.Elivagar, null, null, null, null, null)
         createItem(Name.チキ__伝承英雄_, 2, WeaponType.DRAGON, MoveType.ARMORED,  5, 17, 10, 11, 4, 5, g65, g55, g55, g75, g55,
                 Weapon.DivineMist, null, Special.Moonbow, SkillA.FierceStance, SkillB.BoldFighter.lv(3), SkillC.WithEveryone)
-//        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
+
+        //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
+
+//        createItem(Name.ロキ, 0, WeaponType.STAFF, MoveType.INFANTRY, 5, 18, 9, 9, 4, 8, g55, g55, g60, g35, g50,
+//                Weapon.Thokk, null, null, null, null, null)
+//        createItem(Name.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,
+//                Weapon.Sinmara, null, null, null, null, null)
+//        createItem(Name.ザカリア, 2, WeaponType.BTOME, MoveType.CAVALRY, 5, 16, 7, 9, 5, 6, g40, g50, g60, g40, g45,
+//                Weapon.Valaskjalf, null, null, null, null, null)
+//        createItem(Name.ヴェロニカ, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 16, 7, 9, 5, 6, g40, g50, g60, g40, g45,
+//                Weapon.Elivagar, null, null, null, null, null)
     }
 
     private val g25 = 1

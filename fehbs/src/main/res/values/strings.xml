@@ -3,7 +3,6 @@
 
     <string name="app_name">FEHBS</string>
     <string name="pre_name">FEH Battle Simulator</string>
-    <string name="hero_list_name"> </string>
     <string name="action_float">Floating Status Calc</string>
     <string name="close_float">Close Status Calc↑</string>
     <string name="action_list">Heroes List</string>
@@ -74,7 +73,7 @@
     <string name="spacer">        </string>
     <string name="max_rarity">5</string>
     <string name="zero">0</string>
-    <string name="max_lv">MaxLV</string>
+    <string name="max_lv">A-C Max</string>
     <string name="skill_filter">Skill Filter</string>
 
     <string-array name="weapon_type">
