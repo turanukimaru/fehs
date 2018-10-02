@@ -145,6 +145,7 @@ data class ArmedHero(
     val totalSp get() = skills.fold(0) { point, skill -> point + skill.sp() }
     //合計能力値はASkillだけだろうしこれでいいだろ
     val score get() = ((totalSp / 100) + aSkill.totalParam(totalParam) / 5 + levelBoost * 2 + rarity * rarity + 45 + 78 + 150) * 2//LV40固定でいいか
+
     /**
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
      */

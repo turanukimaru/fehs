@@ -75,6 +75,7 @@
     <string name="zero">0</string>
     <string name="max_lv">A-C Max</string>
     <string name="skill_filter">Skill Filter</string>
+    <string name="hero_list_name">Hero List</string>
 
     <string-array name="weapon_type">
         <item>武器</item>

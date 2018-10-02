@@ -616,7 +616,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     DistantDef("遠距離防御", "Distant Def", "遠距離防禦"),
     EarthBoost("生命の大地", "Earth Boost", "生命的大地"),
     FierceStance("鬼神の構え", "Fierce Stance", "鬼神架勢"),
-    DartingStance("飛燕の構え3", "Darting Stance", "飛燕架勢"),
+    DartingStance("飛燕の構え", "Darting Stance", "飛燕架勢"),
     FireBoost("生命の業火", "Fire Boost", "生命的業火"),
     FlashingBlade("柔剣", "Flashing Blade", "柔劍"),
     FortressDef("守備の城塞", "Fortress Def", "防守堡壘"),

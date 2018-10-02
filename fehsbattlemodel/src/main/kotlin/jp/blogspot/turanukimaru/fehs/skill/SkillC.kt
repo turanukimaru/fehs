@@ -91,11 +91,11 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
     EvenDefWave(Name.EvenDefWave, SkillType.C, spType = SpType.BASE60),
     EvenResWave(Name.EvenResWave, SkillType.C, spType = SpType.BASE60),
     InfantryRush(Name.InfantryRush, SkillType.C, spType = SpType.BASE60),
-    OstiasPulse(Name.OstiasPulse, SkillType.C, spType = SpType.LEGEND_S),
     DistantGuard(Name.DistantGuard, SkillType.C, spType = SpType.BASE60),
     CloseGuard(Name.CloseGuard, SkillType.C, spType = SpType.BASE60),
     InfantryFlash(Name.InfantryFlash, SkillType.C, spType = SpType.BASE60),
-    WithEveryone(Name.WithEveryone, SkillType.C, spType = SpType.LEGEND_S),
+    OstiasPulse(Name.OstiasPulse, SkillType.C, maxLevel = 0, spType = SpType.LEGEND_S),
+    WithEveryone(Name.WithEveryone, SkillType.C, maxLevel = 0, spType = SpType.LEGEND_S),
     ;
 
     /**
@@ -117,7 +117,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType, override 
                 list.add(e)
             } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
         }
-        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = SkillA.values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
             } else list.add(e.lv(e.maxLevel));list

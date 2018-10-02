@@ -31,9 +31,6 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     BTomeBreaker(Name.BTomeBreaker, SkillType.B) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.BTOME, lv)
     },
-    Vantage(Name.Vantage, SkillType.B) {
-        override fun counterPlan(fightPlan: FightPlan, lv: Int): FightPlan = vantage(fightPlan, lv)
-    },
     WaryFighter(Name.WaryFighter, SkillType.B, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = eachNofollowupable(battleUnit, enemy, lv)
     },
@@ -44,7 +41,6 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     VengefulFighter(Name.VengefulFighter, SkillType.B, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 5), 6)
     },
-    //あれこれカウンターだけなんだっけ？
     SpecialFighter(Name.SpecialFighter, SkillType.B, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(antiAccelerateCooldown(battleUnit, enemy, lv * 2), lv * 2)
     },
@@ -65,12 +61,11 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = watersweep(battleUnit, enemy, lv)
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = noFollowupAttack(fightPlan)
     },
-
-    Guard(Name.Guard, SkillType.B) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, lv)
+    DullClose(Name.DullClose, SkillType.B, spType = SpType.BASE60) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiMeleeWeaponBuffBonus(battleUnit, enemy, lv)
     },
-    ShieldPulse(Name.ShieldPulse, SkillType.B, spType = SpType.BASE60) {
-        override fun specialPreventTriggered(battleUnit: BattleUnit, damage: Int): Int = damage - 5
+    DullRanged(Name.DullRanged, SkillType.B, spType = SpType.BASE60) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, lv)
     },
     WrathfulStaff(Name.WrathfulStaff, SkillType.B, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv)
@@ -78,6 +73,16 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     DazzlingStaff(Name.DazzlingStaff, SkillType.B, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, lv)
 
+    },
+    Vantage(Name.Vantage, SkillType.B) {
+        override fun counterPlan(fightPlan: FightPlan, lv: Int): FightPlan = vantage(fightPlan, lv)
+    },
+
+    Guard(Name.Guard, SkillType.B) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, lv)
+    },
+    ShieldPulse(Name.ShieldPulse, SkillType.B, spType = SpType.BASE60) {
+        override fun specialPreventTriggered(battleUnit: BattleUnit, damage: Int): Int = damage - 5
     },
     CancelAffinity(Name.CancelAffinity, SkillType.B) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
@@ -102,14 +107,8 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     Wrath(Name.Wrath, SkillType.B, spType = SpType.BASE60) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, level * 25)
     },
-    Bushido(Name.Bushido, SkillType.B, maxLevel = 0, spType = SpType.LEGEND_S) {
-        override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, 100)
-    },
     PoisonStrike(Name.PoisonStrike, SkillType.B, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, lv * 3 + 1)
-    },
-    FollowUpRing(Name.FollowUpRing, SkillType.B, maxLevel = 0, spType = SpType.LEGEND_S) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
     },
     SacaesBlessing(Name.SacaesBlessing, SkillType.B, spType = SpType.LEGEND_S) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = sacasBlessing(battleUnit, enemy, lv)
@@ -122,6 +121,12 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
                 if (source.effectiveRange == 2 && results.isNotEmpty() && results.last().side != battleUnit.side) damage - damage * 8 / 10 else damage
     },
+    FollowUpRing(Name.FollowUpRing, SkillType.B, maxLevel = 0, spType = SpType.LEGEND_S) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
+    },
+    Bushido(Name.Bushido, SkillType.B, maxLevel = 0, spType = SpType.LEGEND_S) {
+        override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, 100)
+    },
     SolarBrace(Name.SolarBrace, SkillType.B, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int {
             battleUnit.heal(damage * 3 / 10)
@@ -130,12 +135,6 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     },
     DoubleLion(Name.DoubleLion, SkillType.B, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpDoubleAttack(battleUnit, 1)
-    },
-    DullClose(Name.DullClose, SkillType.B, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiMeleeWeaponBuffBonus(battleUnit, enemy, lv)
-    },
-    DullRanged(Name.DullRanged, SkillType.B, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, lv)
     },
     BindingShield(Name.BindingShield, SkillType.B, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
@@ -183,9 +182,9 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
     ChillSpd(Name.ChillSpd, SkillType.B, spType = SpType.BASE60),
     ChillDef(Name.ChillDef, SkillType.B, spType = SpType.BASE60),
     ChillRes(Name.ChillRes, SkillType.B, spType = SpType.BASE60),
+    // TODO:これキラーだっけ・・・？開始時１カウントだっけ…？
     SDrink(Name.SDrink, SkillType.B, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
-
     },
     SpdFeint(Name.SpdFeint, SkillType.B, spType = SpType.BASE60),
     DefFeint(Name.DefFeint, SkillType.B, spType = SpType.BASE60),
@@ -214,7 +213,7 @@ enum class SkillB(override val jp: Name, override val type: SkillType, override 
                 list.add(e)
             } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
         }
-        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = SkillA.values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
             } else list.add(e.lv(e.maxLevel));list

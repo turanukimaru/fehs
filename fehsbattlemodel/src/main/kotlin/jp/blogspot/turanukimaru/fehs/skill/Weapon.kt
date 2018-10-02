@@ -994,7 +994,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
                 antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.DRAGON)
     },
-    DivineMist(Name.DivineMist, SkillType.PENETRATE_DRAGON, 16, Flametongue, SpType.PLUS, RefinedSkill.RefineType.Range1, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+    DivineMist(Name.DivineMist, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
     ;
