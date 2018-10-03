@@ -26,64 +26,30 @@ enum class RefinedSkill(override val jp: Name, val hp: Int, val atk: Int, val sp
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, 3)
     },
 
-    //武器特融能力
-    SolKatti(Name.SolKatti, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.SolKatti) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brashAssault(battleUnit, enemy, 75)
-        override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, lv)
-    },
-    Mystletainn(Name.Mystletainn, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Mystletainn) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fightHpLoss(battleUnit, lv * 3)
-    },
-    Siegmund(Name.Pursuit, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Siegmund) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if (battleUnit.hp >= battleUnit.armedHero.maxHp * 9 / 10) {
-                battleUnit.followupable = true
-            }
-            return battleUnit
-        }
-    },
-    Hauteclere(Name.SpecialDamage, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Hauteclere) {
-        override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
-    },
-    FujinYumi(Name.Follow, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.FujinYumi),
-    DeathlyDagger2(Name.MagicSuppression, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.DeathlyDagger) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if (enemy.armedHero.isMagicWeapon()) {
-                enemy.cannotCounter = true
-            }
-            return battleUnit
-        }
-    },
-    Parthia2(Name.AntiRangedWeapon, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Parthia) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, if (enemy.armedHero.baseHero.weaponType.range == 2) 6 else 0)
-    },
-    Cymbeline(Name.BondFlyingAlly, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Cymbeline) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowRes(blowAtk(battleUnit, 5), 5) else battleUnit
-    },
     //特効武器はバフ無効を持つ
     Armorsmasher(Name.Nullify, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Armorsmasher2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.ARMORED, battleUnit, enemy), enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(effectiveAgainst(MoveType.ARMORED, battleUnit, enemy), enemy)
     },
     SlayingSpear(Name.Nullify, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.SlayingSpear2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.ARMORED, battleUnit, enemy), enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(effectiveAgainst(MoveType.ARMORED, battleUnit, enemy), enemy)
     },
     SlayingHammer(Name.Nullify, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.SlayingHammer2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.ARMORED, battleUnit, enemy), enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(effectiveAgainst(MoveType.ARMORED, battleUnit, enemy), enemy)
     },
     Zanbato(Name.Nullify, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Zanbato2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
     },
     Ridersbane(Name.Nullify, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Ridersbane2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
     },
     KeenRauorwolf2(Name.Nullify, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.KeenRauorwolf2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
     },
     KeenBlarwolf2(Name.Nullify, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.KeenBlarwolf2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
     },
     KeenGronnwolf2(Name.Nullify, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.KeenGronnwolf2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(effectiveAgainst(MoveType.CAVALRY, battleUnit, enemy), enemy)
     },
 
     //武器自体を置き換えるもの
@@ -134,18 +100,52 @@ enum class RefinedSkill(override val jp: Name, val hp: Int, val atk: Int, val sp
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 4)
     },
 
+//神器
+    Aura(Name.RefinedAura, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Aura) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 5), 5) else battleUnit
+    },
+    Basilikos(Name.Basilikos, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Basilikos) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = lifeAndDeath(equipKiller(armedHero, lv), 5)
+    },
+    BindingBlade(Name.BindingBlade, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.BindingBlade, 16, SkillType.SWORD, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 4), 4)
+    },
+    BindingBlade2(Name.QuickRiposte, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.BindingBlade) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
+    },
+    Brynhildr(Name.Brynhildr, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Brynhildr) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiFollowupRangedDef(battleUnit, enemy)
+    },
+    BreathOfFog(Name.RefinedBreathOfFog, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.BreathOfFog) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowDef(battleUnit, 5), 5) else battleUnit
+    },
+    CamillasAxe(Name.CamillasAxe, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.CamillasAxe),
+    CherchesAxe(Name.CamillasAxe, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.CherchesAxe),
+
+    Cymbeline(Name.BondFlyingAlly, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Cymbeline) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowRes(blowAtk(battleUnit, 5), 5) else battleUnit
+    },
+    DauntlessLance(Name.DauntlessLance, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.DauntlessLance){
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(blowDef(battleUnit, 4), 4)
+    },
     DeathlyDagger(Name.DeathlyDagger, 0, 3, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.DeathlyDagger, 11, SkillType.DAGGER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10)
     },
-    Parthia(Name.Parthia, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Parthia, 14, SkillType.BOW, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
-        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
-                if (source.armedHero.isMagicWeapon()
-                        && (!results.any { r -> r.side != battleUnit.side })) damage - damage * 3 / 10 else damage
+    DeathlyDagger2(Name.MagicSuppression, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.DeathlyDagger) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if (enemy.armedHero.isMagicWeapon()) {
+                enemy.cannotCounter = true
+            }
+            return battleUnit
+        }
     },
-    Yato(Name.Yato, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Yato, 16, SkillType.SWORD) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
+    DraconicPoleax(Name.DraconicPoleax, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.DraconicPoleax),
+    Eckesachs(Name.DauntlessLance, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Eckesachs){
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6)
     },
-
+    Excalibur(Name.RefinedAura, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Excalibur) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 5), 5) else battleUnit
+    },
     FalchionM(Name.AtkSpdDefRes2ToAllies, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.FalchionM) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(WeaponType.DRAGON, battleUnit, enemy)
     },
@@ -156,55 +156,79 @@ enum class RefinedSkill(override val jp: Name, val hp: Int, val atk: Int, val sp
     FalchionC(Name.AtkSpdDefRes4, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.FalchionC) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = effectiveAgainst(WeaponType.DRAGON, if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4) else battleUnit, enemy)
     },
-    WingSword(Name.WingSword, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.WingSword) {
-        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 1)
-        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 1)
+    FeliciasPlate(Name.FeliciasBlade, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.FeliciasPlate) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = feliciasBlade(battleUnit, enemy)
+    },
+    Fensalir(Name.Fensalir, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Fensalir){
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowSpd(blowDef(battleUnit, lv + 2), lv + 2) else battleUnit
+    },
+    Fensalir2(Name.Fensalir, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Fensalir, 16, SkillType.LANCE) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(battleUnit, enemy)
+    },
+    Folkvangr(Name.Fensalir, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Folkvangr){
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =colorAdvantage(battleUnit,enemy,3)
+    },
+    Forblaze(Name.DeathBlow, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Forblaze) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 6)
+    },
+    FujinYumi(Name.Follow, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.FujinYumi),
+    Hauteclere(Name.SpecialDamage, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Hauteclere) {
+        override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     HinokasSpear(Name.HinokasSpear, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.HinokasSpear) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 4), 4) else battleUnit
     },
-    Basilikos(Name.Basilikos, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Basilikos) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = lifeAndDeath(equipKiller(armedHero, lv), 5)
-    },
-    FeliciasPlate(Name.FeliciasBlade, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.FeliciasPlate) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = feliciasBlade(battleUnit, enemy)
-    },
-
-    Sieglinde(Name.Sieglinde, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Sieglinde),//周りのバフ分捨てアップはこの形式だと書けないよなあ
-    WindsBrand(Name.Owl, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.WindsBrand) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
-    },
-    Brynhildr(Name.Brynhildr, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Brynhildr) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiFollowupRangedDef(battleUnit, enemy)
-    },
-
-    Forblaze(Name.DeathBlow, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Forblaze) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 6)
-    },
-    BindingBlade(Name.BindingBlade, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.BindingBlade, 16, SkillType.SWORD, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 4), 4)
-    },
-    BindingBlade2(Name.QuickRiposte, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.BindingBlade) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
+    Mystletainn(Name.Mystletainn, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Mystletainn) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fightHpLoss(battleUnit, lv * 3)
     },
     NamelessBlade(Name.SpecialDamage, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.NamelessBlade) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
+    },
+    Noatun(Name.Noatun, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Noatun),
+    OdinsGrimoire(Name.OdinsGrimoire, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.OdinsGrimoire),
+    Parthia(Name.Parthia, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Parthia, 14, SkillType.BOW, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
+                if (source.armedHero.isMagicWeapon()
+                        && (!results.any { r -> r.side != battleUnit.side })) damage - damage * 3 / 10 else damage
+    },
+    Parthia2(Name.AntiRangedWeapon, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Parthia) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, if (enemy.armedHero.baseHero.weaponType.range == 2) 6 else 0)
+    },
+    Ragnarok(Name.Ragnarok, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Ragnarok) {
+    override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenSpd(battleUnit, lv * 2 + 1), lv * 2 + 1)
+},
+    ReesesTome(Name.ReesesTome, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.ReesesTome) ,
+    RegalBlade(Name.RegalBlade, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.RegalBlade) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit,  3) else battleUnit
     },
     Rhomphaia(Name.FlashingBlade, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Rhomphaia) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 1)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 1)
     },
-    CamillasAxe(Name.CamillasAxe, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.CamillasAxe),
+    Sieglinde(Name.Sieglinde, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Sieglinde),//周りのバフ分捨てアップはこの形式だと書けないよなあ
+    Siegmund(Name.Pursuit, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Siegmund) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if (battleUnit.hp >= battleUnit.armedHero.maxHp * 9 / 10) {
+                battleUnit.followupable = true
+            }
+            return battleUnit
+        }
+    },
+    SolKatti(Name.SolKatti, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.SolKatti) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brashAssault(battleUnit, enemy, 75)
+        override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
+    },
+    WindsBrand(Name.Owl, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.WindsBrand) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
+    },
+    WingSword(Name.WingSword, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.WingSword) {
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 1)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 1)
+    },
+    Yato(Name.Yato, 0, 0, 0, 0, 0, RefineType.ReplaceWeapon, Weapon.Yato, 16, SkillType.SWORD) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
+    },
     Yato2(Name.Yato, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Yato),
-    Aura(Name.RefinedAura, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Aura) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 5), 5) else battleUnit
-    },
-    Excalibur(Name.RefinedAura, 0, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.Excalibur) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 5), 5) else battleUnit
-    },
-    BreathOfFog(Name.RefinedBreathOfFog, 3, 0, 0, 0, 0, RefineType.DependWeapon, Weapon.BreathOfFog) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowDef(battleUnit, 5), 5) else battleUnit
-    },
 
     ;
 

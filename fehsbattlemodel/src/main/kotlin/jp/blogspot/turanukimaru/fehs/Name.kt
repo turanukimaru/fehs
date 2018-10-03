@@ -45,6 +45,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     オリヴィエ__舞踏祭_("オリヴィエ（舞踏祭）", "Olivia (Performing Arts)", "奧利薇 (Performing Arts)"),
     オルエン("オルエン", "Olwen", "歐爾玟"),
     オーディン("オーディン", "Odin", "奧丁"),
+    オーディン2("オーディン＋", "Odin+", "奧丁+"),
     カイン("カイン", "Cain", "凱因"),
     カゲロウ("カゲロウ", "Kagero", "陽炎"),
     カザハナ("カザハナ", "Hana", "風花"),
@@ -53,6 +54,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     カチュア("カチュア", "Catria", "卡秋雅"),
     カミュ("カミュ", "Camus", "卡謬"),
     カミラ("カミラ", "Camilla", "卡美拉"),
+    カミラ2("カミラ＋", "Camilla+", "卡美拉+"),
     カミラ__春_("カミラ（春）", "Camilla (Spring)", "卡美拉 (Spring)"),
     カムイ__夏_("カムイ（夏）", "Corrin(F) (Summer)", "神威 (Summer)"),
     カムイ__女_("カムイ（女）", "Corrin(F)", "神威(F)"),
@@ -105,6 +107,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     セリカ("セリカ", "Celica", "賽莉卡"),
     セリス("セリス", "Seliph", "賽列斯"),
     セルジュ("セルジュ", "Cherche", "塞爾裘"),
+    セルジュ2("セルジュ＋", "Cherche+", "塞爾裘+"),
     セーバー("セーバー", "Saber", "賽巴"),
     セーラ("セーラ", "Serra", "賽拉"),
     ゼト("ゼト", "Seth", "賽特"),
@@ -1126,7 +1129,10 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     Sinmara("シンモラ","Sinmara","Sinmara"),
     FierceBreath("鬼神の呼吸","Fierce Breath","鬼神呼吸"),
     WithEveryone("みんなと一緒に","With Everyone!","和大家一起"),
-    DivineMist("神霧のブレス","Divine Mist","神霧吐息")
+    DivineMist("神霧のブレス","Divine Mist","神霧吐息"),
+
+    CherchesAxe("", "Cherche's Axe", "Cherche's Axe"),
+    OdinsGrimoire("","Odin's Grimoire","Odin's Grimoire"),
     ;
 
     /**

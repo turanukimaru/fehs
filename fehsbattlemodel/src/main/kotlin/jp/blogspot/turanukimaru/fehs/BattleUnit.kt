@@ -82,7 +82,7 @@ data class BattleUnit(val armedHero: ArmedHero
         /**
          * buffが無効化されているか
          */
-                      , var antiBuffBonus: Boolean = false
+                      , var neutralizeBuffBonus: Boolean = false
         /**
          * 戦闘後のHP減少
          */
@@ -128,17 +128,17 @@ data class BattleUnit(val armedHero: ArmedHero
     //射程はともかく移動距離は制限を受ける可能性がある。いやそれを言うなら全てのステータスがそうであるが・・・これDelegateでできれば楽だと思ったけどBuff考えるとできないな
     val movableSteps: Int get() = armedHero.movableSteps
     val effectiveRange: Int get() = armedHero.effectiveRange
-    val atk: Int get() = armedHero.atk + atkDebuff + if (!antiBuffBonus) atkBuff else 0
-    val spd: Int get() = armedHero.spd + spdDebuff + if (!antiBuffBonus) spdBuff else 0
-    val def: Int get() = armedHero.def + defDebuff + if (!antiBuffBonus) defBuff else 0
-    val res: Int get() = armedHero.res + resDebuff + if (!antiBuffBonus) resBuff else 0
+    val atk: Int get() = armedHero.atk + atkDebuff + if (!neutralizeBuffBonus) atkBuff else 0
+    val spd: Int get() = armedHero.spd + spdDebuff + if (!neutralizeBuffBonus) spdBuff else 0
+    val def: Int get() = armedHero.def + defDebuff + if (!neutralizeBuffBonus) defBuff else 0
+    val res: Int get() = armedHero.res + resDebuff + if (!neutralizeBuffBonus) resBuff else 0
     // 他人や自分のスキルにより戦闘中のみ変化する能力値
     val effectedAtk: Int get() = atk + atkEffect
     val effectedSpd: Int get() = spd + spdEffect
     val effectedDef: Int get() = def + defEffect
     val effectedRes: Int get() = res + resEffect
     //ブレード火力は外部からの参照要らんな
-    private val effectedBladeAtk: Int get() = effectedAtk + if (blade && !antiBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0 + debuffBonus
+    private val effectedBladeAtk: Int get() = effectedAtk + if (blade && !neutralizeBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0 + debuffBonus
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
     val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
 

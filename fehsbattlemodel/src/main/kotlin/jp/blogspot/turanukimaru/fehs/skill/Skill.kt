@@ -523,10 +523,10 @@ interface Skill {
     /**
      * 刺し違え
      */
-    fun brashAssault(battleUnit: BattleUnit, enemy: BattleUnit, percentile: Int): BattleUnit {
+    fun brashAssault(battleUnit: BattleUnit, enemy: BattleUnit, percentage: Int): BattleUnit {
         if ((battleUnit.armedHero.baseHero.weaponType.range == enemy.armedHero.baseHero.weaponType.range || enemy.counterAllRange)
                 && !enemy.cannotCounter
-                && (battleUnit.hp <= battleUnit.armedHero.maxHp * percentile / 100)) {
+                && (battleUnit.hp <= battleUnit.armedHero.maxHp * percentage / 100)) {
             battleUnit.followupable = true
         }
         return battleUnit
@@ -638,7 +638,7 @@ interface Skill {
     fun beorcsBlessing(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         val enemyType = enemy.armedHero.baseHero.moveType
         if (enemyType == MoveType.CAVALRY || enemyType == MoveType.FLIER) {
-            enemy.antiBuffBonus = true
+            enemy.neutralizeBuffBonus = true
         }
         return battleUnit
     }
@@ -789,8 +789,8 @@ interface Skill {
     /**
      * 相手のバフ無効化
      */
-    fun antiBuffBonus(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
-        enemy.antiBuffBonus = true
+    fun neutralizeBuffBonus(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
+        enemy.neutralizeBuffBonus = true
         return battleUnit
     }
 
@@ -799,7 +799,7 @@ interface Skill {
      */
     fun antiMagicBuffBonus(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
         if (enemy.armedHero.baseHero.isMagicWeapon()) {
-            enemy.antiBuffBonus = true
+            enemy.neutralizeBuffBonus = true
         }
         return battleUnit
     }
@@ -809,7 +809,7 @@ interface Skill {
      */
     fun antiMeleeWeaponBuffBonus(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = 3): BattleUnit {
         if (enemy.armedHero.baseHero.weaponType.range == 1 && battleUnit.hp * 100 >= battleUnit.armedHero.maxHp * (150 - lv * 50)) {
-            enemy.antiBuffBonus = true
+            enemy.neutralizeBuffBonus = true
         }
         return battleUnit
     }
@@ -819,7 +819,7 @@ interface Skill {
      */
     fun antiRangedWeaponBuffBonus(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = 3): BattleUnit {
         if (enemy.armedHero.baseHero.weaponType.range == 2 && battleUnit.hp * 100 >= battleUnit.armedHero.maxHp * (150 - lv * 50)) {
-            enemy.antiBuffBonus = true
+            enemy.neutralizeBuffBonus = true
         }
         return battleUnit
     }
@@ -973,7 +973,7 @@ interface Skill {
     /**
      * 怒り
      */
-    fun wrath(battleUnit: BattleUnit, damage: Int, percentile: Int): Int = if (battleUnit.hp * 100 <= battleUnit.armedHero.maxHp * percentile) damage + 10 else damage
+    fun wrath(battleUnit: BattleUnit, damage: Int, percentage: Int): Int = if (battleUnit.hp * 100 <= battleUnit.armedHero.maxHp * percentage) damage + 10 else damage
 
     fun spdFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = if (battleUnit.effectedPhantomSpd > enemy.effectedPhantomSpd) {
         HandmaidMath.min((battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd) * 7 / 10, 7)

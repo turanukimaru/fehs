@@ -463,6 +463,11 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Sinmara(Name.Sinmara, SkillType.AXE, 16, SilverAxe) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
     },
+    CherchesAxe(Name.CherchesAxe, SkillType.AXE, 11, Hammer2, SpType.PLUS, RefinedSkill.RefineType.Range1) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBrave(armedHero, lv)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
+    },
+
     //BOW
     IronBow(Name.IronBow, SkillType.BOW, 4, Skill.NONE, SpType.IRON, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     SteelBow(Name.SteelBow, SkillType.BOW, 6, IronBow, SpType.STEEL, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
@@ -863,6 +868,10 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     Missiletainn(Name.Missiletainn, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
+    OdinsGrimoire(Name.OdinsGrimoire, SkillType.BTOME, 14, Blarblade2, SpType.LEGEND_W, RefinedSkill.RefineType.Range2) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
+    },
 
     //GTOME
     Wind(Name.Wind, SkillType.GTOME, 4, Skill.NONE, SpType.IRON),
@@ -911,7 +920,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     DivineNaga(Name.DivineNaga, SkillType.GTOME, 14, Rexcalibur, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiBuffBonus(battleUnit, enemy)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(battleUnit, enemy)
     },
     SpectralTome(Name.SpectralTome, SkillType.GTOME, 8, Elwind, SpType.SILVER),
     SpectralTome2(Name.SpectralTome2, SkillType.GTOME, 12, SpectralTome, SpType.PLUS, RefinedSkill.RefineType.Range2),
