@@ -186,6 +186,11 @@ enum class Seal(override val jp: Name, override val type: SkillType =  SkillType
                 list.add(e)
             } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
         }
+        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+            if (e.maxLevel == 0) {
+                list.add(e)
+            } else list.add(e.lv(e.maxLevel));list
+        }
 
         private val itemMap = mutableMapOf<String, Seal>()
 

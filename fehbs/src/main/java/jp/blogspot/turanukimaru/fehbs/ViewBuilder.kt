@@ -174,7 +174,7 @@ class ViewBuilder(private val locale: Locale) {
             createSkillRadioButton(rootView, R.id.aSkillRadioButton, R.string.aSkill_title, SkillA.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray(), SkillA.spreadMaxLvItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.bSkillRadioButton, R.string.bSkill_title, SkillB.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray(), SkillB.spreadMaxLvItems(true).map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.cSkillRadioButton, R.string.cSkill_title, SkillC.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray(), SkillC.spreadMaxLvItems(true).map { e -> e.localeName(locale) }.toTypedArray())
-            createSkillRadioButton(rootView, R.id.sealRadioButton, R.string.seal_title, Seal.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray())
+            createSkillRadioButton(rootView, R.id.sealRadioButton, R.string.seal_title, Seal.spreadItems(true).map { e -> e.localeName(locale) }.toTypedArray(), Seal.spreadMaxLvItems(true).map { e -> e.localeName(locale) }.toTypedArray())
         }
 
     }

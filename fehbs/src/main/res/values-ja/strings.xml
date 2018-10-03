@@ -73,7 +73,7 @@
     <string name="spacer">        </string>
     <string name="max_rarity">5</string>
     <string name="zero">0</string>
-    <string name="max_lv">A-C Max</string>
+    <string name="max_lv">A-C, Seal LV Max</string>
     <string name="skill_filter">Skill Filter</string>
     <string name="hero_list_name">Hero List</string>
 

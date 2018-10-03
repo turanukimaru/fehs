@@ -1039,6 +1039,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     ReprisalLance("反攻の槍","Reprisal Lance","Reprisal Lance"),
     ReprisalLance2("反攻の槍＋","Reprisal Lance+","Reprisal Lance+"),
     AtkDefLink("攻撃守備の連携","Atk/Def Link","Atk/Def Link"),
+    AtkSpdLink("攻撃速さの連携","Atk/Spd Link","Atk/Spd Link"),
     Trilemma ("トリレンマ","Trilemma","Trilemma"),
     Trilemma2 ("トリレンマ＋","Trilemma+","Trilemma+"),
     StaffValor("杖の技量","Staff Valor","Staff Valor"),
@@ -1131,8 +1132,14 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     WithEveryone("みんなと一緒に","With Everyone!","和大家一起"),
     DivineMist("神霧のブレス","Divine Mist","神霧吐息"),
 
-    CherchesAxe("", "Cherche's Axe", "Cherche's Axe"),
-    OdinsGrimoire("","Odin's Grimoire","Odin's Grimoire"),
+    CherchesAxe("セルジュの恐斧", "Cherche's Axe", "塞爾裘的恐斧"),
+    OdinsGrimoire("オーディンの黒書","Odin's Grimoire","奧丁的黑書"),
+    RefinedBrynhildr("2射程武器は追撃不能","Ranged weapon cannot make follow-up attack","Ranged weapon cannot make follow-up attack"),
+    RefinedHinokasSpear("先導","Guidance","Guidance"),
+    RefinedReesesTome("謀策","Ploy","Ploy"),
+    RefinedRegalBlade("Atk/Spd/Def/Res+3","Atk/Spd/Def/Res+3","Atk/Spd/Def/Res+3"),
+    RefinedSieglinde("Atk/Spd/Def/Res + allies buff","Atk/Spd/Def/Res + allies buff","Atk/Spd/Def/Res + allies buff"),
+    RefinedYato("支援相手にAtk/Spd/Def/Res+4","Atk/Spd/Def/Res+4 to support partner","Atk/Spd/Def/Res+4 to support partner"),
     ;
 
     /**

@@ -54,7 +54,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 3)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 3)
     },
-    Folkvangr(Name.Folkvangr, SkillType.SWORD, 16, SilverSword) {
+    Folkvangr(Name.Folkvangr, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedSkill.RefineType.Range1) {
         override fun turnStart(battleUnit: BattleUnit, lv: Int): BattleUnit = defiantAtk(battleUnit, 2)
     },
     FalchionM(Name.FalchionM, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedSkill.RefineType.Range1, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)),
@@ -259,7 +259,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     SlayingLance2(Name.SlayingLance2, SkillType.LANCE, 14, SlayingLance, SpType.PLUS, RefinedSkill.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    Fensalir(Name.Fensalir, SkillType.LANCE, 16, SilverLance),
+    Fensalir(Name.Fensalir, SkillType.LANCE, 16, SilverLance, SpType.LEGEND_W, RefinedSkill.RefineType.Range1),
     Siegmund(Name.Siegmund, SkillType.LANCE, 16, SilverLance, SpType.LEGEND_W, RefinedSkill.RefineType.Range1),
     Gradivus(Name.Gradivus, SkillType.LANCE, 16, SilverLance) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
@@ -385,7 +385,7 @@ enum class Weapon(override val jp: Name, override val type: SkillType, override 
     },
     LilithFloatie(Name.LilithFloatie, SkillType.AXE, 10, SteelAxe, SpType.SILVER),
     LilithFloatie2(Name.LilithFloatie2, SkillType.AXE, 14, LilithFloatie, SpType.PLUS, RefinedSkill.RefineType.Range1),
-    Noatun(Name.Noatun, SkillType.AXE, 16, SilverAxe),
+    Noatun(Name.Noatun, SkillType.AXE, 16, SilverAxe, SpType.LEGEND_W, RefinedSkill.RefineType.Range1),
     Hauteclere(Name.Hauteclere, SkillType.AXE, 16, SilverAxe, SpType.LEGEND_W, RefinedSkill.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },

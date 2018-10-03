@@ -13,8 +13,8 @@ android {
         applicationId "jp.blogspot.turanukimaru.fehbs"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 67
-        versionName "0.67"
+        versionCode 69
+        versionName "0.69"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
