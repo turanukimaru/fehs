@@ -161,8 +161,6 @@ enum class SkillType(val jp: String, val weaponType: WeaponType? = null, val pre
     SEAL(""),
     REFINERY("")
     ;
-
-    val isWeapon get() = weaponType != null
 }
 
 //シンプルな関数のリストをもつこともできそう。ENUMにはならんだろうが.コンストラクタに入れる関数はEnum内へのスコープを持たないからこうするしかないのか

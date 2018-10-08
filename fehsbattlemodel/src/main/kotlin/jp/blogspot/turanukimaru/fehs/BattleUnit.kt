@@ -22,11 +22,8 @@ data class BattleUnit(val armedHero: ArmedHero
                       , var defEffect: Int = 0
                       , var resEffect: Int = 0
                       , var side: SIDES = SIDES.NONE
-//虚勢どうすんだこれ…
                       , var phantomSpeed: Int = 0
                       , var adjacentUnits: Int = 0
-
-
         //スキルの効果
         /**
          * 攻撃時スペシャル変動量＋
@@ -69,12 +66,10 @@ data class BattleUnit(val armedHero: ArmedHero
          * 特効
          */
                       , var effectiveAgainst: EffectiveAgainst = EffectiveAgainst.NONE
-
         /**
          * 距離に関係なく反撃できるか
          */
                       , var counterAllRange: Boolean = false
-
         /**
          * 火凪などで反撃が封じられているか
          */
@@ -87,17 +82,14 @@ data class BattleUnit(val armedHero: ArmedHero
          * 戦闘後のHP減少
          */
                       , var hpLossAtEndOfFight: Int = 0
-
         /**
          * ブレードか
          */
                       , var blade: Boolean = false
-
         /**
          * 防御地形か
          */
                       , var defensiveTerrain: Boolean = false
-
         /**
          * 攻撃順変更スキルが無効か
          */
@@ -122,8 +114,6 @@ data class BattleUnit(val armedHero: ArmedHero
          * 戦闘後のHP減少
          */
                       , var attackedHpLossAtEndOfFight: Int = 0
-
-
 ) {
     //射程はともかく移動距離は制限を受ける可能性がある。いやそれを言うなら全てのステータスがそうであるが・・・これDelegateでできれば楽だと思ったけどBuff考えるとできないな
     val movableSteps: Int get() = armedHero.movableSteps
@@ -198,7 +188,7 @@ data class BattleUnit(val armedHero: ArmedHero
     /**
      * 能力値計算後に適応する必要のある受け側戦闘効果
      */
-    private fun effectedCcounterEffect(enemy: BattleUnit): BattleUnit = armedHero.effectedCcounterEffect(this, enemy)
+    private fun effectedCounterEffect(enemy: BattleUnit): BattleUnit = armedHero.effectedCounterEffect(this, enemy)
 
     /**
      * 戦闘後効果。HP減らしてからスキル総なめ。
@@ -208,8 +198,6 @@ data class BattleUnit(val armedHero: ArmedHero
 
         armedHero.afterFightEffect(this)
     }
-
-
     /**
      * 戦闘。スキルで戦闘時効果を計算したうえで実行しその結果を返す
      */
@@ -219,7 +207,6 @@ data class BattleUnit(val armedHero: ArmedHero
         val fightPlan = fightPlan(source, target)
         return fightPlan.fight()
     }
-
     /**
      * 戦闘プラン.
      */
@@ -227,9 +214,8 @@ data class BattleUnit(val armedHero: ArmedHero
         //スキルのattackplan内で能力値の再計算すりゃいいか
         val effectedAttacker = attacker.bothEffect(target).attackEffect(target)
         val effectedTarget = target.bothEffect(attacker).counterEffect(attacker)
-        return FightPlan(effectedAttacker.effectedAttackEffect(target), effectedTarget.effectedCcounterEffect(attacker)).activatePlanningSkills()
+        return FightPlan(effectedAttacker.effectedAttackEffect(target), effectedTarget.effectedCounterEffect(attacker)).activatePlanningSkills()
     }
-
 
     /**
      * 攻撃側戦闘プラン。スキルの攻撃プランを再帰でなめて攻撃時効果を計算する。主に行動順の制御

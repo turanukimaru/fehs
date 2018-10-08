@@ -6,7 +6,6 @@ import jp.blogspot.turanukimaru.fehs.*
  * 聖印
  */
 enum class Seal(override val jp: Name, override val type: SkillType =  SkillType.SEAL, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
-
     Hp(Name.Hp) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
@@ -91,11 +90,9 @@ enum class Seal(override val jp: Name, override val type: SkillType =  SkillType
     PoisonStrike(Name.PoisonStrike, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, lv * 3 + 1)
     },
-
     QuickRiposte(Name.QuickRiposte, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, lv)
     },
-
     /**
      * 連撃防御。武器の種類はなんか定数に定数を持たせるべきか…
      */
@@ -107,7 +104,6 @@ enum class Seal(override val jp: Name, override val type: SkillType =  SkillType
             else -> 0
         } / 10 else damage
     },
-
     DeflectMelee(Name.DeflectMelee) {
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int = if (results.isNotEmpty() && results.last().side != battleUnit.side && source.armedHero.isMagicWeapon()) damage - damage * when (lv) {
             1 -> 3
@@ -165,7 +161,6 @@ enum class Seal(override val jp: Name, override val type: SkillType =  SkillType
     ThreatenSpd(Name.ThreatenSpd),
     ThreatenDef(Name.ThreatenDef),
 //    ThreatenRes(Name.ThreatenRes),
-
     ;
 
 

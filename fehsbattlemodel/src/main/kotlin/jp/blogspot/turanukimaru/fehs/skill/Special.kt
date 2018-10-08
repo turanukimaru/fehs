@@ -64,7 +64,6 @@ enum class Special(override val jp: Name, override val type: SkillType, override
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, lv: Int): Pair<Int, Skill> = if (source.armedHero.baseHero.weapon.type.weaponType!!.range == 1) Pair(HandmaidMath.max(0, damage - damage * 5 / 10 + lv), this) else super.specialPrevent(battleUnit, damage, source, lv)
     },
     Galeforce(Name.Galeforce, SkillType.SPECIAL_D, 5, spType = SpType.SPECIAL5),
-
     Imbue(Name.Imbue, SkillType.SPECIAL_D, 1),
     HeavenlyLight(Name.HeavenlyLight, SkillType.SPECIAL_D, 2),
     SolidEarthBalm(Name.SolidEarthBalm, SkillType.SPECIAL_D, 1),
@@ -72,7 +71,6 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     KindledFireBalm(Name.KindledFireBalm, SkillType.SPECIAL_D, 1),
     StillWaterBalm(Name.StillWaterBalm, SkillType.SPECIAL_D, 1),
     WindfireBalm2(Name.WindfireBalm2, SkillType.SPECIAL_D, 1),
-
     RisingFlame(Name.RisingFlame, SkillType.SPECIAL_B, 4),
     BlazingFlame(Name.BlazingFlame, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
     GrowingFlame(Name.GrowingFlame, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
@@ -85,7 +83,6 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     RisingThunder(Name.RisingThunder, SkillType.SPECIAL_B, 4),
     BlazingThunder(Name.BlazingThunder, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
     GrowingThunder(Name.GrowingThunder, SkillType.SPECIAL_B, 4, spType = SpType.SPECIAL_A),
-
     ;
 
     /**

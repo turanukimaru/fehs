@@ -36,7 +36,7 @@ class fightTestF {
 
     @Test
     fun lv410() {
-        val unitA = ArmedHero(StandardBaseHero.get("ソフィーヤ")!!, "ソフィーヤ10", Weapon.Fenrir2, Skill.NONE, Skill.NONE, Special.DragonFang, SkillA.WardingBlow.lv(3), Skill.NONE, Skill.NONE, Skill.NONE, 4
+        val unitA = ArmedHero(StandardBaseHero.get("ソフィーヤ")!!, "ソフィーヤ10", Rtome.Fenrir2, Skill.NONE, Skill.NONE, Special.DragonFang, SkillA.WardingBlow.lv(3), Skill.NONE, Skill.NONE, Skill.NONE, 4
                 , 10, BoonType.NONE, BoonType.NONE, false, 0, 0, 0, 0, 0, 0, 0, 0)
         val attacker = BattleUnit(unitA, unitA.maxHp)
         attacker.armedHero.equip()

@@ -49,14 +49,12 @@ data class ArmedHero(
     /**
      * 移動力。直接見てもいいか？いやアイテムやスキルの効果で変動するか。
      */
-    val movableSteps: Int
-        get() = baseHero.movableSteps
+    val movableSteps: Int get() = baseHero.movableSteps
 
     /**
      * 攻撃可能範囲。直接見てもいいか？今のところは変動しないし。
      */
-    val effectiveRange: Int
-        get() = baseHero.effectiveRange
+    val effectiveRange: Int get() = baseHero.effectiveRange
 
     /**
      * killer系武器での加速
@@ -136,7 +134,6 @@ data class ArmedHero(
             bSkill = baseHero.bSkill
             cSkill = baseHero.cSkill
         }
-
         equip()
     }
 
@@ -151,7 +148,6 @@ data class ArmedHero(
      */
     fun bothEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit =
             skills.fold(battleUnit) { b, skill -> skill.fightEffect(b, enemy) }
-
 
     /**
      * 攻撃側戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化
@@ -171,7 +167,7 @@ data class ArmedHero(
     /**
      * 能力値計算後に適応する必要のある受け側戦闘効果
      */
-    fun effectedCcounterEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit) { b, skill -> skill.effectedCounterEffect(b, enemy) }
+    fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit = skills.fold(battleUnit) { b, skill -> skill.effectedCounterEffect(b, enemy) }
 
     /**
      * 攻撃側戦闘プラン。スキルの攻撃プランを再帰でなめて攻撃時効果を計算する。主に行動順の制御
@@ -242,7 +238,6 @@ data class ArmedHero(
                 BoonType.NONE -> {
                 }
             }
-
         }
     }
 
@@ -282,7 +277,6 @@ data class ArmedHero(
         )
         equip()
         return result
-
     }
 
     /**
@@ -298,10 +292,7 @@ data class ArmedHero(
     /**
      * 名称。DB保存名かロケールの名前
      */
-    fun localeName(locale: Locale): String {
-        if (name.isNotEmpty()) return name
-        return baseHero.name.localeName(locale)
-    }
+    fun localeName(locale: Locale): String = if (name.isNotEmpty()) name else baseHero.name.localeName(locale)
 
     /**
      * 簡易ステータス。ロケールの扱いは本当に困るな.

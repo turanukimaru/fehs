@@ -130,7 +130,7 @@ class HeroRegisterFragment : Fragment() {
                     target.text = ""
                 }
                 //何もしないとき何も書かなくていいのかね
-                builder.setNegativeButton(R.string.action_cancel, { _, _ -> })
+                builder.setNegativeButton(R.string.action_cancel) { _, _ -> }
 // Create the AlertDialog
                 val dialog = builder.create()
                 dialog.show()

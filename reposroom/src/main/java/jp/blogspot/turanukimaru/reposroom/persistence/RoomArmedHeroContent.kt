@@ -20,7 +20,6 @@ object RoomArmedHeroContent : ModelObjectRepository<ArmedHero> {
 
 
     override fun complexQuery(item: ArmedHero): List<ArmedHero> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun delete(item: ArmedHero): Int {
@@ -45,7 +44,6 @@ object RoomArmedHeroContent : ModelObjectRepository<ArmedHero> {
     }
 
     override fun find(item: ArmedHero): ArmedHero? {
-        //TODO:複数項目指定しての検索をうまくやるほうほうがそのうち必要になるはず
         return heroDao.getHeroById(item.name).toModelObject()
     }
 

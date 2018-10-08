@@ -9,8 +9,6 @@ import jp.blogspot.turanukimaru.fehs.SpType
  * スキル。補助
  */
 enum class Assist(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.ASSIST) : Skill {
-
-
     RallyAttack(Name.RallyAttack, SkillType.ASSIST),
     RallySpeed(Name.RallySpeed, SkillType.ASSIST),
     RallyDefense(Name.RallyDefense, SkillType.ASSIST),
@@ -52,13 +50,10 @@ enum class Assist(override val jp: Name, override val type: SkillType, override 
     Martyr(Name.Martyr, SkillType.ASSIST),
     Martyr2(Name.Martyr2, SkillType.ASSIST),
     ;
-
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      */
     override val value get() = name
-
-    //  override fun localeName(locale: Locale): String =jp.localeName(locale)
 
     companion object {
         private val itemMap = mutableMapOf<String, Skill>()

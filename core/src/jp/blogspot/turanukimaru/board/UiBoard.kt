@@ -220,14 +220,14 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         }
         val image = Image(numberRegions[d0])
         image.isVisible = false
-        image.addAction(showNumberAction(x, y, 0, delay))
+        image.addAction(showNumberAction(x, y, 0, delay){image.remove()})
         stage.addActor(image)
     }
 
     /**
      * 特定の座標に数字を表示するアクションを作る
      */
-    private fun showNumberAction(x: Int, y: Int, p: Int, delay: Float): SequenceAction {
+    private fun showNumberAction(x: Int, y: Int, p: Int, delay: Float, terminateAction :() -> Boolean = {true}): SequenceAction {
 
         val seq = SequenceAction()
         seq.addAction(Actions.moveTo(squareXtoPosX(x) + 52 - p * 52, squareYtoPosY(y)))
@@ -237,8 +237,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         seq.addAction(Actions.moveBy(0f, -64f, 0.2f))
         seq.addAction(Actions.delay(0.6f))
         seq.addAction(Actions.hide())
-        //画面外に移動させる。 TODO:アクションが終わったのを検出してactorをremoveしたい
-        seq.addAction(Actions.moveTo(width, height))
+        seq.addAction(CallbackAction(terminateAction))
         return seq
     }
 

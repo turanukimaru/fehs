@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Action
 
 
 /**
- * アニメーションが終了したことを自分に伝えるアクション.ボードに伝えたいところだが
+ * アニメーションが終了したことを自分に伝えるアクション.汎用を使うので十分な気がしてきた
  */
 class EndOfAnimationAction(private val uiPiece: UiPiece) : Action() {
 

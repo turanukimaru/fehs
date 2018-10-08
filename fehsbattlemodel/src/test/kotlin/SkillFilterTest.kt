@@ -18,7 +18,7 @@ class SkillFilterTest {
         println(skillB.toString().replace(",",",\n"))
         val skillC = SkillC.spreadMaxLvItems()
         println(skillC.toString().replace(",",",\n"))
-        val weapon = Weapon.spreadMaxItems()
-        println(weapon.toString().replace(",",",\n"))
+        val seals = SkillC.spreadMaxLvItems()
+        println(seals.toString().replace(",",",\n"))
     }
 }
