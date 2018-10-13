@@ -25,7 +25,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, lv)
     },
     AtkSpd(Name.AtkSpd, maxLevel = 2, spType = SpType.BASE80) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipAtk(armedHero, lv), lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipSpd(armedHero, lv), lv)
     },
     AtkDef(Name.AtkDef, maxLevel = 2, spType = SpType.BASE80) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipDef(armedHero, lv), lv)
@@ -37,10 +37,13 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, lv)
     },
     SpdDef(Name.SpdDef, maxLevel = 2, spType = SpType.BASE80) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(equipSpd(armedHero, lv), lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipDef(armedHero, lv), lv)
     },
     SpdRes(Name.SpdRes, maxLevel = 2, spType = SpType.BASE80) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(equipSpd(armedHero, lv), lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipRes(armedHero, lv), lv)
+    },
+    DefRes(Name.DefRes, maxLevel = 2, spType = SpType.BASE80) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(equipRes(armedHero, lv), lv)
     },
     Defense(Name.Defense, spType = SpType.BASE30) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, lv)

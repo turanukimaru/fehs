@@ -189,6 +189,7 @@ enum class SkillB(override val jp: Name, override val type: SkillType = SkillTyp
     SpdFeint(Name.SpdFeint, spType = SpType.BASE60),
     DefFeint(Name.DefFeint, spType = SpType.BASE60),
     AtkDefLink(Name.AtkDefLink, spType = SpType.BASE60),
+    AtkSpdLink(Name.AtkSpdLink, spType = SpType.BASE60),
     SpdResLink(Name.SpdResLink, spType = SpType.BASE60),
     DefResLink(Name.DefResLink, spType = SpType.BASE60),
     Aerobatics(Name.Aerobatics, spType = SpType.BASE60),

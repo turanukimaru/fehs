@@ -167,6 +167,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         return ActionPhase.READY
     }
 
+    override fun  toString(): String =containUnit.armedHero.name
 }
 
 data class FightResult(val attackPos: UiBoard.Position, val targetPos: UiBoard.Position, val attackResults: List<AttackResult>)

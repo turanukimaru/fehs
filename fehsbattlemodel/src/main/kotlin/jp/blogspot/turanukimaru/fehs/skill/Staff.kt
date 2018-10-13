@@ -37,6 +37,8 @@ enum class Staff(override val jp: Name, override val type: SkillType, override v
     Hliðskjálf(Name.Hliðskjálf, SkillType.STAFF, 14, Assault, SpType.PLUS) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, 3)
     },
+    WitchyWand(Name.WitchyWand, SkillType.STAFF, 8, Assault, SpType.SILVER),
+    WitchyWand2(Name.WitchyWand2, SkillType.STAFF, 12, WitchyWand, SpType.PLUS, RefinedSkill.RefineType.Staff),
     ;
 
     /**

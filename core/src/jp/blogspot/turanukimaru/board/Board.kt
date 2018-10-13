@@ -67,7 +67,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 駒の位置を探す。見つからなかったらnullを返すようにしてるけど例外を投げるべきか？何らかの原因であるべき駒が無いんだから。
      */
-    private fun searchUnitPosition(piece: Piece<*, *>): Position? {
+    fun searchUnitPosition(piece: Piece<*, *>): Position? {
         println("searchUnitPosition $piece")
         horizontalIndexes.forEach { x ->
             verticalIndexes.forEach { y ->
@@ -149,7 +149,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 移動可能な経路を調べる
      */
-    private fun searchRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
+   fun searchRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
         println("searchRoute $piece")
         val routeMatrix = arrayListOf<ArrayList<Int>>()
         horizontalIndexes.forEach {
@@ -177,7 +177,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
             //枠内
-            if (targetPos.x >= 0 && targetPos.x < horizontalLines && targetPos.y >= 0 && targetPos.y < verticalLines) {
+            if (targetPos.x in  0 until horizontalLines && targetPos.y in 0 until verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
                 //targetStepsが-1のときに終了するという技もあるがどうしよう？
@@ -194,7 +194,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲を探す。
      */
-    private fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
+    fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
         println("searchEffectiveRoute $piece")
         val routeMatrix = arrayListOf<ArrayList<Int>>()
         horizontalIndexes.forEach {
@@ -226,7 +226,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             val targetPos = moveWithOrientation(v, position)
 //            println("effect to $targetPos")
             //枠内
-            if (targetPos.x >= 0 && targetPos.x < horizontalLines && targetPos.y >= 0 && targetPos.y < verticalLines) {
+            if (targetPos.x in 0 until horizontalLines && targetPos.y in  0 until verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
                 //targetStepsが-1のときに終了するという技もあるがどうしよう？
@@ -279,19 +279,18 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun clicked(position: Position) {
         hand.clicked(position)
-        //TODO:ここで対象のルート確認か
-        //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし
-        if (!positionIsOnBoard(position) || (hand.selectedPiece!!.searchedRoute[position.x][position.y] < 0 && hand.selectedPiece!!.effectiveRoute[position.x][position.y] < 0)) {
-            hand.moveCancel()
-//            updateInfo = { _ -> true }
-            return
-        }
-        //対象は有るかもないかも。なお移動中の配置はHandで参照しているのでボード上の自分はまだ移動前
-        val targetPiece = pieceMatrix[position.x][position.y]
-        val targetRoute = hand.selectedPiece!!.searchedRoute[position.x][position.y]
-        val targetEffective = hand.selectedPiece!!.effectiveRoute[position.x][position.y]
-        //handからルート取り除くべきかな
-        hand.clickedAction(position, targetPiece, targetRoute, targetEffective)
+//        //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし...ほんとか？selectもしくはholdしてたらじゃね？
+//        if (!positionIsOnBoard(position) || (hand.selectedPiece!!.searchedRoute[position.x][position.y] < 0 && hand.selectedPiece!!.effectiveRoute[position.x][position.y] < 0)) {
+//            hand.moveCancel()
+////            updateInfo = { _ -> true }
+//            return
+//        }
+//        //対象は有るかもないかも。なお移動中の配置はHandで参照しているのでボード上の自分はまだ移動前
+//        val targetPiece = pieceMatrix[position.x][position.y]
+//        val targetRoute = hand.selectedPiece!!.searchedRoute[position.x][position.y]
+//        val targetEffective = hand.selectedPiece!!.effectiveRoute[position.x][position.y]
+//        //こっちは古いコード。今はHandへ引っ越し中
+       // hand.clickedAction(position, targetPiece, targetRoute, targetEffective)
 
     }
 
@@ -314,21 +313,6 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         println("deselectPiece")
         //移動範囲のリセットってやるべきかなあ？
         hand.clear()
-    }
-
-    /**
-     * 駒を選択状態にする。掴むとかそういう名前のほうが良いか？
-     */
-    fun selectPiece(piece: Piece<UNIT, GROUND>) {
-        println("selectPiece $piece")
-        hand.clear()
-        //TODO:ルート探すのはセレクト時かターン開始時
-        //selectできる条件は自分のアクティブなユニットであること。
-        //タイミングとしては何かをセレクトしてる条件で他のユニットに軽く触れてセレクトが移るかで。セレクトもターゲットも良くないか。やっぱりgraspがいいな
-        searchRoute(piece)
-        searchEffectiveRoute(piece)
-        hand.selectedPiece = piece
-        hand.oldPosition = searchUnitPosition(piece)!!
     }
 
     /**

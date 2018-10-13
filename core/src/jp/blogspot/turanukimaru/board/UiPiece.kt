@@ -94,7 +94,9 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
         val result = super.touchDown(event, x, y, pointer, button)
+        //本当はユニットの情報を表示するとかいろいろある
         if (!uiBoard.pieceActive) return result
+
         piece.startPiece(uiBoard.xyToPosition(x, y))
         actor.zIndex = 0
         touched = true
@@ -116,7 +118,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     }
 
 
-    //TODO:アクターのサイズが分からないから中心が出ない...
+    //アクターのサイズが分からないから中心が出ない...けど画像の管理はまた別問題だな
     /**
      * 位置移動のアニメ。移動差分を駒に登録する
      */

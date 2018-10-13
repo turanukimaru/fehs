@@ -87,6 +87,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType = SkillTyp
     OddSpdWave(Name.OddSpdWave, spType = SpType.BASE60),
     OddDefWave(Name.OddDefWave, spType = SpType.BASE60),
     OddResWave(Name.OddResWave, spType = SpType.BASE60),
+    EvenAtkWave(Name.EvenAtkWave, spType = SpType.BASE60),
     EvenSpdWave(Name.EvenSpdWave, spType = SpType.BASE60),
     EvenDefWave(Name.EvenDefWave, spType = SpType.BASE60),
     EvenResWave(Name.EvenResWave, spType = SpType.BASE60),

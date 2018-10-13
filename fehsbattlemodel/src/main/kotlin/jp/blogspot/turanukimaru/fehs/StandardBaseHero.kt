@@ -671,6 +671,14 @@ object StandardBaseHero {
         createItem(Name.チキ__伝承英雄_, 2, WeaponType.DRAGON, MoveType.ARMORED,  5, 17, 10, 11, 4, 5, g65, g55, g55, g75, g55,
                 Breath.DivineMist, null, Special.Moonbow, SkillA.FierceStance, SkillB.BoldFighter.lv(3), SkillC.WithEveryone)
 
+        createItem(Name.ミルラ__収穫祭_, 1, WeaponType.DRAGON, MoveType.ARMORED, 5, 20, 8, 4, 7, 8, g60, g70, g45, g75, g55,
+                Breath.SpiritBreath, null, Special.Bonfire, SkillA.DefRes.lv(2), SkillB.VengefulFighter.lv(3), SkillC.ArmorMarch.lv(3))
+        createItem(Name.ゼロ__収穫祭_, 2, WeaponType.BOW, MoveType.ARMORED, 5, 18, 10, 11, 6, 7, g45, g55, g65, g45, g50,
+                Bow.DevilishBow2, Assist.Smite, null, SkillA.SwiftSparrow.lv(2), SkillB.AtkDefLink.lv(3), SkillC.FortifyArmor)
+        createItem(Name.カゲロウ__収穫祭_, 3, WeaponType.DAGGER, MoveType.ARMORED, 5, 19, 12, 4, 8, 9, g50, g60, g40, g55, g55,
+                Dagger.BottledJuice2, null, Special.DraconicAura, SkillA.MirrorStrike.lv(2), SkillB.BoldFighter.lv(3), SkillC.EvenResWave)
+        createItem(Name.ワユ__収穫祭_, 0, WeaponType.STAFF, MoveType.FLIER, 5, 17, 6, 10, 5, 6, g45, g55, g55, g40, g50,
+                Staff.WitchyWand2, Assist.Recover2, Special.HeavenlyLight, SkillA.SpdResBond.lv(3), null,SkillC.HoneFliers.lv(3))
         //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 

@@ -54,6 +54,10 @@ enum class Breath(override val jp: Name, override val type: SkillType, override 
     DivineMist(Name.DivineMist, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
+    SpiritBreath(Name.SpiritBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupDef(battleUnit, enemy, 5)
+    },
     ;
 
     /**

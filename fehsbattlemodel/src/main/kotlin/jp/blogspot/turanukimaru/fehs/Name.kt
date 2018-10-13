@@ -637,6 +637,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     Resistance("魔防", "Resistance", "魔防"),
     SpdDef("速さ守備", "Spd Def", "速度防守"),
     SpdRes("速さ魔防", "Spd Res", "速度魔防"),
+    DefRes("守備魔防", "Def Res", "防守魔防"),
     Speed("速さ", "Speed", "速度"),
     SteadyBlow("飛燕金剛の一撃", "Steady Blow", "飛燕金剛擊"),
     SteadyBreath("金剛の呼吸", "Steady Breath", "金剛の呼吸*"),
@@ -993,6 +994,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     ニノ__失われし牙_("ニノ（失われし牙）", "Nino (Scattered Fangs)", "妮諾 (Scattered Fangs)"),
     ラガルト("ラガルト", "Legault", "拉加爾托"),
     VassalsBlade("剣姫の刀", "Vassal's Blade	", "Vassal's Blade"),
+    EvenAtkWave("攻撃の波・偶数", "Even Atk Wave ", "Even Atk Wave"),
     EvenSpdWave("速さの波・偶数", "Even Spd Wave ", "Even Spd Wave"),
     GigaExcalibur("ギガスカリバー", "Giga Excalibur", "Giga Excalibur"),
     Aerobatics("曲技飛行", "Aerobatics", "Aerobatics"),
@@ -1140,6 +1142,18 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     RefinedRegalBlade("Atk/Spd/Def/Res+3","Atk/Spd/Def/Res+3","Atk/Spd/Def/Res+3"),
     RefinedSieglinde("Atk/Spd/Def/Res + allies buff","Atk/Spd/Def/Res + allies buff","Atk/Spd/Def/Res + allies buff"),
     RefinedYato("支援相手にAtk/Spd/Def/Res+4","Atk/Spd/Def/Res+4 to support partner","Atk/Spd/Def/Res+4 to support partner"),
+    SpiritBreath("","Spirit Breath",""),
+
+    ワユ__収穫祭_("ワユ（収穫祭）", "Mia (Trick or Defeat)", "瓦育 (Trick or Defeat)"),
+    ミルラ__収穫祭_("ミルラ（収穫祭）", "Myrrh (Trick or Defeat)", "梅爾 (Trick or Defeat)"),
+    ゼロ__収穫祭_("ゼロ（収穫祭）", "Niles (Trick or Defeat)", "零 (Trick or Defeat)"),
+    カゲロウ__収穫祭_("カゲロウ（収穫祭）", "Kagero (Trick or Defeat)", "陽炎 (Trick or Defeat)"),
+    DevilishBow("","Devilish Bow",""),
+    DevilishBow2("","Devilish Bow+",""),
+    BottledJuice("","Bottled Juice",""),
+    BottledJuice2("","Bottled Juice+",""),
+    WitchyWand("","Witchy Wand",""),
+    WitchyWand2("","Witchy Wand+",""),
     ;
 
     /**

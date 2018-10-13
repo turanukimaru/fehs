@@ -602,6 +602,16 @@ interface Skill {
     }
 
     /**
+     * ミルラのブレス
+     */
+    fun followupDef(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        if (battleUnit.def - lv >= enemy.def) {
+            battleUnit.followupable = true
+        }
+        return battleUnit
+    }
+
+    /**
      * 天雷アルマーズ
      */
     fun antiFollowupAdjast(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {

@@ -92,6 +92,12 @@ enum class Dagger(override val jp: Name, override val type: SkillType, override 
             return battleUnit
         }
     },
+    BottledJuice(Name.BottledJuice, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
+    },
+    BottledJuice2(Name.BottledJuice2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS, RefinedSkill.RefineType.Range2) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
+    },
    ;
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？

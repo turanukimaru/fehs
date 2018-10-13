@@ -112,6 +112,12 @@ enum class Bow(override val jp: Name, override val type: SkillType, override val
     ShiningBow2(Name.ShiningBow2, SkillType.BOW, 12, ShiningBow, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy)
     },
+    DevilishBow(Name.DevilishBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
+    },
+    DevilishBow2(Name.DevilishBow2, SkillType.BOW, 12, ShiningBow, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
+    },
     ;
 
     /**

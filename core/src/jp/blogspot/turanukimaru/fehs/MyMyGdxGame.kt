@@ -218,7 +218,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         // arguments to glClearColor are the red, green
         // blue and alpha component in the range [0,1]
         // of the color to be used to clear the screen.
-        //UIoardに出してもいいけどBoardに出しちゃいけない部分だよなあ
+        //UIBoardに出してもいいけどBoardに出しちゃいけない部分だよなあ
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         // tell the camera to libUpdate its matrices.
@@ -239,7 +239,10 @@ class MyMyGdxGame : ApplicationAdapter() {
         //なぜか消すと画面のFillが表示されなくなる。image.drawでstageとの調整をしているのでその都合かと思われる。
 //        buttons.forEach { b -> b.draw(batch, 100f) }
 
-        bitmapFont!!.draw(batch, "${myGame.board.hand.oldPosition}\nデバッグ用文字", 50f, 300f)
+
+        bitmapFont!!.draw(batch, "${myGame.board.hand}\nデバッグ用文字", 50f, 300f)
+        bitmapFont!!.draw(batch, "touched:  ${myGame.board.hand.touchedPiece}\nデバッグ用文字", 50f, 300f)
+        bitmapFont!!.draw(batch, "selected: ${myGame.board.hand.selectedPiece}\nデバッグ用文字", 50f, 300f)
         myGame.board.pieceList.forEach{
             bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.position!!.x} ${it.position!!.y}\n", myGame.uiBoard.squareXtoPosX(it.position!!.x),myGame. uiBoard.squareYtoPosY(it.position!!.y))
         }
