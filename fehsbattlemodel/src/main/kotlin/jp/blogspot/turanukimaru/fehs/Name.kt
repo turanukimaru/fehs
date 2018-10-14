@@ -1144,16 +1144,16 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     RefinedYato("支援相手にAtk/Spd/Def/Res+4","Atk/Spd/Def/Res+4 to support partner","Atk/Spd/Def/Res+4 to support partner"),
     SpiritBreath("","Spirit Breath",""),
 
-    ワユ__収穫祭_("ワユ（収穫祭）", "Mia (Trick or Defeat)", "瓦育 (Trick or Defeat)"),
-    ミルラ__収穫祭_("ミルラ（収穫祭）", "Myrrh (Trick or Defeat)", "梅爾 (Trick or Defeat)"),
-    ゼロ__収穫祭_("ゼロ（収穫祭）", "Niles (Trick or Defeat)", "零 (Trick or Defeat)"),
-    カゲロウ__収穫祭_("カゲロウ（収穫祭）", "Kagero (Trick or Defeat)", "陽炎 (Trick or Defeat)"),
-    DevilishBow("","Devilish Bow",""),
-    DevilishBow2("","Devilish Bow+",""),
-    BottledJuice("","Bottled Juice",""),
-    BottledJuice2("","Bottled Juice+",""),
-    WitchyWand("","Witchy Wand",""),
-    WitchyWand2("","Witchy Wand+",""),
+    ワユ__収穫祭_("ワユ（大地の恵みに）", "Mia (The Land's Bounty)", "瓦育 (The Land's Bounty)"),
+    ミルラ__収穫祭_("ミルラ（大地の恵みに）", "Myrrh (The Land's Bounty)", "梅爾 (The Land's Bounty)"),
+    ゼロ__収穫祭_("ゼロ（大地の恵みに）", "Niles (The Land's Bounty)", "零 (The Land's Bounty)"),
+    カゲロウ__収穫祭_("カゲロウ（大地の恵みに）", "Kagero (The Land's Bounty)", "陽炎 (The Land's Bounty)"),
+    DevilishBow("コウモリの弓","Devilish Bow","蝙蝠弓"),
+    DevilishBow2("コウモリの弓＋","Devilish Bow+","蝙蝠弓+"),
+    BottledJuice("果汁のボトル","Bottled Juice","玻璃果汁瓶"),
+    BottledJuice2("果汁のボトル＋","Bottled Juice+","玻璃果汁瓶+"),
+    WitchyWand("キャンディの杖","Witchy Wand","糖果杖"),
+    WitchyWand2("キャンディの杖＋","Witchy Wand+","糖果杖+"),
     ;
 
     /**
