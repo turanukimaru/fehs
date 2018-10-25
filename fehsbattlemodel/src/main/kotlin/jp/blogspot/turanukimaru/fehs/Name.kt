@@ -1159,10 +1159,10 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     WitchyWand("キャンディの杖","Witchy Wand","糖果杖"),
     WitchyWand2("キャンディの杖＋","Witchy Wand+","糖果杖+"),
 
-    Kliff("","",""),
-    Sagittae("アロー","Sagittae",""),
-    Owain("","Owain",""),
-    BlueFlame("","Blue Flame",""),
+    Kliff("クリフ","Kliff","克里夫"),
+    Sagittae("アロー","Sagittae","光箭"),
+    Owain("ウード","Owain","伍德"),
+    BlueFlame("ブルーフレイム","Blue Flame","青之炎"),
 //    Missiletainn("","Owain",""),//日本語に剣とか入ってないか確認しないとな…
     ;
 
