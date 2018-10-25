@@ -679,11 +679,17 @@ object StandardBaseHero {
                 Dagger.BottledJuice2, null, Special.DraconicAura, SkillA.MirrorStrike.lv(2), SkillB.BoldFighter.lv(3), SkillC.EvenResWave)
         createItem(Name.ワユ__収穫祭_, 0, WeaponType.STAFF, MoveType.FLIER, 5, 17, 6, 10, 5, 6, g45, g55, g55, g40, g50,
                 Staff.WitchyWand2, Assist.Recover2, Special.HeavenlyLight, SkillA.SpdResBond.lv(3), null,SkillC.HoneFliers.lv(3))
+        createItem(Name.ロキ, 0, WeaponType.STAFF, MoveType.INFANTRY, 5, 18, 9, 9, 3, 6, g55, g55, g60, g30, g45,
+                Staff.Thokk, Assist.Restore2, Special.SolidEarthBalm, SkillA.CDuelInfantry.lv(3), null, SkillC.OddAtkWave.lv(3))
+
+                createItem(Name.Kliff, 2, WeaponType.BTOME, MoveType.INFANTRY,  5, 15, 6, 4, 3, 9, g50, g55, g75, g50, g45,
+                Btome.Sagittae, null, Special.GrowingLight, SkillA.FortressDef.lv(3), SkillB.ChillSpd.lv(3), SkillC.FortifyRes.lv(3))
+                createItem(Name.Owain, 1, WeaponType.SWORD, MoveType.INFANTRY,  5, 17, 8, 9, 7, 7, g55, g55, g65, g55, g35,
+                Sword.Missiletainn, null, Special.BlueFlame, SkillA.AtkDefBond.lv(3), SkillB.Wrath.lv(3), SkillC.SpurSpdDef.lv(2))
+
         //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 
-//        createItem(Name.ロキ, 0, WeaponType.STAFF, MoveType.INFANTRY, 5, 18, 9, 9, 4, 8, g55, g55, g60, g35, g50,
-//                Weapon.Thokk, null, null, null, null, null)
 //        createItem(Name.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,
 //                Weapon.Sinmara, null, null, null, null, null)
 //        createItem(Name.ザカリア, 2, WeaponType.BTOME, MoveType.CAVALRY, 5, 16, 7, 9, 5, 6, g40, g50, g60, g40, g45,

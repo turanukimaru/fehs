@@ -105,7 +105,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * タッチから指を離したとき。移動範囲・効果範囲外のときは駒をもとの場所に戻す
      */
-    fun touchUp(position: Position): Boolean {
+  open  fun touchUp(position: Position): Boolean {
         return true
     }
 

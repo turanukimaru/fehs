@@ -191,6 +191,10 @@ enum class Sword(override val jp: Name, override val type: SkillType, override v
             return battleUnit
         }
     },
+    Missiletainn(Name.Missiletainn, SkillType.SWORD, 16, Sword.SilverSword) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {battleUnit.accelerateTargetCooldown = 1;return battleUnit}
+    },
     ;
 
     /**

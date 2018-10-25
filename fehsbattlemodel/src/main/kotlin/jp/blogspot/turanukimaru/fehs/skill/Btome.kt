@@ -99,6 +99,10 @@ enum class Btome(override val jp: Name, override val type: SkillType, override v
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
+    Sagittae(Name.Sagittae, SkillType.BTOME, 14, Thoron) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =if (battleUnit.atk +5 <= enemy.atk) allBonus(battleUnit, 5) else battleUnit
+    },
    ;
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？

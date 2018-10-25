@@ -105,6 +105,8 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         touchedPosition = xyToPosition
         //駒を掴んでないときは掴む。掴んでるときは別の駒へのアクションになるから保留
         holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
+        board.searchRoute(piece)
+        board.searchEffectiveRoute(piece)
     }
 
     override fun toString(): String = "dx:$dx dy:$dy p:$touchedPosition piece:$touchedPiece s:$selectedPiece"

@@ -68,6 +68,9 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
     FortressRes(Name.FortressRes) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipRes(armedHero, lv + 2), -3)
     },
+    FortressDefRes(Name.FortressDef) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipDef(equipRes(armedHero, if (lv ==3) 6 else lv + 2), if (lv ==3) 6 else lv + 2), if (lv ==3) -2 else -3 )
+    },
 
     HeavyBlade(Name.HeavyBlade, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, 7 - lv * 2)
@@ -93,13 +96,15 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
     RDuelFlying(Name.RDuelFlying, spType = SpType.BASE70) {
-        override fun totalParam(n: Int): Int {
-            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");return 170
-        }
+        override fun totalParam(n: Int): Int =170
 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
     GDuelInfantry(Name.GDuelInfantry, spType = SpType.BASE70) {
+        override fun totalParam(n: Int): Int = 170
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
+    },
+    CDuelInfantry(Name.GDuelInfantry, spType = SpType.BASE70) {
         override fun totalParam(n: Int): Int = 170
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },

@@ -593,6 +593,8 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     SolidEarthBalm("大地の祝福", "Solid Earth Balm", "大地的祝福"),
     StillWaterBalm("静水の祝福", "Still Water Balm", "靜水的祝福"),
     SwiftWindsBalm("疾風の祝福", "Swift Winds Balm", "疾風的祝福"),
+    EarthwaterBalm("大地静水の祝福", "Earthwater Balm", "大地靜水的祝福"),
+    EarthwaterBalm2("大地静水の祝福＋", "Earthwater Balm+", "大地靜水的祝福＋"),
     Vengeance("復讐", "Vengeance", "復仇"),
 
     ArmoredBlow("金剛の一撃", "Armored Blow", "金剛一擊"),
@@ -624,6 +626,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     FlashingBlade("柔剣", "Flashing Blade", "柔劍"),
     FortressDef("守備の城塞", "Fortress Def", "防守堡壘"),
     FortressRes("魔防の城塞", "Fortress Res", "魔防堡壘"),
+    FortDefRes("守備魔防の城塞", "Fort. Def/Res", "防守魔防堡壘"),
     Fury("獅子奮迅", "Fury", "獅子奮迅"),
     GranisShield("グラニの盾", "Grani's Shield", "〇〇〇之盾"),
     HeavyBlade("剛剣", "Heavy Blade", "剛劍"),
@@ -1127,6 +1130,7 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     Laevatein("レーヴァテイン","Laevatein","瑞瓦提恩"),
     RDuelFlying("赤の死闘・飛行","R Duel Flying","赤色死鬥・飛行"),
     GDuelInfantry("緑の死闘・歩行","G Duel Infantry","綠色死鬥・步行"),
+    CDuelInfantry("無の死闘・歩行","C Duel Infantry","無色死鬥・步行"),
     Byleistr("ビューレイスト","Býleistr","貝萊斯特"),
     Thokk("セック","Thökk","Thökk"),
     Sinmara("シンモラ","Sinmara","Sinmara"),
@@ -1154,6 +1158,12 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     BottledJuice2("","Bottled Juice+",""),
     WitchyWand("","Witchy Wand",""),
     WitchyWand2("","Witchy Wand+",""),
+
+    Kliff("","",""),
+    Sagittae("アロー","Sagittae",""),
+    Owain("","Owain",""),
+    BlueFlame("","Blue Flame",""),
+//    Missiletainn("","Owain",""),//日本語に剣とか入ってないか確認しないとな…
     ;
 
     /**

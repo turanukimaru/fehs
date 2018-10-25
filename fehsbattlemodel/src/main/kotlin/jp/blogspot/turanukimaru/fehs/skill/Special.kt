@@ -32,6 +32,7 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     Retribution(Name.Retribution, SkillType.SPECIAL_A, 3, stateDamage = { source -> (source.armedHero.maxHp - source.hp) * 3 / 10 }, spType = SpType.SPECIAL3),
     Reprisal(Name.Reprisal, SkillType.SPECIAL_A, 2, stateDamage = { source -> (source.armedHero.maxHp - source.hp) * 3 / 10 }),
     Vengeance(Name.Vengeance, SkillType.SPECIAL_A, 3, stateDamage = { source -> (source.armedHero.maxHp - source.hp) * 5 / 10 }),
+    BlueFlame(Name.BlueFlame, SkillType.SPECIAL_A, 3, stateDamage = { source -> 10 + if (source.adjacentUnits > 0) 15 else 0 }),
 
     Miracle(Name.Miracle, SkillType.SPECIAL_C, 5, spType = SpType.SPECIAL5) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, lv: Int): Pair<Int, Skill> = if (battleUnit.hp in 2..damage) Pair(battleUnit.hp - 1, this) else super.specialPrevent(battleUnit, damage, source, lv)
@@ -67,6 +68,8 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     Imbue(Name.Imbue, SkillType.SPECIAL_D, 1),
     HeavenlyLight(Name.HeavenlyLight, SkillType.SPECIAL_D, 2),
     SolidEarthBalm(Name.SolidEarthBalm, SkillType.SPECIAL_D, 1),
+    EarthwaterBalm(Name.EarthwaterBalm, SkillType.SPECIAL_D, 1),
+    EarthwaterBalm2(Name.EarthwaterBalm2, SkillType.SPECIAL_D, 1),
     SwiftWindsBalm(Name.SwiftWindsBalm, SkillType.SPECIAL_D, 1),
     KindledFireBalm(Name.KindledFireBalm, SkillType.SPECIAL_D, 1),
     StillWaterBalm(Name.StillWaterBalm, SkillType.SPECIAL_D, 1),

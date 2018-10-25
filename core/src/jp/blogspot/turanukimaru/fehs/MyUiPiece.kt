@@ -1,6 +1,5 @@
 package jp.blogspot.turanukimaru.fehs
 
-import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
@@ -9,7 +8,7 @@ import jp.blogspot.turanukimaru.board.*
 /**
  * 駒UIの拡張。ロジックは親が持つのでこっちは表示関係のみでいいはず
  */
-class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(actor, uiBoard, myPiece) {
+class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : UiPiece(actor, uiBoard, myPiece) {
 
     override fun update() {
         // アニメーションはシーケンスで管理するので一回だけ動かす今のStateと前のStateを管理して差分を取る手もあるがどっちがいいかな。
@@ -21,43 +20,40 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
 //        }
 
         piece.animationStart = false
-        //アクションフェイズよりもここにドラッグ判定があるべきか
-        println(piece.actionPhase)
         when (piece.actionPhase) {
             Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabledに
-                actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
+                actionSetToPosition(piece.position)
                 uiBoard.stage.addActor(actor)
                 piece.action(Piece.ActionPhase.DISABLED)
             }
             Piece.ActionPhase.DISABLED ->//ターンが違うなど操作不能の時は枡に合わせてセット
                 actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
-            Piece.ActionPhase.READY -> {//現在位置に表示。ずれてる場合は徐々に移動させる
-                actor.addAction(actionMoveToPosition(piece.position))
-                //TODO:ループアクションを設定する
-//                if (actors.size < 2) return
-//                val base = actors[0]
-//                val face = actors[1]
-//                if (piece.animationCount == 8) {
-//                    base.y = base.y + 2
-//                    face.x = face.x + 2
-//                } else if (piece.animationCount == 15) {
-//                    base.y = base.y - 2
-//                    face.x = face.x - 2
-//                }
-//                piece.animationCount = if (piece.animationCount < 16) {
-//                    piece.animationCount + 1
-//                } else {
-//                    0
-//                }
+            Piece.ActionPhase.READY -> {
+                //ドラッグしてるときはアクションをクリアしてドラッグに追従表示.タッチじゃなくてドラッグ判定にせねば。実機では正しく動くがシミュ上ではめっちゃぶれる
+                when (touched) {
+                    TouchPhase.DRAG -> {
+                        actor.clearActions()
+                        actor.setPosition(actor.x + dx, actor.y + dy);dx = 0.0f;dy = 0.0f
+                        actionNow = false//一括クリアもいるなこれは
+                    }
+                    TouchPhase.RELEASE -> {
+//                    actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
+                        when (uiBoard.board.hand) {
+                            HandPhase.SELECTED -> startAction(actionMoveToPosition(piece.position))//実機ではNONEとは絵が違う
+                            HandPhase.MOVED -> startAction(actionMoveToPosition(uiBoard.board.hand.newPosition))//実機ではNONEとは絵が違う
+                            else -> startAction(readyAction())//自分が移動する必要あるかの判定が要るんだなこれ
+                        }
+                    }
+                    TouchPhase.NONE->{
+                        //その場アニメ
+                    }
+                    TouchPhase.TOUCH->{
+                        //タッチしてドラッグが始まる前はどうするかな？なにもしなくていいか？
+                    }
 
-            }
-
-            Piece.ActionPhase.READY -> {//移動予定個所に表示。ずれてる場合は徐々に移動させる
-                actionMoveToPosition(uiBoard.board.hand.newPosition)
+                }
             }
             Piece.ActionPhase.ATTACK -> {//戦闘中のアクションはそのうち考える
-            }
-            Piece.ActionPhase.ACTED -> {
                 //戦闘結果を持ってるときはそれを動かす
                 if (myPiece.fightResult != null) {
                     attackResultToSeq(
@@ -69,6 +65,10 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
                     actionSetToPosition(piece.position)
                     actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
                 }
+            }
+            Piece.ActionPhase.ACTED -> {//現在の位置に灰色で表示
+                actionSetToPosition(piece.position)
+                actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }//これ灰色じゃねーな全部　r+g+b/3　にするのが正しいか？
             }
             Piece.ActionPhase.REMOVED -> {//画面から消す
             }
@@ -125,6 +125,35 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, var myPiece: MyPiece) : UiPiece(
         seq.addAction(Actions.moveBy(96 * toX.toFloat(), 96 * toY.toFloat(), 0.2f))
         seq.addAction(Actions.moveBy(-96 * toX.toFloat(), -96 * toY.toFloat(), 0.2f))
         return seq
+    }
+
+    /**
+     * 立ってるときのアニメ１ループ分。LibGDXにループ機能はあるが操作統一のため主導でループ
+     * */
+    private fun readyAction(): SequenceAction {
+//        if(myPiece.position == null) { return SequenceAction()}
+//        //盤面に無いときの処理真面目に考えないとな…
+//        val finalX = uiBoard.squareXtoPosX(myPiece.position.x)
+//        val finalY = uiBoard.squareYtoPosY(position.y)
+//        val seq = SequenceAction()
+//        if(finalX - actor.x >1 || finalY - actor.y > 1){
+//        seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.1f))
+//        seq.addAction(EndOfAnimationAction(this))
+//            actor.addAction(seq)
+//        return seq
+//        }
+        val base = actors[0]
+        val face = actors[1]
+        val seq1 = SequenceAction()
+        seq1.addAction(Actions.moveBy(2.0f, 2.0f, 0.2f))
+        seq1.addAction(Actions.moveBy(-2.0f, -2.0f, 0.2f))
+        seq1.addAction(EndOfAnimationAction(this))
+        base.addAction(seq1)
+        val seq2 = SequenceAction()
+        seq2.addAction(Actions.moveBy(6.0f, 6.0f, 0.2f))
+        seq2.addAction(Actions.moveBy(-6.0f, -6.0f, 0.2f))
+        face.addAction(seq2)
+        return seq1
     }
 
     val attackAction: (actor: Actor) -> Boolean = {
