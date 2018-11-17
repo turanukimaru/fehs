@@ -5,8 +5,8 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Breath(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W,override  val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
-   FireBreath(Name.FireBreath, SkillType.DRAGON, 6, Skill.NONE, SpType.IRON),
+enum class Breath(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+    FireBreath(Name.FireBreath, SkillType.DRAGON, 6, Skill.NONE, SpType.IRON),
     FireBreath2(Name.FireBreath2, SkillType.DRAGON, 8, FireBreath, SpType.STEEL),
     LightningBreath(Name.LightningBreath, SkillType.DRAGON, 7, FireBreath2, SpType.SILVER) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
@@ -58,6 +58,14 @@ enum class Breath(override val jp: Name, override val type: SkillType, override 
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupDef(battleUnit, enemy, 5)
     },
+    DraconicRage(Name.DraconicRage, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        //これミュルグレと同じだな。真面目にカウントするなら一本化するか…
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0)
+            blowAtk(blowSpd(battleUnit, 5), 5)
+        else battleUnit
+
+    }
     ;
 
     /**

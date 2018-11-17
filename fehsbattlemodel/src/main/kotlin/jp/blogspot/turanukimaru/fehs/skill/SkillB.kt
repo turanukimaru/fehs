@@ -20,7 +20,7 @@ enum class SkillB(override val jp: Name, override val type: SkillType = SkillTyp
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.BOW, lv, 0)
     },
     DaggerBreaker(Name.DaggerBreaker) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.DAGGER, lv)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.DAGGER, lv, 0)
     },
     RTomeBreaker(Name.RTomeBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.RTOME, lv)
@@ -133,17 +133,25 @@ enum class SkillB(override val jp: Name, override val type: SkillType = SkillTyp
             return damage
         }
     },
+    LunarBrace(Name.LunarBrace, maxLevel = 0, spType = SpType.LEGEND_S) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
+        override val stateDamageEnemy: (BattleUnit) -> Int get() = { it.def / 2 }
+    },
     DoubleLion(Name.DoubleLion, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpDoubleAttack(battleUnit, 1)
     },
     BindingShield(Name.BindingShield, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if(enemy.armedHero.baseHero.weaponType == WeaponType.DRAGON){
+            if (enemy.armedHero.baseHero.weaponType == WeaponType.DRAGON) {
                 enemy.cannotCounter = true
                 enemy.antiFollowup = true
             }
             return battleUnit
         }
+    },
+    NullFollowUp(Name.NullFollowUp, spType = SpType.BASE60) {
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullFollowUp(battleUnit, enemy, lv)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullFollowUp(battleUnit, enemy, lv)
     },
     SpecialSpiral(Name.SpecialSpiral, spType = SpType.BASE60),//戦闘後効果だからまだ要らないといえば要らないが…
     EscapeRoute(Name.EscapeRoute, spType = SpType.BASE60),
@@ -188,8 +196,9 @@ enum class SkillB(override val jp: Name, override val type: SkillType = SkillTyp
     },
     SpdFeint(Name.SpdFeint, spType = SpType.BASE60),
     DefFeint(Name.DefFeint, spType = SpType.BASE60),
-    AtkDefLink(Name.AtkDefLink, spType = SpType.BASE60),
     AtkSpdLink(Name.AtkSpdLink, spType = SpType.BASE60),
+    AtkDefLink(Name.AtkDefLink, spType = SpType.BASE60),
+    AtkResLink(Name.AtkResLink, spType = SpType.BASE60),
     SpdResLink(Name.SpdResLink, spType = SpType.BASE60),
     DefResLink(Name.DefResLink, spType = SpType.BASE60),
     Aerobatics(Name.Aerobatics, spType = SpType.BASE60),
@@ -209,12 +218,13 @@ enum class SkillB(override val jp: Name, override val type: SkillType = SkillTyp
     //   override fun localeName(locale: Locale): String=jp.localeName(locale)
 
     companion object {
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
             } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
         }
-        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+
+        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
             } else list.add(e.lv(e.maxLevel));list

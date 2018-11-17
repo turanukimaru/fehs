@@ -11,20 +11,16 @@ import jp.blogspot.turanukimaru.board.*
 class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : UiPiece(actor, uiBoard, myPiece) {
 
     override fun update() {
-        // アニメーションはシーケンスで管理するので一回だけ動かす今のStateと前のStateを管理して差分を取る手もあるがどっちがいいかな。
-//        if (!piece.animationStart) return
-//        //タッチ中はアクション無視
-//        if (uiBoard.board.hand.touchedPiece == myPiece && uiBoard.board.hand.dragging()) {
-//            actor.clearActions()
-//            return
-//        }
-
         piece.animationStart = false
         when (piece.actionPhase) {
-            Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabledに
+            Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabled.いずれ増援が出たr
                 actionSetToPosition(piece.position)
-                uiBoard.stage.addActor(actor)
                 piece.action(Piece.ActionPhase.DISABLED)
+            }
+            Piece.ActionPhase.START -> {//おかれた直後なので初期化してREADY
+                actionSetToPosition(piece.position)
+//                uiBoard.stage.addActor(actor)
+                piece.action(Piece.ActionPhase.READY)
             }
             Piece.ActionPhase.DISABLED ->//ターンが違うなど操作不能の時は枡に合わせてセット
                 actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
@@ -37,17 +33,19 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
                         actionNow = false//一括クリアもいるなこれは
                     }
                     TouchPhase.RELEASE -> {
+                        //離した後は枡にフィットさせる。
 //                    actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
                         when (uiBoard.board.hand) {
-                            HandPhase.SELECTED -> startAction(actionMoveToPosition(piece.position))//実機ではNONEとは絵が違う
-                            HandPhase.MOVED -> startAction(actionMoveToPosition(uiBoard.board.hand.newPosition))//実機ではNONEとは絵が違う
-                            else -> startAction(readyAction())//自分が移動する必要あるかの判定が要るんだなこれ
+                            HandPhase.SELECTED -> startAction { actionMoveToPosition(piece.position) }//実機ではNONEとは絵が違う
+                            HandPhase.MOVED -> startAction { actionMoveToPosition(uiBoard.board.hand.newPosition) }//実機ではNONEとは絵が違う
+                            else -> startAction { actionMoveToPosition(piece.position) }
                         }
                     }
-                    TouchPhase.NONE->{
-                        //その場アニメ
+                    TouchPhase.NONE -> {
+                        println("ここで落ちてる？")
+                        startAction { readyAction() }
                     }
-                    TouchPhase.TOUCH->{
+                    TouchPhase.TOUCH -> {
                         //タッチしてドラッグが始まる前はどうするかな？なにもしなくていいか？
                     }
 
@@ -106,8 +104,8 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
             }
         }
         sourceSeq.addAction(CallbackAction { true })
-        sourceSeq.addAction(EndOfAnimationAction(this))
-        if (isAttacker) sourceSeq.addAction(EndOfAnimationAction(this)) else targetSeq.addAction(EndOfAnimationAction(this))
+        sourceSeq.addAction(EndOfAnimationAction(this, 4.0f))
+        if (isAttacker) sourceSeq.addAction(EndOfAnimationAction(this, 4.0f)) else targetSeq.addAction(EndOfAnimationAction(this, 4.0f))
 
         //行動終了
         actor.addAction(sourceSeq)
@@ -131,6 +129,7 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
      * 立ってるときのアニメ１ループ分。LibGDXにループ機能はあるが操作統一のため主導でループ
      * */
     private fun readyAction(): SequenceAction {
+        println("readyAction")
 //        if(myPiece.position == null) { return SequenceAction()}
 //        //盤面に無いときの処理真面目に考えないとな…
 //        val finalX = uiBoard.squareXtoPosX(myPiece.position.x)
@@ -144,14 +143,21 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
 //        }
         val base = actors[0]
         val face = actors[1]
+        //clearしないでアクション追加するとめっちゃ落ちる。デフォルト位置に戻す処理もいるな
+        actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
+        base.setPosition(0f, 0f)
+        face.setPosition(0f, 0f)
+        actor.clearActions()
+        base.clearActions()
+        face.clearActions()
         val seq1 = SequenceAction()
-        seq1.addAction(Actions.moveBy(2.0f, 2.0f, 0.2f))
-        seq1.addAction(Actions.moveBy(-2.0f, -2.0f, 0.2f))
-        seq1.addAction(EndOfAnimationAction(this))
+        seq1.addAction(Actions.moveBy(2.0f, 2.0f, 0.5f))
+        seq1.addAction(Actions.moveBy(-2.0f, -2.0f, 0.5f))
+        seq1.addAction(EndOfAnimationAction(this, 1f))//seq関係なくすぐ呼び出される…
         base.addAction(seq1)
         val seq2 = SequenceAction()
-        seq2.addAction(Actions.moveBy(6.0f, 6.0f, 0.2f))
-        seq2.addAction(Actions.moveBy(-6.0f, -6.0f, 0.2f))
+        seq2.addAction(Actions.moveBy(6.0f, 6.0f, 0.5f))
+        seq2.addAction(Actions.moveBy(-6.0f, -6.0f, 0.5f))
         face.addAction(seq2)
         return seq1
     }

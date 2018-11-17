@@ -1,7 +1,6 @@
 package jp.blogspot.turanukimaru.board
 
 import jp.blogspot.turanukimaru.board.UiBoard.Position
-import java.util.*
 
 /**
  * 論理盤面.操作系と演算系別にするとかちょっと分割したいな…
@@ -11,16 +10,16 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 盤上の駒
      * 駒が無いところはnull
      */
-    val pieceMatrix = arrayListOf<ArrayList<Piece<UNIT, GROUND>?>>()
+    val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
     /**
      * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
      */
-    val pieceList = arrayListOf<Piece<UNIT, GROUND>>()
+    val pieceList = mutableListOf<Piece<UNIT, GROUND>>()
     /**
      * 盤上の地形
      * 地形が無いところはnull.nullObjectとか床を作るべきか？でも床のないボードゲームのが多いよな
      */
-    val groundMatrix = arrayListOf<ArrayList<GROUND?>>()
+    private val groundMatrix = mutableListOf<MutableList<GROUND?>>()
     /**
      * 現在盤上の所有権を持つプレイヤー
      */
@@ -44,11 +43,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
 
     init {
         horizontalIndexes.forEach {
-            val unitLine = arrayListOf<Piece<UNIT, GROUND>?>()
+            val unitLine = mutableListOf<Piece<UNIT, GROUND>?>()
             verticalIndexes.forEach { unitLine.add(null) }
             pieceMatrix.add(unitLine)
 
-            val boxLine = arrayListOf<GROUND?>()
+            val boxLine = mutableListOf<GROUND?>()
             verticalIndexes.forEach { boxLine.add(null) }
             groundMatrix.add(boxLine)
         }
@@ -149,11 +148,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 移動可能な経路を調べる
      */
-   fun searchRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
+    fun searchRoute(piece: Piece<UNIT, GROUND>): MutableList<MutableList<Int>> {
         println("searchRoute $piece")
-        val routeMatrix = arrayListOf<ArrayList<Int>>()
+        val routeMatrix = mutableListOf<MutableList<Int>>()
         horizontalIndexes.forEach {
-            val unitLine = arrayListOf<Int>()
+            val unitLine = mutableListOf<Int>()
             verticalIndexes.forEach { unitLine.add(-1) }
             routeMatrix.add(unitLine)
         }
@@ -163,7 +162,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         println("first step at $piece $square $steps ")
         step(piece, square, steps, routeMatrix)
         //これ更新形式と新しいマトリックスを渡す形どっちがいいかなあ
-        piece. searchedRoute = routeMatrix
+        piece.searchedRoute = routeMatrix
 //        routeMatrix.forEach { v ->piece. searchedRoute.add(v) }
         return routeMatrix
     }
@@ -171,13 +170,13 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 経路探索中に一歩進んで再帰する
      */
-    private fun step(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: ArrayList<ArrayList<Int>>) {
+    private fun step(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: MutableList<MutableList<Int>>) {
         routeMatrix[position.x][position.y] = steps
         val orientations = piece.orientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
             //枠内
-            if (targetPos.x in  0 until horizontalLines && targetPos.y in 0 until verticalLines) {
+            if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
                 //targetStepsが-1のときに終了するという技もあるがどうしよう？
@@ -194,11 +193,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲を探す。
      */
-    fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): ArrayList<ArrayList<Int>> {
+    fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): MutableList<MutableList<Int>> {
         println("searchEffectiveRoute $piece")
-        val routeMatrix = arrayListOf<ArrayList<Int>>()
+        val routeMatrix = mutableListOf<MutableList<Int>>()
         horizontalIndexes.forEach {
-            val unitLine = arrayListOf<Int>()
+            val unitLine = mutableListOf<Int>()
             verticalIndexes.forEach { unitLine.add(-1) }
             routeMatrix.add(unitLine)
 
@@ -217,7 +216,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲探索中に一歩進んで再帰するけどこれ再帰しないほうが良い気がしてきた
      */
-    private fun stepEffect(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: ArrayList<ArrayList<Int>>) {
+    private fun stepEffect(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: MutableList<MutableList<Int>>) {
         if (steps > 0) {
             routeMatrix[position.x][position.y] = steps
         }
@@ -226,7 +225,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             val targetPos = moveWithOrientation(v, position)
 //            println("effect to $targetPos")
             //枠内
-            if (targetPos.x in 0 until horizontalLines && targetPos.y in  0 until verticalLines) {
+            if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
                 //targetStepsが-1のときに終了するという技もあるがどうしよう？
@@ -290,7 +289,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
 //        val targetRoute = hand.selectedPiece!!.searchedRoute[position.x][position.y]
 //        val targetEffective = hand.selectedPiece!!.effectiveRoute[position.x][position.y]
 //        //こっちは古いコード。今はHandへ引っ越し中
-       // hand.clickedAction(position, targetPiece, targetRoute, targetEffective)
+        // hand.clickedAction(position, targetPiece, targetRoute, targetEffective)
 
     }
 
@@ -319,7 +318,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * プレイヤー。盤の所有者に使う
      */
     class Player {
-        val pieceList = arrayListOf<Piece<*, *>>()
+        val pieceList = mutableListOf<Piece<*, *>>()
     }
 
     /**

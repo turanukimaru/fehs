@@ -69,7 +69,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipRes(armedHero, lv + 2), -3)
     },
     FortressDefRes(Name.FortressDef) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipDef(equipRes(armedHero, if (lv ==3) 6 else lv + 2), if (lv ==3) 6 else lv + 2), if (lv ==3) -2 else -3 )
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(equipDef(equipRes(armedHero, if (lv == 3) 6 else lv + 2), if (lv == 3) 6 else lv + 2), if (lv == 3) -2 else -3)
     },
 
     HeavyBlade(Name.HeavyBlade, spType = SpType.BASE60) {
@@ -96,7 +96,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
     RDuelFlying(Name.RDuelFlying, spType = SpType.BASE70) {
-        override fun totalParam(n: Int): Int =170
+        override fun totalParam(n: Int): Int = 170
 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
@@ -222,6 +222,9 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
     AtkSpdPush(Name.AtkSpdPush) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkSpdBonus(battleUnit, lv + 2, 1)
     },
+    AtkSpdSolo(Name.AtkSpdSolo, spType = SpType.BASE60) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) blowAtk(blowSpd(battleUnit, lv * 2), lv * 2) else battleUnit
+    },
     AtkResSolo(Name.AtkResSolo, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) blowAtk(blowRes(battleUnit, lv * 2), lv * 2) else battleUnit
     },
@@ -295,13 +298,13 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
     // override fun localeName(locale: Locale): String = jp.localeName(locale)
 
     companion object {
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
             } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
         }
 
-        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()) { list, e ->
             when (e.maxLevel) {
                 0 -> list.add(e)
                 4 -> {

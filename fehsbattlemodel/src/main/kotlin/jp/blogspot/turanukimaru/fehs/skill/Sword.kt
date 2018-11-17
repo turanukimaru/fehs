@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Sword(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W,override  val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Sword(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     IronSword(Name.IronSword, SkillType.SWORD, 6, Skill.NONE, SpType.IRON),
     SteelSword(Name.SteelSword, SkillType.SWORD, 8, IronSword, SpType.STEEL),
     SilverSword(Name.SilverSword, SkillType.SWORD, 11, SteelSword, SpType.SILVER),
@@ -193,8 +193,25 @@ enum class Sword(override val jp: Name, override val type: SkillType, override v
     },
     Missiletainn(Name.Missiletainn, SkillType.SWORD, 16, Sword.SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {battleUnit.accelerateTargetCooldown = 1;return battleUnit}
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.accelerateTargetCooldown = 1;return battleUnit
+        }
     },
+    StormSieglinde(Name.StormSieglinde, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.accelerateAttackCooldown = 1
+            return blowDef(blowRes(battleUnit, 3), 3)
+        }
+
+    },
+    GoldenDagger(Name.GoldenDagger, SkillType.SWORD, 16, SlayingEdge, SpType.PLUS, RefinedSkill.RefineType.Range1) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+    },
+    SolitaryBlade(Name.SolitaryBlade, SkillType.SWORD, 16, SlayingEdge, SpType.PLUS, RefinedSkill.RefineType.Range1) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+    },
+
     ;
 
     /**

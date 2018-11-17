@@ -34,15 +34,15 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     /**
      * 10の位の数字を表示するためのアクション。桁数を増やすなら配列の配列にしないとなあ
      */
-    val sequenceNumberB = arrayListOf<SequenceAction>()
+    val sequenceNumberB = mutableListOf<SequenceAction>()
     /**
      * 1の位の数字を表示するためのアクション
      */
-    val sequenceNumberS = arrayListOf<SequenceAction>()
+    val sequenceNumberS = mutableListOf<SequenceAction>()
 
-    val numberRegions = arrayListOf<TextureRegion>()
+    val numberRegions = mutableListOf<TextureRegion>()
 
-    val uiPieceList = arrayListOf<UiPiece>()
+    val uiPieceList = mutableListOf<UiPiece>()
 
     private var opPhase = OpPhase.ACTIVE
 
@@ -172,7 +172,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
 
-
     /**
      * 枡を塗る。a blendingを毎回設定してendしてるので無茶苦茶遅いはず。処理の順番見直さないとな
      */
@@ -220,14 +219,14 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         }
         val image = Image(numberRegions[d0])
         image.isVisible = false
-        image.addAction(showNumberAction(x, y, 0, delay){image.remove()})
+        image.addAction(showNumberAction(x, y, 0, delay) { image.remove() })
         stage.addActor(image)
     }
 
     /**
      * 特定の座標に数字を表示するアクションを作る
      */
-    private fun showNumberAction(x: Int, y: Int, p: Int, delay: Float, terminateAction :() -> Boolean = {true}): SequenceAction {
+    private fun showNumberAction(x: Int, y: Int, p: Int, delay: Float, terminateAction: () -> Boolean = { true }): SequenceAction {
 
         val seq = SequenceAction()
         seq.addAction(Actions.moveTo(squareXtoPosX(x) + 52 - p * 52, squareYtoPosY(y)))

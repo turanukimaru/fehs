@@ -31,11 +31,11 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
     /**
      * 攻撃順
      */
-    val plan = arrayListOf(firstAttack, firstCounter, secondAttack, secondCounter)
+    val plan = mutableListOf(firstAttack, firstCounter, secondAttack, secondCounter)
     /**
      * 戦闘結果のリスト。攻撃ごとにHPが減ったりダメージを表示するために途中経過も含む
      */
-    private val resultList = arrayListOf<AttackResult>()
+    private val resultList = mutableListOf<AttackResult>()
 
     /**
      * 攻撃準に影響するスキルを発動させる

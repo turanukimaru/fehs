@@ -59,7 +59,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      */
     val routeStack = ArrayDeque<UiBoard.Position>()
 
-        //まとまんないな。
+    //まとまんないな。
     private val handType
         get() = when {
             touchedPiece == null && dragging() -> HandType.NOP
@@ -91,7 +91,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 //    }
 
     //離したときはタッチユニットをNullにする。キャラ選択が外れるわけではない
-  private  fun touchRelease() {
+    private fun touchRelease() {
         touchedPiece = null
         dx = 0
         dy = 0
@@ -201,28 +201,34 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     /**
      * 駒の移動中に、移動経路を記録する
      */
-    fun stackRoute(touchedSquare: UiBoard.Position) {
-        println("stackRoute $touchedSquare")
+    fun stackRoute(touchedPosition: UiBoard.Position) {
+        println("stackRoute $touchedPosition")
         //最後の枡のままの時は何もしない
-        if (routeStack.isNotEmpty() && routeStack.last == touchedSquare) {
+        if (routeStack.isNotEmpty() && routeStack.last == touchedPosition) {
             return
         }
         if (onRoute) {
             //ただしスタックに有ったらそこまで戻す
-            while (routeStack.contains(touchedSquare)) {
+            while (routeStack.contains(touchedPosition)) {
                 routeStack.pop()
             }
         } else {
             //TODO:いずれルート探索。今は最終枡だけ保持しておくか
             routeStack.clear()
         }
-        routeStack.push(touchedSquare)
-        newPosition = touchedSquare
+        routeStack.push(touchedPosition)
+        newPosition = touchedPosition
         onRoute = true
     }
 
     fun routeOut() {
         onRoute = false
+    }
+
+    private fun movePiece(position: UiBoard.Position) {
+        stackRoute(position)
+        selectedPiece?.boardMove(this, position, targetPiece)
+
     }
 
     fun clicked(position: UiBoard.Position) {
@@ -232,7 +238,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
             //選択状態でないとき画面ドラッグ・タップはアニメの省略とか
             handType == HandType.NOP || handType == HandType.N_TAP -> return
             //駒を選択して盤面をタップ（駒をタップではない）したときには移動・アクション。範囲外だと未選択
-//            handType == HandType.B_TAP  -> movetPiece(touchedPiece!!)
+            handType == HandType.B_TAP -> movePiece(position)
 
             //何もない状態からタップしたときにそれが自分ので動かせるなら選択状態
             handType == HandType.F_TAP && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
@@ -246,6 +252,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
             handType == HandType.A_TAP && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
             //選択してない駒をドラッグしたときにそれが自分ので動かせるなら選択状態にしてアクション※選択状態にはなってるはず
             handType == HandType.A_DRAG && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
+            else -> println("UNEXPECTED ACTION $handType ${touchedPiece!!.actionPhase}")
         }
 
     }
@@ -266,7 +273,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 }
 
 
-enum class HandType(detail: String) {
+enum class HandType(val detail: String) {
     /** ドラッグ。移動とアクション。動いてないときは同じ位置に移動として扱う */
     DRAG("ドラッグ。移動とアクション。動いてないときは同じ位置に移動として扱う"),
     /** 自分クリック。行動確定 */
@@ -285,6 +292,11 @@ enum class HandType(detail: String) {
     N_TAP("盤面クリック（駒を選択してないがアニメの省略とかに使うはず）"),
     /** 駒と関係なく盤面でドラッグなので無視 */
     NOP("駒と関係なく盤面でドラッグなので無視")
+    ;
+
+    override fun toString(): String {
+        return "$name : $detail"
+    }
 
 }
 

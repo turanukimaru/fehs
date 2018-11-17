@@ -1,5 +1,4 @@
 import jp.blogspot.turanukimaru.fehs.*
-import jp.blogspot.turanukimaru.fehs.skill.*
 import org.junit.Assert
 import org.junit.Test
 

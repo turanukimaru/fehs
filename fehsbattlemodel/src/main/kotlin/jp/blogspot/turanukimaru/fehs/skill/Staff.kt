@@ -39,6 +39,8 @@ enum class Staff(override val jp: Name, override val type: SkillType, override v
     },
     WitchyWand(Name.WitchyWand, SkillType.STAFF, 8, Assault, SpType.SILVER),
     WitchyWand2(Name.WitchyWand2, SkillType.STAFF, 12, WitchyWand, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Flash(Name.Flash, SkillType.STAFF, 7, Assault, SpType.STEEL),
+    Flash2(Name.Flash2, SkillType.STAFF, 11, Assault, SpType.IRON, RefinedSkill.RefineType.Staff),
     ;
 
     /**

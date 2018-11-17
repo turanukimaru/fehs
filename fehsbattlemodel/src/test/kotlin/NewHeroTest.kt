@@ -1,5 +1,7 @@
-import jp.blogspot.turanukimaru.fehs.*
-import jp.blogspot.turanukimaru.fehs.skill.*
+import jp.blogspot.turanukimaru.fehs.ArmedHero
+import jp.blogspot.turanukimaru.fehs.BattleUnit
+import jp.blogspot.turanukimaru.fehs.SIDES
+import jp.blogspot.turanukimaru.fehs.StandardBaseHero
 import org.junit.Assert
 import org.junit.Test
 
@@ -16,7 +18,7 @@ class NewHeroTest {
 
         val unitB = ArmedHero(StandardBaseHero.get("アイク")!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
-        fightResult.forEach{println(it)}
+        fightResult.forEach { println(it) }
         Assert.assertEquals("size == 3", 3, fightResult.size)
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         Assert.assertEquals("buildDamage fail", 34, fightResult[0].damage)
@@ -194,7 +196,7 @@ class NewHeroTest {
 
         val unitB = ArmedHero(StandardBaseHero.get("ヘクトル（伝承英雄）")!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
-        fightResult.forEach{println(it)}
+        fightResult.forEach { println(it) }
         Assert.assertEquals("size == 4", 4, fightResult.size)
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         Assert.assertEquals("buildDamage fail", 20, fightResult[0].damage)
@@ -267,7 +269,7 @@ class NewHeroTest {
 
         val unitB = ArmedHero(StandardBaseHero.get("アイク")!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
-        fightResult.forEach{println(it)}
+        fightResult.forEach { println(it) }
         Assert.assertEquals("size == 3", 3, fightResult.size)
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         Assert.assertEquals("buildDamage fail", 18, fightResult[0].damage)
@@ -363,7 +365,7 @@ class NewHeroTest {
 
         val unitB = ArmedHero(StandardBaseHero.get("カミラ（夏）")!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
-        fightResult.forEach{println(it)}
+        fightResult.forEach { println(it) }
         Assert.assertEquals("size == 2", 2, fightResult.size)
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         Assert.assertEquals("buildDamage fail", 33, fightResult[0].damage)

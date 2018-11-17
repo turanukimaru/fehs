@@ -190,7 +190,10 @@ enum class SpType(val sp: (lv: Int) -> Int) {
     BASE40({ lv -> 40 * spLevel2n(lv) }),//覚醒
     BASE50({ lv -> 50 * spLevel2n(lv) }),//ほとんどこっち
     BASE60({ lv -> 60 * spLevel2n(lv) }),//回復、蛇毒、紫煙
-    BASE70({ lv -> when (lv){ 1->70;2->150;3->300;else->0}}),//Duel査定系
+    BASE70({ lv ->
+        when (lv) { 1 -> 70;2 -> 150;3 -> 300;else -> 0
+        }
+    }),//Duel査定系
     BASE80({ lv -> 80 * spLevel2n(lv) }),//能力値+2x2
     BASE100({ lv -> 100 * spLevel2n(lv) }),//最高2LV,Sealスキル
     BASE120({ lv -> 120 * spLevel2n(lv) }),//最高2LV,高級スキル

@@ -30,7 +30,7 @@ class MyMyGdxGame : ApplicationAdapter() {
 
     var dropImage: Texture? = null
     var bucketImage: Texture? = null
-    var raindrops = arrayListOf<Rectangle>()
+    var raindrops = mutableListOf<Rectangle>()
     var lastDropTime = 0L
     var batch: SpriteBatch? = null
     var camera: Camera? = null
@@ -44,9 +44,9 @@ class MyMyGdxGame : ApplicationAdapter() {
 
     private val myGame: MyGame by lazy { MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT) }
 
-    var textureDisposer = arrayListOf<Texture>()
-    var imageDisposer = arrayListOf<Image>()
-    var buttons = arrayListOf<Image>()
+    var textureDisposer = mutableListOf<Texture>()
+    var imageDisposer = mutableListOf<Image>()
+    var buttons = mutableListOf<Image>()
 
     var fontGenerator: FreeTypeFontGenerator? = null
 
@@ -243,12 +243,17 @@ class MyMyGdxGame : ApplicationAdapter() {
         bitmapFont!!.draw(batch, "${myGame.board.hand}\nデバッグ用文字", 50f, 300f)
         bitmapFont!!.draw(batch, "touched:  ${myGame.board.hand.touchedPiece}\nデバッグ用文字", 50f, 300f)
         bitmapFont!!.draw(batch, "selected: ${myGame.board.hand.selectedPiece}\nデバッグ用文字", 50f, 300f)
-        myGame.board.pieceList.forEach{
-            bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.position!!.x} ${it.position!!.y}\n", myGame.uiBoard.squareXtoPosX(it.position!!.x),myGame. uiBoard.squareYtoPosY(it.position!!.y))
+        myGame.board.pieceList.forEach {
+            bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.position!!.x} ${it.position!!.y}\n", myGame.uiBoard.squareXtoPosX(it.position!!.x), myGame.uiBoard.squareYtoPosY(it.position!!.y))
         }
         batch!!.end()
         myGame.uiBoard.libUpdate()
-        stage!!.act(Gdx.graphics.deltaTime)
+        try {
+            stage!!.act(Gdx.graphics.deltaTime)
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
+            println(stage!!.actors)
+        }
         stage!!.draw()
 
         // process user input

@@ -12,12 +12,12 @@ class BaseHero(val color: Int = 0, val weaponType: WeaponType = WeaponType.SWORD
     /**
      * 移動力。直接見てもいいか？いやアイテムやスキルの効果で変動するか。
      */
-    val movableSteps: Int        get() = moveType.steps
+    val movableSteps: Int get() = moveType.steps
 
     /**
      * 攻撃可能範囲。直接見てもいいか？今のところは変動しないし。
      */
-    val effectiveRange: Int        get() = weaponType.range
+    val effectiveRange: Int get() = weaponType.range
     /**
      * 得意不得意の能力値。最大が0なのはダミーデータ。アーダンの能力値↑は設定限界を超えるため
      */
@@ -26,6 +26,7 @@ class BaseHero(val color: Int = 0, val weaponType: WeaponType = WeaponType.SWORD
             listOf(7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 0),
             listOf(8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 31, 33, 35, 0),
             listOf(8, 10, 13, 15, 17, 19, 22, 24, 26, 28, 30, 33, 35, 37, 0))
+
     /**
      * 攻撃が魔法か。魔法特効って杖にも効くのかな？
      */

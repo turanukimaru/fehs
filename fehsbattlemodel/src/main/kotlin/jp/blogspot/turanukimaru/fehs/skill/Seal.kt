@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * 聖印
  */
-enum class Seal(override val jp: Name, override val type: SkillType =  SkillType.SEAL, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
+enum class Seal(override val jp: Name, override val type: SkillType = SkillType.SEAL, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
     Hp(Name.Hp) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
@@ -131,9 +131,9 @@ enum class Seal(override val jp: Name, override val type: SkillType =  SkillType
     SavageBlow(Name.SavageBlow),
 
     BlazeDance(Name.BlazeDance),
-//    GaleDance(Name.GaleDance),
+    //    GaleDance(Name.GaleDance),
     EarthDance(Name.EarthDance),
-//    TorrentDance(Name.TorrentDance),
+    //    TorrentDance(Name.TorrentDance),
     SpurAtk(Name.SpurAtk),
     SpurSpd(Name.SpurSpd),
     SpurDef(Name.SpurDef),
@@ -146,7 +146,7 @@ enum class Seal(override val jp: Name, override val type: SkillType =  SkillType
     DriveAtk(Name.DriveAtk, maxLevel = 2, spType = SpType.BASE60),
     DriveDef(Name.DriveDef, maxLevel = 2, spType = SpType.BASE60),
     DriveSpd(Name.DriveSpd, maxLevel = 2, spType = SpType.BASE60),
-//    DriveRes(Name.DriveRes, maxLevel = 2, spType = SpType.BASE60),
+    //    DriveRes(Name.DriveRes, maxLevel = 2, spType = SpType.BASE60),
     DefTactic(Name.DefTactic, spType = SpType.BASE60),
     ResTactic(Name.ResTactic, spType = SpType.BASE60),
     AttackSmoke(Name.AtkSmoke, spType = SpType.BASE60),
@@ -176,12 +176,13 @@ enum class Seal(override val jp: Name, override val type: SkillType =  SkillType
     override val value get() = name
 
     companion object {
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
             } else (1..e.maxLevel).forEach { i -> list.add(e.lv(i)) };list
         }
-        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e ->
+
+        fun spreadMaxLvItems(none: Boolean = false): List<Skill> = values().fold(if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()) { list, e ->
             if (e.maxLevel == 0) {
                 list.add(e)
             } else list.add(e.lv(e.maxLevel));list

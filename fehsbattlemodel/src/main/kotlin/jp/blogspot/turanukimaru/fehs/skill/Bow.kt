@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Bow(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W,override  val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Bow(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     IronBow(Name.IronBow, SkillType.BOW, 4, Skill.NONE, SpType.IRON, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     SteelBow(Name.SteelBow, SkillType.BOW, 6, IronBow, SpType.STEEL, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     SilverBow(Name.SilverBow, SkillType.BOW, 9, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),

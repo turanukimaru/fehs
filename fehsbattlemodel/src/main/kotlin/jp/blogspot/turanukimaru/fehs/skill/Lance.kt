@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Lance(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W,override  val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Lance(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     IronLance(Name.IronLance, SkillType.LANCE, 6, Skill.NONE, SpType.IRON),
     SteelLance(Name.SteelLance, SkillType.LANCE, 8, IronLance, SpType.STEEL),
     SilverLance(Name.SilverLance, SkillType.LANCE, 11, SteelLance, SpType.SILVER),
@@ -32,12 +32,8 @@ enum class Lance(override val jp: Name, override val type: SkillType, override v
     },
     HeavySpear(Name.HeavySpear, SkillType.LANCE, 8, SteelLance, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
     HeavySpear2(Name.HeavySpear2, SkillType.LANCE, 12, HeavySpear, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
-    SlayingSpear(Name.SlayingSpear, SkillType.LANCE, 10, SteelLance, SpType.SILVER) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
-    },
-    SlayingSpear2(Name.SlayingSpear2, SkillType.LANCE, 14, SlayingSpear, SpType.PLUS, RefinedSkill.RefineType.Range1) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
-    },
+    SlayingSpear(Name.SlayingSpear, SkillType.LANCE, 10, SteelLance, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
+    SlayingSpear2(Name.SlayingSpear2, SkillType.LANCE, 14, SlayingSpear, SpType.PLUS, RefinedSkill.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
     CarrotLance(Name.CarrotLance, SkillType.LANCE, 9, SteelLance, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4)
     },
@@ -116,7 +112,7 @@ enum class Lance(override val jp: Name, override val type: SkillType, override v
     },
     FlameSiegmund(Name.FlameSiegmund, SkillType.LANCE, 16, SilverLance) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 10)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 10)//本来は敵と味方の数を比較するべきなのだが…
     },
     HarmonicLance(Name.HarmonicLance, SkillType.LANCE, 9, SteelLance, SpType.SILVER) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
@@ -147,7 +143,12 @@ enum class Lance(override val jp: Name, override val type: SkillType, override v
     GaeBolg(Name.GaeBolg, SkillType.LANCE, 16, SilverLance, SpType.LEGEND_W) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.baseHero.moveType == MoveType.INFANTRY || enemy.armedHero.baseHero.moveType == MoveType.ARMORED || enemy.armedHero.baseHero.moveType == MoveType.CAVALRY) blowAtk(blowDef(battleUnit, 5), 5) else battleUnit
     },
-   ;
+    ShannasLance(Name.ShannasLance, SkillType.LANCE, 16, KillerLance, SpType.LEGEND_W, RefinedSkill.RefineType.Range1) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+    },
+    FlorinasLance(Name.FlorinasLance, SkillType.LANCE, 16, SlayingSpear, SpType.LEGEND_W, RefinedSkill.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
+    ;
+
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      * なお2を＋に置き換える。

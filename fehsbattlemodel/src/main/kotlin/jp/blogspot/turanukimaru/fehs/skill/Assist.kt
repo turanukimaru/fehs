@@ -22,6 +22,7 @@ enum class Assist(override val jp: Name, override val type: SkillType, override 
     RallyUpAtk(Name.RallyUpAtk, SkillType.ASSIST, spType = SpType.ASSIST2),
     RallyUpAtk2(Name.RallyUpAtk2, SkillType.ASSIST, spType = SpType.ASSIST3),
     RallySpdDef2(Name.RallySpdDef2, SkillType.ASSIST, spType = SpType.ASSIST3),
+    RallyAtkSpd2(Name.RallyAtkSpd2, SkillType.ASSIST, spType = SpType.ASSIST3),
     Sing(Name.Sing, SkillType.ASSIST),
     Dance(Name.Dance, SkillType.ASSIST),
     ReciprocalAid(Name.ReciprocalAid, SkillType.ASSIST),
@@ -50,6 +51,7 @@ enum class Assist(override val jp: Name, override val type: SkillType, override 
     Martyr(Name.Martyr, SkillType.ASSIST),
     Martyr2(Name.Martyr2, SkillType.ASSIST),
     ;
+
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      */
@@ -57,7 +59,7 @@ enum class Assist(override val jp: Name, override val type: SkillType, override 
 
     companion object {
         private val itemMap = mutableMapOf<String, Skill>()
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e -> list.add(e);list }
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()) { list, e -> list.add(e);list }
 
         fun valueOfOrNONE(key: String?): Skill = if (key == null) Skill.NONE else try {
             if (itemMap.isEmpty()) {

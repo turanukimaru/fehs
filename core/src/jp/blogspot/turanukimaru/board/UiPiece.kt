@@ -21,7 +21,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     /**
      * 中に含むActorのリスト。アニメーションで体の部位を動かすのに使うのだがボーンモデル別に作るべき
      */
-    val actors = arrayListOf<Actor>()
+    val actors = mutableListOf<Actor>()
 
 
     /**
@@ -131,15 +131,16 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         val finalX = uiBoard.squareXtoPosX(position.x)
         val finalY = uiBoard.squareYtoPosY(position.y)
         seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.1f))
-        seq.addAction(EndOfAnimationAction(this))
+        seq.addAction(EndOfAnimationAction(this, 0.1f))
         return seq
     }
 
-    fun startAction (action:SequenceAction){
+    fun startAction(action: () -> SequenceAction) {
         if (actionNow) return
-        actor.addAction(action)
+        actor.addAction(action())
         actionNow = true
     }
+
     fun noAction() = SequenceAction()
     /**
      * 位置移動直接。アクションをキャンセルして移動差分を駒に登録
@@ -156,10 +157,12 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      * EndOfAnimationActionから呼ばれるコールバック
      */
     fun actionTerminate() {
-        touched = TouchPhase.NONE//RELEASE->NONEのはず
+        println("actionTerminate")
+//        touched = TouchPhase.NONE//RELEASE->NONEのはず
         actionNow = false
     }
 }
+
 enum class TouchPhase {
     NONE,//触ってない
     TOUCH,//触り始めた

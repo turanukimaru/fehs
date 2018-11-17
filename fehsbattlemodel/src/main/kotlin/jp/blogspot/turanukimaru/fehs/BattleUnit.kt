@@ -198,6 +198,7 @@ data class BattleUnit(val armedHero: ArmedHero
 
         armedHero.afterFightEffect(this)
     }
+
     /**
      * 戦闘。スキルで戦闘時効果を計算したうえで実行しその結果を返す
      */
@@ -207,6 +208,7 @@ data class BattleUnit(val armedHero: ArmedHero
         val fightPlan = fightPlan(source, target)
         return fightPlan.fight()
     }
+
     /**
      * 戦闘プラン.
      */
@@ -264,12 +266,13 @@ data class BattleUnit(val armedHero: ArmedHero
         //攻撃時に発動するかの条件がある奥義が出たらどうしよう…
         if (specialCount >= armedHero.specialCoolDownTime && armedHero.special.type == SkillType.SPECIAL_A) {
             specialCount = 0
-            return Damage(this, armedHero.special, armedHero.weapon.type, armedHero.skills.fold(0) { d, skill -> skill.specialTriggered(this, d) }, halfByStaff, results)
+            //とりあえずBスキルだけ奥義発動時のダメージ変動に反映させる。他のスキルや武器が増えたらこれListにすることになるのか…
+            return Damage(this, armedHero.special, armedHero.weapon.type, armedHero.skills.fold(0) { d, skill -> skill.specialTriggered(this, d) }, armedHero.bSkill.stateDamageEnemy, halfByStaff, results)
         }
         //println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
         specialCount += if (accelerateAttackCooldown + 1 > InflictCooldown) accelerateAttackCooldown + 1 - InflictCooldown else 0
         specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
-        return Damage(this, Skill.NONE, armedHero.weapon.type, oneTimeOnlyAdditionalDamage, halfByStaff, results)
+        return Damage(this, Skill.NONE, armedHero.weapon.type, oneTimeOnlyAdditionalDamage, { 0 }, halfByStaff, results)
     }
 
     private val halfByStaff get() = if (armedHero.baseHero.weaponType == WeaponType.STAFF && !wrathfulStaff) 2 else 1

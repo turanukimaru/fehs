@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Btome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W,override  val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Btome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     Thunder(Name.Thunder, SkillType.BTOME, 4, Skill.NONE, SpType.IRON),
     Elthunder(Name.Elthunder, SkillType.BTOME, 6, Thunder, SpType.STEEL),
     Blarwolf(Name.Blarwolf, SkillType.BTOME, 6, Elthunder, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
@@ -101,9 +101,10 @@ enum class Btome(override val jp: Name, override val type: SkillType, override v
     },
     Sagittae(Name.Sagittae, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =if (battleUnit.atk +5 <= enemy.atk) allBonus(battleUnit, 5) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.atk + 5 <= enemy.atk) allBonus(battleUnit, 5) else battleUnit
     },
-   ;
+    ;
+
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      */

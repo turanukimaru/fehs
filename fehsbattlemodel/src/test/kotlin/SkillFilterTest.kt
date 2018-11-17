@@ -1,7 +1,6 @@
 import jp.blogspot.turanukimaru.fehs.skill.SkillA
 import jp.blogspot.turanukimaru.fehs.skill.SkillB
 import jp.blogspot.turanukimaru.fehs.skill.SkillC
-import jp.blogspot.turanukimaru.fehs.skill.Weapon
 import org.junit.Test
 
 /**
@@ -13,12 +12,12 @@ class SkillFilterTest {
     @Test
     fun maxLvTest() {
         val skillA = SkillA.spreadMaxLvItems()
-        println(skillA.toString().replace(",",",\n"))
+        println(skillA.toString().replace(",", ",\n"))
         val skillB = SkillB.spreadMaxLvItems()
-        println(skillB.toString().replace(",",",\n"))
+        println(skillB.toString().replace(",", ",\n"))
         val skillC = SkillC.spreadMaxLvItems()
-        println(skillC.toString().replace(",",",\n"))
+        println(skillC.toString().replace(",", ",\n"))
         val seals = SkillC.spreadMaxLvItems()
-        println(seals.toString().replace(",",",\n"))
+        println(seals.toString().replace(",", ",\n"))
     }
 }

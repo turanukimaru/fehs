@@ -97,7 +97,7 @@ enum class Special(override val jp: Name, override val type: SkillType, override
     companion object {
         private val itemMap = mutableMapOf<String, Skill>()
 
-        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e -> list.add(e);list }
+        fun spreadItems(none: Boolean = false): List<Skill> = values().fold(if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()) { list, e -> list.add(e);list }
 
         fun valueOfOrNONE(key: String?): Skill = if (key == null) Skill.NONE else try {
             if (itemMap.isEmpty()) {

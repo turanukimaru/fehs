@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Dagger(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W,override  val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Dagger(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     IronDagger(Name.IronDagger, SkillType.DAGGER, 3, Skill.NONE, SpType.IRON),
     SteelDagger(Name.SteelDagger, SkillType.DAGGER, 5, IronDagger, SpType.STEEL),
     SilverDagger(Name.SilverDagger, SkillType.DAGGER, 7, SteelDagger, SpType.SILVER),
@@ -98,7 +98,8 @@ enum class Dagger(override val jp: Name, override val type: SkillType, override 
     BottledJuice2(Name.BottledJuice2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS, RefinedSkill.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
     },
-   ;
+    ;
+
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      * なお2を＋に置き換える。

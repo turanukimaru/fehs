@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Gtome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W,override  val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Gtome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     Wind(Name.Wind, SkillType.GTOME, 4, Skill.NONE, SpType.IRON),
     Elwind(Name.Elwind, SkillType.GTOME, 6, Wind, SpType.STEEL),
     Rexcalibur(Name.Rexcalibur, SkillType.GTOME, 9, Elwind, SpType.SILVER),
@@ -86,6 +86,7 @@ enum class Gtome(override val jp: Name, override val type: SkillType, override v
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = forseti(fightPlan, 2)//攻めたてと同じLV倍率にしとこう
     },
     ;
+
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      * なお2を＋に置き換える。

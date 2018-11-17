@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Rtome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W,override  val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Rtome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     Flux(Name.Flux, SkillType.RTOME, 4, Skill.NONE, SpType.IRON),
     Fire(Name.Fire, SkillType.RTOME, 4, Skill.NONE, SpType.IRON),
     Ruin(Name.Ruin, SkillType.RTOME, 6, Flux, SpType.STEEL),
@@ -88,7 +88,23 @@ enum class Rtome(override val jp: Name, override val type: SkillType, override v
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3)
     },
-   ;
+    AversasNight(Name.AversasNight, SkillType.RTOME, 14, Bolganone2) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
+    },
+    BookOfDreams(Name.BookOfDreams, SkillType.RTOME, 14, Bolganone2) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if (battleUnit.adjacentUnits > 0) {
+                enemy.atkEffect -= 4
+                enemy.spdEffect -= 4
+                enemy.defEffect -= 4
+                enemy.resEffect -= 4
+            }
+            return battleUnit
+        }
+    },
+    ;
+
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？
      * なお2を＋に置き換える。

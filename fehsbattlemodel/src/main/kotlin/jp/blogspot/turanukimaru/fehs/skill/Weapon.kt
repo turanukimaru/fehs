@@ -31,10 +31,9 @@ interface Weapon : Skill {
     }
 
     companion object {
-        private val allWeapons: List<Weapon> get() = arrayListOf<Weapon>().plus(Sword.values()).plus(Lance.values()).plus(Axe.values()).plus(Bow.values()).plus(Dagger.values()).plus(Staff.values()).plus(Rtome.values()).plus(Btome.values()).plus(Gtome.values()).plus(Breath.values())
+        private val allWeapons: List<Weapon> get() = mutableListOf<Weapon>().plus(Sword.values()).plus(Lance.values()).plus(Axe.values()).plus(Bow.values()).plus(Dagger.values()).plus(Staff.values()).plus(Rtome.values()).plus(Btome.values()).plus(Gtome.values()).plus(Breath.values())
         private val itemMap = mutableMapOf<String, Skill>()
-        fun spreadItems(none: Boolean = false): List<Skill> = (if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()).plus(allWeapons)
-//        fun spreadMaxItems(none: Boolean = false): List<Skill> = values().filter { it.spType.sp(it.level) >= 300 }.fold(if (none) arrayListOf<Skill>(Skill.NONE) else arrayListOf()) { list, e -> list.add(e);list }
+        fun spreadItems(none: Boolean = false): List<Skill> = (if (none) mutableListOf<Skill>(Skill.NONE) else mutableListOf()).plus(allWeapons)
         fun valueOfOrNONE(key: String?): Skill = if (key == null) Skill.NONE else try {
             if (itemMap.isEmpty()) {
                 allWeapons.forEach { e -> itemMap[e.jp.jp] = e;itemMap[e.value] = e;itemMap[e.jp.us] = e;itemMap[e.jp.tw] = e; }

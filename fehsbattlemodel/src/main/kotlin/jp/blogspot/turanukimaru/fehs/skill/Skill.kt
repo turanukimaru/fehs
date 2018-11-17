@@ -39,6 +39,10 @@ interface Skill {
      */
     val penetrate: Int get() = 0
     /**
+     * 追加ダメージ関数。もうこうするしか…
+     */
+    val stateDamageEnemy: (BattleUnit) -> Int get() = { _ -> 0 }
+    /**
      * 奥義が発動した場合に能力値を参照してダメージを増加させる関数
      */
     val stateDamage: (BattleUnit) -> Int get() = { _ -> 0 }
@@ -179,7 +183,7 @@ interface Skill {
     /**
      * スキルによる能力値合計変動。
      */
-    fun totalParam(n:Int):Int = n
+    fun totalParam(n: Int): Int = n
     //ここからスキル効果
     /**
      *  覚醒。   試しに作ったけど〇〇の覚醒ってターン開始時効果だから今は要らなかったんじゃ・・・？
@@ -881,7 +885,7 @@ interface Skill {
      * 味方ユニットがいるときに攻撃時カウント追加
      */
     fun accelerateAttackCooldownWithAlly(battleUnit: BattleUnit): BattleUnit {
-        if (battleUnit.adjacentUnits  >0) {
+        if (battleUnit.adjacentUnits > 0) {
             battleUnit.accelerateAttackCooldown = 1
         }
         return battleUnit
@@ -999,8 +1003,15 @@ interface Skill {
 
     //レーヴァテインのダメージ受けてる分攻撃に追加。だけどこんな性能だったっけ？
     fun addDealtDamage(battleUnit: BattleUnit): BattleUnit {
-        battleUnit.atkEffect+= battleUnit.armedHero.maxHp - battleUnit.hp
+        battleUnit.atkEffect += battleUnit.armedHero.maxHp - battleUnit.hp
         return battleUnit
     }
 
+    fun nullFollowUp(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
+            battleUnit.antiFollowup = false
+            enemy.followupable = false
+        }
+        return battleUnit
+    }
 }

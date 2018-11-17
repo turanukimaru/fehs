@@ -1,7 +1,6 @@
 package jp.blogspot.turanukimaru.board
 
 import jp.blogspot.turanukimaru.board.UiBoard.Position
-import java.util.ArrayList
 
 
 /**
@@ -39,11 +38,11 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 駒の移動可能範囲
      */
-    var searchedRoute = arrayListOf<ArrayList<Int>>()
+    var searchedRoute = mutableListOf<MutableList<Int>>()
     /**
      * 駒の移動範囲から更に効果を及ぼすことのできる範囲
      */
-    var effectiveRoute = arrayListOf<ArrayList<Int>>()
+    var effectiveRoute = mutableListOf<MutableList<Int>>()
 
     init {
     }
@@ -105,7 +104,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * タッチから指を離したとき。移動範囲・効果範囲外のときは駒をもとの場所に戻す
      */
-  open  fun touchUp(position: Position): Boolean {
+    open fun touchUp(position: Position): Boolean {
         return true
     }
 
@@ -121,7 +120,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
      */
     open fun boardMove(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
-//        action(ActionPhase.MOVED)
+        action(ActionPhase.MOVED)
         return true
     }
 
@@ -185,10 +184,14 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     enum class ActionPhase {
         //おかれて初期化を行う前。初期化されたらDisabled
         PUTTED,
+        //おかれて初期化を行う前。初期化されたらREADY
+        START,
         //自分の手番でないので動かせない
         DISABLED,
         //自分の手番で動かせる
         READY,
+        //移動中
+        MOVED,
         //攻撃・アニメが終わったらACTEDになる予定だけどHand側に統合されそうな気もしてきた
         ATTACK,
         //攻撃を受ける。同上
@@ -205,7 +208,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     fun ready() {
         print("READY!! ")
         println(this)
-        action(ActionPhase.READY)
+        action(ActionPhase.START)
     }
 
     fun putOn(x: Int, y: Int) {
