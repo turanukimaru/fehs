@@ -527,7 +527,7 @@ object StandardBaseHero {
         createItem(Name.フェリシア2, 0, WeaponType.DAGGER, MoveType.INFANTRY, 3, 15, 6, 11, 3, 9, 5, 4, 8, 3, 8,
                 Dagger.FeliciasPlate, null, Special.Glacies, SkillA.Resistance.lv(3), null, SkillC.BreathOfLife.lv(3))
         createItem(Name.セネリオ2, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 7, 9, 4, 7, 5, 8, 7, 2, 6,
-                Gtome.Rexcalibur2, null, Special.GrowingWind, null, SkillB.Watersweep.lv(3), SkillC.FortifyRes.lv(3))
+                Gtome.WindsBrand, null, Special.GrowingWind, null, SkillB.Watersweep.lv(3), SkillC.FortifyRes.lv(3))
 
         createItem(Name.カチュア__春_, 2, WeaponType.BTOME, MoveType.CAVALRY, 5, 17, 6, 9, 5, 6, 5, 8, 8, 2, 4,
                 Btome.HuginnsEgg, Assist.DrawBack, null, null, SkillB.ChillRes.lv(3), SkillC.DriveSpd.lv(3))
