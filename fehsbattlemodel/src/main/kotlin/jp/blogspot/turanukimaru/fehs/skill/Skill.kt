@@ -1014,4 +1014,14 @@ interface Skill {
         }
         return battleUnit
     }
+
+    fun adjacentDebuff(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        if (battleUnit.adjacentUnits > 0) {
+            enemy.atkEffect -= lv
+            enemy.spdEffect -= lv
+            enemy.defEffect -= lv
+            enemy.resEffect -= lv
+        }
+        return battleUnit
+    }
 }

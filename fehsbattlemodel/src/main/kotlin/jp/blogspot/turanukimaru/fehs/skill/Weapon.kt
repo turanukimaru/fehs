@@ -7,7 +7,7 @@ import jp.blogspot.turanukimaru.fehs.BattleUnit
  * スキル。武器
  */
 interface Weapon : Skill {
-    val refinedSkillType: RefinedSkill.RefineType get() = RefinedSkill.RefineType.NONE
+    val refinedWeaponType: RefinedWeapon.RefineType get() = RefinedWeapon.RefineType.NONE
     /**
      * 戦闘時の効果。基本的にunitの能力値を上下したり
      */

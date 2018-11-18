@@ -5,32 +5,32 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Staff(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Staff(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     Assault(Name.Assault, SkillType.STAFF, 10, Skill.NONE, SpType.IRON),
     Absorb(Name.Absorb, SkillType.STAFF, 4, Assault, SpType.STEEL) {
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int = battleUnit.heal(damage * 5 / 10)
     },
-    Absorb2(Name.Absorb2, SkillType.STAFF, 7, Absorb, SpType.LEGEND_W, RefinedSkill.RefineType.Staff) {
+    Absorb2(Name.Absorb2, SkillType.STAFF, 7, Absorb, SpType.LEGEND_W, RefinedWeapon.RefineType.Staff) {
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int = battleUnit.heal(damage * 5 / 10)
     },
     Candlelight(Name.Candlelight, SkillType.STAFF, 7, Assault, SpType.STEEL),
-    Candlelight2(Name.Candlelight2, SkillType.STAFF, 11, Assault, SpType.IRON, RefinedSkill.RefineType.Staff),
+    Candlelight2(Name.Candlelight2, SkillType.STAFF, 11, Assault, SpType.IRON, RefinedWeapon.RefineType.Staff),
     Gravity(Name.Gravity, SkillType.STAFF, 7, Assault, SpType.SILVER),
-    Gravity2(Name.Gravity2, SkillType.STAFF, 10, Gravity, SpType.LEGEND_W, RefinedSkill.RefineType.Staff),
+    Gravity2(Name.Gravity2, SkillType.STAFF, 10, Gravity, SpType.LEGEND_W, RefinedWeapon.RefineType.Staff),
     Fear(Name.Fear, SkillType.STAFF, 5, Assault, SpType.SILVER),
-    Fear2(Name.Fear2, SkillType.STAFF, 12, Fear, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Fear2(Name.Fear2, SkillType.STAFF, 12, Fear, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Slow(Name.Slow, SkillType.STAFF, 5, Assault, SpType.SILVER),
-    Slow2(Name.Slow2, SkillType.STAFF, 12, Slow, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Slow2(Name.Slow2, SkillType.STAFF, 12, Slow, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Panic(Name.Panic, SkillType.STAFF, 6, Assault, SpType.SILVER),
-    Panic2(Name.Panic2, SkillType.STAFF, 11, Panic, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Panic2(Name.Panic2, SkillType.STAFF, 11, Panic, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Pain(Name.Pain, SkillType.STAFF, 3, Assault, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10)
     },
-    Pain2(Name.Pain2, SkillType.STAFF, 10, Pain, SpType.PLUS, RefinedSkill.RefineType.Staff) {
+    Pain2(Name.Pain2, SkillType.STAFF, 10, Pain, SpType.PLUS, RefinedWeapon.RefineType.Staff) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10)
     },
     Trilemma(Name.Trilemma, SkillType.STAFF, 8, Assault, SpType.SILVER),
-    Trilemma2(Name.Trilemma2, SkillType.STAFF, 12, Trilemma, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    Trilemma2(Name.Trilemma2, SkillType.STAFF, 12, Trilemma, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Thokk(Name.Thokk, SkillType.STAFF, 14, Assault, SpType.PLUS) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv)
     },
@@ -38,9 +38,9 @@ enum class Staff(override val jp: Name, override val type: SkillType, override v
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, 3)
     },
     WitchyWand(Name.WitchyWand, SkillType.STAFF, 8, Assault, SpType.SILVER),
-    WitchyWand2(Name.WitchyWand2, SkillType.STAFF, 12, WitchyWand, SpType.PLUS, RefinedSkill.RefineType.Staff),
+    WitchyWand2(Name.WitchyWand2, SkillType.STAFF, 12, WitchyWand, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Flash(Name.Flash, SkillType.STAFF, 7, Assault, SpType.STEEL),
-    Flash2(Name.Flash2, SkillType.STAFF, 11, Assault, SpType.IRON, RefinedSkill.RefineType.Staff),
+    Flash2(Name.Flash2, SkillType.STAFF, 11, Assault, SpType.IRON, RefinedWeapon.RefineType.Staff),
     ;
 
     /**

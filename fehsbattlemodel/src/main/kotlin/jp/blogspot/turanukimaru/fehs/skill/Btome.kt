@@ -5,12 +5,12 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Btome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Btome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     Thunder(Name.Thunder, SkillType.BTOME, 4, Skill.NONE, SpType.IRON),
     Elthunder(Name.Elthunder, SkillType.BTOME, 6, Thunder, SpType.STEEL),
     Blarwolf(Name.Blarwolf, SkillType.BTOME, 6, Elthunder, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     Blarwolf2(Name.Blarwolf2, SkillType.BTOME, 10, Blarwolf, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
-    KeenBlarwolf2(Name.KeenBlarwolf2, SkillType.BTOME, 12, Blarwolf2, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
+    KeenBlarwolf2(Name.KeenBlarwolf2, SkillType.BTOME, 12, Blarwolf2, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     Blarraven(Name.Blarraven, SkillType.BTOME, 7, Elthunder, SpType.SILVER) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
@@ -28,30 +28,30 @@ enum class Btome(override val jp: Name, override val type: SkillType, override v
     Blarowl(Name.Blarowl, SkillType.BTOME, 6, Elthunder, SpType.SILVER) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
     },
-    Blarowl2(Name.Blarowl2, SkillType.BTOME, 10, Blarowl, SpType.PLUS, RefinedSkill.RefineType.Range2) {
+    Blarowl2(Name.Blarowl2, SkillType.BTOME, 10, Blarowl, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
     },
     Blarserpent(Name.Blarserpent, SkillType.BTOME, 8, Elthunder, SpType.SILVER) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6)
     },
-    Blarserpent2(Name.Blarserpent2, SkillType.BTOME, 12, Blarserpent, SpType.PLUS, RefinedSkill.RefineType.Range2) {
+    Blarserpent2(Name.Blarserpent2, SkillType.BTOME, 12, Blarserpent, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6)
     },
     Thoron(Name.Thoron, SkillType.BTOME, 9, Elthunder, SpType.SILVER),
-    Thoron2(Name.Thoron2, SkillType.BTOME, 13, Thoron, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    Thoron2(Name.Thoron2, SkillType.BTOME, 13, Thoron, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     BlueEgg(Name.BlueEgg, SkillType.BTOME, 7, Elthunder, SpType.SILVER),
-    BlueEgg2(Name.BlueEgg2, SkillType.BTOME, 11, BlueEgg, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    BlueEgg2(Name.BlueEgg2, SkillType.BTOME, 11, BlueEgg, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     BlessedBouquet(Name.BlessedBouquet, SkillType.BTOME, 9, Elthunder, SpType.SILVER),
-    BlessedBouquet2(Name.BlessedBouquet2, SkillType.BTOME, 12, BlessedBouquet, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    BlessedBouquet2(Name.BlessedBouquet2, SkillType.BTOME, 12, BlessedBouquet, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     SealifeTome(Name.SealifeTome, SkillType.BTOME, 8, Elthunder, SpType.SILVER),
-    SealifeTome2(Name.SealifeTome2, SkillType.BTOME, 12, SealifeTome, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    SealifeTome2(Name.SealifeTome2, SkillType.BTOME, 12, SealifeTome, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     DancersScore(Name.DancersScore, SkillType.BTOME, 8, Elthunder, SpType.SILVER),
-    DancersScore2(Name.DancersScore2, SkillType.BTOME, 12, DancersScore, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    DancersScore2(Name.DancersScore2, SkillType.BTOME, 12, DancersScore, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     DarkAura(Name.DarkAura, SkillType.BTOME, 14, Thoron),
     Valaskjalf(Name.Valaskjalf, SkillType.BTOME, 14, Thoron) {
         override fun counterPlan(fightPlan: FightPlan, lv: Int): FightPlan = vantage(fightPlan, 2)
     },
-    Aura(Name.Aura, SkillType.BTOME, 14, Thoron, SpType.LEGEND_W, RefinedSkill.RefineType.Range2),
+    Aura(Name.Aura, SkillType.BTOME, 14, Thoron, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2),
     DireThunder(Name.DireThunder, SkillType.BTOME, 9, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBrave(armedHero, lv)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
@@ -73,7 +73,7 @@ enum class Btome(override val jp: Name, override val type: SkillType, override v
     BlueGift(Name.BlueGift, SkillType.BTOME, 8, Thoron, SpType.SILVER) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
     },
-    BlueGift2(Name.BlueGift2, SkillType.BTOME, 12, BlueGift, SpType.PLUS, RefinedSkill.RefineType.Range2) {
+    BlueGift2(Name.BlueGift2, SkillType.BTOME, 12, BlueGift, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
     },
     HuginnsEgg(Name.HuginnsEgg, SkillType.BTOME, 14, Thoron) {
@@ -85,17 +85,17 @@ enum class Btome(override val jp: Name, override val type: SkillType, override v
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(battleUnit, 6)
     },
     FreshBouquet(Name.FreshBouquet, SkillType.BTOME, 8, Thoron, SpType.SILVER),
-    FreshBouquet2(Name.FreshBouquet2, SkillType.BTOME, 12, FreshBouquet, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    FreshBouquet2(Name.FreshBouquet2, SkillType.BTOME, 12, FreshBouquet, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     JuicyWave(Name.JuicyWave, SkillType.BTOME, 10, Thoron, SpType.SILVER) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
-    JuicyWave2(Name.JuicyWave2, SkillType.BTOME, 12, JuicyWave, SpType.PLUS, RefinedSkill.RefineType.Range2) {
+    JuicyWave2(Name.JuicyWave2, SkillType.BTOME, 12, JuicyWave, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
     Missiletainn(Name.Missiletainn, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    OdinsGrimoire(Name.OdinsGrimoire, SkillType.BTOME, 14, Blarblade2, SpType.LEGEND_W, RefinedSkill.RefineType.Range2) {
+    OdinsGrimoire(Name.OdinsGrimoire, SkillType.BTOME, 14, Blarblade2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },

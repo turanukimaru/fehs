@@ -1,6 +1,6 @@
 package jp.blogspot.turanukimaru.fehs
 
-import jp.blogspot.turanukimaru.fehs.skill.RefinedSkill
+import jp.blogspot.turanukimaru.fehs.skill.RefinedWeapon
 import jp.blogspot.turanukimaru.fehs.skill.Skill
 
 /**
@@ -38,7 +38,7 @@ data class ArmedHero(
      * 武器。錬成してるときは錬成武器
      */
     val weapon
-        get() = if (refinedWeapon != Skill.NONE) RefinedSkill.valueOfWeapon(baseWeapon)
+        get() = if (refinedWeapon != Skill.NONE) RefinedWeapon.valueOfWeapon(baseWeapon)
                 ?: baseWeapon else baseWeapon
     /**
      * スキルのリスト。戦闘時などにすべてのスキルをなめるのに使う。読み取り専用プロパティにすることで毎回その時のプロパティからリストを作れるはず
@@ -133,6 +133,7 @@ data class ArmedHero(
             aSkill = baseHero.aSkill
             bSkill = baseHero.bSkill
             cSkill = baseHero.cSkill
+            refinedWeapon = baseHero.refinedWeapon
         }
         equip()
     }

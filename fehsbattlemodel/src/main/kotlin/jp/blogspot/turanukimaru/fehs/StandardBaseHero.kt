@@ -1,6 +1,7 @@
 package jp.blogspot.turanukimaru.fehs
 
 import jp.blogspot.turanukimaru.fehs.skill.*
+import sun.security.jgss.GSSToken
 
 /**
  *　キャラとその基準値
@@ -29,16 +30,24 @@ object StandardBaseHero {
                 Sword.WaoDao2, null, Special.Moonbow, SkillA.SturdyBlow.lv(2), null, SkillC.SwordExperience.lv(3))
         createItem(Name.アルフォンス, 1, WeaponType.SWORD, MoveType.INFANTRY, 2, 19, 9, 6, 8, 5, 7, 8, 5, 7, 4,
                 Sword.Folkvangr, null, Special.Sol, SkillA.DeathBlow.lv(3), null, SkillC.SpurAtk.lv(3))
+        createItem(Name.アルフォンス3, 1, WeaponType.SWORD, MoveType.INFANTRY, 2, 19, 9, 6, 8, 5, 7, 8, 5, 7, 4,
+                Sword.Folkvangr, null, Special.Sol, SkillA.DeathBlow.lv(3), null, SkillC.SpurAtk.lv(3),RefinedWeapon.Folkvangr)
         createItem(Name.アルム, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 21, 9, 6, 6, 5, 7, 7, 7, 6, 4,
                 Sword.FalchionA, null, Special.DraconicAura, SkillA.Attack.lv(3), SkillB.Windsweep.lv(3), null)
+        createItem(Name.アルム3, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 21, 9, 6, 6, 5, 7, 7, 7, 6, 4,
+                Sword.FalchionA, null, Special.DraconicAura, SkillA.Attack.lv(3), SkillB.Windsweep.lv(3), null,RefinedWeapon.FalchionA)
         createItem(Name.エイリーク, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 18, 7, 9, 7, 6, 7, 5, 8, 5, 6,
                 Sword.Sieglinde, Assist.Pivot, null, null, SkillB.DragBack, SkillC.HoneSpd.lv(3))
+        createItem(Name.エイリーク3, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 18, 7, 9, 7, 6, 7, 5, 8, 5, 6,
+                Sword.Sieglinde, Assist.Pivot, null, null, SkillB.DragBack, SkillC.HoneSpd.lv(3),RefinedWeapon.Sieglinde)
         createItem(Name.エリウッド, 1, WeaponType.SWORD, MoveType.CAVALRY, 3, 17, 7, 8, 6, 8, 6, 7, 6, 4, 7,
                 Sword.Durandal, null, Special.SacredCowl, null, SkillB.AxeBreaker.lv(3), SkillC.WardCavalry)
         createItem(Name.エリンシア, 1, WeaponType.SWORD, MoveType.FLIER, 5, 16, 8, 10, 5, 8, 5, 8, 8, 5, 5,
                 Sword.Amiti, Assist.ArdentSacrifice, null, SkillA.DeathBlow.lv(3), SkillB.FlierFormation.lv(3))
         createItem(Name.エルトシャン, 1, WeaponType.SWORD, MoveType.CAVALRY, 5, 19, 8, 5, 8, 6, 8, 7, 5, 8, 2,
                 Sword.Mystletainn, null, Special.GrowingLight, SkillA.Fury.lv(3), SkillB.Lunge, null)
+        createItem(Name.エルトシャン3, 1, WeaponType.SWORD, MoveType.CAVALRY, 5, 19, 8, 5, 8, 6, 8, 7, 5, 8, 2,
+                Sword.Mystletainn, null, Special.GrowingLight, SkillA.Fury.lv(3), SkillB.Lunge, null,RefinedWeapon.Mystletainn)
         createItem(Name.オグマ, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 21, 7, 10, 6, 3, 8, 9, 7, 6, 1,
                 Sword.BraveSword2, null, Special.Noontime, SkillA.DefiantAtk.lv(3), null, SkillC.SpurAtk.lv(3))
         createItem(Name.オリヴィエ, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 17, 6, 7, 5, 4, 5, 6, 8, 6, 6,
@@ -49,6 +58,8 @@ object StandardBaseHero {
                 Sword.ArmorSlayer2, Assist.RallyAttack, null, SkillA.LifeAndDeath.lv(3), SkillB.Obstruct.lv(3), null)
         createItem(Name.カムイ__男_, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 20, 8, 8, 6, 5, 6, 7, 7, 6, 5,
                 Sword.Yato, null, Special.DragonFang, SkillA.Defense.lv(3), SkillB.Obstruct.lv(3), null)
+        createItem(Name.カムイ__男_3, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 20, 8, 8, 6, 5, 6, 7, 7, 6, 5,
+                Sword.Yato, null, Special.DragonFang, SkillA.Defense.lv(3), SkillB.Obstruct.lv(3), null, RefinedWeapon.Yato2)
         createItem(Name.カレル, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 19, 8, 9, 6, 5, 9, 6, 8, 5, 3,
                 Sword.WaoDao2, null, Special.Reprisal, SkillA.DefiantAtk.lv(3), SkillB.Desperation.lv(3), null)
         createItem(Name.カレル2, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 19, 8, 9, 6, 5, 9, 6, 8, 5, 3,
@@ -57,8 +68,14 @@ object StandardBaseHero {
                 Sword.Zanbato2, Assist.Swap, null, SkillA.WindBoost.lv(3), null, SkillC.SwordValor.lv(3))
         createItem(Name.クロム, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 21, 9, 6, 7, 4, 8, 9, 5, 7, 2,
                 Sword.FalchionC, null, Special.Aether, SkillA.DefiantDef.lv(3), null, SkillC.SpurDef.lv(3))
+        createItem(Name.クロム3, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 21, 9, 6, 7, 4, 8, 9, 5, 7, 2,
+                Sword.FalchionC, null, Special.Aether, SkillA.DefiantDef.lv(3), null, SkillC.SpurDef.lv(3),RefinedWeapon.FalchionM)
         createItem(Name.シーダ, 1, WeaponType.SWORD, MoveType.FLIER, 4, 17, 6, 9, 5, 10, 5, 5, 9, 5, 7,
                 Sword.ArmorSlayer2, Assist.RallySpeed, null, SkillA.DartingBlow.lv(3), null, SkillC.FortifyFliers)
+        createItem(Name.シーダ2, 1, WeaponType.SWORD, MoveType.FLIER, 4, 17, 6, 9, 5, 10, 5, 5, 9, 5, 7,
+                Sword.WingSword, Assist.RallySpeed, null, SkillA.DartingBlow.lv(3), null, SkillC.FortifyFliers)
+        createItem(Name.シーダ3, 1, WeaponType.SWORD, MoveType.FLIER, 4, 17, 6, 9, 5, 10, 5, 5, 9, 5, 7,
+                Sword.WingSword, Assist.RallySpeed, null, SkillA.DartingBlow.lv(3), null, SkillC.FortifyFliers,RefinedWeapon.WingSword)
         createItem(Name.シグルド, 1, WeaponType.SWORD, MoveType.CAVALRY, 5, 19, 9, 8, 6, 4, 6, 8, 7, 9, 2,
                 Sword.DivineTyrfing, null, Special.Miracle, SkillA.CloseDef.lv(3), SkillB.CrusadersWard, SkillC.SpdSmoke.lv(3))
         createItem(Name.漆黒の騎士, 1, WeaponType.SWORD, MoveType.ARMORED, 4, 22, 10, 8, 9, 5, 8, 7, 8, 8, 2,
@@ -67,12 +84,18 @@ object StandardBaseHero {
                 Sword.SlayingEdge2, null, Special.Aegis, SkillA.HpSpd.lv(2), SkillB.ShieldPulse.lv(3), null)
         createItem(Name.セーバー2, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 18, 7, 9, 8, 5, 6, 7, 7, 7, 4,
                 Sword.GoldenDagger, null, Special.Aegis, SkillA.HpSpd.lv(2), SkillB.ShieldPulse.lv(3), null)
+        createItem(Name.セーバー3, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 18, 7, 9, 8, 5, 6, 7, 7, 7, 4,
+                Sword.GoldenDagger, null, Special.Aegis, SkillA.HpSpd.lv(2), SkillB.ShieldPulse.lv(3), null,RefinedWeapon.GoldenDagger)
         createItem(Name.ゼト, 1, WeaponType.SWORD, MoveType.CAVALRY, 5, 18, 8, 7, 8, 5, 5, 7, 7, 7, 4,
                 Sword.RubySword2, Assist.Swap, null, SkillA.FortressDef.lv(3), SkillB.SealAtkDef.lv(2), null)
         createItem(Name.ゼフィール, 1, WeaponType.SWORD, MoveType.ARMORED, 3, 25, 9, 3, 12, 5, 10, 8, 2, 8, 5,
                 Sword.Eckesachs, null, Special.Reprisal, SkillA.LifeAndDeath.lv(3), SkillB.WaryFighter.lv(3), null)
+        createItem(Name.ゼフィール3, 1, WeaponType.SWORD, MoveType.ARMORED, 3, 25, 9, 3, 12, 5, 10, 8, 2, 8, 5,
+                Sword.Eckesachs, null, Special.Reprisal, SkillA.LifeAndDeath.lv(3), SkillB.WaryFighter.lv(3), null,RefinedWeapon.Eckesachs)
         createItem(Name.セリス, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 19, 8, 7, 8, 5, 9, 8, 4, 6, 4,
                 Sword.Tyrfing, Assist.RallySpeed, null, SkillA.Hp.lv(3), SkillB.BrashAssault.lv(3), null)
+        createItem(Name.セリス2, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 19, 8, 7, 8, 5, 9, 8, 4, 6, 4,
+                Sword.DivineTyrfing, Assist.RallySpeed, null, SkillA.Hp.lv(3), SkillB.BrashAssault.lv(3), null)
         createItem(Name.ソール, 1, WeaponType.SWORD, MoveType.CAVALRY, 3, 19, 7, 7, 8, 5, 8, 7, 5, 6, 4,
                 Sword.RubySword2, Assist.Swap, null, SkillA.Defense.lv(3), SkillB.Obstruct.lv(3), null)
         createItem(Name.ドーガ, 1, WeaponType.SWORD, MoveType.ARMORED, 2, 24, 8, 6, 13, 3, 8, 6, 8, 8, 3,
@@ -87,6 +110,8 @@ object StandardBaseHero {
                 Sword.KillingEdge2, null, Special.Glacies, SkillA.Speed.lv(3), SkillB.Pass.lv(3), null)
         createItem(Name.フィル2, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 19, 6, 10, 5, 7, 6, 5, 8, 5, 7,
                 Sword.NamelessBlade, null, Special.Glacies, SkillA.Speed.lv(3), SkillB.Pass.lv(3), null)
+        createItem(Name.フィル3, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 19, 6, 10, 5, 7, 6, 5, 8, 5, 7,
+                Sword.NamelessBlade, null, Special.Glacies, SkillA.Speed.lv(3), SkillB.Pass.lv(3), null,RefinedWeapon.NamelessBlade)
         createItem(Name.マルス, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 19, 7, 8, 7, 6, 6, 7, 8, 6, 4,
                 Sword.FalchionM, Assist.Pivot, null, null, SkillB.EscapeRoute.lv(3), SkillC.SpurSpd.lv(3))
         createItem(Name.マルス__仮面_, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 19, 8, 10, 6, 4, 7, 8, 8, 5, 3,
@@ -99,36 +124,52 @@ object StandardBaseHero {
                 Sword.Raijinto, null, Special.Astra, SkillA.DefiantAtk.lv(3), null, SkillC.HoneSpd.lv(3))
         createItem(Name.リン, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 18, 6, 11, 7, 5, 5, 6, 8, 5, 7,
                 Sword.SolKatti, null, Special.Galeforce, SkillA.DefiantAtk.lv(3), null, SkillC.SpurSpd.lv(3))
+        createItem(Name.リン3, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 18, 6, 11, 7, 5, 5, 6, 8, 5, 7,
+                Sword.SolKatti, null, Special.Galeforce, SkillA.DefiantAtk.lv(3), null, SkillC.SpurSpd.lv(3),RefinedWeapon.SolKatti)
         createItem(Name.ルーク, 1, WeaponType.SWORD, MoveType.CAVALRY, 5, 19, 8, 6, 8, 5, 7, 8, 6, 6, 3,
                 Sword.BraveSword2, null, Special.Bonfire, SkillA.FireBoost.lv(3), null, SkillC.PanicPloy.lv(3))
         createItem(Name.ルーナ, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 18, 6, 9, 8, 6, 5, 5, 8, 7, 6,
                 Sword.ArmorSlayer2, Assist.Reposition, null, SkillA.TriangleAdept.lv(3), null, SkillC.ThreatenSpd.lv(3))
         createItem(Name.ルキナ, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 19, 8, 10, 6, 4, 7, 8, 8, 5, 3,
                 Sword.FalchionC, null, Special.Aether, SkillA.DefiantSpd.lv(3), null, SkillC.SpurAtk.lv(3))
+        createItem(Name.ルキナ3, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 19, 8, 10, 6, 4, 7, 8, 8, 5, 3,
+                Sword.FalchionC, null, Special.Aether, SkillA.DefiantSpd.lv(3), null, SkillC.SpurAtk.lv(3),RefinedWeapon.FalchionC)
         createItem(Name.ロイ, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 20, 8, 9, 6, 4, 7, 6, 6, 5, 7,
                 Sword.BindingBlade, Assist.Shove, null, SkillA.TriangleAdept.lv(3), SkillB.SealDef.lv(3), null)
+        createItem(Name.ロイ3, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 20, 8, 9, 6, 4, 7, 6, 6, 5, 7,
+                Sword.BindingBlade, Assist.Shove, null, SkillA.TriangleAdept.lv(3), SkillB.SealDef.lv(3), null,RefinedWeapon.BindingBlade2)
         createItem(Name.ロイ__総選挙_, 1, WeaponType.SWORD, MoveType.CAVALRY, 5, 16, 8, 8, 7, 7, 6, 7, 8, 5, 4,
                 Sword.BlazingDurandal, null, Special.Galeforce, SkillA.SteadyBlow.lv(2), SkillB.Desperation.lv(3), null)
         createItem(Name.ロイド, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 17, 8, 9, 5, 8, 7, 7, 8, 3, 6,
                 Sword.RegalBlade, null, Special.Iceberg, null, SkillB.Pass.lv(3), SkillC.ThreatenAtk.lv(3))
+        createItem(Name.ロイド3, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 17, 8, 9, 5, 8, 7, 7, 8, 3, 6,
+                Sword.RegalBlade, null, Special.Iceberg, null, SkillB.Pass.lv(3), SkillC.ThreatenAtk.lv(3),RefinedWeapon.RegalBlade)
         createItem(Name.ロビン, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 18, 7, 5, 5, 4, 9, 7, 6, 9, 6,
                 Sword.ArmorSlayer2, Assist.Pivot, null, SkillA.Attack.lv(3), SkillB.SealSpd.lv(3), null)
         createItem(Name.ロンクー, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 19, 7, 11, 5, 5, 8, 6, 9, 4, 4,
                 Sword.KillingEdge2, null, Special.Glimmer, SkillA.Speed.lv(3), SkillB.Vantage.lv(3), null)
         createItem(Name.ロンクー2, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 19, 7, 11, 5, 5, 8, 6, 9, 4, 4,
                 Sword.SolitaryBlade, null, Special.Glimmer, SkillA.Speed.lv(3), SkillB.Vantage.lv(3), null)
+        createItem(Name.ロンクー3, 1, WeaponType.SWORD, MoveType.INFANTRY, 3, 19, 7, 11, 5, 5, 8, 6, 9, 4, 4,
+                Sword.SolitaryBlade, null, Special.Glimmer, SkillA.Speed.lv(3), SkillB.Vantage.lv(3), null,RefinedWeapon.SolitaryBlade)
         createItem(Name.アルヴィス, 1, WeaponType.RTOME, MoveType.INFANTRY, 3, 18, 8, 7, 4, 7, 3, 8, 7, 2, 8,
                 Rtome.Valflame, null, Special.GrowingFlame, null, SkillB.RecoverRing, SkillC.DefPloy.lv(3))
         createItem(Name.カタリナ, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 17, 6, 8, 5, 8, 4, 8, 8, 1, 7,
                 Rtome.Rauorowl2, null, Special.Glacies, SkillA.SwiftSparrow.lv(2), null, SkillC.AtkPloy.lv(3))
         createItem(Name.カタリナ2, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 17, 6, 8, 5, 8, 4, 8, 8, 1, 7,
                 Rtome.ReesesTome, null, Special.Glacies, SkillA.SwiftSparrow.lv(2), null, SkillC.AtkPloy.lv(3))
+        createItem(Name.カタリナ3, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 17, 6, 8, 5, 8, 4, 8, 8, 1, 7,
+                Rtome.ReesesTome, null, Special.Glacies, SkillA.SwiftSparrow.lv(2), null, SkillC.AtkPloy.lv(3),RefinedWeapon.ReesesTome)
         createItem(Name.サーリャ, 1, WeaponType.RTOME, MoveType.INFANTRY, 4, 17, 8, 8, 6, 5, 6, 7, 8, 4, 3,
                 Rtome.Rauorblade2, null, Special.Vengeance, SkillA.DartingBlow.lv(3), null, SkillC.SpurRes.lv(3))
         createItem(Name.サナキ, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 16, 9, 7, 4, 8, 4, 9, 5, 2, 8,
                 Rtome.Cymbeline, Assist.HarshCommand, null, SkillA.TriangleAdept.lv(3), null, SkillC.HoneAtk.lv(3))
+        createItem(Name.サナキ3, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 16, 9, 7, 4, 8, 4, 9, 5, 2, 8,
+                Rtome.Cymbeline, Assist.HarshCommand, null, SkillA.TriangleAdept.lv(3), null, SkillC.HoneAtk.lv(3),RefinedWeapon.Cymbeline)
         createItem(Name.セリカ, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 17, 8, 7, 5, 7, 6, 7, 8, 4, 3,
                 Rtome.Ragnarok, null, Special.BlazingLight, SkillA.DistantDef.lv(3), null, SkillC.SpurDef.lv(3))
+        createItem(Name.セリカ3, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 17, 8, 7, 5, 7, 6, 7, 8, 4, 3,
+                Rtome.Ragnarok, null, Special.BlazingLight, SkillA.DistantDef.lv(3), null, SkillC.SpurDef.lv(3),RefinedWeapon.Ragnarok)
         createItem(Name.ソフィーヤ, 1, WeaponType.RTOME, MoveType.INFANTRY, 3, 18, 9, 4, 6, 7, 6, 7, 3, 6, 6,
                 Rtome.Fenrir2, null, Special.DragonFang, SkillA.WardingBlow.lv(3), null, SkillC.FortifyRes.lv(3))
         createItem(Name.ヘンリー, 1, WeaponType.RTOME, MoveType.INFANTRY, 3, 19, 6, 5, 8, 6, 8, 4, 4, 7, 5,
@@ -137,20 +178,28 @@ object StandardBaseHero {
                 Rtome.Bolganone2, null, Special.GrowingFlame, SkillA.Attack.lv(3), null, SkillC.SpurAtk.lv(3))
         createItem(Name.リリーナ2, 1, WeaponType.RTOME, MoveType.INFANTRY, 4, 16, 9, 6, 4, 9, 5, 9, 5, 3, 6,
                 Rtome.Forblaze, null, Special.GrowingFlame, SkillA.Attack.lv(3), null, SkillC.SpurAtk.lv(3))
+        createItem(Name.リリーナ3, 1, WeaponType.RTOME, MoveType.INFANTRY, 4, 16, 9, 6, 4, 9, 5, 9, 5, 3, 6,
+                Rtome.Forblaze, null, Special.GrowingFlame, SkillA.Attack.lv(3), null, SkillC.SpurAtk.lv(3),RefinedWeapon.Forblaze)
         createItem(Name.レイ, 1, WeaponType.RTOME, MoveType.INFANTRY, 3, 17, 8, 7, 5, 7, 5, 7, 6, 4, 6,
                 Rtome.Rauorwolf2, Assist.RallyAttack, null, SkillA.Hp.lv(3), SkillB.SealRes.lv(3), null)
         createItem(Name.レオン, 1, WeaponType.RTOME, MoveType.CAVALRY, 5, 17, 7, 5, 6, 8, 6, 6, 4, 5, 6,
                 Rtome.Brynhildr, null, Special.BlazingLight, null, SkillB.QuickRiposte.lv(3), SkillC.SavageBlow.lv(3))
+        createItem(Name.レオン3, 1, WeaponType.RTOME, MoveType.CAVALRY, 5, 17, 7, 5, 6, 8, 6, 6, 4, 5, 6,
+                Rtome.Brynhildr, null, Special.BlazingLight, null, SkillB.QuickRiposte.lv(3), SkillC.SavageBlow.lv(3),RefinedWeapon.Brynhildr)
         createItem(Name.レオン__夏_, 1, WeaponType.RTOME, MoveType.INFANTRY, 5, 18, 8, 5, 6, 7, 5, 7, 6, 1, 9,
                 Rtome.TomatoTome2, null, Special.Iceberg, null, SkillB.SealRes.lv(3), SkillC.AtkPloy.lv(3))
         createItem(Name.チキ__大人_, 1, WeaponType.DRAGON, MoveType.INFANTRY, 3, 18, 7, 6, 9, 7, 6, 9, 4, 8, 4,
                 Breath.LightningBreath2, null, Special.Bonfire, SkillA.DefiantAtk.lv(3), null, SkillC.SpurRes.lv(3))
-        createItem(Name.チキ__幼_, 1, WeaponType.DRAGON, MoveType.INFANTRY, 5, 15, 5, 4, 8, 7, 8, 8, 8, 7, 6,
-                Breath.Flametongue2, null, Special.GrowingFlame, SkillA.ArmoredBlow.lv(3), null, SkillC.BreathOfLife.lv(3))
         createItem(Name.チキ__大人_2, 1, WeaponType.DRAGON, MoveType.INFANTRY, 3, 18, 7, 6, 9, 7, 6, 9, 4, 8, 4,
                 Breath.BreathOfFog, null, Special.Bonfire, SkillA.DefiantAtk.lv(3), null, SkillC.SpurRes.lv(3))
+        createItem(Name.チキ__大人_3, 1, WeaponType.DRAGON, MoveType.INFANTRY, 3, 18, 7, 6, 9, 7, 6, 9, 4, 8, 4,
+                Breath.BreathOfFog, null, Special.Bonfire, SkillA.DefiantAtk.lv(3), null, SkillC.SpurRes.lv(3),RefinedWeapon.BreathOfFog)
+        createItem(Name.チキ__幼_, 1, WeaponType.DRAGON, MoveType.INFANTRY, 5, 15, 5, 4, 8, 7, 8, 8, 8, 7, 6,
+                Breath.Flametongue2, null, Special.GrowingFlame, SkillA.ArmoredBlow.lv(3), null, SkillC.BreathOfLife.lv(3))
         createItem(Name.チキ__幼_2, 1, WeaponType.DRAGON, MoveType.INFANTRY, 5, 15, 5, 4, 8, 7, 8, 8, 8, 7, 6,
                 Breath.BreathOfFog, null, Special.GrowingFlame, SkillA.ArmoredBlow.lv(3), null, SkillC.BreathOfLife.lv(3))
+        createItem(Name.チキ__幼_3, 1, WeaponType.DRAGON, MoveType.INFANTRY, 5, 15, 5, 4, 8, 7, 8, 8, 8, 7, 6,
+                Breath.BreathOfFog, null, Special.GrowingFlame, SkillA.ArmoredBlow.lv(3), null, SkillC.BreathOfLife.lv(3),RefinedWeapon.BreathOfFog)
         createItem(Name.アクア, 2, WeaponType.LANCE, MoveType.INFANTRY, 5, 17, 5, 7, 4, 6, 5, 8, 8, 4, 6,
                 Lance.SapphireLance2, Assist.Sing, null, SkillA.Speed.lv(3), null, SkillC.FortifyRes.lv(3))
         createItem(Name.アベル, 2, WeaponType.LANCE, MoveType.CAVALRY, 4, 17, 7, 8, 8, 6, 6, 8, 7, 4, 5,
@@ -163,6 +212,8 @@ object StandardBaseHero {
                 Lance.HeavySpear2, Assist.Shove, null, SkillA.DefiantRes.lv(3), SkillB.SealSpd.lv(3), null)
         createItem(Name.エフラム, 2, WeaponType.LANCE, MoveType.INFANTRY, 5, 19, 9, 6, 8, 5, 8, 8, 5, 7, 3,
                 Lance.Siegmund, null, Special.Moonbow, null, SkillB.SealDef.lv(3), SkillC.ThreatenDef.lv(3))
+        createItem(Name.エフラム3, 2, WeaponType.LANCE, MoveType.INFANTRY, 5, 19, 9, 6, 8, 5, 8, 8, 5, 7, 3,
+                Lance.Siegmund, null, Special.Moonbow, null, SkillB.SealDef.lv(3), SkillC.ThreatenDef.lv(3),RefinedWeapon.Siegmund)
         createItem(Name.エルフィ, 2, WeaponType.LANCE, MoveType.ARMORED, 4, 22, 12, 5, 11, 4, 9, 9, 4, 6, 5,
                 Lance.SilverLance2, Assist.Smite, null, SkillA.DeathBlow.lv(3), SkillB.WaryFighter.lv(3), null)
         createItem(Name.オスカー, 2, WeaponType.LANCE, MoveType.CAVALRY, 5, 18, 7, 8, 7, 6, 6, 8, 8, 5, 3,
@@ -179,6 +230,8 @@ object StandardBaseHero {
                 Lance.SilverLance2, Assist.HarshCommand, null, null, SkillB.HitAndRun, SkillC.SpurSpd.lv(3))
         createItem(Name.クレア2, 2, WeaponType.LANCE, MoveType.FLIER, 5, 18, 7, 8, 5, 9, 5, 5, 9, 5, 7,
                 Lance.Rhomphaia, Assist.HarshCommand, null, null, SkillB.HitAndRun, SkillC.SpurSpd.lv(3))
+        createItem(Name.クレア3, 2, WeaponType.LANCE, MoveType.FLIER, 5, 18, 7, 8, 5, 9, 5, 5, 9, 5, 7,
+                Lance.Rhomphaia, Assist.HarshCommand, null, null, SkillB.HitAndRun, SkillC.SpurSpd.lv(3),RefinedWeapon.Rhomphaia)
         createItem(Name.クレーベ, 2, WeaponType.LANCE, MoveType.CAVALRY, 4, 19, 9, 6, 8, 4, 8, 7, 5, 7, 3,
                 Lance.SilverLance2, null, Special.Escutcheon, SkillA.Defense.lv(3), SkillB.HitAndRun, null)
         createItem(Name.シーダ__花嫁_, 2, WeaponType.BTOME, MoveType.INFANTRY, 5, 16, 7, 9, 4, 8, 4, 6, 9, 3, 6,
@@ -191,12 +244,18 @@ object StandardBaseHero {
                 Lance.KillerLance2, null, Special.Iceberg, null, SkillB.Desperation.lv(3), SkillC.ThreatenSpd.lv(3))
         createItem(Name.シャニー2, 2, WeaponType.LANCE, MoveType.FLIER, 3, 17, 8, 9, 6, 7, 6, 6, 8, 5, 6,
                 Lance.ShannasLance, null, Special.Iceberg, null, SkillB.Desperation.lv(3), SkillC.ThreatenSpd.lv(3))
+        createItem(Name.シャニー3, 2, WeaponType.LANCE, MoveType.FLIER, 3, 17, 8, 9, 6, 7, 6, 6, 8, 5, 6,
+                Lance.ShannasLance, null, Special.Iceberg, null, SkillB.Desperation.lv(3), SkillC.ThreatenSpd.lv(3),RefinedWeapon.ShannasLance)
         createItem(Name.シャロン, 2, WeaponType.LANCE, MoveType.INFANTRY, 2, 19, 8, 8, 7, 5, 7, 7, 7, 6, 4,
                 Lance.Fensalir, Assist.RallyAttack, null, SkillA.Speed.lv(3), null, SkillC.FortifyDef.lv(3))
+        createItem(Name.シャロン3, 2, WeaponType.LANCE, MoveType.INFANTRY, 2, 19, 8, 8, 7, 5, 7, 7, 7, 6, 4,
+                Lance.Fensalir, Assist.RallyAttack, null, SkillA.Speed.lv(3), null, SkillC.FortifyDef.lv(3),RefinedWeapon.Fensalir)
         createItem(Name.ソワレ, 2, WeaponType.LANCE, MoveType.CAVALRY, 3, 18, 7, 8, 7, 6, 7, 5, 8, 4, 6,
                 Lance.SapphireLance2, Assist.DrawBack, null, null, SkillB.SwordBreaker.lv(3), SkillC.SpurDef.lv(3))
         createItem(Name.ターナ, 2, WeaponType.LANCE, MoveType.FLIER, 5, 17, 8, 10, 6, 6, 5, 8, 8, 5, 5,
                 Lance.Vidofinir, null, Special.Moonbow, SkillA.SpdDef.lv(2), null, SkillC.Guidance.lv(3))
+        createItem(Name.ターナ3, 2, WeaponType.LANCE, MoveType.FLIER, 5, 17, 8, 10, 6, 6, 5, 8, 8, 5, 5,
+                Lance.Vidofinir, null, Special.Moonbow, SkillA.SpdDef.lv(2), null, SkillC.Guidance.lv(3),RefinedWeapon.Vidofnir2)
         createItem(Name.ツバキ, 2, WeaponType.LANCE, MoveType.FLIER, 3, 18, 6, 9, 9, 5, 6, 5, 8, 8, 4,
                 Lance.SapphireLance2, Assist.Swap, null, SkillA.Resistance.lv(3), SkillB.QuickRiposte.lv(3), null)
         createItem(Name.ティアモ, 2, WeaponType.LANCE, MoveType.FLIER, 4, 18, 9, 9, 5, 6, 6, 8, 8, 4, 5,
@@ -207,14 +266,22 @@ object StandardBaseHero {
                 Lance.SlayingLance2, null, Special.Moonbow, SkillA.AtkSpd.lv(2), SkillB.Wrath.lv(3), null)
         createItem(Name.ネフェニー2, 2, WeaponType.LANCE, MoveType.INFANTRY, 5, 18, 7, 9, 8, 5, 5, 7, 8, 8, 3,
                 Lance.DauntlessLance, null, Special.Moonbow, SkillA.AtkSpd.lv(2), SkillB.Wrath.lv(3), null)
+        createItem(Name.ネフェニー3, 2, WeaponType.LANCE, MoveType.INFANTRY, 5, 18, 7, 9, 8, 5, 5, 7, 8, 8, 3,
+                Lance.DauntlessLance, null, Special.Moonbow, SkillA.AtkSpd.lv(2), SkillB.Wrath.lv(3), null,RefinedWeapon.DauntlessLance)
         createItem(Name.ピエリ, 2, WeaponType.LANCE, MoveType.CAVALRY, 4, 16, 9, 9, 6, 6, 5, 7, 7, 4, 7,
                 Lance.KillerLance2, null, Special.Glimmer, SkillA.Resistance.lv(3), null, SkillC.ThreatenDef.lv(3))
         createItem(Name.ヒノカ, 2, WeaponType.LANCE, MoveType.FLIER, 5, 19, 7, 8, 6, 7, 6, 9, 7, 5, 4,
                 Lance.BraveLance2, null, Special.BlazingWind, SkillA.DefiantDef.lv(3), null, SkillC.HoneFliers)
+        createItem(Name.ヒノカ2, 2, WeaponType.LANCE, MoveType.FLIER, 5, 19, 7, 8, 6, 7, g50, g65, g55, g45, g40,
+                Lance.HinokasSpear, null, Special.BlazingWind, SkillA.DefiantDef.lv(3), null, SkillC.HoneFliers)
+        createItem(Name.ヒノカ3, 2, WeaponType.LANCE, MoveType.FLIER, 5, 19, 7, 8, 6, 7, g50, g65, g55, g45, g40,
+                Lance.HinokasSpear, null, Special.BlazingWind, SkillA.DefiantDef.lv(3), null, SkillC.HoneFliers,RefinedWeapon.HinokasSpear)
         createItem(Name.フロリーナ, 2, WeaponType.LANCE, MoveType.FLIER, 3, 18, 7, 8, 6, 8, 7, 6, 5, 5, 8,
                 Lance.HeavySpear2, Assist.ArdentSacrifice, null, SkillA.DartingBlow.lv(3), null, SkillC.BreathOfLife.lv(3))
         createItem(Name.フロリーナ2, 2, WeaponType.LANCE, MoveType.FLIER, 3, 18, 7, 8, 6, 8, 7, 6, 5, 5, 8,
                 Lance.FlorinasLance, Assist.ArdentSacrifice, null, SkillA.DartingBlow.lv(3), null, SkillC.BreathOfLife.lv(3))
+        createItem(Name.フロリーナ3, 2, WeaponType.LANCE, MoveType.FLIER, 3, 18, 7, 8, 6, 8, 7, 6, 5, 5, 8,
+                Lance.FlorinasLance, Assist.ArdentSacrifice, null, SkillA.DartingBlow.lv(3), null, SkillC.BreathOfLife.lv(3),RefinedWeapon.FlorinasLance)
         createItem(Name.ベルクト, 2, WeaponType.LANCE, MoveType.CAVALRY, 3, 19, 8, 5, 7, 7, 7, 8, 4, 7, 4,
                 Lance.BerkutsLance2, null, Special.BlazingFlame, SkillA.WaterBoost.lv(3), null, SkillC.WardCavalry)
         createItem(Name.マークス__春_, 2, WeaponType.LANCE, MoveType.CAVALRY, 5, 18, 6, 6, 9, 7, 6, 5, 6, 8, 5,
@@ -237,6 +304,8 @@ object StandardBaseHero {
                 Btome.Blarblade2, null, Special.Moonbow, SkillA.DefiantAtk.lv(3), SkillB.RTomeBreaker.lv(3), null)
         createItem(Name.オーディン2, 2, WeaponType.BTOME, MoveType.INFANTRY, 3, 19, 5, 8, 6, 6, 7, 4, 7, 5, 5,
                 Btome.OdinsGrimoire, null, Special.Moonbow, SkillA.DefiantAtk.lv(3), SkillB.RTomeBreaker.lv(3), null)
+        createItem(Name.オーディン3, 2, WeaponType.BTOME, MoveType.INFANTRY, 3, 19, 5, 8, 6, 6, 7, 4, 7, 5, 5,
+                Btome.OdinsGrimoire, null, Special.Moonbow, SkillA.DefiantAtk.lv(3), SkillB.RTomeBreaker.lv(3), null,RefinedWeapon.OdinsGrimoire)
         createItem(Name.オルエン, 2, WeaponType.BTOME, MoveType.CAVALRY, 5, 17, 7, 8, 5, 6, 4, 5, 8, 3, 7,
                 Btome.DireThunder, Assist.Reposition, null, SkillA.WardingBlow.lv(3), null, SkillC.WardCavalry)
         createItem(Name.カムイ__夏_, 2, WeaponType.BTOME, MoveType.FLIER, 5, 17, 7, 8, 5, 7, 4, 7, 8, 4, 5,
@@ -253,6 +322,8 @@ object StandardBaseHero {
                 Btome.DireThunder, null, Special.BlazingThunder, null, SkillB.Vantage.lv(3), SkillC.GoadCavalry)
         createItem(Name.リンダ, 2, WeaponType.BTOME, MoveType.INFANTRY, 5, 16, 9, 10, 4, 5, 5, 8, 8, 1, 6,
                 Btome.Aura, Assist.ArdentSacrifice, null, SkillA.Speed.lv(3), null, SkillC.FortifyRes.lv(3))
+        createItem(Name.リンダ3, 2, WeaponType.BTOME, MoveType.INFANTRY, 5, 16, 9, 10, 4, 5, 5, 8, 8, 1, 6,
+                Btome.Aura, Assist.ArdentSacrifice, null, SkillA.Speed.lv(3), null, SkillC.FortifyRes.lv(3),RefinedWeapon.Aura)
         createItem(Name.ルフレ__男_, 2, WeaponType.BTOME, MoveType.INFANTRY, 3, 18, 7, 7, 7, 5, 6, 6, 6, 6, 4,
                 Btome.Blarraven2, null, Special.Bonfire, SkillA.DefiantSpd.lv(3), null, SkillC.SpurDef.lv(3))
         createItem(Name.ニニアン, 2, WeaponType.DRAGON, MoveType.INFANTRY, 5, 16, 5, 7, 6, 5, 8, 5, 8, 4, 6,
@@ -267,10 +338,14 @@ object StandardBaseHero {
                 Axe.SlayingAxe2, null, Special.HolyVestments, SkillA.EarthBoost.lv(3), null, SkillC.ArmorMarch.lv(3))
         createItem(Name.アンナ, 3, WeaponType.AXE, MoveType.INFANTRY, 2, 19, 7, 10, 5, 6, 6, 6, 9, 4, 6,
                 Axe.Noatun, null, Special.Astra, null, SkillB.Vantage.lv(3), SkillC.SpurRes.lv(3))
+        createItem(Name.アンナ3, 3, WeaponType.AXE, MoveType.INFANTRY, 2, 19, 7, 10, 5, 6, 6, 6, 9, 4, 6,
+                Axe.Noatun, null, Special.Astra, null, SkillB.Vantage.lv(3), SkillC.SpurRes.lv(3),RefinedWeapon.Noatun)
         createItem(Name.カミラ, 3, WeaponType.AXE, MoveType.FLIER, 4, 18, 8, 8, 6, 7, 5, 6, 7, 6, 7,
                 Axe.BraveAxe2, null, Special.DraconicAura, SkillA.DartingBlow.lv(3), null, SkillC.SavageBlow.lv(3))
         createItem(Name.カミラ2, 3, WeaponType.AXE, MoveType.FLIER, 4, 18, 8, 8, 6, 7, 5, 6, 7, 6, 7,
                 Axe.CamillasAxe, null, Special.DraconicAura, SkillA.DartingBlow.lv(3), null, SkillC.SavageBlow.lv(3))
+        createItem(Name.カミラ3, 3, WeaponType.AXE, MoveType.FLIER, 4, 18, 8, 8, 6, 7, 5, 6, 7, 6, 7,
+                Axe.CamillasAxe, null, Special.DraconicAura, SkillA.DartingBlow.lv(3), null, SkillC.SavageBlow.lv(3),RefinedWeapon.CamillasAxe)
         createItem(Name.ギュンター, 3, WeaponType.AXE, MoveType.CAVALRY, 3, 21, 10, 7, 11, 5, 6, 6, 4, 6, 2,
                 Axe.SilverAxe2, Assist.HarshCommand, null, SkillA.ArmoredBlow.lv(3), null, SkillC.HoneCavalry)
         createItem(Name.クロム__春_, 3, WeaponType.AXE, MoveType.INFANTRY, 5, 19, 9, 8, 6, 5, 7, 8, 7, 6, 3,
@@ -281,12 +356,16 @@ object StandardBaseHero {
                 Axe.Hammer2, Assist.Pivot, null, SkillA.Attack.lv(3), null, SkillC.FortifyDef.lv(3))
         createItem(Name.セルジュ2, 3, WeaponType.AXE, MoveType.FLIER, 3, 20, 10, 6, 8, 3, 8, 9, 5, 7, 2,
                 Axe.CherchesAxe, Assist.Pivot, null, SkillA.Attack.lv(3), null, SkillC.FortifyDef.lv(3))
+        createItem(Name.セルジュ3, 3, WeaponType.AXE, MoveType.FLIER, 3, 20, 10, 6, 8, 3, 8, 9, 5, 7, 2,
+                Axe.CherchesAxe, Assist.Pivot, null, SkillA.Attack.lv(3), null, SkillC.FortifyDef.lv(3),RefinedWeapon.CherchesAxe)
         createItem(Name.チキ__夏_, 3, WeaponType.AXE, MoveType.INFANTRY, 5, 18, 8, 6, 8, 7, 4, 9, 7, 7, 4,
                 Axe.MelonCrusher2, null, Special.Sol, SkillA.CloseDef.lv(3), null, SkillC.AxeValor.lv(3))
         createItem(Name.ティアマト, 3, WeaponType.AXE, MoveType.CAVALRY, 5, 18, 6, 8, 6, 8, 5, 6, 8, 5, 6,
                 Axe.EmeraldAxe2, Assist.ReciprocalAid, null, SkillA.ArmoredBlow.lv(3), SkillB.Guard.lv(3), null)
         createItem(Name.ティアマト2, 3, WeaponType.AXE, MoveType.CAVALRY, 5, 18, 6, 8, 6, 8, 5, 6, 8, 5, 6,
                 Axe.DraconicPoleax, Assist.ReciprocalAid, null, SkillA.ArmoredBlow.lv(3), SkillB.Guard.lv(3), null)
+        createItem(Name.ティアマト3, 3, WeaponType.AXE, MoveType.CAVALRY, 5, 18, 6, 8, 6, 8, 5, 6, 8, 5, 6,
+                Axe.DraconicPoleax, Assist.ReciprocalAid, null, SkillA.ArmoredBlow.lv(3), SkillB.Guard.lv(3), null,RefinedWeapon.DraconicPoleax)
         createItem(Name.ナーシェン, 3, WeaponType.AXE, MoveType.FLIER, 2, 18, 7, 7, 8, 7, 7, 6, 6, 7, 5,
                 Axe.EmeraldAxe2, null, Special.Vengeance, null, SkillB.LanceBreaker.lv(3), SkillC.SavageBlow.lv(3))
         createItem(Name.ニノ, 3, WeaponType.GTOME, MoveType.INFANTRY, 3, 16, 7, 10, 4, 7, 4, 8, 8, 3, 5,
@@ -297,6 +376,8 @@ object StandardBaseHero {
                 Axe.Hammer2, Assist.Smite, null, SkillA.Fury.lv(3), SkillB.BrashAssault.lv(3), null)
         createItem(Name.バアトル2, 3, WeaponType.AXE, MoveType.INFANTRY, 3, 21, 10, 6, 7, 3, 9, 8, 5, 8, 1,
                 Axe.AxeOfVirility, Assist.Smite, null, SkillA.Fury.lv(3), SkillB.BrashAssault.lv(3), null)
+        createItem(Name.バアトル3, 3, WeaponType.AXE, MoveType.INFANTRY, 3, 21, 10, 6, 7, 3, 9, 8, 5, 8, 1,
+                Axe.AxeOfVirility, Assist.Smite, null, SkillA.Fury.lv(3), SkillB.BrashAssault.lv(3), null,RefinedWeapon.AxeOfVirility)
         createItem(Name.ハロルド, 3, WeaponType.AXE, MoveType.INFANTRY, 3, 19, 8, 7, 8, 5, 7, 7, 6, 6, 5,
                 Axe.EmeraldAxe2, Assist.Swap, null, SkillA.Hp.lv(3), SkillB.LanceBreaker.lv(3), null)
         createItem(Name.ファ, 3, WeaponType.DRAGON, MoveType.INFANTRY, 4, 16, 5, 4, 6, 8, 10, 9, 7, 5, 6,
@@ -313,12 +394,18 @@ object StandardBaseHero {
                 Axe.LilithFloatie2, null, Special.Bonfire, SkillA.FireBoost.lv(3), null, SkillC.InfantryPulse.lv(3))
         createItem(Name.ミシェイル, 3, WeaponType.AXE, MoveType.FLIER, 3, 19, 8, 7, 9, 4, 7, 8, 5, 8, 3,
                 Axe.Hauteclere, null, Special.BlazingThunder, SkillA.IotesShield, null, SkillC.ThreatenDef.lv(3))
+        createItem(Name.ミシェイル3, 3, WeaponType.AXE, MoveType.FLIER, 3, 19, 8, 7, 9, 4, 7, 8, 5, 8, 3,
+                Axe.Hauteclere, null, Special.BlazingThunder, SkillA.IotesShield, null, SkillC.ThreatenDef.lv(3),RefinedWeapon.Hauteclere)
         createItem(Name.ミネルバ, 3, WeaponType.AXE, MoveType.FLIER, 5, 18, 7, 9, 8, 5, 6, 7, 7, 7, 4,
                 Axe.Hauteclere, null, Special.SacredCowl, SkillA.LifeAndDeath.lv(3), null, SkillC.WardFliers)
+        createItem(Name.ミネルバ3, 3, WeaponType.AXE, MoveType.FLIER, 5, 18, 7, 9, 8, 5, 6, 7, 7, 7, 4,
+                Axe.Hauteclere, null, Special.SacredCowl, SkillA.LifeAndDeath.lv(3), null, SkillC.WardFliers,RefinedWeapon.Hauteclere)
         createItem(Name.レイヴァン, 3, WeaponType.AXE, MoveType.INFANTRY, 4, 19, 8, 9, 6, 5, 6, 8, 8, 5, 4,
                 Axe.BraveAxe2, null, Special.Sol, SkillA.DefiantSpd.lv(3), null, SkillC.ThreatenDef.lv(3))
         createItem(Name.レイヴァン2, 3, WeaponType.AXE, MoveType.INFANTRY, 4, 19, 8, 9, 6, 5, 6, 8, 8, 5, 4,
                 Axe.Basilikos, null, Special.Sol, SkillA.DefiantSpd.lv(3), null, SkillC.ThreatenDef.lv(3))
+        createItem(Name.レイヴァン3, 3, WeaponType.AXE, MoveType.INFANTRY, 4, 19, 8, 9, 6, 5, 6, 8, 8, 5, 4,
+                Axe.Basilikos, null, Special.Sol, SkillA.DefiantSpd.lv(3), null, SkillC.ThreatenDef.lv(3),RefinedWeapon.Basilikos)
         createItem(Name.ローロー, 3, WeaponType.AXE, MoveType.INFANTRY, 3, 20, 10, 9, 5, 3, 8, 8, 8, 4, 3,
                 Axe.LegionsAxe2, null, Special.Reprisal, SkillA.Fury.lv(3), SkillB.Obstruct.lv(3), null)
         createItem(Name.アズール__舞踏祭_, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 15, 6, 7, 5, 3, 6, 6, 8, 4, 4,
@@ -331,6 +418,10 @@ object StandardBaseHero {
                 Gtome.Gronnraven2, Assist.RallyResistance, null, SkillA.Attack.lv(3), SkillB.EscapeRoute.lv(3), null)
         createItem(Name.セネリオ, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 7, 9, 4, 7, g45, g60, g55, g30, g50,
                 Gtome.Rexcalibur2, null, Special.GrowingWind, null, SkillB.Watersweep.lv(3), SkillC.FortifyRes.lv(3))
+        createItem(Name.セネリオ2, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 7, 9, 4, 7, 5, 8, 7, 2, 6,
+                Gtome.WindsBrand, null, Special.GrowingWind, null, SkillB.Watersweep.lv(3), SkillC.FortifyRes.lv(3))
+        createItem(Name.セネリオ3, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 7, 9, 4, 7, 5, 8, 7, 2, 6,
+                Gtome.WindsBrand, null, Special.GrowingWind, null, SkillB.Watersweep.lv(3), SkillC.FortifyRes.lv(3),RefinedWeapon.WindsBrand)
         createItem(Name.ソニア, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 7, 7, 5, 8, 5, 8, 7, 1, 7,
                 Gtome.DarkExcalibur, null, Special.Moonbow, SkillA.DeathBlow.lv(3), null, SkillC.ResPloy.lv(3))
         createItem(Name.ディアドラ, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 9, 6, 3, 9, 5, 7, 6, 2, 8,
@@ -339,6 +430,8 @@ object StandardBaseHero {
                 Gtome.Gronnowl2, null, Special.Ignis, SkillA.EarthBoost.lv(3), SkillB.Renewal.lv(3), null)
         createItem(Name.マリク, 3, WeaponType.GTOME, MoveType.INFANTRY, 4, 19, 7, 8, 6, 4, 7, 5, 7, 6, 3,
                 Gtome.Excalibur, null, Special.GrowingWind, SkillA.Hp.lv(3), null, SkillC.SpurRes.lv(3))
+        createItem(Name.マリク3, 3, WeaponType.GTOME, MoveType.INFANTRY, 4, 19, 7, 8, 6, 4, 7, 5, 7, 6, 3,
+                Gtome.Excalibur, null, Special.GrowingWind, SkillA.Hp.lv(3), null, SkillC.SpurRes.lv(3),RefinedWeapon.Excalibur)
         createItem(Name.ユリア, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 16, 9, 7, 4, 8, 6, 8, 5, 2, 7,
                 Gtome.Naga, null, Special.DragonFang, SkillA.Resistance.lv(3), null, SkillC.BreathOfLife.lv(3))
         createItem(Name.ルフレ__女_, 3, WeaponType.GTOME, MoveType.INFANTRY, 2, 18, 7, 7, 7, 5, 6, 6, 6, 6, 4,
@@ -375,24 +468,38 @@ object StandardBaseHero {
                 Staff.Gravity, Assist.Physic, Special.HeavenlyLight, null, SkillB.WrathfulStaff.lv(3), null)
         createItem(Name.ジャファル, 0, WeaponType.DAGGER, MoveType.INFANTRY, 5, 17, 7, 9, 6, 5, 7, 5, 7, 5, 4,
                 Dagger.DeathlyDagger, null, Special.Glimmer, SkillA.LifeAndDeath.lv(3), null, SkillC.ThreatenSpd.lv(3))
+        createItem(Name.ジャファル3, 0, WeaponType.DAGGER, MoveType.INFANTRY, 5, 17, 7, 9, 6, 5, 7, 5, 7, 5, 4,
+                Dagger.DeathlyDagger, null, Special.Glimmer, SkillA.LifeAndDeath.lv(3), null, SkillC.ThreatenSpd.lv(3),RefinedWeapon.DeathlyDagger2)
         createItem(Name.ジョーカー, 0, WeaponType.DAGGER, MoveType.INFANTRY, 4, 17, 7, 9, 6, 5, 6, 6, 6, 5, 5,
                 Dagger.SilverDagger2, Assist.RallyResistance, null, SkillA.Defense.lv(3), SkillB.Renewal.lv(3), null)
         createItem(Name.ジョルジュ, 0, WeaponType.BOW, MoveType.INFANTRY, 4, 18, 8, 8, 5, 5, 5, 7, 7, 5, 4,
                 Bow.Parthia, null, Special.BlazingFlame, null, SkillB.SealAtk.lv(3), SkillC.SpurSpd.lv(3))
+        createItem(Name.ジョルジュ3, 0, WeaponType.BOW, MoveType.INFANTRY, 4, 18, 8, 8, 5, 5, 5, 7, 7, 5, 4,
+                Bow.Parthia, null, Special.BlazingFlame, null, SkillB.SealAtk.lv(3), SkillC.SpurSpd.lv(3),RefinedWeapon.Parthia2)
         createItem(Name.セーラ, 0, WeaponType.STAFF, MoveType.INFANTRY, 3, 16, 6, 9, 4, 9, 4, 7, 6, 4, 7,
                 Staff.Absorb, Assist.Recover, Special.SwiftWindsBalm, null, null, SkillC.HoneAtk.lv(3))
         createItem(Name.セツナ, 0, WeaponType.BOW, MoveType.INFANTRY, 3, 18, 6, 9, 5, 6, 5, 6, 9, 4, 4,
                 Bow.AssassinsBow2, Assist.ReciprocalAid, null, SkillA.Hp.lv(3), SkillB.BowBreaker.lv(3), null)
+        createItem(Name.セツナ2, 0, WeaponType.BOW, MoveType.INFANTRY, 3, 18, 6, 9, 5, 6, 5, 6, 9, 4, 4,
+                Bow.GuardBow2, Assist.ReciprocalAid, null, SkillA.Hp.lv(3), SkillB.BowBreaker.lv(3), null)
         createItem(Name.ゼロ, 0, WeaponType.BOW, MoveType.INFANTRY, 3, 18, 6, 8, 4, 8, 5, 5, 8, 2, 8,
                 Bow.KillerBow2, null, Special.Iceberg, SkillA.WardingBlow.lv(3), null, SkillC.SpurRes.lv(3))
         createItem(Name.タクミ, 0, WeaponType.BOW, MoveType.INFANTRY, 5, 18, 8, 7, 6, 5, 6, 7, 8, 5, 2,
                 Bow.FujinYumi, null, Special.Vengeance, SkillA.CloseCounter, null, SkillC.ThreatenSpd.lv(3))
+        createItem(Name.タクミ3, 0, WeaponType.BOW, MoveType.INFANTRY, 5, 18, 8, 7, 6, 5, 6, 7, 8, 5, 2,
+                Bow.FujinYumi, null, Special.Vengeance, SkillA.CloseCounter, null, SkillC.ThreatenSpd.lv(3),RefinedWeapon.FujinYumi)
         createItem(Name.ティアモ__花嫁_, 0, WeaponType.BOW, MoveType.INFANTRY, 5, 17, 9, 9, 4, 5, 5, 8, 8, 3, 4,
                 Bow.CupidArrow2, Assist.RallyAtkSpd, null, null, SkillB.EscapeRoute.lv(3), SkillC.BreathOfLife.lv(3))
         createItem(Name.ヒーニアス, 0, WeaponType.BOW, MoveType.INFANTRY, 5, 16, 9, 8, 4, 7, 5, 7, 8, 1, 7,
                 Bow.Nidhogg, null, Special.Iceberg, SkillA.FortressRes.lv(3), SkillB.CancelAffinity.lv(3), null)
+        createItem(Name.ヒーニアス3, 0, WeaponType.BOW, MoveType.INFANTRY, 5, 16, 9, 8, 4, 7, 5, 7, 8, 1, 7,
+                Bow.Nidhogg, null, Special.Iceberg, SkillA.FortressRes.lv(3), SkillB.CancelAffinity.lv(3), null,RefinedWeapon.Nidhogg)
         createItem(Name.フェリシア, 0, WeaponType.DAGGER, MoveType.INFANTRY, 3, 15, 6, 11, 3, 9, 5, 4, 8, 3, 8,
                 Dagger.SilverDagger2, null, Special.Glacies, SkillA.Resistance.lv(3), null, SkillC.BreathOfLife.lv(3))
+        createItem(Name.フェリシア2, 0, WeaponType.DAGGER, MoveType.INFANTRY, 3, 15, 6, 11, 3, 9, 5, 4, 8, 3, 8,
+                Dagger.FeliciasPlate, null, Special.Glacies, SkillA.Resistance.lv(3), null, SkillC.BreathOfLife.lv(3))
+        createItem(Name.フェリシア3, 0, WeaponType.DAGGER, MoveType.INFANTRY, 3, 15, 6, 11, 3, 9, 5, 4, 8, 3, 8,
+                Dagger.FeliciasPlate, null, Special.Glacies, SkillA.Resistance.lv(3), null, SkillC.BreathOfLife.lv(3),RefinedWeapon.FeliciasPlate)
         createItem(Name.プリシラ, 0, WeaponType.STAFF, MoveType.CAVALRY, 4, 17, 7, 7, 4, 8, 5, 6, 6, 3, 7,
                 Staff.Panic, Assist.Rehabilitate, Special.StillWaterBalm, null, null, SkillC.SpurDef.lv(3))
         createItem(Name.フレデリク__夏_, 0, WeaponType.DAGGER, MoveType.INFANTRY, 5, 18, 8, 7, 6, 5, 6, 7, 7, 6, 2,
@@ -518,16 +625,6 @@ object StandardBaseHero {
         createItem(Name.マーク__女_, 2, WeaponType.BTOME, MoveType.FLIER, 5, 18, 8, 6, 3, 9, 5, 8, 7, 2, 7,
                 Btome.Blarserpent2, null, Special.Iceberg, SkillA.MirrorStance.lv(2), SkillB.Guard.lv(3), SkillC.AtkPloy.lv(3))
 
-        createItem(Name.セツナ2, 0, WeaponType.BOW, MoveType.INFANTRY, 3, 18, 6, 9, 5, 6, 5, 6, 9, 4, 4,
-                Bow.GuardBow2, Assist.ReciprocalAid, null, SkillA.Hp.lv(3), SkillB.BowBreaker.lv(3), null)
-        createItem(Name.ヒノカ2, 2, WeaponType.LANCE, MoveType.FLIER, 5, 19, 7, 8, 6, 7, g50, g65, g55, g45, g40,
-                Lance.HinokasSpear, null, Special.BlazingWind, SkillA.DefiantDef.lv(3), null, SkillC.HoneFliers)
-        createItem(Name.シーダ2, 1, WeaponType.SWORD, MoveType.FLIER, 4, 17, 6, 9, 5, 10, 5, 5, 9, 5, 7,
-                Sword.WingSword, Assist.RallySpeed, null, SkillA.DartingBlow.lv(3), null, SkillC.FortifyFliers)
-        createItem(Name.フェリシア2, 0, WeaponType.DAGGER, MoveType.INFANTRY, 3, 15, 6, 11, 3, 9, 5, 4, 8, 3, 8,
-                Dagger.FeliciasPlate, null, Special.Glacies, SkillA.Resistance.lv(3), null, SkillC.BreathOfLife.lv(3))
-        createItem(Name.セネリオ2, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 7, 9, 4, 7, 5, 8, 7, 2, 6,
-                Gtome.WindsBrand, null, Special.GrowingWind, null, SkillB.Watersweep.lv(3), SkillC.FortifyRes.lv(3))
 
         createItem(Name.カチュア__春_, 2, WeaponType.BTOME, MoveType.CAVALRY, 5, 17, 6, 9, 5, 6, 5, 8, 8, 2, 4,
                 Btome.HuginnsEgg, Assist.DrawBack, null, null, SkillB.ChillRes.lv(3), SkillC.DriveSpd.lv(3))
@@ -710,6 +807,8 @@ object StandardBaseHero {
                 Rtome.BookOfDreams, Assist.DrawBack, null, SkillA.AtkResBond.lv(3), SkillB.AtkDefLink.lv(3), null)
         createItem(Name.ミコト__夢_, 0, WeaponType.STAFF, MoveType.INFANTRY, 5, 16, 9, 8, 5, 7, g50, g60, g55, g35, g45,
                 Staff.Flash2, Assist.Martyr2, Special.Miracle, SkillA.BrazenAtkRes.lv(3), null, SkillC.InfantryRush.lv(3))
+                createItem(Name.アクア__夢_, 3, WeaponType.GTOME, MoveType.INFANTRY,  5, 14, 7, 5, 4, 6, g50, g60, g55, g30, g45,
+                        Gtome.BookOfShadows, Assist.Sing,null, SkillA.SpdResBond.lv(3), SkillB.TorrentDance.lv(3), null)
 //あれ太ったおっさん作り忘れたか？
         //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
         //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
@@ -755,11 +854,12 @@ object StandardBaseHero {
             //本当はSkill分けたいのだがNONEやLappedSkillをうまく扱えない。いっそSkillsに戻すか？
             aSkill: Skill? = null,
             bSkill: Skill? = null,
-            cSkill: Skill? = null
+            cSkill: Skill? = null,
+            refinedWeapon: RefinedWeapon? = null
     ) {
         val item = BaseHero(color, weaponType, moveType, minRarity, name, hp, atk, spd, def, res, hpGrowth, atkGrowth, spdGrowth, defGrowth, resGrowth, weapon
                 ?: Skill.NONE, assist ?: Skill.NONE, special ?: Skill.NONE, aSkill
-                ?: Skill.NONE, bSkill ?: Skill.NONE, cSkill ?: Skill.NONE)
+                ?: Skill.NONE, bSkill ?: Skill.NONE, cSkill ?: Skill.NONE,refinedWeapon ?: Skill.NONE)
         ITEMS.add(item)
         ITEM_MAP[item.name.jp] = item
         ITEM_MAP[item.name.tw] = item

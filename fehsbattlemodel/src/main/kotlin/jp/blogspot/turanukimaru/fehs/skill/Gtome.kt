@@ -5,14 +5,14 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Gtome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedSkillType: RefinedSkill.RefineType = RefinedSkill.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Gtome(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     Wind(Name.Wind, SkillType.GTOME, 4, Skill.NONE, SpType.IRON),
     Elwind(Name.Elwind, SkillType.GTOME, 6, Wind, SpType.STEEL),
     Rexcalibur(Name.Rexcalibur, SkillType.GTOME, 9, Elwind, SpType.SILVER),
-    Rexcalibur2(Name.Rexcalibur2, SkillType.GTOME, 14, Rexcalibur, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    Rexcalibur2(Name.Rexcalibur2, SkillType.GTOME, 14, Rexcalibur, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     Gronnwolf(Name.Gronnwolf, SkillType.GTOME, 6, Elwind, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     Gronnwolf2(Name.Gronnwolf2, SkillType.GTOME, 10, Gronnwolf, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
-    KeenGronnwolf2(Name.KeenGronnwolf2, SkillType.GTOME, 12, Gronnwolf2, SpType.PLUS, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
+    KeenGronnwolf2(Name.KeenGronnwolf2, SkillType.GTOME, 12, Gronnwolf2, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     Gronnraven(Name.Gronnraven, SkillType.GTOME, 7, Elwind, SpType.SILVER) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
@@ -30,21 +30,21 @@ enum class Gtome(override val jp: Name, override val type: SkillType, override v
     Gronnowl(Name.Gronnowl, SkillType.GTOME, 6, Elwind, SpType.SILVER) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
     },
-    Gronnowl2(Name.Gronnowl2, SkillType.GTOME, 10, Gronnowl, SpType.PLUS, RefinedSkill.RefineType.Range2) {
+    Gronnowl2(Name.Gronnowl2, SkillType.GTOME, 10, Gronnowl, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
     },
     GreenEgg(Name.GreenEgg, SkillType.GTOME, 7, Elwind, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4)
     },
-    GreenEgg2(Name.GreenEgg2, SkillType.GTOME, 11, GreenEgg, SpType.PLUS, RefinedSkill.RefineType.Range2) {
+    GreenEgg2(Name.GreenEgg2, SkillType.GTOME, 11, GreenEgg, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4)
     },
     HibiscusTome(Name.HibiscusTome, SkillType.GTOME, 8, Elwind, SpType.SILVER),
-    HibiscusTome2(Name.HibiscusTome2, SkillType.GTOME, 12, HibiscusTome, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    HibiscusTome2(Name.HibiscusTome2, SkillType.GTOME, 12, HibiscusTome, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     DancersRing(Name.DancersRing, SkillType.GTOME, 8, Elwind, SpType.SILVER),
-    DancersRing2(Name.DancersRing2, SkillType.GTOME, 12, DancersRing, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    DancersRing2(Name.DancersRing2, SkillType.GTOME, 12, DancersRing, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     Elivagar(Name.Elivagar, SkillType.GTOME, 14, Rexcalibur),
-    Excalibur(Name.Excalibur, SkillType.GTOME, 14, Rexcalibur, SpType.LEGEND_W, RefinedSkill.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    Excalibur(Name.Excalibur, SkillType.GTOME, 14, Rexcalibur, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     Naga(Name.Naga, SkillType.GTOME, 14, Rexcalibur, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 2), 2)
     },
@@ -55,7 +55,7 @@ enum class Gtome(override val jp: Name, override val type: SkillType, override v
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = neutralizeBuffBonus(battleUnit, enemy)
     },
     SpectralTome(Name.SpectralTome, SkillType.GTOME, 8, Elwind, SpType.SILVER),
-    SpectralTome2(Name.SpectralTome2, SkillType.GTOME, 12, SpectralTome, SpType.PLUS, RefinedSkill.RefineType.Range2),
+    SpectralTome2(Name.SpectralTome2, SkillType.GTOME, 12, SpectralTome, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     Blizzard(Name.Blizzard, SkillType.GTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = debuffBonus(battleUnit, enemy)
@@ -66,7 +66,7 @@ enum class Gtome(override val jp: Name, override val type: SkillType, override v
     GreenGift2(Name.GreenGift2, SkillType.GTOME, 12, GreenGift, SpType.PLUS) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
     },
-    WindsBrand(Name.WindsBrand, SkillType.GTOME, 14, Rexcalibur, SpType.LEGEND_W, RefinedSkill.RefineType.Range2),
+    WindsBrand(Name.WindsBrand, SkillType.GTOME, 14, Rexcalibur, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2),
     MuninnsEgg(Name.MuninnsEgg, SkillType.BTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
     },
@@ -84,6 +84,10 @@ enum class Gtome(override val jp: Name, override val type: SkillType, override v
     Forseti(Name.Forseti, SkillType.GTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = forseti(fightPlan, 2)//攻めたてと同じLV倍率にしとこう
+    },
+    BookOfShadows(Name.BookOfShadows, SkillType.GTOME, 14, Gtome.Rexcalibur) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =adjacentDebuff(battleUnit,enemy,4)
     },
     ;
 
