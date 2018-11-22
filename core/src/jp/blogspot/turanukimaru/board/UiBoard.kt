@@ -57,6 +57,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     val pieceActive get() = opPhase == OpPhase.ACTIVE
 
+    var dragged = false
     /**
      * 枡高さ
      */
@@ -73,17 +74,29 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     fun xyToPosition(x: Float, y: Float) = Position(posXtoSquareX(x), posYtoSquareY(y))
     /**
      * 盤面がクリックされたときに起動する…のだがタッチとタッチアップが同じときはクリックと判定するので全体を覆うときは実質TouchUp
+     * 挙動は時間でなくて指の移動距離を見てるので実際は使えないか？holdあるから使えないな…
      */
     override fun clicked(event: InputEvent, x: Float, y: Float) {
-        println("UiBoardがクリックされた！")
-        println(event.isStopped)
-        println(event.isCancelled)
-        println(event.isTouchFocusCancel)
-        println("UiBoardがクリックされた！")
-        //ここでハンドをドラッグかクリックか判定したほうが良いな
-        board.clicked(xyToPosition(x, y))
+        if (dragged) return
+        board.hand.clicked(xyToPosition(x, y))
     }
 
+    override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
+        super.touchUp(event, x, y, pointer, button)
+        //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
+        val touchUpOver = isOver(event?.listenerActor ?: return, x, y)
+        // Ignore touch up if the wrong mouse button.
+        if (touchUpOver && pointer == 0 && this.button != -1 && button != this.button) return
+        //trueのときはsuperでクリックが起動されている
+        if (!touchUpOver) {
+            board.hand.drop(xyToPosition(x, y))
+        }
+//        println("$event: InputEvent?, $x: Float, $y: Float, $pointer: Int, $button: Int")
+    }
+
+    override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
+        println("ドラッグはタッチと認識されてないっぽい・・・？まあボードのドラッグは想定してないんだから捨てていいか")
+    }
 
     init {
         //inputProcessor セットしようとしたがするとアクターが動かない

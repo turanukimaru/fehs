@@ -98,6 +98,12 @@ enum class Dagger(override val jp: Name, override val type: SkillType, override 
     BottledJuice2(Name.BottledJuice2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
     },
+    Sylgr(Name.Sylgr, SkillType.DAGGER, 14, SilverDagger2){
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
+
+    },
+
     ;
 
     /**

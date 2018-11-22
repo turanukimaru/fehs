@@ -42,7 +42,7 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
                         }
                     }
                     TouchPhase.NONE -> {
-                        println("ここで落ちてる？")
+//                        println("ここで落ちてる？")
                         startAction { readyAction() }
                     }
                     TouchPhase.TOUCH -> {
@@ -129,7 +129,7 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
      * 立ってるときのアニメ１ループ分。LibGDXにループ機能はあるが操作統一のため主導でループ
      * */
     private fun readyAction(): SequenceAction {
-        println("readyAction")
+//        println("readyAction")
 //        if(myPiece.position == null) { return SequenceAction()}
 //        //盤面に無いときの処理真面目に考えないとな…
 //        val finalX = uiBoard.squareXtoPosX(myPiece.position.x)

@@ -7,7 +7,7 @@ import jp.blogspot.turanukimaru.fehs.SpType
 /**
  * スキル。C
  */
-enum class SkillC(override val jp: Name, override val type: SkillType = SkillType.C, override val level: Int = 0, override val preSkill: Skill = Skill.Companion.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
+enum class SkillC(override val jp: Name, override val type: SkillType = SkillType.C, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
 
 
     SpurAtk(Name.SpurAtk),
@@ -97,6 +97,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType = SkillTyp
     InfantryFlash(Name.InfantryFlash, spType = SpType.BASE60),
     OstiasPulse(Name.OstiasPulse, maxLevel = 0, spType = SpType.LEGEND_S),
     WithEveryone(Name.WithEveryone, maxLevel = 0, spType = SpType.LEGEND_S),
+    SurtrsMenace(Name.SurtrsMenace, maxLevel = 0, spType = SpType.LEGEND_S),
     ;
 
     /**

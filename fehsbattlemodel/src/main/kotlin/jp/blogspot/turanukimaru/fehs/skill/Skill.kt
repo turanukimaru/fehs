@@ -907,7 +907,8 @@ interface Skill {
      */
     fun antiAccelerateCooldown(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (battleUnit.hp * 10 >= battleUnit.armedHero.maxHp * (11 - lv)) {
-            enemy.InflictCooldown = 1
+            enemy.InflictAttackCooldown = 1
+            enemy.InflictTargetCooldown = 1
         }
         return battleUnit
     }
@@ -1011,6 +1012,15 @@ interface Skill {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
             battleUnit.antiFollowup = false
             enemy.followupable = false
+        }
+        return battleUnit
+    }
+
+    fun sylgr(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
+        //飛燕とか計算した後なのかなあ
+        if (battleUnit.effectedSpd > enemy.effectedSpd) {
+            battleUnit.atkEffect += 4
+            battleUnit.spdEffect += 4
         }
         return battleUnit
     }

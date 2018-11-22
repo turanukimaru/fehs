@@ -12,16 +12,17 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     var holdNow = 0L
     var readyToAction = false
     var onRoute = false
+    private val graspThreshold = 500
     /**
      * ドラッグ中か。一定値以上ドラッグかホールド時間で判定しとくか
      */
-    fun dragging(dx: Int = 0, dy: Int = 0): Boolean {
-        this.dx += dx
-        this.dy += dy
+    fun dragging(x: Int = 0, y: Int = 0): Boolean {
+        dx += x
+        dy += y
         println("holdNow:$holdNow holdStart:$holdStart")
         println("dx:$dx dy:$dy")
-        println(holdNow - holdStart > 500 || dx > 24 || dx < -24 || dy > 24 || dy < -24)
-        return holdNow - holdStart > 500 || dx > 24 || dx < -24 || dy > 24 || dy < -24
+        println(holdNow - holdStart > graspThreshold || dx > 24 || dx < -24 || dy > 24 || dy < -24)//clicklistnerの閾値は14
+        return holdNow - holdStart > graspThreshold || dx > 24 || dx < -24 || dy > 24 || dy < -24
     }
 
     fun grasp(dx: Int = 0, dy: Int = 0): Boolean {
@@ -59,19 +60,15 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      */
     val routeStack = ArrayDeque<UiBoard.Position>()
 
-    //まとまんないな。
+    //まとまんないな。ドラッグは別にするか。ここでは判定できないし
     private val handType
         get() = when {
-            touchedPiece == null && dragging() -> HandType.NOP
-            touchedPiece == null && selectedPiece == null && !dragging() -> HandType.N_TAP
-            touchedPiece == null && selectedPiece != null && !dragging() -> HandType.B_TAP
+            touchedPiece == null && selectedPiece == null -> HandType.N_TAP
+            touchedPiece == null && selectedPiece != null -> HandType.FIELD_TAP
+            touchedPiece != null && selectedPiece == null -> HandType.SIMPLE_TAP
             //↑ここまで盤面スタート↓キャラスタート
-            selectedPiece != null && touchedPiece == selectedPiece && dragging() -> HandType.DRAG
-            selectedPiece != null && touchedPiece == selectedPiece && !dragging() -> HandType.TAP
-            selectedPiece != null && touchedPiece != selectedPiece && dragging() -> HandType.A_DRAG
-            selectedPiece != null && touchedPiece != selectedPiece && !dragging() -> HandType.A_TAP
-            selectedPiece == null && dragging() -> HandType.F_DRAG
-            selectedPiece == null && !dragging() -> HandType.F_TAP
+            selectedPiece != null && touchedPiece == selectedPiece -> HandType.SELECTED_TAP
+            selectedPiece != null && touchedPiece != selectedPiece -> HandType.TARGET_TAP
             else -> HandType.NOP
         }
 
@@ -103,7 +100,6 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         dy = 0
         touchedPiece = piece
         touchedPosition = xyToPosition
-        //駒を掴んでないときは掴む。掴んでるときは別の駒へのアクションになるから保留
         holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
         board.searchRoute(piece)
         board.searchEffectiveRoute(piece)
@@ -226,33 +222,49 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     }
 
     private fun movePiece(position: UiBoard.Position) {
+        println(" movePiece($position: UiBoard.Position) ")
         stackRoute(position)
         selectedPiece?.boardMove(this, position, targetPiece)
 
     }
 
+    fun drop(position: UiBoard.Position) {
+        println("touched $touchedPiece　selected $selectedPiece")
+        //N_TAPと同じなのでここでアニメの省略とか
+        val target = touchedPiece ?: return
+        //自分の駒じゃないのをドラッグしても何もしない
+        if (target.owner !=board.owner ) return
+        when {
+            //駒を選択して盤面をドロップってなんもせんわな
+            handType == HandType.FIELD_TAP -> return//movePiece(position)
+            //直接ドロップは移動してアクション準備.アクションフェイズかは分岐先で確認するべきか
+            handType == HandType.SIMPLE_TAP -> movePiece(position)
+            handType == HandType.SELECTED_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target)
+            //選択してない駒をドロップしたときはアクションだけど敵と味方で効果範囲が違う…
+            handType == HandType.TARGET_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target)
+            else -> println("UNEXPECTED ACTION $handType ${target.actionPhase}")
+        }
+    }
+
     fun clicked(position: UiBoard.Position) {
         //条件をTypeのほうに移動していかなきゃならんな…敵と味方混ぜたほうがいいかなあ。敵をドラッグはだいたい意味ないからなあ
         //あとやっぱり先に状態を分けるべきだよなあ。選択済みかどうかは入れないほうがいいか…
+        //一定時間以上たってのクリックはドラッグ判定
+        if (dragging()) {
+            drop(position)
+        }
+        println("touched $touchedPiece　selected $selectedPiece")
+        //N_TAPと同じなのでここでアニメの省略とか
+        val target = touchedPiece ?: return
         when {
-            //選択状態でないとき画面ドラッグ・タップはアニメの省略とか
-            handType == HandType.NOP || handType == HandType.N_TAP -> return
             //駒を選択して盤面をタップ（駒をタップではない）したときには移動・アクション。範囲外だと未選択
-            handType == HandType.B_TAP -> movePiece(position)
-
-            //何もない状態からタップしたときにそれが自分ので動かせるなら選択状態
-            handType == HandType.F_TAP && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
-            //何もない状態からドラッグしたときにそれが自分ので動かせるなら選択状態にしてアクション※選択状態にはなってるはず
-            handType == HandType.F_DRAG && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
+            handType == HandType.FIELD_TAP -> movePiece(position)
             //選択した駒をタップしたときは動いてたらそこで終了、アクション準備なら取り消して移動中、 移動してなかったら解除
-            handType == HandType.TAP && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
-            //選択した駒をドラッグしたときにそれが自分ので動かせるなら選択状態にしてアクション※選択状態にはなってるはず
-            handType == HandType.DRAG && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
+            handType == HandType.SELECTED_TAP && target.owner == board.owner && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target)
             //選択してない駒をタップしたときはアクションだけど敵と味方で効果範囲が違う…
-            handType == HandType.A_TAP && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
-            //選択してない駒をドラッグしたときにそれが自分ので動かせるなら選択状態にしてアクション※選択状態にはなってるはず
-            handType == HandType.A_DRAG && touchedPiece!!.owner == board.owner && touchedPiece!!.actionPhase == Piece.ActionPhase.READY -> selectPiece(touchedPiece!!)
-            else -> println("UNEXPECTED ACTION $handType ${touchedPiece!!.actionPhase}")
+            handType == HandType.TARGET_TAP && target.owner == board.owner && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target)
+            handType == HandType.TARGET_TAP && target.owner != board.owner && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target)
+            else -> println("UNEXPECTED ACTION $handType ${target.actionPhase}")
         }
 
     }
@@ -261,6 +273,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * 駒を選択状態にする。掴むとかそういう名前のほうが良いか？
      */
     private fun selectPiece(piece: Piece<UNIT, GROUND>) {
+        
         println("selectPiece $piece")
         clear()
         board.searchRoute(piece)
@@ -274,20 +287,14 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 
 
 enum class HandType(val detail: String) {
-    /** ドラッグ。移動とアクション。動いてないときは同じ位置に移動として扱う */
-    DRAG("ドラッグ。移動とアクション。動いてないときは同じ位置に移動として扱う"),
     /** 自分クリック。行動確定 */
-    TAP("自分クリック。行動確定"),
-    /** ターゲットドラッグ（対象が自分の駒なら選択になる） */
-    A_DRAG("ターゲットドラッグ（対象が自分の駒なら選択になる）"),
+    SELECTED_TAP("自分クリック。行動確定"),
     /** ターゲットクリック */
-    A_TAP("ターゲットクリック"),
-    /** ドラッグして選択。ドラッグ中に選択状態になってるはずなのでここにきたらドラッグ状態判定失敗 */
-    F_DRAG("ドラッグして選択。ドラッグ中に選択状態になってるはずなのでここにきたらドラッグ状態判定失敗"),
-    /** クリックして選択 */
-    F_TAP("クリックして選択"),
+    TARGET_TAP("ターゲットクリック"),
     /** 盤面クリック（移動やアクション） */
-    B_TAP("盤面クリック（移動やアクション）"),
+    FIELD_TAP("盤面クリック（移動やアクション）"),
+    /** 選んでない状態からのタップ。直タップや直ドラッグ */
+    SIMPLE_TAP("選んでない状態からのタップ。直タップや直ドラッグ"),
     /** 盤面クリック（駒を選択してないがアニメの省略とかに使うはず） */
     N_TAP("盤面クリック（駒を選択してないがアニメの省略とかに使うはず）"),
     /** 駒と関係なく盤面でドラッグなので無視 */

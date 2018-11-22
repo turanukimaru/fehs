@@ -14,17 +14,17 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
 
     override fun isMovable(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
         //デフォルトでは上下左右0,2,4,6にしておこう
-        println("move to $piece $ground $orientation $steps")
+//        println("move to $piece $ground $orientation $steps")
         return piece == null && ((ground == Ground.P && steps < containUnit.movableSteps) || (ground == Ground.W && steps + 1 < containUnit.movableSteps))
     }
 
     override fun isEffective(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
-        println("step:$steps range:${containUnit.effectiveRange}")
+//        println("step:$steps range:${containUnit.effectiveRange}")
         return steps < containUnit.effectiveRange
     }
 
     override fun countStep(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Int {
-        println("count step $piece $ground $orientation $steps")
+//        println("count step $piece $ground $orientation $steps")
         return if (steps < containUnit.movableSteps) {
             steps + (ground?.cost ?: 0)
         } else {

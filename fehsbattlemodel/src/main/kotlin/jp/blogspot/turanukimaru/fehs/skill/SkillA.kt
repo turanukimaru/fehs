@@ -146,7 +146,14 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(battleUnit, lv * 2)
     },
     SteadyStance(Name.SteadyStance) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(battleUnit, lv * 2)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if (lv == 4) {
+                enemy.InflictAttackCooldown = 1
+                enemy.InflictTargetCooldown = 1
+                //これ相手が攻撃を受けたときも効果があるか調べないとなあ。逆に隊形の効果も。今はどちらにしろ変動しないって判断だもんな
+            }
+            return blowDef(battleUnit, lv * 2)
+        }
     },
     WardingStance(Name.WardingStance) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, lv * 2)
@@ -252,6 +259,15 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
     },
     WaterBoost(Name.WaterBoost) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostRes(battleUnit, enemy, lv * 2)
+    },
+    SorceryBlade(Name.SorceryBlade) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit{
+            if (battleUnit.adjacentUnits > 0){//HP制限は後で考えよう…
+                battleUnit.overrideDamageType = SkillType.SORCERY_DAGGER
+            }
+                return battleUnit
+        }
+
     },
 
     OstianCounter(Name.OstianCounter, maxLevel = 0, spType = SpType.LEGEND_S) {

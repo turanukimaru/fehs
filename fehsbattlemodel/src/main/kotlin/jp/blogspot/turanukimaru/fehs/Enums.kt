@@ -131,6 +131,7 @@ object PreventType {
     val magicPrevent: (BattleUnit) -> Int = { battleUnit -> battleUnit.effectedRes }
     val dragonPrevent: (BattleUnit) -> Int = { battleUnit -> if (battleUnit.effectiveRange != 2) battleUnit.effectedRes else if (battleUnit.effectedDef < battleUnit.effectedRes) battleUnit.effectedDef else battleUnit.effectedRes }
     val feliciaPrevent: (BattleUnit) -> Int = { battleUnit -> if (battleUnit.effectedDef < battleUnit.effectedRes) battleUnit.effectedDef else battleUnit.effectedRes }
+    val sorceryPrevent: (BattleUnit) -> Int = { battleUnit -> if (battleUnit.effectedDef < battleUnit.effectedRes) battleUnit.effectedDef else battleUnit.effectedRes }
 }
 
 /**
@@ -146,7 +147,8 @@ enum class SkillType(val jp: String, val weaponType: WeaponType? = null, val pre
     AXE("斧", WeaponType.AXE),
     DRAGON("竜", WeaponType.DRAGON, PreventType.magicPrevent),
     PENETRATE_DRAGON("竜", WeaponType.DRAGON, PreventType.dragonPrevent),
-    PENETRATE_DAGGER("竜", WeaponType.DRAGON, PreventType.feliciaPrevent),
+    PENETRATE_DAGGER("暗器", WeaponType.DAGGER, PreventType.feliciaPrevent),
+    SORCERY_DAGGER("暗器", WeaponType.DAGGER, PreventType.sorceryPrevent),
     RTOME("赤魔", WeaponType.RTOME, PreventType.magicPrevent),
     BTOME("青魔", WeaponType.BTOME, PreventType.magicPrevent),
     GTOME("緑魔", WeaponType.GTOME, PreventType.magicPrevent),

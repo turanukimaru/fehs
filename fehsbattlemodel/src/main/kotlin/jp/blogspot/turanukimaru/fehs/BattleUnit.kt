@@ -36,7 +36,8 @@ data class BattleUnit(val armedHero: ArmedHero
         /**
          * スペシャル変動量-
          */
-                      , var InflictCooldown: Int = 0
+                      , var InflictAttackCooldown: Int = 0
+                      , var InflictTargetCooldown: Int = 0
 
         /**
          * 速さを無視して追撃可能か
@@ -114,6 +115,10 @@ data class BattleUnit(val armedHero: ArmedHero
          * 戦闘後のHP減少
          */
                       , var attackedHpLossAtEndOfFight: Int = 0
+        /**
+         * 戦闘後のHP減少
+         */
+                      , var overrideDamageType: SkillType = SkillType.NONE
 ) {
     //射程はともかく移動距離は制限を受ける可能性がある。いやそれを言うなら全てのステータスがそうであるが・・・これDelegateでできれば楽だと思ったけどBuff考えるとできないな
     val movableSteps: Int get() = armedHero.movableSteps
@@ -267,14 +272,15 @@ data class BattleUnit(val armedHero: ArmedHero
         if (specialCount >= armedHero.specialCoolDownTime && armedHero.special.type == SkillType.SPECIAL_A) {
             specialCount = 0
             //とりあえずBスキルだけ奥義発動時のダメージ変動に反映させる。他のスキルや武器が増えたらこれListにすることになるのか…
-            return Damage(this, armedHero.special, armedHero.weapon.type, armedHero.skills.fold(0) { d, skill -> skill.specialTriggered(this, d) }, armedHero.bSkill.stateDamageEnemy, halfByStaff, results)
+            return Damage(this, armedHero.special, damageType, armedHero.skills.fold(0) { d, skill -> skill.specialTriggered(this, d) }, armedHero.bSkill.stateDamageEnemy, halfByStaff, results)
         }
         //println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
-        specialCount += if (accelerateAttackCooldown + 1 > InflictCooldown) accelerateAttackCooldown + 1 - InflictCooldown else 0
+        specialCount += if (accelerateAttackCooldown + 1 > InflictAttackCooldown) accelerateAttackCooldown + 1 - InflictAttackCooldown else 0
         specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
         return Damage(this, Skill.NONE, armedHero.weapon.type, oneTimeOnlyAdditionalDamage, { 0 }, halfByStaff, results)
     }
 
+    private val damageType get() = if (overrideDamageType != SkillType.NONE) overrideDamageType else armedHero.weapon.type
     private val halfByStaff get() = if (armedHero.baseHero.weaponType == WeaponType.STAFF && !wrathfulStaff) 2 else 1
 
     /**
@@ -298,7 +304,7 @@ data class BattleUnit(val armedHero: ArmedHero
             armedHero.skills.forEach { e -> e.preventedDamage(this, damage - specialPrevented.first) }
             return DamageResult(specialPrevented.first, specialPrevented.second, loss.first, loss.second)
         }
-        specialCount += if (accelerateTargetCooldown + 1 > InflictCooldown) accelerateTargetCooldown + 1 - InflictCooldown else 0
+        specialCount += if (accelerateTargetCooldown + 1 > InflictTargetCooldown) accelerateTargetCooldown + 1 - InflictTargetCooldown else 0
         specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
         val loss = damageToHp(damage)
         return DamageResult(damage, Skill.NONE, loss.first, loss.second)
