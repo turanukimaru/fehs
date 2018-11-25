@@ -262,12 +262,11 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
     },
     SorceryBlade(Name.SorceryBlade) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit{
-            if (battleUnit.adjacentUnits > 0){//HP制限は後で考えよう…
+            if (battleUnit.adjacentUnits > 0 && battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50)){//HP制限は後で考えよう…
                 battleUnit.overrideDamageType = SkillType.SORCERY_DAGGER
             }
                 return battleUnit
         }
-
     },
 
     OstianCounter(Name.OstianCounter, maxLevel = 0, spType = SpType.LEGEND_S) {

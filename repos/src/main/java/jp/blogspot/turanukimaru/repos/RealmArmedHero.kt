@@ -62,6 +62,6 @@ open class RealmArmedHero(
 //        Log.d("RealmArmedHero", "spdSpur $spdSpur ")
 //        Log.d("RealmArmedHero", "defSpur $defSpur ")
 //        Log.d("RealmArmedHero", "resSpur $resSpur ")
-        return ArmedHero(result, nickname, Weapon.valueOfOrNONE(weapon), RefinedWeapon.valueOfOrNONE(refinedWeapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
+        return ArmedHero(result, nickname, Weapon.valueOfOrNONE(weapon), RefinedWeapon.valueOfOrNONE(refinedWeapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal),0, rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
     }
 }

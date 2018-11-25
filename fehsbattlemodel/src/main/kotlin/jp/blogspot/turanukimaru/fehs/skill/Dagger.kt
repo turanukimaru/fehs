@@ -99,8 +99,8 @@ enum class Dagger(override val jp: Name, override val type: SkillType, override 
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
     },
     Sylgr(Name.Sylgr, SkillType.DAGGER, 14, SilverDagger2){
-        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
-        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
+  //      override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
 
     },
 

@@ -93,7 +93,10 @@ enum class Rtome(override val jp: Name, override val type: SkillType, override v
     },
     BookOfDreams(Name.BookOfDreams, SkillType.RTOME, 14, Bolganone2) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =adjacentDebuff(battleUnit,enemy,4)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = adjacentDebuff(battleUnit, enemy, 4)
+    },
+    Imhullu(Name.Imhullu, SkillType.BTOME, 14, Bolganone) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
     },
     ;
 

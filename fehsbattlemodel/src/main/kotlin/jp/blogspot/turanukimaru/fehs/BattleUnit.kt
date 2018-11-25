@@ -277,7 +277,7 @@ data class BattleUnit(val armedHero: ArmedHero
         //println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
         specialCount += if (accelerateAttackCooldown + 1 > InflictAttackCooldown) accelerateAttackCooldown + 1 - InflictAttackCooldown else 0
         specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
-        return Damage(this, Skill.NONE, armedHero.weapon.type, oneTimeOnlyAdditionalDamage, { 0 }, halfByStaff, results)
+        return Damage(this, Skill.NONE, damageType, oneTimeOnlyAdditionalDamage, { 0 }, halfByStaff, results)
     }
 
     private val damageType get() = if (overrideDamageType != SkillType.NONE) overrideDamageType else armedHero.weapon.type

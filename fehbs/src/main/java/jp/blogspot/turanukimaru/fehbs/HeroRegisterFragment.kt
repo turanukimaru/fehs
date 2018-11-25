@@ -51,7 +51,7 @@ class HeroRegisterFragment : Fragment() {
         rootView.findViewById<Spinner>(R.id.levelBoostSpinner).onItemSelectedListener = viewBuilder.boostsSpinnerListener(rootView)
 
         //保存ボタンの動作。長いときは別にしたほうが良いけどこっちの描き方だとクロージャが使えるんだよな
-        rootView.findViewById<Button>(R.id.add_button).setOnClickListener { _ ->
+        rootView.findViewById<Button>(R.id.add_button).setOnClickListener {
             //デフォルトの名前をそのまま使ったときはエラーを吐いてもどる
             if (ArmedHeroRepository.isStandardBattleClass(rootView.findViewById<TextView>(R.id.unitName).text.toString())) {
                 Toast.makeText(rootView.context, R.string.alert_default_name, Toast.LENGTH_SHORT).show()
@@ -64,7 +64,7 @@ class HeroRegisterFragment : Fragment() {
             Toast.makeText(rootView.context, R.string.alert_create_unit, Toast.LENGTH_SHORT).show()
             viewBuilder.createUnitRadioButton(resources, rootView, R.id.baseUnitRadioButton, R.string.unit_name_title)
         }
-        rootView.findViewById<Button>(R.id.write_button).setOnClickListener { _ ->
+        rootView.findViewById<Button>(R.id.write_button).setOnClickListener {
             //デフォルトの名前をそのまま使ったときはエラーを吐いてもどる
             if (ArmedHeroRepository.isStandardBattleClass(rootView.findViewById<TextView>(R.id.unitName).text.toString())) {
                 Toast.makeText(rootView.context, R.string.alert_default_name, Toast.LENGTH_SHORT).show()

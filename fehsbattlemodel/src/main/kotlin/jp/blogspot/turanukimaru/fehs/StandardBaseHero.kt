@@ -9,8 +9,8 @@ object StandardBaseHero {
     //initブロックと同じ優先順位、つまりinitの前に書かないと作成されない
     private val ITEMS = ArrayList<BaseHero>()
     private val ITEM_MAP = HashMap<String, BaseHero>()
-    fun get(id: String): BaseHero? = ITEM_MAP[id]?.clone()
-    fun get(id: Int): BaseHero? = ITEMS[id].clone()
+    fun get(id: String): BaseHero? = ITEM_MAP[id]?.copy()
+    fun get(id: Int): BaseHero? = ITEMS[id].copy()
     fun containsKey(id: String): Boolean = ITEM_MAP.containsKey(id)
     fun allItems(): MutableList<BaseHero> = ITEMS.fold(mutableListOf()) { list, e -> list.add(e);list }
 
@@ -808,11 +808,13 @@ object StandardBaseHero {
                 Staff.Flash2, Assist.Martyr2, Special.Miracle, SkillA.BrazenAtkRes.lv(3), null, SkillC.InfantryRush.lv(3))
         createItem(Name.アクア__夢_, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 14, 7, 5, 4, 6, g50, g60, g55, g30, g45,
                 Gtome.BookOfShadows, Assist.Sing, null, SkillA.SpdResBond.lv(3), SkillB.TorrentDance.lv(3), null)
+        createItem(Name.ガーネフ, 1, WeaponType.RTOME, MoveType.INFANTRY, 3, 16, 8, 10, 5, 6, g50, g50, g55, g50, g40,
+                Rtome.Imhullu, null, Special.Ignis, SkillA.MirrorStance.lv(3), SkillB.ChillAtk.lv(3), null)
 //あれ太ったおっさん作り忘れたか？
         createItem(Name.ユルグ, 2, WeaponType.DAGGER, MoveType.INFANTRY, 5, 16, 7, 10, 7, 5, g50, g60, g65, g35, g35,
                 Dagger.Sylgr, null, Special.Glimmer, SkillA.SorceryBlade.lv(3), SkillB.ChillSpd.lv(3), SkillC.SpdTactic.lv(3))
         createItem(Name.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 17, 9, 4, 10, 7, g75, g70, g30, g70, g60,
-                Axe.Sinmara, null, Special.Bonfire, SkillA.SteadyStance.lv(4), SkillB.WaryFighter, null)
+                Axe.Sinmara, null, Special.Bonfire, SkillA.SteadyStance.lv(4), SkillB.WaryFighter.lv(3), null)
         //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
         //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(Name.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

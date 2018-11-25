@@ -34,7 +34,7 @@ class ViewBuilder(private val locale: Locale) {
         val baseClass = ArmedHeroRepository.getById(id)
                 ?: return
         val armedClass = equipment(view, baseClass.baseHero)
-        showParams(view, armedClass, view.findViewById<Spinner>(R.id.targetRaritySpinner).selectedItem.toString().toInt())
+        showParams(view, armedClass)
         buildRefines(view, armedClass)
     }
 
@@ -42,12 +42,13 @@ class ViewBuilder(private val locale: Locale) {
         val baseClass = ArmedHeroRepository.getById(id)
                 ?: return
         val armedHero = ArmedHero(baseClass.baseHero
-                , rarity = view.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
+                , baseRarity = view.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
+                , rarity = view.findViewById<Spinner>(R.id.targetRaritySpinner).selectedItem.toString().toInt()
                 , levelBoost = view.findViewById<Spinner>(R.id.levelBoostSpinner).selectedItem.toString().toInt()
                 , boon = BoonType.boonTypeOf(view.findViewById<Spinner>(R.id.boonRadioButton).selectedItem.toString())
                 , bane = BoonType.boonTypeOf(view.findViewById<Spinner>(R.id.baneRadioButton).selectedItem.toString())
         )
-        showParams(view, armedHero, view.findViewById<Spinner>(R.id.targetRaritySpinner).selectedItem.toString().toInt())
+        showParams(view, armedHero)
     }
 
     fun equipment(rootView: View, baseClass: BaseHero): ArmedHero {
@@ -64,6 +65,7 @@ class ViewBuilder(private val locale: Locale) {
                 , SkillC.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.cSkillRadioButton).text.toString())
                 , Seal.valueOfOrNONE(rootView.findViewById<RadioButton>(R.id.sealRadioButton).text.toString())
 
+                , rootView.findViewById<Spinner>(R.id.raritySpinner).selectedItem.toString().toInt()
                 , rootView.findViewById<Spinner>(R.id.targetRaritySpinner).selectedItem.toString().toInt()
                 , rootView.findViewById<Spinner>(R.id.levelBoostSpinner).selectedItem.toString().toInt()
                 , BoonType.boonTypeOf(rootView.findViewById<Spinner>(R.id.boonRadioButton).selectedItem.toString())
@@ -81,7 +83,7 @@ class ViewBuilder(private val locale: Locale) {
     }
 
 
-    private fun showParams(rootView: View, it: ArmedHero, targetRarity: Int) {
+    private fun showParams(rootView: View, it: ArmedHero) {
         val goodStatus = it.goodStatus()
         rootView.findViewById<TextView>(R.id.hpBaseTitleView).setTextColor(goodBadToColor(goodStatus.hp))
         rootView.findViewById<TextView>(R.id.atkBaseTitleView).setTextColor(goodBadToColor(goodStatus.atk))
@@ -104,7 +106,6 @@ class ViewBuilder(private val locale: Locale) {
         rootView.findViewById<TextView>(R.id.spdBaseView).setTextColor(goodBadToColor(it.boonSpd))
         rootView.findViewById<TextView>(R.id.defBaseView).setTextColor(goodBadToColor(it.boonDef))
         rootView.findViewById<TextView>(R.id.resBaseView).setTextColor(goodBadToColor(it.boonRes))
-        it.rarity = targetRarity
         it.equip()
         rootView.findViewById<TextView>(R.id.hpView).text = it.maxHp.toString()
         rootView.findViewById<TextView>(R.id.atkView).text = it.atk.toString()
@@ -165,7 +166,7 @@ class ViewBuilder(private val locale: Locale) {
             rootView.findViewById<Spinner>(R.id.defSpurSpinner).setSelection(it.defSpur)
             rootView.findViewById<Spinner>(R.id.resSpurSpinner).setSelection(it.resSpur)
 
-            showParams(rootView, it, it.rarity)
+            showParams(rootView, it)
             //装備制限はとりあえず後で考える
             createSkillRadioButton(rootView, R.id.weaponRadioButton, R.string.weapon_title, Weapon.spreadItems(true).filter { e -> e.type.weaponType == it.baseHero.weaponType || e == Skill.NONE }.map { e -> e.localeName(locale) }.toTypedArray())
             createSkillRadioButton(rootView, R.id.refineRadioButton, R.string.refine_title, RefinedWeapon.spreadItems(armedClass.baseWeapon).map { e -> e.localeName(locale) }.toTypedArray())

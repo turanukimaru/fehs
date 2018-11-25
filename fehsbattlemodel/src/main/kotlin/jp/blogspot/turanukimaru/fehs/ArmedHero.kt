@@ -17,6 +17,7 @@ data class ArmedHero(
         var bSkill: Skill = Skill.NONE,
         var cSkill: Skill = Skill.NONE,
         var seal: Skill = Skill.NONE,
+        var baseRarity: Int = 5,
         var rarity: Int = 5,
         var levelBoost: Int = 0,
         var boon: BoonType = BoonType.NONE,
@@ -76,12 +77,14 @@ data class ArmedHero(
     val def: Int get() = boonedDef + defEqp + defBoost + growthDef
     val res: Int get() = boonedRes + resEqp + resBoost + growthRes
 
+    //装備で上昇した能力値
     var hpEqp: Int = 0
     var atkEqp: Int = 0
     var spdEqp: Int = 0
     var defEqp: Int = 0
     var resEqp: Int = 0
 
+    //凸で上昇した能力値
     private var hpBoost: Int = 0
     private var atkBoost: Int = 0
     private var spdBoost: Int = 0
@@ -260,6 +263,11 @@ data class ArmedHero(
      * LV1の時の能力値計算。武器以外装備してない・杖は武器も装備してないのでABCスキルは計算しない.デフォ武器違ったわ…
      */
     fun lv1equip(): BattleParam {
+        println("base:$baseRarity")
+        println("rarity:$rarity")
+        //元のレアリティ保存
+        val old = rarity
+        rarity = if(baseRarity != 0) baseRarity else rarity
         hpEqp = 0
         atkEqp = 0
         spdEqp = 0
@@ -267,8 +275,10 @@ data class ArmedHero(
         resEqp = 0
         reduceSpecialCooldown = 0
         //☆が5でないときは初期武器をさかのぼる。杖は最初武器を装備していない
+        lvUpStatus()
         if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold(weapon) { w, _ -> w.preSkill.preSkill }.equip(this)
-
+        println("rarity:$rarity")
+        println("atkEqp:$atkEqp")
         val result = BattleParam(
                 boonedHp + hpEqp + hpBoost,
                 boonedAtk + atkEqp + atkBoost,
@@ -276,7 +286,11 @@ data class ArmedHero(
                 boonedDef + defEqp + defBoost,
                 boonedRes + resEqp + resBoost
         )
+        //計算しなおし
+        rarity = old
+        println("result:$result")
         equip()
+        println("result:$result")
         return result
     }
 
