@@ -169,6 +169,8 @@ data class BattleUnit(val armedHero: ArmedHero
         resBuff = if (buff > resBuff) buff else resBuff
     }
 
+    val isDebuffed get():Boolean = atkDebuff < 0 || spdDebuff < 0 || defDebuff < 0 || resDebuff < 0//本来は移動力とか相性とかあるのだが実装してないわ
+
 
     /**
      * 戦闘効果。スキルの攻撃効果を再帰でなめて攻撃時効果を計算する。主に能力値変化

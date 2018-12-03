@@ -87,7 +87,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**行動前・選択状態・移動後は行動可能
      *
      */
-    val isActionable get() = actionPhase == ActionPhase.READY// || actionPhase == ActionPhase.SELECTED || actionPhase == ActionPhase.MOVED
+    val isActionable get() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.MOVED
 
     /**
      * ドラッグから指を挙げたときにも反応するのでうまく使えない・・・

@@ -21,8 +21,8 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         dy += y
         println("holdNow:$holdNow holdStart:$holdStart")
         println("dx:$dx dy:$dy")
-        println(holdNow - holdStart > graspThreshold || dx > 24 || dx < -24 || dy > 24 || dy < -24)//clicklistnerの閾値は14
-        return holdNow - holdStart > graspThreshold || dx > 24 || dx < -24 || dy > 24 || dy < -24
+        println(holdNow - holdStart > graspThreshold || dx > 14 || dx < -14 || dy > 14 || dy < -14)//clicklistnerの閾値は14
+        return holdNow - holdStart > graspThreshold || dx > 14 || dx < -14 || dy > 14 || dy < -14
     }
 
     fun grasp(dx: Int = 0, dy: Int = 0): Boolean {
@@ -60,13 +60,12 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      */
     val routeStack = ArrayDeque<UiBoard.Position>()
 
-    //まとまんないな。ドラッグは別にするか。ここでは判定できないし
     private val handType
         get() = when {
             touchedPiece == null && selectedPiece == null -> HandType.N_TAP
             touchedPiece == null && selectedPiece != null -> HandType.FIELD_TAP
-            touchedPiece != null && selectedPiece == null -> HandType.SIMPLE_TAP
             //↑ここまで盤面スタート↓キャラスタート
+            touchedPiece != null && selectedPiece == null -> HandType.SIMPLE_TAP
             selectedPiece != null && touchedPiece == selectedPiece -> HandType.SELECTED_TAP
             selectedPiece != null && touchedPiece != selectedPiece -> HandType.TARGET_TAP
             else -> HandType.NOP
@@ -110,7 +109,9 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * クリック時の動作だけどtouchDown/touchUpが同じオブジェクトの時には常に起動するので画面全体を覆うときは実質touchUp
      * アルゴリズムはHand側へ移動したいな。そうすればOptionでHand入れ替えで済む。
      */
-    fun clickedAction(position: UiBoard.Position, targetPiece: Piece<UNIT, GROUND>?, targetRoute: Int, targetEffective: Int) {
+    fun clickAction(position: UiBoard.Position, targetPiece: Piece<UNIT, GROUND>) {
+        val targetRoute = targetPiece.searchedRoute[position.x][position.y]
+        val targetEffective = targetPiece.effectiveRoute[position.x][position.y]
         //ドラッグ終了時には攻撃Or移動。対象の枡は枡の中心からの移動量で計算するべきか。
         if (dragging()) {
             //ユニットのタッチから始まってたらそこへアクションか移動。移動してないときは移動キャンセル

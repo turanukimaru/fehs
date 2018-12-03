@@ -1,0 +1,26 @@
+@startuml
+
+class "組織" as Entity {
+    組織ID
+    組織名
+    有効ユーザ数上限
+}
+
+class "ユーザ名簿" as Names {
+    ユーザ名簿ID
+    ユーザID
+    状態（有効/無効）
+}
+
+class "ユーザ" as User {
+    ユーザID
+    組織ID
+    ユーザ名
+    メールアドレス
+    ハッシュ化されたパスワード
+}
+
+Entity --> Names
+User --> Entity
+
+@enduml

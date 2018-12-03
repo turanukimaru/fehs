@@ -43,6 +43,8 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
+        //タッチのつもりでドラッグってやっぱりあるのかなぁ
+        println("touchDragged($x, $y, $pointer)")
         if (!uiBoard.pieceActive) return
 //ドラッグしたら駒の表示を追従させているが移動量検出しないとちゃたるなこれ
         if (!piece.isActionable) {

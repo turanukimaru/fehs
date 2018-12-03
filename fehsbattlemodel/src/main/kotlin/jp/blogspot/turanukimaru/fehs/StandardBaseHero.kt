@@ -815,6 +815,8 @@ object StandardBaseHero {
                 Dagger.Sylgr, null, Special.Glimmer, SkillA.SorceryBlade.lv(3), SkillB.ChillSpd.lv(3), SkillC.SpdTactic.lv(3))
         createItem(Name.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 17, 9, 4, 10, 7, g75, g70, g30, g70, g60,
                 Axe.Sinmara, null, Special.Bonfire, SkillA.SteadyStance.lv(4), SkillB.WaryFighter.lv(3), null)
+                createItem(Name.フリーズ, 1, WeaponType.SWORD, MoveType.INFANTRY,  5, 19, 7, 4, 12, 4, g50, g70, g30, g55, g50,
+                        Sword.Gjoll, null, Special.Moonbow, SkillA.DistantCounter, SkillB.FreezingSeal, SkillC.AtkSmoke.lv(3))
         //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
         //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(Name.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

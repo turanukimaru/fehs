@@ -197,7 +197,7 @@ enum class Sword(override val jp: Name, override val type: SkillType, override v
             battleUnit.accelerateTargetCooldown = 1;return battleUnit
         }
     },
-    StormSieglinde(Name.StormSieglinde, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W) {
+    StormSieglinde(Name.StormSieglinde, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.accelerateAttackCooldown = 1
@@ -211,7 +211,17 @@ enum class Sword(override val jp: Name, override val type: SkillType, override v
     SolitaryBlade(Name.SolitaryBlade, SkillType.SWORD, 16, SlayingEdge, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
+Gjoll(Name.StormSieglinde, SkillType.SWORD, 16, SilverSword) {
+    override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+    override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        if (enemy.isDebuffed){
+            battleUnit.followupable = true
+            enemy.antiFollowup = true
+        }
+        return battleUnit
+    }
 
+},
     ;
 
     /**
