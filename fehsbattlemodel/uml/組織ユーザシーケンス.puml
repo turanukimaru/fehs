@@ -1,28 +1,6 @@
 @startuml
-scale 600 width
-actor Controller
-Controller -> BattleUnit :戦う(敵のユニット)
-
-BattleUnit-> BattleUnit : コピー作成
-BattleUnit-> ArmedHero : 攻撃時発動(自分)
-ArmedHero -> Skill: 攻撃時発動(自分)
-BattleUnit<- Skill : ステータスなど変動
-BattleUnit-> ArmedHero : 防御時発動(自分)
-ArmedHero -> Skill: 防御時発動(自分)
-BattleUnit<- Skill : ステータスなど変動
-BattleUnit -> FightPlan: 攻撃順作成(自分,相手)
-BattleUnit-> ArmedHero : 攻撃順変更(fightPlan)
-ArmedHero -> Skill: 攻撃順変更(FightPlan)
-Skill -> FightPlan: 攻撃順変更
-BattleUnit -> FightPlan:攻撃開始
-loop
-BattleUnit <- FightPlan:コピー作成
-BattleUnit <- FightPlan:攻撃指示
-BattleUnit -> Skill :攻撃(相手)
-BattleUnit <- Skill :ダメージ
-FightPlan -> AttackResult:攻撃結果作成
-end
-BattleUnit <- FightPlan:攻撃結果返却(List<AttackResult>)
-Controller<- BattleUnit :攻撃結果返却
+Application -> ユーザ : 登録(組織ID?)
+ユーザ -> 組織 : 登録(ユーザID)
+組織 -> ユーザ名簿 : 登録(ユーザID)
 
 @enduml
