@@ -8,7 +8,9 @@ import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
 import jp.blogspot.turanukimaru.fehs.skill.*
 
-
+/**
+ * 見た目を作る。そういやデバフの領域もないな・・・
+ */
 class ViewBuilder(private val locale: Locale) {
 
     private fun createSkillRadioButton(rootView: View, radioButton: Int, title: Int, fullStrings: Array<String>, maxLvStrings: Array<String> = fullStrings) {
