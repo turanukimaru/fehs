@@ -103,8 +103,8 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             Log.i("BattleSimulatorActivity", "armedHero : $armedClass")
             val battleUnit = buildBattleUnit(armedClass)
             battleUnit.defensiveTerrain = findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked || battleUnit.defensiveTerrain
-            //adjacentUnitsの扱いは再検討必要だよなあ
-            battleUnit.adjacentUnits = if (findViewById<CheckBox>(R.id.adjacentCheckBox).isChecked) 1 else 0
+            battleUnit.buffDebuffTrigger = findViewById<CheckBox>(R.id.buffDebuffTriggerCheckBox).isChecked //これも登録作るか微妙なところだな
+            battleUnit.adjacentUnits = findSpinnerValOrNull(R.id.alliesSpinner) ?: 0 //あれ登録作ってないんだっけ？
             battleUnit.atkBuff = findSpinnerValOrNull(R.id.atkBuffSpinner) ?: armedClass.atkBuff
             battleUnit.spdBuff = findSpinnerValOrNull(R.id.spdBuffSpinner) ?: armedClass.spdBuff
             battleUnit.defBuff = findSpinnerValOrNull(R.id.defBuffSpinner) ?: armedClass.defBuff
@@ -158,7 +158,7 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             recyclerView.adapter = SimpleItemRecyclerViewAdapter(resultList, switch)
         }
         //クリアボタン作成。全部の要素を一気にクリアする方法ないかなあ。
-        findViewById<Button>(R.id.reset_button).onClick { _ ->
+        findViewById<Button>(R.id.reset_button).onClick {
             findViewById<Spinner>(R.id.boonSpinner).setSelection(0)
             findViewById<Spinner>(R.id.baneSpinner).setSelection(0)
             findViewById<Spinner>(R.id.atkBuffSpinner).setSelection(0)
@@ -181,8 +181,9 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             findViewById<Spinner>(R.id.defTargetSpurSpinner).setSelection(0)
             findViewById<Spinner>(R.id.resTargetSpurSpinner).setSelection(0)
 
+            findViewById<Spinner>(R.id.alliesSpinner).setSelection(0)
             findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked = false
-            findViewById<CheckBox>(R.id.adjacentCheckBox).isChecked = false
+            findViewById<CheckBox>(R.id.buffDebuffTriggerCheckBox).isChecked = false
             findViewById<CheckBox>(R.id.merge10TargetCheckBox).isChecked = false
             findViewById<CheckBox>(R.id.defTerrainTargetCheckBox).isChecked = false
             findViewById<CheckBox>(R.id.switchCheckBox).isChecked = false

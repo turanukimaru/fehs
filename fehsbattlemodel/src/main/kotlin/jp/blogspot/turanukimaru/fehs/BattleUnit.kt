@@ -24,6 +24,7 @@ data class BattleUnit(val armedHero: ArmedHero
                       , var side: SIDES = SIDES.NONE
                       , var phantomSpeed: Int = 0
                       , var adjacentUnits: Int = 0
+                      , var buffDebuffTrigger: Boolean = false
         //スキルの効果
         /**
          * 攻撃時スペシャル変動量＋

@@ -127,7 +127,7 @@ enum class Axe(override val jp: Name, override val type: SkillType, override val
     Garm(Name.Garm, SkillType.AXE, 16, SilverAxe) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         //本来はバフがかかってるとき。…いや行軍はかかってるだろうしデフォルトで常に追撃可能でよくね
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 10)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) followupable(battleUnit, 10) else battleUnit
     },
     Byleistr(Name.Byleistr, SkillType.AXE, 16, SilverAxe),//4種の波なので戦闘能力自体はない
     Sinmara(Name.Sinmara, SkillType.AXE, 16, SilverAxe) {

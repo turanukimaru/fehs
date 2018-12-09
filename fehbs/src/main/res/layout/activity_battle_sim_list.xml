@@ -176,17 +176,36 @@
 
                     <CheckBox
                         android:id="@+id/defTerrainCheckBox"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="@dimen/mini_param_text_size"
                         android:text="@string/defensive_terrain_title" />
 
                     <CheckBox
-                        android:id="@+id/adjacentCheckBox"
-                        android:layout_width="match_parent"
+                        android:id="@+id/buffDebuffTriggerCheckBox"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/AdjacentAlly" />
+                        android:textSize="@dimen/mini_param_text_size"
+                        android:text="@string/BuffDebuffTriggerSkill" />
+
+                    <TextView
+                        android:id="@+id/adjacentTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:ems="1"
+                        android:textSize="@dimen/mini_param_text_size"
+                        android:text="@string/AdjacentAlly"/>
+
+                    <Spinner
+                        android:id="@+id/alliesSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:ems="1"
+                        android:entries="@array/allies"/>
 
                 </LinearLayout>
 

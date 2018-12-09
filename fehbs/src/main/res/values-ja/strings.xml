@@ -56,6 +56,7 @@
     <string name="enemy_title">対戦相手フィルタ</string>
     <string name="Damage_taken">HP%</string>
     <string name="AdjacentAlly">味方隣接</string>
+    <string name="BuffDebuffTriggerSkill">バフデバフ参照スキル</string>
     <string name="Threaten">威嚇／謀策</string>
     <string name="Special_charge">奥義</string>
     <string name="merge10">LV40+10</string>
@@ -148,6 +149,13 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
+    </string-array>
+    <string-array name="allies">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
     </string-array>
     <string-array name="empty6">
         <item>@string/none</item>

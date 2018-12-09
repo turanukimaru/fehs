@@ -11,7 +11,7 @@
     <string name="title_unit_detail">Register Hero</string>
     <string name="unit_name_title">Unit</string>
     <string name="fight_button_title">Calculate</string>
-    <string name="defensive_terrain_title">Defensive terrain</string>
+    <string name="defensive_terrain_title">Def Tile</string>
     <string name="hp_title">HP</string>
     <string name="atk_title">ATK</string>
     <string name="spd_title">SPD</string>
@@ -34,7 +34,7 @@
     <string name="alert_default_name">please input non-default name</string>
     <string name="alert_create_unit">target unit created</string>
     <string name="alert_update_unit">target unit updated</string>
-    <string name="attacked_title">Enemy inisiates</string>
+    <string name="attacked_title">Enemy initiates</string>
     <string name="include_db_title">Include registered unit</string>
     <string name="rarities_title">☆</string>
     <string name="levelBoost_title">Lvl40+</string>
@@ -55,7 +55,8 @@
     <string name="hero_title">Select Hero</string>
     <string name="enemy_title">Enemies filter</string>
     <string name="Damage_taken">HP %</string>
-    <string name="AdjacentAlly">Adjacent Ally</string>
+    <string name="AdjacentAlly">Adj.Allies</string>
+    <string name="BuffDebuffTriggerSkill">Enable Garm/Gjöll</string>
     <string name="Special_charge">Special</string>
     <string name="Threaten">Threaten/Ploy</string>
     <string name="merge10">LV40+10</string>
@@ -147,6 +148,13 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
+    </string-array>
+    <string-array name="allies">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
     </string-array>
     <string-array name="empty6">
         <item>@string/none</item>

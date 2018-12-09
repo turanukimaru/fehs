@@ -159,6 +159,9 @@ class ViewBuilder(private val locale: Locale) {
             rootView.findViewById<Spinner>(R.id.baneRadioButton).setSelection(resources.getStringArray(R.array.boon_type).indexOfFirst { s -> it.bane.localeName(locale) == s })
 
             rootView.findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked = it.defensiveTerrain
+            rootView.findViewById<CheckBox>(R.id.buffDebuffTriggerCheckBox).isChecked = it.buffDebuffTrigger
+            rootView.findViewById<Spinner>(R.id.alliesSpinner).setSelection(it.adjacentUnits)
+
             rootView.findViewById<Spinner>(R.id.atkBuffSpinner).setSelection(it.atkBuff)
             rootView.findViewById<Spinner>(R.id.spdBuffSpinner).setSelection(it.spdBuff)
             rootView.findViewById<Spinner>(R.id.defBuffSpinner).setSelection(it.defBuff)
@@ -202,6 +205,8 @@ class ViewBuilder(private val locale: Locale) {
         rootView.findViewById<RadioButton>(R.id.sealRadioButton).text = ""
 //デフォルト5
         rootView.findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked = false
+        rootView.findViewById<CheckBox>(R.id.buffDebuffTriggerCheckBox).isChecked = false
+        rootView.findViewById<Spinner>(R.id.alliesSpinner).setSelection(0)
 
         rootView.findViewById<Spinner>(R.id.atkBuffSpinner).setSelection(0)
         rootView.findViewById<Spinner>(R.id.spdBuffSpinner).setSelection(0)

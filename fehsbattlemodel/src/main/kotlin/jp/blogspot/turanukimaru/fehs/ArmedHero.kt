@@ -30,7 +30,9 @@ data class ArmedHero(
         var atkSpur: Int = 0,
         var spdSpur: Int = 0,
         var defSpur: Int = 0,
-        var resSpur: Int = 0
+        var resSpur: Int = 0,
+        var adjacentUnits: Int = 0,
+        var buffDebuffTrigger: Boolean = false
         //やんなきゃいけないんだけどあまりやりたくないなあ
 //        var adjustHeroes: Int = 0,
 //        var adjustEnemies: Int = 0
@@ -95,19 +97,24 @@ data class ArmedHero(
      */
     val totalParam get() = boonedHp + boonedAtk + boonedSpd + boonedDef + boonedRes + growthHp + growthAtk + growthSpd + growthDef + growthRes
     val boonHp
-        get() = when {boon == BoonType.HP -> 1; bane == BoonType.HP -> -1;else -> 0
+        get() = when {
+            boon == BoonType.HP -> 1; bane == BoonType.HP -> -1;else -> 0
         }
     val boonAtk
-        get() = when {boon == BoonType.ATK -> 1; bane == BoonType.ATK -> -1;else -> 0
+        get() = when {
+            boon == BoonType.ATK -> 1; bane == BoonType.ATK -> -1;else -> 0
         }
     val boonSpd
-        get() = when {boon == BoonType.SPD -> 1; bane == BoonType.SPD -> -1;else -> 0
+        get() = when {
+            boon == BoonType.SPD -> 1; bane == BoonType.SPD -> -1;else -> 0
         }
     val boonDef
-        get() = when {boon == BoonType.DEF -> 1; bane == BoonType.DEF -> -1;else -> 0
+        get() = when {
+            boon == BoonType.DEF -> 1; bane == BoonType.DEF -> -1;else -> 0
         }
     val boonRes
-        get() = when {boon == BoonType.RES -> 1; bane == BoonType.RES -> -1;else -> 0
+        get() = when {
+            boon == BoonType.RES -> 1; bane == BoonType.RES -> -1;else -> 0
         }
 
     private val boonedHp
@@ -267,7 +274,7 @@ data class ArmedHero(
         println("rarity:$rarity")
         //元のレアリティ保存
         val old = rarity
-        rarity = if(baseRarity != 0) baseRarity else rarity
+        rarity = if (baseRarity != 0) baseRarity else rarity
         hpEqp = 0
         atkEqp = 0
         spdEqp = 0
