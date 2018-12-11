@@ -262,7 +262,7 @@ enum class RefinedWeapon(override val jp: Name, val hp: Int, val atk: Int, val s
     FlorinasLance(Name.FlorinasLance, 3, 0, 0, 0, 0, RefineType.DependWeapon, Lance.FlorinasLance) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(closeDef(battleUnit, enemy, 4), enemy, 4)
     },
-    ShannasLance(Name.ShannasLance, 3, 0, 0, 0, 0, RefineType.DependWeapon, Lance.ShannasLance) {
+    ShannasLance(Name.SpecialDamage, 3, 0, 0, 0, 0, RefineType.DependWeapon, Lance.ShannasLance) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     GoldenDagger(Name.GoldenDagger, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.GoldenDagger) {
@@ -273,6 +273,23 @@ enum class RefinedWeapon(override val jp: Name, val hp: Int, val atk: Int, val s
             }
             return battleUnit
         }
+    },
+    WhitewingBlade(Name.TriangleAttack, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.WhitewingBlade) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit,enemy)
+    },
+    WhitewingLance(Name.TriangleAttack, 3, 0, 0, 0, 0, RefineType.DependWeapon, Lance.WhitewingLance) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit,enemy)
+    },
+    WhitewingSpear(Name.TriangleAttack, 3, 0, 0, 0, 0, RefineType.DependWeapon, Lance.WhitewingSpear) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit,enemy)
+    },
+    GladiatorsBlade(Name.GladiatorsBlade, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.GladiatorsBlade) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 4), 4) else battleUnit
+    },
+    ScarletSword(Name.ScarletSword, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.ScarletSword),//ターン開始時効果必要だな…
+    TacticalBolt(Name.TacticalBolt, 3, 0, 0, 0, 0, RefineType.DependWeapon, Btome.TacticalBolt) {
+    },
+    TacticalGale(Name.TacticalGale, 3, 0, 0, 0, 0, RefineType.DependWeapon, Gtome.TacticalGale) {
     },
 
     ;

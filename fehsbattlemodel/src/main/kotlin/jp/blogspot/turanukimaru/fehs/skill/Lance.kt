@@ -147,6 +147,10 @@ enum class Lance(override val jp: Name, override val type: SkillType, override v
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
     FlorinasLance(Name.FlorinasLance, SkillType.LANCE, 16, SlayingSpear, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
+    WhitewingLance(Name.WhitewingLance, SkillType.LANCE, 16, KillerLance, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+    },
+    WhitewingSpear(Name.WhitewingSpear, SkillType.LANCE, 16, SlayingSpear, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
     ;
 
     /**

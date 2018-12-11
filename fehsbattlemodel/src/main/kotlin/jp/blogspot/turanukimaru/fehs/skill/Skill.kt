@@ -1034,4 +1034,17 @@ interface Skill {
         }
         return battleUnit
     }
+
+    fun triangleAttack(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
+        if (battleUnit.adjacentUnits >= 2) {
+            battleUnit.atkEffect += 4
+            battleUnit.spdEffect += 4
+            battleUnit.defEffect += 4
+            battleUnit.resEffect += 4
+            battleUnit.followupable = true
+        }
+        return battleUnit
+
+    }
+
 }

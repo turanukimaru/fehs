@@ -129,18 +129,6 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
      * 立ってるときのアニメ１ループ分。LibGDXにループ機能はあるが操作統一のため主導でループ
      * */
     private fun readyAction(): SequenceAction {
-//        println("readyAction")
-//        if(myPiece.position == null) { return SequenceAction()}
-//        //盤面に無いときの処理真面目に考えないとな…
-//        val finalX = uiBoard.squareXtoPosX(myPiece.position.x)
-//        val finalY = uiBoard.squareYtoPosY(position.y)
-//        val seq = SequenceAction()
-//        if(finalX - actor.x >1 || finalY - actor.y > 1){
-//        seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.1f))
-//        seq.addAction(EndOfAnimationAction(this))
-//            actor.addAction(seq)
-//        return seq
-//        }
         val base = actors[0]
         val face = actors[1]
         //clearしないでアクション追加するとめっちゃ落ちる。デフォルト位置に戻す処理もいるな

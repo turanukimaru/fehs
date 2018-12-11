@@ -89,6 +89,9 @@ enum class Gtome(override val jp: Name, override val type: SkillType, override v
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =adjacentDebuff(battleUnit,enemy,4)
     },
+    TacticalGale(Name.TacticalGale, SkillType.GTOME, 14, Gronnwolf, SpType.PLUS) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
+    },
     ;
 
     /**

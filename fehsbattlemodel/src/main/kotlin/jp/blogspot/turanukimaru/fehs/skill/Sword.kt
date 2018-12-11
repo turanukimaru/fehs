@@ -211,17 +211,27 @@ enum class Sword(override val jp: Name, override val type: SkillType, override v
     SolitaryBlade(Name.SolitaryBlade, SkillType.SWORD, 16, SlayingEdge, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-Gjoll(Name.StormSieglinde, SkillType.SWORD, 16, SilverSword) {
-    override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
-    override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-        if (battleUnit.buffDebuffTrigger){
-            battleUnit.followupable = true
-            enemy.antiFollowup = true
+    Gjoll(Name.StormSieglinde, SkillType.SWORD, 16, SilverSword) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if (battleUnit.buffDebuffTrigger) {
+                battleUnit.followupable = true
+                enemy.antiFollowup = true
+            }
+            return battleUnit
         }
-        return battleUnit
-    }
 
-},
+    },
+    GladiatorsBlade(Name.GladiatorsBlade, SkillType.SWORD, 16, KillingEdge, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, 1)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, 1)
+    },
+    ScarletSword(Name.ScarletSword, SkillType.SWORD, 16, SilverSword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+    },
+    WhitewingBlade(Name.WhitewingBlade, SkillType.SWORD, 16, RubySword, SpType.PLUS) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, 3)
+    },
     ;
 
     /**

@@ -103,6 +103,9 @@ enum class Btome(override val jp: Name, override val type: SkillType, override v
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.atk + 5 <= enemy.atk) allBonus(battleUnit, 5) else battleUnit
     },
+    TacticalBolt(Name.TacticalBolt, SkillType.BTOME, 14, Blarraven, SpType.PLUS) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
+    },
     ;
 
     /**
