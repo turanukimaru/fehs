@@ -117,7 +117,7 @@ data class BattleUnit(val armedHero: ArmedHero
          */
                       , var attackedHpLossAtEndOfFight: Int = 0
         /**
-         * 戦闘後のHP減少
+         * ダメージタイプ置き換え…これブレスとかどうすりゃいいんだ？判定を戻して戦闘時効果で置き換えるか。
          */
                       , var overrideDamageType: SkillType = SkillType.NONE
 ) {

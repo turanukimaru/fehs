@@ -98,10 +98,29 @@ enum class Dagger(override val jp: Name, override val type: SkillType, override 
     BottledJuice2(Name.BottledJuice2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
     },
-    Sylgr(Name.Sylgr, SkillType.DAGGER, 14, SilverDagger2){
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
-  //      override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
+    Sylgr(Name.Sylgr, SkillType.DAGGER, 14, SilverDagger2) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = sylgr(battleUnit, enemy)
+        //      override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
 
+    },
+    Lyfjaberg(Name.Lyfjaberg, SkillType.DAGGER, 14, SilverDagger) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if (battleUnit.hp >= battleUnit.armedHero.maxHp / 2) {
+                battleUnit.atkEffect += 4
+                battleUnit.spdEffect += 4
+                fightHpLoss(battleUnit, 4)
+            }
+            return battleUnit
+        }
+
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if (battleUnit.hp >= battleUnit.armedHero.maxHp / 2) {
+                enemy.antiFollowup = true
+            }
+            return battleUnit
+        }
     },
 
     ;

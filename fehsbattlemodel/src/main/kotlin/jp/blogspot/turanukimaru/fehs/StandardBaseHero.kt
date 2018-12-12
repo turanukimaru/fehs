@@ -845,6 +845,9 @@ object StandardBaseHero {
                 Axe.Sinmara, null, Special.Bonfire, SkillA.SteadyStance.lv(4), SkillB.WaryFighter.lv(3), null)
                 createItem(Name.フリーズ, 1, WeaponType.SWORD, MoveType.INFANTRY,  5, 19, 7, 4, 12, 4, g50, g70, g30, g55, g50,
                         Sword.Gjoll, null, Special.Moonbow, SkillA.DistantCounter, SkillB.FreezingSeal, SkillC.AtkSmoke.lv(3))
+
+        createItem(Name.エイル, 1, WeaponType.DAGGER, MoveType.FLIER,  5, 16, 8, 9, 4, 7, g45, g55, g65, g25, g55,
+                Dagger.Lyfjaberg, null, Special.Iceberg, SkillA.SwiftSparrow.lv(3), SkillB.MysticBoost.lv(3), SkillC.SparklingBoost)
         //        createItem(Name., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
         //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(Name.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,
@@ -855,7 +858,7 @@ object StandardBaseHero {
 //                Weapon.Elivagar, null, null, null, null, null)
     }
 
-//    private val g25 = 1
+    private const val g25 = 1
     private const val g30 = 2
     private const val g35 = 3
     private const val g40 = 4

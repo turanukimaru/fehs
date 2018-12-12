@@ -98,6 +98,7 @@ enum class SkillC(override val jp: Name, override val type: SkillType = SkillTyp
     OstiasPulse(Name.OstiasPulse, maxLevel = 0, spType = SpType.LEGEND_S),
     WithEveryone(Name.WithEveryone, maxLevel = 0, spType = SpType.LEGEND_S),
     SurtrsMenace(Name.SurtrsMenace, maxLevel = 0, spType = SpType.LEGEND_S),
+    SparklingBoost(Name.SparklingBoost, maxLevel = 0, spType = SpType.LEGEND_S),
     ;
 
     /**

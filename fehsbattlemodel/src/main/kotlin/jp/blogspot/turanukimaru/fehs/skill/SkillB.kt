@@ -153,6 +153,10 @@ enum class SkillB(override val jp: Name, override val type: SkillType = SkillTyp
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullFollowUp(battleUnit, enemy, lv)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullFollowUp(battleUnit, enemy, lv)
     },
+    MysticBoost(Name.MysticBoost, spType = SpType.BASE60) {
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = mysticBoost(battleUnit, enemy, lv)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = mysticBoost(battleUnit, enemy, lv)
+    },
     SpecialSpiral(Name.SpecialSpiral, spType = SpType.BASE60),//戦闘後効果だからまだ要らないといえば要らないが…
     EscapeRoute(Name.EscapeRoute, spType = SpType.BASE60),
     RecoverRing(Name.RecoverRing, maxLevel = 0, spType = SpType.SHIELD),

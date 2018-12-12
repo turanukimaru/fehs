@@ -1016,6 +1016,17 @@ interface Skill {
         return battleUnit
     }
 
+    fun mysticBoost(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        enemy.wrathfulStaff = false
+        //貫通タイプを元に戻す。武器に元と貫通タイプと持たせてもいいがそっちは修正量大きいんだよなあ
+        enemy.overrideDamageType = when (enemy.armedHero.weapon.type) {
+            SkillType.PENETRATE_DAGGER -> SkillType.DAGGER
+            SkillType.PENETRATE_DRAGON -> SkillType.DRAGON
+            else -> SkillType.NONE
+        }
+        return battleUnit
+    }
+
     fun sylgr(battleUnit: BattleUnit, enemy: BattleUnit): BattleUnit {
         //飛燕とか計算した後なのかなあ
         if (battleUnit.effectedSpd > enemy.effectedSpd) {
