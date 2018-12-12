@@ -1273,10 +1273,10 @@ enum class Name(val jp: String, val us: String, val tw: String) {
     TacticalGale("軍師の風書", "Tactical Gale", "Tactical Gale"),
     TacticalBolt("軍師の雷書", "Tactical Bolt", "Tactical Bolt"),
     TriangleAttack("トライアングルアタック", "Triangle Attack", "Triangle Attack"),
-    エイル("エイル", "Eir", ""),
-    Lyfjaberg("", "Lyfjaberg", ""),
-    MysticBoost("", "Mystic Boost", ""),
-    SparklingBoost("", "Sparkling Boost", ""),
+    エイル("エイル", "Eir", "埃爾"),
+    Lyfjaberg("リフィア", "Lyfjaberg", "Lyfjaberg"),
+    MysticBoost("生命の護符", "Mystic Boost", "Mystic Boost"),
+    SparklingBoost("生命の輝き", "Sparkling Boost", "生命光輝"),
     ;
 
     /**
