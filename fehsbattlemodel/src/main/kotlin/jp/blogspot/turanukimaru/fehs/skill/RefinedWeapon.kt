@@ -275,22 +275,23 @@ enum class RefinedWeapon(override val jp: Name, val hp: Int, val atk: Int, val s
         }
     },
     WhitewingBlade(Name.TriangleAttack, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.WhitewingBlade) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit,enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleEffect(battleUnit,enemy)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit)
     },
     WhitewingLance(Name.TriangleAttack, 3, 0, 0, 0, 0, RefineType.DependWeapon, Lance.WhitewingLance) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit,enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleEffect(battleUnit,enemy)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit)
     },
     WhitewingSpear(Name.TriangleAttack, 3, 0, 0, 0, 0, RefineType.DependWeapon, Lance.WhitewingSpear) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit,enemy)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleEffect(battleUnit,enemy)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = triangleAttack(battleUnit)
     },
     GladiatorsBlade(Name.GladiatorsBlade, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.GladiatorsBlade) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 4), 4) else battleUnit
     },
     ScarletSword(Name.ScarletSword, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.ScarletSword),//ターン開始時効果必要だな…
-    TacticalBolt(Name.TacticalBolt, 3, 0, 0, 0, 0, RefineType.DependWeapon, Btome.TacticalBolt) {
-    },
-    TacticalGale(Name.TacticalGale, 3, 0, 0, 0, 0, RefineType.DependWeapon, Gtome.TacticalGale) {
-    },
+    TacticalBolt(Name.TacticalBolt, 0, 0, 0, 0, 0, RefineType.DependWeapon, Btome.TacticalBolt),
+    TacticalGale(Name.TacticalGale, 0, 0, 0, 0, 0, RefineType.DependWeapon, Gtome.TacticalGale),
 
     ;
 

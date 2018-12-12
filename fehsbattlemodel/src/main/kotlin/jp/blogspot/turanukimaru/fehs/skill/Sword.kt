@@ -211,7 +211,7 @@ enum class Sword(override val jp: Name, override val type: SkillType, override v
     SolitaryBlade(Name.SolitaryBlade, SkillType.SWORD, 16, SlayingEdge, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    Gjoll(Name.StormSieglinde, SkillType.SWORD, 16, SilverSword) {
+    Gjoll(Name.Gjoll, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (battleUnit.buffDebuffTrigger) {

@@ -103,8 +103,8 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             Log.i("BattleSimulatorActivity", "armedHero : $armedClass")
             val battleUnit = buildBattleUnit(armedClass)
             battleUnit.defensiveTerrain = findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked || battleUnit.defensiveTerrain
-            battleUnit.buffDebuffTrigger = findViewById<CheckBox>(R.id.buffDebuffTriggerCheckBox).isChecked //これも登録作るか微妙なところだな
-            battleUnit.adjacentUnits = findSpinnerValOrNull(R.id.alliesSpinner) ?: 0 //あれ登録作ってないんだっけ？
+            battleUnit.buffDebuffTrigger = findViewById<CheckBox>(R.id.buffDebuffTriggerCheckBox).isChecked || battleUnit.buffDebuffTrigger
+            battleUnit.adjacentUnits = findSpinnerValOrNull(R.id.alliesSpinner) ?:  armedClass.adjacentUnits
             battleUnit.atkBuff = findSpinnerValOrNull(R.id.atkBuffSpinner) ?: armedClass.atkBuff
             battleUnit.spdBuff = findSpinnerValOrNull(R.id.spdBuffSpinner) ?: armedClass.spdBuff
             battleUnit.defBuff = findSpinnerValOrNull(R.id.defBuffSpinner) ?: armedClass.defBuff
