@@ -1,0 +1,21 @@
+@startuml
+allow_mixing
+class "戦場" as Entity {
+}
+
+class "升目" as Square {
+}
+
+class "英雄ステータス" as Hero {
+}
+
+class "英雄" as BaseHero {
+}
+
+Actor "プレイヤー" as Player
+Player "操作" -> Entity
+Entity  o-- "n" Hero
+Entity  o-- "6x7" Square
+Hero <- Square
+BaseHero <- Hero
+@enduml

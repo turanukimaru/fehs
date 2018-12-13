@@ -214,7 +214,7 @@ enum class Sword(override val jp: Name, override val type: SkillType, override v
     Gjoll(Name.Gjoll, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if (battleUnit.buffDebuffTrigger) {
+            if (battleUnit.buffDebuffTrigger || enemy.isDebuffed) {
                 battleUnit.followupable = true
                 enemy.antiFollowup = true
             }

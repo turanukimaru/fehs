@@ -117,7 +117,7 @@ enum class Dagger(override val jp: Name, override val type: SkillType, override 
 
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (battleUnit.hp >= battleUnit.armedHero.maxHp / 2) {
-                enemy.antiFollowup = true
+                battleUnit.antiFollowup = true
             }
             return battleUnit
         }

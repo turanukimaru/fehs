@@ -145,7 +145,7 @@ enum class SkillA(override val jp: Name, override val type: SkillType = SkillTyp
     DartingStance(Name.DartingStance) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(battleUnit, lv * 2)
     },
-    SteadyStance(Name.SteadyStance) {
+    SteadyStance(Name.SteadyStance, maxLevel = 4) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (lv == 4) {
                 enemy.InflictAttackCooldown = 1

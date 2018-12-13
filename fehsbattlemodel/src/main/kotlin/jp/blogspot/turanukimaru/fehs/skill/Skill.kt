@@ -1017,6 +1017,7 @@ interface Skill {
     }
 
     fun mysticBoost(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        println(this.jp)//こっちは取れないんだよな…
         enemy.wrathfulStaff = false
         //貫通タイプを元に戻す。武器に元と貫通タイプと持たせてもいいがそっちは修正量大きいんだよなあ
         enemy.overrideDamageType = when (enemy.armedHero.weapon.type) {

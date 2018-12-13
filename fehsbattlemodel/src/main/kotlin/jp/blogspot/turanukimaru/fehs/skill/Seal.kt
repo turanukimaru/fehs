@@ -120,11 +120,31 @@ enum class Seal(override val jp: Name, override val type: SkillType = SkillType.
             else -> 0
         } / 10 else damage
     },
+    AtkDefBond(Name.AtkDefBond, spType = SpType.BASE60) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowDef(battleUnit, lv + 2), lv + 2) else battleUnit
+    },
+    BrazenAtkRes(Name.BrazenAtkRes, spType = SpType.BASE60) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
+    },
+    DartingStance(Name.DartingStance) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(battleUnit, lv * 2)
+    },
+    SpdDef(Name.SpdDef, maxLevel = 2, spType = SpType.BASE80) {
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipDef(armedHero, lv), lv)
+    },
+    WaterBoost(Name.WaterBoost) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = boostRes(battleUnit, enemy, lv * 2)
+    },
+
     ArmoredBoots(Name.ArmoredBoots, maxLevel = 0, spType = SpType.STEEL),
     BreathOfLife(Name.BreathOfLife),
     FlierFormation(Name.FlierFormation, spType = SpType.BASE60),
     Guidance(Name.Guidance, spType = SpType.BASE60),
-    IotesShield(Name.IotesShield, spType = SpType.SHIELD),
+
+    IotesShield(Name.IotesShield, maxLevel = 0, spType = SpType.SHIELD) {
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.FLIER)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.FLIER)
+    },
     LiveToServe(Name.LiveToServe, spType = SpType.BASE40),
     Obstruct(Name.Obstruct),
     QuickenedPulse(Name.QuickenedPulse, maxLevel = 0),

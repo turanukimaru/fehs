@@ -1,0 +1,12 @@
+@startuml
+
+class "部隊" as Entity {
+    部隊ID
+    部隊名
+}
+
+class "英雄" as Hero {
+}
+Entity "*" o-- "4" Hero
+
+@enduml

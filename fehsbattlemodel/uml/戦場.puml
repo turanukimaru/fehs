@@ -1,0 +1,15 @@
+@startuml
+
+class "戦場" as Entity {
+}
+
+class "升目" as Square {
+}
+
+class "英雄" as Hero {
+}
+
+Entity  o-- "n" Hero
+Entity  o-- "6x7" Square
+Hero <- Square
+@enduml
