@@ -45,7 +45,7 @@ open class RealmContent<T> : ModelObjectRepository<T> {
 //            // 'it' is the implicit lambda parameter of type Realm
 //            status += "\nNumber of Sakes: ${it.where(S::class.java).count()}"
 //
-//            // Find all Sakes where age between 7 and 9 and name begins with "Sake".
+//            // Find all Sakes where age between 7 and 9 and heroName begins with "Sake".
 //            val results = it
 //                    .where(Sake::class.java)
 //                    .run { day?.let { this.equalTo("date", day) } ?: this }

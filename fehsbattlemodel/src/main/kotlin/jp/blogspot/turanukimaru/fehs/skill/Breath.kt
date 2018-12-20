@@ -5,38 +5,38 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Breath(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
-    FireBreath(Name.FireBreath, SkillType.DRAGON, 6, Skill.NONE, SpType.IRON),
-    FireBreath2(Name.FireBreath2, SkillType.DRAGON, 8, FireBreath, SpType.STEEL),
-    LightningBreath(Name.LightningBreath, SkillType.DRAGON, 7, FireBreath2, SpType.SILVER) {
+enum class Breath(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+    FireBreath(SkillName.FireBreath, SkillType.DRAGON, 6, Skill.NONE, SpType.IRON),
+    FireBreath2(SkillName.FireBreath2, SkillType.DRAGON, 8, FireBreath, SpType.STEEL),
+    LightningBreath(SkillName.LightningBreath, SkillType.DRAGON, 7, FireBreath2, SpType.SILVER) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
-    LightningBreath2(Name.LightningBreath2, SkillType.DRAGON, 11, LightningBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+    LightningBreath2(SkillName.LightningBreath2, SkillType.DRAGON, 11, LightningBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
-    Flametongue(Name.Flametongue, SkillType.DRAGON, 11, FireBreath2, SpType.SILVER),
-    Flametongue2(Name.Flametongue2, SkillType.DRAGON, 15, Flametongue, SpType.PLUS, RefinedWeapon.RefineType.Range1),
-    LightBreath(Name.LightBreath, SkillType.DRAGON, 9, FireBreath2, SpType.SILVER),
-    LightBreath2(Name.LightBreath2, SkillType.DRAGON, 13, LightBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1),
-    DarkBreath(Name.DarkBreath, SkillType.DRAGON, 9, FireBreath, SpType.SILVER),
-    DarkBreath2(Name.DarkBreath2, SkillType.DRAGON, 13, DarkBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1),
-    GreatFlame(Name.GreatFlame, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+    Flametongue(SkillName.Flametongue, SkillType.DRAGON, 11, FireBreath2, SpType.SILVER),
+    Flametongue2(SkillName.Flametongue2, SkillType.DRAGON, 15, Flametongue, SpType.PLUS, RefinedWeapon.RefineType.Range1),
+    LightBreath(SkillName.LightBreath, SkillType.DRAGON, 9, FireBreath2, SpType.SILVER),
+    LightBreath2(SkillName.LightBreath2, SkillType.DRAGON, 13, LightBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1),
+    DarkBreath(SkillName.DarkBreath, SkillType.DRAGON, 9, FireBreath, SpType.SILVER),
+    DarkBreath2(SkillName.DarkBreath2, SkillType.DRAGON, 13, DarkBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1),
+    GreatFlame(SkillName.GreatFlame, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiFollowupDef(battleUnit, enemy, 5)
     },
-    Expiration(Name.Expiration, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+    Expiration(SkillName.Expiration, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
-    WaterBreath(Name.WaterBreath, SkillType.PENETRATE_DRAGON, 10, FireBreath2, SpType.SILVER) {
+    WaterBreath(SkillName.WaterBreath, SkillType.PENETRATE_DRAGON, 10, FireBreath2, SpType.SILVER) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 4), 4)
     },
-    WaterBreath2(Name.WaterBreath2, SkillType.PENETRATE_DRAGON, 14, WaterBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+    WaterBreath2(SkillName.WaterBreath2, SkillType.PENETRATE_DRAGON, 14, WaterBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 4), 4)
     },
-    BreathOfFog(Name.BreathOfFog, SkillType.PENETRATE_DRAGON, 16, Flametongue, SpType.PLUS, RefinedWeapon.RefineType.Range1, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)),
-    SummersBreath(Name.SummersBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+    BreathOfFog(SkillName.BreathOfFog, SkillType.PENETRATE_DRAGON, 16, Flametongue, SpType.PLUS, RefinedWeapon.RefineType.Range1, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)),
+    SummersBreath(SkillName.SummersBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.accelerateAttackCooldown = 1
@@ -44,28 +44,33 @@ enum class Breath(override val jp: Name, override val type: SkillType, override 
             return battleUnit //blowRes(battleUnit, 4)受け性能アップはなかったよな？
         }
     },
-    BreathOfBlight(Name.BreathOfBlight, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+    BreathOfBlight(SkillName.BreathOfBlight, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
                 antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.DRAGON)
 
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
                 antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.DRAGON)
     },
-    DivineMist(Name.DivineMist, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+    DivineMist(SkillName.DivineMist, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
-    SpiritBreath(Name.SpiritBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+    SpiritBreath(SkillName.SpiritBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupDef(battleUnit, enemy, 5)
     },
-    DraconicRage(Name.DraconicRage, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+    DraconicRage(SkillName.DraconicRage, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
         //これミュルグレと同じだな。真面目にカウントするなら一本化するか…
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0)
             blowAtk(blowSpd(battleUnit, 5), 5)
         else battleUnit
-
-    }
+    },
+    GlitteringBreath(SkillName.GlitteringBreath, SkillType.PENETRATE_DRAGON, 10, FireBreath2,SpType.SILVER) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
+    },
+    GlitteringBreath2(SkillName.GlitteringBreath2, SkillType.PENETRATE_DRAGON, 14, GlitteringBreath,SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
+    },
     ;
 
     /**

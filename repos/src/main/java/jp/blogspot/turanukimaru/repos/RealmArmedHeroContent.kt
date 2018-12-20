@@ -3,8 +3,6 @@ package jp.blogspot.turanukimaru.repos
 import android.util.Log
 import io.realm.Realm
 import jp.blogspot.turanukimaru.fehs.ArmedHero
-import jp.blogspot.turanukimaru.fehs.BoonType
-import jp.blogspot.turanukimaru.fehs.skill.Skill
 import kotlin.properties.Delegates
 
 /**
@@ -61,7 +59,7 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
         Log.i("RealmArmedHeroContent", item.toString())
         item.apply {
             realm.executeTransaction {
-                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.name.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
+                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.heroName.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
                         , defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
             }
         }

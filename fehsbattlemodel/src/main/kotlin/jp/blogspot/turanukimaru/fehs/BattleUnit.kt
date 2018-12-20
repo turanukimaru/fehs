@@ -137,13 +137,22 @@ data class BattleUnit(val armedHero: ArmedHero
     private val effectedBladeAtk: Int get() = effectedAtk + if (blade && !neutralizeBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0 + debuffBonus
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
     val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
-
+    val activatedSkills = mutableListOf<SkillText>()
     /** マップ上で戦う際には必要になると思われる*/
     fun clearEffect() {
         atkEffect = 0
         spdEffect = 0
         defEffect = 0
         resEffect = 0
+    }
+
+    fun addSkillText(skillText: SkillText):BattleUnit{
+        activatedSkills.add(skillText)
+        return this
+    }
+    
+    fun plusText(text: String){
+        activatedSkills.last().append(text)
     }
 
 

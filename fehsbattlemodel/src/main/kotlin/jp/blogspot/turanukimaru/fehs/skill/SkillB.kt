@@ -5,86 +5,86 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。B
  */
-enum class SkillB(override val jp: Name, override val type: SkillType = SkillType.B, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
-    SwordBreaker(Name.SwordBreaker) {
+enum class SkillB(override val jp: SkillName, override val type: SkillType = SkillType.B, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
+    SwordBreaker(SkillName.SwordBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.SWORD, lv)
     },
-    LanceBreaker(Name.LanceBreaker) {
+    LanceBreaker(SkillName.LanceBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.LANCE, lv)
     },
-    AxeBreaker(Name.AxeBreaker) {
+    AxeBreaker(SkillName.AxeBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.AXE, lv)
     },
     //弓殺しは無色限定
-    BowBreaker(Name.BowBreaker) {
+    BowBreaker(SkillName.BowBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.BOW, lv, 0)
     },
-    DaggerBreaker(Name.DaggerBreaker) {
+    DaggerBreaker(SkillName.DaggerBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.DAGGER, lv, 0)
     },
-    RTomeBreaker(Name.RTomeBreaker) {
+    RTomeBreaker(SkillName.RTomeBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.RTOME, lv)
     },
-    GTomeBreaker(Name.GTomeBreaker) {
+    GTomeBreaker(SkillName.GTomeBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.GTOME, lv)
     },
-    BTomeBreaker(Name.BTomeBreaker) {
+    BTomeBreaker(SkillName.BTomeBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.BTOME, lv)
     },
-    WaryFighter(Name.WaryFighter, spType = SpType.BASE60) {
+    WaryFighter(SkillName.WaryFighter, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = eachNofollowupable(battleUnit, enemy, lv)
     },
     //あれ？LVの考慮忘れてるわ
-    BoldFighter(Name.BoldFighter, spType = SpType.BASE60) {
+    BoldFighter(SkillName.BoldFighter, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 10), 11)
     },
-    VengefulFighter(Name.VengefulFighter, spType = SpType.BASE60) {
+    VengefulFighter(SkillName.VengefulFighter, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 5), 6)
     },
-    SpecialFighter(Name.SpecialFighter, spType = SpType.BASE60) {
+    SpecialFighter(SkillName.SpecialFighter, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(antiAccelerateCooldown(battleUnit, enemy, lv * 2), lv * 2)
     },
-    Desperation(Name.Desperation) {
+    Desperation(SkillName.Desperation) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, lv)
     },
-    QuickRiposte(Name.QuickRiposte, spType = SpType.BASE60) {
+    QuickRiposte(SkillName.QuickRiposte, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, lv)
     },
-    BrashAssault(Name.BrashAssault) {
+    BrashAssault(SkillName.BrashAssault) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brashAssault(battleUnit, enemy, (lv * 10 + 20))
     },
-    Windsweep(Name.Windsweep, spType = SpType.BASE60) {
+    Windsweep(SkillName.Windsweep, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = windsweep(battleUnit, enemy, lv)
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = noFollowupAttack(fightPlan)
     },
-    Watersweep(Name.Watersweep, spType = SpType.BASE60) {
+    Watersweep(SkillName.Watersweep, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = watersweep(battleUnit, enemy, lv)
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = noFollowupAttack(fightPlan)
     },
-    DullClose(Name.DullClose, spType = SpType.BASE60) {
+    DullClose(SkillName.DullClose, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiMeleeWeaponBuffBonus(battleUnit, enemy, lv)
     },
-    DullRanged(Name.DullRanged, spType = SpType.BASE60) {
+    DullRanged(SkillName.DullRanged, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, lv)
     },
-    WrathfulStaff(Name.WrathfulStaff, spType = SpType.BASE60) {
+    WrathfulStaff(SkillName.WrathfulStaff, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv)
     },
-    DazzlingStaff(Name.DazzlingStaff, spType = SpType.BASE60) {
+    DazzlingStaff(SkillName.DazzlingStaff, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, lv)
 
     },
-    Vantage(Name.Vantage) {
+    Vantage(SkillName.Vantage) {
         override fun counterPlan(fightPlan: FightPlan, lv: Int): FightPlan = vantage(fightPlan, lv)
     },
 
-    Guard(Name.Guard) {
+    Guard(SkillName.Guard) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, lv)
     },
-    ShieldPulse(Name.ShieldPulse, spType = SpType.BASE60) {
+    ShieldPulse(SkillName.ShieldPulse, spType = SpType.BASE60) {
         override fun specialPreventTriggered(battleUnit: BattleUnit, damage: Int): Int = damage - 5
     },
-    CancelAffinity(Name.CancelAffinity) {
+    CancelAffinity(SkillName.CancelAffinity) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             //高いほうが適用されるのでとりあえず自分だけ消す
             battleUnit.colorAdvantageLevel = 0
@@ -104,43 +104,43 @@ enum class SkillB(override val jp: Name, override val type: SkillType = SkillTyp
             return battleUnit
         }
     },
-    Wrath(Name.Wrath, spType = SpType.BASE60) {
+    Wrath(SkillName.Wrath, spType = SpType.BASE60) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, level * 25)
     },
-    PoisonStrike(Name.PoisonStrike, spType = SpType.BASE60) {
+    PoisonStrike(SkillName.PoisonStrike, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, lv * 3 + 1)
     },
-    SacaesBlessing(Name.SacaesBlessing, spType = SpType.LEGEND_S) {
+    SacaesBlessing(SkillName.SacaesBlessing, spType = SpType.LEGEND_S) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = sacasBlessing(battleUnit, enemy, lv)
 
     },
-    BeorcsBlessing(Name.BeorcsBlessing, maxLevel = 0, spType = SpType.LEGEND_S) {
+    BeorcsBlessing(SkillName.BeorcsBlessing, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = beorcsBlessing(battleUnit, enemy, lv)
     },
-    CrusadersWard(Name.CrusadersWard, maxLevel = 0, spType = SpType.LEGEND_S) {
+    CrusadersWard(SkillName.CrusadersWard, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
                 if (source.effectiveRange == 2 && results.isNotEmpty() && results.last().side != battleUnit.side) damage - damage * 8 / 10 else damage
     },
-    FollowUpRing(Name.FollowUpRing, maxLevel = 0, spType = SpType.LEGEND_S) {
+    FollowUpRing(SkillName.FollowUpRing, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5)
     },
-    Bushido(Name.Bushido, maxLevel = 0, spType = SpType.LEGEND_S) {
+    Bushido(SkillName.Bushido, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, 100)
     },
-    SolarBrace(Name.SolarBrace, maxLevel = 0, spType = SpType.LEGEND_S) {
+    SolarBrace(SkillName.SolarBrace, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun absorb(battleUnit: BattleUnit, target: BattleUnit, damage: Int): Int {
             battleUnit.heal(damage * 3 / 10)
             return damage
         }
     },
-    LunarBrace(Name.LunarBrace, maxLevel = 0, spType = SpType.LEGEND_S) {
+    LunarBrace(SkillName.LunarBrace, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
         override val stateDamageEnemy: (BattleUnit) -> Int get() = { it.def / 2 }
     },
-    DoubleLion(Name.DoubleLion, maxLevel = 0, spType = SpType.LEGEND_S) {
+    DoubleLion(SkillName.DoubleLion, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpDoubleAttack(battleUnit, 1)
     },
-    BindingShield(Name.BindingShield, spType = SpType.BASE60) {
+    BindingShield(SkillName.BindingShield, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (enemy.armedHero.baseHero.weaponType == WeaponType.DRAGON) {
                 enemy.cannotCounter = true
@@ -149,64 +149,64 @@ enum class SkillB(override val jp: Name, override val type: SkillType = SkillTyp
             return battleUnit
         }
     },
-    NullFollowUp(Name.NullFollowUp, spType = SpType.BASE60) {
+    NullFollowUp(SkillName.NullFollowUp, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullFollowUp(battleUnit, enemy, lv)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullFollowUp(battleUnit, enemy, lv)
     },
-    MysticBoost(Name.MysticBoost, spType = SpType.BASE60) {
+    MysticBoost(SkillName.MysticBoost, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = mysticBoost(battleUnit, enemy, lv)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = mysticBoost(battleUnit, enemy, lv)
     },
-    SpecialSpiral(Name.SpecialSpiral, spType = SpType.BASE60),//戦闘後効果だからまだ要らないといえば要らないが…
-    EscapeRoute(Name.EscapeRoute, spType = SpType.BASE60),
-    RecoverRing(Name.RecoverRing, maxLevel = 0, spType = SpType.SHIELD),
-    Renewal(Name.Renewal, spType = SpType.BASE60),
-    LiveToServe(Name.LiveToServe, spType = SpType.BASE40),
-    WingsOfMercy(Name.WingsOfMercy, spType = SpType.BASE60),
-    Pass(Name.Pass),
-    Obstruct(Name.Obstruct),
-    SealAtk(Name.SealAtk),
-    SealSpd(Name.SealSpd),
-    SealDef(Name.SealDef),
-    SealRes(Name.SealRes),
-    SealAtkSpd(Name.SealAtkSpd, maxLevel = 2, spType = SpType.BASE100),
-    SealAtkDef(Name.SealAtkDef, maxLevel = 2, spType = SpType.BASE100),
-    SealDefRes(Name.SealDefRes, maxLevel = 2, spType = SpType.BASE100),
-    FlierFormation(Name.FlierFormation),
-    BlazeDance(Name.BlazeDance),
-    GaleDance(Name.GaleDance),
-    EarthDance(Name.EarthDance),
-    TorrentDance(Name.TorrentDance),
-    GeyserDance(Name.GeyserDance, maxLevel = 2, spType = SpType.BASE120),
-    FirestormDance(Name.FirestormDance, maxLevel = 2, spType = SpType.BASE120),
-    RockslideDance(Name.RockslideDance, maxLevel = 2, spType = SpType.BASE120),
-    FirefloodDance(Name.FirefloodDance, maxLevel = 2, spType = SpType.BASE120),
-    DelugeDance(Name.DelugeDance, maxLevel = 2, spType = SpType.BASE120),
-    KnockBack(Name.KnockBack, maxLevel = 0, spType = SpType.ASSIST),
-    DragBack(Name.DragBack, maxLevel = 0, spType = SpType.ASSIST),
-    Lunge(Name.Lunge, maxLevel = 0, spType = SpType.ASSIST),
-    HitAndRun(Name.HitAndRun, maxLevel = 0, spType = SpType.ASSIST),
-    LiveForBounty(Name.LiveForBounty, maxLevel = 0, spType = SpType.ASSIST),
-    LiveForHonor(Name.LiveForHonor, maxLevel = 0, spType = SpType.ASSIST),
-    WarpPowder(Name.WarpPowder, maxLevel = 0, spType = SpType.LEGEND_S),
-    ChillingSeal(Name.ChillingSeal, maxLevel = 0, spType = SpType.LEGEND_S),
-    FreezingSeal(Name.FreezingSeal, maxLevel = 0, spType = SpType.LEGEND_S),
-    ChillAtk(Name.ChillAtk, spType = SpType.BASE60),
-    ChillSpd(Name.ChillSpd, spType = SpType.BASE60),
-    ChillDef(Name.ChillDef, spType = SpType.BASE60),
-    ChillRes(Name.ChillRes, spType = SpType.BASE60),
+    SpecialSpiral(SkillName.SpecialSpiral, spType = SpType.BASE60),//戦闘後効果だからまだ要らないといえば要らないが…
+    EscapeRoute(SkillName.EscapeRoute, spType = SpType.BASE60),
+    RecoverRing(SkillName.RecoverRing, maxLevel = 0, spType = SpType.SHIELD),
+    Renewal(SkillName.Renewal, spType = SpType.BASE60),
+    LiveToServe(SkillName.LiveToServe, spType = SpType.BASE40),
+    WingsOfMercy(SkillName.WingsOfMercy, spType = SpType.BASE60),
+    Pass(SkillName.Pass),
+    Obstruct(SkillName.Obstruct),
+    SealAtk(SkillName.SealAtk),
+    SealSpd(SkillName.SealSpd),
+    SealDef(SkillName.SealDef),
+    SealRes(SkillName.SealRes),
+    SealAtkSpd(SkillName.SealAtkSpd, maxLevel = 2, spType = SpType.BASE100),
+    SealAtkDef(SkillName.SealAtkDef, maxLevel = 2, spType = SpType.BASE100),
+    SealDefRes(SkillName.SealDefRes, maxLevel = 2, spType = SpType.BASE100),
+    FlierFormation(SkillName.FlierFormation),
+    BlazeDance(SkillName.BlazeDance),
+    GaleDance(SkillName.GaleDance),
+    EarthDance(SkillName.EarthDance),
+    TorrentDance(SkillName.TorrentDance),
+    GeyserDance(SkillName.GeyserDance, maxLevel = 2, spType = SpType.BASE120),
+    FirestormDance(SkillName.FirestormDance, maxLevel = 2, spType = SpType.BASE120),
+    RockslideDance(SkillName.RockslideDance, maxLevel = 2, spType = SpType.BASE120),
+    FirefloodDance(SkillName.FirefloodDance, maxLevel = 2, spType = SpType.BASE120),
+    DelugeDance(SkillName.DelugeDance, maxLevel = 2, spType = SpType.BASE120),
+    KnockBack(SkillName.KnockBack, maxLevel = 0, spType = SpType.ASSIST),
+    DragBack(SkillName.DragBack, maxLevel = 0, spType = SpType.ASSIST),
+    Lunge(SkillName.Lunge, maxLevel = 0, spType = SpType.ASSIST),
+    HitAndRun(SkillName.HitAndRun, maxLevel = 0, spType = SpType.ASSIST),
+    LiveForBounty(SkillName.LiveForBounty, maxLevel = 0, spType = SpType.ASSIST),
+    LiveForHonor(SkillName.LiveForHonor, maxLevel = 0, spType = SpType.ASSIST),
+    WarpPowder(SkillName.WarpPowder, maxLevel = 0, spType = SpType.LEGEND_S),
+    ChillingSeal(SkillName.ChillingSeal, maxLevel = 0, spType = SpType.LEGEND_S),
+    FreezingSeal(SkillName.FreezingSeal, maxLevel = 0, spType = SpType.LEGEND_S),
+    ChillAtk(SkillName.ChillAtk, spType = SpType.BASE60),
+    ChillSpd(SkillName.ChillSpd, spType = SpType.BASE60),
+    ChillDef(SkillName.ChillDef, spType = SpType.BASE60),
+    ChillRes(SkillName.ChillRes, spType = SpType.BASE60),
     // TODO:これキラーだっけ・・・？開始時１カウントだっけ…？
-    SDrink(Name.SDrink, maxLevel = 0, spType = SpType.LEGEND_S) {
+    SDrink(SkillName.SDrink, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    SpdFeint(Name.SpdFeint, spType = SpType.BASE60),
-    DefFeint(Name.DefFeint, spType = SpType.BASE60),
-    AtkSpdLink(Name.AtkSpdLink, spType = SpType.BASE60),
-    AtkDefLink(Name.AtkDefLink, spType = SpType.BASE60),
-    AtkResLink(Name.AtkResLink, spType = SpType.BASE60),
-    SpdResLink(Name.SpdResLink, spType = SpType.BASE60),
-    DefResLink(Name.DefResLink, spType = SpType.BASE60),
-    Aerobatics(Name.Aerobatics, spType = SpType.BASE60),
+    SpdFeint(SkillName.SpdFeint, spType = SpType.BASE60),
+    DefFeint(SkillName.DefFeint, spType = SpType.BASE60),
+    AtkSpdLink(SkillName.AtkSpdLink, spType = SpType.BASE60),
+    AtkDefLink(SkillName.AtkDefLink, spType = SpType.BASE60),
+    AtkResLink(SkillName.AtkResLink, spType = SpType.BASE60),
+    SpdResLink(SkillName.SpdResLink, spType = SpType.BASE60),
+    DefResLink(SkillName.DefResLink, spType = SpType.BASE60),
+    Aerobatics(SkillName.Aerobatics, spType = SpType.BASE60),
     ;
 
     /**

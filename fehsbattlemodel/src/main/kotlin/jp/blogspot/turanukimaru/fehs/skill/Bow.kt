@@ -5,117 +5,117 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Bow(override val jp: Name, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
-    IronBow(Name.IronBow, SkillType.BOW, 4, Skill.NONE, SpType.IRON, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    SteelBow(Name.SteelBow, SkillType.BOW, 6, IronBow, SpType.STEEL, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    SilverBow(Name.SilverBow, SkillType.BOW, 9, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    SilverBow2(Name.SilverBow2, SkillType.BOW, 13, SilverBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    BraveBow(Name.BraveBow, SkillType.BOW, 4, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+enum class Bow(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+    IronBow(SkillName.IronBow, SkillType.BOW, 4, Skill.NONE, SpType.IRON, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    SteelBow(SkillName.SteelBow, SkillType.BOW, 6, IronBow, SpType.STEEL, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    SilverBow(SkillName.SilverBow, SkillType.BOW, 9, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    SilverBow2(SkillName.SilverBow2, SkillType.BOW, 13, SilverBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    BraveBow(SkillName.BraveBow, SkillType.BOW, 4, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBrave(armedHero, lv)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
-    BraveBow2(Name.BraveBow2, SkillType.BOW, 7, BraveBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    BraveBow2(SkillName.BraveBow2, SkillType.BOW, 7, BraveBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBrave(armedHero, lv)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit)
     },
-    KillerBow(Name.KillerBow, SkillType.BOW, 5, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    KillerBow(SkillName.KillerBow, SkillType.BOW, 5, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    KillerBow2(Name.KillerBow2, SkillType.BOW, 9, KillerBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    KillerBow2(SkillName.KillerBow2, SkillType.BOW, 9, KillerBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    AssassinsBow(Name.AssassinsBow, SkillType.BOW, 7, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    AssassinsBow(SkillName.AssassinsBow, SkillType.BOW, 7, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.DAGGER, 3)
     },
-    AssassinsBow2(Name.AssassinsBow2, SkillType.BOW, 11, AssassinsBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    AssassinsBow2(SkillName.AssassinsBow2, SkillType.BOW, 11, AssassinsBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.DAGGER, 3)
     },
-    GuardBow2(Name.GuardBow2, SkillType.BOW, 12, AssassinsBow2, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    GuardBow2(SkillName.GuardBow2, SkillType.BOW, 12, AssassinsBow2, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6)
     },
-    FiresweepBow(Name.FiresweepBow, SkillType.BOW, 7, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    FiresweepBow(SkillName.FiresweepBow, SkillType.BOW, 7, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = disableEachCounter(battleUnit, enemy, 0)
     },
-    FiresweepBow2(Name.FiresweepBow2, SkillType.BOW, 11, FiresweepBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    FiresweepBow2(SkillName.FiresweepBow2, SkillType.BOW, 11, FiresweepBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = disableEachCounter(battleUnit, enemy, 0)
     },
-    CupidArrow(Name.CupidArrow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    CupidArrow2(Name.CupidArrow2, SkillType.BOW, 12, CupidArrow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    RefreshingBolt(Name.RefreshingBolt, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    CupidArrow(SkillName.CupidArrow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    CupidArrow2(SkillName.CupidArrow2, SkillType.BOW, 12, CupidArrow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    RefreshingBolt(SkillName.RefreshingBolt, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpBonus(battleUnit, 2)
     },
-    RefreshingBolt2(Name.RefreshingBolt2, SkillType.BOW, 12, RefreshingBolt, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    RefreshingBolt2(SkillName.RefreshingBolt2, SkillType.BOW, 12, RefreshingBolt, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpBonus(battleUnit, 2)
     },
-    ClarissesBow(Name.ClarissesBow, SkillType.BOW, 7, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    ClarissesBow2(Name.ClarissesBow2, SkillType.BOW, 11, ClarissesBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    SlayingBow(Name.SlayingBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    ClarissesBow(SkillName.ClarissesBow, SkillType.BOW, 7, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    ClarissesBow2(SkillName.ClarissesBow2, SkillType.BOW, 11, ClarissesBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    SlayingBow(SkillName.SlayingBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    SlayingBow2(Name.SlayingBow2, SkillType.BOW, 12, SlayingBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    SlayingBow2(SkillName.SlayingBow2, SkillType.BOW, 12, SlayingBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    Parthia(Name.Parthia, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    Parthia(SkillName.Parthia, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 2)
     },
-    FujinYumi(Name.FujinYumi, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    Nidhogg(Name.Nidhogg, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    FujinYumi(SkillName.FujinYumi, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    Nidhogg(SkillName.Nidhogg, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
     },
-    Mulagir(Name.Mulagir, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    Mulagir(SkillName.Mulagir, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiMagicBuffBonus(battleUnit, enemy)
     },
-    MonstrousBow(Name.MonstrousBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    MonstrousBow2(Name.MonstrousBow2, SkillType.BOW, 12, MonstrousBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    HamaYa(Name.HamaYa, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    HamaYa2(Name.HamaYa2, SkillType.BOW, 12, HamaYa, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    Gratia(Name.Gratia, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    MonstrousBow(SkillName.MonstrousBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    MonstrousBow2(SkillName.MonstrousBow2, SkillType.BOW, 12, MonstrousBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    HamaYa(SkillName.HamaYa, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    HamaYa2(SkillName.HamaYa2, SkillType.BOW, 12, HamaYa, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    Gratia(SkillName.Gratia, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
     },
-    Gratia2(Name.Gratia2, SkillType.BOW, 12, Gratia, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    Gratia2(SkillName.Gratia2, SkillType.BOW, 12, Gratia, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
     },
-    Skadi(Name.Skadi, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    Skadi(SkillName.Skadi, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
     },
-    WarriorPrincess(Name.WarriorPrincess, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER, MoveType.ARMORED)) {
+    WarriorPrincess(SkillName.WarriorPrincess, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER, MoveType.ARMORED)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
     },
-    SwiftMulagir(Name.SwiftMulagir, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    SwiftMulagir(SkillName.SwiftMulagir, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
         //マップ実装時には敵ユニット数との判定が必要
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0)
             blowAtk(blowSpd(battleUnit, 5), 5)
         else battleUnit
     },
-    Cocobow(Name.Cocobow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    Cocobow(SkillName.Cocobow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
-    Cocobow2(Name.Cocobow2, SkillType.BOW, 12, Cocobow, SpType.PLUS, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    Cocobow2(SkillName.Cocobow2, SkillType.BOW, 12, Cocobow, SpType.PLUS, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, 2)
     },
-    FishieBow(Name.FishieBow, SkillType.BOW, 10, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    FishieBow(SkillName.FishieBow, SkillType.BOW, 10, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
-    FishieBow2(Name.FishieBow2, SkillType.BOW, 12, FishieBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    FishieBow2(SkillName.FishieBow2, SkillType.BOW, 12, FishieBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
-    Thogn(Name.Thogn, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    Thogn(SkillName.Thogn, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         //マップ実装時には敵ユニット数との判定が必要
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.effectiveRange == 1) allBonus(battleUnit, 4) else battleUnit
     },
-    ShiningBow(Name.ShiningBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    ShiningBow(SkillName.ShiningBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy)
     },
-    ShiningBow2(Name.ShiningBow2, SkillType.BOW, 12, ShiningBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    ShiningBow2(SkillName.ShiningBow2, SkillType.BOW, 12, ShiningBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy)
     },
-    DevilishBow(Name.DevilishBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    DevilishBow(SkillName.DevilishBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
     },
-    DevilishBow2(Name.DevilishBow2, SkillType.BOW, 12, ShiningBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    DevilishBow2(SkillName.DevilishBow2, SkillType.BOW, 12, ShiningBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
     },
     ;

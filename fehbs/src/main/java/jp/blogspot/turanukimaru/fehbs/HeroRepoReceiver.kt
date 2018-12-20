@@ -22,7 +22,7 @@ class HeroRepoReceiver : BroadcastReceiver() {
 
     companion object {
         var handler: Handler? = null
-        const val extraName = "name"
+        const val extraName = "heroName"
         const val extraBoon = "boon"
         const val extraBane = "bane"
         const val extraRarity = "rarity"

@@ -54,7 +54,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         //その駒の情報を表示する。enumにしたいけどcontainUnitがなあ。
         board.updateInfo = { b ->
             //フォントサイズ替えたいところではある
-            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 80f, 940f)
+            b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.heroName.jp, 80f, 940f)
             b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
             b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 100f, 900f)
             b.bitmapFont.draw(b.batch, "/", 140f, 900f)
@@ -89,8 +89,8 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
             val expected = fightResult.last()
 
             board.updateInfo = { b ->
-                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.name.jp, 50f, 940f)
-                b.bitmapFont.draw(b.batch, target.containUnit.armedHero.baseHero.name.jp, 320f, 940f)
+                b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.heroName.jp, 50f, 940f)
+                b.bitmapFont.draw(b.batch, target.containUnit.armedHero.baseHero.heroName.jp, 320f, 940f)
                 b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
                 b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
                 b.bitmapFont.draw(b.batch, "→", 80f, 900f)

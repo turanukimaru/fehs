@@ -314,7 +314,7 @@ data class ArmedHero(
     /**
      * 名称。DB保存名かロケールの名前
      */
-    fun localeName(locale: Locale): String = if (name.isNotEmpty()) name else baseHero.name.localeName(locale)
+    fun localeName(locale: Locale): String = if (name.isNotEmpty()) name else baseHero.heroName.localeName(locale)
 
     /**
      * 簡易ステータス。ロケールの扱いは本当に困るな.

@@ -21,7 +21,7 @@ interface Skill {
     /**
      * ローカル名
      */
-    val jp: Name get() = Name.NONE
+    val jp: SkillName get() = SkillName.NONE
     /**
      * 最大レベル。スキル一覧を作る際に参照する
      */
