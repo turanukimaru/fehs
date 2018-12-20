@@ -423,10 +423,10 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     ガーネフ("ガーネフ", "Gharnef", "加內夫"),
     フリーズ("フリーズ", "Hríd", "佛利茲"),
     エイル("エイル", "Eir", "埃爾"),
-    エフラム__冬_("エフラム（冬）", "Ephraim (Legendary Lord)", "艾夫拉姆 (Legendary Lord)"),
-    エイリーク__冬_("エイリーク（冬）", "Eirika (Vanguard Legend)", "艾莉可 (Vanguard Legend)"),
-    ファ__冬_("ファ（冬）", "Fae", "法"),
-    セシリア__冬_("セシリア（冬）", "Cecilia", "瑟西莉亞"),
+    エフラム__冬_("エフラム（冬）", "Ephraim (Winter)", "艾夫拉姆 (Winter)"),
+    エイリーク__冬_("エイリーク（冬）", "Eirika (Winter)", "艾莉可 (Winter)"),
+    ファ__冬_("ファ（冬）", "Fae (Winter)", "法 (Winter)"),
+    セシリア__冬_("セシリア（冬）", "Cecilia (Winter)", "瑟西莉亞 (Winter)"),
     ;
 
     /**
