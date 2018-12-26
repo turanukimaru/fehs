@@ -16,7 +16,7 @@ class NewHeroTest6 {
         assertEquals("atk", 48, unitA.atk)
         assertEquals("spd", 23, unitA.spd)
         assertEquals("def", 18, unitA.def)
-        assertEquals("res", 38, unitA.res)
+        assertEquals("spd", 38, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ノノ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -90,7 +90,7 @@ class NewHeroTest6 {
         assertEquals("atk", 51, unitA.atk)
         assertEquals("spd", 33, unitA.spd)
         assertEquals("def", 20, unitA.def)
-        assertEquals("res", 23, unitA.res)
+        assertEquals("spd", 23, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ボーイ.jp)!!)
         unitB.spdSpur = 20
@@ -143,7 +143,7 @@ class NewHeroTest6 {
         assertEquals("atk", 44, unitA.atk)
         assertEquals("spd", 37, unitA.spd)
         assertEquals("def", 16, unitA.def)
-        assertEquals("res", 31, unitA.res)
+        assertEquals("spd", 31, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ジャムカ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -217,7 +217,7 @@ class NewHeroTest6 {
         assertEquals("atk", 49, unitA.atk)
         assertEquals("spd", 24, unitA.spd)
         assertEquals("def", 36, unitA.def)
-        assertEquals("res", 21, unitA.res)
+        assertEquals("spd", 21, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ファ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -260,7 +260,7 @@ class NewHeroTest6 {
         assertEquals("atk", 49, unitA.atk)
         assertEquals("spd", 22, unitA.spd)
         assertEquals("def", 33, unitA.def)
-        assertEquals("res", 32, unitA.res)
+        assertEquals("spd", 32, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.マルス.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))

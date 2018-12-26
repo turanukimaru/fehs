@@ -59,16 +59,16 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     FalchionA(SkillName.FalchionA, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)),
     FalchionC(SkillName.FalchionC, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)),
     BindingBlade(SkillName.BindingBlade, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 2), 2)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(res(battleUnit, 2), 2)
     },
     Durandal(SkillName.Durandal, SkillType.SWORD, 16, SilverSword) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(battleUnit, 4)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, 4)
     },
     SolKatti(SkillName.SolKatti, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 2)
     },
     Yato(SkillName.Yato, SkillType.SWORD, 16, SilverSword) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(battleUnit, 4)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, 4)
     },
     Raijinto(SkillName.Raijinto, SkillType.SWORD, 16, SilverSword) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
@@ -119,7 +119,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(equipRes(armedHero, 5), lv)
     },
     DarkGreatsword(SkillName.DarkGreatsword, SkillType.SWORD, 16, SilverSword) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(blowAtk(battleUnit, 4), 4)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(atk(battleUnit, 4), 4)
     },
     FiresweepSword(SkillName.FiresweepSword, SkillType.SWORD, 11, SteelSword, SpType.SILVER) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = disableEachCounter(battleUnit, enemy, 0)
@@ -152,16 +152,16 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
     Safeguard(SkillName.Safeguard, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(battleUnit, 7)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(battleUnit, 7)
     },
     Safeguard2(SkillName.Safeguard2, SkillType.SWORD, 14, Safeguard, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(battleUnit, 7)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(battleUnit, 7)
     },
     BarrierBlade(SkillName.BarrierBlade, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 7)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, 7)
     },
     BarrierBlade2(SkillName.BarrierBlade2, SkillType.SWORD, 14, Safeguard, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 7)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, 7)
     },
     VassalsBlade(SkillName.VassalsBlade, SkillType.SWORD, 16, Sword.SlayingEdge) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
@@ -203,7 +203,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (battleUnit.buffDebuffTrigger) {
                 battleUnit.accelerateAttackCooldown = 1
-                return blowDef(blowRes(battleUnit, 3), 3)
+                return def(res(battleUnit, 3), 3)
             }
             return battleUnit
         }

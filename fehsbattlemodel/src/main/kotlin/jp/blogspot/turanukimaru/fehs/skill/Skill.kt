@@ -220,7 +220,8 @@ interface Skill {
     /**
      *  戦闘時のみ上昇。
      */
-    fun blowAtk(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun atk(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, lv))
         battleUnit.atkEffect += lv
         return battleUnit
     }
@@ -228,7 +229,9 @@ interface Skill {
     /**
      *  戦闘時のみ上昇。
      */
-    fun blowSpd(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun atkSpd(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, lv))
+        battleUnit.atkEffect += lv
         battleUnit.spdEffect += lv
         return battleUnit
     }
@@ -236,7 +239,9 @@ interface Skill {
     /**
      *  戦闘時のみ上昇。
      */
-    fun blowDef(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun atkDef(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDef, lv))
+        battleUnit.atkEffect += lv
         battleUnit.defEffect += lv
         return battleUnit
     }
@@ -244,7 +249,66 @@ interface Skill {
     /**
      *  戦闘時のみ上昇。
      */
-    fun blowRes(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun atkRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkRes, lv))
+        battleUnit.atkEffect += lv
+        battleUnit.resEffect += lv
+        return battleUnit
+    }
+
+    /**
+     *  戦闘時のみ上昇。
+     */
+    fun spd(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Spd, lv))
+        battleUnit.spdEffect += lv
+        return battleUnit
+    }
+
+    /**
+     *  戦闘時のみ上昇。
+     */
+    fun spdDef(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdDef, lv))
+        battleUnit.spdEffect += lv
+        battleUnit.defEffect += lv
+        return battleUnit
+    }
+
+    /**
+     *  戦闘時のみ上昇。
+     */
+    fun spdRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdRes, lv))
+        battleUnit.spdEffect += lv
+        battleUnit.resEffect += lv
+        return battleUnit
+    }
+
+    /**
+     *  戦闘時のみ上昇。
+     */
+    fun def(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Def, lv))
+        battleUnit.defEffect += lv
+        return battleUnit
+    }
+
+    /**
+     *  戦闘時のみ上昇。
+     */
+    fun defRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv))
+        battleUnit.defEffect += lv
+        battleUnit.resEffect += lv
+        return battleUnit
+    }
+
+    /**
+     *  戦闘時のみ上昇。
+     */
+    fun res(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Res, lv))
         battleUnit.resEffect += lv
         return battleUnit
     }
@@ -254,6 +318,19 @@ interface Skill {
      */
     fun closeDef(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
         if (enemy.armedHero.baseHero.weaponType.range == 1) {
+            battleUnit.defEffect += lv
+            battleUnit.resEffect += lv
+        }
+        return battleUnit
+    }
+
+    /**
+     *  近距離全強化
+     */
+    fun closeAllBonus(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+        if (enemy.armedHero.baseHero.weaponType.range == 1) {
+            battleUnit.atkEffect += lv
+            battleUnit.spdEffect += lv
             battleUnit.defEffect += lv
             battleUnit.resEffect += lv
         }
@@ -948,9 +1025,43 @@ interface Skill {
     /**
      * 大覚醒
      */
-    fun brazenAtk(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun brazenAtk(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, lv))
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
             battleUnit.atkEffect += lv
+        }
+        return battleUnit
+    }
+    /**
+     * 大覚醒
+     */
+    fun brazenAtkSpd(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, lv))
+        if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
+            battleUnit.atkEffect += lv
+            battleUnit.spdEffect += lv
+        }
+        return battleUnit
+    }
+    /**
+     * 大覚醒
+     */
+    fun brazenAtkDef(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDef, lv))
+        if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
+            battleUnit.atkEffect += lv
+            battleUnit.defEffect += lv
+        }
+        return battleUnit
+    }
+    /**
+     * 大覚醒
+     */
+    fun brazenAtkRes(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkRes, lv))
+        if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
+            battleUnit.atkEffect += lv
+            battleUnit.resEffect += lv
         }
         return battleUnit
     }
@@ -958,7 +1069,8 @@ interface Skill {
     /**
      * 大覚醒
      */
-    fun brazenSpd(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun brazenSpd(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Spd, lv))
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
             battleUnit.spdEffect += lv
         }
@@ -968,7 +1080,32 @@ interface Skill {
     /**
      * 大覚醒
      */
-    fun brazenDef(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun brazenSpdDef(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdDef, lv))
+        if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
+            battleUnit.spdEffect += lv
+            battleUnit.defEffect += lv
+        }
+        return battleUnit
+    }
+
+    /**
+     * 大覚醒
+     */
+    fun brazenSpdRes(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdRes, lv))
+        if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
+            battleUnit.spdEffect += lv
+            battleUnit.resEffect += lv
+        }
+        return battleUnit
+    }
+
+    /**
+     * 大覚醒
+     */
+    fun brazenDef(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Def, lv))
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
             battleUnit.defEffect += lv
         }
@@ -978,7 +1115,20 @@ interface Skill {
     /**
      * 大覚醒
      */
-    fun brazenRes(battleUnit: BattleUnit, lv: Int): BattleUnit {
+    fun brazenDefRes(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv))
+        if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
+            battleUnit.defEffect += lv
+            battleUnit.resEffect += lv
+        }
+        return battleUnit
+    }
+
+    /**
+     * 大覚醒
+     */
+    fun brazenRes(battleUnit: BattleUnit, lv: Int,s : Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Res, lv))
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
             battleUnit.resEffect += lv
         }
@@ -1058,11 +1208,6 @@ interface Skill {
         return battleUnit
     }
 
-    fun triangleAttack(battleUnit: BattleUnit): BattleUnit {
-        if (battleUnit.adjacentUnits >= 2) {
-            battleUnit.followupable = true
-        }
-        return battleUnit
-    }
+    fun triangleAttack(battleUnit: BattleUnit): BattleUnit = if (battleUnit.adjacentUnits >= 2) doubleAttack(battleUnit) else battleUnit
 
 }

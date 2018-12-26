@@ -30,10 +30,10 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit)
     },
     WaterBreath(SkillName.WaterBreath, SkillType.PENETRATE_DRAGON, 10, FireBreath2, SpType.SILVER) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 4), 4)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(res(battleUnit, 4), 4)
     },
     WaterBreath2(SkillName.WaterBreath2, SkillType.PENETRATE_DRAGON, 14, WaterBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 4), 4)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(res(battleUnit, 4), 4)
     },
     BreathOfFog(SkillName.BreathOfFog, SkillType.PENETRATE_DRAGON, 16, Flametongue, SpType.PLUS, RefinedWeapon.RefineType.Range1, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)),
     SummersBreath(SkillName.SummersBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
@@ -41,7 +41,7 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.accelerateAttackCooldown = 1
             battleUnit.accelerateTargetCooldown = 1
-            return battleUnit //blowRes(battleUnit, 4)受け性能アップはなかったよな？
+            return battleUnit //res(battleUnit, 4)受け性能アップはなかったよな？
         }
     },
     BreathOfBlight(SkillName.BreathOfBlight, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
@@ -62,14 +62,14 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
         //これミュルグレと同じだな。真面目にカウントするなら一本化するか…
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0)
-            blowAtk(blowSpd(battleUnit, 5), 5)
+            atk(spd(battleUnit, 5), 5)
         else battleUnit
     },
     GlitteringBreath(SkillName.GlitteringBreath, SkillType.PENETRATE_DRAGON, 10, FireBreath2,SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(res(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
     },
     GlitteringBreath2(SkillName.GlitteringBreath2, SkillType.PENETRATE_DRAGON, 14, GlitteringBreath,SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(res(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
     },
     ;
 

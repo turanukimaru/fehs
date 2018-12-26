@@ -123,10 +123,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         }
     },
     GoodieBoot(SkillName.GoodieBoot, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2)
     },
     GoodieBoot2(SkillName.GoodieBoot2, SkillType.DAGGER, 12, GoodieBoot, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2)
     }
     ;
 

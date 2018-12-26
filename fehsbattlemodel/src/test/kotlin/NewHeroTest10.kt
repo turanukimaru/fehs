@@ -16,7 +16,7 @@ class NewHeroTest10 {
         assertEquals("atk", 50, unitA.atk)
         assertEquals("spd", 39, unitA.spd)
         assertEquals("def", 27, unitA.def)
-        assertEquals("res", 21, unitA.res)
+        assertEquals("spd", 21, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.エフラム.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -67,7 +67,7 @@ class NewHeroTest10 {
         assertEquals("atk", 54, unitA.atk)
         assertEquals("spd", 30, unitA.spd)
         assertEquals("def", 17, unitA.def)
-        assertEquals("res", 30, unitA.res)
+        assertEquals("spd", 30, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.クリフ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -118,7 +118,7 @@ class NewHeroTest10 {
         assertEquals("atk", 51, unitA.atk)
         assertEquals("spd", 35, unitA.spd)
         assertEquals("def", 31, unitA.def)
-        assertEquals("res", 24, unitA.res)
+        assertEquals("spd", 24, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.アルフォンス.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -169,7 +169,7 @@ class NewHeroTest10 {
         assertEquals("atk", 47, unitA.atk)
         assertEquals("spd", 37, unitA.spd)
         assertEquals("def", 32, unitA.def)
-        assertEquals("res", 27, unitA.res)
+        assertEquals("spd", 27, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.エフラム.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -219,7 +219,7 @@ class NewHeroTest10 {
         assertEquals("atk", 46, unitA.atk)
         assertEquals("spd", 32, unitA.spd)
         assertEquals("def", 20, unitA.def)
-        assertEquals("res", 26, unitA.res)
+        assertEquals("spd", 26, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.クリフ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))

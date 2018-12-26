@@ -105,7 +105,7 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     Poleaxe(SkillName.Poleaxe, SkillType.AXE, 10, SteelAxe, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     Poleaxe2(SkillName.Poleaxe2, SkillType.AXE, 14, Poleaxe, SpType.PLUS, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     CamillasAxe(SkillName.CamillasAxe, SkillType.AXE, 16, BraveAxe2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowSpd(battleUnit, 4), 4) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atkSpd(battleUnit, 4) else battleUnit
     },
     ArdentService(SkillName.ArdentService, SkillType.AXE, 10, SteelAxe, SpType.SILVER),
     ArdentService2(SkillName.ArdentService2, SkillType.AXE, 14, ArdentService, SpType.PLUS, RefinedWeapon.RefineType.Range1),

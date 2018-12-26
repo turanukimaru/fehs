@@ -56,7 +56,7 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
     Parthia(SkillName.Parthia, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowRes(battleUnit, 2)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, 2)
     },
     FujinYumi(SkillName.FujinYumi, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     Nidhogg(SkillName.Nidhogg, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
@@ -86,7 +86,7 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
         //マップ実装時には敵ユニット数との判定が必要
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0)
-            blowAtk(blowSpd(battleUnit, 5), 5)
+            atk(spd(battleUnit, 5), 5)
         else battleUnit
     },
     Cocobow(SkillName.Cocobow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {

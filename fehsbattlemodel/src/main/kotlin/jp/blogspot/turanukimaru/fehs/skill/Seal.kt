@@ -121,13 +121,13 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
         } / 10 else damage
     },
     AtkDefBond(SkillName.AtkDefBond, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) blowAtk(blowDef(battleUnit, lv + 2), lv + 2) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atk(def(battleUnit, lv + 2), lv + 2) else battleUnit
     },
     BrazenAtkRes(SkillName.BrazenAtkRes, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
     },
     DartingStance(SkillName.DartingStance) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(battleUnit, lv * 2)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, lv * 2)
     },
     SpdDef(SkillName.SpdDef, maxLevel = 2, spType = SpType.BASE80) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipDef(armedHero, lv), lv)

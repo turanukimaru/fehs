@@ -82,7 +82,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
     WargodsTome(SkillName.WargodsTome, SkillType.BTOME, 14, Thoron),
     Mjolnir(SkillName.Mjolnir, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowSpd(battleUnit, 6)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, 6)
     },
     FreshBouquet(SkillName.FreshBouquet, SkillType.BTOME, 8, Thoron, SpType.SILVER),
     FreshBouquet2(SkillName.FreshBouquet2, SkillType.BTOME, 12, FreshBouquet, SpType.PLUS, RefinedWeapon.RefineType.Range2),

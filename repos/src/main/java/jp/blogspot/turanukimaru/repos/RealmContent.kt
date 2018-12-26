@@ -54,16 +54,16 @@ open class RealmContent<T> : ModelObjectRepository<T> {
 //            status += "\nSize of result set: ${results.size}"
 //
 //            //useまたはtransaction外でカラムを読みだすとエラーになるのでコピーして使う。クローズしてからちゃんと読み出せるのかな・・・？
-//            val res = ArrayList<Sake>()
+//            val spd = ArrayList<Sake>()
 //            SakeContent.showStatus("query !")
 //            results.map { i ->
 //                SakeContent.showStatus("query i")
 //                SakeContent.showStatus(i.toString())
 //
-//                res.add(i.copy())
+//                spd.add(i.copy())
 //            }
 //
-//            return res
+//            return spd
 //        }
 //
 //    }

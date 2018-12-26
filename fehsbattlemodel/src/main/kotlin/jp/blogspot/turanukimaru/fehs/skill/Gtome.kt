@@ -46,7 +46,7 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
     Elivagar(SkillName.Elivagar, SkillType.GTOME, 14, Rexcalibur),
     Excalibur(SkillName.Excalibur, SkillType.GTOME, 14, Rexcalibur, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     Naga(SkillName.Naga, SkillType.GTOME, 14, Rexcalibur, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowDef(blowRes(battleUnit, 2), 2)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, 2)
     },
     DarkExcalibur(SkillName.DarkExcalibur, SkillType.GTOME, 14, Rexcalibur) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
@@ -75,7 +75,7 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
     },
     NiflFrostflowers(SkillName.NiflFrostflowers, SkillType.GTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowSpd(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, battleUnit.adjacentUnits * 2)
     },
     GigaExcalibur(SkillName.GigaExcalibur, SkillType.GTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)

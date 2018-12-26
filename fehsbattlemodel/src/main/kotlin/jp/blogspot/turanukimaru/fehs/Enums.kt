@@ -167,33 +167,35 @@ enum class SkillType(val jp: String, val weaponType: WeaponType? = null, val pre
 
 //シンプルな関数のリストをもつこともできそう。ENUMにはならんだろうが.コンストラクタに入れる関数はEnum内へのスコープを持たないからこうするしかないのか
 val spLevel2n: (n: Int) -> Int = { n ->
-    when (n) {1 -> 1;2 -> 2;3 -> 4;4 -> 8;else -> 0
+    when (n) {
+        1 -> 1;2 -> 2;3 -> 4;4 -> 8;else -> 0
     }
 }
 
 enum class SpType(val sp: (lv: Int) -> Int) {
-    NONE({ _ -> 0 }),
-    IRON({ _ -> 50 }),
-    STEEL({ _ -> 100 }),
-    SILVER({ _ -> 200 }),
-    PLUS({ _ -> 300 }),
-    LEGEND_W({ _ -> 400 }),
-    ASSIST({ _ -> 150 }),
-    ASSIST2({ _ -> 300 }),
-    ASSIST3({ _ -> 400 }),
-    SPECIAL3({ _ -> 100 }),
-    SPECIAL4({ _ -> 200 }),
-    SPECIAL_A({ _ -> 300 }),
-    SPECIAL5({ _ -> 500 }),
-    LEGEND_S({ _ -> 300 }),
-    SHIELD({ _ -> 200 }),
-    BREATH({ _ -> 240 }),
+    NONE({ 0 }),
+    IRON({ 50 }),
+    STEEL({ 100 }),
+    SILVER({ 200 }),
+    PLUS({ 300 }),
+    LEGEND_W({ 400 }),
+    ASSIST({ 150 }),
+    ASSIST2({ 300 }),
+    ASSIST3({ 400 }),
+    SPECIAL3({ 100 }),
+    SPECIAL4({ 200 }),
+    SPECIAL_A({ 300 }),
+    SPECIAL5({ 500 }),
+    LEGEND_S({ 300 }),
+    SHIELD({ 200 }),
+    BREATH({ 240 }),
     BASE30({ lv -> 30 * spLevel2n(lv) }),//能力値+3
     BASE40({ lv -> 40 * spLevel2n(lv) }),//覚醒
     BASE50({ lv -> 50 * spLevel2n(lv) }),//ほとんどこっち
     BASE60({ lv -> 60 * spLevel2n(lv) }),//回復、蛇毒、紫煙
     BASE70({ lv ->
-        when (lv) { 1 -> 70;2 -> 150;3 -> 300;else -> 0
+        when (lv) {
+            1 -> 70;2 -> 150;3 -> 300;else -> 0
         }
     }),//Duel査定系
     BASE80({ lv -> 80 * spLevel2n(lv) }),//能力値+2x2

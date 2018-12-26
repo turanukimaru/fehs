@@ -76,7 +76,7 @@ enum class Rtome(override val jp: SkillName, override val type: SkillType, overr
     },
     MuspellFireposy(SkillName.MuspellFireposy, SkillType.RTOME, 14, Bolganone) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = blowAtk(blowSpd(battleUnit, battleUnit.adjacentUnits * 2), battleUnit.adjacentUnits * 2)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, battleUnit.adjacentUnits * 2)
     },
     FruitOfIdunn(SkillName.FruitOfIdunn, SkillType.RTOME, 14, Bolganone) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)

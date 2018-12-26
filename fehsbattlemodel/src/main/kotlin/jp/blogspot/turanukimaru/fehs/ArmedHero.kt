@@ -148,7 +148,7 @@ data class ArmedHero(
         equip()
     }
 
-    override fun toString(): String = "$name MaxHP:$maxHp , totalAtk:$atk , spd:$spd , def:$def , res:$res ,weapon:$weapon, refinedWeapon:$refinedWeapon, assist:$assist, special:$special, skillA,$aSkill, skillB:$bSkill, skillC:$cSkill, seal:$seal, hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
+    override fun toString(): String = "$name MaxHP:$maxHp , totalAtk:$atk , spd:$spd , def:$def , spd:$res ,weapon:$weapon, refinedWeapon:$refinedWeapon, assist:$assist, special:$special, skillA,$aSkill, skillB:$bSkill, skillC:$cSkill, seal:$seal, hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
 
     val totalSp get() = skills.fold(0) { point, skill -> point + skill.sp() }
     //合計能力値はASkillだけだろうしこれでいいだろ

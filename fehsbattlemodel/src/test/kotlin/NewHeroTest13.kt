@@ -15,7 +15,7 @@ class NewHeroTest13 {
         assertEquals("atk", 48, unitA.atk)
         assertEquals("spd", 23, unitA.spd)
         assertEquals("def", 30, unitA.def)
-        assertEquals("res", 34, unitA.res)
+        assertEquals("spd", 34, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.アイク.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -35,7 +35,7 @@ class NewHeroTest13 {
         assertEquals("atk", 57, unitA.atk)
         assertEquals("spd", 23, unitA.spd)
         assertEquals("def", 36, unitA.def)
-        assertEquals("res", 29, unitA.res)
+        assertEquals("spd", 29, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.アイク.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -99,7 +99,7 @@ class NewHeroTest13 {
         assertEquals("atk", 49, unitA.atk)
         assertEquals("spd", 26, unitA.spd)
         assertEquals("def", 33, unitA.def)
-        assertEquals("res", 41, unitA.res)
+        assertEquals("spd", 41, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.アイク.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -180,7 +180,7 @@ class NewHeroTest13 {
         assertEquals("atk", 47, unitA.atk)
         assertEquals("spd", 23, unitA.spd)
         assertEquals("def", 30, unitA.def)
-        assertEquals("res", 36, unitA.res)
+        assertEquals("spd", 36, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.チキ__伝承英雄_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
