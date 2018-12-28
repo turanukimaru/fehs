@@ -124,7 +124,7 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atk(def(battleUnit, lv + 2), lv + 2) else battleUnit
     },
     BrazenAtkRes(SkillName.BrazenAtkRes, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenRes(battleUnit, lv * 2 + 1), lv * 2 + 1)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtkRes(battleUnit, lv * 2 + 1)
     },
     DartingStance(SkillName.DartingStance) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, lv * 2)

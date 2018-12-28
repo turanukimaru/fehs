@@ -106,6 +106,9 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
     TacticalBolt(SkillName.TacticalBolt, SkillType.BTOME, 14, Blarraven, SpType.PLUS) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
+    PrayerWheel(SkillName.WeirdingTome, SkillType.BTOME, 14, Thoron) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+    },
     ;
 
     /**

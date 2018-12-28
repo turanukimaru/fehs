@@ -15,4 +15,14 @@ class SkillTextTest {
         println(fightResult[0].source.activatedSkills.size)
         println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
     }
+    @Test
+    fun fl2Test() {
+        val unitA = ArmedHero(StandardBaseHero.get(HeroName.エイリーク__冬_.jp)!!)
+        val attacker = BattleUnit(unitA, unitA.maxHp / 2)
+        attacker.armedHero.aSkill = SkillA.BrazenAtkSpd.lv(3)
+        val unitB = ArmedHero(StandardBaseHero.get(HeroName.アイク.jp)!!)
+        val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
+        println(fightResult[0].source.activatedSkills.size)
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+    }
 }

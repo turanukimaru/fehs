@@ -857,6 +857,9 @@ object StandardBaseHero {
                 Breath.GlitteringBreath2, null, Special.Luna, SkillA.DefResBond.lv(3), SkillB.VengefulFighter.lv(3), SkillC.ArmorMarch.lv(3))
         createItem(HeroName.セシリア__冬_, 0, WeaponType.DAGGER, MoveType.ARMORED, 5, 19, 11, 6, 6, 10, g50, g55, g40, g55, g60,
                 Dagger.GoodieBoot2, null, Special.Iceberg, SkillA.AtkResBond.lv(3), null, SkillC.DefPloy.lv(3))
+        createItem(HeroName.アクア__伝承英雄_, 2, WeaponType.BTOME, MoveType.FLIER, 5, 14, 6, 7, 4, 5, g45, g55, g65, g30, g45,
+                Btome.PrayerWheel, Assist.GrayWaves, null, SkillA.BDuelFlying.lv(3), SkillB.Aerobatics.lv(3), SkillC.AtkTactic.lv(3))
+
         //        createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
         //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

@@ -64,7 +64,7 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     },
     ThunderArmoads(SkillName.ThunderArmoads, SkillType.AXE, 16, SilverAxe) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiFollowupAdjast(battleUnit, enemy)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiFollowupAdjacet(battleUnit, enemy)
     },
     Urvan(SkillName.Urvan, SkillType.AXE, 16, SilverAxe) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)

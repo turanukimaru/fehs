@@ -859,6 +859,10 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     FestiveSiegmund("業槍ジークムント","Festive Siegmund","業槍齊格蒙德"),
     GoodieBoot("冬祭のブーツ","Goodie Boot","冬祭之靴"),
     GoodieBoot2("冬祭のブーツ＋","Goodie Boot+","冬祭之靴＋"),
+    PrayerWheel("","Prayer Wheel","Prayer Wheel"),
+    GrayWaves("","Gray Waves","Gray Waves"),
+    BDuelFlying("","B Duel Flying","B Duel Flying"),
+
     ;
 
     /**

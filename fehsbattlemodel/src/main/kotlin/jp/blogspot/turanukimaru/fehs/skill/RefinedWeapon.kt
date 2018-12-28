@@ -224,7 +224,7 @@ enum class RefinedWeapon(override val jp: SkillName, val hp: Int, val atk: Int, 
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, if (enemy.armedHero.baseHero.weaponType.range == 2) 6 else 0)
     },
     Ragnarok(SkillName.BrazenAtkSpd, 0, 0, 0, 0, 0, RefineType.DependWeapon, Rtome.Ragnarok) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtk(brazenSpd(battleUnit, 7), 7)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtkSpd(battleUnit, 7)
     },
     ReesesTome(SkillName.RefinedReesesTome, 0, 0, 0, 0, 0, RefineType.DependWeapon, Rtome.ReesesTome),
     RegalBlade(SkillName.RefinedRegalBlade, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.RegalBlade) {

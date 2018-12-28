@@ -25,6 +25,7 @@ enum class Assist(override val jp: SkillName, override val type: SkillType, over
     RallyAtkSpd2(SkillName.RallyAtkSpd2, SkillType.ASSIST, spType = SpType.ASSIST3),
     Sing(SkillName.Sing, SkillType.ASSIST),
     Dance(SkillName.Dance, SkillType.ASSIST),
+    GrayWaves(SkillName.GrayWaves, SkillType.ASSIST, spType = SpType.LEGEND_W),
     ReciprocalAid(SkillName.ReciprocalAid, SkillType.ASSIST),
     ArdentSacrifice(SkillName.ArdentSacrifice, SkillType.ASSIST),
     Swap(SkillName.Swap, SkillType.ASSIST),

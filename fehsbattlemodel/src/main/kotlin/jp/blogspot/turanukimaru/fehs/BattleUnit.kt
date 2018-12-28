@@ -139,7 +139,7 @@ data class BattleUnit(val armedHero: ArmedHero
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
     val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
 
-    fun activatedSkillText(locale: Locale) = activatedSkills.fold("") { s, n -> s + n.toText(locale) }
+    fun activatedSkillText(locale: Locale) = activatedSkills.fold(armedHero.localeName(locale)) { s, n -> s + n.toText(locale) }
     /** マップ上で戦う際には必要になると思われる*/
     fun clearEffect() {
         atkEffect = 0

@@ -100,6 +100,10 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
 
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
+    BDuelFlying(SkillName.BDuelFlying, spType = SpType.BASE70) {
+        override fun totalParam(n: Int): Int = 170
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
+    },
     GDuelInfantry(SkillName.GDuelInfantry, spType = SpType.BASE70) {
         override fun totalParam(n: Int): Int = 170
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
@@ -217,7 +221,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     },
 
     BrazenAtkSpd(SkillName.BrazenAtkSpd, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtkSpd(battleUnit, lv * 2 + 1)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtkSpd(battleUnit, lv * 2 + 1,this)
     },
     BrazenAtkDef(SkillName.BrazenAtkDef, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtkDef(battleUnit, lv * 2 + 1)

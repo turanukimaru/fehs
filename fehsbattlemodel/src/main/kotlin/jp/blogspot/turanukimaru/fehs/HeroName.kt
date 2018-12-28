@@ -427,6 +427,7 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     エイリーク__冬_("エイリーク（冬）", "Eirika (Winter)", "艾莉可 (Winter)"),
     ファ__冬_("ファ（冬）", "Fae (Winter)", "法 (Winter)"),
     セシリア__冬_("セシリア（冬）", "Cecilia (Winter)", "瑟西莉亞 (Winter)"),
+    アクア__伝承英雄_("アクア（伝承英雄）", "Azura (Vanguard Legend)", "阿庫婭 (Vanguard Legend)"),
     ;
 
     /**

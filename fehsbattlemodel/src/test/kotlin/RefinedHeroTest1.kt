@@ -137,8 +137,8 @@ class RefinedHeroTest1 {
         assertEquals("hitPoint fail", 50, fightResult[1].source.hp)
         assertEquals("hitPoint fail", 41, fightResult[1].target.hp)
         assertEquals("attack side fail", SIDES.COUNTER, fightResult[2].side)
-        assertEquals("buildDamage fail", 41, fightResult[2].damage)
-        assertEquals("hitPoint fail", 9, fightResult[2].source.hp)
+        assertEquals("buildDamage fail", 48, fightResult[2].damage)
+        assertEquals("hitPoint fail", 2, fightResult[2].source.hp)
         assertEquals("hitPoint fail", 41, fightResult[2].target.hp)
     }
 
