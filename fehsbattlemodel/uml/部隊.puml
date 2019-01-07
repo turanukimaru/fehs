@@ -7,6 +7,6 @@ class "部隊" as Entity {
 
 class "英雄" as Hero {
 }
-Entity "*" o-- "4" Hero
+Entity "*" o--> "4" Hero
 
 @enduml

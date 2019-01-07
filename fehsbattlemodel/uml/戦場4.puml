@@ -1,7 +1,7 @@
 @startuml
 allow_mixing
 
-frame "トランザクション" {
+frame "戦闘トランザクション" {
 class "戦場" as Entity {
 }
 
@@ -9,15 +9,33 @@ class "升目" as Square {
 }
 
 class "英雄ステータス" as Hero {
+HP
+Buff
+Debuff
+攻撃()
+アシスト()
 }
 }
-class "英雄" as BaseHero {
+frame "ガチャ／編成トランザクション" {
+class "英雄（編成）" as ArmedHero {
+ID
+得意／不得意
+スキル装備
+etc.
 }
+}
+class "英雄（運営が作成）" as BaseHero {
 
+最大LVでのパラメータ
+武器の種類
+移動の種類
+etc.
+}
 Actor "プレイヤー" as Player
-Player "操作" --> Entity
-Entity  o-- "n" Hero
-Entity  o-- "6x7" Square
+Player "操作" ---> Entity
+Entity  o--> Hero
+Entity  o--> Square
 Square -> Hero
-BaseHero <- Hero
+Hero --> ArmedHero
+BaseHero <- ArmedHero
 @enduml

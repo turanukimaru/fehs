@@ -11,7 +11,7 @@ class "英雄" as Hero {
 
 Actor "プレイヤー" as Player
 Player "操作" -> Entity
-Entity  o-- "n" Hero
-Entity  o-- "6x7" Square
-Hero <- Square
+Entity  o--> "n" Hero
+Entity  o--> "6x7" Square
+Hero "0..1" <-- "1" Square
 @enduml

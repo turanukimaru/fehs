@@ -90,12 +90,10 @@ enum class SkillBaseText(val jp: String, val us: String) {
 //                Locale.TAIWAN -> tw
                 else -> us
             }
-
-    override fun toString(): String = jp
 }
 
-data class SkillText(val name: Skill, val text: SkillBaseText, var value: Int = 0, var next: SkillText? = null) {
-   fun localeText(l: Locale): String = when (l) {
+class SkillText(val name: Skill, val text: SkillBaseText, var value: Int = 0, var next: SkillText? = null) {
+   private fun localeText(l: Locale): String = when (l) {
         Locale.JAPANESE -> "" + text.localeText(l) + value + (next?.localeText(l) ?: "")
         else -> "Get" + text.localeText(l) + value + value + (next?.localeText(l) ?: "")
     }
@@ -105,7 +103,7 @@ data class SkillText(val name: Skill, val text: SkillBaseText, var value: Int = 
         else -> "Get" + localeText(l) + "with" + name.localeName(l)
     }
 
-    fun append(next: SkillText) {
-        if (this.next != null) this.next?.append(next) else this.next = next
+    fun add(next: SkillText) {
+       // if (this.next != null) this.next?.add(next) else this.next = next
     }
 }

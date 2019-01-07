@@ -149,7 +149,7 @@ data class BattleUnit(val armedHero: ArmedHero
     }
 
     fun addSkillText(skillText: SkillText): BattleUnit {
-        if (activatedSkills.size > 0 && activatedSkills.last().name == skillText.name)activatedSkills.last().append(skillText) else activatedSkills.add(skillText)
+        if (activatedSkills.size > 0 && activatedSkills.last().name == skillText.name)activatedSkills.last().add(skillText) else activatedSkills.add(skillText)
         return this
     }
 
