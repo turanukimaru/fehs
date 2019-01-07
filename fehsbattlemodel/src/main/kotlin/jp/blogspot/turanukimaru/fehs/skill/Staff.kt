@@ -43,6 +43,8 @@ enum class Staff(override val jp: SkillName, override val type: SkillType, overr
     Flash2(SkillName.Flash2, SkillType.STAFF, 11, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     JoyousLantern(SkillName.JoyousLantern, SkillType.STAFF, 8, Assault, SpType.STEEL),
     JoyousLantern2(SkillName.JoyousLantern2, SkillType.STAFF, 12, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff),
+    Kumade(SkillName.Kumade, SkillType.STAFF, 8, Assault, SpType.STEEL),
+    Kumade2(SkillName.Kumade2, SkillType.STAFF, 12, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     ;
 
     /**

@@ -233,9 +233,14 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     ScarletSword(SkillName.ScarletSword, SkillType.SWORD, 16, SilverSword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
     },
-    WhitewingBlade(SkillName.WhitewingBlade, SkillType.SWORD, 16, RubySword, SpType.PLUS) {
+    WhitewingBlade(SkillName.WhitewingBlade, SkillType.SWORD, 16, RubySword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, 3)
     },
+    Hikami(SkillName.Hikami, SkillType.SWORD, 16, SilverSword) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+    },
+    Geishun(SkillName.Geishun, SkillType.SWORD, 10, SteelSword, SpType.SILVER),
+    Geishun2(SkillName.Geishun2, SkillType.SWORD, 14, Geishun, SpType.PLUS, RefinedWeapon.RefineType.Range1),
     ;
 
     /**

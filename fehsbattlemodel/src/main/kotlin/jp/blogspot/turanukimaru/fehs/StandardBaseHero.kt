@@ -573,7 +573,7 @@ object StandardBaseHero {
         createItem(HeroName.ヨシュア, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 18, 7, 9, 8, 6, 6, 7, 8, 6, 6,
                 Sword.Audhulma, null, Special.Moonbow, SkillA.CloseDef.lv(3), SkillB.Windsweep.lv(3), null)
         createItem(HeroName.フィヨルム, 2, WeaponType.LANCE, MoveType.INFANTRY, 5, 17, 8, 7, 8, 8, 6, 6, 7, 6, 8,
-                Lance.Leiptr, null, Special.IceMirror, SkillA.AtkResBond, SkillB.ShieldPulse.lv(3), SkillC.DriveAtk.lv(2))
+                Lance.Leiptr, null, Special.IceMirror, SkillA.AtkResBond.lv(3), SkillB.ShieldPulse.lv(3), SkillC.DriveAtk.lv(2))
         createItem(HeroName.シャラ, 3, WeaponType.GTOME, MoveType.INFANTRY, 5, 17, 9, 8, 4, 7, 5, 8, 8, 4, 4,
                 Gtome.KeenGronnwolf2, Assist.RallyAtkDef, null, SkillA.DistantDef, null, SkillC.SavageBlow.lv(3))
         createItem(HeroName.シノノメ, 2, WeaponType.LANCE, MoveType.INFANTRY, 5, 19, 9, 6, 9, 5, 6, 8, 7, 8, 4,
@@ -860,6 +860,16 @@ object StandardBaseHero {
         createItem(HeroName.アクア__伝承英雄_, 2, WeaponType.BTOME, MoveType.FLIER, 5, 14, 6, 7, 4, 5, g45, g55, g65, g30, g45,
                 Btome.PrayerWheel, Assist.GrayWaves, null, SkillA.BDuelFlying.lv(3), SkillB.Aerobatics.lv(3), SkillC.AtkTactic.lv(3))
 
+        createItem(HeroName.スリーズ__正月_, 1, WeaponType.SWORD, MoveType.FLIER, 5, 16, 8, 11, 8, 4, g50, g60, g60, g45, g50,
+                Sword.Hikami, null, Special.Glimmer, SkillA.SwiftSparrow.lv(2), SkillB.Desperation.lv(3), SkillC.JointHoneSpd)
+        createItem(HeroName.フリーズ__正月_, 1, WeaponType.SWORD, MoveType.FLIER, 5, 18, 10, 4, 10, 5, g55, g65, g35, g60, g50,
+                Sword.Geishun2, Assist.Swap, null, SkillA.AtkDefBond.lv(3), SkillB.QuickRiposte.lv(3), SkillC.HoneAtk.lv(4))
+        createItem(HeroName.フィヨルム__正月_, 3, WeaponType.BOW, MoveType.FLIER, 5, 17, 9, 9, 5, 4, g50, g60, g60, g35, g40,
+                Bow.KaburaYa2, Assist.Reposition, null, SkillA.AtkSpdBond.lv(3), SkillB.AtkSpdLink.lv(3), SkillC.EvenResWave.lv(3))
+        createItem(HeroName.レーヴァテイン__正月_, 0, WeaponType.STAFF, MoveType.CAVALRY, 5, 16, 10, 6, 8, 3, g40, g60, g55, g45, g35,
+                Staff.Kumade2, Assist.Rehabilitate2, Special.EarthfireBalm2, null, SkillB.WrathfulStaff.lv(3), SkillC.EvenDefWave.lv(3))
+        createItem(HeroName.レーギャルン__正月_, 2, WeaponType.LANCE, MoveType.CAVALRY, 4, 16, 8, 9, 9, 4, g50, g55, g60, g60, g30,
+                Lance.Wagasa2, Assist.Pivot, null, null, SkillB.ChillRes.lv(3), SkillC.DefTactic.lv(3))
         //        createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
         //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

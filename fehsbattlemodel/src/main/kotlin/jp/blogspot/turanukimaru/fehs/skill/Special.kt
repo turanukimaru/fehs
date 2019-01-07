@@ -70,6 +70,8 @@ enum class Special(override val jp: SkillName, override val type: SkillType, ove
     SolidEarthBalm(SkillName.SolidEarthBalm, SkillType.SPECIAL_D, 1),
     EarthwaterBalm(SkillName.EarthwaterBalm, SkillType.SPECIAL_D, 1),
     EarthwaterBalm2(SkillName.EarthwaterBalm2, SkillType.SPECIAL_D, 1),
+    EarthfireBalm(SkillName.EarthfireBalm, SkillType.SPECIAL_D, 1),
+    EarthfireBalm2(SkillName.EarthfireBalm2, SkillType.SPECIAL_D, 1),
     SwiftWindsBalm(SkillName.SwiftWindsBalm, SkillType.SPECIAL_D, 1),
     KindledFireBalm(SkillName.KindledFireBalm, SkillType.SPECIAL_D, 1),
     StillWaterBalm(SkillName.StillWaterBalm, SkillType.SPECIAL_D, 1),

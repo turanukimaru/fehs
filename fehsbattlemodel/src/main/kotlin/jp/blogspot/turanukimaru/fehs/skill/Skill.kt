@@ -1176,14 +1176,15 @@ interface Skill {
     }
 
     //バフ分攻撃に追加。ただこれFlat扱いだったような
-    fun addDealtDamage(battleUnit: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage,battleUnit.armedHero.maxHp - battleUnit.hp))
-                battleUnit.atkEffect +=  battleUnit.atkBuff + battleUnit.spdBuff + battleUnit.defBuff + battleUnit.resBuff
+    fun addBuffToAttack(battleUnit: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, battleUnit.atkBuff + battleUnit.spdBuff + battleUnit.defBuff + battleUnit.resBuff))
+        battleUnit.atkEffect += battleUnit.atkBuff + battleUnit.spdBuff + battleUnit.defBuff + battleUnit.resBuff
         return battleUnit
     }
 
     fun nullFollowUp(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.NoFollowupAttackEach))
             battleUnit.antiFollowup = false
             enemy.followupable = false
         }
@@ -1193,6 +1194,7 @@ interface Skill {
     fun mysticBoost(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         enemy.wrathfulStaff = false
         //貫通タイプを元に戻す。武器に元と貫通タイプと持たせてもいいがそっちは修正量大きいんだよなあ
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiPenetrate))
         enemy.overrideDamageType = when (enemy.armedHero.weapon.type) {
             SkillType.PENETRATE_DAGGER -> SkillType.DAGGER
             SkillType.PENETRATE_DRAGON -> SkillType.DRAGON
@@ -1204,6 +1206,7 @@ interface Skill {
     fun sylgr(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         //飛燕とか計算した後なのかなあ.一回ちゃんと調べるか
         if (battleUnit.effectedSpd > enemy.effectedSpd) {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, 4))
             battleUnit.atkEffect += 4
             battleUnit.spdEffect += 4
         }
@@ -1212,6 +1215,7 @@ interface Skill {
 
     fun adjacentDebuff(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.adjacentUnits > 0) {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiAtkSpdDefRes, lv))
             enemy.atkEffect -= lv
             enemy.spdEffect -= lv
             enemy.defEffect -= lv
@@ -1222,6 +1226,7 @@ interface Skill {
 
     fun triangleEffect(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.adjacentUnits >= 2) {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, 3))
             battleUnit.atkEffect += 3
             battleUnit.spdEffect += 3
             battleUnit.defEffect += 3
@@ -1231,6 +1236,6 @@ interface Skill {
         return battleUnit
     }
 
-    fun triangleAttack(battleUnit: BattleUnit): BattleUnit = if (battleUnit.adjacentUnits >= 2) doubleAttack(battleUnit) else battleUnit
+    fun triangleAttack(battleUnit: BattleUnit, s: Skill = Skill.NONE): BattleUnit = if (battleUnit.adjacentUnits >= 2) doubleAttack(battleUnit, s) else battleUnit
 
 }

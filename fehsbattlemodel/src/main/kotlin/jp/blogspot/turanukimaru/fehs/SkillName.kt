@@ -862,6 +862,18 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     PrayerWheel("","Prayer Wheel","Prayer Wheel"),
     GrayWaves("","Gray Waves","Gray Waves"),
     BDuelFlying("","B Duel Flying","B Duel Flying"),
+    Hikami("","",""),
+    JointHoneSpd("","",""),
+    Geishun("","",""),
+    Geishun2("","",""),
+    KaburaYa("","",""),
+    KaburaYa2("","",""),
+    Kumade("","",""),
+    Kumade2("","",""),
+    EarthfireBalm("","",""),
+    EarthfireBalm2("","",""),
+    Wagasa("","",""),
+    Wagasa2("","",""),
 
     ;
 
