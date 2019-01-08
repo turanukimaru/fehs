@@ -223,7 +223,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun atk(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, lv.toString()))
         battleUnit.atkEffect += lv
         return battleUnit
     }
@@ -232,7 +232,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun atkSpd(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, lv.toString()))
         battleUnit.atkEffect += lv
         battleUnit.spdEffect += lv
         return battleUnit
@@ -242,7 +242,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun atkDef(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDef, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDef, lv.toString()))
         battleUnit.atkEffect += lv
         battleUnit.defEffect += lv
         return battleUnit
@@ -252,7 +252,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun atkRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkRes, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkRes, lv.toString()))
         battleUnit.atkEffect += lv
         battleUnit.resEffect += lv
         return battleUnit
@@ -262,7 +262,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun spd(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Spd, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Spd, lv.toString()))
         battleUnit.spdEffect += lv
         return battleUnit
     }
@@ -271,7 +271,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun spdDef(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdDef, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdDef, lv.toString()))
         battleUnit.spdEffect += lv
         battleUnit.defEffect += lv
         return battleUnit
@@ -281,7 +281,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun spdRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdRes, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdRes, lv.toString()))
         battleUnit.spdEffect += lv
         battleUnit.resEffect += lv
         return battleUnit
@@ -291,7 +291,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun def(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Def, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Def, lv.toString()))
         battleUnit.defEffect += lv
         return battleUnit
     }
@@ -300,7 +300,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun defRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv.toString()))
         battleUnit.defEffect += lv
         battleUnit.resEffect += lv
         return battleUnit
@@ -310,7 +310,7 @@ interface Skill {
      *  戦闘時のみ上昇。
      */
     fun res(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Res, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Res, lv.toString()))
         battleUnit.resEffect += lv
         return battleUnit
     }
@@ -320,7 +320,7 @@ interface Skill {
      */
     fun closeDef(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (enemy.armedHero.baseHero.weaponType.range == 1) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv.toString()))
             battleUnit.defEffect += lv
             battleUnit.resEffect += lv
         }
@@ -332,7 +332,7 @@ interface Skill {
      */
     fun closeAllBonus(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (enemy.armedHero.baseHero.weaponType.range == 1) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv.toString()))
             battleUnit.atkEffect += lv
             battleUnit.spdEffect += lv
             battleUnit.defEffect += lv
@@ -346,7 +346,7 @@ interface Skill {
      */
     fun distantDef(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (enemy.armedHero.baseHero.weaponType.range == 2) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv.toString()))
             battleUnit.defEffect += lv
             battleUnit.resEffect += lv
         }
@@ -386,7 +386,7 @@ interface Skill {
      */
     fun boostAtk(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp - enemy.hp >= 3) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, lv.toString()))
             battleUnit.atkEffect += lv
         }
         return battleUnit
@@ -397,7 +397,7 @@ interface Skill {
      */
     fun boostSpd(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp - enemy.hp >= 3) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Spd, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Spd, lv.toString()))
             battleUnit.spdEffect += lv
         }
         return battleUnit
@@ -408,7 +408,7 @@ interface Skill {
      */
     fun boostDef(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp - enemy.hp >= 3) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Def, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Def, lv.toString()))
             battleUnit.defEffect += lv
         }
         return battleUnit
@@ -419,7 +419,7 @@ interface Skill {
      */
     fun boostRes(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp - enemy.hp >= 3) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Res, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Res, lv.toString()))
             battleUnit.resEffect += lv
         }
         return battleUnit
@@ -548,7 +548,7 @@ interface Skill {
      * 相性激化
      */
     fun colorAdvantage(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.TriangleAdept))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.TriangleAdept, (lv * 5 + 5).toString()+"%"))
         battleUnit.colorAdvantageLevel = lv
         return battleUnit
     }
@@ -779,8 +779,8 @@ interface Skill {
      */
     fun fullHpBonus(battleUnit: BattleUnit, i: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp == battleUnit.armedHero.maxHp) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, 2))
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, 2))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, 2.toString()))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, 2.toString()))
             battleUnit.atkEffect += 2
             battleUnit.spdEffect += 2
             battleUnit.defEffect += 2
@@ -794,7 +794,7 @@ interface Skill {
      * すべてにボーナス。オウルとか。粉塵はステータスが変化するので違う
      */
     fun allBonus(battleUnit: BattleUnit, i: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, i))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, i.toString()))
         battleUnit.atkEffect += i
         battleUnit.spdEffect += i
         battleUnit.defEffect += i
@@ -807,7 +807,7 @@ interface Skill {
      */
     fun enemyFullHpBonus(battleUnit: BattleUnit, enemy: BattleUnit, i: Int, s: Skill = Skill.NONE): BattleUnit {
         if (enemy.hp == enemy.armedHero.maxHp) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, i))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, i.toString()))
             battleUnit.atkEffect += i
             battleUnit.spdEffect += i
         }
@@ -842,7 +842,7 @@ interface Skill {
      * 戦闘時のブレードの効果。これEquipに統合してもいいか…
      */
     fun bladeEffect(battleUnit: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Blade, 2))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Blade, 2.toString()))
         battleUnit.blade = true
         return battleUnit
     }
@@ -852,8 +852,8 @@ interface Skill {
      */
     fun fullHpAtkSpdBonus(battleUnit: BattleUnit, i: Int, d: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp == battleUnit.armedHero.maxHp) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, i))
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, d))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, i.toString()))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, d.toString()))
             battleUnit.atkEffect += i
             battleUnit.spdEffect += i
             battleUnit.attackedHpLossAtEndOfFight += d
@@ -867,7 +867,7 @@ interface Skill {
     fun fullHpDoubleAttack(battleUnit: BattleUnit, d: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp == battleUnit.armedHero.maxHp) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.DoubleAttack))
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, d))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, d.toString()))
             battleUnit.doubleAttack = true
             battleUnit.attackedHpLossAtEndOfFight += d
         }
@@ -879,8 +879,8 @@ interface Skill {
      */
     fun fullHpAllBonus(battleUnit: BattleUnit, i: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp == battleUnit.armedHero.maxHp) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, i))
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, i))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, i.toString()))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, i.toString()))
             battleUnit.atkEffect += i
             battleUnit.spdEffect += i
             battleUnit.defEffect += i
@@ -896,7 +896,7 @@ interface Skill {
      */
     fun notFullHpAllBonus(battleUnit: BattleUnit, i: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp < battleUnit.armedHero.maxHp) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, i))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, i.toString()))
             battleUnit.atkEffect += i
             battleUnit.spdEffect += i
             battleUnit.defEffect += i
@@ -907,7 +907,7 @@ interface Skill {
 
     fun defHigherThanResBonus(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         if (enemy.def - 5 >= enemy.res) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, 7))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, 7.toString()))
             battleUnit.atkEffect += 7
         }
         return battleUnit
@@ -917,7 +917,7 @@ interface Skill {
      * 相手のバフ分攻撃に追加。
      */
     fun debuffBonus(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, enemy.atkBuff + enemy.spdBuff + enemy.defBuff + enemy.resBuff))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, (enemy.atkBuff + enemy.spdBuff + enemy.defBuff + enemy.resBuff).toString()))
         battleUnit.debuffBonus = enemy.atkBuff + enemy.spdBuff + enemy.defBuff + enemy.resBuff
         return battleUnit
     }
@@ -969,7 +969,7 @@ interface Skill {
      */
     fun heavyBlade(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.effectedAtk - enemy.effectedAtk > lv) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1.toString()))
             battleUnit.accelerateAttackCooldown = 1
         }
         return battleUnit
@@ -980,7 +980,7 @@ interface Skill {
      */
     fun flashingBlade(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd > lv) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1.toString()))
             battleUnit.accelerateAttackCooldown = 1
         }
         return battleUnit
@@ -991,7 +991,7 @@ interface Skill {
      */
     fun feliciasBlade(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         if (enemy.armedHero.isMagicWeapon()) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyPlate, 1))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyPlate, 1.toString()))
             //攻撃で儲けでも加速
             battleUnit.accelerateAttackCooldown = 1
             battleUnit.accelerateTargetCooldown = 1
@@ -1004,7 +1004,7 @@ interface Skill {
      */
     fun accelerateAttackCooldown(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 >= battleUnit.armedHero.maxHp * (11 - lv)) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1.toString()))
             battleUnit.accelerateAttackCooldown = 1
         }
         return battleUnit
@@ -1015,7 +1015,7 @@ interface Skill {
      */
     fun accelerateAttackCooldownWithAlly(battleUnit: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.adjacentUnits > 0) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1.toString()))
             battleUnit.accelerateAttackCooldown = 1
         }
         return battleUnit
@@ -1038,7 +1038,7 @@ interface Skill {
      */
     fun antiAccelerateCooldown(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 >= battleUnit.armedHero.maxHp * (11 - lv)) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Cancel, 1))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Cancel, 1.toString()))
             enemy.InflictAttackCooldown = 1
             enemy.InflictTargetCooldown = 1
         }
@@ -1049,7 +1049,7 @@ interface Skill {
      * ペイン.でも攻撃時効果は別に作るべきかなあ。攻撃時と参加時別だし死んだときに効果あるかどうかも別なんだよな
      */
     fun attackPain(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Pain, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Pain, lv.toString()))
         enemy.hpLossAtEndOfFight += lv
         return battleUnit
     }
@@ -1058,7 +1058,7 @@ interface Skill {
      * 戦闘後のHP回復
      */
     fun fightHpLoss(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.HpGain, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.HpGain, lv.toString()))
         battleUnit.hpLossAtEndOfFight += lv
         return battleUnit
     }
@@ -1067,7 +1067,7 @@ interface Skill {
      * 攻撃時のHP減少
      */
     fun attackHpLoss(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, lv.toString()))
         battleUnit.attackedHpLossAtEndOfFight += lv
         return battleUnit
     }
@@ -1076,7 +1076,7 @@ interface Skill {
      * 戦闘時のHP回復
      */
     fun attackHeal(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.HpGain, lv))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.HpGain, lv.toString()))
         battleUnit.hpLossAtEndOfFight -= lv
         return battleUnit
     }
@@ -1086,7 +1086,7 @@ interface Skill {
      */
     fun brazenAtkSpd(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, lv.toString()))
             battleUnit.atkEffect += lv
             battleUnit.spdEffect += lv
         }
@@ -1098,7 +1098,7 @@ interface Skill {
      */
     fun brazenAtkDef(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDef, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDef, lv.toString()))
             battleUnit.atkEffect += lv
             battleUnit.defEffect += lv
         }
@@ -1110,7 +1110,7 @@ interface Skill {
      */
     fun brazenAtkRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkRes, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkRes, lv.toString()))
             battleUnit.atkEffect += lv
             battleUnit.resEffect += lv
         }
@@ -1122,7 +1122,7 @@ interface Skill {
      */
     fun brazenSpdRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdRes, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.SpdRes, lv.toString()))
             battleUnit.spdEffect += lv
             battleUnit.resEffect += lv
         }
@@ -1134,7 +1134,7 @@ interface Skill {
      */
     fun brazenDefRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes, lv.toString()))
             battleUnit.defEffect += lv
             battleUnit.resEffect += lv
         }
@@ -1146,7 +1146,7 @@ interface Skill {
      */
     fun brazenRes(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 <= battleUnit.armedHero.maxHp * 8) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Res, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Res, lv.toString()))
             battleUnit.resEffect += lv
         }
         return battleUnit
@@ -1156,13 +1156,13 @@ interface Skill {
      * 怒り
      */
     fun wrath(battleUnit: BattleUnit, damage: Int, percentage: Int, s: Skill = Skill.NONE): Int = if (battleUnit.hp * 100 <= battleUnit.armedHero.maxHp * percentage) {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, 10))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, 10.toString()))
         damage + 10
     } else damage
 
     fun spdFlat(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): Int = if (battleUnit.effectedPhantomSpd > enemy.effectedPhantomSpd) {
         val d = HandmaidMath.min((battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd) * 7 / 10, 7)
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, d))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, d.toString()))
         d
     } else 0
 
@@ -1177,7 +1177,7 @@ interface Skill {
 
     //バフ分攻撃に追加。ただこれFlat扱いだったような
     fun addBuffToAttack(battleUnit: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, battleUnit.atkBuff + battleUnit.spdBuff + battleUnit.defBuff + battleUnit.resBuff))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, (battleUnit.atkBuff + battleUnit.spdBuff + battleUnit.defBuff + battleUnit.resBuff).toString()))
         battleUnit.atkEffect += battleUnit.atkBuff + battleUnit.spdBuff + battleUnit.defBuff + battleUnit.resBuff
         return battleUnit
     }
@@ -1206,7 +1206,7 @@ interface Skill {
     fun sylgr(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         //飛燕とか計算した後なのかなあ.一回ちゃんと調べるか
         if (battleUnit.effectedSpd > enemy.effectedSpd) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, 4))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpd, 4.toString()))
             battleUnit.atkEffect += 4
             battleUnit.spdEffect += 4
         }
@@ -1215,7 +1215,7 @@ interface Skill {
 
     fun adjacentDebuff(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.adjacentUnits > 0) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiAtkSpdDefRes, lv))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiAtkSpdDefRes, lv.toString()))
             enemy.atkEffect -= lv
             enemy.spdEffect -= lv
             enemy.defEffect -= lv
@@ -1226,7 +1226,7 @@ interface Skill {
 
     fun triangleEffect(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.adjacentUnits >= 2) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, 3))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefRes, 3.toString()))
             battleUnit.atkEffect += 3
             battleUnit.spdEffect += 3
             battleUnit.defEffect += 3

@@ -1,6 +1,7 @@
 package jp.blogspot.turanukimaru.fehs
 
 import jp.blogspot.turanukimaru.fehs.skill.Skill
+import java.lang.RuntimeException
 
 /**
  * スキル効果。これ時間かかるし台湾語は流石に書けないな…追撃・追撃不可のデータ対応先にするべきかなあ
@@ -19,7 +20,7 @@ enum class SkillBaseText(val jp: String, val us: String) {
     FireSweep("どちらも反撃不能",""),
     NeutralizeBuffBonus("相手の強化を無効化",""),
     Blade("攻撃に＋を加算",""),
-    Dazzling("反撃不能",""),
+    Dazzling("相手は反撃不能",""),
     WrathfulStaff("杖も通常のダメージ",""),
     NoFollowupAttackEach("どちらも追撃不可",""),
     AntiFollowupAttack("相手は追撃不可",""),
@@ -29,7 +30,7 @@ enum class SkillBaseText(val jp: String, val us: String) {
     HeavyBlade("攻撃時カウント減少 + ", ""),
     HeavyPlate("カウント減少 + ", ""),
     DistantDef("遠距離防御時守備, 魔防 + ", ""),
-    CounterAllRange(" :距離に関係なく 反撃", ""),
+    CounterAllRange("距離に関係なく反撃", ""),
     DisableChangePlan("",""),Damage("ダメージ + ", ""),
     Atk("攻撃 + ", ""),
     Spd("速さ＋", ""),
@@ -92,18 +93,21 @@ enum class SkillBaseText(val jp: String, val us: String) {
             }
 }
 
-class SkillText(val name: Skill, val text: SkillBaseText, var value: Int = 0, var next: SkillText? = null) {
+class SkillText(val name: Skill, val text: SkillBaseText, var value: String = "", var next: SkillText? = null) {
    private fun localeText(l: Locale): String = when (l) {
         Locale.JAPANESE -> "" + text.localeText(l) + value + (next?.localeText(l) ?: "")
         else -> "Get" + text.localeText(l) + value + value + (next?.localeText(l) ?: "")
     }
 
     fun toText(l: Locale): String = when (l) {
-        Locale.JAPANESE -> "" + localeText(l)  + " with " + name.localeName(l)
+        Locale.JAPANESE -> localeText(l)  + (if (name != Skill.NONE) " with " + name.localeName(l) else "")+". "
         else -> "Get" + localeText(l) + "with" + name.localeName(l)
     }
 
     fun add(next: SkillText) {
-       // if (this.next != null) this.next?.add(next) else this.next = next
+        println(this.toText(Locale.JAPANESE))
+//        println(next.toText(Locale.JAPANESE))
+        if (this.next == next || next.next != null) throw RuntimeException("同じSkillTextを追加しようとしています$name/$text")
+        if (this.next != null) this.next?.add(next) else this.next = next
     }
 }

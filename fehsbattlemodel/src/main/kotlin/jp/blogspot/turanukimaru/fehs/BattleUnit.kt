@@ -120,7 +120,7 @@ data class BattleUnit(val armedHero: ArmedHero
          * ダメージタイプ置き換え…これブレスとかどうすりゃいいんだ？判定を戻して戦闘時効果で置き換えるか。
          */
                       , var overrideDamageType: SkillType = SkillType.NONE
-                      , val activatedSkills: MutableList<SkillText> = mutableListOf()
+                      , val activatedSkills: MutableList<SkillText> = mutableListOf()//ひょっとしてこれコピーされてるのか
 ) {
     //射程はともかく移動距離は制限を受ける可能性がある。いやそれを言うなら全てのステータスがそうであるが・・・これDelegateでできれば楽だと思ったけどBuff考えるとできないな
     val movableSteps: Int get() = armedHero.movableSteps
@@ -139,7 +139,7 @@ data class BattleUnit(val armedHero: ArmedHero
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
     val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
 
-    fun activatedSkillText(locale: Locale) = activatedSkills.fold(armedHero.localeName(locale)) { s, n -> s + n.toText(locale) }
+    fun activatedSkillText(locale: Locale) = activatedSkills.fold(armedHero.localeName(locale)) { s, n -> s + n.toText(locale)+"\n" }
     /** マップ上で戦う際には必要になると思われる*/
     fun clearEffect() {
         atkEffect = 0

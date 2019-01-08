@@ -96,26 +96,41 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
         (findViewById<Spinner>(R.id.levelBoostSpinner)).onItemSelectedListener = unitListener
 
         //計算実行ボタン作成
-        findViewById<Button>(R.id.button).onClick { _ ->
+        findViewById<Button>(R.id.button).onClick {
             Log.i("BattleSimulatorActivity", "fightStartButton onClick")
             val armedClass = ArmedHeroRepository.getById(findViewById<Button>(R.id.attackerRadioButton)!!.text.toString())
                     ?: return@onClick//無いときはそのまま戻れるみたい。凄い！
             Log.i("BattleSimulatorActivity", "armedHero : $armedClass")
-            val battleUnit = buildBattleUnit(armedClass)
-            battleUnit.defensiveTerrain = findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked || battleUnit.defensiveTerrain
-            battleUnit.buffDebuffTrigger = findViewById<CheckBox>(R.id.buffDebuffTriggerCheckBox).isChecked || battleUnit.buffDebuffTrigger
-            battleUnit.adjacentUnits = findSpinnerValOrNull(R.id.alliesSpinner) ?:  armedClass.adjacentUnits
-            battleUnit.atkBuff = findSpinnerValOrNull(R.id.atkBuffSpinner) ?: armedClass.atkBuff
-            battleUnit.spdBuff = findSpinnerValOrNull(R.id.spdBuffSpinner) ?: armedClass.spdBuff
-            battleUnit.defBuff = findSpinnerValOrNull(R.id.defBuffSpinner) ?: armedClass.defBuff
-            battleUnit.resBuff = findSpinnerValOrNull(R.id.resBuffSpinner) ?: armedClass.resBuff
-            battleUnit.atkEffect = findSpinnerValOrNull(R.id.atkSpurSpinner) ?: armedClass.atkSpur
-            battleUnit.spdEffect = findSpinnerValOrNull(R.id.spdSpurSpinner) ?: armedClass.spdSpur
-            battleUnit.defEffect = findSpinnerValOrNull(R.id.defSpurSpinner) ?: armedClass.defSpur
-            battleUnit.resEffect = findSpinnerValOrNull(R.id.resSpurSpinner) ?: armedClass.resSpur
-            battleUnit.specialCount = findSpinnerValOrNull(R.id.specialChargeSpinner) ?: 0
-            battleUnit.hp = battleUnit.hp * (findSpinnerValOrNull(R.id.damageTakenSpinner)
-                    ?: 100) / 100
+            val bd = findViewById<CheckBox>(R.id.defTerrainCheckBox).isChecked
+            val buffTrigger = findViewById<CheckBox>(R.id.buffDebuffTriggerCheckBox).isChecked
+            val adjacentUnits = findSpinnerValOrNull(R.id.alliesSpinner)
+            val aBuff = findSpinnerValOrNull(R.id.atkBuffSpinner)
+            val sBuff = findSpinnerValOrNull(R.id.spdBuffSpinner)
+            val dBuff = findSpinnerValOrNull(R.id.defBuffSpinner)
+            val rBuff = findSpinnerValOrNull(R.id.resBuffSpinner)
+            val aEffect = findSpinnerValOrNull(R.id.atkSpurSpinner)
+            val sEffect = findSpinnerValOrNull(R.id.spdSpurSpinner)
+            val dEffect = findSpinnerValOrNull(R.id.defSpurSpinner)
+            val rEffect = findSpinnerValOrNull(R.id.resSpurSpinner)
+            val hpp = findSpinnerValOrNull(R.id.damageTakenSpinner)
+            fun newBattleUnit(): BattleUnit {
+                val battleUnit = buildBattleUnit(armedClass)
+                battleUnit.defensiveTerrain = bd || armedClass.defensiveTerrain
+                battleUnit.buffDebuffTrigger = buffTrigger || armedClass.buffDebuffTrigger
+                battleUnit.adjacentUnits = adjacentUnits ?: armedClass.adjacentUnits
+                battleUnit.atkBuff = aBuff ?: armedClass.atkBuff
+                battleUnit.spdBuff = sBuff ?: armedClass.spdBuff
+                battleUnit.defBuff = dBuff ?: armedClass.defBuff
+                battleUnit.resBuff = rBuff ?: armedClass.resBuff
+                battleUnit.atkEffect = aEffect ?: armedClass.atkSpur
+                battleUnit.spdEffect = sEffect ?: armedClass.spdSpur
+                battleUnit.defEffect = dEffect ?: armedClass.defSpur
+                battleUnit.resEffect = rEffect ?: armedClass.resSpur
+                battleUnit.specialCount = findSpinnerValOrNull(R.id.specialChargeSpinner) ?: 0
+                battleUnit.hp = battleUnit.hp * (hpp ?: 100) / 100
+                return battleUnit
+            }
+
             val spinnerEnemyWeapon = findViewById<Spinner>(R.id.spinner_enemy_weapon)
             val spinnerEnemyMove = findViewById<Spinner>(R.id.spinner_enemy_move)
             val weaponType = WeaponType.weaponTypeOf(spinnerEnemyWeapon.selectedItem.toString())
@@ -144,14 +159,14 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
                 this.spdEffect = spdSpur ?: this.armedHero.spdSpur
                 this.defEffect = defSpur ?: this.armedHero.defSpur
                 this.resEffect = resSpur ?: this.armedHero.resSpur
-                this.defensiveTerrain = defensiveTargetTerrain || this.defensiveTerrain
+                this.defensiveTerrain = defensiveTargetTerrain || this.armedHero.defensiveTerrain
                 this.armedHero.levelBoost = if (levelBoost10) 10 else this.armedHero.levelBoost
                 this.armedHero.equip()
                 return this
             }
             Log.i("BattleSimulatorActivity", "targetList : $filteredUnits")
 //            val resultList = filteredUnits.fold(mutableListOf<List<AttackResult>>()) { list, e -> list.add(if (switch) BattleUnit(e, e.maxHp).fight(battleUnit) else battleUnit.fight(BattleUnit(e, e.maxHp)));list }
-            val resultList = filteredUnits.map { e -> if (switch) BattleUnit(e, e.maxHp).buff().fightAndAfterEffect(battleUnit) else battleUnit.fightAndAfterEffect(BattleUnit(e, e.maxHp).buff()) }
+            val resultList = filteredUnits.map { e -> if (switch) BattleUnit(e, e.maxHp).buff().fightAndAfterEffect(newBattleUnit()) else newBattleUnit().fightAndAfterEffect(BattleUnit(e, e.maxHp).buff()) }
             Log.i("BattleSimulatorActivity", "resultList : $resultList")
 
             //計算結果
