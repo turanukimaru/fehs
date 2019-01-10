@@ -8,17 +8,17 @@ import jp.blogspot.turanukimaru.fehs.skill.Skill
 enum class SkillBaseText(val jp: String, val us: String) {
     NONE("", ""),
     //まずは条件ではなく効果だけあればいいか
-    TriangleAdept("相性効果 + ", ""),
-    AntiTriangleAdept("相性効果反転", ""),
-    Breaker("絶対追撃、相手は追撃不可", ""),
-    Cancel("相手はカウント減少 -", ""),
-    AntiEffectiveAgainst("特効無効化", ""),
-    EffectiveAgainst("特効", ""),
-    DoubleAttack("二回攻撃", ""),
-    FollowupAttack("追撃", ""),
-    Sweep("追撃不可、相手は反撃不能", ""),
-    FireSweep("どちらも反撃不能", ""),
-    NeutralizeBuffBonus("相手の強化を無効化", ""),
+    TriangleAdept("相性効果 + ", "gain weapon advantage + "),
+    AntiTriangleAdept("相性効果反転", " reverses weapon advantage "),
+    Breaker("絶対追撃、相手は追撃不可", "makes follow-up attack and prevent foe's follow-up attack"),
+    Cancel("相手はカウント減少 -", "inflicts foe's cooldown charge"),
+    AntiEffectiveAgainst("特効無効化", "neutralizes effective against bonus"),
+    EffectiveAgainst("特効", "gets effective against bonus"),
+    DoubleAttack("二回攻撃", "attacks twice"),
+    FollowupAttack("追撃", "make follow-up attack"),
+    Sweep("追撃不可、相手は反撃不能", "make cannot follow-up attack and foe cannot counter attack"),
+    FireSweep("どちらも反撃不能", "make cannot each counter attack"),
+    NeutralizeBuffBonus("相手の強化を無効化", "neutralizes foe's bonuses "),
     Blade("攻撃に + を加算", ""),
     Dazzling("相手は反撃不能", ""),
     WrathfulStaff("杖も通常のダメージ", ""),
@@ -102,7 +102,7 @@ class SkillText(val name: Skill, val text: SkillBaseText, var value: String = ""
 
     fun toText(l: Locale): String = when (l) {
         Locale.JAPANESE -> localeText(l) + (if (name != Skill.NONE) " with " + name.localeName(l) else "") + ". "
-        else -> " get " + localeText(l) + (if (name != Skill.NONE) " with " + name.localeName(l) else "") + ". "
+        else ->  localeText(l) + (if (name != Skill.NONE) " with " + name.localeName(l) else "") + ". "
     }
 
     fun add(next: SkillText) {
