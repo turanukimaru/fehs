@@ -18,10 +18,14 @@ class RefinedHeroTest1 {
         assertEquals("spd", 30, unitA.spd)
         assertEquals("def", 40, unitA.def)
         assertEquals("spd", 25, unitA.res)
-
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.エフラム.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
+
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 12, fightResult[0].damage)
@@ -50,6 +54,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 16, fightResult[0].damage)
@@ -78,6 +86,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 2, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 31, fightResult[0].damage)
@@ -102,6 +114,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 41, fightResult[0].damage)
@@ -127,6 +143,10 @@ class RefinedHeroTest1 {
         val target = BattleUnit(unitA, unitA.maxHp)
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 2, fightResult[0].damage)
@@ -155,6 +175,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 29, fightResult[0].damage)
@@ -179,6 +203,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 35, fightResult[0].damage)
@@ -207,6 +235,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.シーマ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 28, fightResult[0].damage)
@@ -235,6 +267,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ファ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 1", 1, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 71, fightResult[0].damage)
@@ -250,6 +286,10 @@ class RefinedHeroTest1 {
         val target = BattleUnit(unitA, unitA.maxHp)
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 4", 4, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 9, fightResult[0].damage)
@@ -282,6 +322,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 5, fightResult[0].damage)
@@ -310,6 +354,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ウェンディ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 10, fightResult[0].damage)
@@ -334,6 +382,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ウェンディ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 14, fightResult[0].damage)
@@ -358,6 +410,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.リンダ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 2", 2, fightResult.size)
     }
 
@@ -375,6 +431,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ウェンディ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 17, fightResult[0].damage)
@@ -399,6 +459,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ウェンディ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 22, fightResult[0].damage)
@@ -427,6 +491,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 4", 4, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 3, fightResult[0].damage)
@@ -460,6 +528,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 22, fightResult[0].damage)
@@ -483,6 +555,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 27, fightResult[0].damage)
@@ -512,6 +588,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 48, fightResult[0].damage)
@@ -535,6 +615,10 @@ class RefinedHeroTest1 {
         val target = BattleUnit(unitA, unitA.maxHp)
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 3, fightResult[0].damage)
@@ -564,6 +648,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 2", 2, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 17, fightResult[0].damage)
@@ -589,6 +677,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ウェンディ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 23, fightResult[0].damage)
@@ -617,6 +709,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 2", 2, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 17, fightResult[0].damage)
@@ -636,6 +732,10 @@ class RefinedHeroTest1 {
         val target = BattleUnit(unitA, unitA.maxHp)
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 1", 1, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 33, fightResult[0].damage)
@@ -656,6 +756,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 3, fightResult[0].damage)
@@ -679,6 +783,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 7, fightResult[0].damage)
@@ -707,6 +815,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 9, fightResult[0].damage)
@@ -735,6 +847,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 18, fightResult[0].damage)
@@ -758,6 +874,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 18, fightResult[0].damage)
@@ -786,6 +906,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 2", 2, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 18, fightResult[0].damage)
@@ -805,6 +929,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.シーマ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 2", 2, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 43, fightResult[0].damage)
@@ -829,6 +957,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 31, fightResult[0].damage)
@@ -857,6 +989,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 18, fightResult[0].damage)
@@ -885,6 +1021,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 3, fightResult[0].damage)
@@ -909,6 +1049,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 3, fightResult[0].damage)
@@ -937,6 +1081,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 22, fightResult[0].damage)
@@ -965,6 +1113,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 2, fightResult[0].damage)
@@ -991,6 +1143,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 2, fightResult[0].damage)
@@ -1019,6 +1175,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ノノ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 2", 2, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 11, fightResult[0].damage)
@@ -1043,6 +1203,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ウェンディ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 16, fightResult[0].damage)
@@ -1071,6 +1235,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 14, fightResult[0].damage)
@@ -1099,6 +1267,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 24, fightResult[0].damage)
@@ -1127,6 +1299,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 22, fightResult[0].damage)
@@ -1150,6 +1326,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 24, fightResult[0].damage)
@@ -1179,6 +1359,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 21, fightResult[0].damage)
@@ -1202,6 +1386,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 23, fightResult[0].damage)
@@ -1230,6 +1418,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 11, fightResult[0].damage)
@@ -1254,6 +1446,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 14, fightResult[0].damage)
@@ -1282,6 +1478,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 36, fightResult[0].damage)
@@ -1306,6 +1506,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 36, fightResult[0].damage)
@@ -1334,6 +1538,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 22, fightResult[0].damage)
@@ -1363,6 +1571,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 11, fightResult[0].damage)
@@ -1391,6 +1603,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 3, fightResult[0].damage)
@@ -1419,6 +1635,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 5, fightResult[0].damage)
@@ -1442,6 +1662,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.リン.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 18, fightResult[0].damage)
@@ -1471,6 +1695,10 @@ class RefinedHeroTest1 {
         val target = BattleUnit(unitA, unitA.maxHp)
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 23, fightResult[0].damage)
@@ -1499,6 +1727,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ソフィーヤ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 1", 1, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 9, fightResult[0].damage)
@@ -1520,6 +1752,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 22, fightResult[0].damage)
@@ -1543,6 +1779,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 22, fightResult[0].damage)
@@ -1571,6 +1811,10 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ドーガ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
+        
+        println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
+        println(fightResult[0].source.statusText(Locale.JAPANESE))
+        
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
         assertEquals("buildDamage fail", 11, fightResult[0].damage)

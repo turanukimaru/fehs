@@ -1,7 +1,6 @@
 package jp.blogspot.turanukimaru.fehs
 
 import jp.blogspot.turanukimaru.fehs.skill.Skill
-import java.lang.RuntimeException
 
 /**
  * スキル効果。これ時間かかるし台湾語は流石に書けないな…追撃・追撃不可のデータ対応先にするべきかなあ
@@ -10,42 +9,44 @@ enum class SkillBaseText(val jp: String, val us: String) {
     NONE("", ""),
     //まずは条件ではなく効果だけあればいいか
     TriangleAdept("相性効果 + ", ""),
+    AntiTriangleAdept("相性効果反転", ""),
     Breaker("絶対追撃、相手は追撃不可", ""),
     Cancel("相手はカウント減少 -", ""),
     AntiEffectiveAgainst("特効無効化", ""),
     EffectiveAgainst("特効", ""),
-    DoubleAttack("二回攻撃",""),
-    FollowupAttack("追撃",""),
-    Sweep("追撃不可、相手は反撃不能",""),
-    FireSweep("どちらも反撃不能",""),
-    NeutralizeBuffBonus("相手の強化を無効化",""),
-    Blade("攻撃に＋を加算",""),
-    Dazzling("相手は反撃不能",""),
-    WrathfulStaff("杖も通常のダメージ",""),
-    NoFollowupAttackEach("どちらも追撃不可",""),
-    AntiFollowupAttack("相手は追撃不可",""),
+    DoubleAttack("二回攻撃", ""),
+    FollowupAttack("追撃", ""),
+    Sweep("追撃不可、相手は反撃不能", ""),
+    FireSweep("どちらも反撃不能", ""),
+    NeutralizeBuffBonus("相手の強化を無効化", ""),
+    Blade("攻撃に + を加算", ""),
+    Dazzling("相手は反撃不能", ""),
+    WrathfulStaff("杖も通常のダメージ", ""),
+    NoFollowupAttackEach("どちらも追撃不可", ""),
+    AntiFollowupAttack("相手は追撃不可", ""),
     HpLoss("戦闘後HP減少 -", ""),
     HpGain("戦闘後HP回復 +", ""),
-    Pain("相手は戦闘後HP減少 -", ""),
+    Pain("相手は戦闘後HP減少", ""),
     HeavyBlade("攻撃時カウント減少 + ", ""),
     HeavyPlate("カウント減少 + ", ""),
     DistantDef("遠距離防御時守備, 魔防 + ", ""),
     CounterAllRange("距離に関係なく反撃", ""),
-    DisableChangePlan("",""),Damage("ダメージ + ", ""),
+    DisableChangePlan("", ""), Damage("ダメージ + ", ""),
     Atk("攻撃 + ", ""),
-    Spd("速さ＋", ""),
-    Def("守備＋", ""),
-    Res("魔防＋", ""),
-    AtkSpd("攻撃速さ＋", ""),
-    AtkDef("攻撃守備＋", ""),
-    AtkRes("攻撃魔防＋", ""),
-    SpdDef("速さ守備", ""),
-    SpdRes("速さ魔防＋", ""),
-    DefRes("守備魔防＋", ""),
-    AtkSpdDefRes("攻撃速さ守備魔防＋", ""),
+    Spd("速さ + ", ""),
+    Def("守備 + ", ""),
+    Res("魔防 + ", ""),
+    AtkSpd("攻撃速さ + ", ""),
+    AtkDef("攻撃守備 + ", ""),
+    AtkRes("攻撃魔防 + ", ""),
+    SpdDef("速さ守備 + ", ""),
+    SpdRes("速さ魔防 + ", ""),
+    DefRes("守備魔防 + ", ""),
+    AtkMinus("相手の攻撃 - ", ""),
+    AtkSpdDefRes("攻撃速さ守備魔防 + ", ""),
     AntiAtkSpdDefRes("相手の攻撃速さ守備魔防 - ", ""),
     SteadyStance4("攻撃対象時に相手の奥義カウント－１", ""),
-    Breath("攻撃対象時に奥義カウント＋１", ""),
+    Breath("攻撃対象時に奥義カウント + １", ""),
     //    FierceBreath("", ""),
     Blow("攻撃時", ""),
     Stance("攻撃対象時", ""),
@@ -94,19 +95,17 @@ enum class SkillBaseText(val jp: String, val us: String) {
 }
 
 class SkillText(val name: Skill, val text: SkillBaseText, var value: String = "", var next: SkillText? = null) {
-   private fun localeText(l: Locale): String = when (l) {
-        Locale.JAPANESE -> "" + text.localeText(l) + value + (next?.localeText(l) ?: "")
-        else -> "Get" + text.localeText(l) + value + value + (next?.localeText(l) ?: "")
+    private fun localeText(l: Locale): String = when (l) {
+        Locale.JAPANESE -> text.localeText(l) + value + (if (next != null) " & " else "") + (next?.localeText(l) ?: "")
+        else -> text.localeText(l) + value + (if (next != null) " & " else "") + (next?.localeText(l))
     }
 
     fun toText(l: Locale): String = when (l) {
-        Locale.JAPANESE -> localeText(l)  + (if (name != Skill.NONE) " with " + name.localeName(l) else "")+". "
-        else -> "Get" + localeText(l) + "with" + name.localeName(l)
+        Locale.JAPANESE -> localeText(l) + (if (name != Skill.NONE) " with " + name.localeName(l) else "") + ". "
+        else -> " get " + localeText(l) + (if (name != Skill.NONE) " with " + name.localeName(l) else "") + ". "
     }
 
     fun add(next: SkillText) {
-        println(this.toText(Locale.JAPANESE))
-//        println(next.toText(Locale.JAPANESE))
         if (this.next == next || next.next != null) throw RuntimeException("同じSkillTextを追加しようとしています$name/$text")
         if (this.next != null) this.next?.add(next) else this.next = next
     }

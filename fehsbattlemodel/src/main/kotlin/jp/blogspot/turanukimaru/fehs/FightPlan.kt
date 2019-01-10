@@ -73,19 +73,19 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
     private fun buildFightPlan(attacker: BattleUnit, target: BattleUnit) {
         attacker.side = SIDES.ATTACKER
         target.side = SIDES.COUNTER
-        //速度が足りないか追撃不可の時は追撃梨
+        //速度が足りないか追撃不可の時は追撃除去
 //        log("attack")
 //        log(attacker.armedHero.baseHero)
 //        log(attacker)
 //        log(attacker.effectedSpd)
-        if ((attacker.followupable == attacker.antiFollowup && attacker.effectedSpd - target.effectedSpd < 5) || (!attacker.followupable && attacker.antiFollowup)) {
+        if ((attacker.followupable == attacker.antiFollowup && attacker.effectedSpd - target.effectedSpd < 5) || (attacker.followupable < attacker.antiFollowup)) {
 
             plan.remove(secondAttack)
         }
 //        log(target.armedHero.baseHero)
 //        log(target)
 //        log(target.effectedSpd)
-        if ((target.followupable == target.antiFollowup && target.effectedSpd - attacker.effectedSpd < 5) || (!target.followupable && target.antiFollowup)) {
+        if ((target.followupable == target.antiFollowup && target.effectedSpd - attacker.effectedSpd < 5) || (target.followupable < target.antiFollowup)) {
 
             plan.remove(secondCounter)
         }

@@ -270,8 +270,8 @@ data class ArmedHero(
      * LV1の時の能力値計算。武器以外装備してない・杖は武器も装備してないのでABCスキルは計算しない.デフォ武器違ったわ…
      */
     fun lv1equip(): BattleParam {
-        println("base:$baseRarity")
-        println("rarity:$rarity")
+//        println("base:$baseRarity")
+//        println("rarity:$rarity")
         //元のレアリティ保存
         val old = rarity
         rarity = if (baseRarity != 0) baseRarity else rarity
@@ -284,8 +284,8 @@ data class ArmedHero(
         //☆が5でないときは初期武器をさかのぼる。杖は最初武器を装備していない
         lvUpStatus()
         if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold(weapon) { w, _ -> w.preSkill.preSkill }.equip(this)
-        println("rarity:$rarity")
-        println("atkEqp:$atkEqp")
+//        println("rarity:$rarity")
+//        println("atkEqp:$atkEqp")
         val result = BattleParam(
                 boonedHp + hpEqp + hpBoost,
                 boonedAtk + atkEqp + atkBoost,
@@ -295,9 +295,9 @@ data class ArmedHero(
         )
         //計算しなおし
         rarity = old
-        println("result:$result")
+//        println("result:$result")
         equip()
-        println("result:$result")
+//        println("result:$result")
         return result
     }
 

@@ -17,15 +17,15 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
     PoisonDagger(SkillName.PoisonDagger, SkillType.DAGGER, 2, SteelDagger, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.INFANTRY)),
     PoisonDagger2(SkillName.PoisonDagger2, SkillType.DAGGER, 5, PoisonDagger, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.INFANTRY)),
     Seashell(SkillName.Seashell, SkillType.DAGGER, 7, SteelDagger, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpBonus(battleUnit, 2)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpBonus(battleUnit, 2, this)
     },
     Seashell2(SkillName.Seashell2, SkillType.DAGGER, 10, Seashell, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpBonus(battleUnit, 2)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpBonus(battleUnit, 2, this)
     },
     DancersFan(SkillName.DancersFan, SkillType.DAGGER, 7, SteelDagger, SpType.SILVER),
     DancersFan2(SkillName.DancersFan2, SkillType.DAGGER, 10, DancersFan, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     DeathlyDagger(SkillName.DeathlyDagger, SkillType.DAGGER, 11, SilverDagger, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 7)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 7, this)
     },
     KittyPaddle(SkillName.KittyPaddle, SkillType.DAGGER, 5, SteelDagger, SpType.SILVER, effectiveAgainstWeaponType = arrayOf(WeaponType.RTOME, WeaponType.BTOME, WeaponType.GTOME)),
     KittyPaddle2(SkillName.KittyPaddle2, SkillType.DAGGER, 8, KittyPaddle, SpType.PLUS, effectiveAgainstWeaponType = arrayOf(WeaponType.RTOME, WeaponType.BTOME, WeaponType.GTOME)),
@@ -62,71 +62,58 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
     CloudMaiougi(SkillName.CloudMaiougi, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3, this)
     },
     CloudMaiougi2(SkillName.CloudMaiougi2, SkillType.DAGGER, 12, CloudMaiougi, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3, this)
     },
     SkyMaiougi(SkillName.SkyMaiougi, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3, this)
     },
     SkyMaiougi2(SkillName.SkyMaiougi2, SkillType.DAGGER, 12, SkyMaiougi, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3, this)
     },
     DuskUchiwa(SkillName.SkyMaiougi, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3, this)
     },
     DuskUchiwa2(SkillName.SkyMaiougi2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3, this)
     },
     HoarfrostKnife(SkillName.HoarfrostKnife, SkillType.DAGGER, 14, SilverDagger) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
         //相手が反撃可能かを判定した後判定
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (enemy.effectiveRange == 1) {
-                battleUnit.defEffect += 20
+                def(battleUnit, 20, this)
                 if (enemy.counterAllRange) {
-                    battleUnit.followupable = true
+                    followupable(battleUnit, 10, this)
                 }
             }
             return battleUnit
         }
     },
     BottledJuice(SkillName.BottledJuice, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11, this)
     },
     BottledJuice2(SkillName.BottledJuice2, SkillType.DAGGER, 12, DuskUchiwa, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiAccelerateCooldown(battleUnit, enemy, 11, this)
     },
     Sylgr(SkillName.Sylgr, SkillType.DAGGER, 14, SilverDagger2) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = sylgr(battleUnit, enemy)
-        //      override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit=sylgr(battleUnit,enemy)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = sylgr(battleUnit, enemy, this)
 
     },
     Lyfjaberg(SkillName.Lyfjaberg, SkillType.DAGGER, 14, SilverDagger) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if (battleUnit.hp >= battleUnit.armedHero.maxHp / 2) {
-                battleUnit.atkEffect += 4
-                battleUnit.spdEffect += 4
-                fightHpLoss(battleUnit, 4)
-            }
-            return battleUnit
-        }
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.hp >= battleUnit.armedHero.maxHp / 2) fightHpLoss(atkSpd(battleUnit, 4, this), 4, this) else battleUnit
 
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if (battleUnit.hp >= battleUnit.armedHero.maxHp / 2) {
-                battleUnit.antiFollowup = true
-            }
-            return battleUnit
-        }
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.hp >= battleUnit.armedHero.maxHp / 2) antiFollowup(battleUnit, enemy, this) else battleUnit
     },
     GoodieBoot(SkillName.GoodieBoot, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
     },
     GoodieBoot2(SkillName.GoodieBoot2, SkillType.DAGGER, 12, GoodieBoot, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
     }
     ;
 

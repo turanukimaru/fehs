@@ -557,6 +557,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     DeflectMelee("連撃防御・剣槍斧", "Deflect Melee", "連擊防禦・剣槍斧"),
     DeflectMissile("連撃防御・弓暗器", "Deflect Missile", "連擊防禦・弓暗器"),
 
+    RefinedWeapon("錬成武器", "Refined Weapon", "Refined Weapon"),
     Range1Atk("攻撃(近)", "Atk(melee)", "攻擊(近)"),
     Range1Spd("速さ(近)", "Spd(melee)", "速度(近)"),
     Range1Def("守備(近)", "Def(melee)", "防守(近)"),

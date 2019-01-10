@@ -43,11 +43,11 @@ data class BattleUnit(val armedHero: ArmedHero
         /**
          * 速さを無視して追撃可能か
          */
-                      , var followupable: Boolean = false
+                      , var followupable: Int = 0
         /**
          * 速さを無視して追撃不可能か
          */
-                      , var antiFollowup: Boolean = false
+                      , var antiFollowup: Int = 0
         /**
          * 勇者武器などで2回攻撃可能か
          */
@@ -138,8 +138,9 @@ data class BattleUnit(val armedHero: ArmedHero
     private val effectedBladeAtk: Int get() = effectedAtk + if (blade && !neutralizeBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0 + debuffBonus
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
     val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
+    fun statusText(l :Locale): String  = armedHero.localeName(l) + " Total : H" + hp + " A" + effectedAtk + " S" + effectedSpd + " D" + effectedDef + " R" + effectedRes
 
-    fun activatedSkillText(locale: Locale) = activatedSkills.fold(armedHero.localeName(locale)) { s, n -> s + n.toText(locale)+"\n" }
+    fun activatedSkillText(locale: Locale) = if (activatedSkills.size > 0) activatedSkills.fold("") { s, n -> s +armedHero.localeName(locale) + n.toText(locale)+"\n" } else ""
     /** マップ上で戦う際には必要になると思われる*/
     fun clearEffect() {
         atkEffect = 0
@@ -152,14 +153,6 @@ data class BattleUnit(val armedHero: ArmedHero
         if (activatedSkills.size > 0 && activatedSkills.last().name == skillText.name)activatedSkills.last().add(skillText) else activatedSkills.add(skillText)
         return this
     }
-
-
-    /**
-     * コピー。data classなら書く必要はないのでいずれdata classにしてこれは削除したほうが良いかも
-     */
-//    fun clone(): BattleUnit {
-//        return BattleUnit(armedHero, hitPoint, specialCount, atkBuff, spdBuff, defBuff, resBuff, atkDebuff, spdDebuff, defDebuff, resDebuff, atkEffect, spdEffect, defEffect, resEffect, side)
-//    }
 
     fun buffAtk(buff: Int) {
         atkBuff = if (buff > atkBuff) buff else atkBuff
@@ -326,12 +319,6 @@ data class BattleUnit(val armedHero: ArmedHero
         return result
     }
 
-    /**
-     * 通常攻撃。奥義や連撃防御が発動しないときの数字。
-     */
-    //   fun normalAttack(buildDamage: Int, preventedDamage: Int, target: BattleUnit, results: List<AttackResult>): Pair<Int, String> {
-    //       return Skill.NONE.buildDamage(this, target, results, 0)
-    //   }
     /**
      * 色の倍率と特効が乗った攻撃。
      */

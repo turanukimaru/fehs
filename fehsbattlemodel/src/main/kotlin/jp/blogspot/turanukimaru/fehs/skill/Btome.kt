@@ -26,16 +26,16 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Blarowl(SkillName.Blarowl, SkillType.BTOME, 6, Elthunder, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
     },
     Blarowl2(SkillName.Blarowl2, SkillType.BTOME, 10, Blarowl, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
     },
     Blarserpent(SkillName.Blarserpent, SkillType.BTOME, 8, Elthunder, SpType.SILVER) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6, this)
     },
     Blarserpent2(SkillName.Blarserpent2, SkillType.BTOME, 12, Blarserpent, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6, this)
     },
     Thoron(SkillName.Thoron, SkillType.BTOME, 9, Elthunder, SpType.SILVER),
     Thoron2(SkillName.Thoron2, SkillType.BTOME, 13, Thoron, SpType.PLUS, RefinedWeapon.RefineType.Range2),
@@ -68,13 +68,13 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
     },
     Ivaldi(SkillName.Ivaldi, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = enemyFullHpBonus(battleUnit, enemy, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = enemyFullHpBonus(battleUnit, enemy, 3, this)
     },
     BlueGift(SkillName.BlueGift, SkillType.BTOME, 8, Thoron, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy,3, this)
     },
     BlueGift2(SkillName.BlueGift2, SkillType.BTOME, 12, BlueGift, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, 3,this)
     },
     HuginnsEgg(SkillName.HuginnsEgg, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
@@ -82,7 +82,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
     WargodsTome(SkillName.WargodsTome, SkillType.BTOME, 14, Thoron),
     Mjolnir(SkillName.Mjolnir, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, 6)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, 6, this)
     },
     FreshBouquet(SkillName.FreshBouquet, SkillType.BTOME, 8, Thoron, SpType.SILVER),
     FreshBouquet2(SkillName.FreshBouquet2, SkillType.BTOME, 12, FreshBouquet, SpType.PLUS, RefinedWeapon.RefineType.Range2),
@@ -97,11 +97,11 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
     },
     OdinsGrimoire(SkillName.OdinsGrimoire, SkillType.BTOME, 14, Blarblade2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit, this)
     },
     Sagittae(SkillName.Sagittae, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.atk + 5 <= enemy.atk) allBonus(battleUnit, 5) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.atk + 5 <= enemy.atk) allBonus(battleUnit, 5, this) else battleUnit
     },
     TacticalBolt(SkillName.TacticalBolt, SkillType.BTOME, 14, Blarraven, SpType.PLUS) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)

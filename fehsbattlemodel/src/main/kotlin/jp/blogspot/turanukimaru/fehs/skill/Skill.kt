@@ -361,8 +361,8 @@ interface Skill {
         log("threashold:${battleUnit.armedHero.maxHp * (lv * 20 - 10) / 100}")
         if ((battleUnit.hp >= battleUnit.armedHero.maxHp * (lv * 20 - 10) / 100) && enemy.armedHero.baseHero.weaponType == weapon) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.Breaker))
-            battleUnit.followupable = true
-            enemy.antiFollowup = true
+            battleUnit.followupable += 1
+            enemy.antiFollowup +=1
         }
         return battleUnit
     }
@@ -375,8 +375,8 @@ interface Skill {
         log("threashold:${battleUnit.armedHero.maxHp * (lv * 20 - 10) / 100}")
         if ((battleUnit.hp >= battleUnit.armedHero.maxHp * (lv * 20 - 10) / 100) && enemy.armedHero.baseHero.weaponType == weapon && enemy.armedHero.baseHero.color == color) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.DefRes))
-            battleUnit.followupable = true
-            enemy.antiFollowup = true
+            battleUnit.followupable += 1
+            enemy.antiFollowup +=1
         }
         return battleUnit
     }
@@ -578,7 +578,7 @@ interface Skill {
     fun followupable(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (100 - 10 * lv) / 100) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.FollowupAttack))
-            battleUnit.followupable = true
+            battleUnit.followupable += 1
         }
         return battleUnit
     }
@@ -589,8 +589,8 @@ interface Skill {
     fun eachNofollowupable(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (110 - 20 * lv) / 100) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.NoFollowupAttackEach))
-            battleUnit.antiFollowup = true
-            enemy.antiFollowup = true
+            battleUnit.antiFollowup +=1
+            enemy.antiFollowup +=1
         }
         return battleUnit
     }
@@ -625,7 +625,7 @@ interface Skill {
                 && !enemy.cannotCounter
                 && (battleUnit.hp <= battleUnit.armedHero.maxHp * percentage / 100)) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.FollowupAttack))
-            battleUnit.followupable = true
+            battleUnit.followupable += 1
         }
         return battleUnit
     }
@@ -688,7 +688,7 @@ interface Skill {
     /**
      * 火薙ぎ
      */
-    fun disableEachCounter(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+    fun disableEachCounter(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         battleUnit.addSkillText(SkillText(s, SkillBaseText.FireSweep))
         battleUnit.cannotCounter = true
         enemy.cannotCounter = true
@@ -701,7 +701,7 @@ interface Skill {
     fun antiFollowupDef(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.def - lv >= enemy.def) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiFollowupAttack))
-            enemy.antiFollowup = true
+            enemy.antiFollowup +=1
         }
         return battleUnit
     }
@@ -712,18 +712,26 @@ interface Skill {
     fun followupDef(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.def - lv >= enemy.def) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.FollowupAttack))
-            battleUnit.followupable = true
+            battleUnit.followupable += 1
         }
         return battleUnit
     }
 
+    /**
+     * 単に追撃不可
+     */
+    fun antiFollowup(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiFollowupAttack))
+        enemy.antiFollowup +=1
+        return battleUnit
+    }
     /**
      * 天雷アルマーズ
      */
     fun antiFollowupAdjacet(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.adjacentUnits > 0) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiFollowupAttack))
-            enemy.antiFollowup = true
+            enemy.antiFollowup +=1
         }
         return battleUnit
     }
@@ -734,7 +742,7 @@ interface Skill {
     fun antiFollowupRangedDef(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         if (enemy.armedHero.effectiveRange == 2 && battleUnit.def > enemy.def) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiFollowupAttack))
-            enemy.antiFollowup = true
+            enemy.antiFollowup +=1
         }
         return battleUnit
     }
@@ -1000,6 +1008,28 @@ interface Skill {
     }
 
     /**
+     * 守備と魔防のうち低いほうを適用
+     */
+    fun penetrate(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        if (battleUnit.adjacentUnits > 0 && battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50)) {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Penetrate))
+            battleUnit.overrideDamageType = SkillType.SORCERY_DAGGER
+        }
+        return battleUnit
+    }
+    /**
+     * カウント追加
+     */
+    fun accelerateCooldown(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        if (battleUnit.hp * 10 >= battleUnit.armedHero.maxHp * (11 - lv)) {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1.toString()))
+            battleUnit.accelerateAttackCooldown = 1
+            battleUnit.accelerateTargetCooldown = 1
+        }
+        return battleUnit
+    }
+
+    /**
      * 攻撃時カウント追加
      */
     fun accelerateAttackCooldown(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
@@ -1058,7 +1088,7 @@ interface Skill {
      * 戦闘後のHP回復
      */
     fun fightHpLoss(battleUnit: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.HpGain, lv.toString()))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, lv.toString()))
         battleUnit.hpLossAtEndOfFight += lv
         return battleUnit
     }
@@ -1185,8 +1215,8 @@ interface Skill {
     fun nullFollowUp(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.NoFollowupAttackEach))
-            battleUnit.antiFollowup = false
-            enemy.followupable = false
+            battleUnit.antiFollowup = 0
+            enemy.followupable = 0
         }
         return battleUnit
     }
@@ -1231,7 +1261,7 @@ interface Skill {
             battleUnit.spdEffect += 3
             battleUnit.defEffect += 3
             battleUnit.resEffect += 3
-            battleUnit.followupable = true
+            battleUnit.followupable += 1
         }
         return battleUnit
     }
