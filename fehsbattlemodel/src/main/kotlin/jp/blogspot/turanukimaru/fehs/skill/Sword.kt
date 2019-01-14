@@ -28,10 +28,10 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, 3,this)
     },
     KillingEdge(SkillName.KillingEdge, SkillType.SWORD, 7, SteelSword, SpType.SILVER) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     KillingEdge2(SkillName.KillingEdge2, SkillType.SWORD, 11, KillingEdge, SpType.PLUS) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     WaoDao(SkillName.WaoDao, SkillType.SWORD, 9, SteelSword, SpType.SILVER) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
@@ -42,10 +42,10 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     Zanbato(SkillName.Zanbato, SkillType.SWORD, 10, SteelSword, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     Zanbato2(SkillName.Zanbato2, SkillType.SWORD, 14, Zanbato, SpType.PLUS, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     SlayingEdge(SkillName.SlayingEdge, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     SlayingEdge2(SkillName.SlayingEdge2, SkillType.SWORD, 14, SlayingEdge, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     AyrasBlade(SkillName.AyrasBlade, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
@@ -79,7 +79,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
 
     },
     Mystletainn(SkillName.Mystletainn, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     Eckesachs(SkillName.Eckesachs, SkillType.SWORD, 16, SilverSword),
     Siegfried(SkillName.Siegfried, SkillType.SWORD, 16, SilverSword) {
@@ -112,7 +112,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     Audhulma(SkillName.Audhulma, SkillType.SWORD, 16, SilverSword) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(equipRes(armedHero, 5), lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(equipRes(armedHero, 5))
     },
     DarkGreatsword(SkillName.DarkGreatsword, SkillType.SWORD, 16, SilverSword) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4,this)
@@ -142,10 +142,10 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit,this)
     },
     NamelessBlade(SkillName.NamelessBlade, SkillType.SWORD, 16, Sword.KillingEdge2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     DarkMystletainn(SkillName.DarkMystletainn, SkillType.SWORD, 16, Sword.SilverSword) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     Safeguard(SkillName.Safeguard, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(battleUnit, 7,this)
@@ -160,7 +160,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, 7,this)
     },
     VassalsBlade(SkillName.VassalsBlade, SkillType.SWORD, 16, Sword.SlayingEdge) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
     },
     Skuld(SkillName.Skuld, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W),
@@ -185,7 +185,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         }
     },
     Missiletainn(SkillName.Missiletainn, SkillType.SWORD, 16, Sword.SilverSword) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.HeavyBlade, 1.toString()))
             battleUnit.accelerateTargetCooldown = 1
@@ -206,10 +206,10 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
 
     },
     GoldenDagger(SkillName.GoldenDagger, SkillType.SWORD, 16, SlayingEdge, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     SolitaryBlade(SkillName.SolitaryBlade, SkillType.SWORD, 16, SlayingEdge, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     Gjoll(SkillName.Gjoll, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
@@ -229,7 +229,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, 1,this)
     },
     ScarletSword(SkillName.ScarletSword, SkillType.SWORD, 16, SilverSword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     WhitewingBlade(SkillName.WhitewingBlade, SkillType.SWORD, 16, RubySword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, 3,this)

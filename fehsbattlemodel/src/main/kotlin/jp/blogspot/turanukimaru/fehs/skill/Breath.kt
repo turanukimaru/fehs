@@ -58,7 +58,7 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupDef(battleUnit, enemy, 5, this)
     },
     DraconicRage(SkillName.DraconicRage, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         //これミュルグレと同じだな。真面目にカウントするなら一本化するか…
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atkSpd(battleUnit, 5, this) else battleUnit
     },

@@ -473,7 +473,7 @@ interface Skill {
     /**
      * キラー系カウント-1
      */
-    fun equipKiller(armedHero: ArmedHero, lv: Int): ArmedHero {
+    fun equipKiller(armedHero: ArmedHero): ArmedHero {
         armedHero.reduceSpecialCooldown += 1
         return armedHero
     }
@@ -1192,7 +1192,7 @@ interface Skill {
 
     fun spdFlat(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): Int = if (battleUnit.effectedPhantomSpd > enemy.effectedPhantomSpd) {
         val d = HandmaidMath.min((battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd) * 7 / 10, 7)
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, d.toString()))
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, d.toString()))//攻撃時に呼ばれるからびみょい
         d
     } else 0
 
@@ -1214,9 +1214,18 @@ interface Skill {
 
     fun nullFollowUp(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.NoFollowupAttackEach))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.NullFollowupAttack))
             battleUnit.antiFollowup = 0
             enemy.followupable = 0
+        }
+        return battleUnit
+    }
+
+fun    nullCDisrupt(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.NullCDisrupt))
+            battleUnit.cannotCounter = false
+            enemy.cannotCounter = false
         }
         return battleUnit
     }
@@ -1232,7 +1241,6 @@ interface Skill {
         }
         return battleUnit
     }
-
     fun sylgr(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         //飛燕とか計算した後なのかなあ.一回ちゃんと調べるか
         if (battleUnit.effectedSpd > enemy.effectedSpd) {

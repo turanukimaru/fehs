@@ -153,6 +153,10 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = mysticBoost(battleUnit, enemy, lv,this)
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = mysticBoost(battleUnit, enemy, lv,this)
     },
+    NullCDisrupt(SkillName.NullCDisrupt, spType = SpType.BASE60) {
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullCDisrupt(battleUnit, enemy, lv,this)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullCDisrupt(battleUnit, enemy, lv,this)
+    },
     SpecialSpiral(SkillName.SpecialSpiral, spType = SpType.BASE60),//戦闘後効果だからまだ要らないといえば要らないが…
     EscapeRoute(SkillName.EscapeRoute, spType = SpType.BASE60),
     RecoverRing(SkillName.RecoverRing, maxLevel = 0, spType = SpType.SHIELD),
@@ -192,7 +196,7 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
     ChillDef(SkillName.ChillDef, spType = SpType.BASE60),
     ChillRes(SkillName.ChillRes, spType = SpType.BASE60),
     SDrink(SkillName.SDrink, maxLevel = 0, spType = SpType.LEGEND_S) {
-        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     SpdFeint(SkillName.SpdFeint, spType = SpType.BASE60),
     DefFeint(SkillName.DefFeint, spType = SpType.BASE60),

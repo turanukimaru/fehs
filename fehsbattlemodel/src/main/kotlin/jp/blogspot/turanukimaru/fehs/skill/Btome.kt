@@ -81,7 +81,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
     },
     WargodsTome(SkillName.WargodsTome, SkillType.BTOME, 14, Thoron),
     Mjolnir(SkillName.Mjolnir, SkillType.BTOME, 14, Thoron) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, 6, this)
     },
     FreshBouquet(SkillName.FreshBouquet, SkillType.BTOME, 8, Thoron, SpType.SILVER),
@@ -93,7 +93,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
     Missiletainn(SkillName.Missiletainn, SkillType.BTOME, 14, Thoron) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     OdinsGrimoire(SkillName.OdinsGrimoire, SkillType.BTOME, 14, Blarblade2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipBlade(armedHero, lv)

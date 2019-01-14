@@ -870,7 +870,17 @@ object StandardBaseHero {
                 Staff.Kumade2, Assist.Rehabilitate2, Special.EarthfireBalm2, null, SkillB.WrathfulStaff.lv(3), SkillC.EvenDefWave.lv(3))
         createItem(HeroName.レーギャルン__正月_, 2, WeaponType.LANCE, MoveType.CAVALRY, 4, 16, 8, 9, 9, 4, g50, g55, g60, g60, g30,
                 Lance.Wagasa2, Assist.Pivot, null, null, SkillB.ChillRes.lv(3), SkillC.DefTactic.lv(3))
-        //        createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
+                createItem(HeroName.ティバーン, 1, WeaponType.BEAST, MoveType.FLIER,  5, 19, 10, 7, 8, 3, g50, g65, g55, g60, g35,
+                        Beast.HawkKingClaw, null, Special.DraconicAura, SkillA.SturdyImpact, SkillB.ChillAtk.lv(3), SkillC.EvenAtkWave.lv(3))
+        createItem(HeroName.ニケ, 2, WeaponType.BEAST, MoveType.INFANTRY,  5, 18, 7, 11, 8, 4, g50, g55, g60, g55, g45,
+                Beast.WolfQueenFang, null, Special.Moonbow, SkillA.DistantCounter, SkillB.NullCDisrupt.lv(3), SkillC.Glare)
+        createItem(HeroName.リュシオン, 3, WeaponType.BEAST, MoveType.FLIER,  5, 15, 7, 8, 5, 4, g50, g50, g60, g45, g50,
+                Beast.HeronWing, Assist.Sing, null, SkillA.SteadyPosture.lv(2), null, SkillC.FortifyBeasts)
+        createItem(HeroName.リアーネ, 0, WeaponType.BEAST  , MoveType.FLIER,  5, 14, 5, 9, 3, 8, g50, g50, g65, g30, g60,
+                Beast.HeronWing, Assist.Sing, null, SkillA.MirrorStance.lv(2), SkillB.FlierFormation.lv(3), SkillC.HoneBeasts)
+                createItem(HeroName.ネサラ, 2, WeaponType.BEAST, MoveType.FLIER,  3, 17, 8, 10, 5, 7, g50, g55, g65, g45, g50,
+                        Beast.RavenKingBeak, null, Special.BlazingWind, SkillA.SwiftSparrow.lv(2), SkillB.Guard.lv(3), null)
+//              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
         //                Weapon., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,
 //                Weapon.Sinmara, null, null, null, null, null)

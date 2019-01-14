@@ -142,7 +142,9 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     BracingBlow(SkillName.BracingBlow, maxLevel = 2, spType = SpType.BASE120) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, lv * 2,this)
     },
-
+    SturdyImpact(SkillName.SturdyImpact, maxLevel = 0, spType = SpType.SPECIAL_A) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(def(antiFollowup(battleUnit, enemy,this), 10,this), 6,this)
+    },
     FierceStance(SkillName.FierceStance) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, lv * 2,this)
     },

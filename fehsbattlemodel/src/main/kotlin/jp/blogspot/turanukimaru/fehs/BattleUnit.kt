@@ -138,9 +138,9 @@ data class BattleUnit(val armedHero: ArmedHero
     private val effectedBladeAtk: Int get() = effectedAtk + if (blade && !neutralizeBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0 + debuffBonus
     val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
     val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
-    fun statusText(l :Locale): String  = armedHero.localeName(l) + " Total : H" + hp + " A" + effectedAtk + " S" + effectedSpd + " D" + effectedDef + " R" + effectedRes
+    fun statusText(l: Locale): String = armedHero.localeName(l) + " Total : H" + hp + " A" + effectedAtk + " S" + effectedSpd + " D" + effectedDef + " R" + effectedRes
 
-    fun activatedSkillText(locale: Locale) = if (activatedSkills.size > 0) activatedSkills.fold("") { s, n -> s +armedHero.localeName(locale) + n.toText(locale)+"\n" } else ""
+    fun activatedSkillText(locale: Locale) = if (activatedSkills.size > 0) activatedSkills.fold("") { s, n -> s + armedHero.localeName(locale) + " " + n.toText(locale) + "\n" } else ""
     /** マップ上で戦う際には必要になると思われる*/
     fun clearEffect() {
         atkEffect = 0
@@ -150,7 +150,7 @@ data class BattleUnit(val armedHero: ArmedHero
     }
 
     fun addSkillText(skillText: SkillText): BattleUnit {
-        if (activatedSkills.size > 0 && activatedSkills.last().name == skillText.name)activatedSkills.last().add(skillText) else activatedSkills.add(skillText)
+        if (activatedSkills.size > 0 && activatedSkills.last().name == skillText.name) activatedSkills.last().add(skillText) else activatedSkills.add(skillText)
         return this
     }
 

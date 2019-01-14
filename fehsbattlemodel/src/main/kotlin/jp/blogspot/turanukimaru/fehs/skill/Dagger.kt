@@ -30,10 +30,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
     KittyPaddle(SkillName.KittyPaddle, SkillType.DAGGER, 5, SteelDagger, SpType.SILVER, effectiveAgainstWeaponType = arrayOf(WeaponType.RTOME, WeaponType.BTOME, WeaponType.GTOME)),
     KittyPaddle2(SkillName.KittyPaddle2, SkillType.DAGGER, 8, KittyPaddle, SpType.PLUS, effectiveAgainstWeaponType = arrayOf(WeaponType.RTOME, WeaponType.BTOME, WeaponType.GTOME)),
     KagamiMochi(SkillName.KagamiMochi, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     KagamiMochi2(SkillName.KagamiMochi2, SkillType.DAGGER, 12, KagamiMochi, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     FeliciasPlate(SkillName.FeliciasPlate, SkillType.PENETRATE_DAGGER, 14, SilverDagger2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2),
     Peshkatz(SkillName.Peshkatz, SkillType.DAGGER, 14, SilverDagger),
@@ -44,10 +44,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     BarbShuriken(SkillName.BarbShuriken, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     BarbShuriken2(SkillName.BarbShuriken2, SkillType.DAGGER, 12, BarbShuriken, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     TheCleaner(SkillName.TheCleaner, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = enemy.totalBuff
@@ -80,7 +80,7 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = hardyBearing(battleUnit, enemy, 3, this)
     },
     HoarfrostKnife(SkillName.HoarfrostKnife, SkillType.DAGGER, 14, SilverDagger) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero, lv)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         //相手が反撃可能かを判定した後判定
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (enemy.effectiveRange == 1) {

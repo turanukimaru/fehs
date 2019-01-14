@@ -26,6 +26,7 @@ enum class SkillC(override val jp: SkillName, override val type: SkillType = Ski
     ThreatenRes(SkillName.ThreatenRes),
     FortifyDef(SkillName.FortifyDef),
     FortifyRes(SkillName.FortifyRes),
+    FortifyBeasts(SkillName.FortifyBeasts, maxLevel = 0, spType = SpType.SHIELD),
     FortifyArmor(SkillName.FortifyArmor, maxLevel = 0, spType = SpType.SHIELD),
     FortifyCavalry(SkillName.FortifyCavalry, maxLevel = 0, spType = SpType.SHIELD),
     FortifyFliers(SkillName.FortifyFliers, maxLevel = 0, spType = SpType.SHIELD),
@@ -37,6 +38,7 @@ enum class SkillC(override val jp: SkillName, override val type: SkillType = Ski
     DriveDef(SkillName.DriveDef, maxLevel = 2, spType = SpType.BASE60),
     DriveSpd(SkillName.DriveSpd, maxLevel = 2, spType = SpType.BASE60),
     DriveRes(SkillName.DriveRes, maxLevel = 2, spType = SpType.BASE60),
+    HoneBeasts(SkillName.HoneBeasts, maxLevel = 0, spType = SpType.SHIELD),
     HoneArmor(SkillName.HoneArmor, maxLevel = 0, spType = SpType.SHIELD),
     HoneCavalry(SkillName.HoneCavalry, maxLevel = 0, spType = SpType.SHIELD),
     HoneDragons(SkillName.HoneDragons, maxLevel = 0, spType = SpType.SHIELD),
@@ -101,6 +103,7 @@ enum class SkillC(override val jp: SkillName, override val type: SkillType = Ski
     SurtrsMenace(SkillName.SurtrsMenace, maxLevel = 0, spType = SpType.LEGEND_S),
     SparklingBoost(SkillName.SparklingBoost, maxLevel = 0, spType = SpType.LEGEND_S),
     AtkOpening(SkillName.AtkOpening, spType = SpType.BASE60),
+    Glare(SkillName.Glare, maxLevel = 0, spType = SpType.LEGEND_S)
     ;
 
     /**

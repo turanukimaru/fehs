@@ -428,12 +428,17 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     ファ__冬_("ファ（冬）", "Fae (Winter)", "法 (Winter)"),
     セシリア__冬_("セシリア（冬）", "Cecilia (Winter)", "瑟西莉亞 (Winter)"),
     アクア__伝承英雄_("アクア（伝承英雄）", "Azura (Vanguard Legend)", "阿庫婭 (Vanguard Legend)"),
-
     フィヨルム__正月_("フィヨルム（正月）", "Fjorm (New Year)", "菲約爾姆 (New Year)"),
     レーヴァテイン__正月_("レーヴァテイン（正月）", "Laevatein (New Year)", "瑞瓦提恩 (New Year)"),
     レーギャルン__正月_("レーギャルン（正月）", "Laegjarn (New Year)", "瑞瓦伽倫 (New Year)"),
     フリーズ__正月_("フリーズ（正月）", "Hríd (New Year)", "佛利茲 (New Year)"),
     スリーズ__正月_("スリーズ（正月）", "Gunnthrá (New Year)", "斯利茲 (New Year)"),
+
+    ティバーン("ティバーン","Tibarn","Tibarn"),
+    ニケ("ニケ","Nailah","Nailah"),
+    リュシオン("リュシオン","Reyson","Reyson"),
+    リアーネ("リアーネ","Leanne",""),
+    ネサラ("ネサラ","Naesala",""),
     ;
 
     /**

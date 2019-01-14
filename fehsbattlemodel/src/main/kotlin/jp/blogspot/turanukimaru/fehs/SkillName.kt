@@ -503,6 +503,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     DriveDef("守備の大紋章", "Drive Def", "防守大紋章"),
     DriveRes("魔防の大紋章", "Drive Res", "魔防大紋章"),
     DriveSpd("速さの大紋章", "Drive Spd", "速度大紋章"),
+    FortifyBeasts("の鼓舞", "Fortify Beasts", "鼓舞"),
     FortifyArmor("重盾の鼓舞", "Fortify Armor", "重盾鼓舞"),
     FortifyCavalry("騎盾の鼓舞", "Fortify Cavalry", "騎盾鼓舞"),
     FortifyDef("守備の鼓舞", "Fortify Def", "防守鼓舞"),
@@ -516,6 +517,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     GoadDragons("竜刃の紋章", "Goad Dragons", "竜刃紋章"),
     GoadFliers("飛刃の紋章", "Goad Fliers", "飛刃紋章"),
     Guidance("空からの先導", "Guidance", "空中前導"),
+    HoneBeasts("の鼓舞", "Hone Beasts", "鼓舞"),
     HoneArmor("重刃の鼓舞", "Hone Armor", "重刃鼓舞"),
     HoneAtk("攻撃の鼓舞", "Hone Atk", "攻擊鼓舞"),
     HoneCavalry("騎刃の鼓舞", "Hone Cavalry", "騎刃鼓舞"),
@@ -875,6 +877,20 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     EarthfireBalm2("業火大地の祝福＋","Earthfire Balm+","業火大地的祝福＋"),
     Wagasa("和傘","Wagasa","和傘"),
     Wagasa2("和傘＋","Wagasa+","和傘＋"),
+
+    HatchingFlier("","Hatching (Flier)",""),
+    FledglingFlier("","Fledgling (Flier)",""),
+    AdultFlier("","Adult (Flier)",""),
+    HawkKingClaw("","Hawk King Claw","Hawk King Claw"),
+    SturdyImpact("","Sturdy Impact","Sturdy Impact"),
+    WhelpInfantry("","Welp (Infantry)",""),
+    YearlingInfantry("","Yearling (Infantry)",""),
+    AdultInfantry("","Adult (Infantry)",""),
+    WolfQueenFang("","Wolf Queen Fang",""),
+    NullCDisrupt("","Null C-Disrupt",""),
+    Glare("","Glare",""),
+    HeronWing("","Heron Wing",""),
+    RavenKingBeak("","Raven King Beak",""),
 
     ;
 
