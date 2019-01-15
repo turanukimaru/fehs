@@ -434,11 +434,11 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     フリーズ__正月_("フリーズ（正月）", "Hríd (New Year)", "佛利茲 (New Year)"),
     スリーズ__正月_("スリーズ（正月）", "Gunnthrá (New Year)", "斯利茲 (New Year)"),
 
-    ティバーン("ティバーン","Tibarn","Tibarn"),
-    ニケ("ニケ","Nailah","Nailah"),
-    リュシオン("リュシオン","Reyson","Reyson"),
-    リアーネ("リアーネ","Leanne",""),
-    ネサラ("ネサラ","Naesala",""),
+    ティバーン("ティバーン","Tibarn","ティバーン"),
+    ニケ("ニケ","Nailah","妮凱"),
+    リュシオン("リュシオン","Reyson","琉希昂"),
+    リアーネ("リアーネ","Leanne","莉婭妮"),
+    ネサラ("ネサラ","Naesala","涅沙羅"),
     ;
 
     /**

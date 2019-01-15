@@ -8,19 +8,19 @@ enum class WeaponType(val range: Int, val isMaterial: Boolean, val sortOrder: In
     LANCE(1, true, 0),
     AXE(1, true, 0),
     DRAGON(1, false, 1),
-    BEAST(1, true, 0),
-    RTOME(2, false, 2),
-    BTOME(2, false, 2),
-    GTOME(2, false, 2),
-    BOW(2, true, 3),
+    BEAST(1, true, 2),
+    RTOME(2, false, 3),
+    BTOME(2, false, 3),
+    GTOME(2, false, 3),
+    BOW(2, true, 4),
 
-    DAGGER(2, true, 4),
-    STAFF(2, false, 5),
+    DAGGER(2, true, 5),
+    STAFF(2, false, 6),
 //    NONE(0, true, Skill.SkillType.NONE, 6),
     ;
 
     companion object {
-        private val weaponTypeMap = mapOf("剣" to WeaponType.SWORD, "槍" to WeaponType.LANCE, "斧" to WeaponType.AXE, "弓" to WeaponType.BOW, "暗器" to WeaponType.DAGGER, "赤魔" to WeaponType.RTOME, "緑魔" to WeaponType.GTOME, "青魔" to WeaponType.BTOME, "杖" to WeaponType.STAFF, "竜" to DRAGON)
+        private val weaponTypeMap = mapOf("剣" to WeaponType.SWORD, "槍" to WeaponType.LANCE, "斧" to WeaponType.AXE, "竜" to DRAGON, "獣" to WeaponType.BEAST, "弓" to WeaponType.BOW, "暗器" to WeaponType.DAGGER, "赤魔" to WeaponType.RTOME, "緑魔" to WeaponType.GTOME, "青魔" to WeaponType.BTOME, "杖" to WeaponType.STAFF)
         /**
          * 日本語の武器名を変換する。ここにあるべきかは疑問だが将来画面とのやり取り以外にも使うかもしれない
          */
@@ -146,7 +146,7 @@ enum class SkillType(val jp: String, val weaponType: WeaponType? = null, val pre
     SWORD("剣", WeaponType.SWORD),
     LANCE("槍", WeaponType.LANCE),
     AXE("斧", WeaponType.AXE),
-    BEAST("斧", WeaponType.BEAST),
+    BEAST("獣", WeaponType.BEAST),
     DRAGON("竜", WeaponType.DRAGON, PreventType.magicPrevent),
     PENETRATE_DRAGON("竜", WeaponType.DRAGON, PreventType.dragonPrevent),
     PENETRATE_DAGGER("暗器", WeaponType.DAGGER, PreventType.feliciaPrevent),
