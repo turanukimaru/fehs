@@ -634,9 +634,10 @@ interface Skill {
      * 風薙ぎ
      */
     fun windsweep(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.SweepA))
         if (enemy.armedHero.baseHero.weaponType.isMaterial
                 && (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd >= 7 - lv * 2)) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Sweep))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.SweepB))
             enemy.cannotCounter = true
         }
         return battleUnit
@@ -646,9 +647,10 @@ interface Skill {
      * 水薙ぎ
      */
     fun watersweep(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.SweepA))
         if (!enemy.armedHero.baseHero.weaponType.isMaterial
                 && (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd >= 7 - lv * 2)) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Sweep))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.SweepB))
             enemy.cannotCounter = true
         }
         return battleUnit
@@ -1068,7 +1070,7 @@ interface Skill {
      */
     fun antiAccelerateCooldown(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.hp * 10 >= battleUnit.armedHero.maxHp * (11 - lv)) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.Cancel, 1.toString()))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.Cancel))
             enemy.InflictAttackCooldown = 1
             enemy.InflictTargetCooldown = 1
         }
@@ -1190,9 +1192,8 @@ interface Skill {
         damage + 10
     } else damage
 
-    fun spdFlat(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): Int = if (battleUnit.effectedPhantomSpd > enemy.effectedPhantomSpd) {
+    fun spdFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = if (battleUnit.effectedPhantomSpd > enemy.effectedPhantomSpd) {
         val d = HandmaidMath.min((battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd) * 7 / 10, 7)
-        battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, d.toString()))//攻撃時に呼ばれるからびみょい
         d
     } else 0
 
@@ -1253,7 +1254,7 @@ fun    nullCDisrupt(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill
 
     fun adjacentDebuff(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         if (battleUnit.adjacentUnits > 0) {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiAtkSpdDefRes, lv.toString()))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkSpdDefResReduce4, lv.toString()))
             enemy.atkEffect -= lv
             enemy.spdEffect -= lv
             enemy.defEffect -= lv

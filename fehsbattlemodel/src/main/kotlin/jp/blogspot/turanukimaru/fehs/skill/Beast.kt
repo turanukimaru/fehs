@@ -32,7 +32,7 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
     WolfQueenFang(SkillName.WolfQueenFang, SkillType.BEAST, 14, Fledgling) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, battleUnit.adjacentUnits * 2,this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, battleUnit.adjacentUnits * 2, this)
     },
     HeronWing(SkillName.HeronWing, SkillType.BEAST, 14, Fledgling) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
@@ -40,7 +40,10 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
     RavenKingBeak(SkillName.RavenKingBeak, SkillType.BEAST, 14, Fledgling) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
+            return atk(battleUnit, 2, this)
+        }
     },
     ;
 

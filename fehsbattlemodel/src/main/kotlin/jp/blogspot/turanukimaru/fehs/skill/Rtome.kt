@@ -67,7 +67,7 @@ enum class Rtome(override val jp: SkillName, override val type: SkillType, overr
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.EffectiveAgainst))
                 enemy.effectiveAgainst = EffectiveAgainst.DRAGON
             } else {
-                battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkMinus,6.toString()))
+                battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkReduce6))
                 enemy.atkEffect -= 6
             }
             return battleUnit

@@ -803,7 +803,7 @@ object StandardBaseHero {
         createItem(HeroName.ヘルビンディ, 3, WeaponType.AXE, MoveType.INFANTRY, 5, 18, 9, 5, 9, 7, g60, g60, g30, g60, g55,
                 Axe.Byleistr, null, Special.Vengeance, SkillA.GDuelInfantry.lv(3), SkillB.Guard.lv(3), SkillC.InfantryPulse.lv(3))
         createItem(HeroName.チキ__伝承英雄_, 2, WeaponType.DRAGON, MoveType.ARMORED, 5, 17, 10, 11, 4, 5, g65, g55, g55, g75, g55,
-                Breath.DivineMist, null, Special.Moonbow, SkillA.FierceStance, SkillB.BoldFighter.lv(3), SkillC.WithEveryone)
+                Breath.DivineMist, null, Special.Moonbow, SkillA.FierceStance.lv(3), SkillB.BoldFighter.lv(3), SkillC.WithEveryone)
 
         createItem(HeroName.ミルラ__収穫祭_, 1, WeaponType.DRAGON, MoveType.ARMORED, 5, 20, 8, 4, 7, 8, g60, g70, g45, g75, g55,
                 Breath.SpiritBreath, null, Special.Bonfire, SkillA.DefRes.lv(2), SkillB.VengefulFighter.lv(3), SkillC.ArmorMarch.lv(3))

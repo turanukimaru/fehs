@@ -162,6 +162,10 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     VassalsBlade(SkillName.VassalsBlade, SkillType.SWORD, 16, Sword.SlayingEdge) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
+            return battleUnit
+        }
     },
     Skuld(SkillName.Skuld, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W),
     RoyalSword(SkillName.LightBrand, SkillType.SWORD, 16, SilverSword) {
