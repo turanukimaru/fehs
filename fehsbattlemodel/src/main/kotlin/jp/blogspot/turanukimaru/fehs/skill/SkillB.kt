@@ -198,8 +198,10 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
     SDrink(SkillName.SDrink, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
+    AtkFeint(SkillName.AtkFeint, spType = SpType.BASE60),
     SpdFeint(SkillName.SpdFeint, spType = SpType.BASE60),
     DefFeint(SkillName.DefFeint, spType = SpType.BASE60),
+    ResFeint(SkillName.ResFeint, spType = SpType.BASE60),
     AtkSpdLink(SkillName.AtkSpdLink, spType = SpType.BASE60),
     AtkDefLink(SkillName.AtkDefLink, spType = SpType.BASE60),
     AtkResLink(SkillName.AtkResLink, spType = SpType.BASE60),

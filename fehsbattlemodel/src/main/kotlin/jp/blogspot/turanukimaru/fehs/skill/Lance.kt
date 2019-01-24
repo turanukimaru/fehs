@@ -156,7 +156,9 @@ enum class Lance(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) allBonus(battleUnit, 4, this) else battleUnit
     },
     Wagasa(SkillName.Wagasa, SkillType.LANCE, 10, SteelLance, SpType.SILVER),
-    Wagasa2(SkillName.Wagasa2, SkillType.LANCE, 14, Tannenboom, SpType.PLUS, RefinedWeapon.RefineType.Range1),
+    Wagasa2(SkillName.Wagasa2, SkillType.LANCE, 14, Wagasa, SpType.PLUS, RefinedWeapon.RefineType.Range1),
+    ItsCurtains(SkillName.Wagasa, SkillType.LANCE, 10, SteelLance, SpType.SILVER),
+    ItsCurtains2(SkillName.Wagasa2, SkillType.LANCE, 14, ItsCurtains, SpType.PLUS, RefinedWeapon.RefineType.Range1),
     ;
 
 

@@ -1829,6 +1829,4 @@ class RefinedHeroTest1 {
         assertEquals("hitPoint fail", 40, fightResult[2].source.hp)
         assertEquals("hitPoint fail", 28, fightResult[2].target.hp)
     }
-
-
 }

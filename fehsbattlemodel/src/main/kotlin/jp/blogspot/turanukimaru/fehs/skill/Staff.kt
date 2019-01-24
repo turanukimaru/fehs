@@ -40,11 +40,13 @@ enum class Staff(override val jp: SkillName, override val type: SkillType, overr
     WitchyWand(SkillName.WitchyWand, SkillType.STAFF, 8, Assault, SpType.SILVER),
     WitchyWand2(SkillName.WitchyWand2, SkillType.STAFF, 12, WitchyWand, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Flash(SkillName.Flash, SkillType.STAFF, 7, Assault, SpType.STEEL),
-    Flash2(SkillName.Flash2, SkillType.STAFF, 11, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff),
+    Flash2(SkillName.Flash2, SkillType.STAFF, 11, Flash, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     JoyousLantern(SkillName.JoyousLantern, SkillType.STAFF, 8, Assault, SpType.STEEL),
-    JoyousLantern2(SkillName.JoyousLantern2, SkillType.STAFF, 12, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff),
+    JoyousLantern2(SkillName.JoyousLantern2, SkillType.STAFF, 12, JoyousLantern, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Kumade(SkillName.Kumade, SkillType.STAFF, 8, Assault, SpType.STEEL),
-    Kumade2(SkillName.Kumade2, SkillType.STAFF, 12, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff),
+    Kumade2(SkillName.Kumade2, SkillType.STAFF, 12, Kumade, SpType.PLUS, RefinedWeapon.RefineType.Staff),
+    Grandscratcher(SkillName.Grandscratcher, SkillType.STAFF, 8, Assault, SpType.SILVER),
+    Grandscratcher2(SkillName.Grandscratcher2, SkillType.STAFF, 12, Grandscratcher, SpType.SILVER, RefinedWeapon.RefineType.Staff),
     ;
 
     /**

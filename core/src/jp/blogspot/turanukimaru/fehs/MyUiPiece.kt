@@ -14,16 +14,16 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
         piece.animationStart = false
         when (piece.actionPhase) {
             Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabled.いずれ増援が出たr
-                actionSetToPosition(piece.position)
+                actionSetToPosition(piece.charPosition)
                 piece.action(Piece.ActionPhase.DISABLED)
             }
             Piece.ActionPhase.START -> {//おかれた直後なので初期化してREADY
-                actionSetToPosition(piece.position)
+                actionSetToPosition(piece.charPosition)
 //                uiBoard.stage.addActor(actor)
                 piece.action(Piece.ActionPhase.READY)
             }
             Piece.ActionPhase.DISABLED ->//ターンが違うなど操作不能の時は枡に合わせてセット
-                actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
+                actor.setPosition(uiBoard.squareXtoPosX(piece.charPosition!!.x), uiBoard.squareYtoPosY(piece.charPosition!!.y))
             Piece.ActionPhase.READY -> {
                 //ドラッグしてるときはアクションをクリアしてドラッグに追従表示.タッチじゃなくてドラッグ判定にせねば。実機では正しく動くがシミュ上ではめっちゃぶれる
                 when (touched) {
@@ -34,11 +34,11 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
                     }
                     TouchPhase.RELEASE -> {
                         //離した後は枡にフィットさせる。
-//                    actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
+//                    actor.setCharPosition(uiBoard.squareXtoPosX(piece.charPosition!!.x), uiBoard.squareYtoPosY(piece.charPosition!!.y))
                         when (uiBoard.board.hand) {
-                            HandPhase.SELECTED -> startAction { actionMoveToPosition(piece.position) }//実機ではNONEとは絵が違う
+                            HandPhase.SELECTED -> startAction { actionMoveToPosition(piece.charPosition) }//実機ではNONEとは絵が違う
                             HandPhase.MOVED -> startAction { actionMoveToPosition(uiBoard.board.hand.newPosition) }//実機ではNONEとは絵が違う
-                            else -> startAction { actionMoveToPosition(piece.position) }
+                            else -> startAction { actionMoveToPosition(piece.charPosition) }
                         }
                     }
                     TouchPhase.NONE -> {
@@ -60,18 +60,18 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
                     myPiece.fightResult = null
                 } else {
                     //アニメーション中でなければ灰色にする
-                    actionSetToPosition(piece.position)
+                    actionSetToPosition(piece.charPosition)
                     actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
                 }
             }
             Piece.ActionPhase.ACTED -> {//現在の位置に灰色で表示
-                actionSetToPosition(piece.position)
+                actionSetToPosition(piece.charPosition)
                 actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }//これ灰色じゃねーな全部　r+g+b/3　にするのが正しいか？
             }
             Piece.ActionPhase.REMOVED -> {//画面から消す
             }
             else -> {//行動後の現在位置に表示。ずれてる場合は直接移動させる
-                actionSetToPosition(piece.position)
+                actionSetToPosition(piece.charPosition)
                 actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
             }
 
@@ -132,7 +132,7 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
         val base = actors[0]
         val face = actors[1]
         //clearしないでアクション追加するとめっちゃ落ちる。デフォルト位置に戻す処理もいるな
-        actor.setPosition(uiBoard.squareXtoPosX(piece.position!!.x), uiBoard.squareYtoPosY(piece.position!!.y))
+        actor.setPosition(uiBoard.squareXtoPosX(piece.charPosition!!.x), uiBoard.squareYtoPosY(piece.charPosition!!.y))
         base.setPosition(0f, 0f)
         face.setPosition(0f, 0f)
         actor.clearActions()

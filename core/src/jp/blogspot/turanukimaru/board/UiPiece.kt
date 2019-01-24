@@ -113,7 +113,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      * LibGDXのアップデートで呼ばれる。
      */
     fun libUpdate() {
-        if (piece.position == null) {
+        if (piece.charPosition == null) {
             return // ボード上に無いときは何もしない。消す処理を書いてもいいか？
         }
         update()

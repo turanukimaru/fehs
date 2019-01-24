@@ -123,8 +123,8 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
      */
     private fun actionTouchedPoint(position: UiBoard.Position, target: Piece<BattleUnit, Ground>?): ActionPhase {
         println("actionTouchedPoint")
-        println("position: $position")
-        println("position: " + board.positionIsOnBoard(position))
+        println("charPosition: $position")
+        println("charPosition: " + board.positionIsOnBoard(position))
         println("routeStack: $board.routeStack")
 
         //敵は攻撃。味方はアシスト。アシストのロジックまだ考えてないけどな！

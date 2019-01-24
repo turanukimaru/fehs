@@ -244,7 +244,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         bitmapFont!!.draw(batch, "touched:  ${myGame.board.hand.touchedPiece}\nデバッグ用文字", 50f, 300f)
         bitmapFont!!.draw(batch, "selected: ${myGame.board.hand.selectedPiece}\nデバッグ用文字", 50f, 300f)
         myGame.board.pieceList.forEach {
-            bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.position!!.x} ${it.position!!.y}\n", myGame.uiBoard.squareXtoPosX(it.position!!.x), myGame.uiBoard.squareYtoPosY(it.position!!.y))
+            bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.charPosition!!.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }
         batch!!.end()
         myGame.uiBoard.libUpdate()

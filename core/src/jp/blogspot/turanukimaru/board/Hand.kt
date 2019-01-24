@@ -224,7 +224,8 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 
     private fun movePiece(position: UiBoard.Position) {
         println(" movePiece($position: UiBoard.Position) ")
-        stackRoute(position)
+        newPosition = position
+        //↓は駒の動作で位置を取らないやつ
         selectedPiece?.boardMove(this, position, targetPiece)
 
     }
@@ -237,7 +238,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         if (target.owner !=board.owner ) return
         when {
             //駒を選択して盤面をドロップってなんもせんわな
-            handType == HandType.FIELD_TAP -> return//movePiece(position)
+            handType == HandType.FIELD_TAP -> return//movePiece(charPosition)
             //直接ドロップは移動してアクション準備.アクションフェイズかは分岐先で確認するべきか
             handType == HandType.SIMPLE_TAP -> movePiece(position)
             handType == HandType.SELECTED_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target)

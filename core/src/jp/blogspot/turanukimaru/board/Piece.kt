@@ -31,9 +31,19 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * 盤上の位置。なくても良いが盤上をサーチすると時間かかるんだよな。移動確定時のみ変更すること
+     * 盤上の位置。表示用の位置。移動先を優先して出す
      */
-    var position: Position? = null
+    val charPosition: Position? get() = newPosition ?: existsPosition
+
+    /**
+     * 盤上の位置。移動先
+     */
+    var newPosition: Position? = null
+
+    /**
+     * 盤上の位置。確定してる位置
+     */
+    var existsPosition: Position? = null
 
     /**
      * 駒の移動可能範囲
@@ -117,9 +127,10 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * 盤をクリックしたときはそこでtouchupしたかのように動く。ただし指の経路がなくなるので攻撃位置を計算する必要が出てくる
+     * 移動中。Positionを一つにしてHandに管理責任を持たせるかこっちでもnewPositionを持つか…
      */
     open fun boardMove(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
+        this.newPosition = position
         action(ActionPhase.MOVED)
         return true
     }
@@ -128,7 +139,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 移動確定。位置を更新して行動後状態にする
      */
     open fun boardMoveCommit(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
-        this.position = position
+        this.existsPosition = position
+        this.newPosition = null
         action(ActionPhase.ACTED)
         return true
     }
@@ -212,7 +224,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     fun putOn(x: Int, y: Int) {
-        position = Position(x, y)
+        existsPosition = Position(x, y)
         action(Piece.ActionPhase.PUTTED)
     }
 
