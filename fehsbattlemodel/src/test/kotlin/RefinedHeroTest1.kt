@@ -21,7 +21,7 @@ class RefinedHeroTest1 {
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.エフラム.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
-        
+
         println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
         println(fightResult[0].source.statusText(Locale.JAPANESE))
         

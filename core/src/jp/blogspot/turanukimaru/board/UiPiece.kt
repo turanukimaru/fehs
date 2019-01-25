@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
  */
 open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
                    /**
-                    * 論理駒
+                     * 論理駒
                     */
                    open var piece: Piece<*, *>
 ) : ClickListener() {

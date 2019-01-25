@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.skill.Skill
 /**
  * ユニット（戦闘単位）。主にステータスを保持する
  */
-data class BattleUnit(val armedHero: ArmedHero
+data class  BattleUnit(val armedHero: ArmedHero
                       , var hp: Int = 0
                       , var specialCount: Int = 0
                       , var atkBuff: Int = 0
