@@ -6,7 +6,7 @@ import org.junit.Test
  * 冬
  */
 class NewHeroTest16 {
-val LOCALE = Locale.OTHER
+    val LOCALE = Locale.OTHER
     @Test
     fun gunTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.リョウマ__温泉_.jp)!!)
@@ -129,6 +129,7 @@ val LOCALE = Locale.OTHER
         assertEquals("hitPoint fail", 34, fightResult[2].source.hp)
         assertEquals("hitPoint fail", 1, fightResult[2].target.hp)
     }
+
     @Test
     fun fjTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.サクラ__温泉_.jp)!!)

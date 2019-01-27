@@ -24,18 +24,18 @@ enum class Staff(override val jp: SkillName, override val type: SkillType, overr
     Panic(SkillName.Panic, SkillType.STAFF, 6, Assault, SpType.SILVER),
     Panic2(SkillName.Panic2, SkillType.STAFF, 11, Panic, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Pain(SkillName.Pain, SkillType.STAFF, 3, Assault, SpType.SILVER) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10,this)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10, this)
     },
     Pain2(SkillName.Pain2, SkillType.STAFF, 10, Pain, SpType.PLUS, RefinedWeapon.RefineType.Staff) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10,this)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackPain(battleUnit, enemy, 10, this)
     },
     Trilemma(SkillName.Trilemma, SkillType.STAFF, 8, Assault, SpType.SILVER),
     Trilemma2(SkillName.Trilemma2, SkillType.STAFF, 12, Trilemma, SpType.PLUS, RefinedWeapon.RefineType.Staff),
     Thokk(SkillName.Thokk, SkillType.STAFF, 14, Assault, SpType.PLUS) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv,this)
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv, this)
     },
     Hliðskjálf(SkillName.Hliðskjálf, SkillType.STAFF, 14, Assault, SpType.PLUS) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, 3,this)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, 3, this)
     },
     WitchyWand(SkillName.WitchyWand, SkillType.STAFF, 8, Assault, SpType.SILVER),
     WitchyWand2(SkillName.WitchyWand2, SkillType.STAFF, 12, WitchyWand, SpType.PLUS, RefinedWeapon.RefineType.Staff),

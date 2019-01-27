@@ -15,7 +15,7 @@ import jp.blogspot.turanukimaru.fehs.R
  */
 class HeroRegisterActivity : AppCompatActivity() {
     companion object {
-       const val HERO_NAME = "HERO_NAME"
+        const val HERO_NAME = "HERO_NAME"
     }
 
     /**

@@ -211,6 +211,7 @@ class NewHeroTest10 {
         assertEquals("hitPoint fail", 0, fightResult[2].source.hp)
         assertEquals("hitPoint fail", 32, fightResult[2].target.hp)
     }
+
     @Test
     fun mkTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.ミコト__夢_.jp)!!)

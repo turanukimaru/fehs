@@ -65,7 +65,7 @@ class NewHeroTest11 {
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.シャロン.jp)!!)
-        val target =BattleUnit(unitB, unitB.maxHp)
+        val target = BattleUnit(unitB, unitB.maxHp)
         target.atkDebuff = -3
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])

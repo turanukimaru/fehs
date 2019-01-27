@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="jp.blogspot.turanukimaru.fehs"
-          android:versionCode="1"
-          android:versionName="1.0">
+    package="jp.blogspot.turanukimaru.fehs"
+    >
 
-    <uses-sdk/>
+    <uses-sdk />
     <application
         android:name="jp.blogspot.turanukimaru.fehs.BattleSimApplication"
         android:allowBackup="true"
@@ -19,8 +18,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/GdxTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

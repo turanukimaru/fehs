@@ -235,7 +235,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         //N_TAPと同じなのでここでアニメの省略とか
         val target = touchedPiece ?: return
         //自分の駒じゃないのをドラッグしても何もしない
-        if (target.owner !=board.owner ) return
+        if (target.owner != board.owner) return
         when {
             //駒を選択して盤面をドロップってなんもせんわな
             handType == HandType.FIELD_TAP -> return//movePiece(charPosition)
@@ -275,7 +275,7 @@ class Hand<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * 駒を選択状態にする。掴むとかそういう名前のほうが良いか？
      */
     private fun selectPiece(piece: Piece<UNIT, GROUND>) {
-        
+
         println("selectPiece $piece")
         clear()
         board.searchRoute(piece)

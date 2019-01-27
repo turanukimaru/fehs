@@ -55,6 +55,7 @@ interface HeroDao {
      */
     @Query("DELETE FROM heroes")
     fun deleteAllHeroes()
+
     /**
      * Delete all users.
      */

@@ -57,7 +57,7 @@ class NewHeroTest12 {
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.カアラ.jp)!!)
-        val target =BattleUnit(unitB, unitB.maxHp)
+        val target = BattleUnit(unitB, unitB.maxHp)
         target.spdBuff = 1
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
@@ -155,6 +155,7 @@ class NewHeroTest12 {
         assertEquals("hitPoint fail", 0, fightResult[1].source.hp)
         assertEquals("hitPoint fail", 6, fightResult[1].target.hp)
     }
+
     @Test
     fun el3Test() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.エイル.jp)!!)

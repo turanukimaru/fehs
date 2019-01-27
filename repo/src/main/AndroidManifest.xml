@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="jp.blogspot.turanukimaru.fehbs"/>
+<manifest package="jp.blogspot.turanukimaru.fehbs" />

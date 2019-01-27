@@ -6,7 +6,7 @@ import jp.blogspot.turanukimaru.board.UiBoard.Position
 /**
  * 論理駒。ゲームのルールによらない部分
  */
-open class  Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Board.Player) {
+open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Board.Player) {
 
     /**
      * 向き。駒の向きで移動する方向が変わるときに使う予定

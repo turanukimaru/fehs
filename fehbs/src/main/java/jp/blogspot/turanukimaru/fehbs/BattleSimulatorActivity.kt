@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_heroes.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.onClick
-import org.jetbrains.anko.toast
 import java.util.Locale
 
 
@@ -309,8 +308,8 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             holder.progressText.text = mItem.fold("") { string, item -> string + " " + item.detailsShort(if (switch) SIDES.COUNTER else SIDES.ATTACKER, locale) }
             //オンクリック時の動作
             holder.mView.setOnClickListener {
-                val f =mItem.first()
-                longToast(f.source.activatedSkillText(locale)+f.source.statusText(locale)+"\n\n"+f.target.activatedSkillText(locale)+f.target.statusText(locale))
+                val f = mItem.first()
+                longToast(f.source.activatedSkillText(locale) + f.source.statusText(locale) + "\n\n" + f.target.activatedSkillText(locale) + f.target.statusText(locale))
             }
         }
 

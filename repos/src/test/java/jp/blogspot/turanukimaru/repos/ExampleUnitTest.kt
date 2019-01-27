@@ -1,8 +1,7 @@
 package jp.blogspot.turanukimaru.repos
 
-import org.junit.Test
-
 import org.junit.Assert.assertEquals
+import org.junit.Test
 
 /**
  * Example local unit Solution, which will execute on the development machine (host).

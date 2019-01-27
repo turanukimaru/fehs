@@ -17,7 +17,7 @@ class ViewBuilder(private val locale: Locale) {
         //項目選択.
         rootView.findViewById<RadioButton>(radioButton).setOnClickListener { v ->
             val maxOnly = rootView.findViewById<CheckBox>(R.id.SkillMaxCheckBox).isChecked
-            val strings = if (maxOnly ) maxLvStrings else fullStrings
+            val strings = if (maxOnly) maxLvStrings else fullStrings
             val index = strings.indexOf(rootView.findViewById<RadioButton>(radioButton).text)
             val builder = AlertDialog.Builder(v.context).setTitle(title).setCancelable(true)
             builder.setSingleChoiceItems(strings, if (index >= 0) index else 0

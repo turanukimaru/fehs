@@ -392,7 +392,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="@string/max_lv"/>
+            android:text="@string/max_lv" />
     </LinearLayout>
 
     <LinearLayout
@@ -600,7 +600,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/BuffDebuffTriggerSkill"
-            android:textSize="@dimen/mini_param_text_size"/>
+            android:textSize="@dimen/mini_param_text_size" />
 
         <TextView
             android:id="@+id/adjacentTitle"
@@ -609,7 +609,7 @@
             android:layout_weight="2"
             android:ems="1"
             android:text="@string/AdjacentAlly"
-            android:textSize="@dimen/mini_param_text_size"/>
+            android:textSize="@dimen/mini_param_text_size" />
 
         <Spinner
             android:id="@+id/alliesSpinner"
@@ -617,7 +617,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:ems="1"
-            android:entries="@array/allies"/>
+            android:entries="@array/allies" />
 
     </LinearLayout>
 
@@ -627,7 +627,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:text="@string/buff_title"/>
+        android:text="@string/buff_title" />
 
     <LinearLayout
         android:layout_width="match_parent"

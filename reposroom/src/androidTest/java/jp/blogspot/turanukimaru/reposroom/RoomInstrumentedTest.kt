@@ -30,22 +30,22 @@ class RoomInstrumentedTest {
         val user = User(userName = "turanukimal")
         dao.insertUser(user)
         val insertedUser = dao.getUserById(user.id)
-        assertEquals("not equals",user.userName, insertedUser.userName)
+        assertEquals("not equals", user.userName, insertedUser.userName)
         dao.deleteAllUsers()
         val deletedUser = dao.getUserById(user.id)
-        assertEquals("null?exception?",deletedUser,null)
+        assertEquals("null?exception?", deletedUser, null)
 
-        val heroDao =UsersDatabase.getInstance(appContext).heroDao()
+        val heroDao = UsersDatabase.getInstance(appContext).heroDao()
         val hero = RoomArmedHero()
         heroDao.insertHero(hero)
-        val insertedHero =heroDao.getHeroById("")
-        assertEquals(hero.nickname,insertedHero.nickname)
+        val insertedHero = heroDao.getHeroById("")
+        assertEquals(hero.nickname, insertedHero.nickname)
         heroDao.deleteAllHeroes()
 
         RoomArmedHeroContent.appContext = appContext
-        val modelHero = ArmedHero(StandardBaseHero.get("エフラム")!!,"new エフラム")
+        val modelHero = ArmedHero(StandardBaseHero.get("エフラム")!!, "new エフラム")
         RoomArmedHeroContent.createOrUpdate(modelHero)
         val insertedArmedHero = RoomArmedHeroContent.getById("new エフラム")
-        assertEquals("new エフラム",insertedArmedHero!!.name)
+        assertEquals("new エフラム", insertedArmedHero!!.name)
     }
 }

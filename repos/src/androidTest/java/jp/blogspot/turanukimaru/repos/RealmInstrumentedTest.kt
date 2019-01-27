@@ -1,17 +1,14 @@
 package jp.blogspot.turanukimaru.repos
 
-import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import jp.blogspot.turanukimaru.fehs.ArmedHeroRepository
-
-import org.junit.Test
-import org.junit.runner.RunWith
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Test
+import org.junit.runner.RunWith
 
 /**
  * Instrumented Solution, which will execute on an Android device.

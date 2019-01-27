@@ -66,7 +66,7 @@ class HeroRepoReceiver : BroadcastReceiver() {
                 , base.bSkill
                 , base.cSkill
                 , base.seal
-                ,0
+                , 0
                 , rarity
                 , 0
                 , boon

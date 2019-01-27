@@ -1,6 +1,5 @@
 import jp.blogspot.turanukimaru.fehs.*
 import jp.blogspot.turanukimaru.fehs.skill.SkillA
-import org.junit.Assert
 import org.junit.Test
 
 class SkillTextTest {
@@ -24,6 +23,7 @@ class SkillTextTest {
         println(fightResult3[0].source.activatedSkillText(Locale.JAPANESE))
         println(fightResult3[0].target.activatedSkillText(Locale.JAPANESE))
     }
+
     @Test
     fun fl2Test() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.エイリーク__冬_.jp)!!)
@@ -35,6 +35,7 @@ class SkillTextTest {
         println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
         println(fightResult[0].target.activatedSkillText(Locale.JAPANESE))
     }
+
     @Test
     fun fl3Test() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.パオラ3.jp)!!)

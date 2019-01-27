@@ -21,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
  */
 class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer, val bitmapFont: BitmapFont, val width: Float, val height: Float, val marginTop: Float, val marginBottom: Float, val marginLeft: Float, val marginRight: Float,
               /**
-                * 論理的な盤面。この盤面に操作を伝える
+               * 論理的な盤面。この盤面に操作を伝える
                */
               val board: Board<*, *>
 ) : ClickListener() {

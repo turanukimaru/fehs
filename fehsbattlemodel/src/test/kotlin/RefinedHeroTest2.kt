@@ -1,5 +1,4 @@
 import jp.blogspot.turanukimaru.fehs.*
-import jp.blogspot.turanukimaru.fehs.skill.Special
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -32,6 +31,7 @@ class RefinedHeroTest2 {
         assertEquals("hitPoint fail", 36, fightResult[0].source.hp)
         assertEquals("hitPoint fail", 31, fightResult[0].target.hp)
     }
+
     @Test
     fun julRTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.チキ__大人_.jp)!!)
@@ -99,6 +99,7 @@ class RefinedHeroTest2 {
         assertEquals("hitPoint fail", 36, fightResult[0].source.hp)
         assertEquals("hitPoint fail", 31, fightResult[0].target.hp)
     }
+
     @Test
     fun seliphTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.セリス3.jp)!!)//
@@ -108,7 +109,7 @@ class RefinedHeroTest2 {
         assertEquals("spd", 24, unitA.spd)
         assertEquals("def", 30, unitA.def)
         assertEquals("spd", 22, unitA.res)
-        attacker.adjacentUnits=1
+        attacker.adjacentUnits = 1
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.チキ__伝承英雄_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))

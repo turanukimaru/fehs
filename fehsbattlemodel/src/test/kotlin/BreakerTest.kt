@@ -8,7 +8,7 @@ import org.junit.Test
  * Created by turanukimaru on 2017/11/02.
  */
 class BreakerTest {
-val LOCALE = Locale.OTHER
+    val LOCALE = Locale.OTHER
 
     @Test
     fun swordBreakerTestA() {
