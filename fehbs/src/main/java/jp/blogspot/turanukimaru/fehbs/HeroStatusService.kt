@@ -15,12 +15,18 @@ import android.widget.Button
 import android.widget.Spinner
 import jp.blogspot.turanukimaru.fehs.R
 import org.jetbrains.anko.onClick
+import android.support.v4.app.ActivityCompat.startActivityForResult
+import android.provider.Settings.canDrawOverlays
+import android.provider.Settings.canDrawOverlays
+import android.provider.Settings
+import android.net.Uri
+
+
 
 /**
  * Floating Status Calc ゲームと同時に起動するのでサービス
  */
 class HeroStatusService : Service() {
-
     private val locale = LocaleAdapter(java.util.Locale.getDefault()).locale
     private val viewBuilder = ViewBuilder(locale)
 
@@ -37,8 +43,9 @@ class HeroStatusService : Service() {
     }
 
     // API ver の高い奴はこっち。昔の奴だと動かないのでとりあえず昔のAPI叩く
-//        val typeLayer = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-    private val typeLayer = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+    //TODO:動く奴にするかバージョンを下げる。でもGooglePlayがバージョン上げたからなあ
+    private val typeLayer = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+//    private val typeLayer = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
 
     private val windowParams
         get() = WindowManager.LayoutParams(

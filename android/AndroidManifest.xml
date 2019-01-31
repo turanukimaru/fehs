@@ -3,13 +3,12 @@
     package="jp.blogspot.turanukimaru.fehs"
     >
 
-    <uses-sdk />
     <application
         android:name="jp.blogspot.turanukimaru.fehs.BattleSimApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/GdxTheme"><!-- 普通のアプリのテーマにしたいが… -->
         <!--        android:theme="@style/GdxTheme" -->
         <activity
             android:name="jp.blogspot.turanukimaru.fehs.AndroidLauncher"

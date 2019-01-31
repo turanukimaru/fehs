@@ -11,7 +11,9 @@ android {
 
     defaultConfig {
         applicationId "jp.blogspot.turanukimaru.fehbs"
-        minSdkVersion 15
+        //オーバーレイのためにバージョン上げるしかないが昔のAndroidで動くかなあ…
+//        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 26
         versionCode 85
         versionName "0.85"
@@ -34,6 +36,10 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 }
 kapt {

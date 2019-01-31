@@ -3,7 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="2dp">
+    android:padding="2dp"
+    >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -37,7 +38,8 @@
             android:layout_height="wrap_content"
             android:ems="2"
             android:text="0"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@android:color/holo_red_dark"
+            />
 
         <TextView
             android:id="@+id/unitText"
@@ -68,20 +70,18 @@
             android:id="@+id/progressText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="10" />
 
         <TextView
-            android:id="@+id/itemSpec"
+            android:id="@+id/skillTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/itemDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin" />
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="Details." />
+        <!--            android:background="@android:color/darker_gray" -->
 
     </LinearLayout>
 </LinearLayout>

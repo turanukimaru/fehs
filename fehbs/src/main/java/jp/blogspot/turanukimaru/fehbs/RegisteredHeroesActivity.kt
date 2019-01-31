@@ -1,8 +1,10 @@
 package jp.blogspot.turanukimaru.fehbs
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.content.res.ResourcesCompat
@@ -24,6 +26,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import jp.blogspot.turanukimaru.fehs.*
 import kotlinx.android.synthetic.main.activity_heroes.*
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.onClick
 import java.util.Locale
 
@@ -193,6 +196,8 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
         }
     }
 
+    var OVERLAY_PERMISSION_REQ_CODE = 1000 //あれ定数化されてない…？定数どこー？
+
     /**
      *　ナビゲーションメニュー。左から出てくるやつね。
      */
@@ -200,7 +205,12 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_open_calc -> {
-                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+                if (!Settings.canDrawOverlays(this)) {
+                    val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+                    startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE)
+                } else {
+                    applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+                }
             }
             R.id.nav_close_calc -> {
                 applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
@@ -209,5 +219,15 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
         drawer_layout.closeDrawer(GravityCompat.START)
 
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
+            if (!Settings.canDrawOverlays(this)) {
+                longToast("Permission not granted")
+            } else {
+                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+            }
+        }
     }
 }
