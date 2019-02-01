@@ -7,13 +7,18 @@ apply plugin: 'realm-android'
 android {
     compileSdkVersion 26
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 
 
     defaultConfig {
         applicationId "jp.blogspot.turanukimaru.fehbs"
+//nexus は 17 で sol23 は 19...
+        minSdkVersion 16
         //オーバーレイのためにバージョン上げるしかないが昔のAndroidで動くかなあ…
-//        minSdkVersion 16
-        minSdkVersion 23
+//        minSdkVersion 23
         targetSdkVersion 26
         versionCode 85
         versionName "0.85"
