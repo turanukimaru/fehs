@@ -43,7 +43,6 @@ class HeroStatusService : Service() {
     }
 
     // API ver の高い奴はこっち。昔の奴だと動かないのでとりあえず昔のAPI叩く
-    //TODO:動く奴にするかバージョンを下げる。でもGooglePlayがバージョン上げたからなあ
     private val typeLayer = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
 //    private val typeLayer = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
 
