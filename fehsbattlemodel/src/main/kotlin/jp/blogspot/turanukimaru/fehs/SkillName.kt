@@ -797,6 +797,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     AtkSpdSolo("攻撃速さの孤軍", "Atk/Spd Solo", "攻擊速度孤軍"),
     AtkDefSolo("攻撃守備の孤軍", "Atk/Def Solo", "攻擊防守孤軍"),
     AtkResSolo("攻撃魔防の孤軍", "Atk/Res Solo", "攻擊魔防孤軍"),
+    DefResSolo("守備魔防の孤軍", "Def/Res Solo", "防守魔防孤軍"),
     SpdResLink("速さ魔防の連携", "Spd/Res Link", "速度魔防連動"),
     ShiningBow("シャイニングボウ", "Shining Bow", "閃耀弓"),
     ShiningBow2("シャイニングボウ＋", "Shining Bow+", "閃耀弓＋"),
@@ -912,6 +913,8 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     OuchPouch("巾着袋", "Ouch Pouch", "束口袋"),
     OuchPouch2("巾着袋＋", "Ouch Pouch+", "束口袋＋"),
     TomeOfThoron("トロン", "Tome of Thoron", "托隆"),
+    FellBreath("","Fell Breath",""),
+    Upheaval("","Upheaval",""),
     ;
 
     /**

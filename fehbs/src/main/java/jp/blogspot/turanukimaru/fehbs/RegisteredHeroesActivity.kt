@@ -196,38 +196,38 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
         }
     }
 
-    var OVERLAY_PERMISSION_REQ_CODE = 1000 //あれ定数化されてない…？定数どこー？
-
-    /**
-     *　ナビゲーションメニュー。左から出てくるやつね。
-     */
+//    var OVERLAY_PERMISSION_REQ_CODE = 1000 //あれ定数化されてない…？定数どこー？
+//
+//    /**
+//     *　ナビゲーションメニュー。左から出てくるやつね。
+//     */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_open_calc -> {
-                if (!Settings.canDrawOverlays(this)) {
-                    val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
-                    startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE)
-                } else {
-                    applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
-                }
-            }
-            R.id.nav_close_calc -> {
-                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
-            }
-        }
-        drawer_layout.closeDrawer(GravityCompat.START)
-
+//        // Handle navigation view item clicks here.
+//        when (item.itemId) {
+//            R.id.nav_open_calc -> {
+//                if (!Settings.canDrawOverlays(this)) {
+//                    val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+//                    startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE)
+//                } else {
+//                    applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+//                }
+//            }
+//            R.id.nav_close_calc -> {
+//                applicationContext.stopService(Intent(applicationContext, HeroStatusService::class.java))
+//            }
+//        }
+//        drawer_layout.closeDrawer(GravityCompat.START)
+//
         return true
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
-            if (!Settings.canDrawOverlays(this)) {
-                longToast("Permission not granted")
-            } else {
-                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
-            }
-        }
-    }
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+//        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
+//            if (!Settings.canDrawOverlays(this)) {
+//                longToast("Permission not granted")
+//            } else {
+//                applicationContext.startService(Intent(applicationContext, HeroStatusService::class.java))
+//            }
+//        }
+//    }
 }

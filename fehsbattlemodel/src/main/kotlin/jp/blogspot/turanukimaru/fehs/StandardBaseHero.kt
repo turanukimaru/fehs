@@ -898,6 +898,8 @@ object StandardBaseHero {
                 Dagger.SplashyBucket2, Assist.DrawBack, null, SkillA.AtkSpdBond.lv(3), SkillB.AtkSpdLink.lv(3), SkillC.AirOrders.lv(3))
         createItem(HeroName.カミラ__温泉_, 0, WeaponType.DAGGER, MoveType.FLIER, 4, 16, 9, 9, 4, 6, g50, g55, g60, g30, g50,
                 Dagger.OuchPouch2, null, Special.Glimmer, SkillA.AtkSpd.lv(2), null, SkillC.HoneFliers)
+              createItem(HeroName.ドーマ, 0, WeaponType.DRAGON, MoveType.ARMORED,  5, 24, 10, 6, 8, 7, g55, g70, g35, g60, g55,
+                        Breath.FellBreath, null, Special.DraconicAura, SkillA.DefResSolo.lv(3), SkillB.BoldFighter.lv(3), SkillC.Upheaval)
 //              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                        Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

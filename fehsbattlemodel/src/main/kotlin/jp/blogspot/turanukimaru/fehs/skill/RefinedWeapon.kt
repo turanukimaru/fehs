@@ -274,7 +274,7 @@ enum class RefinedWeapon(override val jp: SkillName, val hp: Int, val atk: Int, 
     TacticalGale(SkillName.TacticalGale, 0, 0, 0, 0, 0, RefineType.DependWeapon, Gtome.TacticalGale),
     Naga(SkillName.Naga, 0, 0, 0, 0, 0, RefineType.DependWeapon, Gtome.Naga) {
         //replace で守備魔防+4にしないとダメか…
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.weapon.type == WeaponType.DRAGON) counterAllRange(battleUnit, this) else battleUnit
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.weapon.type == SkillType.PENETRATE_DRAGON || enemy.armedHero.weapon.type == SkillType.DRAGON) counterAllRange(battleUnit, this) else battleUnit
 
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (enemy.armedHero.weapon.type == SkillType.PENETRATE_DRAGON) {

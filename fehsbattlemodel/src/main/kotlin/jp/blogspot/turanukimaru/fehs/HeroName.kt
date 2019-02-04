@@ -449,7 +449,8 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     サクラ__温泉_("サクラ（温泉）", "Sakura (Hostile Springs)", "櫻 (Hostile Springs)"),
     ヒノカ__温泉_("ヒノカ（温泉）", "Hinoka (Hostile Springs)", "火乃香 (Hostile Springs)"),
     カミラ__温泉_("カミラ（温泉）", "Camilla (Hostile Springs)", "卡美拉 (Hostile Springs)"),
-    ;
+ドーマ("ドーマ","Duma",""),
+;
 
     /**
      * ロケールから対応する文字列を出す

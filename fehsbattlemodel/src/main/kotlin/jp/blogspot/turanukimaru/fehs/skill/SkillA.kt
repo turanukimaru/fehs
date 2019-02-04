@@ -229,6 +229,9 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     AtkResSolo(SkillName.AtkResSolo, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) atkRes(battleUnit, lv * 2, this) else battleUnit
     },
+    DefResSolo(SkillName.AtkResSolo, spType = SpType.BASE60) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) defRes(battleUnit, lv * 2, this) else battleUnit
+    },
 
     DefiantAtk(SkillName.DefiantAtk, spType = SpType.BASE40) {
         override fun turnStart(battleUnit: BattleUnit, lv: Int): BattleUnit = defiantAtk(battleUnit, lv)

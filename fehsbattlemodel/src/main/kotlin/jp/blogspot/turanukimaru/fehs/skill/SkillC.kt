@@ -108,6 +108,7 @@ enum class SkillC(override val jp: SkillName, override val type: SkillType = Ski
     ResOpening(SkillName.ResOpening, spType = SpType.BASE60),
     Glare(SkillName.Glare, maxLevel = 0, spType = SpType.LEGEND_S),
     AirOrders(SkillName.AirOrders, spType = SpType.BASE60),
+    Upheaval(SkillName.Upheaval, maxLevel = 0, spType = SpType.LEGEND_S),
     ;
 
     /**
