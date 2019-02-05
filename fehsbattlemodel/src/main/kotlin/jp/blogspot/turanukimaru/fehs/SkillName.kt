@@ -913,8 +913,8 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     OuchPouch("巾着袋", "Ouch Pouch", "束口袋"),
     OuchPouch2("巾着袋＋", "Ouch Pouch+", "束口袋＋"),
     TomeOfThoron("トロン", "Tome of Thoron", "托隆"),
-    FellBreath("","Fell Breath",""),
-    Upheaval("","Upheaval",""),
+    FellBreath("邪神のブレス","Fell Breath","邪神吐息"),
+    Upheaval("メガクェイク","Upheaval","超級地震"),
     ;
 
     /**
