@@ -156,8 +156,8 @@ class NewHeroTest16 {
         val attacker = BattleUnit(unitA, unitA.maxHp)
         assertEquals("maxHp", 34, unitA.maxHp)
         assertEquals("atk", 45, unitA.atk)
-        assertEquals("spd", 37, unitA.spd)//ずれ５か…
-        assertEquals("def", 18, unitA.def)//暗器とは言えこのすてはなさそうな
+        assertEquals("spd", 37, unitA.spd)
+        assertEquals("def", 18, unitA.def)
         assertEquals("spd", 22, unitA.res)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.サクラ__温泉_.jp)!!)

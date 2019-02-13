@@ -58,7 +58,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     LifeAndDeath(SkillName.LifeAndDeath) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = lifeAndDeath(armedHero, lv + 2)
     },
-    Fury(SkillName.Fury) {
+    Fury(SkillName.Fury,maxLevel = 4) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = fury(armedHero, lv)
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fightHpLoss(battleUnit, lv * 2, this)
     },

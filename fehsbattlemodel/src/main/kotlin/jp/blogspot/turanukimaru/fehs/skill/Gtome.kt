@@ -96,6 +96,15 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
     TacticalGale(SkillName.TacticalGale, SkillType.GTOME, 14, Gronnwolf, SpType.PLUS) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
+    Gronnblooms(SkillName.Gronnblooms, SkillType.GTOME, 8, Elwind, SpType.SILVER){
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+    },
+    Gronnblooms2(SkillName.Gronnblooms2, SkillType.GTOME, 12, Gronnblooms, SpType.PLUS, RefinedWeapon.RefineType.Range2){
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+    },
+    IrissTome(SkillName.IrissTome, SkillType.GTOME, 14, Gronnblade2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
+    },
     ;
 
     /**

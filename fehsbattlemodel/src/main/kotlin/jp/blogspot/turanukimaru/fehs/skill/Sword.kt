@@ -76,7 +76,6 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     Sieglinde(SkillName.Sieglinde, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1),
     Tyrfing(SkillName.Tyrfing, SkillType.SWORD, 16, SilverSword) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.hp <= battleUnit.armedHero.maxHp / 2) def(battleUnit, 4, this) else battleUnit
-
     },
     Mystletainn(SkillName.Mystletainn, SkillType.SWORD, 16, SilverSword, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
@@ -243,6 +242,18 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     },
     Geishun(SkillName.Geishun, SkillType.SWORD, 10, SteelSword, SpType.SILVER),
     Geishun2(SkillName.Geishun2, SkillType.SWORD, 14, Geishun, SpType.PLUS, RefinedWeapon.RefineType.Range1),
+    HeartsBlade(SkillName.HeartsBlade, SkillType.SWORD, 10, SteelSword, SpType.SILVER){
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+    },
+    HeartsBlade2(SkillName.HeartsBlade2, SkillType.SWORD, 14, HeartsBlade, SpType.PLUS, RefinedWeapon.RefineType.Range1){
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+    },
+    Silverbrand(SkillName.Silverbrand, SkillType.SWORD, 16, RubySword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, 3, this)
+    },
+    HinatasKatana(SkillName.HinatasKatana, SkillType.SWORD, 16, RubySword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkDef(battleUnit, 4, this)
+    },
     ;
 
     /**

@@ -118,6 +118,10 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
     },
     KaburaYa(SkillName.KaburaYa, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     KaburaYa2(SkillName.KaburaYa2, SkillType.BOW, 12, KaburaYa, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
+    NilessBow (SkillName.NilessBow, SkillType.BOW, 14, KillerBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy, this)
+    },
     ;
 
     /**

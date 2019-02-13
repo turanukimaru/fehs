@@ -989,8 +989,8 @@ interface Skill {
     /**
      * 柔剣
      */
-    fun flashingBlade(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-        if (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd > lv) {
+    fun flashingBlade(battleUnit: BattleUnit, enemy: BattleUnit, gt: Int, s: Skill = Skill.NONE): BattleUnit {
+        if (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd > gt) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1.toString()))
             battleUnit.accelerateAttackCooldown = 1
         }
@@ -1245,7 +1245,7 @@ interface Skill {
         return battleUnit
     }
 
-    fun antiPenetrate(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+    fun antiPenetrate(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         //貫通タイプを元に戻す。武器に元と貫通タイプと持たせてもいいがそっちは修正量大きいんだよなあ
         battleUnit.addSkillText(SkillText(s, SkillBaseText.AntiPenetrate))
         enemy.overrideDamageType = when (enemy.armedHero.weapon.type) {
