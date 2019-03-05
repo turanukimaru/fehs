@@ -1,7 +1,7 @@
 package jp.blogspot.turanukimaru.fehs
 
 import jp.blogspot.turanukimaru.board.Board
-import jp.blogspot.turanukimaru.board.Hand
+import jp.blogspot.turanukimaru.board.Move
 import jp.blogspot.turanukimaru.board.Piece
 import jp.blogspot.turanukimaru.board.UiBoard
 
@@ -80,7 +80,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     private fun showActionResult(position: UiBoard.Position): Boolean {
         val target = board.pieceMatrix[position.x][position.y]
         //敵ユニットに重ねたときは戦闘結果を計算して表示
-        if (effectiveRoute[position.x][position.y] > 0 && target != null && target != board.hand.touchedPiece && target.owner != owner) {
+        if (effectiveRoute[position.x][position.y] > 0 && target != null && target != board.move.touchedPiece && target.owner != owner) {
             //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
             val fightResult = containUnit.fight(target.containUnit)
             for (result in fightResult) {
@@ -108,12 +108,12 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     //行動結果表示。ドラッグと同じ
-    override fun boardAction(hand: Hand<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
+    override fun boardAction(move: Move<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
         return showActionResult(position)
     }
 
     //行動。相手がいるかは判定済み。
-    override fun boardActionCommit(hand: Hand<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
+    override fun boardActionCommit(move: Move<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
         this.actionPhase = actionTouchedPoint(position, targetPiece)
         return true
     }
@@ -128,7 +128,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         println("routeStack: $board.routeStack")
 
         //敵は攻撃。味方はアシスト。アシストのロジックまだ考えてないけどな！
-        if (board.hand.oldPosition != position && effectiveRoute[position.x][position.y] > 0 && target != null && target != this) {
+        if (board.move.oldPosition != position && effectiveRoute[position.x][position.y] > 0 && target != null && target != this) {
 //戦闘アクションは流石にここで登録してもいい気がするが…いやダメか…Updateで読む方法考えないとな
             val attackPos = board.findAttackPos(this, position)
             if (attackPos != null) {
@@ -137,7 +137,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 println(board.pieceMatrix[position.x][position.y])
                 println("attack to $position")
                 println("attack from $attackPos")
-                println(board.hand.routeStack)
+                println(board.move.routeStack)
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
                 //とりあえずノーモーションで枡に戻してからアニメさせているが、一度不通に戻すべきかなあ
 //                board.actionSetToPosition(this, attackPos)
@@ -161,13 +161,13 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
             } else {
                 throw RuntimeException("lost attackpos to $position")
                 //攻撃位置が見つからなかった場合は戻る
-                //return ActionPhase.MOVED
+                //return ActionPhase.MOVING
             }
         }
         return ActionPhase.READY
     }
 
-    override fun toString(): String = containUnit.armedHero.name
+    override fun toString(): String = "${containUnit.armedHero.name}"
 }
 
 data class FightResult(val attackPos: UiBoard.Position, val targetPos: UiBoard.Position, val attackResults: List<AttackResult>)

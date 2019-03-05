@@ -78,9 +78,15 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     override fun clicked(event: InputEvent, x: Float, y: Float) {
         if (dragged) return
-        board.hand.clicked(xyToPosition(x, y))
+        board.move.clicked(xyToPosition(x, y))
     }
 
+    override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+        val result = super.touchDown(event, x, y, pointer, button)
+        println("###ここにタッチ＆ドラッグ開始処理がいるっぽい###")
+        board.touch(xyToPosition(x, y))
+        return result
+    }
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
         //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
@@ -89,13 +95,14 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         if (touchUpOver && pointer == 0 && this.button != -1 && button != this.button) return
         //trueのときはsuperでクリックが起動されている
         if (!touchUpOver) {
-            board.hand.drop(xyToPosition(x, y))
+            board.move.drop(xyToPosition(x, y))
         }
 //        println("$event: InputEvent?, $x: Float, $y: Float, $pointer: Int, $button: Int")
     }
 
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
-        println("ドラッグはタッチと認識されてないっぽい・・・？まあボードのドラッグは想定してないんだから捨てていいか")
+
+        board.move.drag(xyToPosition(x, y))
     }
 
     init {
@@ -124,19 +131,19 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         }
         liner.end()
         //駒が選択されていたら移動範囲を表示する。モードを切り替えるならボード側に色情報を持たせる必要があるな
-        if (board.hand.selectedPiece != null) {
+        if (board.move.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
-                    if (board.hand.selectedPiece!!.searchedRoute[x][y] >= 0) {
+                    if (board.move.selectedPiece!!.searchedRoute[x][y] >= 0) {
                         fillSquare(x, y, UiBoard.FillType.MOVABLE)
-                    } else if (board.hand.selectedPiece!!.effectiveRoute[x][y] >= 0) {
+                    } else if (board.move.selectedPiece!!.effectiveRoute[x][y] >= 0) {
                         fillSquare(x, y, UiBoard.FillType.ATTACKABLE)
                     }
                 }
             }
             //ルートから外れたら掘りなおさないとなあ。移動力超えたらか？直線矢印で十分かなあ
             //This inspection reports any declarations that can be destructuredが出たらこう書ける
-            board.hand.routeStack.forEach { (x, y) ->
+            board.move.routeStack.forEach { (x, y) ->
                 fillSquare(x, y, UiBoard.FillType.PASS)
             }
         }

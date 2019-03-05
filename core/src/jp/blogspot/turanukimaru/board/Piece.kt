@@ -97,7 +97,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**行動前・選択状態・移動後は行動可能
      *
      */
-    val isActionable get() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.MOVED
+    val isActionable get() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.MOVING
 
     /**
      * ドラッグから指を挙げたときにも反応するのでうまく使えない・・・
@@ -118,9 +118,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         return true
     }
 
-    open fun boardAction(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
+    open fun boardAction(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
 
-    open fun boardActionCommit(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
+    open fun boardActionCommit(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
 
     open fun movePiece(): Boolean {
         return true
@@ -129,16 +129,19 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 移動中。Positionを一つにしてHandに管理責任を持たせるかこっちでもnewPositionを持つか…
      */
-    open fun boardMove(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
+    open fun boardMove(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
+        val targetRoute = searchedRoute[position.x][position.y]
+        //移動範囲外は-1
+         if (targetRoute < 0) return false
         this.newPosition = position
-        action(ActionPhase.MOVED)
+        action(ActionPhase.MOVING)
         return true
     }
 
     /**
      * 移動確定。位置を更新して行動後状態にする
      */
-    open fun boardMoveCommit(hand: Hand<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
+    open fun boardMoveCommit(move: Move<UNIT, GROUND>, position: Position): Boolean {
         this.existsPosition = position
         this.newPosition = null
         action(ActionPhase.ACTED)
@@ -151,8 +154,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * upのタイミングじゃないとダメか？
      */
     fun touchDown(): Boolean {
-//        board.hand.touchedPiece = this
-//        board.hand.holdStart = Date().time
+//        board.move.touchedPiece = this
+//        board.move.holdStart = Date().time
         return touched()
     }
 
@@ -203,7 +206,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         //自分の手番で動かせる
         READY,
         //移動中
-        MOVED,
+        MOVING,
         //攻撃・アニメが終わったらACTEDになる予定だけどHand側に統合されそうな気もしてきた
         ATTACK,
         //攻撃を受ける。同上
@@ -229,7 +232,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     fun startPiece(xyToPosition: Position) {
-        board.hand.startPiece(this, xyToPosition)
+        board.move.startPiece(this, xyToPosition)
     }
 }
 

@@ -35,9 +35,9 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
                     TouchPhase.RELEASE -> {
                         //離した後は枡にフィットさせる。
 //                    actor.setCharPosition(uiBoard.squareXtoPosX(piece.charPosition!!.x), uiBoard.squareYtoPosY(piece.charPosition!!.y))
-                        when (uiBoard.board.hand) {
-                            HandPhase.SELECTED -> startAction { actionMoveToPosition(piece.charPosition) }//実機ではNONEとは絵が違う
-                            HandPhase.MOVED -> startAction { actionMoveToPosition(uiBoard.board.hand.newPosition) }//実機ではNONEとは絵が違う
+                        when (uiBoard.board.move) {
+                            MovePhase.SELECTED -> startAction { actionMoveToPosition(piece.charPosition) }//実機ではNONEとは絵が違う
+                            MovePhase.MOVED -> startAction { actionMoveToPosition(uiBoard.board.move.newPosition) }//実機ではNONEとは絵が違う
                             else -> startAction { actionMoveToPosition(piece.charPosition) }
                         }
                     }

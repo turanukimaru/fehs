@@ -28,7 +28,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 現在の指し手
      */
-    val hand = Hand(this)
+    val move = Move(this)
 
     /**
      * 横の0..last
@@ -53,6 +53,18 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         }
     }
 
+    fun touch (position: Position){
+println("Board.touch x:${position.x} y:${position.y}")
+        verticalIndexes.forEach { y ->
+            horizontalIndexes.forEach { x ->
+                //移動範囲から計算。これ移動しないときと処理が区別できるようにしたほうが良いな
+                print("${pieceMatrix[x][y]},")
+            }
+            println()
+        }
+
+        move.touch(position, pieceMatrix[position.x][position.y])
+    }
     /**
      * 地形のマトリックスをコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrix[x][y]はxyが入れ替わっているので入れ替えてコピーする
      */
@@ -277,19 +289,19 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * アルゴリズムはHand側へ移動したいな。そうすればOptionでHand入れ替えで済む。
      */
     fun clicked(position: Position) {
-        hand.clicked(position)
+        move.clicked(position)
 //        //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし...ほんとか？selectもしくはholdしてたらじゃね？
-//        if (!positionIsOnBoard(charPosition) || (hand.selectedPiece!!.searchedRoute[charPosition.x][charPosition.y] < 0 && hand.selectedPiece!!.effectiveRoute[charPosition.x][charPosition.y] < 0)) {
-//            hand.moveCancel()
+//        if (!positionIsOnBoard(charPosition) || (move.selectedPiece!!.searchedRoute[charPosition.x][charPosition.y] < 0 && move.selectedPiece!!.effectiveRoute[charPosition.x][charPosition.y] < 0)) {
+//            move.moveCancel()
 ////            updateInfo = { _ -> true }
 //            return
 //        }
 //        //対象は有るかもないかも。なお移動中の配置はHandで参照しているのでボード上の自分はまだ移動前
 //        val targetPiece = pieceMatrix[charPosition.x][charPosition.y]
-//        val targetRoute = hand.selectedPiece!!.searchedRoute[charPosition.x][charPosition.y]
-//        val targetEffective = hand.selectedPiece!!.effectiveRoute[charPosition.x][charPosition.y]
+//        val targetRoute = move.selectedPiece!!.searchedRoute[charPosition.x][charPosition.y]
+//        val targetEffective = move.selectedPiece!!.effectiveRoute[charPosition.x][charPosition.y]
 //        //こっちは古いコード。今はHandへ引っ越し中
-        // hand.clickedAction(charPosition, targetPiece, targetRoute, targetEffective)
+        // move.clickedAction(charPosition, targetPiece, targetRoute, targetEffective)
 
     }
 
@@ -298,7 +310,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun turn(owner: Player) {
         println("TODO:ターン移動処理")
-        hand.moveCancel()
+        move.moveCancel()
         this.owner = owner
 //一度全部の駒を使用不可にしてから手番の人の駒を有効にする
         pieceList.forEach { it.action(Piece.ActionPhase.DISABLED) }
@@ -311,7 +323,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun deselectPiece() {
         println("deselectPiece")
         //移動範囲のリセットってやるべきかなあ？
-        hand.clear()
+        move.clear()
     }
 
     /**
@@ -349,7 +361,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         orientations.forEach { v ->
             //一歩手前を逆算
             val pos = moveWithOrientation(v, position, -1)
-            val lastIndexOfPos = hand.routeStack.lastIndexOf(pos)
+            val lastIndexOfPos = move.routeStack.lastIndexOf(pos)
             if (lastIndexOfPos > lastIndexOfAttackPos) {
                 lastIndexOfAttackPos = lastIndexOfPos
                 attackPos = pos

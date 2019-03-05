@@ -55,7 +55,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
             return
         }
         //ドラッグ判定に合わないときは無視
-        if (!uiBoard.board.hand.dragging(x.toInt(), y.toInt())) {
+        if (!uiBoard.board.move.dragging(x.toInt(), y.toInt())) {
             return
         }
         touched = TouchPhase.DRAG
@@ -74,9 +74,9 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     //対象の枡が通れるときはスタックに積む…とまれるときか？ともかくこれは駒側主導ではあるが人の操作ではないわけでなんか分けたいなあ。通れる・泊まれるを判断するから無理か。
     fun stackRoute(position: UiBoard.Position) {
         if (piece.searchedRoute[position.x][position.y] > 0) {
-            uiBoard.board.hand.stackRoute(position)
+            uiBoard.board.move.stackRoute(position)
         } else {
-            uiBoard.board.hand.routeOut()
+            uiBoard.board.move.routeOut()
         }
     }
 
