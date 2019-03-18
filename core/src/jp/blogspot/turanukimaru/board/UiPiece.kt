@@ -134,11 +134,13 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         val finalY = uiBoard.squareYtoPosY(position.y)
         seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.1f))
         seq.addAction(EndOfAnimationAction(this, 0.1f))
+        piece.uiActionStart()
         return seq
     }
 
     fun startAction(action: () -> SequenceAction) {
-        if (actionNow) return
+//        println("actionNow : $actionNow のせいかな？アクションが登録されない")//trueになっとる…actionが登録できるかの判定ではなくクリアが必要なのかな
+//        if (actionNow) return
         actor.addAction(action())
         actionNow = true
     }
@@ -156,10 +158,12 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     }
 
     /**
-     * EndOfAnimationActionから呼ばれるコールバック
+     * EndOfAnimationActionから呼ばれるコールバック...Pieceに移動するべきかなあ
      */
-    fun actionTerminate() {
-        println("actionTerminate")
+    fun uiActionDone() {
+        println("uiActionDone")
+        println("uiActionDone")
+        println("uiActionDone")
 //        touched = TouchPhase.NONE//RELEASE->NONEのはず
         actionNow = false
     }

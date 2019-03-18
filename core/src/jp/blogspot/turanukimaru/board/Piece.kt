@@ -23,13 +23,18 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     var animationCount = 0
     var animationStart = false
     var animationTargetPosition: Position? = null
-    fun action(action: ActionPhase, target: Position? = null) {
+    fun action(action: ActionPhase, uiAction: UiAction = UiAction.None, target: Position? = null) {
+        this.uiAction = uiAction
         actionPhase = action
         animationTargetPosition = target
         animationCount = 0
         animationStart = true
     }
 
+    /**
+     * 画面表示用アクション。ここで登録してUiが読み取り／読み取った証としてNoneにする。done()関数でも作ったほうがいいかな
+     */
+    var uiAction: UiAction = UiAction.None
     /**
      * 盤上の位置。表示用の位置。移動先を優先して出す
      */
@@ -132,9 +137,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     open fun boardMove(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
         val targetRoute = searchedRoute[position.x][position.y]
         //移動範囲外は-1
-         if (targetRoute < 0) return false
+        if (targetRoute < 0) return false
         this.newPosition = position
-        action(ActionPhase.MOVING)
+        action(ActionPhase.MOVING, UiAction.MoveToCharPosition)
         return true
     }
 
@@ -144,7 +149,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     open fun boardMoveCommit(move: Move<UNIT, GROUND>, position: Position): Boolean {
         this.existsPosition = position
         this.newPosition = null
-        action(ActionPhase.ACTED)
+        action(ActionPhase.ACTED, UiAction.MoveToCharPosition)
         return true
     }
 
@@ -233,6 +238,23 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
 
     fun startPiece(xyToPosition: Position) {
         board.move.startPiece(this, xyToPosition)
+    }
+
+    fun moveCancel() {
+        println("呼ばれてるはzなんだが")
+        //ルート探索をクリアするか更新するかちょっと考えないとな…
+        newPosition = null
+        action(ActionPhase.READY, UiAction.MoveToCharPosition)
+    }
+
+    //ui側でアクションを読み取って実行を開始したという通知
+    fun uiActionStart() {
+        uiAction = UiAction.None
+    }
+
+    enum class UiAction {
+        None,
+        MoveToCharPosition
     }
 }
 

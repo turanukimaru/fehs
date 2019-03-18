@@ -12,69 +12,72 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
 
     override fun update() {
         piece.animationStart = false
-        when (piece.actionPhase) {
-            Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabled.いずれ増援が出たr
-                actionSetToPosition(piece.charPosition)
-                piece.action(Piece.ActionPhase.DISABLED)
-            }
-            Piece.ActionPhase.START -> {//おかれた直後なので初期化してREADY
-                actionSetToPosition(piece.charPosition)
-//                uiBoard.stage.addActor(actor)
-                piece.action(Piece.ActionPhase.READY)
-            }
-            Piece.ActionPhase.DISABLED ->//ターンが違うなど操作不能の時は枡に合わせてセット
-                actor.setPosition(uiBoard.squareXtoPosX(piece.charPosition!!.x), uiBoard.squareYtoPosY(piece.charPosition!!.y))
-            Piece.ActionPhase.READY -> {
-                //ドラッグしてるときはアクションをクリアしてドラッグに追従表示.タッチじゃなくてドラッグ判定にせねば。実機では正しく動くがシミュ上ではめっちゃぶれる
-                when (touched) {
-                    TouchPhase.DRAG -> {
-                        actor.clearActions()
-                        actor.setPosition(actor.x + dx, actor.y + dy);dx = 0.0f;dy = 0.0f
-                        actionNow = false//一括クリアもいるなこれは
+//        actionが指定されているときはそれを実行する。それ以外では…どうしようかな。ループアクションをさせたいのだが…
+        when (piece.uiAction) {
+            Piece.UiAction.MoveToCharPosition -> startAction { actionMoveToPosition(piece.charPosition) }
+            else ->
+                when (piece.actionPhase) {
+                    Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabled.いずれ増援が出たr
+                        actionSetToPosition(piece.charPosition)
+                        piece.action(Piece.ActionPhase.DISABLED)
                     }
-                    TouchPhase.RELEASE -> {
-                        //離した後は枡にフィットさせる。
-//                    actor.setCharPosition(uiBoard.squareXtoPosX(piece.charPosition!!.x), uiBoard.squareYtoPosY(piece.charPosition!!.y))
-                        when (uiBoard.board.move) {
-                            MovePhase.SELECTED -> startAction { actionMoveToPosition(piece.charPosition) }//実機ではNONEとは絵が違う
-                            MovePhase.MOVED -> startAction { actionMoveToPosition(uiBoard.board.move.newPosition) }//実機ではNONEとは絵が違う
-                            else -> startAction { actionMoveToPosition(piece.charPosition) }
+                    Piece.ActionPhase.START -> {//おかれた直後なので初期化してREADY
+                        actionSetToPosition(piece.charPosition)
+//                uiBoard.stage.addActor(actor)
+                        piece.action(Piece.ActionPhase.READY)
+                    }
+                    Piece.ActionPhase.DISABLED ->//ターンが違うなど操作不能の時は枡に合わせてセット
+                        actor.setPosition(uiBoard.squareXtoPosX(piece.charPosition!!.x), uiBoard.squareYtoPosY(piece.charPosition!!.y))
+                    Piece.ActionPhase.READY -> {
+                        //ドラッグしてるときはアクションをクリアしてドラッグに追従表示.タッチじゃなくてドラッグ判定にせねば。実機では正しく動くがシミュ上ではめっちゃぶれる
+                        when (touched) {
+                            TouchPhase.DRAG -> {
+                                println("MyUiPiece DRAG ${uiBoard.board.move}")
+                                actor.clearActions()
+                                actor.setPosition(actor.x + dx, actor.y + dy);dx = 0.0f;dy = 0.0f
+                                actionNow = false//一括クリアもいるなこれは
+                            }
+                            TouchPhase.RELEASE -> {
+                                println("MyUiPiece RELEASE ${uiBoard.board.move}")
+                                //離した後は枡にフィットさせる。
+                            }
+                            TouchPhase.NONE -> {
+                                startAction { readyAction() }
+                            }
+                            TouchPhase.TOUCH -> {
+                                println("MyUiPiece TOUCH ${uiBoard.board.move}")
+                            }
                         }
                     }
-                    TouchPhase.NONE -> {
-//                        println("ここで落ちてる？")
-                        startAction { readyAction() }
+                    Piece.ActionPhase.ATTACK -> {//戦闘中のアクションはそのうち考える
+                        //戦闘結果を持ってるときはそれを動かす
+                        if (myPiece.fightResult != null) {
+                            attackResultToSeq(
+                                    myPiece.fightResult!!
+                                    , true)
+                            myPiece.fightResult = null
+                        } else {
+                            //アニメーション中でなければ灰色にする
+                            actor.clearActions()
+                            actionNow = false//一括クリアもいるなこれは
+                            actionSetToPosition(piece.charPosition)
+                            actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
+                        }
                     }
-                    TouchPhase.TOUCH -> {
-                        //タッチしてドラッグが始まる前はどうするかな？なにもしなくていいか？
+                    Piece.ActionPhase.ACTED -> {//現在の位置に灰色で表示
+                        println("MyUiPiece ACTED ${uiBoard.board.move}")
+                        actionSetToPosition(piece.charPosition)
+                        actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }//これ灰色じゃねーな全部　r+g+b/3　にするのが正しいか？
+                    }
+                    Piece.ActionPhase.REMOVED -> {//画面から消す
+                    }
+                    else -> {//行動後の現在位置に表示。ずれてる場合は直接移動させる
+                        println("MyUiPiece else ${uiBoard.board.move}")
+                        actionSetToPosition(piece.charPosition)
+                        actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
                     }
 
                 }
-            }
-            Piece.ActionPhase.ATTACK -> {//戦闘中のアクションはそのうち考える
-                //戦闘結果を持ってるときはそれを動かす
-                if (myPiece.fightResult != null) {
-                    attackResultToSeq(
-                            myPiece.fightResult!!
-                            , true)
-                    myPiece.fightResult = null
-                } else {
-                    //アニメーション中でなければ灰色にする
-                    actionSetToPosition(piece.charPosition)
-                    actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
-                }
-            }
-            Piece.ActionPhase.ACTED -> {//現在の位置に灰色で表示
-                actionSetToPosition(piece.charPosition)
-                actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }//これ灰色じゃねーな全部　r+g+b/3　にするのが正しいか？
-            }
-            Piece.ActionPhase.REMOVED -> {//画面から消す
-            }
-            else -> {//行動後の現在位置に表示。ずれてる場合は直接移動させる
-                actionSetToPosition(piece.charPosition)
-                actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
-            }
-
         }
         //カウントを一つ進める。開始かのBooleanのがいいかなあ
         piece.animationCount++
@@ -129,6 +132,7 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
      * 立ってるときのアニメ１ループ分。LibGDXにループ機能はあるが操作統一のため主導でループ
      * */
     private fun readyAction(): SequenceAction {
+        if (actors.size == 0) return SequenceAction()
         val base = actors[0]
         val face = actors[1]
         //clearしないでアクション追加するとめっちゃ落ちる。デフォルト位置に戻す処理もいるな

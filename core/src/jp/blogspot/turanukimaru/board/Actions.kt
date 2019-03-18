@@ -10,8 +10,9 @@ class EndOfAnimationAction(private val uiPiece: UiPiece, private var dt: Float) 
 
     override fun act(delta: Float): Boolean {
         dt -= delta
+        println("ACT : dt : $dt")
         if (dt <= 0) {
-            uiPiece.actionTerminate()
+            uiPiece.uiActionDone()
             return true
         }
         return false

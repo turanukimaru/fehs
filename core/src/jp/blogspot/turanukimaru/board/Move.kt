@@ -37,7 +37,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     /**
      * 選択されたかドラッグ中に対象になってる駒。移動範囲とかの表示対象※現物では選択されてるかとタッチされたかでは別扱い。タッチ開始直後は薄い。
      */
-   private val targetPiece get() = selectedPiece ?: touchedPiece
+    private val targetPiece get() = selectedPiece ?: touchedPiece
     /**
      * 駒を移動中に移動元の枡を記録しておく
      */
@@ -45,7 +45,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     /**
      * タッチ開始したときの位置
      */
-   private var touchedPosition: UiBoard.Position? = null
+    private var touchedPosition: UiBoard.Position? = null
     /**
      * 駒を移動中に移動先の枡を記録しておく
      */
@@ -95,7 +95,6 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         dy = 0
         touchedPiece = piece
         touchedPosition = xyToPosition
-        holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
         board.searchRoute(piece)
         board.searchEffectiveRoute(piece)
     }
@@ -105,90 +104,89 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * クリック時の動作だけどtouchDown/touchUpが同じオブジェクトの時には常に起動するので画面全体を覆うときは実質touchUp
      * アルゴリズムはHand側へ移動したいな。そうすればOptionでHand入れ替えで済む。
      */
-    fun clickAction(position: UiBoard.Position, targetPiece: Piece<UNIT, GROUND>) {
-        val targetRoute = targetPiece.searchedRoute[position.x][position.y]
-        val targetEffective = targetPiece.effectiveRoute[position.x][position.y]
-        //ドラッグ終了時には攻撃Or移動。対象の枡は枡の中心からの移動量で計算するべきか。
-        if (dragging()) {
-            //ユニットのタッチから始まってたらそこへアクションか移動。移動してないときは移動キャンセル
-            if (targetPiece == touchedPiece) {
-                moveCancel()
-//                updateInfo = { _ -> true }
-                return
-            }
-            when {
-                //何かをドラッグしてないときは何もしない
-                (touchedPiece == null) -> {
-                }
-                //対象が存在するときはそこへアクション
-                (targetPiece != null && targetEffective >= 0) -> {
-                    newPosition = position//一歩手前判定しないとな
-                    touchedPiece?.boardActionCommit(this, position, targetPiece) ?: return
-                }
-                //何もないところへは移動。確定かどうかは設定による
-                (targetPiece == null && targetRoute >= 0) -> {
-                    newPosition = position
-                    touchedPiece?.boardMove(this, position, targetPiece) ?: return
-                    //効果範囲かつ対象がいないときは範囲外と同じ扱い.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
-                }
-                //あーAssistは効果範囲が違うんだったな…Assistive追加しないとダメか
-                else -> {
-                    //移動後は移動後の場所へ戻す、移動前は移動キャンセル。これはめんどいな
-                    moveCancel()
-                }
-            }
-
-            //ドラッグでないときはそこへ移動・行動。底に何があるかは枡経由で見るべきだな
-        } else {
-            if ((targetPiece != null && selectedPiece != targetPiece && targetEffective >= 0) && readyToAction) {
-                selectedPiece?.boardActionCommit(this, position, targetPiece)
-
-            } else {
-                //行動準備は基本False
-                readyToAction = false
-                when {//敵と味方で判定別にしないといけないんだよな辛い
-//未選択の時は選択選択してないときに何もないところをタップしても何も起きない。
-                    (selectedPiece == null) -> {
-                        selectedPiece = targetPiece
-                    }
-//選択済み＆元の位置をクリックの時は移動またはキャンセル
-                    (selectedPiece == targetPiece) -> {
-                        moveCancel()
-                    }
-//選択済み＆移動済み＆自分駒をクリックしたときはそこへ移動確定。
-                    (targetPiece == null && touchedPiece == selectedPiece) -> {
-                        newPosition = position
-                        selectedPiece?.boardMoveCommit(this, position)
-                    }
-//選択済み＆駒のあるところをクリックしたときは攻撃位置へ移動しそこへ行動。
-                    (targetPiece != null && selectedPiece != targetPiece && targetEffective >= 0) -> {
-                        readyToAction = true
-                        val attackablePosition = board.findAttackPos(selectedPiece!!, position)
-                        stackRoute(position)
-                        selectedPiece?.boardMove(this, attackablePosition!!, targetPiece)
-                        selectedPiece?.boardAction(this, position, targetPiece)
-                    }
-                    //選択済み＆動いてて相手がいない場合そこへ移動.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
-                    (targetPiece == null && targetRoute >= 0) -> {
-                        stackRoute(position)
-                        selectedPiece?.boardMove(this, position, targetPiece)
-                    }
-                    else -> {
-                        moveCancel()
-                    }
-                }
-            }
-        }
-        touchRelease()
-    }
+//    fun clickAction(position: UiBoard.Position, targetPiece: Piece<UNIT, GROUND>) {
+//        val targetRoute = targetPiece.searchedRoute[position.x][position.y]
+//        val targetEffective = targetPiece.effectiveRoute[position.x][position.y]
+//        //ドラッグ終了時には攻撃Or移動。対象の枡は枡の中心からの移動量で計算するべきか。
+//        if (dragging()) {
+//            //ユニットのタッチから始まってたらそこへアクションか移動。移動してないときは移動キャンセル
+//            if (targetPiece == touchedPiece) {
+//                moveCancel()
+////                updateInfo = { _ -> true }
+//                return
+//            }
+//            when {
+//                //何かをドラッグしてないときは何もしない
+//                (touchedPiece == null) -> {
+//                }
+//                //対象が存在するときはそこへアクション
+//                (targetPiece != null && targetEffective >= 0) -> {
+//                    newPosition = position//一歩手前判定しないとな
+//                    touchedPiece?.boardActionCommit(this, position, targetPiece) ?: return
+//                }
+//                //何もないところへは移動。確定かどうかは設定による
+//                (targetPiece == null && targetRoute >= 0) -> {
+//                    newPosition = position
+//                    touchedPiece?.boardMove(this, position, targetPiece) ?: return
+//                    //効果範囲かつ対象がいないときは範囲外と同じ扱い.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
+//                }
+//                //あーAssistは効果範囲が違うんだったな…Assistive追加しないとダメか
+//                else -> {
+//                    //移動後は移動後の場所へ戻す、移動前は移動キャンセル。これはめんどいな
+//                    moveCancel()
+//                }
+//            }
+//
+//            //ドラッグでないときはそこへ移動・行動。底に何があるかは枡経由で見るべきだな
+//        } else {
+//            if ((targetPiece != null && selectedPiece != targetPiece && targetEffective >= 0) && readyToAction) {
+//                selectedPiece?.boardActionCommit(this, position, targetPiece)
+//
+//            } else {
+//                //行動準備は基本False
+//                readyToAction = false
+//                when {//敵と味方で判定別にしないといけないんだよな辛い
+////未選択の時は選択選択してないときに何もないところをタップしても何も起きない。
+//                    (selectedPiece == null) -> {
+//                        selectedPiece = targetPiece
+//                    }
+////選択済み＆元の位置をクリックの時は移動またはキャンセル
+//                    (selectedPiece == targetPiece) -> {
+//                        moveCancel()
+//                    }
+////選択済み＆移動済み＆自分駒をクリックしたときはそこへ移動確定。
+//                    (targetPiece == null && touchedPiece == selectedPiece) -> {
+//                        newPosition = position
+//                        selectedPiece?.boardMoveCommit(this, position)
+//                    }
+////選択済み＆駒のあるところをクリックしたときは攻撃位置へ移動しそこへ行動。
+//                    (targetPiece != null && selectedPiece != targetPiece && targetEffective >= 0) -> {
+//                        readyToAction = true
+//                        val attackablePosition = board.findAttackPos(selectedPiece!!, position)
+//                        stackRoute(position)
+//                        selectedPiece?.boardMove(this, attackablePosition!!, targetPiece)
+//                        selectedPiece?.boardAction(this, position, targetPiece)
+//                    }
+//                    //選択済み＆動いてて相手がいない場合そこへ移動.ただしFEHでは効果範囲内＆移動範囲外は単に無視する
+//                    (targetPiece == null && targetRoute >= 0) -> {
+//                        stackRoute(position)
+//                        selectedPiece?.boardMove(this, position, targetPiece)
+//                    }
+//                    else -> {
+//                        moveCancel()
+//                    }
+//                }
+//            }
+//        }
+//        touchRelease()
+//    }
 
     /**
      * 選択した駒の移動をキャンセルして非選択にする。選択してる駒の状態も変化させる
      */
     fun moveCancel() {
         println("moveCancel")
-        selectedPiece?.actionPhase = Piece.ActionPhase.READY
-        TODO("selectedPieceの現在値を戻してないわ")
+        selectedPiece?.moveCancel()
         clear()
     }
 
@@ -222,15 +220,19 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     private fun moveSelectedPiece(position: UiBoard.Position): Boolean {
         println(" moveSelectedPiece($position: UiBoard.Position) ")
         val movable = selectedPiece!!.boardMove(this, position, targetPiece)
-        if (movable) newPosition = position else moveCancel()
-        //↓は駒の動作で位置を取らないやつ
+        if (movable) {
+            newPosition = position
+            board.moveToPosition(selectedPiece!!,position)
+        } else moveCancel()
         return movable
 
     }
+
     fun drag(position: UiBoard.Position) {
         println("board dragged on $position")
-        if (touchedPiece != null && touchedPosition != null) selectPiece(touchedPiece!!,touchedPosition!!)//positionはdigせんとあかんな
+        if (touchedPiece != null && touchedPosition != null && touchedPiece!!.isActionable) selectPiece(touchedPiece!!, touchedPosition!!)//positionはdigせんとあかんか？どうせtouchedPositionでPiece拾ってるからいいか
     }
+
     fun drop(position: UiBoard.Position) {
         println("touched $touchedPiece　selected $selectedPiece")
         //盤面をドラッグしても何も起きない。N_TAPと同じなのでここでアニメの省略とか
@@ -241,10 +243,10 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
             //駒を選択して盤面をドロップってなんもせんわな
             tapType == TapType.SELECTED_FIELD_TAP -> return//moveSelectedPiece(charPosition)
             //直接ドロップは移動してアクション準備.アクションフェイズかは分岐先で確認するべきか
-            tapType == TapType.SIMPLE_TAP -> moveSelectedPiece(position)//selectしてないから落ちる…ドラッグ判定と同時にSelectってのが本当に必要になったか
-            tapType == TapType.SELECTED_SELF_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target,position)
+            tapType == TapType.SIMPLE_TAP -> moveSelectedPiece(position)//FIXME:selectしてないから落ちる…ドラッグ判定と同時にSelectしてるはずなんだけどな
+            tapType == TapType.SELECTED_SELF_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target, position)
             //選択してない駒をドロップしたときはアクションだけど敵と味方で効果範囲が違う…
-            tapType == TapType.SELECTED_TARGET_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target,position)
+            tapType == TapType.SELECTED_TARGET_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target, position)
             else -> println("UNEXPECTED drop ACTION $tapType ${target.actionPhase}")
         }
     }
@@ -255,6 +257,8 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         //一定時間以上たってのクリックはドラッグ判定
         if (dragging()) {
             drop(position)
+            touchRelease()
+            return
         }
         //盤面タップ
         println("touched $touchedPiece　selected $selectedPiece")
@@ -274,28 +278,29 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         when (tapType) {
             TapType.SELECTED_FIELD_TAP -> println("touchedPiece判定しているのでここは通らないはず")
             //駒をタップ
-            TapType.SIMPLE_TAP -> if (target.owner == board.owner && target.actionPhase == Piece.ActionPhase.READY) selectPiece(target,position)
+            TapType.SIMPLE_TAP -> if (target.owner == board.owner && target.actionPhase == Piece.ActionPhase.READY) selectPiece(target, position)
             //選択した駒をタップしたときは動いてたらそこで終了、アクション準備なら取り消して移動中、 移動してなかったら解除
             TapType.SELECTED_SELF_TAP -> {//when 入れ子になりそう…
-                if ( newPosition == oldPosition) {
+                if (newPosition == oldPosition) {
                     moveCancel()
-                }else{
+                } else {
                     println("move commit")
                     target.boardMoveCommit(this, position)
                     clear()
                 }
             }
             //選択してない駒をタップしたときはアクションだけど敵と味方で効果範囲が違う…
-            TapType.SELECTED_TARGET_TAP -> if (target.owner == board.owner) selectPiece(target,position) else selectPiece(target,position)
+            TapType.SELECTED_TARGET_TAP -> if (target.owner == board.owner) selectPiece(target, position) else selectPiece(target, position)
             else -> println("UNEXPECTED clicked ACTION $tapType ${target.actionPhase}")
         }
+        touchRelease()
 
     }
 
     /**
-     * 駒を選択状態にする。positionは外から渡すべきか
+     * 駒を選択状態にする
      */
-    private fun selectPiece(piece: Piece<UNIT, GROUND>,position: UiBoard.Position) {
+    private fun selectPiece(piece: Piece<UNIT, GROUND>, position: UiBoard.Position) {
 
         println("selectPiece $piece")
         clear()
@@ -311,17 +316,22 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     //タッチ開始時にboardから呼ばれる。今までのタッチとかはガン無視。リセット処理いるかな？要らないか。対象に攻撃するときとかはSelectedPieceが必要になるし
     fun touch(position: UiBoard.Position, piece: Piece<UNIT, GROUND>?) {
         println("touch x:${position.x}, y:${position.y} Piece $piece")//マトリックスから取得するの失敗してそうだな…
+        holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
         touchedPiece = piece
         //選択中は移動先で判定。これ盤面を新しい場所にしたほうがいいかっていうか旧盤面と新盤面の二つがあるべきなのかなあ
         if (selectedPiece != null) {
             if (newPosition == position) {
                 touchedPiece = selectedPiece
                 //位置が変わってて旧位置をタッチして検出してしまった時には消す。
-            }else if(oldPosition == position && newPosition != oldPosition){
+            } else if (oldPosition == position && newPosition != oldPosition) {
                 touchedPiece = null
             }
         }
         touchedPosition = position
+    }
+
+    fun touchUp() {
+        touchedPiece = null
     }
 
 

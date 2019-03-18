@@ -97,6 +97,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         if (!touchUpOver) {
             board.move.drop(xyToPosition(x, y))
         }
+        board.move.touchUp()
 //        println("$event: InputEvent?, $x: Float, $y: Float, $pointer: Int, $button: Int")
     }
 

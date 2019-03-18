@@ -66,7 +66,7 @@ println("Board.touch x:${position.x} y:${position.y}")
         move.touch(position, pieceMatrix[position.x][position.y])
     }
     /**
-     * 地形のマトリックスをコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrix[x][y]はxyが入れ替わっているので入れ替えてコピーする
+     * 地形のマトリックスをコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrixxyはxyが入れ替わっているので入れ替えてコピーする
      */
     fun copyGroundSwitchXY(matrix: Array<Array<GROUND>>) {
         groundMatrix.forEach { e -> e.clear() }
@@ -101,28 +101,17 @@ println("Board.touch x:${position.x} y:${position.y}")
     }
 
     /**
-     * 対象の枡に駒を移動する。自分以外の駒が配置済みだったら例外を吐く
-     */
-    private fun moveToPosition(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
-        if (isAnotherPiece(piece, x, y)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
-        println("moveToPosition $piece $x $y")
-        setToPositionWithoutAction(piece, x, y)
-//        piece.uiPiece.actor.clearActions()
-//        piece.uiPiece.actor.addAction(uiBoard.actionMoveToPosition(piece.uiPiece, x, y))
-    }
-
-    /**
      * 対象の枡に駒を置く。移動元が見つからないときは例外を吐く
      * Actionとの関係を整理したほうが良いな
      */
-    private fun setPiece(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
-        val oldSquare = searchUnitPosition(piece)!!
-        //移動範囲外は旧枡に戻す.キャンセルはやりすぎかなあ
+    fun moveToPosition(piece: Piece<UNIT, GROUND>, position: Position, x :Int = position.x, y:Int = position.y) {
         if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || piece.searchedRoute[x][y] < 0) {
-//            piece.uiPiece.actor.actions.clear()
-//            piece.uiPiece.actor.addAction(uiBoard.actionMoveToPosition(piece.uiPiece, oldSquare.x, oldSquare.y))
-            return
+            throw RuntimeException("out of range pieceMatrix[$x][$y]")
         }
+        if (isAnotherPiece(piece, x, y)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
+        println("moveTon $piece $x $y")
+        val oldSquare = searchUnitPosition(piece)!!
+        println("moveFrom $piece ${oldSquare.x} ${oldSquare.y}")
         //移動元を消して今回の駒をセット
         val targetSquaresUnit = pieceMatrix[x][y]
         if (targetSquaresUnit != null && targetSquaresUnit != piece) {
@@ -130,19 +119,6 @@ println("Board.touch x:${position.x} y:${position.y}")
         }
         pieceMatrix[oldSquare.x][oldSquare.y] = null
         pieceMatrix[x][y] = piece
-    }
-
-    fun moveToPosition(piece: Piece<UNIT, GROUND>, position: Position) {
-        moveToPosition(piece, position.x, position.y)
-    }
-
-    fun setToPositionWithoutAction(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
-//        uiBoard.actionSetToPosition(piece.uiPiece, x, y)
-        setPiece(piece, x, y)
-    }
-
-    fun setToPosition(piece: Piece<UNIT, GROUND>, position: Position) {
-        setToPositionWithoutAction(piece, position.x, position.y)
     }
 
     /**
@@ -170,7 +146,7 @@ println("Board.touch x:${position.x} y:${position.y}")
         }
         //nullの時例外を吐きたいならこう
         val square = searchUnitPosition(piece) ?: throw RuntimeException("ユニットが見つからない")
-        var steps = 0
+        val steps = 0
         println("first step at $piece $square $steps ")
         step(piece, square, steps, routeMatrix)
         //これ更新形式と新しいマトリックスを渡す形どっちがいいかなあ
@@ -285,27 +261,6 @@ println("Board.touch x:${position.x} y:${position.y}")
     }
 
     /**
-     * クリック時の動作だけどtouchDown/touchUpが同じオブジェクトの時には常に起動するので画面全体を覆うときは実質touchUp
-     * アルゴリズムはHand側へ移動したいな。そうすればOptionでHand入れ替えで済む。
-     */
-    fun clicked(position: Position) {
-        move.clicked(position)
-//        //盤外/移動範囲外/効果範囲外は最初に戻す。状態は関係なし...ほんとか？selectもしくはholdしてたらじゃね？
-//        if (!positionIsOnBoard(charPosition) || (move.selectedPiece!!.searchedRoute[charPosition.x][charPosition.y] < 0 && move.selectedPiece!!.effectiveRoute[charPosition.x][charPosition.y] < 0)) {
-//            move.moveCancel()
-////            updateInfo = { _ -> true }
-//            return
-//        }
-//        //対象は有るかもないかも。なお移動中の配置はHandで参照しているのでボード上の自分はまだ移動前
-//        val targetPiece = pieceMatrix[charPosition.x][charPosition.y]
-//        val targetRoute = move.selectedPiece!!.searchedRoute[charPosition.x][charPosition.y]
-//        val targetEffective = move.selectedPiece!!.effectiveRoute[charPosition.x][charPosition.y]
-//        //こっちは古いコード。今はHandへ引っ越し中
-        // move.clickedAction(charPosition, targetPiece, targetRoute, targetEffective)
-
-    }
-
-    /**
      * ターン開始。盤の所有者をセットして、全ての駒を準備状態にする。動作を変えるときはきっと引数に関数を追加して、その関数を呼ぶのがいいと思う。
      */
     fun turn(owner: Player) {
@@ -336,16 +291,9 @@ println("Board.touch x:${position.x} y:${position.y}")
     /**
      * 対象の枡に自分以外の駒があるときにtrue
      */
-    fun isAnotherPiece(piece: Piece<*, GROUND>, position: Position): Boolean {
-        return isAnotherPiece(piece, position.x, position.y)
-    }
-
-    /**
-     * 対象の枡に自分以外の駒があるときにtrue TODO:pieceに移動
-     */
     private fun isAnotherPiece(piece: Piece<*, GROUND>, x: Int, y: Int): Boolean {
         val target = pieceMatrix[x][y]
-        return piece.effectiveRoute[x][y] > 0 && target != null && target != piece
+        return /*piece.effectiveRoute[x][y] > 0 && ルート内かどうかは今更見なくていいかなあ*/ target != null && target != piece
     }
 
     /**
