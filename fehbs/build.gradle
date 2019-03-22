@@ -20,8 +20,8 @@ android {
         //オーバーレイのためにバージョン上げるしかないが昔のAndroidで動くかなあ…
 //        minSdkVersion 23
         targetSdkVersion 26
-        versionCode 88
-        versionName "0.88"
+        versionCode 90
+        versionName "0.90"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
