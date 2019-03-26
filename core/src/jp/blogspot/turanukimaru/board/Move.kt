@@ -219,10 +219,11 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 
     private fun moveSelectedPiece(position: UiBoard.Position): Boolean {
         println(" moveSelectedPiece($position: UiBoard.Position) ")
+        if (selectedPiece == null) selectedPiece = touchedPiece//drag中ならこれはすでに設定されてるはずだが再設定しても問題なかろう
         val movable = selectedPiece!!.boardMove(this, position, targetPiece)
         if (movable) {
             newPosition = position
-            board.moveToPosition(selectedPiece!!,position)
+            board.moveToPosition(selectedPiece!!, position)
         } else moveCancel()
         return movable
 
@@ -239,14 +240,15 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         val target = touchedPiece ?: return
         //自分の駒じゃないのをドラッグしても何もしない
         if (target.owner != board.owner) return
-        when {
+        when (tapType){
             //駒を選択して盤面をドロップってなんもせんわな
-            tapType == TapType.SELECTED_FIELD_TAP -> return//moveSelectedPiece(charPosition)
+            TapType.SELECTED_FIELD_TAP -> return//moveSelectedPiece(charPosition)
             //直接ドロップは移動してアクション準備.アクションフェイズかは分岐先で確認するべきか
-            tapType == TapType.SIMPLE_TAP -> moveSelectedPiece(position)//FIXME:selectしてないから落ちる…ドラッグ判定と同時にSelectしてるはずなんだけどな
-            tapType == TapType.SELECTED_SELF_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target, position)
-            //選択してない駒をドロップしたときはアクションだけど敵と味方で効果範囲が違う…
-            tapType == TapType.SELECTED_TARGET_TAP && target.actionPhase == Piece.ActionPhase.READY -> selectPiece(target, position)
+            TapType.SIMPLE_TAP -> moveSelectedPiece(position)
+            //selectして自分へドロップって何も起きないよな…
+            TapType.SELECTED_SELF_TAP -> println("移動しようとしてドラッグしたけど元の場所へ戻した $tapType ${target.actionPhase}")
+            //選択してない駒へドロップしたときはアクションだけど敵と味方で効果範囲が違う…
+            TapType.SELECTED_TARGET_TAP  -> actionPiece(target, position)
             else -> println("UNEXPECTED drop ACTION $tapType ${target.actionPhase}")
         }
     }
@@ -289,12 +291,24 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
                     clear()
                 }
             }
-            //選択してない駒をタップしたときはアクションだけど敵と味方で効果範囲が違う…
-            TapType.SELECTED_TARGET_TAP -> if (target.owner == board.owner) selectPiece(target, position) else selectPiece(target, position)
+
+            TapType.SELECTED_TARGET_TAP -> actionPiece(target, position)
             else -> println("UNEXPECTED clicked ACTION $tapType ${target.actionPhase}")
         }
         touchRelease()
 
+    }
+
+    private fun actionPiece(target: Piece<UNIT, GROUND>, position: UiBoard.Position) {
+        if (target.owner == board.owner) return  //選択してない駒をタップしたときはアクションだけど敵と味方で効果範囲が違うし後で考えよう…
+        val targetEffective = selectedPiece!!.effectiveRoute[position.x][position.y]
+        if (targetEffective >= 0) {
+            readyToAction = true
+            val attackablePosition = board.findAttackPos(selectedPiece!!, position)
+            stackRoute(position)
+            selectedPiece?.boardMove(this, attackablePosition!!, target)
+            selectedPiece?.boardAction(this, position, target)
+        }
     }
 
     /**

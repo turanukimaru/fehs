@@ -12,6 +12,7 @@ class NewHeroTest4 {
     fun epTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.エフラム__総選挙_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
+        attacker.buffDebuffTrigger = true
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.マルス.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -37,7 +38,10 @@ class NewHeroTest4 {
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.エフラム__総選挙_.jp)!!)
-        val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
+        unitB.buffDebuffTrigger = true
+        val target = BattleUnit(unitB, unitB.maxHp)
+        target.buffDebuffTrigger = true
+        val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
         Assert.assertEquals("size == 4", 4, fightResult.size)
         Assert.assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
