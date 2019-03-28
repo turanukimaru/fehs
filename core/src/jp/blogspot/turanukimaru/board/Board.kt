@@ -53,6 +53,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         }
     }
 
+    fun piece (position: Position):Piece<UNIT, GROUND>? = pieceMatrix[position.x][position.y]
     fun touch (position: Position){
 println("Board.touch x:${position.x} y:${position.y}")
         verticalIndexes.forEach { y ->
@@ -63,7 +64,7 @@ println("Board.touch x:${position.x} y:${position.y}")
             println()
         }
 
-        move.touch(position, pieceMatrix[position.x][position.y])
+        move.touch(position)
     }
     /**
      * 地形のマトリックスをコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrixxyはxyが入れ替わっているので入れ替えてコピーする

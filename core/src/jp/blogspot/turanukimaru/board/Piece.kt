@@ -62,6 +62,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     init {
     }
 
+    fun effectiveRouteOf(position: Position):Int = effectiveRoute[position.x][position.y]
+    fun searchedRouteOf(position: Position):Int = searchedRoute[position.x][position.y]
     /**
      * 効果範囲か。再帰して効果範囲を拡大できるかなので名前変えよう
      */
@@ -134,7 +136,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 移動中。Positionを一つにしてHandに管理責任を持たせるかこっちでもnewPositionを持つか…
      */
-    open fun boardMove(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean {
+    open fun boardMove(move: Move<UNIT, GROUND>, position: Position): Boolean {
         val targetRoute = searchedRoute[position.x][position.y]
         //移動範囲外は-1
         if (targetRoute < 0) return false

@@ -67,6 +67,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         }
 
     fun clear() {
+        //selectedPieceにSelectじゃなくなったことを伝えるべき？
         selectedPiece = null
         oldPosition = null
         newPosition = null
@@ -220,7 +221,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     private fun moveSelectedPiece(position: UiBoard.Position): Boolean {
         println(" moveSelectedPiece($position: UiBoard.Position) ")
         if (selectedPiece == null) selectedPiece = touchedPiece//drag中ならこれはすでに設定されてるはずだが再設定しても問題なかろう
-        val movable = selectedPiece!!.boardMove(this, position, targetPiece)
+        val movable = selectedPiece!!.boardMove(this, position)
         if (movable) {
             newPosition = position
             board.moveToPosition(selectedPiece!!, position)
@@ -237,19 +238,20 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     fun drop(position: UiBoard.Position) {
         println("touched $touchedPiece　selected $selectedPiece")
         //盤面をドラッグしても何も起きない。N_TAPと同じなのでここでアニメの省略とか
-        val target = touchedPiece ?: return
+        val piece = touchedPiece ?: return
+        selectedPiece = touchedPiece//あれこれ書いたつもりなんだけどな
         //自分の駒じゃないのをドラッグしても何もしない
-        if (target.owner != board.owner) return
-        when (tapType){
-            //駒を選択して盤面をドロップってなんもせんわな
-            TapType.SELECTED_FIELD_TAP -> return//moveSelectedPiece(charPosition)
-            //直接ドロップは移動してアクション準備.アクションフェイズかは分岐先で確認するべきか
-            TapType.SIMPLE_TAP -> moveSelectedPiece(position)
-            //selectして自分へドロップって何も起きないよな…
-            TapType.SELECTED_SELF_TAP -> println("移動しようとしてドラッグしたけど元の場所へ戻した $tapType ${target.actionPhase}")
-            //選択してない駒へドロップしたときはアクションだけど敵と味方で効果範囲が違う…
-            TapType.SELECTED_TARGET_TAP  -> actionPiece(target, position)
-            else -> println("UNEXPECTED drop ACTION $tapType ${target.actionPhase}")
+        if (piece.owner != board.owner) return
+        val target = board.piece(position)
+        val effective = selectedPiece!!.effectiveRouteOf(position)
+        val movable = selectedPiece!!.searchedRouteOf(position)
+        //TapType は常に SELECTED_SELF_TAP だ…これ定数化する意味なかったなあ
+        when {
+            target == null && movable < 1 -> moveCancel()
+            target == null && movable > 0 -> moveSelectedPiece(position)
+            target != null && effective < 1 -> moveCancel()
+            target != null && effective > 0 -> actionPiece(piece, position)
+            else -> println("UNEXPECTED drop ACTION $tapType ${piece.actionPhase}")
         }
     }
 
@@ -299,16 +301,18 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 
     }
 
-    private fun actionPiece(target: Piece<UNIT, GROUND>, position: UiBoard.Position) {
-        if (target.owner == board.owner) return  //選択してない駒をタップしたときはアクションだけど敵と味方で効果範囲が違うし後で考えよう…
+    private fun actionPiece(target: Piece<UNIT, GROUND>, position: UiBoard.Position): Boolean {
+        if (target.owner == board.owner) return false //選択してない駒をタップしたときはアクションだけど敵と味方で効果範囲が違うし後で考えよう…
         val targetEffective = selectedPiece!!.effectiveRoute[position.x][position.y]
         if (targetEffective >= 0) {
             readyToAction = true
             val attackablePosition = board.findAttackPos(selectedPiece!!, position)
             stackRoute(position)
-            selectedPiece?.boardMove(this, attackablePosition!!, target)
+            selectedPiece?.boardMove(this, attackablePosition!!)
             selectedPiece?.boardAction(this, position, target)
+            return true
         }
+        return false
     }
 
     /**
@@ -328,19 +332,15 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     }
 
     //タッチ開始時にboardから呼ばれる。今までのタッチとかはガン無視。リセット処理いるかな？要らないか。対象に攻撃するときとかはSelectedPieceが必要になるし
-    fun touch(position: UiBoard.Position, piece: Piece<UNIT, GROUND>?) {
-        println("touch x:${position.x}, y:${position.y} Piece $piece")//マトリックスから取得するの失敗してそうだな…
-        holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
-        touchedPiece = piece
+    fun touch(position: UiBoard.Position) {
         //選択中は移動先で判定。これ盤面を新しい場所にしたほうがいいかっていうか旧盤面と新盤面の二つがあるべきなのかなあ
-        if (selectedPiece != null) {
-            if (newPosition == position) {
-                touchedPiece = selectedPiece
-                //位置が変わってて旧位置をタッチして検出してしまった時には消す。
-            } else if (oldPosition == position && newPosition != oldPosition) {
-                touchedPiece = null
-            }
+        touchedPiece = when {
+            selectedPiece != null && position == newPosition -> selectedPiece
+            selectedPiece != null && position == oldPosition -> null
+            else -> board.piece(position)
         }
+        println("touch x:${position.x}, y:${position.y} Piece $touchedPiece")//マトリックスから取得するの失敗してそうだな…
+        holdStart = System.currentTimeMillis()//Dateのほうがいいかなあ？こっちのが早いよなあ？
         touchedPosition = position
     }
 
