@@ -1,0 +1,22 @@
+@startuml
+allow_mixing
+
+package "single application" {
+class "UI/UseCase" as ui
+class "ロジック" as logic
+ui -> logic
+}
+
+package "business objects" {
+class "操作対象" as target
+    logic .> target
+}
+
+package "Clean Architecture" {
+class "UI/UseCase" as ui2
+class "操作対象" as target2{
+ロジック
+}
+ui2 -> target2
+}
+@enduml

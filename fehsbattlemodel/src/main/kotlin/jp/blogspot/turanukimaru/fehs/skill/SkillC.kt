@@ -113,6 +113,7 @@ enum class SkillC(override val jp: SkillName, override val type: SkillType = Ski
     AirOrders(SkillName.AirOrders, spType = SpType.BASE60),
     Upheaval(SkillName.Upheaval, maxLevel = 0, spType = SpType.LEGEND_S),
     HumanVirtue(SkillName.HumanVirtue, maxLevel = 0, spType = SpType.LEGEND_S),
+    ChaosNamed(SkillName.ChaosNamed, maxLevel = 0, spType = SpType.LEGEND_S),
     ;
 
     /**

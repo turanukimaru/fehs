@@ -954,6 +954,7 @@ WolfpupFang("人狼娘の爪牙","Wolfpup Fang","狼人之女的爪牙"),
     KitsuneFang("妖狐王の爪牙","Kitsune Fang","妖狐王的爪牙"),
     FoxkitFang("妖狐娘の爪牙","Foxkit Fang","妖狐之女的爪牙"),
     SabotageAtk("攻撃の混乱","Sabotage Atk","攻擊擾亂"),
+    SabotageRes("魔防の混乱","Sabotage Res","魔防擾亂"),
     Dragonbind("魔竜封印の剣","Dragonbind","封印魔龍之劍"),
     BonusDoubler("強化増幅","Bonus Doubler","強化增幅"),
     HumanVirtue("人の可能性を！","Human Virtue","發揮人類的潛能！"),
@@ -976,6 +977,9 @@ WolfpupFang("人狼娘の爪牙","Wolfpup Fang","狼人之女的爪牙"),
     PegasusCarrot2("天馬のニンジン＋","Pegasus Carrot+","天馬胡蘿蔔＋"),
     OvoidStaff("卵の杖","Ovoid Staff","卵之杖"),
     OvoidStaff2("卵の杖＋","Ovoid Staff+","卵之杖＋"),
+
+    ChaosManifest("","Chaos Manifest",""),
+    ChaosNamed("","Chaos Named",""),
     ;
     /**
      * ロケールから対応する文字列を出す

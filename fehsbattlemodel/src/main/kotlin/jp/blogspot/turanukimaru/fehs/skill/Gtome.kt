@@ -117,6 +117,17 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
             allBonus(battleUnit, 4, this)
         } else battleUnit
     },
+    ChaosManifest(SkillName.ChaosManifest, SkillType.GTOME, 14, Rexcalibur) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            if (battleUnit.buffDebuffTrigger || enemy.isDebuffed) {
+                battleUnit.addSkillText(SkillText(this, SkillBaseText.FollowupAttack))
+                battleUnit.followupable += 1
+                atk(battleUnit, 6, this)
+            }
+            return battleUnit
+        }
+    },
     ;
 
     /**

@@ -980,6 +980,9 @@ object StandardBaseHero {
                 Staff.OvoidStaff2, Assist.Martyr2, Special.Miracle, SkillA.AtkDefPush.lv(3), SkillB.DazzlingStaff.lv(3),null)
         createItem(HeroName.ヴェロニカ__春_, 3, WeaponType.GTOME, MoveType.FLIER,  5, 16, 9, 10, 3, 6, g50, g60, g60, g30, g45,
                 Gtome.VeðrfölnirsEgg, null, Special.Glimmer, SkillA.GDuelFlying.lv(3), SkillB.ChillRes.lv(3),null)
+
+        createItem(HeroName.ユンヌ, 3, WeaponType.GTOME, MoveType.FLIER,  5, 16, 9, 5, 5, 9, g50, g55, g50, g25, g65,
+                        Gtome.ChaosManifest, null, Special.Glacies, SkillA.AtkResBond.lv(3), SkillB.SabotageRes.lv(3), SkillC.ChaosNamed)
 //              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                        Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,
