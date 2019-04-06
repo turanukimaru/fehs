@@ -978,8 +978,8 @@ WolfpupFang("人狼娘の爪牙","Wolfpup Fang","狼人之女的爪牙"),
     OvoidStaff("卵の杖","Ovoid Staff","卵之杖"),
     OvoidStaff2("卵の杖＋","Ovoid Staff+","卵之杖＋"),
 
-    ChaosManifest("","Chaos Manifest",""),
-    ChaosNamed("","Chaos Named",""),
+    ChaosManifest("負の力","Chaos Manifest","負之力"),
+    ChaosNamed("我が名は混沌","Chaos Named","吾之名為混沌"),
     ;
     /**
      * ロケールから対応する文字列を出す

@@ -240,12 +240,14 @@ class MyMyGdxGame : ApplicationAdapter() {
 //        buttons.forEach { b -> b.draw(batch, 100f) }
 
         val hand = myGame.board.move
-        bitmapFont!!.draw(batch, "dx:${hand.dx}", 50f, 110f)
-        bitmapFont!!.draw(batch, "dy:${hand.dy}", 50f, 140f)
-        bitmapFont!!.draw(batch, "holdStart:${hand.holdStart}", 50f, 170f)
-        bitmapFont!!.draw(batch, "holdNow:${hand.holdNow}", 50f, 200f)
-        bitmapFont!!.draw(batch, "touched:  ${myGame.board.move.touchedPiece}\nデバッグ用文字", 50f, 230f)
-        bitmapFont!!.draw(batch, "selected: ${myGame.board.move.selectedPiece}\nデバッグ用文字", 50f, 260f)
+        bitmapFont!!.draw(batch, "dx:${hand.dx}", 50f, 510f)
+        bitmapFont!!.draw(batch, "dy:${hand.dy}", 50f, 540f)
+        bitmapFont!!.draw(batch, "holdStart:${hand.holdStart}", 50f, 570f)
+        bitmapFont!!.draw(batch, "holdNow:${hand.holdNow}", 50f, 600f)
+        bitmapFont!!.draw(batch, "oldPosition:${hand.oldPosition}", 50f, 630f)
+        bitmapFont!!.draw(batch, "newPosition:${hand.newPosition}", 50f, 660f)
+//        bitmapFont!!.draw(batch, "touched:  ${myGame.board.move.touchedPiece}\nデバッグ用文字", 50f, 230f)
+//        bitmapFont!!.draw(batch, "selected: ${myGame.board.move.selectedPiece}\nデバッグ用文字", 50f, 260f)
         myGame.board.pieceList.forEach {
             bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.charPosition!!.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }

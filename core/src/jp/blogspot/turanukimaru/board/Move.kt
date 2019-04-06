@@ -67,7 +67,6 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         }
 
     fun clear() {
-        //selectedPieceにSelectじゃなくなったことを伝えるべき？
         selectedPiece = null
         oldPosition = null
         newPosition = null
@@ -187,6 +186,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      */
     fun moveCancel() {
         println("moveCancel")
+        board.moveToPosition(selectedPiece!!, oldPosition!!)
         selectedPiece?.moveCancel()
         clear()
     }

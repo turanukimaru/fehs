@@ -494,7 +494,7 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     ヴェロニカ__春_("ヴェロニカ（春）", "Veronica (Spring)", "維洛妮卡 (Spring)"),
     ロキ__春_("ロキ（春）", "Loki (Spring)", "洛基 (Spring)"),
 
-    ユンヌ("ユンヌ", "", "洛基 (Spring)"),
+    ユンヌ("ユンヌ", "Yune", "芸娜"),
     ;
 
     /**
