@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jp.blogspot.turanukimaru.board.Board
+import jp.blogspot.turanukimaru.board.ActionListener
 
 /**
  * ゲーム本体。LibGDXサンプルソースがところどころ残ってるので削除せねば...
@@ -145,7 +146,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val group = Group()
         group.addActor(medjedImageA)
         group.addActor(medjedImageB)
-        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user)
+        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user, ActionListener(group, myGame.uiBoard))
         val uiPiece = MyUiPiece(group, myGame.uiBoard, piece1)
         user.pieceList.add(piece1)
         group.addListener(uiPiece)
@@ -161,7 +162,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val lucinaImage = Image(lucinaTexture)
         lucinaImage.setScale(0.5f)
         imageDisposer.add(lucinaImage)
-        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.board, enemy)
+        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.board, enemy, ActionListener(lucinaImage, myGame.uiBoard))
         val uiPiece2 = MyUiPiece(lucinaImage, myGame.uiBoard, piece2)
         enemy.pieceList.add(piece2)
         lucinaImage.addListener(uiPiece2)
@@ -173,7 +174,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val hectorImage = Image(hectorTexture)
         hectorImage.setScale(0.5f)
         imageDisposer.add(hectorImage)
-        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.board, enemy)
+        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.board, enemy, ActionListener(hectorImage, myGame.uiBoard))
         val uiPiece3 = MyUiPiece(hectorImage, myGame.uiBoard, piece3)
         enemy.pieceList.add(piece3)
         hectorImage.addListener(uiPiece3)

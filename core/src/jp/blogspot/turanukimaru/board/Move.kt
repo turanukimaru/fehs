@@ -95,8 +95,9 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         dy = 0
         touchedPiece = piece
         touchedPosition = xyToPosition
-        board.searchRoute(piece)
-        board.searchEffectiveRoute(piece)
+        //TODO:駒側にルートを持たせて、行動可能範囲を見れるようにする。...行動後の駒も範囲見れたっけ？敵の範囲を見るのは別にあったほうがいいな
+//        board.searchRoute(piece)
+//        board.searchEffectiveRoute(piece)
     }
 
     override fun toString(): String = "dx:$dx dy:$dy p:$touchedPosition piece:$touchedPiece s:$selectedPiece"
@@ -186,7 +187,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      */
     fun moveCancel() {
         println("moveCancel")
-        board.moveToPosition(selectedPiece!!, oldPosition!!)
+        if (selectedPiece != null && oldPosition != null) board.moveToPosition(selectedPiece!!, oldPosition!!)
         selectedPiece?.moveCancel()
         clear()
     }
@@ -232,7 +233,10 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 
     fun drag(position: UiBoard.Position) {
         println("board dragged on $position")
-        if (touchedPiece != null && touchedPosition != null && touchedPiece!!.isActionable) selectPiece(touchedPiece!!, touchedPosition!!)//positionはdigせんとあかんか？どうせtouchedPositionでPiece拾ってるからいいか
+        //操作か農家の判定はまとめたほうがよさそうな…
+        if (touchedPiece != null && touchedPosition != null && touchedPiece!!.isActionable && touchedPiece!!.owner == board.owner) {
+            selectPiece(touchedPiece!!, touchedPosition!!)
+        }//positionはdigせんとあかんか？どうせtouchedPositionでPiece拾ってるからいいか
     }
 
     fun drop(position: UiBoard.Position) {
@@ -247,6 +251,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         val movable = selectedPiece!!.searchedRouteOf(position)
         //TapType は常に SELECTED_SELF_TAP だ…これ定数化する意味なかったなあ
         when {
+            target == piece -> moveCancel()//動いてないときはこれで十分かな？
             target == null && movable < 1 -> moveCancel()
             target == null && movable > 0 -> moveSelectedPiece(position)
             target != null && effective < 1 -> moveCancel()
@@ -279,10 +284,11 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         }
         // ユニットタップ
         val target = touchedPiece ?: return
+        println("touchedPiece $touchedPiece, ${touchedPiece!!.actionPhase}")
         when (tapType) {
             TapType.SELECTED_FIELD_TAP -> println("touchedPiece判定しているのでここは通らないはず")
             //駒をタップ
-            TapType.SIMPLE_TAP -> if (target.owner == board.owner && target.actionPhase == Piece.ActionPhase.READY) selectPiece(target, position)
+            TapType.SIMPLE_TAP -> if (target.owner == board.owner && target.actionPhase == Piece.ActionPhase.READY) selectPiece(target, position)//TODO:選択時アクションが欲しい
             //選択した駒をタップしたときは動いてたらそこで終了、アクション準備なら取り消して移動中、 移動してなかったら解除
             TapType.SELECTED_SELF_TAP -> {//when 入れ子になりそう…
                 if (newPosition == oldPosition) {
@@ -319,16 +325,19 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * 駒を選択状態にする
      */
     private fun selectPiece(piece: Piece<UNIT, GROUND>, position: UiBoard.Position) {
+        println("selectPiece $selectedPiece  ")
+        println("new selectPiece $piece")
+        println("equal? ${selectedPiece == piece}")
+    if(    selectedPiece == piece) return
 
-        println("selectPiece $piece")
         clear()
         //タッチ開始時にもルート探索してるけどとりあえずもう一回やって減るもんでもないわな
         board.searchRoute(piece)
         board.searchEffectiveRoute(piece)
         selectedPiece = piece
-        //↓二つは常にセットで存在するべき
+        //↓二つは常にセットで存在するべき。クラスにするか？
         oldPosition = position
-        newPosition = position
+        newPosition = position//nullのが良い気もするが…
     }
 
     //タッチ開始時にboardから呼ばれる。今までのタッチとかはガン無視。リセット処理いるかな？要らないか。対象に攻撃するときとかはSelectedPieceが必要になるし

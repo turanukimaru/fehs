@@ -17,7 +17,6 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
                     */
                    open var piece: Piece<*, *>
 ) : ClickListener() {
-
     /**
      * 中に含むActorのリスト。アニメーションで体の部位を動かすのに使うのだがボーンモデル別に作るべき
      */
@@ -30,14 +29,6 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     var touched = TouchPhase.NONE
 
     /**
-     * アクション中か。アクション開始時にtrueにしたいな。無理か。
-     */
-    var actionNow = false
-
-    var dx = 0.0f
-    var dy = 0.0f
-
-    /**
      * ドラッグを駒に伝える
      * ドラッグはクリックではない.x,yは移動量。//駒の動きを駒に書くのは妥当か//無効の時に動かさないのどうすっかなこれ
      */
@@ -45,24 +36,24 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         super.touchDragged(event, x, y, pointer)
         //タッチのつもりでドラッグってやっぱりあるのかなぁ
         println("touchDragged($x, $y, $pointer)")
-        if (!uiBoard.pieceActive) return
-//ドラッグしたら駒の表示を追従させているが移動量検出しないとちゃたるなこれ
-        if (!piece.isActionable) {
+        //盤面のチェックは有るべきか
+        if (!uiBoard.pieceActive) {
+            println("!uiBoard.pieceActive")
             return
         }
         //升目以外にドラッグした場合は無視
         if (!uiBoard.posIsOnBoard(Vector3(x, y, 0f))) {
+            println("!uiBoard.posIsOnBoard")
             return
         }
         //ドラッグ判定に合わないときは無視
         if (!uiBoard.board.move.dragging(x.toInt(), y.toInt())) {
+            println("!uiBoard.board.move.dragging")
             return
         }
         touched = TouchPhase.DRAG
-        dx += x
-        dy += y
         val touchedSquare = stackTouchedRoute()
-        piece.touchDragged(touchedSquare)
+       piece.touchDragged(touchedSquare, x, y)
     }
 
     fun stackTouchedRoute(): UiBoard.Position {
@@ -99,6 +90,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
         val result = super.touchDown(event, x, y, pointer, button)
+        println("touchDown($x, $y, $pointer)")
         //本当はユニットの情報を表示するとかいろいろある
         if (!uiBoard.pieceActive) return result
 //駒に対する操作を始めたのを伝える
@@ -120,52 +112,6 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
     }
 
     open fun update() {
-    }
-
-
-    //アクターのサイズが分からないから中心が出ない...けど画像の管理はまた別問題だな
-    /**
-     * 位置移動のアニメ。移動差分を駒に登録する
-     */
-    fun actionMoveToPosition(position: UiBoard.Position?): SequenceAction {
-        val seq = SequenceAction()
-        if (position == null) return seq
-        val finalX = uiBoard.squareXtoPosX(position.x)
-        val finalY = uiBoard.squareYtoPosY(position.y)
-        seq.addAction(Actions.moveBy(finalX - actor.x, finalY - actor.y, 0.1f))
-        seq.addAction(EndOfAnimationAction(this, 0.1f))
-        piece.uiActionStart()
-        return seq
-    }
-
-    fun startAction(action: () -> SequenceAction) {
-//        println("actionNow : $actionNow のせいかな？アクションが登録されない")//trueになっとる…actionが登録できるかの判定ではなくクリアが必要なのかな
-//        if (actionNow) return
-        actor.addAction(action())
-        actionNow = true
-    }
-
-    fun noAction() = SequenceAction()
-    /**
-     * 位置移動直接。アクションをキャンセルして移動差分を駒に登録
-     */
-    fun actionSetToPosition(position: UiBoard.Position?) {
-        if (position == null) return
-        actor.clearActions()
-        val finalX = uiBoard.squareXtoPosX(position.x)
-        val finalY = uiBoard.squareYtoPosY(position.y)
-        actor.setPosition(finalX, finalY)
-    }
-
-    /**
-     * EndOfAnimationActionから呼ばれるコールバック...Pieceに移動するべきかなあ
-     */
-    fun uiActionDone() {
-        println("uiActionDone")
-        println("uiActionDone")
-        println("uiActionDone")
-//        touched = TouchPhase.NONE//RELEASE->NONEのはず
-        actionNow = false
     }
 }
 

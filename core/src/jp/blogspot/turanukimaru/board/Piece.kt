@@ -6,7 +6,7 @@ import jp.blogspot.turanukimaru.board.UiBoard.Position
 /**
  * 論理駒。ゲームのルールによらない部分
  */
-open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Board.Player) {
+open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Board.Player,private val actionListener: ActionListener) {
 
     /**
      * 向き。駒の向きで移動する方向が変わるときに使う予定
@@ -17,24 +17,18 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 操作的な意味での状態。駒を動かせるかとか動かした後だとか。
      */
     var actionPhase = ActionPhase.DISABLED
-    /**
-     * アニメーションのカウント.Uiのほうに移動したいがそうするとリセットしにくいな…
-     */
-    var animationCount = 0
-    var animationStart = false
-    var animationTargetPosition: Position? = null
-    fun action(action: ActionPhase, uiAction: UiAction = UiAction.None, target: Position? = null) {
-        this.uiAction = uiAction
+    //アクション。基本的にはアニメの発声しないアクションだが。うーん難しい。
+    fun action(action: ActionPhase, actionEvent: ActionEvent = ActionEvent.None, target: Position? = null) {
+        //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
+        actionListener.uiAction(actionEvent,ActionPhase.MOVING,charPosition)
+        //これもう要らんか
         actionPhase = action
-        animationTargetPosition = target
-        animationCount = 0
-        animationStart = true
     }
 
     /**
      * 画面表示用アクション。ここで登録してUiが読み取り／読み取った証としてNoneにする。done()関数でも作ったほうがいいかな
      */
-    var uiAction: UiAction = UiAction.None
+//    var uiAction: ActionEvent = ActionEvent.None
     /**
      * 盤上の位置。表示用の位置。移動先を優先して出す
      */
@@ -124,12 +118,23 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     open fun touchUp(position: Position): Boolean {
         return true
     }
+    /**
+     * LibGDXのアップデートで呼ばれる。
+     */
+    fun libUpdate() {
+        actionListener.libUpdate()
+        update()
+    }
+
+    open fun update() {
+    }
 
     open fun boardAction(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
 
     open fun boardActionCommit(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
 
     open fun movePiece(): Boolean {
+        action(ActionPhase.MOVING, ActionEvent.MoveToCharPosition)
         return true
     }
 
@@ -141,7 +146,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         //移動範囲外は-1
         if (targetRoute < 0) return false
         this.newPosition = position
-        action(ActionPhase.MOVING, UiAction.MoveToCharPosition)
+        action(ActionPhase.MOVING, ActionEvent.MoveToCharPosition)
         return true
     }
 
@@ -151,7 +156,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     open fun boardMoveCommit(move: Move<UNIT, GROUND>, position: Position): Boolean {
         this.existsPosition = position
         this.newPosition = null
-        action(ActionPhase.ACTED, UiAction.MoveToCharPosition)
+        action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)
         return true
     }
 
@@ -174,12 +179,13 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * x,yは移動量。
      */
-    fun touchDragged(position: Position): Boolean {
+    fun touchDragged(position: Position,x:Float,y:Float): Boolean {
         //行動できないときは反応しない
         if (!isActionable) {
             return false
         }
         //ドラッグしてる絵を動かす
+        actionListener.directPos(x,y)
         //移動可能範囲内で移動したらスタックに積む...
         return dragged(position)
     }
@@ -230,12 +236,13 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     fun ready() {
         print("READY!! ")
         println(this)
-        action(ActionPhase.START)
+        actionListener.uiAction(ActionEvent.Ready,ActionPhase.READY,charPosition)
+        actionPhase = ActionPhase.READY
     }
 
     fun putOn(x: Int, y: Int) {
         existsPosition = Position(x, y)
-        action(Piece.ActionPhase.PUTTED)
+        action(ActionPhase.PUTTED)
     }
 
     fun startPiece(xyToPosition: Position) {
@@ -246,16 +253,28 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         println("呼ばれてるはzなんだが")
         //ルート探索をクリアするか更新するかちょっと考えないとな…
         newPosition = null
-        action(ActionPhase.READY, UiAction.MoveToCharPosition)
+        action(ActionPhase.READY, ActionEvent.MoveToCharPosition)
     }
 
-    //ui側でアクションを読み取って実行を開始したという通知
-    fun uiActionStart() {
-        uiAction = UiAction.None
-    }
-
-    enum class UiAction {
+    /**
+     * アクション開始イベント。
+     */
+    enum class ActionEvent {
+        /**
+         * アクションなし。アクション終了後これ。Updateが走る
+         */
         None,
+        /**
+         * アクションなし。アクション中・ドラッグ中Updateが走らない
+         */
+        Direct,
+        /**
+         * 動ける状態
+         */
+        Ready,
+        /**
+         * アクション中。Updateが走らない
+         */
         MoveToCharPosition
     }
 }

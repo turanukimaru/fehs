@@ -135,7 +135,7 @@ println("Board.touch x:${position.x} y:${position.y}")
     var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
 
     /**
-     * 移動可能な経路を調べる
+     * 移動可能な経路を調べる。TODO:Pieceの旧ポジションを使うようにするか、移動中は呼ばないようにする
      */
     fun searchRoute(piece: Piece<UNIT, GROUND>): MutableList<MutableList<Int>> {
         println("searchRoute $piece")
@@ -325,6 +325,7 @@ println("Board.touch x:${position.x} y:${position.y}")
     private fun <T1> findAttackablePos(piece: Piece<T1, GROUND>, position: Position): Position? {
         println("findAttackPos $position")
         val orientations = piece.effectiveOrientations()
+        //できるだけ直線に動くアルゴリズムが欲しいな…
         val attackableOrientation = orientations.find { v ->
             val pos = moveWithOrientation(v, position, -1)
             piece.searchedRoute[pos.x][pos.y] > -1

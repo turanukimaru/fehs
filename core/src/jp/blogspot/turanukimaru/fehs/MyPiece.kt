@@ -1,14 +1,11 @@
 package jp.blogspot.turanukimaru.fehs
 
-import jp.blogspot.turanukimaru.board.Board
-import jp.blogspot.turanukimaru.board.Move
-import jp.blogspot.turanukimaru.board.Piece
-import jp.blogspot.turanukimaru.board.UiBoard
+import jp.blogspot.turanukimaru.board.*
 
 /**
  * 駒を継承してそのゲームにおける駒のルールを記述。画像としての処理もとりあえずここ。Actionは括りだすべきか？
  */
-class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Board.Player) : Piece<BattleUnit, Ground>(containUnit, board, owner) {
+class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Board.Player, actionListener: ActionListener) : Piece<BattleUnit, Ground>(containUnit, board, owner,actionListener) {
     var fightResult: FightResult? = null
     override fun isStoppable(otherUnit: BattleUnit?): Boolean = otherUnit == null
 
