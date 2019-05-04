@@ -1313,7 +1313,6 @@ interface Skill {
             battleUnit.spdEffect += 3
             battleUnit.defEffect += 3
             battleUnit.resEffect += 3
-            battleUnit.followupable += 1
         }
         return battleUnit
     }
