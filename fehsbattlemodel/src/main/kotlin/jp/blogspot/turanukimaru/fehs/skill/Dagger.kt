@@ -115,7 +115,7 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
     GoodieBoot2(SkillName.GoodieBoot2, SkillType.DAGGER, 12, GoodieBoot, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
     },
-    RedHotDucks(SkillName.RedHotDucks, SkillType.DAGGER, 12, SteelDagger, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
+    RedHotDucks(SkillName.RedHotDucks, SkillType.DAGGER, 8, SteelDagger, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
@@ -154,6 +154,14 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
             }
             return battleUnit
         }
+    },
+    Sahrimnir(SkillName.Sahrimnir, SkillType.DAGGER, 14, SilverDagger, effectiveAgainstWeaponType = arrayOf(WeaponType.BEAST)) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
+            if (battleUnit.res > enemy.res) {
+                val diff = HandmaidMath.min((battleUnit.res - enemy.res) / 2, 8)
+                atkDefDebuff(battleUnit,enemy, diff, this)
+            } else battleUnit
     },
     ;
 

@@ -1,0 +1,27 @@
+@startuml
+
+
+interface "Code" as Code{
+now()   現在のCode=rootを返す
+at(time) timeのCodeを返す
+}
+
+class "CodeImpl" as CodeImpl{
+key     コードのキーとなる数字とか
+value   コードの表記
+time    対象となる時間
+start   有効開始時
+end     有効終了時
+}
+class "CodeEnum" as CodeEnum{
+list()
+at(time)
+}
+
+Code "root　（現在のCode）"-> Code
+Code "prev　（一つ過去のCode）"-> Code
+
+Code <|- CodeImpl
+Code -o CodeEnum
+
+@enduml

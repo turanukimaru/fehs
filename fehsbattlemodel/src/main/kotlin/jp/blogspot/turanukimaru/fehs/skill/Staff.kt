@@ -49,6 +49,8 @@ enum class Staff(override val jp: SkillName, override val type: SkillType, overr
     Grandscratcher2(SkillName.Grandscratcher2, SkillType.STAFF, 12, Grandscratcher, SpType.SILVER, RefinedWeapon.RefineType.Staff),
     OvoidStaff(SkillName.OvoidStaff, SkillType.STAFF, 8, Grandscratcher),
     OvoidStaff2(SkillName.OvoidStaff2, SkillType.STAFF, 12, OvoidStaff, SpType.SILVER, RefinedWeapon.RefineType.Staff),
+    ToastySkewer(SkillName.ToastySkewer, SkillType.STAFF, 8, Grandscratcher),
+    ToastySkewer2(SkillName.ToastySkewer2, SkillType.STAFF, 12, OvoidStaff, SpType.SILVER, RefinedWeapon.RefineType.Staff),
     ;
 
     /**

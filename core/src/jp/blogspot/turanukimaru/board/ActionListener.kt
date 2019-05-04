@@ -44,6 +44,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     open fun update() {
         //アクション中じゃないのでループアニメ
         if (actionEventNow == Piece.ActionEvent.None) {
+            println("ActionListener update : $this")
             when (actionPhase) {//phaseはPieceから渡す形のほうがいいかなあ。UpdateではなくActionPhaseBroadcastみたいな
                 //これは不要になるな
                 Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabled.いずれ増援が出たr

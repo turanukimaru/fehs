@@ -80,7 +80,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     },
 
     DistantDef(SkillName.DistantDef, spType = SpType.BASE60) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, lv * 2, this)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(if (lv == 4) neutralizeBuffBonus(battleUnit, enemy,  this) else battleUnit, enemy, lv * 2, this)
     },
     CloseDef(SkillName.CloseDef, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = closeDef(battleUnit, enemy, lv * 2, this)
@@ -235,10 +235,15 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     AtkResSolo(SkillName.AtkResSolo, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) atkRes(battleUnit, lv * 2, this) else battleUnit
     },
-    DefResSolo(SkillName.AtkResSolo, spType = SpType.BASE60) {
+    SpdDefSolo(SkillName.SpdDefSolo, spType = SpType.BASE60) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) spdDef(battleUnit, lv * 2, this) else battleUnit
+    },
+    DefResSolo(SkillName.DefResSolo, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) defRes(battleUnit, lv * 2, this) else battleUnit
     },
-
+    //ラピュタ向けは機能しなくてもいいよな…
+    ArDAtkRes(SkillName.ArDAtkRes, spType = SpType.BASE60),
+    ArOAtkDef(SkillName.ArOAtkDef, spType = SpType.BASE60),
     DefiantAtk(SkillName.DefiantAtk, spType = SpType.BASE40) {
         override fun turnStart(battleUnit: BattleUnit, lv: Int): BattleUnit = defiantAtk(battleUnit, lv)
     },
@@ -287,11 +292,11 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     GranisShield(SkillName.GranisShield, maxLevel = 0, spType = SpType.SHIELD) {
         override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiEffectiveAgainst(battleUnit, enemy, EffectiveAgainst.CAVALRY)
     },
-    LawsOfSacae(SkillName.LawsOfSacae, maxLevel = 0) {
+    LawsOfSacae(SkillName.LawsOfSacae, maxLevel = 0, spType = SpType.LEGEND_S) {
         //実際は2以上。これ比較対象をユニットに持たせなきゃだめだな
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4, this) else battleUnit
     },
-    BonusDoubler(SkillName.BonusDoubler) {
+    BonusDoubler(SkillName.BonusDoubler, maxLevel = 0, spType = SpType.LEGEND_S) {
         //新たな状態を作らないとダメか…
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.bonusPow = 125 + lv * 25//他にも増えるか強化無効とぶつかったら1になるかしたらBattleUnitの関数にしよう…

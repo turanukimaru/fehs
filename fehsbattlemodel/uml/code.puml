@@ -1,0 +1,17 @@
+@startuml
+
+
+class "Code" as Code{
+key     コードのキーとなる数字とか
+value   コードの表記
+start   有効開始時
+end     有効終了時
+
+time    対象となる時間
+now()   現在のCode=rootを返す
+at(time) timeのCodeを返す
+}
+Code "root　（現在のCode）"-> Code
+Code "prev　（一つ過去のCode）"-> Code
+
+@enduml

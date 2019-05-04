@@ -51,6 +51,8 @@ enum class SkillBaseText(val jp: String, val us: String) {
     AtkDefReduce4("相手の攻撃守備 - ", "reduces foe's Atk / Def by 4"),
     AtkSpdDefRes("攻撃速さ守備魔防 + ", "Atk/Spd/Def/Res"),
     AtkSpdDefResReduce4("相手の攻撃速さ守備魔防 - ", "reduces foe's Atk/Spd/Def/Res by 4"),
+    AtkDefReduce("相手の攻撃守備 - ", "reduces foe's Atk/Def"),//ついに固定値じゃなくなった…なんか方法考えないとな
+    AtkSpdReduce("相手の攻撃速さ - ", "reduces foe's Atk/Spd"),//ついに固定値じゃなくなった…なんか方法考えないとな
     Penetrate("守備と魔防の低いほうを適用", "calculates damage using the lower of foe's Def or Res"),
     AntiPenetrate("守備と魔防の低いほう適用を無効", "disables foe's \"calculates damage using the lower of foe's Def or Res\" skill"),
     ;

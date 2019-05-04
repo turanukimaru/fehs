@@ -68,6 +68,7 @@ enum class SkillC(override val jp: SkillName, override val type: SkillType = Ski
     BTomeExperience(SkillName.BTomeExperience, spType = SpType.BASE30),
     BTomeValor(SkillName.BTomeValor, spType = SpType.BASE30),
     GTomeExperience(SkillName.GTomeExperience, spType = SpType.BASE30),
+    BeastExperience(SkillName.BeastExperience, spType = SpType.BASE30),
     GTomeValor(SkillName.GTomeValor, spType = SpType.BASE30),
     DragonValor(SkillName.DragonValor, spType = SpType.BASE30),
     StaffValor(SkillName.StaffValor, spType = SpType.BASE30),

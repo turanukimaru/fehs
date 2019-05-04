@@ -774,17 +774,6 @@ interface Skill {
         return battleUnit
     }
 
-//    /**
-//     * 2射程武器反撃不可。バフ無効を勘違いして反撃不可にしてしまっていた…
-//     */
-//    fun antiRanged(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-//        val enemyType = enemy.armedHero.baseHero.weaponType
-//        if (enemyType == WeaponType.RTOME || enemyType == WeaponType.BTOME || enemyType == WeaponType.GTOME || enemyType == WeaponType.BOW || enemyType == WeaponType.DAGGER || enemyType == WeaponType.STAFF) {
-//            enemy.cannotCounter = true
-//        }
-//        return battleUnit
-//    }
-
     /**
      * HP満タン時ボーナス
      */
@@ -930,6 +919,9 @@ interface Skill {
         return battleUnit
     }
 
+    /**
+     * Defのが高いときに攻撃ボーナス
+     */
     fun defHigherThanResBonus(battleUnit: BattleUnit, enemy: BattleUnit, s: Skill = Skill.NONE): BattleUnit {
         if (enemy.def - 5 >= enemy.res) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.Atk, 7.toString()))
@@ -1297,6 +1289,20 @@ interface Skill {
             enemy.defEffect -= lv
             enemy.resEffect -= lv
         }
+        return battleUnit
+    }
+
+    fun atkDefDebuff(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDefReduce, lv.toString()))
+            enemy.atkEffect -= lv
+            enemy.defEffect -= lv
+        return battleUnit
+    }
+
+    fun atkSpdDebuff(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDefReduce, lv.toString()))
+        enemy.atkEffect -= lv
+        enemy.defEffect -= lv
         return battleUnit
     }
 

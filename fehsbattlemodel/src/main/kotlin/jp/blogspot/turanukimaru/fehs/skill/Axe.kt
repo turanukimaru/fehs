@@ -147,6 +147,14 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     GradoPoleax(SkillName.GradoPoleax, SkillType.AXE, 16, SilverAxe,SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
+    Eldhrimnir(SkillName.Eldhrimnir, SkillType.AXE, 16, SilverAxe, effectiveAgainstWeaponType = arrayOf(WeaponType.BEAST)) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
+                if (battleUnit.res > enemy.res) {
+                    val diff = HandmaidMath.min((battleUnit.res - enemy.res) / 2, 8)
+                    atkSpdDebuff(battleUnit,enemy, diff, this)
+                } else battleUnit
+    },
     ;
 
     /**

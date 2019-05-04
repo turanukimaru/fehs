@@ -87,11 +87,48 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
 
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (battleUnit.res > enemy.res) {
-                val diff = HandmaidMath.min((battleUnit.res - enemy.res) / 2,8)
+                val diff = HandmaidMath.min((battleUnit.res - enemy.res) / 2, 8)
                 allBonus(battleUnit, diff, this)
             }
             return atk(battleUnit, 2, this)
         }
+    },
+    CovertCatFang(SkillName.CovertCatFang, SkillType.BEAST, 14, AdultInfantry) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
+            enemy.atkEffect -= 4
+            enemy.defEffect -= 4
+            return antiFollowup(battleUnit, enemy, this)
+        }
+
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, 2, this)
+    },
+    LionKingFang(SkillName.LionKingFang, SkillType.BEAST, 14, AdultInfantry) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(allBonus(battleUnit, 4, this), this)
+
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, 2, this)
+
+    },
+    BrazenCatFang(SkillName.BrazenCatFang, SkillType.BEAST, 14, AdultInfantry) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
+            enemy.atkEffect -= 4
+            enemy.defEffect -= 4
+            return antiFollowup(battleUnit, enemy, this)
+        }
+
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(if (battleUnit.adjacentUnits == 0 ) atkSpd(battleUnit,6,this) else battleUnit, 2, this)
+    },
+    SabertoothFang(SkillName.SabertoothFang, SkillType.BEAST, 14, AdultInfantry) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
+
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, 2, this)
+
+        override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     ;
 
