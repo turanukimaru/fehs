@@ -984,20 +984,20 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     ChaosManifest("負の力", "Chaos Manifest", "負之力"),
     ChaosNamed("我が名は混沌", "Chaos Named", "吾之名為混沌"),
 
-    CovertCatFang("", "Covert Cat Fang", ""),
-    LionKingFang("", "Lion King Fang", ""),
-    BrazenCatFang("", "Brazen Cat Fang", ""),
-    SabertoothFang("", "Sabertooth Fang", ""),
-    Sahrimnir("", "", ""),
-    ArDAtkRes("", "AR-D Atk/Res", ""),
-    ArOAtkDef("", "AR-O Atk/Def", ""),
-    Eldhrimnir("", "", ""),
-    LuncheonLance("", "Luncheon Lance", ""),
-    LuncheonLance2("", "Luncheon Lance+", ""),
-    ToastySkewer("", "Toasty Skewer", ""),
-    ToastySkewer2("", "Toasty Skewer+", ""),
-LunaArc("","Luna Arc",""),
-    LunarFlash("","Lunar Flash","")
+    CovertCatFang("柔なる戦猫の爪牙", "Covert Cat Fang", "Covert Cat Fang"),
+    LionKingFang("獅子王の爪牙", "Lion King Fang", "Lion King Fang"),
+    BrazenCatFang("剛なる戦猫の爪牙", "Brazen Cat Fang", "Brazen Cat Fang"),
+    SabertoothFang("虎戦士の爪牙", "Sabertooth Fang", "Sabertooth Fang"),
+    Sahrimnir("セーフリムニル", "Sæhrímnir", "Sæhrímnir"),
+    ArDAtkRes("攻撃魔防の防城戦", "AR-D Atk/Res", "AR-D Atk/Res"),
+    ArOAtkDef("攻撃守備の攻城戦", "AR-O Atk/Def", "AR-O Atk/Def"),
+    Eldhrimnir("エルドフリムニル", "Eldhrímnir", "Eldhrímnir"),
+    LuncheonLance("行楽の飾り槍", "Luncheon Lance", "Luncheon Lance"),
+    LuncheonLance2("行楽の飾り槍＋", "Luncheon Lance+", "Luncheon Lance+"),
+    ToastySkewer("マシュマロの杖", "Toasty Skewer", "Toasty Skewer"),
+    ToastySkewer2("マシュマロの杖＋", "Toasty Skewer+", "Toasty Skewer+"),
+LunaArc("月光","Luna Arc","月光弓"),
+    LunarFlash("月光閃","Lunar Flash","月光閃")
     ;
 
     /**

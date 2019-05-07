@@ -496,10 +496,10 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
 
     ユンヌ("ユンヌ", "Yune", "芸娜"),
 
-    カイネギス("カイネギス","Caineghis",""),
-    レテ("レテ","Lethe",""),
-    モウディ("モウディ","Mordecai",""),
-    ライ("ライ","Ranulf",""),
+    カイネギス("カイネギス","Caineghis","Caineghis"),
+    レテ("レテ","Lethe","Lethe"),
+    モウディ("モウディ","Mordecai","Mordecai"),
+    ライ("ライ","Ranulf","Ranulf"),
     フローラ__行楽_("フローラ（行楽）", "Flora (Picnics)", "芙洛拉 (Picnics)"),
     フェリシア__行楽_("フェリシア（行楽）", "Felicia (Picnics)", "菲利西亞 (Picnics)"),
     ルカ__行楽_("ルカ（行楽）", "Lukas (Picnics)", "盧卡 (Picnics)"),
