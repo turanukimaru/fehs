@@ -996,6 +996,8 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     LuncheonLance2("", "Luncheon Lance+", ""),
     ToastySkewer("", "Toasty Skewer", ""),
     ToastySkewer2("", "Toasty Skewer+", ""),
+LunaArc("","Luna Arc",""),
+    LunarFlash("","Lunar Flash","")
     ;
 
     /**

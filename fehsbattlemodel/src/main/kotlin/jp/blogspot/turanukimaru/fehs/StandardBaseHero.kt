@@ -999,6 +999,8 @@ object StandardBaseHero {
                 Lance.LuncheonLance2, Assist.Pivot, null, SkillA.ArOAtkDef.lv(3), SkillB.WaryFighter.lv(3), null)
         createItem(HeroName.ジェニー__行楽_, 0, WeaponType.STAFF, MoveType.CAVALRY, 5, 16, 10, 5, 4, 8, g45, g60, g45, g25, g60,
                 Staff.ToastySkewer2, Assist.Physic2, Special.FirefloodBalm2, null, SkillB.WrathfulStaff.lv(3), SkillC.DefOpening.lv(3))
+              createItem(HeroName.アルム__伝承英雄_, 0, WeaponType.BOW, MoveType.INFANTRY,  5, 18, 11, 11, 4, 3, g50, g60,g60, g50, g45,
+                        Bow.LunaArc, null, Special.LunarFlash, SkillA.DartingBlow.lv(4), SkillB.NullFollowUp.lv(3), SkillC.OddAtkWave.lv(3))
 //              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                        Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

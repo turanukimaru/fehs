@@ -1,0 +1,16 @@
+@startuml
+
+participant "利用するクラス" as others
+participant "年号 : Enum" as nengo
+participant "令和 : Code" as reiwa
+participant "平成 : Code" as heisei
+participant "昭和 : Code" as showa
+
+others -> nengo : 日付指定で問い合わせ
+nengo -> reiwa : 期間なら自分を返し、外なら次に回す
+reiwa -> heisei : 期間なら自分を返し、外なら次に回す
+heisei ->showa : 期間なら自分を返し、外なら次に回す
+nengo --> others : 同じコードだが違う表記を返す
+
+
+@enduml

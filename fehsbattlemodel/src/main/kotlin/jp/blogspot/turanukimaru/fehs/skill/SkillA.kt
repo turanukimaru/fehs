@@ -118,8 +118,8 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     DeathBlow(SkillName.DeathBlow, maxLevel = 4) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, lv * 2, this)
     },
-    DartingBlow(SkillName.DartingBlow) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, lv * 2, this)
+    DartingBlow(SkillName.DartingBlow, maxLevel = 4) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = spd(battleUnit, lv * 2 + lv / 4, this)
     },
     ArmoredBlow(SkillName.ArmoredBlow) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(battleUnit, lv * 2, this)

@@ -504,6 +504,7 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     フェリシア__行楽_("フェリシア（行楽）", "Felicia (Picnics)", "菲利西亞 (Picnics)"),
     ルカ__行楽_("ルカ（行楽）", "Lukas (Picnics)", "盧卡 (Picnics)"),
     ジェニー__行楽_("ジェニー（行楽）", "Genny (Picnics)", "傑妮 (Picnics)"),
+    アルム__伝承英雄_("アルム（伝承英雄）", "Alm (Vanguard Legend)", "阿雷武 (Vanguard Legend)"),
     ;
 
     /**

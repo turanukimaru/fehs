@@ -33,6 +33,7 @@ enum class Special(override val jp: SkillName, override val type: SkillType, ove
     Reprisal(SkillName.Reprisal, SkillType.SPECIAL_A, 2, stateDamage = { source -> (source.armedHero.maxHp - source.hp) * 3 / 10 }),
     Vengeance(SkillName.Vengeance, SkillType.SPECIAL_A, 3, stateDamage = { source -> (source.armedHero.maxHp - source.hp) * 5 / 10 }),
     BlueFlame(SkillName.BlueFlame, SkillType.SPECIAL_A, 3, stateDamage = { source -> 10 + if (source.adjacentUnits > 0) 15 else 0 }),
+    LunarFlash(SkillName.LunarFlash, SkillType.SPECIAL_A, 2, penetrate = 20, stateDamage = { source -> source.effectedSpd * 2 / 10 }),
 
     Miracle(SkillName.Miracle, SkillType.SPECIAL_C, 5, spType = SpType.SPECIAL5) {
         override fun specialPrevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, lv: Int): Pair<Int, Skill> = if (battleUnit.hp in 2..damage) Pair(battleUnit.hp - 1, this) else super.specialPrevent(battleUnit, damage, source, lv)

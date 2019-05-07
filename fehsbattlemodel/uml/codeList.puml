@@ -1,0 +1,17 @@
+@startuml
+
+object "利用するクラス" as others
+object "年号 : Enum" as nengo
+object "令和 : Code" as reiwaA
+object "令和（移行前） : Code" as reiwaB
+object "平成 : Code" as heisei
+object "昭和 : Code" as showa
+
+others -> nengo
+nengo -> reiwaA
+reiwaA -> reiwaB
+nengo ->heisei
+nengo ->showa
+
+
+@enduml

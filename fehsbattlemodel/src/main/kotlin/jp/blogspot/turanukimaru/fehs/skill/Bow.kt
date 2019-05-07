@@ -118,7 +118,7 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
     },
     KaburaYa(SkillName.KaburaYa, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
     KaburaYa2(SkillName.KaburaYa2, SkillType.BOW, 12, KaburaYa, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)),
-    NilessBow (SkillName.NilessBow, SkillType.BOW, 14, KillerBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+    NilessBow(SkillName.NilessBow, SkillType.BOW, 14, KillerBow, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy, this)
     },
@@ -129,10 +129,14 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     ArgentBow(SkillName.ArgentBow, SkillType.BOW, 8, BraveBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipBrave(armedHero),3)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipBrave(armedHero), 3)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit, this)
     },
 
+    LunaArc(SkillName.LunaArc, SkillType.BOW, 14, BraveBow, SpType.LEGEND_W, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipBrave(armedHero), 3)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = if(battleUnit.side == SIDES.ATTACKER) enemy.def * 25 / 100 else 0
+    },
     ;
 
     /**
