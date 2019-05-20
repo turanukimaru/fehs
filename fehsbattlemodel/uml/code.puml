@@ -1,17 +1,17 @@
 @startuml
 
 
-class "Code" as Code{
+class "Sein" as Sein{
 key     コードのキーとなる数字とか
-value   コードの表記
+label   コードの表記
 start   有効開始時
 end     有効終了時
 
 time    対象となる時間
-now()   現在のCode=rootを返す
-at(time) timeのCodeを返す
+now()   現在のSein=headerを返す
+at(time) timeのSeinを返す
 }
-Code "root　（現在のCode）"-> Code
-Code "prev　（一つ過去のCode）"-> Code
+Sein "header　（現在のSein）"-> Sein
+Sein "prev　（一つ過去のSein）"-> Sein
 
 @enduml

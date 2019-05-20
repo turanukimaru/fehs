@@ -1,17 +1,23 @@
 @startuml
 
 object "利用するクラス" as others
-object "年号 : Enum" as nengo
-object "令和 : Code" as reiwaA
-object "令和（移行前） : Code" as reiwaB
-object "平成 : Code" as heisei
-object "昭和 : Code" as showa
+class "和暦 : Enum" as wareki
+object "平成 : Enum" as heisei
+object "昭和 : Enum" as showa
+object "令和 : Enum" as reiwa {
+}
+object "令和 : Sein" as reiwaA {
+visible : true
+}
+object "令和（改元前） : Sein" as reiwaB {
+visible : false
+}
 
-others -> nengo
-nengo -> reiwaA
+others -> wareki
+wareki o- heisei
+wareki o- showa
+wareki o- reiwa
+reiwa -> reiwaA
 reiwaA -> reiwaB
-nengo ->heisei
-nengo ->showa
-
 
 @enduml
