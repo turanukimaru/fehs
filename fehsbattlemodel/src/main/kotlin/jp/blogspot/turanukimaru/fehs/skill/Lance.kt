@@ -178,6 +178,15 @@ enum class Lance(override val jp: SkillName, override val type: SkillType, overr
     LuncheonLance2(SkillName.LuncheonLance2, SkillType.LANCE, 14, FlashingCarrot, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkDef(battleUnit, 4, this)
     },
+    KriemHild(SkillName.KriemHild, SkillType.LANCE, 16, SilverLance, SpType.LEGEND_W) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0 && enemy.effectiveRange == 2)  antiFollowup(counterAllRange(battleUnit, this), enemy, this) else battleUnit
+    },
+    LoftyBlossoms(SkillName.LoftyBlossoms, SkillType.LANCE, 10, FlashingCarrot, SpType.SILVER) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
+    },
+    LoftyBlossoms2(SkillName.LoftyBlossoms2, SkillType.LANCE, 14, FlashingCarrot, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
+    },
     ;
 
 

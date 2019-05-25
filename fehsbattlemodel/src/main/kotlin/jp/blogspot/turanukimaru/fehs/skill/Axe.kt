@@ -141,10 +141,10 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     FaithfulAxe(SkillName.FaithfulAxe, SkillType.AXE, 10, SteelAxe, SpType.SILVER) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
-    FaithfulAxe2(SkillName.FaithfulAxe2, SkillType.AXE, 14, FaithfulAxe, SpType.PLUS, RefinedWeapon.RefineType.Range1){
+    FaithfulAxe2(SkillName.FaithfulAxe2, SkillType.AXE, 14, FaithfulAxe, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
-    GradoPoleax(SkillName.GradoPoleax, SkillType.AXE, 16, SilverAxe,SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
+    GradoPoleax(SkillName.GradoPoleax, SkillType.AXE, 16, SilverAxe, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     Eldhrimnir(SkillName.Eldhrimnir, SkillType.AXE, 16, SilverAxe, effectiveAgainstWeaponType = arrayOf(WeaponType.BEAST)) {
@@ -152,7 +152,7 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
                 if (battleUnit.res > enemy.res) {
                     val diff = HandmaidMath.min((battleUnit.res - enemy.res) / 2, 8)
-                    atkSpdDebuff(battleUnit,enemy, diff, this)
+                    atkSpdDebuff(battleUnit, enemy, diff, this)
                 } else battleUnit
     },
     ;

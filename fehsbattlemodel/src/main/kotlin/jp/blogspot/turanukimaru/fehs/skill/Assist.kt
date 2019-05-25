@@ -39,6 +39,7 @@ enum class Assist(override val jp: SkillName, override val type: SkillType, over
     Shove(SkillName.Shove, SkillType.ASSIST),
     Smite(SkillName.Smite, SkillType.ASSIST),
     HarshCommand(SkillName.HarshCommand, SkillType.ASSIST),
+    HarshCommand2(SkillName.HarshCommand2, SkillType.ASSIST),
     FutureVision(SkillName.FutureVision, SkillType.ASSIST, spType = SpType.LEGEND_W),
     //杖の＋どうするかな。実装のメリットあんましないよなあ.でもSP計算に要るのか…
     Heal(SkillName.Heal, SkillType.ASSIST),

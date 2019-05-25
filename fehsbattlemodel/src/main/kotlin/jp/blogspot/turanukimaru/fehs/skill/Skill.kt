@@ -158,7 +158,7 @@ interface Skill {
     /**
      * 能力値差による固定ダメージ。取り敢えず武器だけ見るので必要に応じて全部のスキルを通す
      */
-    fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = 0
+    fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv:Int = 0): Int = 0
 
     /**
      * 装備時の能力値変化
@@ -1005,9 +1005,12 @@ interface Skill {
      * 柔剣
      */
     fun flashingBlade(battleUnit: BattleUnit, enemy: BattleUnit, gt: Int, s: Skill = Skill.NONE): BattleUnit {
-        if (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd > gt) {
+        if (battleUnit.effectedPhantomSpd - enemy.effectedPhantomSpd > HandmaidMath.max(gt, 0)) {
             battleUnit.addSkillText(SkillText(s, SkillBaseText.HeavyBlade, 1.toString()))
             battleUnit.accelerateAttackCooldown = 1
+            if (gt < 0) {
+                battleUnit.addSkillText(SkillText(s, SkillBaseText.Damage, 1.toString()))
+            }
         }
         return battleUnit
     }
@@ -1293,16 +1296,16 @@ interface Skill {
     }
 
     fun atkDefDebuff(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
-            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDefReduce, lv.toString()))
-            enemy.atkEffect -= lv
-            enemy.defEffect -= lv
+        battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDefReduce, lv.toString()))
+        enemy.atkEffect -= lv
+        enemy.defEffect -= lv
         return battleUnit
     }
 
     fun atkSpdDebuff(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int, s: Skill = Skill.NONE): BattleUnit {
         battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkDefReduce, lv.toString()))
         enemy.atkEffect -= lv
-        enemy.defEffect -= lv
+        enemy.spdEffect -= lv
         return battleUnit
     }
 

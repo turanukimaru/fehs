@@ -214,6 +214,7 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
     SabotageAtk(SkillName.SabotageAtk, spType = SpType.BASE60),
     SabotageRes(SkillName.SabotageRes, spType = SpType.BASE60),
     DisarmTrap(SkillName.DisarmTrap, spType = SpType.BASE60),
+    SuddenPanic(SkillName.SuddenPanic, spType = SpType.BASE60),
     ;
 
     /**

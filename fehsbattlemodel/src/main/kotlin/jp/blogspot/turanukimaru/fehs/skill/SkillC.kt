@@ -115,6 +115,10 @@ enum class SkillC(override val jp: SkillName, override val type: SkillType = Ski
     Upheaval(SkillName.Upheaval, maxLevel = 0, spType = SpType.LEGEND_S),
     HumanVirtue(SkillName.HumanVirtue, maxLevel = 0, spType = SpType.LEGEND_S),
     ChaosNamed(SkillName.ChaosNamed, maxLevel = 0, spType = SpType.LEGEND_S),
+    SolitaryDream(SkillName.SolitaryDream, maxLevel = 0, spType = SpType.LEGEND_S),
+    GroundOrders(SkillName.GroundOrders, spType = SpType.BASE60),
+    PulseSmoke(SkillName.PulseSmoke, spType = SpType.BASE60),
+
     ;
 
     /**

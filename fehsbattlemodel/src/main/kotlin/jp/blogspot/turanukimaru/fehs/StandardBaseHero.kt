@@ -999,8 +999,29 @@ object StandardBaseHero {
                 Lance.LuncheonLance2, Assist.Pivot, null, SkillA.ArOAtkDef.lv(3), SkillB.WaryFighter.lv(3), null)
         createItem(HeroName.ジェニー__行楽_, 0, WeaponType.STAFF, MoveType.CAVALRY, 5, 16, 10, 5, 4, 8, g45, g60, g45, g25, g60,
                 Staff.ToastySkewer2, Assist.Physic2, Special.FirefloodBalm2, null, SkillB.WrathfulStaff.lv(3), SkillC.DefOpening.lv(3))
-              createItem(HeroName.アルム__伝承英雄_, 0, WeaponType.BOW, MoveType.INFANTRY,  5, 18, 11, 11, 4, 3, g50, g60,g60, g50, g45,
-                        Bow.LunaArc, null, Special.LunarFlash, SkillA.DartingBlow.lv(4), SkillB.NullFollowUp.lv(3), SkillC.OddAtkWave.lv(3))
+        createItem(HeroName.アルム__伝承英雄_, 0, WeaponType.BOW, MoveType.INFANTRY, 5, 18, 11, 11, 4, 3, g50, g60, g60, g50, g45,
+                Bow.LunaArc, null, Special.LunarFlash, SkillA.DartingBlow.lv(4), SkillB.NullFollowUp.lv(3), SkillC.OddAtkWave.lv(3))
+        createItem(HeroName.カムイ__闇_, 0, WeaponType.DRAGON, MoveType.INFANTRY, 5, 15, 7, 7, 7, 5, g65, g65, g70, g55, g50,
+                Breath.SavageBreath, null, Special.DragonFang, SkillA.AtkSpdSolo.lv(3), SkillB.SuddenPanic.lv(3), null)
+        createItem(HeroName.チキ__闇_, 0, WeaponType.DRAGON, MoveType.ARMORED, 5, 17, 10, 10, 4, 6, g65, g60, g55, g75, g50,
+                Breath.RazingBreath, null, Special.Ignis, SkillA.BrazenAtkSpd.lv(3), SkillB.SpecialFighter.lv(3), SkillC.SolitaryDream)
+        createItem(HeroName.ベルクト__闇_, 2, WeaponType.LANCE, MoveType.CAVALRY, 5, 18, 5, 4, 11, 8, g50, g70, g30, g55, g50,
+                Lance.KriemHild, null, Special.Reprisal, SkillA.WardingStance.lv(4), null, SkillC.OddResWave.lv(3))
+        createItem(HeroName.デューテ__闇_, 2, WeaponType.BTOME, MoveType.INFANTRY, 3, 17, 10, 9, 4, 6, g55, g60, g55, g35, g50,
+                Btome.Death, null, Special.Glacies, SkillA.DeathBlow.lv(3), null, SkillC.EvenAtkWave.lv(3))
+        createItem(HeroName.マリータ__闇_, 1, WeaponType.SWORD, MoveType.INFANTRY, 5, 18, 9, 11, 7, 4, g55, g55, g70, g50, g45,
+                Sword.ShadowSword, null, Special.Luna, SkillA.FlashingBlade.lv(4), SkillB.NullFollowUp.lv(3), null)
+        createItem(HeroName.フィヨルム__花嫁_, 0, WeaponType.STAFF, MoveType.FLIER, 5, 18, 8, 10, 4, 4, g55, g60, g55, g30, g45,
+                Staff.Gjallarbru, Assist.Restore2, null, SkillA.HpAtk.lv(2), SkillB.DazzlingStaff.lv(3), SkillC.GroundOrders.lv(3))
+        createItem(HeroName.パント__花嫁_, 2, WeaponType.BTOME, MoveType.CAVALRY, 5, 18, 7, 8, 4, 6, g45, g60, g60, g35, g35,
+                Btome.VesselOfCheer2, Assist.RallyUpAtk2, null, null, SkillB.DullRanged.lv(3), SkillC.PulseSmoke.lv(3))
+        createItem(HeroName.タニス__花嫁_, 2, WeaponType.LANCE, MoveType.FLIER, 5, 18, 8, 10, 7, 4, g45, g60, g60, g60, g40,
+                Lance.LoftyBlossoms2, Assist.HarshCommand2, null, SkillA.SwiftSparrow.lv(2), SkillB.ChillAtk.lv(3), SkillC.FortifyFliers.lv(3))
+        createItem(HeroName.シグルーン__花嫁_, 1, WeaponType.SWORD, MoveType.FLIER, 5, 16, 7, 12, 5, 7, g45, g55, g60, g50, g55,
+                Sword.CakeCutter2, Assist.ArdentSacrifice, null, SkillA.ArDSpdDef.lv(3), null, SkillC.AirOrders.lv(3))
+//        createItem(HeroName.ルイーズ__花嫁_, 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
+//                Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
+
 //              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                        Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

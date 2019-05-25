@@ -105,6 +105,10 @@ data class BattleUnit(val armedHero: ArmedHero
          */
                       , var wrathfulStaff: Boolean = false
         /**
+         * ダメージを追加する。武器やスキルに分散させたので使わなくていいはず。あとで消そう。
+         */
+                      , var additionalDamage: Int = 0
+        /**
          * 一回だけダメージを追加する。今のところ氷の聖鏡専用。
          */
                       , var oneTimeOnlyAdditionalDamage: Int = 0
@@ -299,7 +303,7 @@ data class BattleUnit(val armedHero: ArmedHero
         //println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
         specialCount += if (accelerateAttackCooldown + 1 > InflictAttackCooldown) accelerateAttackCooldown + 1 - InflictAttackCooldown else 0
         specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
-        return Damage(this, Skill.NONE, damageType, oneTimeOnlyAdditionalDamage, { 0 }, halfByStaff, results)
+        return Damage(this, Skill.NONE, damageType, additionalDamage + oneTimeOnlyAdditionalDamage, { 0 }, halfByStaff, results)
     }
 
     private val damageType get() = if (overrideDamageType != SkillType.NONE) overrideDamageType else armedHero.weapon.type

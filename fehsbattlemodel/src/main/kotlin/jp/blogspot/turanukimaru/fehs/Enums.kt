@@ -103,7 +103,8 @@ enum class EffectiveAgainst {
     FLIER,
     MAGIC,
     CAVALRY,
-    DRAGON
+    DRAGON,
+    BEAST
     ;
 
     companion object {
@@ -119,6 +120,7 @@ enum class EffectiveAgainst {
             WeaponType.GTOME -> MAGIC
             WeaponType.BTOME -> MAGIC
             WeaponType.DRAGON -> DRAGON
+            WeaponType.BEAST -> BEAST
             else -> NONE
         }
     }

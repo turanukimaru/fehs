@@ -100,10 +100,10 @@ enum class Rtome(override val jp: SkillName, override val type: SkillType, overr
     Imhullu(SkillName.Imhullu, SkillType.BTOME, 14, Bolganone) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
     },
-    LoyalWreath(SkillName.LoyalWreath, SkillType.RTOME, 8, Elfire, SpType.SILVER){
+    LoyalWreath(SkillName.LoyalWreath, SkillType.RTOME, 8, Elfire, SpType.SILVER) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
-    LoyalWreath2(SkillName.LoyalWreath2, SkillType.RTOME, 12, LoyalWreath, SpType.PLUS, RefinedWeapon.RefineType.Range2){
+    LoyalWreath2(SkillName.LoyalWreath2, SkillType.RTOME, 12, LoyalWreath, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     TharjasHex(SkillName.TharjasHex, SkillType.RTOME, 14, Rauorblade2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {

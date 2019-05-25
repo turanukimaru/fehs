@@ -51,7 +51,9 @@ enum class Staff(override val jp: SkillName, override val type: SkillType, overr
     OvoidStaff2(SkillName.OvoidStaff2, SkillType.STAFF, 12, OvoidStaff, SpType.SILVER, RefinedWeapon.RefineType.Staff),
     ToastySkewer(SkillName.ToastySkewer, SkillType.STAFF, 8, Grandscratcher),
     ToastySkewer2(SkillName.ToastySkewer2, SkillType.STAFF, 12, OvoidStaff, SpType.SILVER, RefinedWeapon.RefineType.Staff),
-    ;
+    Gjallarbru(SkillName.Gjallarbru, SkillType.STAFF, 14, Assault, SpType.PLUS) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv, this)
+    }, ;
 
     /**
      * nameは誤動作するので共通処理としてはvalueを使う。もっといい名前があるか？

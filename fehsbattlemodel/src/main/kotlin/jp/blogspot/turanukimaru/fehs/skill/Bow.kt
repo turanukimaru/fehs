@@ -133,9 +133,9 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = doubleAttack(battleUnit, this)
     },
 
-    LunaArc(SkillName.LunaArc, SkillType.BOW, 14, BraveBow, SpType.LEGEND_W, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(equipBrave(armedHero), 3)
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = if(battleUnit.side == SIDES.ATTACKER) enemy.def * 25 / 100 else 0
+    LunaArc(SkillName.LunaArc, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = if (battleUnit.side == SIDES.ATTACKER) enemy.def * 25 / 100 else 0
     },
     ;
 

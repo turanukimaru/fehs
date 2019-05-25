@@ -50,10 +50,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     TheCleaner(SkillName.TheCleaner, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = enemy.totalBuff
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = enemy.totalBuff
     },
     TheCleaner2(SkillName.TheCleaner2, SkillType.DAGGER, 12, TheCleaner, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = enemy.totalBuff
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = enemy.totalBuff
     },
     Starfish(SkillName.Starfish, SkillType.DAGGER, 10, SteelDagger, SpType.SILVER) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
@@ -116,21 +116,21 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
     },
     RedHotDucks(SkillName.RedHotDucks, SkillType.DAGGER, 8, SteelDagger, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
             return battleUnit
         }
     },
     RedHotDucks2(SkillName.RedHotDucks2, SkillType.DAGGER, 12, RedHotDucks, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
             return battleUnit
         }
     },
     SplashyBucket(SkillName.SplashyBucket, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
-        override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiPenetrate(battleUnit, enemy,  this)
+        override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiPenetrate(battleUnit, enemy, this)
     },
     SplashyBucket2(SkillName.SplashyBucket2, SkillType.DAGGER, 12, SplashyBucket, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiPenetrate(battleUnit, enemy, this)
@@ -139,7 +139,7 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
     OuchPouch2(SkillName.OuchPouch2, SkillType.DAGGER, 12, OuchPouch, SpType.PLUS, RefinedWeapon.RefineType.Range2),
     PegasusCarrot(SkillName.PegasusCarrot, SkillType.DAGGER, 8, SteelDagger, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
         override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if(battleUnit.colorAdvantage(enemy) == 1){
+            if (battleUnit.colorAdvantage(enemy) == 1) {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.NullAntiFollowupAttack))
                 battleUnit.antiFollowup = 0
             }
@@ -148,7 +148,7 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
     },
     PegasusCarrot2(SkillName.PegasusCarrot2, SkillType.DAGGER, 12, SteelDagger, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
         override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if(battleUnit.colorAdvantage(enemy) == 1){
+            if (battleUnit.colorAdvantage(enemy) == 1) {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.NullAntiFollowupAttack))
                 battleUnit.antiFollowup = 0
             }
@@ -158,10 +158,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
     Sahrimnir(SkillName.Sahrimnir, SkillType.DAGGER, 14, SilverDagger, effectiveAgainstWeaponType = arrayOf(WeaponType.BEAST)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit =
-            if (battleUnit.res > enemy.res) {
-                val diff = HandmaidMath.min((battleUnit.res - enemy.res) / 2, 8)
-                atkDefDebuff(battleUnit,enemy, diff, this)
-            } else battleUnit
+                if (battleUnit.res > enemy.res) {
+                    val diff = HandmaidMath.min((battleUnit.res - enemy.res) / 2, 8)
+                    atkDefDebuff(battleUnit, enemy, diff, this)
+                } else battleUnit
     },
     ;
 

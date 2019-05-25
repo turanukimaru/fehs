@@ -277,4 +277,5 @@ class NewHeroTest16 {
         assertEquals("buildDamage fail", 57, fightResult[2].damage)//glimmer
         assertEquals("hitPoint fail", 36, fightResult[2].source.hp)
         assertEquals("hitPoint fail", 0, fightResult[2].target.hp)
-    }}
+    }
+}

@@ -157,9 +157,9 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     BarrierBlade2(SkillName.BarrierBlade2, SkillType.SWORD, 14, Safeguard, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, 7, this)
     },
-    VassalsBlade(SkillName.VassalsBlade, SkillType.SWORD, 16, Sword.SlayingEdge) {
+    VassalsBlade(SkillName.VassalsBlade, SkillType.SWORD, 16, SlayingEdge) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit): Int = spdFlat(battleUnit, enemy)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
             return battleUnit
@@ -186,7 +186,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
             return battleUnit
         }
     },
-    Missiletainn(SkillName.Missiletainn, SkillType.SWORD, 16, Sword.SilverSword) {
+    Missiletainn(SkillName.Missiletainn, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.HeavyBlade, 1.toString()))
@@ -240,10 +240,10 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     },
     Geishun(SkillName.Geishun, SkillType.SWORD, 10, SteelSword, SpType.SILVER),
     Geishun2(SkillName.Geishun2, SkillType.SWORD, 14, Geishun, SpType.PLUS, RefinedWeapon.RefineType.Range1),
-    HeartsBlade(SkillName.HeartsBlade, SkillType.SWORD, 10, SteelSword, SpType.SILVER){
+    HeartsBlade(SkillName.HeartsBlade, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
-    HeartsBlade2(SkillName.HeartsBlade2, SkillType.SWORD, 14, HeartsBlade, SpType.PLUS, RefinedWeapon.RefineType.Range1){
+    HeartsBlade2(SkillName.HeartsBlade2, SkillType.SWORD, 14, HeartsBlade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     Silverbrand(SkillName.Silverbrand, SkillType.SWORD, 16, RubySword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
@@ -255,6 +255,17 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     Dragonbind(SkillName.Dragonbind, SkillType.SWORD, 16, SilverSword, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit, this)
     },
+    ShadowSword(SkillName.ShadowSword, SkillType.SWORD, 16, SilverSword) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
+        override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = forseti(fightPlan, 2)//攻めたてと同じLV倍率にしとこう
+    },
+    CakeCutter(SkillName.CakeCutter, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
+    },
+    CakeCutter2(SkillName.CakeCutter2, SkillType.SWORD, 14, HeartsBlade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
+    },
+
     ;
 
     /**

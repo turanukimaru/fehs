@@ -73,14 +73,16 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     },
 
     HeavyBlade(SkillName.HeavyBlade, spType = SpType.BASE60) {
-        override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, 7 - lv * 2, this)
+        override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = heavyBlade(battleUnit, enemy, 6 - lv * 2, this)
     },
     FlashingBlade(SkillName.FlashingBlade, spType = SpType.BASE60) {
-        override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 7 - lv * 2, this)
+        override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 6 - lv * 2, this)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv :Int): Int = if (lv > 3 && battleUnit.effectedPhantomSpd > enemy.effectedPhantomSpd) 5 else 0
+
     },
 
     DistantDef(SkillName.DistantDef, spType = SpType.BASE60) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(if (lv == 4) neutralizeBuffBonus(battleUnit, enemy,  this) else battleUnit, enemy, lv * 2, this)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(if (lv == 4) neutralizeBuffBonus(battleUnit, enemy, this) else battleUnit, enemy, lv * 2, this)
     },
     CloseDef(SkillName.CloseDef, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = closeDef(battleUnit, enemy, lv * 2, this)
@@ -158,8 +160,8 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = def(if (lv == 4) antiAccelerateCooldown(battleUnit, enemy, 11, this) else battleUnit, lv * 2, this)
 
     },
-    WardingStance(SkillName.WardingStance) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, lv * 2, this)
+    WardingStance(SkillName.WardingStance, maxLevel = 4) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(if (lv == 4) antiAccelerateCooldown(battleUnit, enemy, 11, this) else battleUnit, lv * 2, this)
     },
     KestrelStance(SkillName.KestrelStance, maxLevel = 2, spType = SpType.BASE120) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, lv * 2, this)
@@ -244,6 +246,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     //ラピュタ向けは機能しなくてもいいよな…
     ArDAtkRes(SkillName.ArDAtkRes, spType = SpType.BASE60),
     ArOAtkDef(SkillName.ArOAtkDef, spType = SpType.BASE60),
+    ArDSpdDef(SkillName.ArDSpdDef, spType = SpType.BASE60),
     DefiantAtk(SkillName.DefiantAtk, spType = SpType.BASE40) {
         override fun turnStart(battleUnit: BattleUnit, lv: Int): BattleUnit = defiantAtk(battleUnit, lv)
     },

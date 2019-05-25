@@ -67,15 +67,22 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
     },
     FellBreath(SkillName.FellBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero,3)
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         //これミュルグレと同じだな。真面目にカウントするなら一本化するか…
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.hp < enemy.armedHero.maxHp) atkRes(antiFollowup(battleUnit,enemy,this), 6, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.hp < enemy.armedHero.maxHp) atkRes(antiFollowup(battleUnit, enemy, this), 6, this) else battleUnit
     },
     DemonicBreath(SkillName.DemonicBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero,3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.hp < battleUnit.armedHero.maxHp) allBonus(neutralizeBuffBonus(battleUnit,enemy,this), 4, this) else battleUnit
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.hp < battleUnit.armedHero.maxHp) allBonus(neutralizeBuffBonus(battleUnit, enemy, this), 4, this) else battleUnit
+    },
+    SavageBreath(SkillName.SavageBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, HandmaidMath.max(6 - battleUnit.adjacentUnits * 2, 0), this)
+    },
+    RazingBreath(SkillName.RazingBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit, this)
+    },
 
-    }
     ;
 
     /**
