@@ -1006,7 +1006,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     KriemHild("クリムヒルド", "Kriemhild", "Kriemhild"),
     ShadowSword("暗黒の剣", "Shadow Sword", "Shadow Sword"),
     Death("デス", "Death", "Death"),
-    Gjallarbru("ギャッラルブルー", "Gjallarbrú", "Gjallarbrú"),
+    Gjallarbru("ギャッラルブルー", "Gjallarbrú", "吉歐爾橋之杖"),
     GroundOrders("先導の伝令・地", "Ground Orders", "Ground Orders"),
     VesselOfCheer("祝杯のボトル", "Vessel of Cheer", "Vessel of Cheer"),
     VesselOfCheer2("祝杯のボトル＋", "Vessel of Cheer+", "Vessel of Cheer+"),
@@ -1016,6 +1016,9 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     HarshCommand2("一喝＋", "Harsh Command+", "大喝＋"),
     CakeCutter("ケーキナイフ", "Cake Cutter", "Cake Cutter"),
     CakeCutter2("ケーキナイフ＋", "Cake Cutter+", "Cake Cutter+"),
+    BouquetBow("","Bouquet Bow","Bouquet Bow"),
+    BouquetBow2("","Bouquet Bow+","Bouquet Bow+"),
+
     ;
 
     /**

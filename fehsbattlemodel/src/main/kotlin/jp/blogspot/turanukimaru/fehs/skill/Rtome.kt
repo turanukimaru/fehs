@@ -107,7 +107,7 @@ enum class Rtome(override val jp: SkillName, override val type: SkillType, overr
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     TharjasHex(SkillName.TharjasHex, SkillType.RTOME, 14, Rauorblade2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)//2距離以内だからデバフは入るのだが…
     },
     EternalTome(SkillName.EternalTome, SkillType.RTOME, 14, Bolganone, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)

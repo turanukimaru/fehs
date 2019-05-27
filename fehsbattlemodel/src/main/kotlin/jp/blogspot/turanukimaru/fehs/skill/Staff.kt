@@ -31,10 +31,10 @@ enum class Staff(override val jp: SkillName, override val type: SkillType, overr
     },
     Trilemma(SkillName.Trilemma, SkillType.STAFF, 8, Assault, SpType.SILVER),
     Trilemma2(SkillName.Trilemma2, SkillType.STAFF, 12, Trilemma, SpType.PLUS, RefinedWeapon.RefineType.Staff),
-    Thokk(SkillName.Thokk, SkillType.STAFF, 14, Assault, SpType.PLUS) {
+    Thokk(SkillName.Thokk, SkillType.STAFF, 14, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv, this)
     },
-    Hliðskjálf(SkillName.Hliðskjálf, SkillType.STAFF, 14, Assault, SpType.PLUS) {
+    Hliðskjálf(SkillName.Hliðskjálf, SkillType.STAFF, 14, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = dazzling(battleUnit, enemy, 3, this)
     },
     WitchyWand(SkillName.WitchyWand, SkillType.STAFF, 8, Assault, SpType.SILVER),
@@ -51,7 +51,7 @@ enum class Staff(override val jp: SkillName, override val type: SkillType, overr
     OvoidStaff2(SkillName.OvoidStaff2, SkillType.STAFF, 12, OvoidStaff, SpType.SILVER, RefinedWeapon.RefineType.Staff),
     ToastySkewer(SkillName.ToastySkewer, SkillType.STAFF, 8, Grandscratcher),
     ToastySkewer2(SkillName.ToastySkewer2, SkillType.STAFF, 12, OvoidStaff, SpType.SILVER, RefinedWeapon.RefineType.Staff),
-    Gjallarbru(SkillName.Gjallarbru, SkillType.STAFF, 14, Assault, SpType.PLUS) {
+    Gjallarbru(SkillName.Gjallarbru, SkillType.STAFF, 14, Assault, SpType.PLUS, RefinedWeapon.RefineType.Staff) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = wrathfulStaff(battleUnit, enemy, lv, this)
     }, ;
 

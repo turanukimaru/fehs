@@ -515,7 +515,7 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     パント__花嫁_("パント（花嫁）", "Pent (Bridal)", "Pent (Bridal)"),
     タニス__花嫁_("タニス（花嫁）", "Tanith (Bridal)", "Tanith (Bridal)"),
     シグルーン__花嫁_("シグルーン（花嫁）", "Sigrun (Bridal)", "Sigrun (Bridal)"),
-    ルイーズ__花嫁_("ルイーズ（花嫁）", " (Bridal)", " (Bridal)"),
+    ルイーズ__花嫁_("ルイーズ（花嫁）", "Louise (Bridal)", " (Bridal)"),
     ;
 
     /**

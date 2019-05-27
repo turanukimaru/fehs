@@ -122,10 +122,10 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defHigherThanResBonus(battleUnit, enemy, this)
     },
-    ShortBow(SkillName.ShortBow, SkillType.SWORD, 8, SteelBow, SpType.SILVER) {
+    ShortBow(SkillName.ShortBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
-    ShortBow2(SkillName.ShortBow2, SkillType.SWORD, 12, ShortBow, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
+    ShortBow2(SkillName.ShortBow2, SkillType.BOW, 12, ShortBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     ArgentBow(SkillName.ArgentBow, SkillType.BOW, 8, BraveBow, SpType.PLUS, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
@@ -136,6 +136,12 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
     LunaArc(SkillName.LunaArc, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = if (battleUnit.side == SIDES.ATTACKER) enemy.def * 25 / 100 else 0
+    },
+    BouquetBow(SkillName.BouquetBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
+    },
+    BouquetBow2(SkillName.BouquetBow2, SkillType.BOW, 12, BouquetBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
     },
     ;
 

@@ -122,7 +122,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(fightHpLoss(battleUnit, 4, this), 4, this)
     },
-    VesselOfCheer(SkillName.VesselOfCheer, SkillType.BTOME, 8, Blarblooms, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
+    VesselOfCheer(SkillName.VesselOfCheer, SkillType.BTOME, 8, Blarblooms, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
     },
     VesselOfCheer2(SkillName.VesselOfCheer2, SkillType.BTOME, 12, Blarblooms, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
