@@ -6,7 +6,7 @@ import jp.blogspot.turanukimaru.board.UiBoard.Position
 /**
  * 論理駒。ゲームのルールによらない部分
  */
-open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Board.Player,private val actionListener: ActionListener) {
+open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Board.Player, private val actionListener: ActionListener) {
 
     /**
      * 向き。駒の向きで移動する方向が変わるときに使う予定
@@ -17,12 +17,13 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 操作的な意味での状態。駒を動かせるかとか動かした後だとか。
      */
     var actionPhase = ActionPhase.DISABLED
+
     //アクション。基本的にはアニメの発声しないアクションだが。うーん難しい。
-    fun action(action: ActionPhase, actionEvent: ActionEvent = ActionEvent.None, target: Position? = null) {
+    fun action(actionPhase: ActionPhase, actionEvent: ActionEvent = ActionEvent.None, target: Position? = null) {
         //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
-        actionListener.uiAction(actionEvent,ActionPhase.MOVING,charPosition)
+        actionListener.uiAction(actionEvent, actionPhase, charPosition)
         //これもう要らんか
-        actionPhase = action
+        this.actionPhase = actionPhase
     }
 
     /**
@@ -47,17 +48,29 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 駒の移動可能範囲
      */
-    var searchedRoute = mutableListOf<MutableList<Int>>()
+  private  var searchedRoute = mutableListOf<MutableList<Int>>()
     /**
      * 駒の移動範囲から更に効果を及ぼすことのできる範囲
      */
-    var effectiveRoute = mutableListOf<MutableList<Int>>()
+   private var effectiveRoute: MutableList<MutableList<Int>> = mutableListOf<MutableList<Int>>()
 
     init {
     }
 
-    fun effectiveRouteOf(position: Position):Int = effectiveRoute[position.x][position.y]
-    fun searchedRouteOf(position: Position):Int = searchedRoute[position.x][position.y]
+    fun effectiveRouteOf(position: Position): Int {
+        if (effectiveRoute.size == 0) {
+            effectiveRoute = board.searchEffectiveRoute(this)
+        }
+        return effectiveRoute[position.x][position.y]
+    }
+
+    fun searchedRouteOf(position: Position): Int {
+        if (searchedRoute.size == 0) {
+            searchedRoute = board.searchRoute(this)
+        }
+        return searchedRoute[position.x][position.y]
+    }
+
     /**
      * 効果範囲か。再帰して効果範囲を拡大できるかなので名前変えよう
      */
@@ -118,6 +131,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     open fun touchUp(position: Position): Boolean {
         return true
     }
+
     /**
      * LibGDXのアップデートで呼ばれる。
      */
@@ -157,7 +171,14 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         this.existsPosition = position
         this.newPosition = null
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)
+        //次の行動に備えてルートクリア
+        clearRoute()
         return true
+    }
+
+private    fun clearRoute(){
+        searchedRoute.clear()
+        effectiveRoute.clear()
     }
 
 
@@ -178,14 +199,15 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
 
     /**
      * x,yは移動量。
+     * 指に追従して動かしてみるが、実際の操作は枡で判断してるため枡の大きさとキャラの大きさが大幅に違うとおかしくなるのか。ボードのDragにいどうするべきか…
      */
-    fun touchDragged(position: Position,x:Float,y:Float): Boolean {
+    fun touchDragged(position: Position, x: Float, y: Float): Boolean {
         //行動できないときは反応しない
         if (!isActionable) {
             return false
         }
         //ドラッグしてる絵を動かす
-        actionListener.directPos(x,y)
+        actionListener.directPos(x, y)
         //移動可能範囲内で移動したらスタックに積む...
         return dragged(position)
     }
@@ -236,13 +258,13 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     fun ready() {
         print("READY!! ")
         println(this)
-        actionListener.uiAction(ActionEvent.Ready,ActionPhase.READY,charPosition)
+        actionListener.uiAction(ActionEvent.Ready, ActionPhase.READY, charPosition)
         actionPhase = ActionPhase.READY
     }
 
     fun putOn(x: Int, y: Int) {
         existsPosition = Position(x, y)
-        action(ActionPhase.PUTTED)
+        action(ActionPhase.PUTTED,ActionEvent.Put)
     }
 
     fun startPiece(xyToPosition: Position) {
@@ -251,9 +273,13 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
 
     fun moveCancel() {
         println("呼ばれてるはzなんだが")
-        //ルート探索をクリアするか更新するかちょっと考えないとな…
+        clearRoute()
         newPosition = null
         action(ActionPhase.READY, ActionEvent.MoveToCharPosition)
+    }
+
+    fun selected() {
+        action(ActionPhase.MOVING, ActionEvent.Selected)
     }
 
     /**
@@ -275,7 +301,19 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         /**
          * アクション中。Updateが走らない
          */
-        MoveToCharPosition
+        MoveToCharPosition,
+        /**
+         * アクション中。Updateが走らない
+         */
+        Selected,
+        /**
+         * 最初に画面上に配置
+         */
+        Put,
+        /**
+         * 主導権のない側を棒立ちにして色見を戻す
+         */
+        Disabled
     }
 }
 

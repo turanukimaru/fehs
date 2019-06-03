@@ -79,7 +79,7 @@ println("Board.touch x:${position.x} y:${position.y}")
     /**
      * 駒の位置を探す。見つからなかったらnullを返すようにしてるけど例外を投げるべきか？何らかの原因であるべき駒が無いんだから。
      */
-    fun searchUnitPosition(piece: Piece<*, *>): Position? {
+  private  fun searchUnitPosition(piece: Piece<*, *>): Position? {
         println("searchUnitPosition $piece")
         horizontalIndexes.forEach { x ->
             verticalIndexes.forEach { y ->
@@ -106,7 +106,7 @@ println("Board.touch x:${position.x} y:${position.y}")
      * Actionとの関係を整理したほうが良いな
      */
     fun moveToPosition(piece: Piece<UNIT, GROUND>, position: Position, x :Int = position.x, y:Int = position.y) {
-        if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || piece.searchedRoute[x][y] < 0) {
+        if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || piece.searchedRouteOf(position) < 0) {
             throw RuntimeException("out of range pieceMatrix[$x][$y]")
         }
         if (isAnotherPiece(piece, x, y)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
@@ -151,7 +151,7 @@ println("Board.touch x:${position.x} y:${position.y}")
         println("first step at $piece $square $steps ")
         step(piece, square, steps, routeMatrix)
         //これ更新形式と新しいマトリックスを渡す形どっちがいいかなあ
-        piece.searchedRoute = routeMatrix
+//        piece.searchedRoute = routeMatrix
 //        routeMatrix.forEach { v ->piece. searchedRoute.add(v) }
         return routeMatrix
     }
@@ -195,10 +195,10 @@ println("Board.touch x:${position.x} y:${position.y}")
             verticalIndexes.forEach { y ->
                 val square = Position(x, y)
                 //移動範囲から計算。これ移動しないときと処理が区別できるようにしたほうが良いな
-                if (piece.searchedRoute[x][y] >= 0) stepEffect(piece, square, 0, routeMatrix)
+                if (piece.searchedRouteOf(square) >= 0) stepEffect(piece, square, 0, routeMatrix)
             }
         }
-        piece.effectiveRoute = routeMatrix
+//        piece.effectiveRoute = routeMatrix
         return routeMatrix
     }
 
@@ -264,12 +264,12 @@ println("Board.touch x:${position.x} y:${position.y}")
     /**
      * ターン開始。盤の所有者をセットして、全ての駒を準備状態にする。動作を変えるときはきっと引数に関数を追加して、その関数を呼ぶのがいいと思う。
      */
-    fun turn(owner: Player) {
+    fun initiative(owner: Player) {
         println("TODO:ターン移動処理")
         move.moveCancel()
         this.owner = owner
 //一度全部の駒を使用不可にしてから手番の人の駒を有効にする
-        pieceList.forEach { it.action(Piece.ActionPhase.DISABLED) }
+        pieceList.forEach { it.action(Piece.ActionPhase.DISABLED,Piece.ActionEvent.Disabled) }
         owner.pieceList.forEach { it.ready() }
     }
 
@@ -328,7 +328,7 @@ println("Board.touch x:${position.x} y:${position.y}")
         //できるだけ直線に動くアルゴリズムが欲しいな…
         val attackableOrientation = orientations.find { v ->
             val pos = moveWithOrientation(v, position, -1)
-            piece.searchedRoute[pos.x][pos.y] > -1
+            piece.searchedRouteOf(pos)> -1
         }
         return if (attackableOrientation != null) moveWithOrientation(attackableOrientation, position, -1) else null
     }

@@ -135,9 +135,9 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         if (board.move.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
-                    if (board.move.selectedPiece!!.searchedRoute[x][y] >= 0) {
+                    if (board.move.selectedPiece!!.searchedRouteOf(Position(x,y)) >= 0) {
                         fillSquare(x, y, UiBoard.FillType.MOVABLE)
-                    } else if (board.move.selectedPiece!!.effectiveRoute[x][y] >= 0) {
+                    } else if (board.move.selectedPiece!!.effectiveRouteOf(Position(x,y)) >= 0) {
                         fillSquare(x, y, UiBoard.FillType.ATTACKABLE)
                     }
                 }

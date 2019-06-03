@@ -82,6 +82,9 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
     RazingBreath(SkillName.RazingBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit, this)
     },
+    DivineBreath(SkillName.DivineBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, HandmaidMath.min(battleUnit.adjacentUnits * 3, 9), this)
+    },
 
     ;
 

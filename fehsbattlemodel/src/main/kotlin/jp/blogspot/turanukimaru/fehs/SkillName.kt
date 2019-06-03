@@ -992,6 +992,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     ArDAtkRes("攻撃魔防の防城戦", "AR-D Atk/Res", "AR-D Atk/Res"),
     ArDSpdDef("速さ守備の防城戦", "AR-D Spd/Def", "AR-D Spd/Def"),
     ArOAtkDef("攻撃守備の攻城戦", "AR-O Atk/Def", "AR-O Atk/Def"),
+    ArOAtkSpd("攻撃速さの攻城戦", "AR-O Atk/Spd", "AR-O Atk/Spd"),
     Eldhrimnir("エルドフリムニル", "Eldhrímnir", "Eldhrímnir"),
     LuncheonLance("行楽の飾り槍", "Luncheon Lance", "Luncheon Lance"),
     LuncheonLance2("行楽の飾り槍＋", "Luncheon Lance+", "Luncheon Lance+"),
@@ -1016,10 +1017,11 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     HarshCommand2("一喝＋", "Harsh Command+", "大喝＋"),
     CakeCutter("ケーキナイフ", "Cake Cutter", "Cake Cutter"),
     CakeCutter2("ケーキナイフ＋", "Cake Cutter+", "Cake Cutter+"),
-    BouquetBow("","Bouquet Bow","Bouquet Bow"),
-    BouquetBow2("","Bouquet Bow+","Bouquet Bow+"),
-
-    ;
+    BouquetBow("祝福の花の弓","Bouquet Bow","Bouquet Bow"),
+    BouquetBow2("祝福の花の弓＋","Bouquet Bow+","Bouquet Bow+"),
+DivineBreath("神竜王のブレス","Divine Breath","Divine Breath"),
+DivineFang("神竜王の牙","Divine Fang","Divine Fang"),
+;
 
     /**
      * ロケールから対応する文字列を出す

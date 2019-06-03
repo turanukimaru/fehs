@@ -146,12 +146,13 @@ class MyMyGdxGame : ApplicationAdapter() {
         val group = Group()
         group.addActor(medjedImageA)
         group.addActor(medjedImageB)
-        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user, ActionListener(group, myGame.uiBoard))
+        val listener =  ActionListener(group, myGame.uiBoard)
+        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user,listener)
         val uiPiece = MyUiPiece(group, myGame.uiBoard, piece1)
         user.pieceList.add(piece1)
         group.addListener(uiPiece)
-        uiPiece.actors.add(medjedImageA)
-        uiPiece.actors.add(medjedImageB)
+        listener.actors.add(medjedImageA)
+        listener.actors.add(medjedImageB)
         myGame.board.put(piece1, 5, 0)
         myGame.uiBoard.uiPieceList.add(uiPiece)
         //この辺もっとスムーズにできるようにしないとな.スムーズというより1セットか。落とすとバグるかんな
@@ -181,7 +182,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         myGame.board.put(piece3, 3, 3)
         myGame.uiBoard.uiPieceList.add(uiPiece3)
         myGame.uiBoard.stage.addActor(hectorImage)
-        myGame.board.turn(user)
+        myGame.board.initiative(user)
     }
 
     //ファイルからテクスチャ読み込み。実際には1ファイルに複数テクスチャを入れるので座標とかTextureのリストを返すとかの処理が必要になる
@@ -197,9 +198,9 @@ class MyMyGdxGame : ApplicationAdapter() {
     private fun turnend(board: Board<BattleUnit, Ground>): Boolean {
         println("fire turnend!")
         if (board.owner == user) {
-            board.turn(enemy)
+            board.initiative(enemy)
         } else {
-            board.turn(user)
+            board.initiative(user)
         }
         return true
     }

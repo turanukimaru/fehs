@@ -14,7 +14,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 中に含むActorのリスト。アニメーションで体の部位を動かすのに使うのだがボーンモデル別に作るべき
      */
-    private val actors = mutableListOf<Actor>()
+    val actors = mutableListOf<Actor>()
 
 
     /**
@@ -41,42 +41,50 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
         update()
     }
 
+    /**
+    * 待機中の動作を入れたいのだが。基本的には Ready かつアクション中じゃなければいいだけか？
+     */
     open fun update() {
         //アクション中じゃないのでループアニメ
-        if (actionEventNow == Piece.ActionEvent.None) {
-            println("ActionListener update : $this")
-            when (actionPhase) {//phaseはPieceから渡す形のほうがいいかなあ。UpdateではなくActionPhaseBroadcastみたいな
-                //これは不要になるな
-                Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabled.いずれ増援が出たr
+        if (actionEventNow != Piece.ActionEvent.None) {
+            return
+        }
+//        println("ActionListener update : $actionPhase")
+        when (actionPhase) {//phaseはPieceから渡す形のほうがいいかなあ。UpdateではなくActionPhaseBroadcastみたいな
+            //これは不要になるな
+            Piece.ActionPhase.PUTTED -> {//おかれた直後なので初期化してDisabled.いずれ増援が出たr
 //                    actionSetToPosition(position)
 //                        action(Piece.ActionPhase.DISABLED)
-                }
-                Piece.ActionPhase.START -> {//おかれた直後なので初期化してREADY
+            }
+            Piece.ActionPhase.START -> {//おかれた直後なので初期化してREADY
 //                    actionSetToPosition(position)
 //                uiBoard.stage.addActor(actor)
 //                        piece.action(Piece.ActionPhase.READY)
-                }
-                Piece.ActionPhase.DISABLED ->//ターンが違うなど操作不能の時は枡に合わせてセット
-                {}//                    actor.setPosition(uiBoard.squareXtoPosX(position!!.x), uiBoard.squareYtoPosY(position!!.y))
-                Piece.ActionPhase.READY -> {
-                    //ドラッグしてるときはアクションをクリアしてドラッグに追従表示.タッチじゃなくてドラッグ判定にせねば。実機では正しく動くがシミュ上ではめっちゃぶれる
-                    when (touched) {
-                        TouchPhase.DRAG -> {
-                        }
-                        TouchPhase.RELEASE -> {
-                            println("MyUiPiece RELEASE ${uiBoard.board.move}")
-                            //離した後は枡にフィットさせる。
-                        }
-                        TouchPhase.NONE -> {
-                            startAction { readyAction() }
-                        }
-                        TouchPhase.TOUCH -> {
-                            println("MyUiPiece TOUCH ${uiBoard.board.move}")
-                        }
-                    }
-                }
-                Piece.ActionPhase.ATTACK -> {//戦闘中のアクションはそのうち考える
-                    //戦闘結果を持ってるときはそれを動かす
+            }
+            Piece.ActionPhase.DISABLED ->//ターンが違うなど操作不能の時は枡に合わせてセット
+            {
+            }//                    actor.setPosition(uiBoard.squareXtoPosX(position!!.x), uiBoard.squareYtoPosY(position!!.y))
+            Piece.ActionPhase.READY -> {
+                println("readyAction() は呼ばれてるのに見た目が変わらんな…...呼ばれすぎだな")
+                readyAction()
+//                //ドラッグしてるときはアクションをクリアしてドラッグに追従表示.タッチじゃなくてドラッグ判定にせねば。実機では正しく動くがシミュ上ではめっちゃぶれる
+//                when (touched) {
+//                    TouchPhase.DRAG -> {
+//                    }
+//                    TouchPhase.RELEASE -> {
+//                        println("MyUiPiece RELEASE ${uiBoard.board.move}")
+//                        //離した後は枡にフィットさせる。
+//                    }
+//                    TouchPhase.NONE -> {
+//                        startAction { readyAction() }
+//                    }
+//                    TouchPhase.TOUCH -> {
+//                        println("MyUiPiece TOUCH ${uiBoard.board.move}")
+//                    }
+//                }
+            }
+            Piece.ActionPhase.ATTACK -> {//戦闘中のアクションはそのうち考える
+                //戦闘結果を持ってるときはそれを動かす
 //                        if (myPiece.fightResult != null) {
 //                            attackResultToSeq(
 //                                    myPiece.fightResult!!
@@ -89,20 +97,18 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
 //                            actionSetToPosition(position)
 //                            actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }
 //                        }
-                }
-                Piece.ActionPhase.ACTED -> {//現在の位置に灰色で表示
-                    println("MyUiPiece ACTED ${uiBoard.board.move}")
+            }
+            Piece.ActionPhase.ACTED -> {//現在の位置に灰色で表示
+                println("MyUiPiece ACTED ${uiBoard.board.move}")
 //                    actionSetToPosition(position)
-                    actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }//これ灰色じゃねーな全部　r+g+b/3　にするのが正しいか？
-                }
-                Piece.ActionPhase.REMOVED -> {//画面から消す
-                }
-                else -> {//行動後の現在位置に表示。ずれてる場合は直接移動させる
-                    println("MyUiPiece else ${uiBoard.board.move}")
+                actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }//これ灰色じゃねーな全部　r+g+b/3　にするのが正しいか？
+            }
+            Piece.ActionPhase.REMOVED -> {//画面から消す
+            }
+            else -> {//行動後の現在位置に表示。ずれてる場合は直接移動させる //問題か Position をどこからとってくるかが
+                println("MyUiPiece else ${uiBoard.board.move}")
 //                    actionSetToPosition(position)
-                    actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
-                }
-
+                actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
             }
 
         }
@@ -138,7 +144,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 位置移動直接。アクションをキャンセルして移動差分を駒に登録
      */
-    fun actionSetToPosition(position: UiBoard.Position?) {
+   private fun actionSetToPosition(position: UiBoard.Position?) {
         if (position == null) return
         actor.clearActions()
         val finalX = uiBoard.squareXtoPosX(position.x)
@@ -150,20 +156,27 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
      * EndOfAnimationActionから呼ばれるコールバック
      */
     fun uiActionDone() {
-        println("uiActionDone")
-        println("uiActionDone")
-        println("uiActionDone")
+        println("uiActionDone!")
+        println("uiActionDone!!")
+        println("uiActionDone!!!")
 //        touched = TouchPhase.NONE//RELEASE->NONEのはず
         actionEventNow = Piece.ActionEvent.None
     }
 
     fun uiAction(actionEvent: Piece.ActionEvent, next: Piece.ActionPhase, position: UiBoard.Position?) {
+//ActionEventを入れつつ次のフェイズを設定する。Actionが終了するまではUpdateがAction依存になるためPhaseはこのタイミングで変更しても大丈夫なはず
+        actionEventNow = actionEvent
+        actionPhase = next
         when (actionEvent) {
             Piece.ActionEvent.MoveToCharPosition -> actor.addAction(actionMoveToPosition(position))//MoveToCharPositionの拡張メソッドにしたい
             Piece.ActionEvent.Ready -> actor.addAction(actionMoveToPosition(position))//開始時に武器を構えるアクションにしたい
+            Piece.ActionEvent.Put->actionSetToPosition(position)//時間おかずに移動させたい
+            Piece.ActionEvent.Selected->readyAction()
+            Piece.ActionEvent.Disabled-> actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
             Piece.ActionEvent.Direct -> {
             }//なにもしない
-            else ->{}
+            else -> {
+            }
         }
     }
 
@@ -214,9 +227,13 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
 
     /**
      * 立ってるときのアニメ１ループ分。LibGDXにループ機能はあるが操作統一のため主導でループ
+     * 各パーツへばらばらにアクションを追加するからシーケンス返す構造にできない…
      * */
-    private fun readyAction(): SequenceAction {
-        if (actors.size == 0) return SequenceAction()
+    private fun readyAction() {
+//        println("start readyAction ${actors.size}")
+        if (actors.size == 0) return
+
+        actionEventNow = Piece.ActionEvent.Ready//棒立ちアニメ中、の意味
         val base = actors[0]
         val face = actors[1]
         //clearしないでアクション追加するとめっちゃ落ちる。デフォルト位置に戻す処理もいるな
@@ -229,13 +246,13 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
         val seq1 = SequenceAction()
         seq1.addAction(Actions.moveBy(2.0f, 2.0f, 0.5f))
         seq1.addAction(Actions.moveBy(-2.0f, -2.0f, 0.5f))
-        seq1.addAction(EndOfAnimationAction(this, 1f))//seq関係なくすぐ呼び出される…
+        seq1.addAction(EndOfAnimationAction(this, 1f))
         base.addAction(seq1)
         val seq2 = SequenceAction()
         seq2.addAction(Actions.moveBy(6.0f, 6.0f, 0.5f))
         seq2.addAction(Actions.moveBy(-6.0f, -6.0f, 0.5f))
         face.addAction(seq2)
-        return seq1
+        return
     }
 
     val attackAction: (actor: Actor) -> Boolean = {

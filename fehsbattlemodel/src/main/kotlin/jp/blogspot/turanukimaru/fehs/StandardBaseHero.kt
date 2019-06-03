@@ -1019,8 +1019,10 @@ object StandardBaseHero {
                 Lance.LoftyBlossoms2, Assist.HarshCommand2, null, SkillA.SwiftSparrow.lv(2), SkillB.ChillAtk.lv(3), SkillC.FortifyFliers.lv(3))
         createItem(HeroName.シグルーン__花嫁_, 1, WeaponType.SWORD, MoveType.FLIER, 5, 16, 7, 12, 5, 7, g45, g55, g60, g50, g55,
                 Sword.CakeCutter2, Assist.ArdentSacrifice, null, SkillA.ArDSpdDef.lv(3), null, SkillC.AirOrders.lv(3))
-        createItem(HeroName.ルイーズ__花嫁_, 0, WeaponType.BOW, MoveType.CAVALRY,  5, 17, 7, 8, 4, 8, g50, g55, g60, g30, g50,
+        createItem(HeroName.ルイーズ__花嫁_, 0, WeaponType.BOW, MoveType.CAVALRY,  4, 17, 7, 8, 4, 8, g50, g55, g60, g30, g50,
                 Bow.BouquetBow2, Assist.ReciprocalAid, null, SkillA.AtkSpdBond.lv(3), null, SkillC.HoneCavalry)
+              createItem(HeroName.ナーガ, 2, WeaponType.DRAGON, MoveType.FLIER,  5, 18, 6, 10, 9, 4, g45, g55, g60, g55, g50,
+                        Breath.DivineBreath, null, Special.Luna, SkillA.ArOAtkSpd.lv(3), SkillB.ChillSpd.lv(3), SkillC.DivineFang)
 
 //              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                        Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())

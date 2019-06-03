@@ -89,15 +89,12 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         dy = 0
     }
 
-    //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする。推し始めデータだけ初期化して終了
+    //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする。推し始めデータだけ初期化して終了※ここでルートのサーチなどをすると、攻撃の対象にしたときなどにもサーチが走ってしまう
     fun startPiece(piece: Piece<UNIT, GROUND>, xyToPosition: UiBoard.Position) {
         dx = 0
         dy = 0
         touchedPiece = piece
         touchedPosition = xyToPosition
-        //TODO:駒側にルートを持たせて、行動可能範囲を見れるようにする。...行動後の駒も範囲見れたっけ？敵の範囲を見るのは別にあったほうがいいな
-//        board.searchRoute(piece)
-//        board.searchEffectiveRoute(piece)
     }
 
     override fun toString(): String = "dx:$dx dy:$dy p:$touchedPosition piece:$touchedPiece s:$selectedPiece"
@@ -221,7 +218,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 
     private fun moveSelectedPiece(position: UiBoard.Position): Boolean {
         println(" moveSelectedPiece($position: UiBoard.Position) ")
-        if (selectedPiece == null) selectedPiece = touchedPiece//drag中ならこれはすでに設定されてるはずだが再設定しても問題なかろう
+        println(" ここで例外が起きたらロジックのミスだよなあ")
         val movable = selectedPiece!!.boardMove(this, position)
         if (movable) {
             newPosition = position
@@ -243,6 +240,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         println("touched $touchedPiece　selected $selectedPiece")
         //盤面をドラッグしても何も起きない。N_TAPと同じなのでここでアニメの省略とか
         val piece = touchedPiece ?: return
+        if (!selectPiece(piece, position)) return //選択できなかったら終わり
         selectedPiece = touchedPiece//あれこれ書いたつもりなんだけどな
         //自分の駒じゃないのをドラッグしても何もしない
         if (piece.owner != board.owner) return
@@ -277,10 +275,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         }
         //駒を選択して盤面をタップ（駒をタップではない）したときには移動。範囲外だと未選択
         if (tapType == TapType.SELECTED_FIELD_TAP) {
-            val moved = moveSelectedPiece(position)//確定はしてないよ！。そもそも範囲外でキャンセルされてるかもしれないよ！
-            if (!moved) {
-                moveCancel()
-            }
+            moveSelectedPiece(position)//確定はしてないよ！。そもそも範囲外でキャンセルされてるかもしれないよ！
         }
         // ユニットタップ
         val target = touchedPiece ?: return
@@ -288,19 +283,20 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         when (tapType) {
             TapType.SELECTED_FIELD_TAP -> println("touchedPiece判定しているのでここは通らないはず")
             //駒をタップ
-            TapType.SIMPLE_TAP -> if (target.owner == board.owner && target.actionPhase == Piece.ActionPhase.READY) selectPiece(target, position)//TODO:選択時アクションが欲しい
+            TapType.SIMPLE_TAP -> selectPiece(target, position)
             //選択した駒をタップしたときは動いてたらそこで終了、アクション準備なら取り消して移動中、 移動してなかったら解除
             TapType.SELECTED_SELF_TAP -> {//when 入れ子になりそう…
                 if (newPosition == oldPosition) {
                     moveCancel()
                 } else {
+                    //TODO:ここで戦闘準備中なら戦闘か。戦闘準備はどこだっけ？
                     println("move commit")
                     target.boardMoveCommit(this, position)
                     clear()
                 }
             }
 
-            TapType.SELECTED_TARGET_TAP -> actionPiece(target, position)
+            TapType.SELECTED_TARGET_TAP -> actionPiece(target, position)//TODO:ここで戦闘準備、すでに準備中なら戦闘か。
             else -> println("UNEXPECTED clicked ACTION $tapType ${target.actionPhase}")
         }
         touchRelease()
@@ -308,14 +304,16 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     }
 
     private fun actionPiece(target: Piece<UNIT, GROUND>, position: UiBoard.Position): Boolean {
-        if (target.owner == board.owner) return false //選択してない駒をタップしたときはアクションだけど敵と味方で効果範囲が違うし後で考えよう…
-        val targetEffective = selectedPiece!!.effectiveRoute[position.x][position.y]
+        println("actionPiece $this to $target ")
+        if (target.owner == board.owner) return false //アシストはそれはそれで大変そうだ…
+        val targetEffective = selectedPiece!!.effectiveRouteOf(position)
         if (targetEffective >= 0) {
             readyToAction = true
             val attackablePosition = board.findAttackPos(selectedPiece!!, position)
-            stackRoute(position)
+            stackRoute(position)// TODO: 数歩つむ
             selectedPiece?.boardMove(this, attackablePosition!!)
             selectedPiece?.boardAction(this, position, target)
+            //TODO: 攻撃準備状態にしたい
             return true
         }
         return false
@@ -324,20 +322,23 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     /**
      * 駒を選択状態にする
      */
-    private fun selectPiece(piece: Piece<UNIT, GROUND>, position: UiBoard.Position) {
+    private fun selectPiece(piece: Piece<UNIT, GROUND>, position: UiBoard.Position): Boolean {
+        if (piece.owner != board.owner || (piece.actionPhase != Piece.ActionPhase.MOVING && piece.actionPhase != Piece.ActionPhase.READY)) return false
         println("selectPiece $selectedPiece  ")
         println("new selectPiece $piece")
         println("equal? ${selectedPiece == piece}")
-    if(    selectedPiece == piece) return
+        if (selectedPiece == piece) return true
 
         clear()
         //タッチ開始時にもルート探索してるけどとりあえずもう一回やって減るもんでもないわな
-        board.searchRoute(piece)
-        board.searchEffectiveRoute(piece)
+        //    piece.searchedRoute =    board.searchRoute(piece)
+        //  piece.effectiveRoute =   board.searchEffectiveRoute(piece)
         selectedPiece = piece
         //↓二つは常にセットで存在するべき。クラスにするか？
         oldPosition = position
         newPosition = position//nullのが良い気もするが…
+        piece.selected()
+        return true
     }
 
     //タッチ開始時にboardから呼ばれる。今までのタッチとかはガン無視。リセット処理いるかな？要らないか。対象に攻撃するときとかはSelectedPieceが必要になるし

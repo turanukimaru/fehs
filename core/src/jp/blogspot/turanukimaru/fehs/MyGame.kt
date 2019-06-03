@@ -10,15 +10,15 @@ import jp.blogspot.turanukimaru.board.UiBoard
 /**
  * Created by turanukimaru on 2018/03/15.
  */
-class MyGame(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer, val bitmapFont: BitmapFont, val LOGICAL_WIDTH: Float, val LOGICAL_HEIGHT: Float) {
-    private val FOOTER_HEIGHT = 80f
-    private val HEADER_HEIGHT = 160f
-    private val MARGIN_LEFT = 0f
-    private val MARGIN_RIGHT = 0f
+class MyGame( stage: Stage,  batch: SpriteBatch,  liner: ShapeRenderer,  bitmapFont: BitmapFont,  localWidth: Float,  localHeight: Float) {
+    private val footerHeight = 80f
+    private val headerHeight = 160f
+    private val marginLeft = 0f
+    private val marginRight = 0f
     private val vLines = 8
     private val hLines = 6
     val board: Board<BattleUnit, Ground> = Board(hLines, vLines)
-    val uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, LOGICAL_WIDTH, LOGICAL_HEIGHT, HEADER_HEIGHT, FOOTER_HEIGHT, MARGIN_LEFT, MARGIN_RIGHT, board)
+    val uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, localWidth, localHeight, headerHeight, footerHeight, marginLeft, marginRight, board)
 
     init {
         stage.addListener(uiBoard)

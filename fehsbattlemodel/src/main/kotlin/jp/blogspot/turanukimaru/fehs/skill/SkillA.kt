@@ -245,8 +245,9 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     },
     //ラピュタ向けは機能しなくてもいいよな…
     ArDAtkRes(SkillName.ArDAtkRes, spType = SpType.BASE60),
-    ArOAtkDef(SkillName.ArOAtkDef, spType = SpType.BASE60),
     ArDSpdDef(SkillName.ArDSpdDef, spType = SpType.BASE60),
+    ArOAtkDef(SkillName.ArOAtkDef, spType = SpType.BASE60),
+    ArOAtkSpd(SkillName.ArOAtkSpd, spType = SpType.BASE60),
     DefiantAtk(SkillName.DefiantAtk, spType = SpType.BASE40) {
         override fun turnStart(battleUnit: BattleUnit, lv: Int): BattleUnit = defiantAtk(battleUnit, lv)
     },

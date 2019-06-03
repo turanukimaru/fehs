@@ -56,15 +56,15 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
        piece.touchDragged(touchedSquare, x, y)
     }
 
-    fun stackTouchedRoute(): UiBoard.Position {
+   private fun stackTouchedRoute(): UiBoard.Position {
         val touchedSquare = uiBoard.touchedPosition()
         stackRoute(touchedSquare)
         return touchedSquare
     }
 
     //対象の枡が通れるときはスタックに積む…とまれるときか？ともかくこれは駒側主導ではあるが人の操作ではないわけでなんか分けたいなあ。通れる・泊まれるを判断するから無理か。
-    fun stackRoute(position: UiBoard.Position) {
-        if (piece.searchedRoute[position.x][position.y] > 0) {
+  private  fun stackRoute(position: UiBoard.Position) {
+        if (piece.searchedRouteOf(position) > 0) {
             uiBoard.board.move.stackRoute(position)
         } else {
             uiBoard.board.move.routeOut()
@@ -108,6 +108,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         if (piece.charPosition == null) {
             return // ボード上に無いときは何もしない。消す処理を書いてもいいか？
         }
+        piece.libUpdate()//これどっちが先に動くべきなんだろうな…？
         update()
     }
 
