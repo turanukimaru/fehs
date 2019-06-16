@@ -876,6 +876,20 @@ interface Skill {
     }
 
     /**
+     * HP満タン時に攻撃と守備ボーナス
+     */
+    fun fullHpAtkResBonus(battleUnit: BattleUnit, i: Int, d: Int, s: Skill = Skill.NONE): BattleUnit {
+        if (battleUnit.hp == battleUnit.armedHero.maxHp) {
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.AtkRes, i.toString()))
+            battleUnit.addSkillText(SkillText(s, SkillBaseText.HpLoss, d.toString()))
+            battleUnit.atkEffect += i
+            battleUnit.resEffect += i
+            battleUnit.attackedHpLossAtEndOfFight += d
+        }
+        return battleUnit
+    }
+
+    /**
      * HP満タン時に2回攻撃
      */
     fun fullHpDoubleAttack(battleUnit: BattleUnit, d: Int, s: Skill = Skill.NONE): BattleUnit {

@@ -10,7 +10,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 盤上の駒
      * 駒が無いところはnull
      */
-    val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
+    private val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
     /**
      * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
      */
@@ -21,9 +21,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     private val groundMatrix = mutableListOf<MutableList<GROUND?>>()
     /**
-     * 現在盤上の所有権を持つプレイヤー
+     * 現在盤上の所有権を持つプレイヤー。NONE作ったほうがいいかな…？
      */
-    var owner: Player? = null
+    var owner: Player = Player.None
 
     /**
      * 現在の指し手
@@ -41,7 +41,22 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     val verticalIndexes = 0 until verticalLines
 
+    /**
+     * -1で埋めたマップのマトリクス。ルートや影響範囲に使う
+     */
+    private val filledMatrix: MutableList<MutableList<Int>>
+        get() {
+            val routeMatrix = mutableListOf<MutableList<Int>>()
+            horizontalIndexes.forEach {
+                val unitLine = mutableListOf<Int>()
+                verticalIndexes.forEach { unitLine.add(-1) }
+                routeMatrix.add(unitLine)
+            }
+            return routeMatrix
+        }
+
     init {
+        //マップを初期化する
         horizontalIndexes.forEach {
             val unitLine = mutableListOf<Piece<UNIT, GROUND>?>()
             verticalIndexes.forEach { unitLine.add(null) }
@@ -53,21 +68,20 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         }
     }
 
-    fun piece (position: Position):Piece<UNIT, GROUND>? = pieceMatrix[position.x][position.y]
-    fun touch (position: Position){
-println("Board.touch x:${position.x} y:${position.y}")
-        verticalIndexes.forEach { y ->
-            horizontalIndexes.forEach { x ->
-                //移動範囲から計算。これ移動しないときと処理が区別できるようにしたほうが良いな
-                print("${pieceMatrix[x][y]},")
-            }
-            println()
-        }
+    /**
+     * 対象の場所にある駒
+     */
+    fun piece(position: Position): Piece<UNIT, GROUND>? = pieceMatrix[position.x][position.y]
 
+    /**
+     * タッチされたときに呼び出される
+     */
+    open fun touch(position: Position) {
         move.touch(position)
     }
+
     /**
-     * 地形のマトリックスをコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrixxyはxyが入れ替わっているので入れ替えてコピーする
+     * 地形のマトリックスをXY入れ替えてコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrixXYはxyが入れ替わっているので入れ替える
      */
     fun copyGroundSwitchXY(matrix: Array<Array<GROUND>>) {
         groundMatrix.forEach { e -> e.clear() }
@@ -79,7 +93,7 @@ println("Board.touch x:${position.x} y:${position.y}")
     /**
      * 駒の位置を探す。見つからなかったらnullを返すようにしてるけど例外を投げるべきか？何らかの原因であるべき駒が無いんだから。
      */
-  private  fun searchUnitPosition(piece: Piece<*, *>): Position? {
+    private fun searchUnitPosition(piece: Piece<*, *>): Position? {
         println("searchUnitPosition $piece")
         horizontalIndexes.forEach { x ->
             verticalIndexes.forEach { y ->
@@ -95,7 +109,7 @@ println("Board.touch x:${position.x} y:${position.y}")
      * 対象の枡に駒を置く。駒が配置済みだったら例外を吐く。自分がすでにいるところにPutしたケースはまだけんとうしなくていいか
      */
     fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
-        if (pieceMatrix[x][y] != null) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
+        if (pieceMatrix[x][y] != null) throw RuntimeException("pieceMatrix[$x][$y] is スクワットのスペルが分からん  by ${pieceMatrix[x][y]}")
         pieceMatrix[x][y] = piece
         pieceList.add(piece)
         piece.putOn(x, y)
@@ -105,18 +119,16 @@ println("Board.touch x:${position.x} y:${position.y}")
      * 対象の枡に駒を置く。移動元が見つからないときは例外を吐く
      * Actionとの関係を整理したほうが良いな
      */
-    fun moveToPosition(piece: Piece<UNIT, GROUND>, position: Position, x :Int = position.x, y:Int = position.y) {
-        if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines || piece.searchedRouteOf(position) < 0) {
+    fun moveToPosition(piece: Piece<UNIT, GROUND>, position: Position, x: Int = position.x, y: Int = position.y) {
+        if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines) {
             throw RuntimeException("out of range pieceMatrix[$x][$y]")
         }
-        if (isAnotherPiece(piece, x, y)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
-        println("moveTon $piece $x $y")
+        if (isAnotherPiece(piece, position)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
         val oldSquare = searchUnitPosition(piece)!!
-        println("moveFrom $piece ${oldSquare.x} ${oldSquare.y}")
         //移動元を消して今回の駒をセット
         val targetSquaresUnit = pieceMatrix[x][y]
         if (targetSquaresUnit != null && targetSquaresUnit != piece) {
-            throw RuntimeException("another piece $targetSquaresUnit")
+            throw RuntimeException("another piece is at $targetSquaresUnit")
         }
         pieceMatrix[oldSquare.x][oldSquare.y] = null
         pieceMatrix[x][y] = piece
@@ -125,9 +137,8 @@ println("Board.touch x:${position.x} y:${position.y}")
     /**
      * 盤面の座標が盤上に有るか。つまりIndexがマイナスになったり幅を超えたりしていないか
      */
-    fun positionIsOnBoard(position: Position): Boolean {
-        return position.x >= 0 && position.y >= 0 && position.x < horizontalLines && position.y < verticalLines
-    }
+    fun positionIsOnBoard(position: Position): Boolean = position.x >= 0 && position.y >= 0 && position.x < horizontalLines && position.y < verticalLines
+
 
     /**
      * update時に盤外に表示する関数
@@ -135,24 +146,15 @@ println("Board.touch x:${position.x} y:${position.y}")
     var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
 
     /**
-     * 移動可能な経路を調べる。TODO:Pieceの旧ポジションを使うようにするか、移動中は呼ばないようにする
+     * 移動可能な経路を調べる。
      */
     fun searchRoute(piece: Piece<UNIT, GROUND>): MutableList<MutableList<Int>> {
         println("searchRoute $piece")
-        val routeMatrix = mutableListOf<MutableList<Int>>()
-        horizontalIndexes.forEach {
-            val unitLine = mutableListOf<Int>()
-            verticalIndexes.forEach { unitLine.add(-1) }
-            routeMatrix.add(unitLine)
-        }
-        //nullの時例外を吐きたいならこう
+        val routeMatrix = filledMatrix
         val square = searchUnitPosition(piece) ?: throw RuntimeException("ユニットが見つからない")
         val steps = 0
         println("first step at $piece $square $steps ")
         step(piece, square, steps, routeMatrix)
-        //これ更新形式と新しいマトリックスを渡す形どっちがいいかなあ
-//        piece.searchedRoute = routeMatrix
-//        routeMatrix.forEach { v ->piece. searchedRoute.add(v) }
         return routeMatrix
     }
 
@@ -184,13 +186,7 @@ println("Board.touch x:${position.x} y:${position.y}")
      */
     fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): MutableList<MutableList<Int>> {
         println("searchEffectiveRoute $piece")
-        val routeMatrix = mutableListOf<MutableList<Int>>()
-        horizontalIndexes.forEach {
-            val unitLine = mutableListOf<Int>()
-            verticalIndexes.forEach { unitLine.add(-1) }
-            routeMatrix.add(unitLine)
-
-        }
+        val routeMatrix = filledMatrix
         horizontalIndexes.forEach { x ->
             verticalIndexes.forEach { y ->
                 val square = Position(x, y)
@@ -198,12 +194,11 @@ println("Board.touch x:${position.x} y:${position.y}")
                 if (piece.searchedRouteOf(square) >= 0) stepEffect(piece, square, 0, routeMatrix)
             }
         }
-//        piece.effectiveRoute = routeMatrix
         return routeMatrix
     }
 
     /**
-     * 効果範囲探索中に一歩進んで再帰するけどこれ再帰しないほうが良い気がしてきた
+     * 効果範囲探索.一歩進んで再帰するけどこれ再帰しないほうが良い気がしてきた
      */
     private fun stepEffect(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: MutableList<MutableList<Int>>) {
         if (steps > 0) {
@@ -212,7 +207,6 @@ println("Board.touch x:${position.x} y:${position.y}")
         val orientations = piece.effectiveOrientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
-//            println("effect to $targetPos")
             //枠内
             if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
@@ -269,7 +263,7 @@ println("Board.touch x:${position.x} y:${position.y}")
         move.moveCancel()
         this.owner = owner
 //一度全部の駒を使用不可にしてから手番の人の駒を有効にする
-        pieceList.forEach { it.action(Piece.ActionPhase.DISABLED,Piece.ActionEvent.Disabled) }
+        pieceList.forEach { it.action(Piece.ActionPhase.DISABLED, Piece.ActionEvent.Disabled) }
         owner.pieceList.forEach { it.ready() }
     }
 
@@ -278,57 +272,53 @@ println("Board.touch x:${position.x} y:${position.y}")
      */
     fun deselectPiece() {
         println("deselectPiece")
-        //移動範囲のリセットってやるべきかなあ？
         move.clear()
-    }
-
-    /**
-     * プレイヤー。盤の所有者に使う
-     */
-    class Player {
-        val pieceList = mutableListOf<Piece<*, *>>()
     }
 
     /**
      * 対象の枡に自分以外の駒があるときにtrue
      */
-    private fun isAnotherPiece(piece: Piece<*, GROUND>, x: Int, y: Int): Boolean {
-        val target = pieceMatrix[x][y]
-        return /*piece.effectiveRoute[x][y] > 0 && ルート内かどうかは今更見なくていいかなあ*/ target != null && target != piece
-    }
+    private fun isAnotherPiece(piece: Piece<*, GROUND>,position:Position): Boolean =piece(position) != null && piece(position) != piece
 
     /**
      * 対象の位置から移動経路をさかのぼり攻撃場所を探す。 経路中に無いときには攻撃可能位置を探す
      * 単にLastを出力しないのは射程２の武器のため
      */
-    fun <T1> findAttackPos(piece: Piece<T1, GROUND>, position: Position): Position? {
-        println("findAttackPos $position")
+    fun <T1> findActionPos(piece: Piece<T1, GROUND>, targetPos: Position, sourcePos: Position? = null): Position? {
+        //現在値が攻撃可能なら探さなくていいんだよな…
+        println("findActionPos $targetPos")
         val orientations = piece.effectiveOrientations()
         var attackPos: Position? = null
         var lastIndexOfAttackPos = -1
 
         orientations.forEach { v ->
             //一歩手前を逆算
-            val pos = moveWithOrientation(v, position, -1)
+            val pos = moveWithOrientation(v, targetPos, -1)
             val lastIndexOfPos = move.routeStack.lastIndexOf(pos)
+            println("$pos -> $targetPos $lastIndexOfPos")
             if (lastIndexOfPos > lastIndexOfAttackPos) {
                 lastIndexOfAttackPos = lastIndexOfPos
                 attackPos = pos
             }
+            //スタックになく、現在地から攻撃できるときは現在値とする。これはスタックにあったら上書きされる
+            if (attackPos == null && sourcePos == pos) {
+                attackPos = sourcePos
+            }
         }
-        return attackPos ?: findAttackablePos(piece, position)
+
+        return attackPos ?: findEffectivePos(piece, targetPos)
     }
 
     /**
      * 対象の位置へ攻撃できる場所を探す。移動経路の逆算はよく考えたら必要ないな
      */
-    private fun <T1> findAttackablePos(piece: Piece<T1, GROUND>, position: Position): Position? {
-        println("findAttackPos $position")
+    private fun <T1> findEffectivePos(piece: Piece<T1, GROUND>, position: Position): Position? {
+        println("findActionPos $position")
         val orientations = piece.effectiveOrientations()
         //できるだけ直線に動くアルゴリズムが欲しいな…
         val attackableOrientation = orientations.find { v ->
             val pos = moveWithOrientation(v, position, -1)
-            piece.searchedRouteOf(pos)> -1
+            piece.searchedRouteOf(pos) > -1
         }
         return if (attackableOrientation != null) moveWithOrientation(attackableOrientation, position, -1) else null
     }
@@ -337,11 +327,9 @@ println("Board.touch x:${position.x} y:${position.y}")
      * 盤上から駒を取り除く.とりあえず駒と場所が一致しているか判定するか？どちらかだけでいいことにするか？
      */
     fun removePiece(piece: Piece<*, *>, position: Position) {
+        println("removePiece $piece $position")
         pieceMatrix[position.x][position.y] = null
-        //駒を取り除くときに駒側からアクションするか？不要な気がしてきた
-        piece.action(Piece.ActionPhase.REMOVED)
-        //死んだときにやることが出来たら追加しないとな
-//        piece.uiPiece.actor.remove()
+        piece.remove()
     }
 
 }

@@ -228,6 +228,9 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     AtkDefPush(SkillName.AtkDefPush) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkDefBonus(battleUnit, lv + 2, 1, this)
     },
+    AtkResPush(SkillName.AtkResPush) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkResBonus(battleUnit, lv + 2, 1, this)
+    },
     AtkSpdSolo(SkillName.AtkSpdSolo, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) atkSpd(battleUnit, lv * 2, this) else battleUnit
     },
@@ -246,6 +249,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     //ラピュタ向けは機能しなくてもいいよな…
     ArDAtkRes(SkillName.ArDAtkRes, spType = SpType.BASE60),
     ArDSpdDef(SkillName.ArDSpdDef, spType = SpType.BASE60),
+    ArDDefRes(SkillName.ArDDefRes, spType = SpType.BASE60),
     ArOAtkDef(SkillName.ArOAtkDef, spType = SpType.BASE60),
     ArOAtkSpd(SkillName.ArOAtkSpd, spType = SpType.BASE60),
     DefiantAtk(SkillName.DefiantAtk, spType = SpType.BASE40) {

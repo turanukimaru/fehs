@@ -175,17 +175,23 @@ enum class Lance(override val jp: SkillName, override val type: SkillType, overr
     LuncheonLance(SkillName.LuncheonLance, SkillType.LANCE, 10, SteelLance, SpType.SILVER) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkDef(battleUnit, 4, this)
     },
-    LuncheonLance2(SkillName.LuncheonLance2, SkillType.LANCE, 14, FlashingCarrot, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+    LuncheonLance2(SkillName.LuncheonLance2, SkillType.LANCE, 14, LuncheonLance, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkDef(battleUnit, 4, this)
     },
     KriemHild(SkillName.KriemHild, SkillType.LANCE, 16, SilverLance, SpType.LEGEND_W) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0 && enemy.effectiveRange == 2)  antiFollowup(counterAllRange(battleUnit, this), enemy, this) else battleUnit
     },
-    LoftyBlossoms(SkillName.LoftyBlossoms, SkillType.LANCE, 10, FlashingCarrot, SpType.SILVER) {
+    LoftyBlossoms(SkillName.LoftyBlossoms, SkillType.LANCE, 10, SteelLance, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
     },
-    LoftyBlossoms2(SkillName.LoftyBlossoms2, SkillType.LANCE, 14, FlashingCarrot, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+    LoftyBlossoms2(SkillName.LoftyBlossoms2, SkillType.LANCE, 14, LoftyBlossoms, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
+    },
+    BarrierLance(SkillName.BarrierLance, SkillType.LANCE, 10, SteelLance, SpType.SILVER) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, 7, this)
+    },
+    BarrierLance2(SkillName.BarrierLance2, SkillType.LANCE, 14, BarrierLance, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, 7, this)
     },
     ;
 

@@ -726,6 +726,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     FruitOfIdunn("イズンの果実", "Fruit of Iðunn", "Fruit of Iðunn"),
     AtkSpdPush("攻撃速さの渾身", "Atk/Spd Push", "Atk/Spd Push"),
     AtkDefPush("攻撃守備の渾身", "Atk/Def Push", "Atk/Def Push"),
+    AtkResPush("攻撃魔防の渾身", "Atk/Res Push", "Atk/Res Push"),
     ShellLance("貝殻の槍", "Shell Lance", "Shell Lance"),
     ShellLance2("貝殻の槍＋", "Shell Lance+", "Shell Lance+"),
     DullClose("強化無効・近距離", "Dull Close", "Dull Close"),
@@ -991,6 +992,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     Sahrimnir("セーフリムニル", "Sæhrímnir", "Sæhrímnir"),
     ArDAtkRes("攻撃魔防の防城戦", "AR-D Atk/Res", "AR-D Atk/Res"),
     ArDSpdDef("速さ守備の防城戦", "AR-D Spd/Def", "AR-D Spd/Def"),
+    ArDDefRes("守備魔防の防城戦", "AR-D Def/Res", "AR-D Def/Res"),
     ArOAtkDef("攻撃守備の攻城戦", "AR-O Atk/Def", "AR-O Atk/Def"),
     ArOAtkSpd("攻撃速さの攻城戦", "AR-O Atk/Spd", "AR-O Atk/Spd"),
     Eldhrimnir("エルドフリムニル", "Eldhrímnir", "Eldhrímnir"),
@@ -1021,6 +1023,12 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     BouquetBow2("祝福の花の弓＋","Bouquet Bow+","Bouquet Bow+"),
 DivineBreath("神竜王のブレス","Divine Breath","Divine Breath"),
 DivineFang("神竜王の牙","Divine Fang","Divine Fang"),
+    OraclesBreath("神託のブレス","Oracle's Breath",""),
+    InfantryBreath("歩行の呼吸","InfantryBreath",""),
+    BarrierLance("バリアの槍","Barrier Lance",""),
+    BarrierLance2("バリアの槍＋","Barrier Lance+",""),
+    BunnyFang("タグエルの子の爪牙","Bunny Fang",""),
+    TaguelFang("タグエルの爪牙","Taguel Fang",""),
 ;
 
     /**

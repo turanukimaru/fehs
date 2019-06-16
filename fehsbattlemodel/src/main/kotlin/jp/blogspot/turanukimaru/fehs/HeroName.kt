@@ -516,7 +516,14 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     タニス__花嫁_("タニス（花嫁）", "Tanith (Bridal)", "Tanith (Bridal)"),
     シグルーン__花嫁_("シグルーン（花嫁）", "Sigrun (Bridal)", "Sigrun (Bridal)"),
     ルイーズ__花嫁_("ルイーズ（花嫁）", "Louise (Bridal)", "Louise (Bridal)"),
-    ナーガ("ナーガ","Naga","Naga"),
+    ナーガ("ナーガ", "Naga", "Naga"),
+
+    ベルベット("ベルベット", "Panne", ""),
+    ンン("ンン", "Nah", ""),
+    デジェル("デジェル", "Kjelle", ""),
+    シャンブレー("シャンブレー", "Yarne", ""),
+    ブレディ("ブレディ", "Brady", ""),
+    シンシア("シンシア", "Cynthia", ""),
     ;
 
     /**

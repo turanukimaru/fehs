@@ -1,9 +1,8 @@
 package jp.blogspot.turanukimaru.fehs
 
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import jp.blogspot.turanukimaru.board.*
+import jp.blogspot.turanukimaru.board.UiBoard
+import jp.blogspot.turanukimaru.board.UiPiece
 
 /**
  * 駒UIの拡張。Listenerがアクションを受け付けるのでこれ要らなさそう

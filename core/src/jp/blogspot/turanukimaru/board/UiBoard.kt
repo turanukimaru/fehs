@@ -31,15 +31,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     data class Position(val x: Int, val y: Int)
 
-    /**
-     * 10の位の数字を表示するためのアクション。桁数を増やすなら配列の配列にしないとなあ
-     */
-    val sequenceNumberB = mutableListOf<SequenceAction>()
-    /**
-     * 1の位の数字を表示するためのアクション
-     */
-    val sequenceNumberS = mutableListOf<SequenceAction>()
-
     val numberRegions = mutableListOf<TextureRegion>()
 
     val uiPieceList = mutableListOf<UiPiece>()
@@ -87,6 +78,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         board.touch(xyToPosition(x, y))
         return result
     }
+
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
         //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
@@ -135,9 +127,9 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         if (board.move.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
-                    if (board.move.selectedPiece!!.searchedRouteOf(Position(x,y)) >= 0) {
+                    if (board.move.selectedPiece!!.searchedRouteOf(Position(x, y)) >= 0) {
                         fillSquare(x, y, UiBoard.FillType.MOVABLE)
-                    } else if (board.move.selectedPiece!!.effectiveRouteOf(Position(x,y)) >= 0) {
+                    } else if (board.move.selectedPiece!!.effectiveRouteOf(Position(x, y)) >= 0) {
                         fillSquare(x, y, UiBoard.FillType.ATTACKABLE)
                     }
                 }

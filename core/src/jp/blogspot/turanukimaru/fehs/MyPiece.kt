@@ -1,11 +1,12 @@
 package jp.blogspot.turanukimaru.fehs
 
 import jp.blogspot.turanukimaru.board.*
+import java.lang.RuntimeException
 
 /**
  * 駒を継承してそのゲームにおける駒のルールを記述。画像としての処理もとりあえずここ。Actionは括りだすべきか？
  */
-class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Board.Player, actionListener: ActionListener) : Piece<BattleUnit, Ground>(containUnit, board, owner,actionListener) {
+class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Player, actionListener: ActionListener) : Piece<BattleUnit, Ground>(containUnit, board, owner, actionListener) {
     var fightResult: FightResult? = null
     override fun isStoppable(otherUnit: BattleUnit?): Boolean = otherUnit == null
 
@@ -29,7 +30,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         }
     }
 
-    override fun effectiveOrientations(): kotlin.Array<Int> {
+    override fun effectiveOrientations(): Array<Int> {
         //武器の射程によって変わってくるな。よく考えたら補助と攻撃じゃ範囲が違うわ・・・補助にしてもりぶろーは射程2だし・・・
         return arrayOf(0, 2, 4, 6)
         //return arrayOf(1, 3, 5, 7, 8, 12, 16, 20)
@@ -75,7 +76,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     private fun showActionResult(position: UiBoard.Position): Boolean {
-        val target = board.pieceMatrix[position.x][position.y]
+        val target = board.piece(position)
         //敵ユニットに重ねたときは戦闘結果を計算して表示
         if (effectiveRouteOf(position) > 0 && target != null && target != board.move.touchedPiece && target.owner != owner) {
             //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
@@ -111,7 +112,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
 
     //行動。相手がいるかは判定済み。
     override fun boardActionCommit(move: Move<BattleUnit, Ground>, position: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>?): Boolean {
-        this.actionPhase = actionTouchedPoint(position, targetPiece)
+        actionTouchedPoint(position, targetPiece)
         return true
     }
 
@@ -123,24 +124,23 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         println("charPosition: $position")
         println("charPosition: " + board.positionIsOnBoard(position))
         println("routeStack: $board.routeStack")
+        println("${board.move.oldPosition} ${effectiveRouteOf(position)} $target ${target == this}")
 
         //敵は攻撃。味方はアシスト。アシストのロジックまだ考えてないけどな！
         if (board.move.oldPosition != position && effectiveRouteOf(position) > 0 && target != null && target != this) {
 //戦闘アクションは流石にここで登録してもいい気がするが…いやダメか…Updateで読む方法考えないとな
-            val attackPos = board.findAttackPos(this, position)
+            val attackPos = board.findActionPos(this, position)
             if (attackPos != null) {
                 //敵味方判別して行動。攻撃なら一歩手前に移動するし移動補助ならそれが発動する
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-                println(board.pieceMatrix[position.x][position.y])
+                println(board.piece(position))
                 println("attack to $position")
                 println("attack from $attackPos")
                 println(board.move.routeStack)
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-                //とりあえずノーモーションで枡に戻してからアニメさせているが、一度不通に戻すべきかなあ
-//                board.actionSetToPosition(this, attackPos)
-
-                fightResult = FightResult(attackPos, position, containUnit.fight(target.containUnit))
-//                target.fightResult = fightResult
+                fightResult = FightResult(containUnit, attackPos, target.containUnit, position, containUnit.fight(target.containUnit))
+                action(ActionPhase.ACTED, ActionEvent.Attack, fightResult)
+target.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
                 //HP減らすのきついな…表示は分けるか…？
                 containUnit.hp = fightResult!!.attackResults.last().source.hp
                 target.containUnit.hp = fightResult!!.attackResults.last().target.hp
@@ -151,14 +151,14 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 if (target.containUnit.hp == 0) {
                     board.removePiece(target, position)
                 }
-                board.deselectPiece()
+// 消すのは移動終わってから
+//                this.existsPosition = attackPos
+//                this.newPosition = null
 
                 board.updateInfo = { _ -> true }
                 return ActionPhase.ACTED
             } else {
-                throw RuntimeException("lost attackpos to $position")
-                //攻撃位置が見つからなかった場合は戻る
-                //return ActionPhase.MOVING
+                throw RuntimeException("ここに来るはずないし")
             }
         }
         return ActionPhase.READY
@@ -167,4 +167,4 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     override fun toString(): String = "${containUnit.armedHero.name}"
 }
 
-data class FightResult(val attackPos: UiBoard.Position, val targetPos: UiBoard.Position, val attackResults: List<AttackResult>)
+data class FightResult(val attacker : BattleUnit, val attackPos: UiBoard.Position, val target : BattleUnit, val targetPos: UiBoard.Position, val attackResults: List<AttackResult>)

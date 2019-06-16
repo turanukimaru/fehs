@@ -21,8 +21,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
-import jp.blogspot.turanukimaru.board.Board
 import jp.blogspot.turanukimaru.board.ActionListener
+import jp.blogspot.turanukimaru.board.Board
+import jp.blogspot.turanukimaru.board.Player
 
 /**
  * ゲーム本体。LibGDXサンプルソースがところどころ残ってるので削除せねば...
@@ -51,8 +52,8 @@ class MyMyGdxGame : ApplicationAdapter() {
 
     var fontGenerator: FreeTypeFontGenerator? = null
 
-    var user = Board.Player()
-    var enemy = Board.Player()
+    var user = Player()
+    var enemy = Player()
 
     val battleGround = arrayOf(
             arrayOf(Ground.P, Ground.P, Ground.W, Ground.R, Ground.M, Ground.M),
@@ -146,8 +147,8 @@ class MyMyGdxGame : ApplicationAdapter() {
         val group = Group()
         group.addActor(medjedImageA)
         group.addActor(medjedImageB)
-        val listener =  ActionListener(group, myGame.uiBoard)
-        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user,listener)
+        val listener = ActionListener(group, myGame.uiBoard)
+        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user, listener)
         val uiPiece = MyUiPiece(group, myGame.uiBoard, piece1)
         user.pieceList.add(piece1)
         group.addListener(uiPiece)
@@ -245,13 +246,12 @@ class MyMyGdxGame : ApplicationAdapter() {
         bitmapFont!!.draw(batch, "dx:${hand.dx}", 50f, 510f)
         bitmapFont!!.draw(batch, "dy:${hand.dy}", 50f, 540f)
         bitmapFont!!.draw(batch, "holdStart:${hand.holdStart}", 50f, 570f)
-        bitmapFont!!.draw(batch, "holdNow:${hand.holdNow}", 50f, 600f)
         bitmapFont!!.draw(batch, "oldPosition:${hand.oldPosition}", 50f, 630f)
         bitmapFont!!.draw(batch, "newPosition:${hand.newPosition}", 50f, 660f)
 //        bitmapFont!!.draw(batch, "touched:  ${myGame.board.move.touchedPiece}\nデバッグ用文字", 50f, 230f)
-//        bitmapFont!!.draw(batch, "selected: ${myGame.board.move.selectedPiece}\nデバッグ用文字", 50f, 260f)
+//        bitmapFont!!.draw(batch, "select: ${myGame.board.move.selectedPiece}\nデバッグ用文字", 50f, 260f)
         myGame.board.pieceList.forEach {
-            bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.charPosition!!.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
+        if(it.charPosition != null)    bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }
         batch!!.end()
         myGame.uiBoard.libUpdate()

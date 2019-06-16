@@ -3,7 +3,7 @@ package jp.blogspot.turanukimaru.sample
 import java.util.*
 
 data class Sein<T>( // T が若干鬱陶しいが他の型と区別する役に立つ
-        val enum : T? = null,// Sein から enum を復元するときに使う。enum に戻す予定がないなら不要。
+        val enum: T? = null,// Sein から enum を復元するときに使う。enum に戻す予定がないなら不要。
         val category: Int = 0,
         val key: Int = 0,
         val label: String = "",
@@ -42,5 +42,5 @@ data class Sein<T>( // T が若干鬱陶しいが他の型と区別する役に�
      */
     override fun equals(other: Any?): Boolean = other is Sein<*> && other.category == this.category && other.key == this.key
 
-    override fun hashCode(): Int =category.hashCode() + key.hashCode()
+    override fun hashCode(): Int = category.hashCode() + key.hashCode()
 }

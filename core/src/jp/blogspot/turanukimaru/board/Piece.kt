@@ -1,12 +1,13 @@
 package jp.blogspot.turanukimaru.board
 
 import jp.blogspot.turanukimaru.board.UiBoard.Position
+import jp.blogspot.turanukimaru.fehs.FightResult
 
 
 /**
  * 論理駒。ゲームのルールによらない部分
  */
-open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Board.Player, private val actionListener: ActionListener) {
+open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Player, private val actionListener: ActionListener) {
 
     /**
      * 向き。駒の向きで移動する方向が変わるときに使う予定
@@ -19,17 +20,12 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     var actionPhase = ActionPhase.DISABLED
 
     //アクション。基本的にはアニメの発声しないアクションだが。うーん難しい。
-    fun action(actionPhase: ActionPhase, actionEvent: ActionEvent = ActionEvent.None, target: Position? = null) {
+    fun action(nextPhase: ActionPhase, actionEvent: ActionEvent = ActionEvent.None, fightResult: FightResult? = null) {
         //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
-        actionListener.uiAction(actionEvent, actionPhase, charPosition)
-        //これもう要らんか
-        this.actionPhase = actionPhase
+        actionListener.uiAction(actionEvent, nextPhase, charPosition, fightResult)
+        this.actionPhase = nextPhase
     }
 
-    /**
-     * 画面表示用アクション。ここで登録してUiが読み取り／読み取った証としてNoneにする。done()関数でも作ったほうがいいかな
-     */
-//    var uiAction: ActionEvent = ActionEvent.None
     /**
      * 盤上の位置。表示用の位置。移動先を優先して出す
      */
@@ -48,14 +44,11 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 駒の移動可能範囲
      */
-  private  var searchedRoute = mutableListOf<MutableList<Int>>()
+    private var searchedRoute = mutableListOf<MutableList<Int>>()
     /**
      * 駒の移動範囲から更に効果を及ぼすことのできる範囲
      */
-   private var effectiveRoute: MutableList<MutableList<Int>> = mutableListOf<MutableList<Int>>()
-
-    init {
-    }
+    private var effectiveRoute: MutableList<MutableList<Int>> = mutableListOf<MutableList<Int>>()
 
     fun effectiveRouteOf(position: Position): Int {
         if (effectiveRoute.size == 0) {
@@ -153,7 +146,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * 移動中。Positionを一つにしてHandに管理責任を持たせるかこっちでもnewPositionを持つか…
+     * 移動中。
      */
     open fun boardMove(move: Move<UNIT, GROUND>, position: Position): Boolean {
         val targetRoute = searchedRoute[position.x][position.y]
@@ -167,7 +160,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 移動確定。位置を更新して行動後状態にする
      */
-    open fun boardMoveCommit(move: Move<UNIT, GROUND>, position: Position): Boolean {
+    fun boardMoveCommit(move: Move<UNIT, GROUND>, position: Position? = newPosition): Boolean {
+        println("ここは？…")
         this.existsPosition = position
         this.newPosition = null
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)
@@ -176,7 +170,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         return true
     }
 
-private    fun clearRoute(){
+    private fun clearRoute() {
+        println("なぜかルートがクリアされてない…")
         searchedRoute.clear()
         effectiveRoute.clear()
     }
@@ -187,8 +182,6 @@ private    fun clearRoute(){
      * upのタイミングじゃないとダメか？
      */
     fun touchDown(): Boolean {
-//        board.move.touchedPiece = this
-//        board.move.holdStart = Date().time
         return touched()
     }
 
@@ -248,7 +241,7 @@ private    fun clearRoute(){
         ATTACKED,
         //行動確定後
         ACTED,
-        //取り除いた状態。PostionがNullにもなっているはず
+        //取り除いた状態。PositionがNullにもなっているはず
         REMOVED,
     }
 
@@ -256,30 +249,32 @@ private    fun clearRoute(){
      * この駒を行動可能にする。ターン開始時に呼ばれる
      */
     fun ready() {
-        print("READY!! ")
-        println(this)
-        actionListener.uiAction(ActionEvent.Ready, ActionPhase.READY, charPosition)
-        actionPhase = ActionPhase.READY
+        println("READY!! $this")
+        action(ActionPhase.READY, ActionEvent.Ready)
     }
 
     fun putOn(x: Int, y: Int) {
         existsPosition = Position(x, y)
-        action(ActionPhase.PUTTED,ActionEvent.Put)
+        action(ActionPhase.PUTTED, ActionEvent.Put)
     }
 
     fun startPiece(xyToPosition: Position) {
-        board.move.startPiece(this, xyToPosition)
+        board.move.toucheStart(this, xyToPosition)
     }
 
     fun moveCancel() {
-        println("呼ばれてるはzなんだが")
         clearRoute()
         newPosition = null
         action(ActionPhase.READY, ActionEvent.MoveToCharPosition)
     }
 
-    fun selected() {
+    fun select() {
         action(ActionPhase.MOVING, ActionEvent.Selected)
+    }
+
+    fun remove() {
+        existsPosition = null
+        action(ActionPhase.REMOVED)
     }
 
     /**
@@ -306,6 +301,14 @@ private    fun clearRoute(){
          * アクション中。Updateが走らない
          */
         Selected,
+        /**
+         * 戦闘とかのアクション中。Updateが走らない
+         */
+        Attack,
+        /**
+         * 戦闘とかのアクション中。Updateが走らない
+         */
+        Attacked,
         /**
          * 最初に画面上に配置
          */

@@ -85,6 +85,11 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
     DivineBreath(SkillName.DivineBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, HandmaidMath.min(battleUnit.adjacentUnits * 3, 9), this)
     },
+    OraclesBreath(SkillName.OraclesBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+        //本来はバフがかかってるとき。…いや行軍はかかってるだろうしデフォルトで常に追撃可能でよくね
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) followupable(battleUnit, 10, this) else battleUnit
+    },
 
     ;
 

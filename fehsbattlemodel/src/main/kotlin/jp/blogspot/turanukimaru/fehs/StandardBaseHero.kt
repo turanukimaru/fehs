@@ -1019,11 +1019,23 @@ object StandardBaseHero {
                 Lance.LoftyBlossoms2, Assist.HarshCommand2, null, SkillA.SwiftSparrow.lv(2), SkillB.ChillAtk.lv(3), SkillC.FortifyFliers.lv(3))
         createItem(HeroName.シグルーン__花嫁_, 1, WeaponType.SWORD, MoveType.FLIER, 5, 16, 7, 12, 5, 7, g45, g55, g60, g50, g55,
                 Sword.CakeCutter2, Assist.ArdentSacrifice, null, SkillA.ArDSpdDef.lv(3), null, SkillC.AirOrders.lv(3))
-        createItem(HeroName.ルイーズ__花嫁_, 0, WeaponType.BOW, MoveType.CAVALRY,  4, 17, 7, 8, 4, 8, g50, g55, g60, g30, g50,
+        createItem(HeroName.ルイーズ__花嫁_, 0, WeaponType.BOW, MoveType.CAVALRY, 4, 17, 7, 8, 4, 8, g50, g55, g60, g30, g50,
                 Bow.BouquetBow2, Assist.ReciprocalAid, null, SkillA.AtkSpdBond.lv(3), null, SkillC.HoneCavalry)
-              createItem(HeroName.ナーガ, 2, WeaponType.DRAGON, MoveType.FLIER,  5, 18, 6, 10, 9, 4, g45, g55, g60, g55, g50,
-                        Breath.DivineBreath, null, Special.Luna, SkillA.ArOAtkSpd.lv(3), SkillB.ChillSpd.lv(3), SkillC.DivineFang)
+        createItem(HeroName.ナーガ, 2, WeaponType.DRAGON, MoveType.FLIER, 5, 18, 6, 10, 9, 4, g45, g55, g60, g55, g50,
+                Breath.DivineBreath, null, Special.Luna, SkillA.ArOAtkSpd.lv(3), SkillB.ChillSpd.lv(3), SkillC.DivineFang)
 
+        createItem(HeroName.ベルベット, 2, WeaponType.BEAST, MoveType.CAVALRY, 3, 17, 7, 10, 8, 4, g55, g50, g55, g50, g45,
+                Beast.TaguelFang, null, Special.Astra, null, SkillB.ChillSpd.lv(3), SkillC.DefSmoke.lv(3))
+        createItem(HeroName.ンン, 1, WeaponType.DRAGON, MoveType.INFANTRY, 5, 18, 6, 6, 5, 6, g60, g65, g45, g75, g60,
+                Breath.OraclesBreath, null, Special.Bonfire, SkillA.BonusDoubler.lv(3), SkillB.QuickRiposte.lv(3), SkillC.InfantryBreath.lv(3))
+        createItem(HeroName.デジェル, 2, WeaponType.LANCE, MoveType.ARMORED, 5, 23, 10, 5, 11, 6, g55, g70, g40, g60, g50,
+                Lance.BarrierLance2, null, Special.DraconicAura, SkillA.ArDDefRes.lv(3), SkillB.BoldFighter.lv(3), null)
+        createItem(HeroName.シャンブレー, 3, WeaponType.BEAST, MoveType.CAVALRY, 5, 18, 9, 7, 8, 4, g50, g60, g60, g55, g30,
+                Beast.BunnyFang, null, Special.Galeforce, SkillA.AtkSpdSolo.lv(3), SkillB.EscapeRoute.lv(3), SkillC.OddSpdWave.lv(3))
+        createItem(HeroName.ブレディ, 0, WeaponType.STAFF, MoveType.INFANTRY, 5, 19, 9, 8, 4, 6, g50, g55, g55, g45, g50,
+                Staff.Slow2, Assist.Recover2, Special.HeavenlyLight, SkillA.AtkResPush.lv(3), null, SkillC.InfantryRush.lv(3))
+        createItem(HeroName.シンシア, 2, WeaponType.LANCE, MoveType.FLIER, 3, 16, 8, 11, 5, 7, g50, g55, g60, g50, g50,
+                Lance.FiresweepLance2, Assist.Shove, null, null, SkillB.SpdDefLink.lv(3), SkillC.DriveAtk.lv(2))
 //              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                        Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

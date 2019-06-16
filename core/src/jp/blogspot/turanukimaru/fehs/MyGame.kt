@@ -10,7 +10,7 @@ import jp.blogspot.turanukimaru.board.UiBoard
 /**
  * Created by turanukimaru on 2018/03/15.
  */
-class MyGame( stage: Stage,  batch: SpriteBatch,  liner: ShapeRenderer,  bitmapFont: BitmapFont,  localWidth: Float,  localHeight: Float) {
+class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float) {
     private val footerHeight = 80f
     private val headerHeight = 160f
     private val marginLeft = 0f

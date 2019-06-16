@@ -3,8 +3,6 @@ package jp.blogspot.turanukimaru.board
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 
 /**
@@ -17,20 +15,15 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
                     */
                    open var piece: Piece<*, *>
 ) : ClickListener() {
-    /**
-     * 中に含むActorのリスト。アニメーションで体の部位を動かすのに使うのだがボーンモデル別に作るべき
-     */
-    val actors = mutableListOf<Actor>()
-
 
     /**
-     * その駒に触れてる最中かどうか。ドラッグ中とPiece側から状態を取得するために使う
+     * その駒に触れてる最中かどうか。ドラッグ中とPiece側から状態を取得するために使う。がなくなりそう…
      */
     var touched = TouchPhase.NONE
 
     /**
      * ドラッグを駒に伝える
-     * ドラッグはクリックではない.x,yは移動量。//駒の動きを駒に書くのは妥当か//無効の時に動かさないのどうすっかなこれ
+     * ドラッグはクリックではない.x,yは移動量。ただこれって枡と同じサイズじゃないと想定通りに動かないんだよな。ここにあるべきじゃないか…
      */
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
@@ -53,21 +46,19 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         }
         touched = TouchPhase.DRAG
         val touchedSquare = stackTouchedRoute()
-       piece.touchDragged(touchedSquare, x, y)
+        piece.touchDragged(touchedSquare, x, y)
     }
 
-   private fun stackTouchedRoute(): UiBoard.Position {
+    private fun stackTouchedRoute(): UiBoard.Position {
         val touchedSquare = uiBoard.touchedPosition()
         stackRoute(touchedSquare)
         return touchedSquare
     }
 
     //対象の枡が通れるときはスタックに積む…とまれるときか？ともかくこれは駒側主導ではあるが人の操作ではないわけでなんか分けたいなあ。通れる・泊まれるを判断するから無理か。
-  private  fun stackRoute(position: UiBoard.Position) {
+    private fun stackRoute(position: UiBoard.Position) {
         if (piece.searchedRouteOf(position) > 0) {
             uiBoard.board.move.stackRoute(position)
-        } else {
-            uiBoard.board.move.routeOut()
         }
     }
 
