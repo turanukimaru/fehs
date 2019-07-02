@@ -822,6 +822,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     Laevatein("レーヴァテイン", "Laevatein", "瑞瓦提恩"),
     RDuelFlying("赤の死闘・飛行", "R Duel Flying", "赤色死鬥・飛行"),
     GDuelFlying("緑の死闘・飛行", "G Duel Flying", "綠色死鬥・飛行"),
+    RDuelInfantry("赤の死闘・歩行", "R Duel Infantry", "赤色死鬥・步行"),
     GDuelInfantry("緑の死闘・歩行", "G Duel Infantry", "綠色死鬥・步行"),
     CDuelInfantry("無の死闘・歩行", "C Duel Infantry", "無色死鬥・步行"),
     Byleistr("ビューレイスト", "Býleistr", "貝萊斯特"),
@@ -995,6 +996,7 @@ enum class SkillName(val jp: String, val us: String, val tw: String) {
     ArDDefRes("守備魔防の防城戦", "AR-D Def/Res", "AR-D Def/Res"),
     ArOAtkDef("攻撃守備の攻城戦", "AR-O Atk/Def", "AR-O Atk/Def"),
     ArOAtkSpd("攻撃速さの攻城戦", "AR-O Atk/Spd", "AR-O Atk/Spd"),
+    ArOSpdRes("速さ魔防の攻城戦", "AR-O Spd/Res", "AR-O Spd/Res"),
     Eldhrimnir("エルドフリムニル", "Eldhrímnir", "Eldhrímnir"),
     LuncheonLance("行楽の飾り槍", "Luncheon Lance", "Luncheon Lance"),
     LuncheonLance2("行楽の飾り槍＋", "Luncheon Lance+", "Luncheon Lance+"),
@@ -1029,7 +1031,17 @@ DivineFang("神竜王の牙","Divine Fang","Divine Fang"),
     BarrierLance2("バリアの槍＋","Barrier Lance+",""),
     BunnyFang("タグエルの子の爪牙","Bunny Fang",""),
     TaguelFang("タグエルの爪牙","Taguel Fang",""),
-;
+    TropicalTreats("","Tropical Treats",""),
+    TropicalTreats2("","Tropical Treats+",""),
+    Buoyboard("","Buoyboard",""),
+    Buoyboard2("","Buoyboard+",""),
+    MirrorImpact("鬼神明鏡の瞬撃", "Mirror Impact", "鬼神明鏡瞬擊"),
+    SandfortSpade("","Sandfort Spade",""),
+    SandfortSpade2("","Sandfort Spade+",""),
+    WorldseaWave("","Worldsea Wave",""),
+  ShorelineRake  ("","Shoreline Rake",""),
+    ShorelineRake2("","Shoreline Rake+",""),
+    ;
 
     /**
      * ロケールから対応する文字列を出す

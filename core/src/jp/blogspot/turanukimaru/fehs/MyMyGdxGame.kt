@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jp.blogspot.turanukimaru.board.ActionListener
-import jp.blogspot.turanukimaru.board.Board
 import jp.blogspot.turanukimaru.board.Player
 
 /**
@@ -102,15 +101,17 @@ class MyMyGdxGame : ApplicationAdapter() {
 
         camera = stage!!.camera
 
+        createStage()
+    }
+
+    private fun createStage() {
         myGame.uiBoard.stageTexture = loadTexture("map1.png")
 
-        //ダメージの数字はステージに追加して隠しておく。
-
+        //ダメージの数字はデフォルトで使うからどこかに入れておきたいな…
         val numberTexture = loadTexture("number.png")
         (0..9).forEach { i ->
             val region = TextureRegion(numberTexture, i * 51, 0, 51, 96)
             myGame.uiBoard.numberRegions.add(region)
-
         }
 
         //地形を盤面にコピー
@@ -126,14 +127,14 @@ class MyMyGdxGame : ApplicationAdapter() {
         turnendImage.addListener(object : ClickListener() {
             //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                println("pushed turnend")
-                turnend(myGame.board)
+                println("pushed turnEnd")
+                myGame.turnEnd()
             }
         })
         //どこでボタン管理するか考えないとなー
         stage!!.addActor(turnendImage)
 
-//一人目のキャラここから
+        //一人目のキャラここから
         //グループ作るのやばいな。重い。
         val medjedTexture = loadTexture("medjed.png")
         val regionA = TextureRegion(medjedTexture, 0, 0, 64, 64)
@@ -150,15 +151,11 @@ class MyMyGdxGame : ApplicationAdapter() {
         val listener = ActionListener(group, myGame.uiBoard)
         val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user, listener)
         val uiPiece = MyUiPiece(group, myGame.uiBoard, piece1)
-        user.pieceList.add(piece1)
         group.addListener(uiPiece)
         listener.actors.add(medjedImageA)
         listener.actors.add(medjedImageB)
-        myGame.board.put(piece1, 5, 0)
-        myGame.uiBoard.uiPieceList.add(uiPiece)
-        //この辺もっとスムーズにできるようにしないとな.スムーズというより1セットか。落とすとバグるかんな
-        myGame.uiBoard.stage.addActor(group)
-//ここまで。なお現在の一覧画面から移動するようにした奴は別スレッドなのでRealmにアクセスすると落ちる。別インスタンスなら生きてるかな？
+        myGame.put(piece1, 5, 0, uiPiece, group)
+        //ここまで。なお現在の一覧画面から移動するようにした奴は別スレッドなのでRealmにアクセスすると落ちる。別インスタンスなら生きてるかな？
 
         val lucinaTexture = loadTexture("lucina.png")
         val lucinaImage = Image(lucinaTexture)
@@ -166,11 +163,8 @@ class MyMyGdxGame : ApplicationAdapter() {
         imageDisposer.add(lucinaImage)
         val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.board, enemy, ActionListener(lucinaImage, myGame.uiBoard))
         val uiPiece2 = MyUiPiece(lucinaImage, myGame.uiBoard, piece2)
-        enemy.pieceList.add(piece2)
         lucinaImage.addListener(uiPiece2)
-        myGame.board.put(piece2, 1, 3)
-        myGame.uiBoard.uiPieceList.add(uiPiece2)
-        myGame.uiBoard.stage.addActor(lucinaImage)
+        myGame.put(piece2, 1, 3, uiPiece2, lucinaImage)
 
         val hectorTexture = loadTexture("hector.png")
         val hectorImage = Image(hectorTexture)
@@ -178,12 +172,11 @@ class MyMyGdxGame : ApplicationAdapter() {
         imageDisposer.add(hectorImage)
         val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.board, enemy, ActionListener(hectorImage, myGame.uiBoard))
         val uiPiece3 = MyUiPiece(hectorImage, myGame.uiBoard, piece3)
-        enemy.pieceList.add(piece3)
         hectorImage.addListener(uiPiece3)
-        myGame.board.put(piece3, 3, 3)
-        myGame.uiBoard.uiPieceList.add(uiPiece3)
-        myGame.uiBoard.stage.addActor(hectorImage)
-        myGame.board.initiative(user)
+        myGame.put(piece3, 3, 3, uiPiece3, hectorImage)
+        myGame.playerA = user
+        myGame.playerB = enemy
+        myGame.board.gameStart(user)
     }
 
     //ファイルからテクスチャ読み込み。実際には1ファイルに複数テクスチャを入れるので座標とかTextureのリストを返すとかの処理が必要になる
@@ -193,18 +186,6 @@ class MyMyGdxGame : ApplicationAdapter() {
         return texture
     }
 
-    /**
-     * ターンを終了して相手にターンを渡す
-     */
-    private fun turnend(board: Board<BattleUnit, Ground>): Boolean {
-        println("fire turnend!")
-        if (board.owner == user) {
-            board.initiative(enemy)
-        } else {
-            board.initiative(user)
-        }
-        return true
-    }
 
     private fun spawnRaindrop() {
         val raindrop = Rectangle()
@@ -243,15 +224,14 @@ class MyMyGdxGame : ApplicationAdapter() {
 //        buttons.forEach { b -> b.draw(batch, 100f) }
 
         val hand = myGame.board.move
-        bitmapFont!!.draw(batch, "dx:${hand.dx}", 50f, 510f)
-        bitmapFont!!.draw(batch, "dy:${hand.dy}", 50f, 540f)
-        bitmapFont!!.draw(batch, "holdStart:${hand.holdStart}", 50f, 570f)
-        bitmapFont!!.draw(batch, "oldPosition:${hand.oldPosition}", 50f, 630f)
-        bitmapFont!!.draw(batch, "newPosition:${hand.newPosition}", 50f, 660f)
+        bitmapFont!!.draw(batch, "dx:${myGame.uiBoard.dx}", 50f, 510f)
+        bitmapFont!!.draw(batch, "dy:${myGame.uiBoard.dy}", 50f, 540f)
+        bitmapFont!!.draw(batch, "from:${hand.moving.from}", 50f, 630f)
+        bitmapFont!!.draw(batch, "to:${hand.moving.to}", 50f, 660f)
 //        bitmapFont!!.draw(batch, "touched:  ${myGame.board.move.touchedPiece}\nデバッグ用文字", 50f, 230f)
 //        bitmapFont!!.draw(batch, "select: ${myGame.board.move.selectedPiece}\nデバッグ用文字", 50f, 260f)
         myGame.board.pieceList.forEach {
-        if(it.charPosition != null)    bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
+            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }
         batch!!.end()
         myGame.uiBoard.libUpdate()

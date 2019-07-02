@@ -8,7 +8,7 @@ import jp.blogspot.turanukimaru.fehs.FightResult
 import jp.blogspot.turanukimaru.fehs.SIDES
 
 /**
- * イベントを受け取って画面上の表示に変換するのが主な仕事。ゲーム内容に依存するので手が空いたらListenerにしたい。
+ * イベントを受け取って画面上の表示に変換するのが主な仕事。ゲーム内容に依存するので手が空いたらInterfaceにしたい。
  */
 open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard) {
 
@@ -20,13 +20,23 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 一回きりのアクション。
      */
-    private var actionEventNow: Piece.ActionEvent = Piece.ActionEvent.None
+    private var actionEventNow: ActionEvent = ActionEvent.None
 
     /**
      * ループ用アクション。actionEventNow中は無視される
      */
-    var actionPhase: Piece.ActionPhase = Piece.ActionPhase.START
+    var actionPhase: ActionPhase = ActionPhase.START
 
+
+    /**
+     * 場所直接指定。ドラッグ時に指に追従
+     */
+    private fun reset(position: UiBoard.Position) {
+        println(this)
+        actor.isVisible = true
+        actor.color.a = 1f//fadeout した後は 0
+        actionSetToPosition(position)
+    }
 
     /**
      * 場所直接指定。ドラッグ時に指に追従
@@ -35,7 +45,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
         println("MyUiPiece DRAG ${uiBoard.board.move}")
         actor.clearActions()
         actor.setPosition(actor.x + x, actor.y + y)
-        actionEventNow = Piece.ActionEvent.Direct//Direct中はUpdate時にアニメしない
+        actionEventNow = ActionEvent.Direct//Direct中はUpdate時にアニメしない
     }
 
     /**
@@ -46,30 +56,20 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     }
 
     /**
-     * 待機中の動作を入れたいのだが。基本的には Ready かつアクション中じゃなければいいだけか？
+     * 待機中の動作。基本的には Ready かつアクション中じゃなければいいだけか？
      */
     open fun update() {
         //アクション中は無視
-        if (actionEventNow != Piece.ActionEvent.None) return
+        if (actionEventNow != ActionEvent.None) return
 //        println("ActionListener update : $actionPhase")
         // Enum を直接オーバーライド出来たら面白いのだができなかった！
         when (actionPhase) {
-            Piece.ActionPhase.READY -> {
-//                println("readyAction() は呼ばれてるのに見た目が変わらんな…...呼ばれすぎだな")
-                readyAction()
-            }
-            Piece.ActionPhase.ACTED -> {//現在の位置に灰色で表示.アクションというかシーケンスの最後に移動したいところだけどややこしくなるからここのままのがいいか
-//                println("MyUiPiece ACTED ${uiBoard.board.move}")
-                actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f) }//これ灰色じゃねーな全部　r+g+b/3　にするのが正しいか？
-            }
-            Piece.ActionPhase.REMOVED -> {
-//                println("MyUiPiece ACTED ${uiBoard.board.move}")
-//                actors.forEach { a -> a.touchable = Touchable.disabled;a.sizeBy(0f) }//フェイドアウトさせたい…けどアクションに追加するほうが楽か？
-            }
-            else -> {//行動後の現在位置に表示。ずれてる場合は直接移動させる //問題か Position をどこからとってくるかが
-                println("MyUiPiece else ${uiBoard.board.move}")
-            }
-
+            ActionPhase.READY -> readyAction()
+            //現在の位置に灰色で表示.アクションというかシーケンスの最後に移動したいところだけどややこしくなるからここのままのがいいか
+            ActionPhase.ACTED -> actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f); }//これ灰色じゃねーな　r+g+b/3　にするのが正しいか？
+            ActionPhase.REMOVED -> println("おそらく不要。フェイドアウトは戦闘後アクションで書いてしまっている")
+            //行動後の現在位置に表示。ずれてる場合は直接移動させる //問題か Position をどこからとってくるかが
+            else -> println("MyUiPiece else ${uiBoard.board.move}")
         }
     }
 
@@ -89,9 +89,8 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 位置移動直接。アクションをキャンセルして移動差分を駒に登録
      */
-    private fun actionSetToPosition(position: UiBoard.Position?) {
+    private fun actionSetToPosition(position: UiBoard.Position) {
         println("actionSetToPosition")
-        if (position == null) return
         actor.clearActions()
         val finalX = uiBoard.squareXtoPosX(position.x)
         val finalY = uiBoard.squareYtoPosY(position.y)
@@ -101,44 +100,44 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * EndOfAnimationActionから呼ばれるコールバック
      */
-    fun uiActionDone() {
-        println("uiActionDone!")
-        println("uiActionDone!!")
-        println("uiActionDone!!!")
-//        touched = TouchPhase.NONE//RELEASE->NONEのはず
-        actionEventNow = Piece.ActionEvent.None
+    open fun actionDone() {
+        actionEventNow = ActionEvent.None
     }
 
-    fun uiAction(actionEvent: Piece.ActionEvent, next: Piece.ActionPhase, position: UiBoard.Position?, fightResult: FightResult? = null) {
+    /**
+     * リスナとして呼ばれるアクション通知
+     */
+    open fun action(actionEvent: ActionEvent, next: ActionPhase, position: UiBoard.Position?, fightResult: FightResult? = null) {
 //ActionEventを入れつつ次のフェイズを設定する。Actionが終了するまではUpdateがAction依存になるためPhaseはこのタイミングで変更しても大丈夫なはず
         actionEventNow = actionEvent
         actionPhase = next
         when (actionEvent) {
-            Piece.ActionEvent.MoveToCharPosition -> actor.addAction(actionMoveToPosition(position))//MoveToCharPositionの拡張メソッドにしたい
-            Piece.ActionEvent.Ready -> actor.addAction(actionMoveToPosition(position))//開始時に武器を構えるアクションにしたい
-            Piece.ActionEvent.Put -> actionSetToPosition(position)//時間おかずに移動させたい
-            Piece.ActionEvent.Selected -> readyAction()
-            Piece.ActionEvent.Disabled -> actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
-            Piece.ActionEvent.Attack -> {
-                actionSetToPosition(position)
+            ActionEvent.MoveToCharPosition -> actor.addAction(actionMoveToPosition(position))//MoveToCharPositionの拡張メソッドにしたかったがEnumは拡張できない…
+            ActionEvent.Reset -> reset(position!!)
+            ActionEvent.Ready -> actor.addAction(actionMoveToPosition(position))//いずれ開始時に武器を構えるアクションにしたい
+            ActionEvent.Put -> actionSetToPosition(position!!)
+            ActionEvent.Selected -> readyAction()
+            ActionEvent.Disabled -> actors.forEach { a -> a.setColor(1f, 1f, 1f, 1f) }
+            ActionEvent.Attack -> {
+                actionSetToPosition(position!!)
                 attackResultToSeq(fightResult!!, actionEvent)
             }
-            Piece.ActionEvent.Attacked -> {
-                actionSetToPosition(position)
+            ActionEvent.Attacked -> {
+                actionSetToPosition(position!!)//攻撃を受ける側にこれは実は要らないんだけどな
                 attackResultToSeq(fightResult!!, actionEvent)
             }
-            Piece.ActionEvent.Direct -> {
-            }//なにもしない
-            else -> {
-            }
+            ActionEvent.Direct -> println("直接操作中")//なにもしない
+            else -> println("今ここには何も来ないはずなのだが…")
         }
     }
 
-    private fun attackResultToSeq(fightResult: FightResult, isAttacker: Piece.ActionEvent) {
+    /**
+     * 戦闘結果からアクションを作る。攻撃側と受け側を分けるべきなんだろうが同時にアクションさせるシナリオ作成にはこっちのが楽なんだよな。どうせエディタができたら消える関数だし。
+     */
+    private fun attackResultToSeq(fightResult: FightResult, isAttacker: ActionEvent) {
         var attackCount = 0
         val sourceSeq = SequenceAction()
         val targetSeq = SequenceAction()
-        //ウンコみたいなコードだな。。。fightResultを配列からクラスに変更するべきか
         var targetDead = false
         var sourceDead = false
         for (result in fightResult!!.attackResults) {
@@ -162,11 +161,10 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
                 targetDead = true
             }
         }
-        sourceSeq.addAction(CallbackAction { true })
-        sourceSeq.addAction(EndOfAnimationAction(this, 0f))
-        sourceSeq.addAction(EndOfAnimationAction(this, 0f))
-        targetSeq.addAction(EndOfAnimationAction(this, 0f))
-        if (isAttacker == Piece.ActionEvent.Attack) {
+        sourceSeq.addAction(CallbackAction { true })//Callbackが機能しているかの確認用なのでこの行は不要
+        sourceSeq.addAction(EndOfAnimationAction(this, 0f, if (sourceDead) uiBoard.board.listener else null))
+        targetSeq.addAction(EndOfAnimationAction(this, 0f, if (targetDead) uiBoard.board.listener else null))
+        if (isAttacker == ActionEvent.Attack) {
             actor.addAction(sourceSeq)
             if (sourceDead) {
                 actor.touchable = Touchable.disabled
@@ -202,11 +200,10 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
         if (actors.size == 0) return
         println("start readyAction $actors")
 
-        actionEventNow = Piece.ActionEvent.Ready//棒立ちアニメ中、の意味
+        actionEventNow = ActionEvent.Ready//棒立ちアニメ中、の意味
         val base = actors[0]
         val face = actors[1]
         //clearしないでアクション追加するとめっちゃ落ちる。デフォルト位置に戻す処理もいるな
-//        actor.setPosition(uiBoard.squareXtoPosX(piece.charPosition!!.x), uiBoard.squareYtoPosY(piece.charPosition!!.y))
         base.setPosition(0f, 0f)
         face.setPosition(0f, 0f)
         actor.clearActions()

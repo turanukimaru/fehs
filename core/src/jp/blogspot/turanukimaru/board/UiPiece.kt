@@ -23,7 +23,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
 
     /**
      * ドラッグを駒に伝える
-     * ドラッグはクリックではない.x,yは移動量。ただこれって枡と同じサイズじゃないと想定通りに動かないんだよな。ここにあるべきじゃないか…
+     * ドラッグはクリックではない.x,yは移動量。ただこれって枡と同じサイズじゃないと想定通りに動かないんだよな。Boardに統一するべきだよなあ…
      */
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
@@ -39,13 +39,8 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
             println("!uiBoard.posIsOnBoard")
             return
         }
-        //ドラッグ判定に合わないときは無視
-        if (!uiBoard.board.move.dragging(x.toInt(), y.toInt())) {
-            println("!uiBoard.board.move.dragging")
-            return
-        }
         touched = TouchPhase.DRAG
-        val touchedSquare = stackTouchedRoute()
+        val touchedSquare = stackTouchedRoute()//TODO:これ移動しなきゃだめだな…
         piece.touchDragged(touchedSquare, x, y)
     }
 
@@ -85,7 +80,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         //本当はユニットの情報を表示するとかいろいろある
         if (!uiBoard.pieceActive) return result
 //駒に対する操作を始めたのを伝える
-        piece.startPiece(uiBoard.xyToPosition(x, y))
+        piece.moveStart(uiBoard.xyToPosition(x, y))
         actor.zIndex = 0
         touched = TouchPhase.TOUCH
         piece.touchDown()

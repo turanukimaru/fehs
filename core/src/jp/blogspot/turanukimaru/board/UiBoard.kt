@@ -63,6 +63,24 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     fun squareXtoPosX(x: Int) = x * squareWidth
 
     fun xyToPosition(x: Float, y: Float) = Position(posXtoSquareX(x), posYtoSquareY(y))
+    //ドラッグ判定用データ
+    var dx = 0
+    var dy = 0
+
+    /**
+     * update時に盤外に表示する関数。せっかく 返してるんだし優先順位でいいか
+     */
+    var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
+
+    private var infoRank = 0
+
+    fun setInfo(updateInfo: (uiBoard: UiBoard) -> Boolean, rank: Int) {
+        println("rank : $rank / infoRank : $infoRank")
+        if (rank in 1 until infoRank) return
+        this.updateInfo = updateInfo
+        infoRank = rank
+    }
+
     /**
      * 盤面がクリックされたときに起動する…のだがタッチとタッチアップが同じときはクリックと判定するので全体を覆うときは実質TouchUp
      * 挙動は時間でなくて指の移動距離を見てるので実際は使えないか？holdあるから使えないな…
@@ -73,6 +91,8 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+        dx = 0
+        dy = 0
         val result = super.touchDown(event, x, y, pointer, button)
         println("###ここにタッチ＆ドラッグ開始処理がいるっぽい###")
         board.touch(xyToPosition(x, y))
@@ -81,21 +101,26 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
-        //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
-        val touchUpOver = isOver(event?.listenerActor ?: return, x, y)
-        // Ignore touch up if the wrong mouse button.
-        if (touchUpOver && pointer == 0 && this.button != -1 && button != this.button) return
-        //trueのときはsuperでクリックが起動されている
-        if (!touchUpOver) {
-            board.move.drop(xyToPosition(x, y))
-        }
-        board.move.touchUp()
+//        //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
+//        val touchUpOver = isOver(event?.listenerActor ?: return, x, y)
+//        // Ignore touch up if the wrong mouse button.
+//        if (touchUpOver && pointer == 0 && this.button != -1 && button != this.button) return
+//        //trueのときはsuperでクリックが起動されている
+//        if (!touchUpOver) {
+//            board.move.drop(xyToPosition(x, y))
+//        }
+        board.move.touchUp()//elseにすべきか…？
+        dx = 0
+        dy = 0
 //        println("$event: InputEvent?, $x: Float, $y: Float, $pointer: Int, $button: Int")
     }
 
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
-
-        board.move.drag(xyToPosition(x, y))
+        super.touchDragged(event, x, y, pointer)
+        //チャタリング対策。だったけど意外とちゃたらんな。なくていいかも
+        dx += x.toInt()
+        dy += y.toInt()
+        if (dx > 14 || dx < -14 || dy > 14 || dy < -14) board.move.drag(xyToPosition(x, y))
     }
 
     init {
@@ -124,27 +149,23 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         }
         liner.end()
         //駒が選択されていたら移動範囲を表示する。モードを切り替えるならボード側に色情報を持たせる必要があるな
-        if (board.move.selectedPiece != null) {
+        if (board.move.moving.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
-                    if (board.move.selectedPiece!!.searchedRouteOf(Position(x, y)) >= 0) {
-                        fillSquare(x, y, UiBoard.FillType.MOVABLE)
-                    } else if (board.move.selectedPiece!!.effectiveRouteOf(Position(x, y)) >= 0) {
-                        fillSquare(x, y, UiBoard.FillType.ATTACKABLE)
+                    if (board.move.moving.selectedPiece!!.searchedRouteOf(Position(x, y)) >= 0) {
+                        fillSquare(x, y, FillType.MOVABLE)
+                    } else if (board.move.moving.selectedPiece!!.effectiveRouteOf(Position(x, y)) >= 0) {
+                        fillSquare(x, y, FillType.ATTACKABLE)
                     }
                 }
             }
             //ルートから外れたら掘りなおさないとなあ。移動力超えたらか？直線矢印で十分かなあ
             //This inspection reports any declarations that can be destructuredが出たらこう書ける
             board.move.routeStack.forEach { (x, y) ->
-                fillSquare(x, y, UiBoard.FillType.PASS)
+                fillSquare(x, y, FillType.PASS)
             }
         }
-//一部だけ動かす。…要らない気もしてきたな。 Board.OpPhase.ANIMATIONは操作を受け付けるかだけ見るほうがいいか？
-        when (opPhase) {
-            OpPhase.ACTIVE -> uiPieceList.forEach { it.libUpdate() }
-            OpPhase.ANIMATION -> uiPieceList.filter { it.piece.actionPhase == Piece.ActionPhase.ATTACK || it.piece.actionPhase == Piece.ActionPhase.ATTACKED }.forEach { it.libUpdate() }
-        }
+        uiPieceList.forEach { it.libUpdate() }
     }
 
     /**
@@ -208,7 +229,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     fun updateSpriteBatch(batch: SpriteBatch) {
         batch.draw(stageTexture, 0f, marginBottom)
         //情報更新。場合によってはクリッピング
-        let(board.updateInfo)
+        let(updateInfo)
     }
 
     /**

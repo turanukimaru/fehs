@@ -11,6 +11,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 駒が無いところはnull
      */
     private val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
+    private val copyMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
     /**
      * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
      */
@@ -25,10 +26,12 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     var owner: Player = Player.None
 
+    var listener: BoardListener? = null
     /**
      * 現在の指し手
      */
     val move = Move(this)
+
 
     /**
      * 横の0..last
@@ -71,13 +74,14 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の場所にある駒
      */
-    fun piece(position: Position): Piece<UNIT, GROUND>? = pieceMatrix[position.x][position.y]
+    fun pieceAt(position: Position): Piece<UNIT, GROUND>? = pieceMatrix[position.x][position.y]
 
     /**
      * タッチされたときに呼び出される
      */
     open fun touch(position: Position) {
-        move.touch(position)
+        move.touch(position, pieceAt(position)
+        )
     }
 
     /**
@@ -128,7 +132,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         //移動元を消して今回の駒をセット
         val targetSquaresUnit = pieceMatrix[x][y]
         if (targetSquaresUnit != null && targetSquaresUnit != piece) {
-            throw RuntimeException("another piece is at $targetSquaresUnit")
+            throw RuntimeException("another pieceAt is at $targetSquaresUnit")
         }
         pieceMatrix[oldSquare.x][oldSquare.y] = null
         pieceMatrix[x][y] = piece
@@ -139,11 +143,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun positionIsOnBoard(position: Position): Boolean = position.x >= 0 && position.y >= 0 && position.x < horizontalLines && position.y < verticalLines
 
-
-    /**
-     * update時に盤外に表示する関数
-     */
-    var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
+    fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }, rank: Int = 0){
+        listener?.updateInfo(updateInfo, rank)
+    }
 
     /**
      * 移動可能な経路を調べる。
@@ -258,27 +260,55 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * ターン開始。盤の所有者をセットして、全ての駒を準備状態にする。動作を変えるときはきっと引数に関数を追加して、その関数を呼ぶのがいいと思う。
      */
-    fun initiative(owner: Player) {
-        println("TODO:ターン移動処理")
+    fun turnStart(owner: Player) {
         move.moveCancel()
         this.owner = owner
 //一度全部の駒を使用不可にしてから手番の人の駒を有効にする
-        pieceList.forEach { it.action(Piece.ActionPhase.DISABLED, Piece.ActionEvent.Disabled) }
-        owner.pieceList.forEach { it.ready() }
+        pieceList.forEach { it.disabled() }
+        pieceList.filter { it.owner == owner }.forEach { it.ready() }
     }
 
     /**
-     * select解除
+     * ゲーム開始。リトライ用に初期状態を保持する。
      */
-    fun deselectPiece() {
-        println("deselectPiece")
-        move.clear()
+    fun gameStart(owner: Player) {
+        copyMatrix.clear()
+        pieceMatrix.forEach {
+            val newLine = mutableListOf<Piece<UNIT, GROUND>?>()
+            copyMatrix.add(newLine)
+            it.forEach { e -> newLine.add(e) }
+        }
+        turnStart(owner)
+    }
+
+    /**
+     * ゲーム開始。リトライ用に初期状態を保持する。
+     */
+    fun gameReset(owner: Player) {
+        println("gameReset")
+        move.clear()//deselectPieceでクリアしてるはずなのだが…
+        pieceMatrix.clear()
+        pieceList.clear()
+        copyMatrix.forEachIndexed { x, it ->
+            val newLine = mutableListOf<Piece<UNIT, GROUND>?>()
+            pieceMatrix.add(newLine)
+            it.forEachIndexed { y, e ->
+                newLine.add(e)
+                if (e != null) {
+                    println("$e at x:$x,y:$y")
+                    e.existsPosition = Position(x, y)
+                    e.reset()
+                    pieceList.add(e)
+                }
+            }
+        }
+        turnStart(owner)
     }
 
     /**
      * 対象の枡に自分以外の駒があるときにtrue
      */
-    private fun isAnotherPiece(piece: Piece<*, GROUND>,position:Position): Boolean =piece(position) != null && piece(position) != piece
+    private fun isAnotherPiece(piece: Piece<*, GROUND>, position: Position): Boolean = pieceAt(position) != null && pieceAt(position) != piece
 
     /**
      * 対象の位置から移動経路をさかのぼり攻撃場所を探す。 経路中に無いときには攻撃可能位置を探す
@@ -300,7 +330,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
                 lastIndexOfAttackPos = lastIndexOfPos
                 attackPos = pos
             }
-            //スタックになく、現在地から攻撃できるときは現在値とする。これはスタックにあったら上書きされる
+            //スタックになく、現在地から攻撃できるときは現在値とする。ここのアルゴリズム不自然だよなあ。
             if (attackPos == null && sourcePos == pos) {
                 attackPos = sourcePos
             }
@@ -329,7 +359,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun removePiece(piece: Piece<*, *>, position: Position) {
         println("removePiece $piece $position")
         pieceMatrix[position.x][position.y] = null
+        pieceList.remove(piece)
         piece.remove()
     }
-
 }

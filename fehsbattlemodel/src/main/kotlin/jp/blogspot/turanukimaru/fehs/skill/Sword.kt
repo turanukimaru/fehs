@@ -265,6 +265,12 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     CakeCutter2(SkillName.CakeCutter2, SkillType.SWORD, 14, HeartsBlade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
     },
+    SandfortSpade(SkillName.SandfortSpade, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+    },
+    SandfortSpade2(SkillName.SandfortSpade2, SkillType.SWORD, 14, SandfortSpade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+    },
 
     ;
 

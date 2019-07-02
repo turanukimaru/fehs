@@ -128,6 +128,12 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
             return battleUnit
         }
     },
+    Buoyboard(SkillName.Buoyboard, SkillType.GTOME, 8, Elwind, SpType.SILVER) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+    },
+    Buoyboard2(SkillName.Buoyboard2, SkillType.GTOME, 12, Buoyboard, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+    },
     ;
 
     /**

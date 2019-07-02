@@ -70,7 +70,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = enemyFullHpBonus(battleUnit, enemy, 3, this)
     },
-    BlueGift(SkillName.BlueGift, SkillType.BTOME, 8, Thoron, SpType.SILVER) {
+    BlueGift(SkillName.BlueGift, SkillType.BTOME, 8, Elthunder, SpType.SILVER) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, 3, this)
     },
     BlueGift2(SkillName.BlueGift2, SkillType.BTOME, 12, BlueGift, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
@@ -86,7 +86,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
     },
     FreshBouquet(SkillName.FreshBouquet, SkillType.BTOME, 8, Thoron, SpType.SILVER),
     FreshBouquet2(SkillName.FreshBouquet2, SkillType.BTOME, 12, FreshBouquet, SpType.PLUS, RefinedWeapon.RefineType.Range2),
-    JuicyWave(SkillName.JuicyWave, SkillType.BTOME, 10, Thoron, SpType.SILVER) {
+    JuicyWave(SkillName.JuicyWave, SkillType.BTOME, 10, Elthunder, SpType.SILVER) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
     },
     JuicyWave2(SkillName.JuicyWave2, SkillType.BTOME, 12, JuicyWave, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
@@ -112,7 +112,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
     TomeOfThoron(SkillName.TomeOfThoron, SkillType.BTOME, 14, Thoron, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, 3 * 25, this)
     },
-    Blarblooms(SkillName.Blarblooms, SkillType.BTOME, 8, Thoron, SpType.SILVER) {
+    Blarblooms(SkillName.Blarblooms, SkillType.BTOME, 8, Elthunder, SpType.SILVER) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     Blarblooms2(SkillName.Blarblooms2, SkillType.BTOME, 12, Blarblooms, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
@@ -122,11 +122,15 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(fightHpLoss(battleUnit, 4, this), 4, this)
     },
-    VesselOfCheer(SkillName.VesselOfCheer, SkillType.BTOME, 8, Blarblooms, SpType.SILVER) {
+    VesselOfCheer(SkillName.VesselOfCheer, SkillType.BTOME, 8, Elthunder, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
     },
-    VesselOfCheer2(SkillName.VesselOfCheer2, SkillType.BTOME, 12, Blarblooms, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
+    VesselOfCheer2(SkillName.VesselOfCheer2, SkillType.BTOME, 12, VesselOfCheer, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
+    },
+    WorldseaWave(SkillName.WorldseaWave, SkillType.BTOME, 14, Thoron) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+        override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = forseti(fightPlan, 2)//攻めたてと同じLV倍率にしとこう
     },
     ;
 

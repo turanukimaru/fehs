@@ -50,10 +50,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
     },
     TheCleaner(SkillName.TheCleaner, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = enemy.totalBuff
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = enemy.totalBuff
     },
     TheCleaner2(SkillName.TheCleaner2, SkillType.DAGGER, 12, TheCleaner, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = enemy.totalBuff
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = enemy.totalBuff
     },
     Starfish(SkillName.Starfish, SkillType.DAGGER, 10, SteelDagger, SpType.SILVER) {
         override fun attackPlan(fightPlan: FightPlan, lv: Int): FightPlan = desperation(fightPlan, 3)
@@ -116,14 +116,14 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
     },
     RedHotDucks(SkillName.RedHotDucks, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = spdFlat(battleUnit, enemy)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
             return battleUnit
         }
     },
     RedHotDucks2(SkillName.RedHotDucks2, SkillType.DAGGER, 12, RedHotDucks, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = spdFlat(battleUnit, enemy)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
             return battleUnit
@@ -162,6 +162,12 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
                     val diff = HandmaidMath.min((battleUnit.res - enemy.res) / 2, 8)
                     atkDefDebuff(battleUnit, enemy, diff, this)
                 } else battleUnit
+    },
+    TropicalTreats(SkillName.TropicalTreats, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+    },
+    TropicalTreats2(SkillName.TropicalTreats2, SkillType.DAGGER, 12, TropicalTreats, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
     },
     ;
 

@@ -426,6 +426,7 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     サイラス("サイラス", "Silas", "賽萊斯"),
     ヴェロニカ("ヴェロニカ", "Veronica", "維洛妮卡"),
     ザカリア("？？？", "???", "？？？"),
+
     レーヴァテイン("レーヴァテイン", "Laevatein", "瑞瓦提恩"),
     ヘルビンディ("ヘルビンディ", "Helbindi", "赫爾賓迪"),
     ロキ("ロキ", "Loki", "洛基"),
@@ -524,6 +525,12 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     シャンブレー("シャンブレー", "Yarne", ""),
     ブレディ("ブレディ", "Brady", ""),
     シンシア("シンシア", "Cynthia", ""),
+
+    スリーズ__夏_("スリーズ（夏）", "Gunnthrá (Summer)", "斯利茲 (Summer)"),
+    レーヴァテイン__夏_("レーヴァテイン（夏）", "Laevatein (Summer)", "瑞瓦提恩 (Summer)"),
+    ヘルビンディ__夏_("ヘルビンディ（夏）", "Helbindi (Summer)", "赫爾賓迪 (Summer)"),
+    レーギャルン__夏_("レーギャルン（夏）", "Laegjarn (Summer)", "瑞瓦伽倫 (Summer)"),
+    ユルグ__夏_("ユルグ（夏）", "Ylgr (Summer)", "優爾格 (Summer)"),
     ;
 
     /**

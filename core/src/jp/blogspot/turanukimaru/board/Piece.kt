@@ -22,7 +22,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     //アクション。基本的にはアニメの発声しないアクションだが。うーん難しい。
     fun action(nextPhase: ActionPhase, actionEvent: ActionEvent = ActionEvent.None, fightResult: FightResult? = null) {
         //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
-        actionListener.uiAction(actionEvent, nextPhase, charPosition, fightResult)
+        actionListener.action(actionEvent, nextPhase, charPosition, fightResult)
         this.actionPhase = nextPhase
     }
 
@@ -136,9 +136,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     open fun update() {
     }
 
-    open fun boardAction(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
+    open fun boardAction(position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
 
-    open fun boardActionCommit(move: Move<UNIT, GROUND>, position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
+    open fun boardActionCommit(position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
 
     open fun movePiece(): Boolean {
         action(ActionPhase.MOVING, ActionEvent.MoveToCharPosition)
@@ -148,7 +148,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 移動中。
      */
-    open fun boardMove(move: Move<UNIT, GROUND>, position: Position): Boolean {
+    open fun boardMove(position: Position): Boolean {
         val targetRoute = searchedRoute[position.x][position.y]
         //移動範囲外は-1
         if (targetRoute < 0) return false
@@ -160,18 +160,24 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 移動確定。位置を更新して行動後状態にする
      */
-    fun boardMoveCommit(move: Move<UNIT, GROUND>, position: Position? = newPosition): Boolean {
-        println("ここは？…")
-        this.existsPosition = position
-        this.newPosition = null
+    fun boardMoveCommitAction(position: Position? = newPosition): Boolean {
+        boardMoveCommit(position)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)
         //次の行動に備えてルートクリア
+        return true
+    }
+
+    /**
+     * 移動確定。位置を更新だけ
+     */
+    fun boardMoveCommit(position: Position? = newPosition): Boolean {
+        this.existsPosition = position
+        this.newPosition = null
         clearRoute()
         return true
     }
 
     private fun clearRoute() {
-        println("なぜかルートがクリアされてない…")
         searchedRoute.clear()
         effectiveRoute.clear()
     }
@@ -222,27 +228,11 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * 駒の状態。選択・行動前などトランザクションアクションは含まない。そちらは常に一つだからハンド管理
+     * この駒を行動可能にする。ターン開始時に呼ばれる
      */
-    enum class ActionPhase {
-        //おかれて初期化を行う前。初期化されたらDisabled
-        PUTTED,
-        //おかれて初期化を行う前。初期化されたらREADY
-        START,
-        //自分の手番でないので動かせない
-        DISABLED,
-        //自分の手番で動かせる
-        READY,
-        //移動中
-        MOVING,
-        //攻撃・アニメが終わったらACTEDになる予定だけどHand側に統合されそうな気もしてきた
-        ATTACK,
-        //攻撃を受ける。同上
-        ATTACKED,
-        //行動確定後
-        ACTED,
-        //取り除いた状態。PositionがNullにもなっているはず
-        REMOVED,
+    fun reset() {
+        println("RESET!! $this")
+        action(ActionPhase.START, ActionEvent.Reset)
     }
 
     /**
@@ -253,12 +243,17 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         action(ActionPhase.READY, ActionEvent.Ready)
     }
 
+    fun disabled() {
+        println("DISABLED!! $this")
+        action(ActionPhase.DISABLED, ActionEvent.Disabled)
+    }
+
     fun putOn(x: Int, y: Int) {
         existsPosition = Position(x, y)
         action(ActionPhase.PUTTED, ActionEvent.Put)
     }
 
-    fun startPiece(xyToPosition: Position) {
+    fun moveStart(xyToPosition: Position) {
         board.move.toucheStart(this, xyToPosition)
     }
 
@@ -272,51 +267,11 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         action(ActionPhase.MOVING, ActionEvent.Selected)
     }
 
+    //戦闘でアクションするかRemoveでアクションするかどちらかにしないと自分から戦闘を仕掛けて死ぬと落ちる…
     fun remove() {
-        existsPosition = null
+//        existsPosition = null
         action(ActionPhase.REMOVED)
     }
 
-    /**
-     * アクション開始イベント。
-     */
-    enum class ActionEvent {
-        /**
-         * アクションなし。アクション終了後これ。Updateが走る
-         */
-        None,
-        /**
-         * アクションなし。アクション中・ドラッグ中Updateが走らない
-         */
-        Direct,
-        /**
-         * 動ける状態
-         */
-        Ready,
-        /**
-         * アクション中。Updateが走らない
-         */
-        MoveToCharPosition,
-        /**
-         * アクション中。Updateが走らない
-         */
-        Selected,
-        /**
-         * 戦闘とかのアクション中。Updateが走らない
-         */
-        Attack,
-        /**
-         * 戦闘とかのアクション中。Updateが走らない
-         */
-        Attacked,
-        /**
-         * 最初に画面上に配置
-         */
-        Put,
-        /**
-         * 主導権のない側を棒立ちにして色見を戻す
-         */
-        Disabled
-    }
 }
 

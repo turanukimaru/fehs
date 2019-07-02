@@ -11,10 +11,10 @@ class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: MyPiece) : 
 
     //安全なドラッグ処理を作らないといけないのか…
 //    override fun update() {
-//        piece.animationStart = false
+//        pieceAt.animationStart = false
 ////        actionが指定されているときはそれを実行する。それ以外では…どうしようかな。ループアクションをさせたいのだが…
 //        //カウントを一つ進める。開始かのBooleanのがいいかなあ
-//        piece.animationCount++
+//        pieceAt.animationCount++
 //    }
 
 }

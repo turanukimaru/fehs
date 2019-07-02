@@ -97,12 +97,14 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     },
     RDuelFlying(SkillName.RDuelFlying, spType = SpType.BASE70) {
         override fun totalParam(n: Int): Int = 170
-
+        override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
+    },
+    RDuelInfantry(SkillName.RDuelInfantry, spType = SpType.BASE70) {
+        override fun totalParam(n: Int): Int = 170
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
     GDuelFlying(SkillName.GDuelFlying, spType = SpType.BASE70) {
         override fun totalParam(n: Int): Int = 170
-
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },
     BDuelFlying(SkillName.BDuelFlying, spType = SpType.BASE70) {
@@ -129,8 +131,8 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     WardingBlow(SkillName.WardingBlow) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = res(battleUnit, lv * 2, this)
     },
-    SwiftSparrow(SkillName.SwiftSparrow, maxLevel = 2, spType = SpType.BASE120) {
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, lv * 2, this)
+    SwiftSparrow(SkillName.SwiftSparrow, maxLevel = 3, spType = SpType.BASE120) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(spd(battleUnit, lv * 2 + lv / 3, this), lv * 2, this)
     },
     SturdyBlow(SkillName.SturdyBlow, maxLevel = 2, spType = SpType.BASE120) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkDef(battleUnit, lv * 2, this)
@@ -149,6 +151,9 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     },
     SturdyImpact(SkillName.SturdyImpact, maxLevel = 0, spType = SpType.SPECIAL_A) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(def(antiFollowup(battleUnit, enemy, this), 10, this), 6, this)
+    },
+    MirrorImpact(SkillName.MirrorImpact, maxLevel = 0, spType = SpType.SPECIAL_A) {
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(res(antiFollowup(battleUnit, enemy, this), 10, this), 6, this)
     },
     FierceStance(SkillName.FierceStance) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(battleUnit, lv * 2, this)
@@ -252,6 +257,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     ArDDefRes(SkillName.ArDDefRes, spType = SpType.BASE60),
     ArOAtkDef(SkillName.ArOAtkDef, spType = SpType.BASE60),
     ArOAtkSpd(SkillName.ArOAtkSpd, spType = SpType.BASE60),
+    ArOSpdRes(SkillName.ArOSpdRes, spType = SpType.BASE60),
     DefiantAtk(SkillName.DefiantAtk, spType = SpType.BASE40) {
         override fun turnStart(battleUnit: BattleUnit, lv: Int): BattleUnit = defiantAtk(battleUnit, lv)
     },
