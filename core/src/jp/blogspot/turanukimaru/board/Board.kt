@@ -143,7 +143,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun positionIsOnBoard(position: Position): Boolean = position.x >= 0 && position.y >= 0 && position.x < horizontalLines && position.y < verticalLines
 
-    fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }, rank: Int = 0){
+    fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }, rank: Int = 0) {
         listener?.updateInfo(updateInfo, rank)
     }
 
@@ -319,27 +319,45 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         println("findActionPos $targetPos")
         val orientations = piece.effectiveOrientations()
         var attackPos: Position? = null
-        var lastIndexOfAttackPos = -1
 
         //攻撃可能位置のリストを作成する
-        orientations.forEach { v ->
-            //一歩手前を逆算
-            val pos = moveWithOrientation(v, targetPos, -1)
-//            piece.searchedRouteOf(pos) > -1
-            val lastIndexOfPos = move.routeStack.lastIndexOf(pos)//ここで現在地がラストに入ってるから現在地から攻撃できるならattackPos == sourcePosになるはずなのだが…
-            println("$pos -> $targetPos $lastIndexOfPos")
-            if (lastIndexOfPos > lastIndexOfAttackPos) {
-                lastIndexOfAttackPos = lastIndexOfPos
-                attackPos = pos
-            }
-            //スタックになく、現在地から攻撃できるときは現在値とする。ここのアルゴリズム不自然だよなあ。
-            if (attackPos == null && sourcePos == pos) {
-                println("findActionPos Error #################################$sourcePos > $targetPos")
-                attackPos = sourcePos
+        val actionablePositions = orientations.map { moveWithOrientation(it, targetPos, -1) }.filter { piece.searchedRouteOf(it) > -1 }
+        if (actionablePositions.contains(sourcePos)) return sourcePos
+        //ここから一歩引いて探索か…移動時に途中の経路を探索するのにも使えるはず
+        return attackPos ?: findEffectivePos(piece, targetPos)
+    }
+
+    /**
+     * 経路探索中に一歩進んで再帰する
+     */
+    private fun findStep(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: MutableList<MutableList<Int>>, targetPositions: List<Position>, routeList: List<Position> = mutableListOf()): List<Position> {
+        val resultList = routeList.plus(position)
+        if (targetPositions.contains(position)) {
+            return resultList
+        }
+        val orientations = piece.orientations()
+        val results = orientations.map { v ->
+            val targetPos = moveWithOrientation(v, position)
+            //枠内
+            digStep(piece, targetPos, steps, routeMatrix, targetPositions, v, routeList)
+        }.filter { targetPositions.contains(it.last()) }
+        return results.first()
+    }
+
+    private fun digStep(piece: Piece<UNIT, GROUND>, targetPos: Position, steps: Int, routeMatrix: MutableList<MutableList<Int>>, targetPositions: List<Position>, v: Int, routeList: List<Position> = mutableListOf()): List<Position> {
+        //枠内
+        if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
+            val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
+            val targetSquare = groundMatrix[targetPos.x][targetPos.y]
+            //targetStepsが-1のときに終了するという技もあるがどうしよう？
+            val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
+            val stepped = routeMatrix[targetPos.x][targetPos.y]
+            //移動出来て歩数が増えてなければ。でふぉ-1はやめたほうがいいかな。
+            if (piece.isMovable(targetUnit, targetSquare, v, steps) && (stepped == -1 || stepped > targetSteps)) {
+                return findStep(piece, targetPos, targetSteps, routeMatrix, targetPositions, routeList)
             }
         }
-
-        return attackPos ?: findEffectivePos(piece, targetPos)
+        return routeList
     }
 
     /**
