@@ -1,4 +1,5 @@
 @startuml
+scale 960 width
 [*] --> 自分のターン
 
 state 自分のターン {

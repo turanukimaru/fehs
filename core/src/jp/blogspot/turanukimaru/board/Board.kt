@@ -79,7 +79,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * タッチされたときに呼び出される
      */
-    open fun touch(position: Position) {
+    fun touch(position: Position) {
         move.touch(position, pieceAt(position)
         )
     }
@@ -321,10 +321,12 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         var attackPos: Position? = null
         var lastIndexOfAttackPos = -1
 
+        //攻撃可能位置のリストを作成する
         orientations.forEach { v ->
             //一歩手前を逆算
             val pos = moveWithOrientation(v, targetPos, -1)
-            val lastIndexOfPos = move.routeStack.lastIndexOf(pos)
+//            piece.searchedRouteOf(pos) > -1
+            val lastIndexOfPos = move.routeStack.lastIndexOf(pos)//ここで現在地がラストに入ってるから現在地から攻撃できるならattackPos == sourcePosになるはずなのだが…
             println("$pos -> $targetPos $lastIndexOfPos")
             if (lastIndexOfPos > lastIndexOfAttackPos) {
                 lastIndexOfAttackPos = lastIndexOfPos
@@ -332,6 +334,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             }
             //スタックになく、現在地から攻撃できるときは現在値とする。ここのアルゴリズム不自然だよなあ。
             if (attackPos == null && sourcePos == pos) {
+                println("findActionPos Error #################################$sourcePos > $targetPos")
                 attackPos = sourcePos
             }
         }
@@ -340,7 +343,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     /**
-     * 対象の位置へ攻撃できる場所を探す。移動経路の逆算はよく考えたら必要ないな
+     * 対象の位置へ攻撃できる場所を探す。TODO:移動経路の逆算。今いるところから攻撃できるか？＞一歩戻って一歩歩いて攻撃できるか？と順に探す。
      */
     private fun <T1> findEffectivePos(piece: Piece<T1, GROUND>, position: Position): Position? {
         println("findActionPos $position")

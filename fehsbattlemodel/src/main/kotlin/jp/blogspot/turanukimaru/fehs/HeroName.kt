@@ -42,6 +42,7 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     エフラム("エフラム", "Ephraim", "艾夫拉姆"),
     エフラム3("エフラム（錬成）", "Ephraim (Refined)", "艾夫拉姆 (Refined)"),
     エリウッド("エリウッド", "Eliwood", "艾利烏德"),
+    エリウッド3("エリウッド（錬成）", "Eliwood (Refined)", "艾利烏德 (Refined)"),
     エリンシア("エリンシア", "Elincia", "艾琳西亞"),
     エリーゼ("エリーゼ", "Elise", "艾麗澤"),
     エリーゼ__夏_("エリーゼ（夏）", "Elise (Summer)", "艾麗澤 (Summer)"),
@@ -506,6 +507,7 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     ルカ__行楽_("ルカ（行楽）", "Lukas (Picnics)", "盧卡 (Picnics)"),
     ジェニー__行楽_("ジェニー（行楽）", "Genny (Picnics)", "傑妮 (Picnics)"),
     アルム__伝承英雄_("アルム（伝承英雄）", "Alm (Vanguard Legend)", "阿雷武 (Vanguard Legend)"),
+    レオン__行楽_("レオン（行楽）", "Leo (Picnics)", "里昂 (Picnics)"),
 
     カムイ__闇_("カムイ（闇）", "Corrin (F)(Darkness)", "神威 (F)(Darkness)"),
     チキ__闇_("チキ（闇）", "Tiki(Y) (Darkness)", "琪姬(Y) (Darkness)"),
@@ -519,11 +521,11 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     ルイーズ__花嫁_("ルイーズ（花嫁）", "Louise (Bridal)", "Louise (Bridal)"),
     ナーガ("ナーガ", "Naga", "Naga"),
 
-    ベルベット("ベルベット", "Panne", ""),
-    ンン("ンン", "Nah", ""),
-    デジェル("デジェル", "Kjelle", ""),
-    シャンブレー("シャンブレー", "Yarne", ""),
-    ブレディ("ブレディ", "Brady", ""),
+    ベルベット("ベルベット", "Panne", "貝爾貝特"),
+    ンン("ンン", "Nah", "恩恩"),
+    デジェル("デジェル", "Kjelle", "丹裘爾"),
+    シャンブレー("シャンブレー", "Yarne", "夏布雷"),
+    ブレディ("ブレディ", "Brady", "布萊迪"),
     シンシア("シンシア", "Cynthia", ""),
 
     スリーズ__夏_("スリーズ（夏）", "Gunnthrá (Summer)", "斯利茲 (Summer)"),
@@ -531,6 +533,7 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     ヘルビンディ__夏_("ヘルビンディ（夏）", "Helbindi (Summer)", "赫爾賓迪 (Summer)"),
     レーギャルン__夏_("レーギャルン（夏）", "Laegjarn (Summer)", "瑞瓦伽倫 (Summer)"),
     ユルグ__夏_("ユルグ（夏）", "Ylgr (Summer)", "優爾格 (Summer)"),
+    エリウッド__伝承英雄_("エリウッド（伝承英雄）", "Eliwood (Vanguard Legend)", "艾利烏德 (Vanguard Legend)"),
     ;
 
     /**

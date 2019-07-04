@@ -1,4 +1,5 @@
 @startuml
+scale 720 width
 
 abstract class 行動{
 val 選択駒 : 駒?

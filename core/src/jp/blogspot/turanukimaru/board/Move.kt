@@ -60,11 +60,13 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      */
     fun drag(position: UiBoard.Position) {
         println("board dragged on $position")
-        touch?.dragged = true
-        //ドラッグは動かせるコマでのみ有効
-        if (touch?.touchedPiece?.isActionable ?: false && touch?.touchedPiece?.owner == board.owner) {
-            moving = Dragging(this, touch!!.touchedPiece!!, touch!!.touchedPosition!!, touch!!.touchedPosition!!)
-            //TODO:ここでスタックルートに乗せるべきか
+        drag(touch!!, position)
+    }
+   private fun drag(touch: Touch<UNIT, GROUND>, position: UiBoard.Position){
+        //駒をドラッグしてるとき
+        if (touch.drag(position,board)){
+            moving = Dragging(this, touch.touchedPiece!!, touch.touchedPosition, touch.touchedPosition)
+            stackRoute(position)
         }
     }
 

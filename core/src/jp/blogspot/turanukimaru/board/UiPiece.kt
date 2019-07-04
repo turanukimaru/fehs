@@ -40,7 +40,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
             return
         }
         touched = TouchPhase.DRAG
-        val touchedSquare = stackTouchedRoute()//TODO:これ移動しなきゃだめだな…
+        val touchedSquare = stackTouchedRoute()// Board と Piece 両方から追加されてる。重複しないアルゴリズムなので平気ではあるが不自然でもあるな
         piece.touchDragged(touchedSquare, x, y)
     }
 

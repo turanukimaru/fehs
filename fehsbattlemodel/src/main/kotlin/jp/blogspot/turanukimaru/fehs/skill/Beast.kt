@@ -131,6 +131,7 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
     },
     BunnyFang(SkillName.BunnyFang, SkillType.BEAST, 14, AdultCavalry, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
             enemy.atkEffect -= 4

@@ -120,6 +120,7 @@ enum class SkillC(override val jp: SkillName, override val type: SkillType = Ski
     GroundOrders(SkillName.GroundOrders, spType = SpType.BASE60),
     PulseSmoke(SkillName.PulseSmoke, spType = SpType.BASE60),
     InfantryBreath(SkillName.InfantryBreath, spType = SpType.BASE60),
+    VisionOfArcadia(SkillName.VisionOfArcadia, maxLevel = 0, spType = SpType.LEGEND_S),
     ;
 
     /**

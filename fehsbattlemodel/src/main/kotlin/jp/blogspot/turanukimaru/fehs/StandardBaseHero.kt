@@ -1036,6 +1036,8 @@ object StandardBaseHero {
                 Staff.Slow2, Assist.Recover2, Special.HeavenlyLight, SkillA.AtkResPush.lv(3), null, SkillC.InfantryRush.lv(3))
         createItem(HeroName.シンシア, 2, WeaponType.LANCE, MoveType.FLIER, 3, 16, 8, 11, 5, 7, g50, g55, g60, g50, g50,
                 Lance.FiresweepLance2, Assist.Shove, null, null, SkillB.SpdDefLink.lv(3), SkillC.DriveAtk.lv(2))
+        createItem(HeroName.レオン__行楽_, 3, WeaponType.RTOME, MoveType.CAVALRY, 3, 15, 11, 6, 5, 6, g50, g50, g35, g50, g50,
+                Gtome.Sandwiches2, null, Special.Glimmer, SkillA.DistantDef.lv(3), SkillB.QuickRiposte.lv(3),null)
 
         createItem(HeroName.スリーズ__夏_, 0, WeaponType.DAGGER, MoveType.CAVALRY,  5, 17, 7, 11, 4, 5, g50, g60, g60, g30, g45,
                         Dagger.TropicalTreats2, Assist.RallyDefRes2, null, SkillA.ArOSpdRes.lv(3), SkillB.DisarmTrap.lv(3), null)
@@ -1047,6 +1049,8 @@ object StandardBaseHero {
                 Btome.WorldseaWave, Assist.Reposition, null, SkillA.SwiftSparrow.lv(3), SkillB.FlierFormation.lv(3), SkillC.HoneFliers)
         createItem(HeroName.ユルグ__夏_, 3, WeaponType.AXE, MoveType.INFANTRY,  5, 16, 9, 12, 6, 6, g60, g60, g55, g55, g45,
                 Axe.ShorelineRake2, null, Special.Luna, SkillA.FlashingBlade.lv(3), null, SkillC.EvenDefWave.lv(3))
+        createItem(HeroName.エリウッド__伝承英雄_, 1, WeaponType.SWORD, MoveType.CAVALRY, 3, 18, 6, 10, 9, 3, g45, g70, g55, g55, g30,
+                Sword.ArdentDurandal, Assist.RallySpdRes2, null, SkillA.DeathBlow.lv(4), SkillB.ChillAtk.lv(3), SkillC.VisionOfArcadia)
 //              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                        Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,

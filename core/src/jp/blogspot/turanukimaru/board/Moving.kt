@@ -95,6 +95,15 @@ abstract class Moving<UNIT, GROUND>(
         return Ready(move, selectedPiece, oldPosition, attackablePosition, targetPiece, targetPos)
     }
 
+    /**
+     * 行動実行
+     */
+    fun actionCommit(targetPiece: Piece<UNIT, GROUND>, targetPos: UiBoard.Position, selectedPiece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
+        selectedPiece.boardMoveCommit()
+        selectedPiece.boardActionCommit(targetPos, targetPiece)
+        move.routeStack.clear()
+        return NoMove(move)
+    }
 
 }
 
@@ -172,46 +181,19 @@ open class Grasp<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override v
         return NoMove(move)
     }
 
-    /**
-     * 行動実行
-     */
-    fun actionCommit(targetPiece: Piece<UNIT, GROUND>, targetPos: UiBoard.Position): Moving<UNIT, GROUND> {
-        selectedPiece.boardMoveCommit()
-        selectedPiece.boardActionCommit(targetPos, targetPiece)
-        move.routeStack.clear()
-        return NoMove(move)
-    }
 }
 
 data class Selected<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override val selectedPiece: Piece<UNIT, GROUND>, override val from: UiBoard.Position, override val to: UiBoard.Position) : Grasp<UNIT, GROUND>(move, selectedPiece, from, to, null, null)
 
 open class Ready<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override val selectedPiece: Piece<UNIT, GROUND>, override val from: UiBoard.Position, override val to: UiBoard.Position, override val actionTargetPiece: Piece<UNIT, GROUND>, override val actionTargetPos: UiBoard.Position) : Grasp<UNIT, GROUND>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
-        return if (piece == selectedPiece || piece == actionTargetPiece) actionCommit(actionTargetPiece, actionTargetPos)
+        return if (piece == selectedPiece || piece == actionTargetPiece) actionCommit(actionTargetPiece, actionTargetPos, selectedPiece)
         else ready(piece, position, selectedPiece, from)//ownerによって変えるべきか…？
     }
 }
 
 data class Dragging<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override val selectedPiece: Piece<UNIT, GROUND>, override val from: UiBoard.Position, override val to: UiBoard.Position, override val actionTargetPiece: Piece<UNIT, GROUND>? = null, override val actionTargetPos: UiBoard.Position? = null) : Grasp<UNIT, GROUND>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
-        val target = move.board.pieceAt(position)
-        val effective = selectedPiece.effectiveRouteOf(position)
-        val movable = selectedPiece.searchedRouteOf(position)
-        //TapType は常に SELECTED_SELF_TAP だ…これ定数化する意味なかったなあ
-        println("target $target, movable : $movable, effective $effective")
-        return when {
-            target == piece -> moveSelectedPiece(position, selectedPiece, from)//動かそうとしてやめたときは枠に合わせる
-            piece.existsPosition == position -> moveCancel()//動いてないときはこれで十分かな？
-            target == null && movable < 1 -> moveCancel()//範囲外へ移動
-            target == null && movable > 0 -> moveSelectedPiece(position, selectedPiece, from)//範囲内に移動
-            target != null && effective < 1 -> moveCancel()//攻撃範囲外へ攻撃
-            target != null && effective > 0 -> {//攻撃範囲内へ攻撃
-                ready(target, position, selectedPiece, from)
-                actionCommit(target, position)
-            }
-            else -> {
-                println("UNEXPECTED drop ACTION ${piece.actionPhase}");return moveCancel()
-            }
-        }
+        return if (piece == selectedPiece) moveCancel() else ready(piece, position, selectedPiece, from).actionCommit(piece, position, selectedPiece)
     }
 }

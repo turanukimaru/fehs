@@ -25,6 +25,7 @@ enum class Assist(override val jp: SkillName, override val type: SkillType, over
     RallyAtkDef2(SkillName.RallyAtkDef2, SkillType.ASSIST, spType = SpType.ASSIST3),
     RallyAtkSpd2(SkillName.RallyAtkSpd2, SkillType.ASSIST, spType = SpType.ASSIST3),
     RallySpdDef2(SkillName.RallySpdDef2, SkillType.ASSIST, spType = SpType.ASSIST3),
+    RallySpdRes2(SkillName.RallySpdRes2, SkillType.ASSIST, spType = SpType.ASSIST3),
     RallyDefRes2(SkillName.RallyDefRes2, SkillType.ASSIST, spType = SpType.ASSIST3),
     Sing(SkillName.Sing, SkillType.ASSIST),
     Dance(SkillName.Dance, SkillType.ASSIST),

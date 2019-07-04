@@ -24,7 +24,7 @@ class Touch<UNIT, GROUND>(
          */
         var touchedPiece: Piece<UNIT, GROUND>? = null,
         /**
-         * タッチ開始したときの位置
+         * タッチ開始したときの位置.これは not null が自然か
          */
         var touchedPosition: UiBoard.Position,
         var holdStart: Long = 0L,
@@ -38,6 +38,11 @@ class Touch<UNIT, GROUND>(
      */
     fun dragging(): Boolean {
         return dragged || System.currentTimeMillis() - holdStart > graspThreshold
+    }
+
+    fun drag(position: UiBoard.Position, board: Board<UNIT, GROUND>): Boolean {
+        dragged = true
+        return touchedPiece?.isActionable ?: false && touchedPiece?.owner == board.owner && touchedPiece?.boardMove(position) ?: false
     }
 }
 
@@ -113,25 +118,26 @@ enum class ActionPhase {
 
 //消すべきだけど消すのもったいないな…
 class 駒
+
 class 枡
-abstract class 行動(open val 選択駒 : 駒?,open val 戦闘駒 : 駒?,open val 移動元 : 枡?,open val 移動先 : 枡?){
-    abstract fun 駒タップ(対象駒 : 駒, 対象枡 : 枡) : 行動
-    abstract fun 盤タップ(対象駒 : 駒, 対象枡 : 枡) : 行動
+abstract class 行動(open val 選択駒: 駒?, open val 戦闘駒: 駒?, open val 移動元: 枡?, open val 移動先: 枡?) {
+    abstract fun 駒タップ(対象駒: 駒, 対象枡: 枡): 行動
+    abstract fun 盤タップ(対象駒: 駒, 対象枡: 枡): 行動
     //他の関数はoverride禁止
-    fun 他共通関数(){}
+    fun 他共通関数() {}
 }
 
 class 未選択() : 行動(null, null, null, null) {
-    override fun 駒タップ(対象駒 : 駒, 対象枡 : 枡) = 選択(対象駒, 対象枡, 対象枡)
-    override fun 盤タップ(対象駒 : 駒, 対象枡 : 枡) = 未選択()
+    override fun 駒タップ(対象駒: 駒, 対象枡: 枡) = 選択(対象駒, 対象枡, 対象枡)
+    override fun 盤タップ(対象駒: 駒, 対象枡: 枡) = 未選択()
 }
 
-class 選択(override val 選択駒 : 駒, override val 移動元 : 枡, override val 移動先 : 枡) : 行動(選択駒, null, 移動元, 移動先) {
-    override fun 駒タップ(対象駒 : 駒, 対象枡 : 枡) = if (選択駒 == 対象駒) 未選択() else 戦闘準備(選択駒, 対象駒, 移動元, 移動先)
-    override fun 盤タップ(対象駒 : 駒, 対象枡 : 枡) = 選択(対象駒, 移動元, 対象枡)
+class 選択(override val 選択駒: 駒, override val 移動元: 枡, override val 移動先: 枡) : 行動(選択駒, null, 移動元, 移動先) {
+    override fun 駒タップ(対象駒: 駒, 対象枡: 枡) = if (選択駒 == 対象駒) 未選択() else 戦闘準備(選択駒, 対象駒, 移動元, 移動先)
+    override fun 盤タップ(対象駒: 駒, 対象枡: 枡) = 選択(対象駒, 移動元, 対象枡)
 }
 
-class 戦闘準備(override val 選択駒 : 駒, override val 戦闘駒 : 駒, override val 移動元 : 枡, override val 移動先 : 枡) : 行動(選択駒, 戦闘駒, 移動元, 移動先){
-    override fun 駒タップ(対象駒 : 駒, 対象枡 : 枡) = 未選択()
-    override fun 盤タップ(対象駒 : 駒, 対象枡 : 枡) = 選択(対象駒, 移動元, 対象枡)
+class 戦闘準備(override val 選択駒: 駒, override val 戦闘駒: 駒, override val 移動元: 枡, override val 移動先: 枡) : 行動(選択駒, 戦闘駒, 移動元, 移動先) {
+    override fun 駒タップ(対象駒: 駒, 対象枡: 枡) = 未選択()
+    override fun 盤タップ(対象駒: 駒, 対象枡: 枡) = 選択(対象駒, 移動元, 対象枡)
 }
