@@ -220,16 +220,12 @@ class MyMyGdxGame : ApplicationAdapter() {
         for (raindrop in raindrops) {
             batch!!.draw(dropImage, raindrop.x, raindrop.y)
         }
-        //なぜか消すと画面のFillが表示されなくなる。image.drawでstageとの調整をしているのでその都合かと思われる。
-//        buttons.forEach { b -> b.draw(batch, 100f) }
 
         val hand = myGame.board.move
         bitmapFont!!.draw(batch, "dx:${myGame.uiBoard.dx}", 50f, 510f)
         bitmapFont!!.draw(batch, "dy:${myGame.uiBoard.dy}", 50f, 540f)
         bitmapFont!!.draw(batch, "from:${hand.moving.from}", 50f, 630f)
         bitmapFont!!.draw(batch, "to:${hand.moving.to}", 50f, 660f)
-//        bitmapFont!!.draw(batch, "touched:  ${myGame.board.move.touchedPiece}\nデバッグ用文字", 50f, 230f)
-//        bitmapFont!!.draw(batch, "select: ${myGame.board.move.selectedPiece}\nデバッグ用文字", 50f, 260f)
         myGame.board.pieceList.forEach {
             if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }

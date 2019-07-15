@@ -41,33 +41,45 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      */
     var existsPosition: Position? = null
 
+    //そろそろマトリクスをIntではなく(pass, stop, action)にするべきなんだろうけど１枡ごとにオブジェクト作るのきっと重いよなあ…
     /**
      * 駒の移動可能範囲
      */
-    private var searchedRoute = mutableListOf<MutableList<Int>>()
+    private var passRoute = mutableListOf<MutableList<Int>>()
+    /**
+     * 駒の移動範囲で止まれるところ
+     */
+    private var stopRoute = mutableListOf<MutableList<Int>>()
     /**
      * 駒の移動範囲から更に効果を及ぼすことのできる範囲
      */
-    private var effectiveRoute: MutableList<MutableList<Int>> = mutableListOf<MutableList<Int>>()
+    private var actionRoute: MutableList<MutableList<Int>> = mutableListOf()
 
-    fun effectiveRouteOf(position: Position): Int {
-        if (effectiveRoute.size == 0) {
-            effectiveRoute = board.searchEffectiveRoute(this)
+    fun effectiveRouteAt(position: Position): Int {
+
+        if (actionRoute.size == 0) {
+            actionRoute = board.searchEffectiveRoute(this)
         }
-        return effectiveRoute[position.x][position.y]
+        return actionRoute[position.x][position.y]
     }
 
-    fun searchedRouteOf(position: Position): Int {
-        if (searchedRoute.size == 0) {
-            searchedRoute = board.searchRoute(this)
+    fun searchedRouteAt(position: Position): Int {
+        if (passRoute.size == 0) {
+            passRoute = board.searchRoute(this)
         }
-        return searchedRoute[position.x][position.y]
+        return passRoute[position.x][position.y]
     }
 
     /**
      * 効果範囲か。再帰して効果範囲を拡大できるかなので名前変えよう
      */
     open fun isEffective(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Boolean {
+        return false
+    }
+    /**
+     * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
+     */
+    open fun isSupportable(grounds: PiecesAndGrounds<UNIT, GROUND>, orientation: Int, steps: Int): Boolean {
         return false
     }
 
@@ -98,7 +110,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 別のユニットがいた場合にその枡に止まれるか。例えば敵に重なることはできるが味方には重なれないかも。移動範囲内かはこれより先に判定している
      */
-    open fun isStoppable(otherUnit: UNIT?): Boolean = otherUnit == null
+    open fun isStoppable(piece: Piece<UNIT, GROUND>?): Boolean = piece == null
 
 
     /**行動前・選択状態・移動後は行動可能
@@ -113,8 +125,6 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         if (!isActionable) {
             return false
         }
-        println("stageDropletImage1がクリックされた！")
-        println("stageDropletImage1がクリックされた！")
         return true
     }
 
@@ -149,11 +159,22 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 移動中。
      */
     open fun boardMove(position: Position): Boolean {
-        val targetRoute = searchedRoute[position.x][position.y]
+        val targetRoute = searchedRouteAt(position)
         //移動範囲外は-1
         if (targetRoute < 0) return false
         this.newPosition = position
         action(ActionPhase.MOVING, ActionEvent.MoveToCharPosition)
+        return true
+    }
+
+    /**
+     * 移動中。
+     */
+    open fun boardDrag(position: Position): Boolean {
+        val targetRoute = searchedRouteAt(position)
+        //移動範囲外は-1
+        if (targetRoute < 0) return false
+        this.newPosition = position
         return true
     }
 
@@ -164,6 +185,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         boardMoveCommit(position)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)
         //次の行動に備えてルートクリア
+        clearRoute()
         return true
     }
 
@@ -177,9 +199,11 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         return true
     }
 
-    private fun clearRoute() {
-        searchedRoute.clear()
-        effectiveRoute.clear()
+    fun clearRoute() {
+        println("clearRoute!! $this")
+        passRoute.clear()
+        stopRoute.clear()
+        actionRoute.clear()
     }
 
 
@@ -232,6 +256,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      */
     fun reset() {
         println("RESET!! $this")
+        clearRoute()
         action(ActionPhase.START, ActionEvent.Reset)
     }
 

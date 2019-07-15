@@ -48,15 +48,14 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     val pieceActive get() = opPhase == OpPhase.ACTIVE
 
-    var dragged = false
     /**
      * 枡高さ
      */
     private val squareHeight = (height - marginBottom - marginTop) / board.verticalLines
 
-    private fun posXtoSquareX(x: Float) = (x / squareWidth).toInt()
+    private fun posXtoSquareX(x: Float) = minOf( (x / squareWidth).toInt(),board.horizontalLines - 1)
 
-    private fun posYtoSquareY(y: Float) = ((y - marginBottom) / squareHeight).toInt()
+    private fun posYtoSquareY(y: Float) = minOf(((y - marginBottom) / squareHeight).toInt() , board.verticalLines - 1)
 
     fun squareYtoPosY(y: Int) = y * squareHeight + marginBottom
 
@@ -83,11 +82,9 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     /**
      * 盤面がクリックされたときに起動する…のだがタッチとタッチアップが同じときはクリックと判定するので全体を覆うときは実質TouchUp
-     * 挙動は時間でなくて指の移動距離を見てるので実際は使えないか？holdあるから使えないな…
+     * touchUp と違ってドラッグ後は出たりでなかったりするから使えないな…
      */
     override fun clicked(event: InputEvent, x: Float, y: Float) {
-        if (dragged) return
-        board.move.clicked(xyToPosition(x, y))
     }
 
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
@@ -101,6 +98,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
+        board.clicked(xyToPosition(x, y))
 //        //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
 //        val touchUpOver = isOver(event?.listenerActor ?: return, x, y)
 //        // Ignore touch up if the wrong mouse button.
@@ -109,7 +107,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 //        if (!touchUpOver) {
 //            board.move.drop(xyToPosition(x, y))
 //        }
-        board.move.touchUp()//elseにすべきか…？
+//        board.move.touchUp()//elseにすべきか…？
         dx = 0
         dy = 0
 //        println("$event: InputEvent?, $x: Float, $y: Float, $pointer: Int, $button: Int")
@@ -117,10 +115,11 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
-        //チャタリング対策。だったけど意外とちゃたらんな。なくていいかも
-        dx += x.toInt()
-        dy += y.toInt()
-        if (dx > 14 || dx < -14 || dy > 14 || dy < -14) board.move.drag(xyToPosition(x, y))
+        //チャタリング対策。実機だとちゃたるんだろうなあ
+        //dx += x.toInt()
+        //dy += y.toInt()
+        //if (dx > 14 || dx < -14 || dy > 14 || dy < -14)
+            board.drag(xyToPosition(x, y))
     }
 
     init {
@@ -152,9 +151,11 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         if (board.move.moving.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
-                    if (board.move.moving.selectedPiece!!.searchedRouteOf(Position(x, y)) >= 0) {
+                    if (board.move.moving.selectedPiece!!.searchedRouteAt(Position(x, y)) >= 0) {
                         fillSquare(x, y, FillType.MOVABLE)
-                    } else if (board.move.moving.selectedPiece!!.effectiveRouteOf(Position(x, y)) >= 0) {
+                    } else if (board.move.moving.selectedPiece!!.effectiveRouteAt(Position(x, y)) >= 128) {
+                        fillSquare(x, y, FillType.SUPPORTABLE)
+                    } else if (board.move.moving.selectedPiece!!.effectiveRouteAt(Position(x, y)) >= 0) {
                         fillSquare(x, y, FillType.ATTACKABLE)
                     }
                 }
@@ -211,10 +212,10 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     private fun fillSquare(x: Int, y: Int, fillType: FillType) {
         Gdx.gl.glEnable(GL20.GL_BLEND)
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        Gdx.gl.glBlendFunc(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA)
         liner.projectionMatrix = stage.camera.combined
         liner.begin(ShapeRenderer.ShapeType.Filled)
-        liner.color = fillType.color
+        liner.setColor(fillType.r,fillType.g,fillType.b,fillType.a)
         val lengthX = squareWidth
         val lengthY = squareHeight
         liner.rect(x * lengthX, y * lengthY + marginBottom, lengthX, lengthY)
@@ -274,10 +275,11 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         return seq
     }
 
-    enum class FillType(val color: Color) {
-        MOVABLE(Color.BLUE),
-        ATTACKABLE(Color.RED),
-        PASS(Color.GREEN)
+    enum class FillType(val r:Float,val g:Float,val b:Float,val a:Float) {
+        MOVABLE(0f,0f,1f,0.75f),
+        ATTACKABLE(1f,0f,0f,0.75f),
+        SUPPORTABLE(0f,1f,0f,0.75f),
+        PASS(0f,0f,1f,0.4f),
     }
 
 

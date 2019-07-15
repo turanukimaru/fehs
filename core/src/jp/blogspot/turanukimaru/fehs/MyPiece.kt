@@ -7,17 +7,24 @@ import jp.blogspot.turanukimaru.board.*
  */
 class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Player, actionListener: ActionListener) : Piece<BattleUnit, Ground>(containUnit, board, owner, actionListener) {
     var fightResult: FightResult? = null
-    override fun isStoppable(otherUnit: BattleUnit?): Boolean = otherUnit == null
+    override fun isStoppable(piece: Piece<BattleUnit, Ground>?): Boolean = piece == null || piece == this
 
     override fun isMovable(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
         //デフォルトでは上下左右0,2,4,6にしておこう
 //        println("move to $pieceAt $ground $orientation $steps")
-        return piece == null && ((ground == Ground.P && steps < containUnit.movableSteps) || (ground == Ground.W && steps + 1 < containUnit.movableSteps))
+        return (piece == null || piece.owner == owner) && ((ground == Ground.P && steps < containUnit.movableSteps) || (ground == Ground.W && steps + 1 < containUnit.movableSteps))
     }
 
     override fun isEffective(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean {
 //        println("step:$steps range:${containUnit.effectiveRange}")
-        return steps < containUnit.effectiveRange
+        return steps < containUnit.effectiveRange && !(piece != null && piece.owner == owner)//味方は範囲に数えない
+    }
+    /**
+     * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
+     */
+    override fun isSupportable(grounds: PiecesAndGrounds<BattleUnit, Ground>, orientation: Int, steps: Int): Boolean {
+        //support skill によって変わるのだがとりあえず一歩押す奴
+        return grounds.Piece0 != null && grounds.Piece0.owner == owner && grounds.Piece1 == null && grounds.Ground1 == Ground.P
     }
 
     override fun countStep(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Int {
@@ -70,14 +77,14 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
 
     //対象がルート上かとかの引数を増やすべきだな
     override fun dragged(position: UiBoard.Position): Boolean {
-        return showActionResult(position)
+        return true//showActionResult(position)
     }
 
     private fun showActionResult(position: UiBoard.Position): Boolean {
         val target = board.pieceAt(position)
-        println("呼ばれてるはずなんだけど上書きされてるのかな…？$target ${effectiveRouteOf(position)} ${board.move.touch?.touchedPiece} 表示関数に優先順位でもつけるか？")
+        println("呼ばれてるはずなんだけど上書きされてるのかな…？$target ${effectiveRouteAt(position)} ${board.move.touch?.touchedPiece} 表示関数に優先順位でもつけるか？")
         //敵ユニットに重ねたときは戦闘結果を計算して表示
-        if (effectiveRouteOf(position) > 0 && target != null && target.owner != owner) {
+        if (effectiveRouteAt(position) > 0 && target != null && target.owner != owner) {
             //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
             val fightResult = containUnit.fight(target.containUnit)
             for (result in fightResult) {
@@ -116,19 +123,21 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     /**
-     * touchUp/boardのタッチから呼び出される。MyUiPieceが要るか…？
+     * touchUp/boardのタッチから呼び出される
+     * 対象の piece が not null かは難しいところだな。…でもユニットのいないところへのアクションって移動になるからシステム的に作れないよな？
      */
     private fun actionTouchedPoint(position: UiBoard.Position, target: Piece<BattleUnit, Ground>?): ActionPhase {
         println("actionTouchedPoint")
         println("charPosition: $position")
         println("charPosition: " + board.positionIsOnBoard(position))
-        println("routeStack: $board.routeStack")
-        println("${board.move.moving.from} ${effectiveRouteOf(position)} $target ${target == this}")
+        println("existPosition: $existsPosition // これをそのまま attackPos として使えないとおかしい")
+        println("routeStack: ${board.move.routeStack}")
+        println("${board.move.moving.from} ${effectiveRouteAt(position)} $target ${target == this}")
 
         //敵は攻撃。味方はアシスト。アシストのロジックまだ考えてないけどな！
-        if (board.move.moving.from != position && effectiveRouteOf(position) > 0 && target != null && target != this) {
+        if (target != null && target != this) {
 //戦闘アクションは流石にここで登録してもいい気がするが…いやダメか…Updateで読む方法考えないとな
-            val attackPos = board.findActionPos(this, position)
+            val attackPos = existsPosition
             if (attackPos != null) {
                 //敵味方判別して行動。攻撃なら一歩手前に移動するし移動補助ならそれが発動する
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
@@ -164,7 +173,6 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         return ActionPhase.READY
     }
 
-    override fun toString(): String = "${containUnit.armedHero.name}"
+    override fun toString(): String = containUnit.armedHero.name
 }
 
-data class FightResult(val attacker: BattleUnit, val attackPos: UiBoard.Position, val target: BattleUnit, val targetPos: UiBoard.Position, val attackResults: List<AttackResult>)

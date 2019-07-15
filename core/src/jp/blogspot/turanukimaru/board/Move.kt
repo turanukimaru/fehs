@@ -40,14 +40,10 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * 駒の移動中に、移動経路を記録する
      */
     fun stackRoute(touchedPosition: UiBoard.Position) {
-        println("stackRoute $touchedPosition")
         //最後の枡のままの時は何もしない
         if (routeStack.isNotEmpty() && routeStack.last == touchedPosition) {
             return
         }
-//        if (onRoute) {//TODO:動線が変わったら一度クリアしたいんだけどアルゴリズムが思い浮かばない
-//            routeStack.clear()
-//        }
         //ただしスタックに有ったらそこまで戻す
         while (routeStack.contains(touchedPosition)) {
             routeStack.pop()
@@ -60,13 +56,14 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      */
     fun drag(position: UiBoard.Position) {
         println("board dragged on $position")
+
         drag(touch!!, position)
     }
    private fun drag(touch: Touch<UNIT, GROUND>, position: UiBoard.Position){
         //駒をドラッグしてるとき
-        if (touch.drag(position,board)){
-            moving = Dragging(this, touch.touchedPiece!!, touch.touchedPosition, touch.touchedPosition)
-            stackRoute(position)
+        if (touch.drag(position,board) ){
+            moving = Dragging(this, touch.touchedPiece!!, touch.touchedPiece!!.existsPosition!!, touch.touchedPosition)
+            board.findRoute(listOf(position),touch.touchedPosition,touch.touchedPiece!!)
         }
     }
 
@@ -74,11 +71,14 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     /**
      * 指を離したときに呼び出される。ドラッグもここになるのでここからdrop()を呼び出している
      */
-    fun clicked(position: UiBoard.Position) {
+    fun clicked(position: UiBoard.Position,piece: Piece<UNIT, GROUND>?) {
+        println("clicked")
         //盤面タップ
-        moving = if (touch!!.hasPiece) {
-            moving.pieceClick(position, touch!!.touchedPiece!!)
+        moving = if (piece!= null) {
+            println("moving.pieceClick($position, $piece)")
+            moving.pieceClick(position, piece)
         } else {
+            println("あれーこれが呼ばれてるはずなんだけどな")
             moving.boardClick(position)
         }
         touchRelease()

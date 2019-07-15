@@ -1,5 +1,10 @@
 package jp.blogspot.turanukimaru.board
 
+import jp.blogspot.turanukimaru.fehs.AttackResult
+import jp.blogspot.turanukimaru.fehs.BattleUnit
+import jp.blogspot.turanukimaru.fehs.Ground
+import javax.lang.model.type.UnionType
+
 //雑多なクラスやEnum
 
 /**
@@ -22,19 +27,29 @@ class Touch<UNIT, GROUND>(
         /**
          * タッチ開始したときの駒。タッチ開始とUp開始が同じ駒の時でないとタッチ判定しないほうが良いだろう
          */
-        var touchedPiece: Piece<UNIT, GROUND>? = null,
+        var touchedPiece: Piece<UNIT, GROUND>?,
         /**
          * タッチ開始したときの位置.これは not null が自然か
          */
         var touchedPosition: UiBoard.Position,
-        var holdStart: Long = 0L,
-        var dragged: Boolean = false
+        var holdStart: Long,
+        var dragged: Boolean
 ) {
+    /**
+     *     Process: jp.blogspot.turanukimaru.fehs, PID: 1737
+    java.lang.IllegalAccessError: Illegal class access: 'jp.blogspot.turanukimaru.board.Move$override' attempting to access 'kotlin.jvm.internal.DefaultConstructorMarker' (declaration of 'jp.blogspot.turanukimaru.board.Move$override' appears in /data/data/jp.blogspot.turanukimaru.fehs/files/instant-run/dex-temp/reload0x0000.dex)
+
+    インスタントランでコンストラクタにデフォルト引数使うと発生することがある
+    デフォルト引数を使わないようにするかコンストラクタを手で作る
+     */
+    constructor(touchedPiece: Piece<UNIT, GROUND>?,
+                 touchedPosition: UiBoard.Position,
+                 holdStart: Long):this(touchedPiece,touchedPosition,holdStart,false)
     private val graspThreshold = 500//長押しホールドに結局要るか…
 
     val hasPiece: Boolean get() = touchedPiece != null
     /**
-     * ドラッグ中か。一定値以上ドラッグかホールド時間で判定しとくか
+     * ドラッグ中か。どこかにホールド判定を入れないとなー
      */
     fun dragging(): Boolean {
         return dragged || System.currentTimeMillis() - holdStart > graspThreshold
@@ -42,9 +57,13 @@ class Touch<UNIT, GROUND>(
 
     fun drag(position: UiBoard.Position, board: Board<UNIT, GROUND>): Boolean {
         dragged = true
-        return touchedPiece?.isActionable ?: false && touchedPiece?.owner == board.owner && touchedPiece?.boardMove(position) ?: false
+        //そこに動けるか判定が先に要るか
+        return touchedPiece?.let { it.isActionable && touchedPiece?.owner == board.owner && it.boardDrag(position) } ?: false
     }
 }
+
+data class PiecesAndGrounds<UNIT, GROUND>(val Piece0:Piece<UNIT, GROUND>?, val Piece1:Piece<UNIT, GROUND>?, val Piece_1:Piece<UNIT, GROUND>?, val Piece2:Piece<UNIT, GROUND>?, val Piece_2:Piece<UNIT, GROUND>?
+                                           , val Ground0: GROUND?, val Ground1: GROUND?, val Ground_1: GROUND?, val Ground2: GROUND?, val Ground_2: GROUND?)
 
 /**
  * アクション開始イベント。

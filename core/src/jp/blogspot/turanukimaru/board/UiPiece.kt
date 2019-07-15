@@ -40,22 +40,22 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
             return
         }
         touched = TouchPhase.DRAG
-        val touchedSquare = stackTouchedRoute()// Board と Piece 両方から追加されてる。重複しないアルゴリズムなので平気ではあるが不自然でもあるな
-        piece.touchDragged(touchedSquare, x, y)
+//        val touchedSquare = stackTouchedRoute()// Board と Piece 両方から追加されてる。重複しないアルゴリズムなので平気ではあるが不自然でもあるな
+        piece.touchDragged(uiBoard.touchedPosition(), x, y)
     }
 
-    private fun stackTouchedRoute(): UiBoard.Position {
-        val touchedSquare = uiBoard.touchedPosition()
-        stackRoute(touchedSquare)
-        return touchedSquare
-    }
+//    private fun stackTouchedRoute(): UiBoard.Position {
+//        val touchedSquare = uiBoard.touchedPosition()
+//        stackRoute(touchedSquare)
+//        return touchedSquare
+//    }
 
-    //対象の枡が通れるときはスタックに積む…とまれるときか？ともかくこれは駒側主導ではあるが人の操作ではないわけでなんか分けたいなあ。通れる・泊まれるを判断するから無理か。
-    private fun stackRoute(position: UiBoard.Position) {
-        if (piece.searchedRouteOf(position) > 0) {
-            uiBoard.board.move.stackRoute(position)
-        }
-    }
+//    //対象の枡が通れるときはスタックに積む…とまれるときか？ともかくこれは駒側主導ではあるが人の操作ではないわけでなんか分けたいなあ。通れる・泊まれるを判断するから無理か。
+//    private fun stackRoute(position: UiBoard.Position) {
+//        if (piece.searchedRouteAt(position) > 0) {
+//            uiBoard.board.move.stackRoute(position)
+//        }
+//    }
 
     /**
      * 指を離したのを駒に伝える。んだったんだけどこれもういらないよなあ

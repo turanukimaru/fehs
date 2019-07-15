@@ -67,7 +67,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
             ActionPhase.READY -> readyAction()
             //現在の位置に灰色で表示.アクションというかシーケンスの最後に移動したいところだけどややこしくなるからここのままのがいいか
             ActionPhase.ACTED -> actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f); }//これ灰色じゃねーな　r+g+b/3　にするのが正しいか？
-            ActionPhase.REMOVED -> println("おそらく不要。フェイドアウトは戦闘後アクションで書いてしまっている")
+            ActionPhase.REMOVED -> {}/* */
             //行動後の現在位置に表示。ずれてる場合は直接移動させる //問題か Position をどこからとってくるかが
             else -> println("MyUiPiece else ${uiBoard.board.move}")
         }
@@ -140,7 +140,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
         val targetSeq = SequenceAction()
         var targetDead = false
         var sourceDead = false
-        for (result in fightResult!!.attackResults) {
+        for (result in fightResult.attackResults) {
             println(result)
             //ダメージを与える側が攻撃側の時
             if (result.side == SIDES.ATTACKER) {
