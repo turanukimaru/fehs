@@ -65,6 +65,13 @@ class Touch<UNIT, GROUND>(
 data class PiecesAndGrounds<UNIT, GROUND>(val Piece0:Piece<UNIT, GROUND>?, val Piece1:Piece<UNIT, GROUND>?, val Piece_1:Piece<UNIT, GROUND>?, val Piece2:Piece<UNIT, GROUND>?, val Piece_2:Piece<UNIT, GROUND>?
                                            , val Ground0: GROUND?, val Ground1: GROUND?, val Ground_1: GROUND?, val Ground2: GROUND?, val Ground_2: GROUND?)
 
+enum class TouchPhase {
+    NONE,//触ってない
+    TOUCH,//触り始めた
+    DRAG,//ドラッグ中
+    RELEASE,//ドラッグ離した
+}
+
 /**
  * アクション開始イベント。
  */

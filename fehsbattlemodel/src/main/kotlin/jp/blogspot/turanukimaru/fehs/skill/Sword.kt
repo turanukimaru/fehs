@@ -266,13 +266,19 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
     },
     SandfortSpade(SkillName.SandfortSpade, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
     },
     SandfortSpade2(SkillName.SandfortSpade2, SkillType.SWORD, 14, SandfortSpade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
     },
     ArdentDurandal(SkillName.ArdentDurandal, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+    },
+    PetalParasol(SkillName.PetalParasol, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+    },
+    PetalParasol2(SkillName.PetalParasol2, SkillType.SWORD, 14, SandfortSpade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
     },
 
     ;

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import kotlin.math.abs
 
 /**
  * 盤面とlibGDXの間
@@ -29,7 +30,12 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     /**
      * 盤面の座標
      */
-    data class Position(val x: Int, val y: Int)
+    data class Position(val x: Int, val y: Int) {
+        fun sub(p: Position): Position = Position(x - p.x, y - p.y)
+        fun plus(p: Position): Position = Position(x + p.x, y + p.y)
+        fun range(p: Position, max: Int, min: Int = 0) = distance(p) in min..max
+        fun distance(p: Position) = abs(x - p.x) + abs(y - p.y)
+    }
 
     val numberRegions = mutableListOf<TextureRegion>()
 
@@ -53,9 +59,9 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     private val squareHeight = (height - marginBottom - marginTop) / board.verticalLines
 
-    private fun posXtoSquareX(x: Float) = minOf( (x / squareWidth).toInt(),board.horizontalLines - 1)
+    private fun posXtoSquareX(x: Float) = minOf((x / squareWidth).toInt(), board.horizontalLines - 1)
 
-    private fun posYtoSquareY(y: Float) = minOf(((y - marginBottom) / squareHeight).toInt() , board.verticalLines - 1)
+    private fun posYtoSquareY(y: Float) = minOf(((y - marginBottom) / squareHeight).toInt(), board.verticalLines - 1)
 
     fun squareYtoPosY(y: Int) = y * squareHeight + marginBottom
 
@@ -119,7 +125,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         //dx += x.toInt()
         //dy += y.toInt()
         //if (dx > 14 || dx < -14 || dy > 14 || dy < -14)
-            board.drag(xyToPosition(x, y))
+        board.drag(xyToPosition(x, y))
     }
 
     init {
@@ -151,12 +157,16 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         if (board.move.moving.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
-                    if (board.move.moving.selectedPiece!!.searchedRouteAt(Position(x, y)) >= 0) {
-                        fillSquare(x, y, FillType.MOVABLE)
-                    } else if (board.move.moving.selectedPiece!!.effectiveRouteAt(Position(x, y)) >= 128) {
-                        fillSquare(x, y, FillType.SUPPORTABLE)
-                    } else if (board.move.moving.selectedPiece!!.effectiveRouteAt(Position(x, y)) >= 0) {
-                        fillSquare(x, y, FillType.ATTACKABLE)
+                    when {//優先順位はアシスト可能・移動可能・攻撃可能・なら大丈夫かな？
+                        board.move.moving.selectedPiece!!.effectiveRouteAt(Position(x, y)) >= 128 -> {
+                            fillSquare(x, y, FillType.SUPPORTABLE)
+                        }
+                        board.move.moving.selectedPiece!!.searchedRouteAt(Position(x, y)) >= 0 -> {
+                            fillSquare(x, y, FillType.MOVABLE)
+                        }
+                        board.move.moving.selectedPiece!!.effectiveRouteAt(Position(x, y)) >= 0 -> {
+                            fillSquare(x, y, FillType.ATTACKABLE)
+                        }
                     }
                 }
             }
@@ -215,7 +225,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         Gdx.gl.glBlendFunc(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA)
         liner.projectionMatrix = stage.camera.combined
         liner.begin(ShapeRenderer.ShapeType.Filled)
-        liner.setColor(fillType.r,fillType.g,fillType.b,fillType.a)
+        liner.setColor(fillType.r, fillType.g, fillType.b, fillType.a)
         val lengthX = squareWidth
         val lengthY = squareHeight
         liner.rect(x * lengthX, y * lengthY + marginBottom, lengthX, lengthY)
@@ -275,11 +285,11 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         return seq
     }
 
-    enum class FillType(val r:Float,val g:Float,val b:Float,val a:Float) {
-        MOVABLE(0f,0f,1f,0.75f),
-        ATTACKABLE(1f,0f,0f,0.75f),
-        SUPPORTABLE(0f,1f,0f,0.75f),
-        PASS(0f,0f,1f,0.4f),
+    enum class FillType(val r: Float, val g: Float, val b: Float, val a: Float) {
+        MOVABLE(0f, 0f, 1f, 0.75f),
+        ATTACKABLE(1f, 0f, 0f, 0.75f),
+        SUPPORTABLE(0f, 1f, 0f, 0.75f),
+        PASS(0f, 0f, 1f, 0.4f),
     }
 
 

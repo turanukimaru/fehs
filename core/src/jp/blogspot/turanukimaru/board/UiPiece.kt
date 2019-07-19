@@ -58,7 +58,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
 //    }
 
     /**
-     * 指を離したのを駒に伝える。んだったんだけどこれもういらないよなあ
+     * 指を離したのを駒に伝える。
      * x,yはきっとタッチ始めた位置からの差分
      */
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
@@ -100,11 +100,4 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
 
     open fun update() {
     }
-}
-
-enum class TouchPhase {
-    NONE,//触ってない
-    TOUCH,//触り始めた
-    DRAG,//ドラッグ中
-    RELEASE,//ドラッグ離した
 }

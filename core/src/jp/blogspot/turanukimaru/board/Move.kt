@@ -63,7 +63,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         //駒をドラッグしてるとき
         if (touch.drag(position,board) ){
             moving = Dragging(this, touch.touchedPiece!!, touch.touchedPiece!!.existsPosition!!, touch.touchedPosition)
-            board.findRoute(listOf(position),touch.touchedPosition,touch.touchedPiece!!)
+            board.findActionRoute(position, Pair(0,0),listOf(position),touch.touchedPosition,touch.touchedPiece!!)
         }
     }
 

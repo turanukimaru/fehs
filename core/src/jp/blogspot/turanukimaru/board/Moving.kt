@@ -68,7 +68,7 @@ abstract class Moving<UNIT, GROUND>(
         val movable = selectedPiece.boardMove(position)
         println("ひょっとして $movable false?")
         if (movable) {
-            move.board.findRoute(listOf(position), oldPosition, selectedPiece)
+            move.board.findActionRoute(position, selectedPiece.actionRange(),listOf(position), oldPosition, selectedPiece)
             move.board.moveToPosition(selectedPiece, position)
             return Selected(move, selectedPiece, oldPosition, position)
         }
@@ -80,21 +80,28 @@ abstract class Moving<UNIT, GROUND>(
      */
     fun ready(targetPiece: Piece<UNIT, GROUND>, targetPos: UiBoard.Position, selectedPiece: Piece<UNIT, GROUND>, oldPosition: UiBoard.Position): Moving<UNIT, GROUND> {
         println("ready $this to $targetPiece ")
-        if (targetPiece.owner == move.board.owner) return this //アシストは後で考える
+        if (targetPiece.owner == move.board.owner){//味方へのアクション
+            val targetEffective = selectedPiece.effectiveRouteAt(targetPos)
+            if (targetEffective < 128) return this //アクション出来ない相手は何も起きない.NoMove返してもいいが…
+            val assistPosition = move.board.findAssistPos(selectedPiece, targetPos, oldPosition) ?:return this
+            moveSelectedPiece(assistPosition, selectedPiece, oldPosition)
+            selectedPiece.boardAction(assistPosition,targetPos, targetPiece)//補助準備って攻撃準備と違うんだっけ…？
+            return Ready(move, selectedPiece, oldPosition, assistPosition, targetPiece, targetPos)
+        }
         val targetEffective = selectedPiece.effectiveRouteAt(targetPos)
-        if (targetEffective < 0) return this //アクション出来ない相手は何も起きない.NoMove返してもいいが…
-        val attackablePosition = move.board.findActionPos(selectedPiece, targetPos, oldPosition)
-        moveSelectedPiece(attackablePosition, selectedPiece, oldPosition)
-        selectedPiece.boardAction(targetPos, targetPiece)//攻撃準備
-        return Ready(move, selectedPiece, oldPosition, attackablePosition, targetPiece, targetPos)
+        if (targetEffective < 0) return this //アクション出来ない相手は何も起きない.味方へのアクションも通ってしまえるが、そのあと結局攻撃可能箇所が見つからない
+        val attackPosition = move.board.findActionPos(selectedPiece, targetPos, oldPosition) ?:return this
+        moveSelectedPiece(attackPosition, selectedPiece, oldPosition)
+        selectedPiece.boardAction(attackPosition,targetPos, targetPiece)//攻撃準備
+        return Ready(move, selectedPiece, oldPosition, attackPosition, targetPiece, targetPos)
     }
 
     /**
-     * 行動実行
+     * 行動実行。これ味方に攻撃するな。ここで相手を判定するべきか先で判定するべきか…
      */
-    fun actionCommit(targetPiece: Piece<UNIT, GROUND>, targetPos: UiBoard.Position, selectedPiece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
+    fun actionCommit(targetPiece: Piece<UNIT, GROUND>, targetPos: UiBoard.Position, selectedPiece: Piece<UNIT, GROUND>, selectedPos: UiBoard.Position): Moving<UNIT, GROUND> {
         selectedPiece.boardMoveCommit()
-        selectedPiece.boardActionCommit(targetPos, targetPiece)
+        selectedPiece.boardActionCommit(selectedPos,targetPos, targetPiece)
         selectedPiece.clearRoute()
         move.routeStack.clear()
         return NoMove(move)
@@ -182,7 +189,7 @@ data class Selected<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, overrid
 
 open class Ready<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override val selectedPiece: Piece<UNIT, GROUND>, override val from: UiBoard.Position, override val to: UiBoard.Position, override val actionTargetPiece: Piece<UNIT, GROUND>, override val actionTargetPos: UiBoard.Position) : Grasp<UNIT, GROUND>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
-        return if (piece == selectedPiece || piece == actionTargetPiece) actionCommit(actionTargetPiece, actionTargetPos, selectedPiece)
+        return if (piece == selectedPiece || piece == actionTargetPiece) actionCommit(actionTargetPiece, actionTargetPos, selectedPiece,to)
         else ready(piece, position, selectedPiece, from)//ownerによって変えるべきか…？
     }
 }
@@ -192,7 +199,7 @@ data class Dragging<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, overrid
         println("pieceClick piece : $piece / $selectedPiece/$from/$to")
         println("死んだあとの盤上の位置がおかしいっていうかなんか残ってる…")
         return if (from == position) moveCancel()
-        else ready(piece, position, selectedPiece, from).actionCommit(piece, position, selectedPiece)
+        else ready(piece, position, selectedPiece, from).actionCommit(piece, position, selectedPiece,to)
 
     }
 

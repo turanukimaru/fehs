@@ -143,6 +143,16 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
     BouquetBow2(SkillName.BouquetBow2, SkillType.BOW, 12, BouquetBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
     },
+    BigCatchBow(SkillName.BigCatchBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger || enemy.isDebuffed) atkSpd(battleUnit, 5, this) else battleUnit
+    },
+    BigCatchBow2(SkillName.BigCatchBow2, SkillType.BOW, 12, BouquetBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger || enemy.isDebuffed) atkSpd(battleUnit, 5, this) else battleUnit
+    },
+    DeepBlueBow(SkillName.DeepBlueBow, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, effectiveAgainstMoveType = arrayOf(MoveType.FLIER,MoveType.ARMORED)) {
+        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = enemyFullHpAllBonus(battleUnit, enemy, 4, this)
+    },
     ;
 
     /**

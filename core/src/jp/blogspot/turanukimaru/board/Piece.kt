@@ -19,7 +19,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      */
     var actionPhase = ActionPhase.DISABLED
 
-    //アクション。基本的にはアニメの発声しないアクションだが。うーん難しい。
+    /**
+     * アクション。アクションと同時に次の状態に移行することを想定しているが…この関数あんまし要らん気がするな
+     */
     fun action(nextPhase: ActionPhase, actionEvent: ActionEvent = ActionEvent.None, fightResult: FightResult? = null) {
         //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
         actionListener.action(actionEvent, nextPhase, charPosition, fightResult)
@@ -58,7 +60,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     fun effectiveRouteAt(position: Position): Int {
 
         if (actionRoute.size == 0) {
-            actionRoute = board.searchEffectiveRoute(this)
+            actionRoute = board.searchActionRoute(this,position)
         }
         return actionRoute[position.x][position.y]
     }
@@ -67,7 +69,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         if (passRoute.size == 0) {
             passRoute = board.searchRoute(this)
         }
-        return passRoute[position.x][position.y]
+        return if(board.positionIsOnBoard(position)) passRoute[position.x][position.y] else -1
     }
 
     /**
@@ -100,12 +102,6 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
             -1
         }
     }
-
-    /**
-     * この枡に移動することで消費する効果範囲。ただ枡を通過できるかはともかく効果範囲が減るとかいうゲーム無かった気がするから不要か？
-     */
-    open fun countEffectiveStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Int = if (steps == 0) 1 else -1
-
 
     /**
      * 別のユニットがいた場合にその枡に止まれるか。例えば敵に重なることはできるが味方には重なれないかも。移動範囲内かはこれより先に判定している
@@ -146,9 +142,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     open fun update() {
     }
 
-    open fun boardAction(position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
+    open fun boardAction(source: Position,target: Position, targetPiece: Piece<UNIT, GROUND>): Boolean = true
 
-    open fun boardActionCommit(position: Position, targetPiece: Piece<UNIT, GROUND>?): Boolean = true
+    open fun boardActionCommit(source: Position,target: Position, targetPiece: Piece<UNIT, GROUND>): Boolean = true
 
     open fun movePiece(): Boolean {
         action(ActionPhase.MOVING, ActionEvent.MoveToCharPosition)
@@ -164,6 +160,15 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         if (targetRoute < 0) return false
         this.newPosition = position
         action(ActionPhase.MOVING, ActionEvent.MoveToCharPosition)
+        return true
+    }
+    /**
+     * 誰かに移動させられた時。アクションはとるが状態は変わらない
+     */
+    open fun boardSlide(position: Position): Boolean {
+        this.existsPosition = position
+        this.newPosition = null
+        action(actionPhase, ActionEvent.MoveToCharPosition)
         return true
     }
 
@@ -240,15 +245,36 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 移動可能方向
      */
-    open fun orientations(): Array<Int> {
+    open fun moveOrientations(): Array<Int> {
         return arrayOf(0, 2, 4, 6)
     }
 
     /**
      * 攻撃可能方向
      */
-    open fun effectiveOrientations(): Array<Int> {
+    open fun actionOrientations(): Array<Int> {
         return arrayOf(0, 2, 4, 6)
+    }
+
+    /**
+     * 補助可能方向
+     */
+    open fun assistOrientations(): Array<Int> {
+        return arrayOf(0, 2, 4, 6)
+    }
+
+    /**
+     * 攻撃可能射程
+     */
+    open fun actionRange(): Pair<Int,Int> {
+        return Pair(1,1)
+    }
+
+    /**
+     * 補助可能射程。アルゴリズム的には遠距離にできるがあんましやりたくないなー
+     */
+    open fun assistRange(): Pair<Int,Int> {
+        return Pair(0,0)
     }
 
     /**

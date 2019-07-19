@@ -534,6 +534,12 @@ enum class HeroName(val jp: String, val us: String, val tw: String) {
     レーギャルン__夏_("レーギャルン（夏）", "Laegjarn (Summer)", "瑞瓦伽倫 (Summer)"),
     ユルグ__夏_("ユルグ（夏）", "Ylgr (Summer)", "優爾格 (Summer)"),
     エリウッド__伝承英雄_("エリウッド（伝承英雄）", "Eliwood (Vanguard Legend)", "艾利烏德 (Vanguard Legend)"),
+
+    リリーナ__夏_("リリーナ（夏）", "Lilina (Summer)", "莉莉娜 (Summer)"),
+    ウォルト__夏_("ウォルト（夏）", "Wolt (Summer)", "Wolt (Summer)"),
+    ウルスラ__夏_("ウルスラ（夏）", "Ursula (Summer)", "烏爾斯拉 (Summer)"),
+    リン__夏_("リン（夏）", "Lyn (Summer)", "琳 (Summer)"),
+    フィオーラ__夏_("フィオーラ（夏）", "Fiora (Summer)", "Fiora (Summer)"),
     ;
 
     /**

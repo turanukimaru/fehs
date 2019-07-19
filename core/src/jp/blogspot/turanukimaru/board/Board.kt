@@ -76,10 +76,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 対象の場所にある駒
      */
     fun pieceAt(position: Position): Piece<UNIT, GROUND>? = if (position.x in 0 until horizontalLines && position.y in 0 until verticalLines) pieceMatrix[position.x][position.y] else null
+
     /**
      * 対象の場所にある地形
      */
-    fun groundAt(position: Position): GROUND? = if (position.x in 0 until horizontalLines && position.y in 0 until verticalLines)  groundMatrix[position.x][position.y] else null
+    fun groundAt(position: Position): GROUND? = if (position.x in 0 until horizontalLines && position.y in 0 until verticalLines) groundMatrix[position.x][position.y] else null
 
     /**
      * タッチされたときに呼び出される
@@ -88,6 +89,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         move.touch(position, pieceAt(position)
         )
     }
+
     /**
      * タッチされたときに呼び出される
      */
@@ -155,6 +157,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     fun positionIsOnBoard(position: Position): Boolean = position.x >= 0 && position.y >= 0 && position.x < horizontalLines && position.y < verticalLines
 
+    /**
+     * 情報枠を更新する。描画関数をリスナに渡してるだけだけど…
+     */
     fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }, rank: Int = 0) {
         listener?.updateInfo(updateInfo, rank)
     }
@@ -177,7 +182,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     private fun step(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: MutableList<MutableList<Int>>) {
         routeMatrix[position.x][position.y] = steps
-        val orientations = piece.orientations()
+        val orientations = piece.moveOrientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
             //枠内
@@ -198,61 +203,68 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲を探す。
      */
-    fun searchEffectiveRoute(piece: Piece<UNIT, GROUND>): MutableList<MutableList<Int>> {
-        println("searchEffectiveRoute $piece")
+    fun searchActionRoute(piece: Piece<UNIT, GROUND>, position: Position): MutableList<MutableList<Int>> {
+        println("searchActionRoute $piece")
+        //最大／最小射程
+        val max = piece.actionRange().first
+        val min = piece.actionRange().second
         val routeMatrix = filledMatrix
         horizontalIndexes.forEach { x ->
             verticalIndexes.forEach { y ->
                 val square = Position(x, y)
-                if (piece.searchedRouteAt(square) >= 0 && piece.isStoppable(pieceAt(square))) stepEffect(piece, square, 0, routeMatrix)
+                //まずこの枡が未計算でユニットからの射程内だったらマーク
+                if(routeMatrix[x][y] == -1 && position.range(square,max,min)) routeMatrix[x][y] = position.distance(square)
+                if (piece.searchedRouteAt(square) >= 0 && piece.isStoppable(pieceAt(square))) stepActionRoute(piece, square, 0, routeMatrix)
             }
         }
         return routeMatrix
     }
 
     /**
-     * 効果範囲探索.一歩進んで再帰するけどこれ再帰しないほうが良い気がしてきた
+     * 効果範囲探索.再帰できるようになってはいるけど今は再帰させてない。射程で計算するとき再帰させようと思ってたけどよく考えたら距離計算できればそれでいいよな…
      */
-    private fun stepEffect(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, attackMatrix: MutableList<MutableList<Int>>) {
-//        if (steps > 0) {
-//            attackMatrix[position.x][position.y] = steps
-//        }
-        val orientations = piece.effectiveOrientations()
+    private fun stepActionRoute(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, attackMatrix: MutableList<MutableList<Int>>) {
+        val orientations = piece.actionOrientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
             //枠内
             if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
-                //targetStepsが-1のときに終了するという技もあるがどうしよう？
-                val targetSteps = piece.countEffectiveStep(targetUnit, targetSquare, v, steps)
+                //再帰して距離を計算するつもりだったけど射程は再帰要らないよな。1固定でいっか
+                val targetSteps = 1
                 val stepped = attackMatrix[targetPos.x][targetPos.y]
-
-                //対象の前後２枡筒を確認してサポートスキルが発動できるか。ちょっと人には見せられないコードだな！
-                val pos1 =  moveWithOrientation(v, targetPos)
-                val pos2 =  moveWithOrientation(v, pos1)
-                val pos_1 =  moveWithOrientation(v, targetPos,-1)
-                val pos_2 =  moveWithOrientation(v, pos_1,-1)
-                val p1 = pieceAt(pos1)
-                val g1 = groundAt(pos1)
-                val p2 = pieceAt(pos2)
-                val g2 = groundAt(pos2)
-                val p_1 = pieceAt(pos_1)
-                val g_1 = groundAt(pos_1)
-                val p_2 = pieceAt(pos_2)
-                val g_2 = groundAt(pos_2)
-                val piecesAndGrounds = PiecesAndGrounds(targetUnit,p1,p2,p_1,p_2,targetSquare,g1,g2,g_1,g_2)
-                //一応効果範囲内だったら再帰するようにしてはいるが攻撃範囲は再帰しないほうが良いので削除するかも
+                val piecesAndGrounds = aroundPiecesAndGrounds(v, targetPos, targetUnit, targetSquare)
                 //対象が未検索 || ステップの短いほう優先というアルゴリズムだけどいいのかな？いいか。これ別マトリクスにするか…
                 if (piece.isSupportable(piecesAndGrounds, v, steps) && (stepped == -1 || stepped > targetSteps)) {
                     attackMatrix[targetPos.x][targetPos.y] = targetSteps + 128
                 }
                 if (piece.isEffective(targetUnit, targetSquare, v, steps) && (stepped == -1 || stepped > targetSteps)) {
                     attackMatrix[targetPos.x][targetPos.y] = targetSteps
-//                    stepEffect(piece, targetPos, targetSteps, attackMatrix)
+//                    stepActionRoute(piece, targetPos, targetSteps, attackMatrix)
                 }
             }
         }
+    }
+
+    /**
+     * 対象と前後２枡の枡・駒を出力する。補助スキル判定に使う
+     */
+    private fun aroundPiecesAndGrounds(v: Int, targetPos: Position, targetUnit: Piece<UNIT, GROUND>? = pieceAt(targetPos), targetSquare: GROUND? = groundAt(targetPos)): PiecesAndGrounds<UNIT, GROUND> {
+        //対象の前後２枡筒を確認してサポートスキルが発動できるか。ちょっと人には見せられないコードだな！
+        val pos1 = moveWithOrientation(v, targetPos)
+        val pos2 = moveWithOrientation(v, pos1)
+        val posM1 = moveWithOrientation(v, targetPos, -1)
+        val posM2 = moveWithOrientation(v, posM1, -1)
+        val p1 = pieceAt(pos1)
+        val g1 = groundAt(pos1)
+        val p2 = pieceAt(pos2)
+        val g2 = groundAt(pos2)
+        val pM1 = pieceAt(posM1)
+        val gM1 = groundAt(posM1)
+        val pM2 = pieceAt(posM2)
+        val gM2 = groundAt(posM2)
+        return PiecesAndGrounds(targetUnit, p1, p2, pM1, pM2, targetSquare, g1, g2, gM1, gM2)
     }
 
     /**
@@ -260,6 +272,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      */
     private fun moveWithOrientation(v: Int, position: Position, sign: Int = 1): Position {
         return when (v) {
+            //1
             0 -> Position(position.x, position.y - 1 * sign)
             1 -> Position(position.x + 1 * sign, position.y - 1 * sign)
             2 -> Position(position.x + 1 * sign, position.y)
@@ -268,6 +281,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             5 -> Position(position.x - 1 * sign, position.y + 1 * sign)
             6 -> Position(position.x - 1 * sign, position.y)
             7 -> Position(position.x - 1 * sign, position.y - 1 * sign)
+            //2
             8 -> Position(position.x, position.y - 2 * sign)
             9 -> Position(position.x + 1 * sign, position.y - 2 * sign)
             10 -> Position(position.x + 2 * sign, position.y - 2 * sign)
@@ -284,6 +298,31 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             21 -> Position(position.x - 2 * sign, position.y - 1 * sign)
             22 -> Position(position.x - 2 * sign, position.y - 2 * sign)
             23 -> Position(position.x - 1 * sign, position.y - 2 * sign)
+            //3
+            24 -> Position(position.x, position.y - 3 * sign)
+            25 -> Position(position.x + 1 * sign, position.y - 3 * sign)
+            26 -> Position(position.x + 2 * sign, position.y - 3 * sign)
+            27 -> Position(position.x + 3 * sign, position.y - 3 * sign)
+            28 -> Position(position.x + 3 * sign, position.y - 2 * sign)
+            29 -> Position(position.x + 3 * sign, position.y - 1 * sign)
+            30 -> Position(position.x + 3 * sign, position.y - 0 * sign)
+            31 -> Position(position.x + 3 * sign, position.y + 1 * sign)
+            32 -> Position(position.x + 3 * sign, position.y + 2 * sign)
+            33 -> Position(position.x + 3 * sign, position.y + 3 * sign)
+            34 -> Position(position.x + 2 * sign, position.y + 3 * sign)
+            35 -> Position(position.x + 1 * sign, position.y + 3 * sign)
+            36 -> Position(position.x + 0 * sign, position.y + 3 * sign)
+            37 -> Position(position.x - 1 * sign, position.y + 3 * sign)
+            38 -> Position(position.x - 2 * sign, position.y + 3 * sign)
+            39 -> Position(position.x - 3 * sign, position.y + 3 * sign)
+            40 -> Position(position.x - 3 * sign, position.y + 2 * sign)
+            41 -> Position(position.x - 3 * sign, position.y + 1 * sign)
+            42 -> Position(position.x - 3 * sign, position.y + 0 * sign)
+            43 -> Position(position.x - 3 * sign, position.y - 1 * sign)
+            44 -> Position(position.x - 3 * sign, position.y - 2 * sign)
+            45 -> Position(position.x - 3 * sign, position.y - 3 * sign)
+            46 -> Position(position.x - 2 * sign, position.y - 3 * sign)
+            47 -> Position(position.x - 1 * sign, position.y - 3 * sign)
             else -> Position(position.x, position.y)
         }
     }
@@ -343,22 +382,45 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
 
     /**
      * 対象の位置から移動経路をさかのぼり攻撃場所を探す。 経路中に無いときには攻撃可能位置を探す
+     * 動かなくても攻撃対象がRange内の時はそこから攻撃できるようにしてみた。パラメータ引き継ぎまくれば移動しつつ長いレンジで攻撃とかもできるけど必要になってからでいいよね
      */
-    fun findActionPos(piece: Piece<UNIT, GROUND>, targetPos: Position, startPos: Position): Position {
+    fun findActionPos(piece: Piece<UNIT, GROUND>, targetPos: Position, startPos: Position): Position? {
         println("findActionPos $targetPos")
-        val orientations = piece.effectiveOrientations()
-        //攻撃可能位置のリストを作成する
+        val orientations = piece.actionOrientations()
+        //攻撃可能位置のリストを作成する。//盤面・駒に向きがあるとき用
         val actionablePositions = orientations.map { moveWithOrientation(it, targetPos, -1) }.filter { piece.searchedRouteAt(it) > -1 }
-        return findRoute(actionablePositions, startPos, piece)
+        return findActionRoute(targetPos,piece.actionRange(),actionablePositions, startPos, piece)
     }
 
     /**
-     * ルート探索だけどこれ Move にあるべきな気がしてきた
+     * 対象の位置から移動経路をさかのぼり補助場所を探す。 アクションと別なのは移動が絡むため。
      */
-    fun findRoute(targetPositions: List<Position>, startPos: Position, piece: Piece<UNIT, GROUND>): Position {
+    fun findAssistPos(piece: Piece<UNIT, GROUND>, targetPos: Position, startPos: Position): Position? {
+        println("findAssistPos $targetPos")
+        val orientations = piece.assistOrientations()
+        //補助可能位置のリストを作成する
+        val actionablePositions = orientations.filter {
+            val p = moveWithOrientation(it, targetPos, -1) //まず候補を選出これ要らないのか…
+            val piecesAndGrounds = aroundPiecesAndGrounds(it, targetPos) //対象への向きと前後枡抽出
+            println("$p $piecesAndGrounds ${piece.isSupportable(piecesAndGrounds, it, 0)}")
+            piece.isSupportable(piecesAndGrounds, it, 0)//補助行動可能か
+        }.map {
+            moveWithOrientation(it, targetPos, -1)
+        }.filter {
+            piece.searchedRouteAt(it) > -1
+        }
+
+        //えーとこのリストを補助可能判定でフィルタすればいいんだな。range も外から供給せんとな…
+        return findActionRoute(targetPos,piece.assistRange(),actionablePositions, startPos, piece)
+    }
+
+    /**
+     * 攻撃ルート探索
+     */
+    fun findActionRoute(targetPosition: Position,range:Pair<Int,Int>,  targetPositions: List<Position>, startPos: Position, piece: Piece<UNIT, GROUND>): Position? {
 //        println("$targetPositions がおかしいのかな…？")
         //現在値が攻撃可能なら探さなくていい
-        if (targetPositions.contains(startPos)) return startPos
+        if (targetPosition.range(startPos,range.first,range.second) || targetPositions.contains(startPos)) return startPos
         val routeClone = move.routeStack.clone()
         if (routeClone.isEmpty() || routeClone.first != piece.existsPosition) routeClone.addFirst(piece.existsPosition)//routeStack作成時にに現在地だけ入れておきたいなあ
         val digRoute = digStack(routeClone, piece, targetPositions)
@@ -370,9 +432,12 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         }
         digRoute.forEach { move.stackRoute(it) }
         //            moveToPosition(piece, digRoute.last())
-        return digRoute.last()
+        return digRoute.lastOrNull()
     }
 
+    /**
+     * 攻撃ルートスタック堀
+     */
     private fun digStack(stack: ArrayDeque<Position>, piece: Piece<UNIT, GROUND>, actionablePositions: List<Position>): MutableList<Position> {
         println("stack:${stack.last} -> $actionablePositions")
         val last = stack.last
@@ -380,18 +445,18 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         val lastStep = piece.searchedRouteAt(last)
         val route = findStep(piece, last, lastStep, actionablePositions, mutableListOf())
         if (route.isNotEmpty() || stack.isEmpty()) {
-            println(route)
-            route.add(0,last) // どこから始めたのかが分からないためスタックのどこからかってのを返す必要がある
+//            println(route)
+            route.add(0, last) // どこから始めたのかが分からないためスタックのどこからかってのを返す必要がある
             return route
         }
-        return digStack(stack, piece, actionablePositions)
+        return digStack(stack, piece, actionablePositions)//一歩戻ってもう一回探索
     }
 
     /**
      * 経路探索中に一歩進んで再帰する
      */
     private fun findStep(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, targetPositions: List<Position>, routeList: MutableList<Position> = mutableListOf()): MutableList<Position> {
-        val orientations = piece.orientations()
+        val orientations = piece.moveOrientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
             //枠内
@@ -399,10 +464,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
                 val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
-//                println("ひょっとして targetPos : $targetPos steps : $steps  targetSteps : $targetSteps & ${piece.isMovable(targetUnit, targetSquare, v, steps)}")
                 //移動出来て歩数が増えてなければ。でふぉ-1はやめたほうがいいかな。
                 if (piece.isMovable(targetUnit, targetSquare, v, steps)) {
-                    routeList.add(targetPos)//泊まれるかのマトリクスが要るか targetPos に複数の情報を入れるか…
+                    routeList.add(targetPos)
 //                    println("pre : $routeList")
                     if (targetPositions.contains(targetPos)) {
 //                        println("探索終了")
@@ -433,6 +497,6 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     fun clicked(position: Position) {
-        move.clicked(position,pieceAt(position))
+        move.clicked(position, pieceAt(position))
     }
 }

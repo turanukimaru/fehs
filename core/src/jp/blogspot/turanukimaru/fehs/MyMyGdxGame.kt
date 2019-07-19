@@ -156,6 +156,15 @@ class MyMyGdxGame : ApplicationAdapter() {
         listener.actors.add(medjedImageB)
         myGame.put(piece1, 5, 0, uiPiece, group)
         //ここまで。なお現在の一覧画面から移動するようにした奴は別スレッドなのでRealmにアクセスすると落ちる。別インスタンスなら生きてるかな？
+        //味方を置いてみる。まだ動く気はしないな
+        val lucinaTexture0 = loadTexture("lucina.png")
+        val lucinaImage0 = Image(lucinaTexture0)
+        lucinaImage0.setScale(0.5f)
+        imageDisposer.add(lucinaImage0)
+        val piece0 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヴィオール")!!, 40), myGame.board, user, ActionListener(lucinaImage0, myGame.uiBoard))
+        val uiPiece0 = MyUiPiece(lucinaImage0, myGame.uiBoard, piece0)
+        lucinaImage0.addListener(uiPiece0)
+        myGame.put(piece0, 5, 2, uiPiece0, lucinaImage0)
 
         val lucinaTexture = loadTexture("lucina.png")
         val lucinaImage = Image(lucinaTexture)

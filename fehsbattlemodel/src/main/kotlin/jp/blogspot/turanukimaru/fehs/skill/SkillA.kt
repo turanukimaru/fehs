@@ -223,7 +223,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     BrazenAtkRes(SkillName.BrazenAtkRes, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtkRes(battleUnit, lv * 2 + 1, this)
     },
-    BrazenDefRes(SkillName.BrazenAtkSpd, spType = SpType.BASE60) {
+    BrazenDefRes(SkillName.BrazenDefRes, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenDefRes(battleUnit, lv * 2 + 1, this)
     },
 

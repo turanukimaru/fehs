@@ -155,11 +155,11 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
                     atkSpdDebuff(battleUnit, enemy, diff, this)
                 } else battleUnit
     },
-    ShorelineRake(SkillName.SandfortSpade, SkillType.AXE, 10, SteelAxe, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+    ShorelineRake(SkillName.ShorelineRake, SkillType.AXE, 10, SteelAxe, SpType.SILVER) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
     },
-    ShorelineRake2(SkillName.SandfortSpade2, SkillType.AXE, 14, ShorelineRake, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+    ShorelineRake2(SkillName.ShorelineRake2, SkillType.AXE, 14, ShorelineRake, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
     },
     ;
 

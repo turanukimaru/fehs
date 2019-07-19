@@ -1051,6 +1051,17 @@ object StandardBaseHero {
                 Axe.ShorelineRake2, null, Special.Luna, SkillA.FlashingBlade.lv(3), null, SkillC.EvenDefWave.lv(3))
         createItem(HeroName.エリウッド__伝承英雄_, 1, WeaponType.SWORD, MoveType.CAVALRY, 3, 18, 6, 10, 9, 3, g45, g70, g55, g55, g30,
                 Sword.ArdentDurandal, Assist.RallySpdRes2, null, SkillA.DeathBlow.lv(4), SkillB.ChillAtk.lv(3), SkillC.VisionOfArcadia)
+
+        createItem(HeroName.リリーナ__夏_, 1, WeaponType.DAGGER, MoveType.CAVALRY, 5, 16, 8, 6, 3, 9, g40, g70, g45, g30, g60,
+                Dagger.BroadleafFan2, Assist.RallyUpRes2, null, SkillA.AtkResSolo.lv(3), SkillB.SabotageDef.lv(3), SkillC.AtkOpening.lv(3))
+        createItem(HeroName.ウルスラ__夏_, 0, WeaponType.DAGGER, MoveType.CAVALRY, 5, 17, 10, 8, 3, 6, g45, g60, g60, g30, g50,
+                Dagger.ScallopBlade2, Assist.RallyAtkSpd2, null, null, SkillB.DefResRuse.lv(3), SkillC.EvenResWave.lv(3))
+        createItem(HeroName.ウォルト__夏_, 3, WeaponType.BOW, MoveType.CAVALRY, 5, 18, 8, 8, 6, 4, g50, g60, g60, g45, g30,
+                Bow.BigCatchBow2, Assist.DrawBack, null, SkillA.BrazenAtkSpd.lv(3), SkillB.ChillSpd.lv(3), null)
+        createItem(HeroName.リン__夏_, 2, WeaponType.BOW, MoveType.FLIER, 5, 18, 7, 10, 5, 5, g45, g60, g65, g35, g50,
+                Bow.DeepBlueBow, Assist.Reposition, null, SkillA.SturdyImpact, SkillB.AtkSpdLink.lv(3), SkillC.DistantGuard.lv(3))
+        createItem(HeroName.フィオーラ__夏_, 1, WeaponType.BOW, MoveType.FLIER, 5, 18, 8, 11, 4, 6, g50, g55, g60, g50, g50,
+                Sword.PetalParasol2, Assist.Swap, null, null, SkillB.SpdResLink.lv(3), SkillC.AtkSmoke.lv(3))
 //              createItem(HeroName., 1, WeaponType., MoveType.,  5, , , , , , , , , , ,
 //                        Sword., Assist., Special., SkillA..lv(), SkillB..lv(), SkillC..lv())
 //        createItem(HeroName.スルト, 3, WeaponType.AXE, MoveType.ARMORED, 5, 20, 11, 4, 12, 9, g75, g65, g25, g65, g60,
