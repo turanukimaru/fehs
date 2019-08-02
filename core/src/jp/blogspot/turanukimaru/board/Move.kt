@@ -4,6 +4,7 @@ import java.util.*
 
 /**
  * 駒の操作状態と移動経路。タッチ時間・ドラッグ判定もここ。moveもうちょいでimmutableにできそうな気がする
+ * ゲームにより挙動が変わるかもしんないなあ。
  */
 class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 
@@ -24,6 +25,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
 
     //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする。推し始めデータだけ初期化して終了※ここでルートのサーチなどをすると、攻撃の対象にしたときなどにもサーチが走ってしまう
     fun toucheStart(piece: Piece<UNIT, GROUND>, position: UiBoard.Position) {
+        println("toucheStart $piece")
         touch = Touch(piece, position, System.currentTimeMillis())
     }
 
@@ -54,33 +56,49 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     /**
      * ドラッグされたときに呼び出される
      */
-    fun drag(position: UiBoard.Position) {
+    fun drag(position: UiBoard.Position,dx:Float,dy:Float) {
         println("board dragged on $position")
-
+        touch?.let{it.touchedPiece?.touchDragged(it.touchedPosition, dx, dy)}
         drag(touch!!, position)
     }
-   private fun drag(touch: Touch<UNIT, GROUND>, position: UiBoard.Position){
-        //駒をドラッグしてるとき
-        if (touch.drag(position,board) ){
-            moving = Dragging(this, touch.touchedPiece!!, touch.touchedPiece!!.existsPosition!!, touch.touchedPosition)
-            board.findActionRoute(position, Pair(0,0),listOf(position),touch.touchedPosition,touch.touchedPiece!!)
+
+    private fun drag(touch: Touch<UNIT, GROUND>, position: UiBoard.Position) {
+        println("drag  $touch at $position")        //駒をドラッグしてるとき
+        if (touch.drag(position, board)) {
+            moving = Dragging(this, touch.touchedPiece!!, touch.touchedPiece!!.existsPosition!!, touch.touchedPosition, null, null)
+            board.findActionRoute(position, Pair(0, 0), listOf(position), touch.touchedPosition, touch.touchedPiece!!)
         }
     }
 
 
     /**
+     * 盤面タップ
      * 指を離したときに呼び出される。ドラッグもここになるのでここからdrop()を呼び出している
      */
-    fun clicked(position: UiBoard.Position,piece: Piece<UNIT, GROUND>?) {
-        println("clicked")
+    fun boardClicked(position: UiBoard.Position) {
+        println("boardClicked $position")
+        moving = moving.boardClick(position)
+        touchRelease()
+    }
+    /**
+     * オプションタップ
+     * 成るとか成らないとかのオプションを使う予定。
+     * イベントとして処理しているのでBoardへのTouchは走らないはず
+     */
+    fun optionClicked(listener :ActionListener) {
+        println("optionClicked")
+        moving = moving.optionClick()
+    }
+
+    /**
+     * 駒タップ
+     * 指を離したときに呼び出される。ドラッグもここになるのでここからdrop()を呼び出している
+     */
+    fun pieceClicked(position: UiBoard.Position, piece: Piece<UNIT, GROUND>) {
+        println("pieceClicked")
         //盤面タップ
-        moving = if (piece!= null) {
-            println("moving.pieceClick($position, $piece)")
-            moving.pieceClick(position, piece)
-        } else {
-            println("あれーこれが呼ばれてるはずなんだけどな")
-            moving.boardClick(position)
-        }
+        println("moving.pieceClick($position, $piece)")
+        moving = moving.pieceClick(position, piece)
         touchRelease()
     }
 

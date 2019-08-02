@@ -1,0 +1,74 @@
+package jp.blogspot.turanukimaru.fehs.shogi
+
+import jp.blogspot.turanukimaru.board.*
+
+/**
+ * 将棋の駒
+ * 成るから追加の操作がいるな。ダイアログが必要か。アクション準備からダイアログを出せるようにすべきなんかな。
+ * 一手一手だから移動完了後にフェイズ移行する前にダイアログ出せるか？
+ */
+class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner: Player, actionListener: ActionListener) : Piece<ShogiUnit, Ground>(containUnit, board, owner, actionListener) {
+    //相手の枡ではとまれるが自分の枡では泊まれない
+    override fun isStoppable(piece: Piece<ShogiUnit, Ground>?): Boolean = piece == null || piece.owner != this.owner
+
+    // straight のときのみ。竜王・竜馬のときは override するしかないな。
+    override fun isMovable(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean): Boolean {
+        return containUnit.orientations.contains(orientation) && (piece == null || piece.owner != owner) && ((steps < containUnit.steps) &&(straight || steps < 1))
+    }
+
+    override fun isEffective(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean = false
+
+    /**
+     * 味方にサポートできる範囲か。将棋にはない
+     */
+    override fun isSupportable(grounds: PiecesAndGrounds<ShogiUnit, Ground>, orientation: Int, steps: Int): Boolean = false
+
+    //一歩進む。相手がいたら+128とかにすれば相手で止まれるか？
+    override fun countStep(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Int = if (piece == null) steps + 1 else 128
+
+    //将棋にアクションはない
+    override fun actionOrientations(): Array<Int> = arrayOf()
+
+    /**
+     * 攻撃に関する函数多いなあ…
+     */
+    override fun actionRange(): Pair<Int, Int> = Pair(0, 0)
+
+    /**
+     * タッチされたときの処理。コマの動きは共通処理なのでここは表示とか
+     */
+    override fun touched(): Boolean {
+        board.updateInfo({ b ->
+            //フォントサイズ替えたいところではある
+            b.bitmapFont.draw(b.batch, containUnit.name, 80f, 940f)
+            true
+        }, 1)
+        return true
+    }
+
+    //これはもう親からも消したほうがいい気がしてきた…
+    override fun dragged(position: UiBoard.Position): Boolean {
+        return true//showActionResult(position)
+    }
+
+
+    //行動結果表示。ドラッグと同じ
+    override fun boardAction(source: UiBoard.Position, target: UiBoard.Position, targetPiece: Piece<ShogiUnit, Ground>): Boolean {
+        return true
+    }
+
+    //行動。相手がいるかは判定済み。向きをここに入れるかはちょっと難しいな…でも入れるしかないか。補助と言っても回復もあるんだしな
+    override fun boardActionCommit(source: UiBoard.Position, target: UiBoard.Position, targetPiece: Piece<ShogiUnit, Ground>): Boolean {
+        return true
+    }
+
+    /**
+     * 移動可能方向
+     */
+    override fun moveOrientations(): Array<Int> {
+        return arrayOf(0,1,2,3,4,5,6,7,8)//Int Range は Array にならない…
+    }
+
+    override fun toString(): String = containUnit.name
+}
+

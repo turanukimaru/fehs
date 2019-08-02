@@ -22,6 +22,7 @@ class AndroidLauncher : AndroidApplication() {
         val config = AndroidApplicationConfiguration()
         config.useAccelerometer = false
         config.useCompass = false
-        initialize(MyMyGdxGame(), config)
+//        initialize(MyMyGdxGame(), config)
+        initialize(jp.blogspot.turanukimaru.fehs.shogi.MyMyGdxGame(), config)
     }
 }

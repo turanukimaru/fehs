@@ -34,6 +34,7 @@ abstract class Moving<UNIT, GROUND>(
      */
     open fun moveCancel(): Moving<UNIT, GROUND> {
         println("moveCancel $selectedPiece")
+        move.board.listener?.hideOption()
         return NoMove(move)
     }
 
@@ -42,6 +43,7 @@ abstract class Moving<UNIT, GROUND>(
      */
     open fun moveCommit(): Moving<UNIT, GROUND> {
         println("moveCancel $selectedPiece")
+        move.board.listener?.hideOption()
         return NoMove(move)
     }
 
@@ -53,12 +55,7 @@ abstract class Moving<UNIT, GROUND>(
     /**
      * 駒を選択状態にする
      */
-    open fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
-        //対象が操作可能でなければ何も起きない
-        if (piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)) return NoMove(move)
-        piece.select()
-        return Selected(move, piece, position, position)
-    }
+    abstract fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND>
 
     /**
      * 選択済みの駒を動かす。 select でも ready でも同じ動作のはず
@@ -68,7 +65,7 @@ abstract class Moving<UNIT, GROUND>(
         val movable = selectedPiece.boardMove(position)
         println("ひょっとして $movable false?")
         if (movable) {
-            move.board.findActionRoute(position, selectedPiece.actionRange(),listOf(position), oldPosition, selectedPiece)
+            move.board.findActionRoute(position, selectedPiece.actionRange(), listOf(position), oldPosition, selectedPiece)
             move.board.moveToPosition(selectedPiece, position)
             return Selected(move, selectedPiece, oldPosition, position)
         }
@@ -80,31 +77,48 @@ abstract class Moving<UNIT, GROUND>(
      */
     fun ready(targetPiece: Piece<UNIT, GROUND>, targetPos: UiBoard.Position, selectedPiece: Piece<UNIT, GROUND>, oldPosition: UiBoard.Position): Moving<UNIT, GROUND> {
         println("ready $this to $targetPiece ")
-        if (targetPiece.owner == move.board.owner){//味方へのアクション
-            val targetEffective = selectedPiece.effectiveRouteAt(targetPos)
+        if (targetPiece.owner == move.board.owner) {//味方へのアクション
+            val targetEffective = selectedPiece.actionableAt(targetPos)
             if (targetEffective < 128) return this //アクション出来ない相手は何も起きない.NoMove返してもいいが…
-            val assistPosition = move.board.findAssistPos(selectedPiece, targetPos, oldPosition) ?:return this
+            val assistPosition = move.board.findAssistPos(selectedPiece, targetPos, oldPosition)
+                    ?: return this
             moveSelectedPiece(assistPosition, selectedPiece, oldPosition)
-            selectedPiece.boardAction(assistPosition,targetPos, targetPiece)//補助準備って攻撃準備と違うんだっけ…？
+            selectedPiece.boardAction(assistPosition, targetPos, targetPiece)//補助準備って攻撃準備と違うんだっけ…？
             return Ready(move, selectedPiece, oldPosition, assistPosition, targetPiece, targetPos)
         }
-        val targetEffective = selectedPiece.effectiveRouteAt(targetPos)
+        val targetEffective = selectedPiece.actionableAt(targetPos)
         if (targetEffective < 0) return this //アクション出来ない相手は何も起きない.味方へのアクションも通ってしまえるが、そのあと結局攻撃可能箇所が見つからない
-        val attackPosition = move.board.findActionPos(selectedPiece, targetPos, oldPosition) ?:return this
+        val attackPosition = move.board.findActionPos(selectedPiece, targetPos, oldPosition)
+                ?: return this
         moveSelectedPiece(attackPosition, selectedPiece, oldPosition)
-        selectedPiece.boardAction(attackPosition,targetPos, targetPiece)//攻撃準備
+        selectedPiece.boardAction(attackPosition, targetPos, targetPiece)//攻撃準備
+        move.board.listener?.showOption(targetPos.x,targetPos.y)
         return Ready(move, selectedPiece, oldPosition, attackPosition, targetPiece, targetPos)
     }
 
     /**
-     * 行動実行。これ味方に攻撃するな。ここで相手を判定するべきか先で判定するべきか…
+     * 行動実行。
      */
     fun actionCommit(targetPiece: Piece<UNIT, GROUND>, targetPos: UiBoard.Position, selectedPiece: Piece<UNIT, GROUND>, selectedPos: UiBoard.Position): Moving<UNIT, GROUND> {
         selectedPiece.boardMoveCommit()
-        selectedPiece.boardActionCommit(selectedPos,targetPos, targetPiece)
+        selectedPiece.boardActionCommit(selectedPos, targetPos, targetPiece)
         selectedPiece.clearRoute()
         move.routeStack.clear()
+        move.board.listener?.hideOption()
         return NoMove(move)
+    }
+
+    fun into(piece: Piece<UNIT, GROUND>, position: UiBoard.Position, selectedPiece: Piece<UNIT, GROUND>, from: UiBoard.Position): Moving<UNIT, GROUND>{
+        // TODO: piece.into() を作る..踏み込む側は良いとして受動態あるのかこれ？
+        return moveCommit()
+    }
+
+    /**
+     * 追加の操作用ボタン。ないことのほうが多そうなので open fun
+     * 問題はこれってゲームによって動作が違う事だよな… fun を定義できるようにするか、PieceとBoardに改めて投げるか？
+     */
+    open fun optionClick(): Moving<UNIT, GROUND>{
+        return this
     }
 
 }
@@ -113,20 +127,6 @@ abstract class Moving<UNIT, GROUND>(
  * 動く前。コンストラクタ引数に細工をすることでフィールドをNull固定にできる
  */
 class NoMove<UNIT, GROUND>(override val move: Move<UNIT, GROUND>) : Moving<UNIT, GROUND>(move, null, null, null, null, null) {
-    /**
-     * 選択した駒の移動をキャンセルして非選択にする。
-     */
-    override fun moveCancel(): Moving<UNIT, GROUND> {
-        println("moveCancel $selectedPiece")
-        return NoMove(move)
-    }
-
-    /**
-     * 選択した駒の移動を確定する。移動後確定前にターン終了したときに呼ばれる
-     */
-    override fun moveCommit(): Moving<UNIT, GROUND> {
-        return NoMove(move)
-    }
 
     /**
      * 何もつかんでおらず盤面タップしても何も起きない
@@ -139,6 +139,7 @@ class NoMove<UNIT, GROUND>(override val move: Move<UNIT, GROUND>) : Moving<UNIT,
      * 駒を選択状態にする
      */
     override fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
+        println("pieceClick $position, $piece / ${piece.actionPhase} ${piece.owner}  ${move.board.owner} ${piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)}")
         //対象が操作可能でなければ何も起きない
         if (piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)) return NoMove(move)
         piece.select()
@@ -148,7 +149,7 @@ class NoMove<UNIT, GROUND>(override val move: Move<UNIT, GROUND>) : Moving<UNIT,
 }
 
 /**
- * 駒選択後。コンストラクタを制限してNull固定にしたいが継承の都合上できない…
+ * 駒選択後。コンストラクタを制限してNull固定にしたいがandroid easy ru だっけ？の都合上できない…
  * →本来は抽象クラスを作ってそれを継承しつつコンストラクタを制限すればよい
  */
 open class Grasp<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override val selectedPiece: Piece<UNIT, GROUND>, override val from: UiBoard.Position, override val to: UiBoard.Position, override val actionTargetPiece: Piece<UNIT, GROUND>? = null, override val actionTargetPos: UiBoard.Position? = null) : Moving<UNIT, GROUND>(move, selectedPiece, from, to, null, null) {
@@ -161,10 +162,15 @@ open class Grasp<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override v
     }
 
     override fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
-        return when (piece) {
-            selectedPiece -> moveCommit()
+        return when  {
+            piece == selectedPiece -> moveCommit()
+            selectedPiece.searchedRouteAt(position) >= 0->into(piece, position, selectedPiece, from)
             else -> ready(piece, position, selectedPiece, from)//ownerによって変えるべきか…？
         }
+//        return when (piece) {
+//            selectedPiece -> moveCommit()
+//            else -> ready(piece, position, selectedPiece, from)//ownerによって変えるべきか…？ TODO: into 入れるならここかな？
+//        }
     }
 
     override fun moveCancel(): Moving<UNIT, GROUND> {
@@ -172,6 +178,7 @@ open class Grasp<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override v
         move.board.moveToPosition(selectedPiece, from)
         selectedPiece.moveCancel()
         move.routeStack.clear()
+        move.board.listener?.hideOption()
         return NoMove(move)
     }
 
@@ -180,6 +187,7 @@ open class Grasp<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override v
         if (to == from) moveCancel()
         else selectedPiece.boardMoveCommitAction()
         move.routeStack.clear()
+        move.board.listener?.hideOption()
         return NoMove(move)
     }
 
@@ -189,17 +197,19 @@ data class Selected<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, overrid
 
 open class Ready<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override val selectedPiece: Piece<UNIT, GROUND>, override val from: UiBoard.Position, override val to: UiBoard.Position, override val actionTargetPiece: Piece<UNIT, GROUND>, override val actionTargetPos: UiBoard.Position) : Grasp<UNIT, GROUND>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
-        return if (piece == selectedPiece || piece == actionTargetPiece) actionCommit(actionTargetPiece, actionTargetPos, selectedPiece,to)
+        return if (piece == selectedPiece || piece == actionTargetPiece) actionCommit(actionTargetPiece, actionTargetPos, selectedPiece, to)
         else ready(piece, position, selectedPiece, from)//ownerによって変えるべきか…？
     }
 }
 
-data class Dragging<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override val selectedPiece: Piece<UNIT, GROUND>, override val from: UiBoard.Position, override val to: UiBoard.Position, override val actionTargetPiece: Piece<UNIT, GROUND>? = null, override val actionTargetPos: UiBoard.Position? = null) : Grasp<UNIT, GROUND>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
+data class Dragging<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override val selectedPiece: Piece<UNIT, GROUND>, override val from: UiBoard.Position, override val to: UiBoard.Position, override val actionTargetPiece: Piece<UNIT, GROUND>?, override val actionTargetPos: UiBoard.Position?) : Grasp<UNIT, GROUND>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: UiBoard.Position, piece: Piece<UNIT, GROUND>): Moving<UNIT, GROUND> {
         println("pieceClick piece : $piece / $selectedPiece/$from/$to")
-        println("死んだあとの盤上の位置がおかしいっていうかなんか残ってる…")
-        return if (from == position) moveCancel()
-        else ready(piece, position, selectedPiece, from).actionCommit(piece, position, selectedPiece,to)
+        println("   これそのままだとアシスト不能位置から実行できちゃうな…")
+
+        if (from == position) return moveCancel()
+        val ok = ready(piece, position, selectedPiece, from)
+        return if (ok == this) moveCancel() else ok.actionCommit(piece,position , selectedPiece, ok.to!!)
 
     }
 

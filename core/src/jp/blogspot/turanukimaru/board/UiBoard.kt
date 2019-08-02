@@ -37,10 +37,20 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         fun distance(p: Position) = abs(x - p.x) + abs(y - p.y)
     }
 
+    var optionButton: Image?=null
+    /**
+     * 数字表示用テクスチャ
+     */
     val numberRegions = mutableListOf<TextureRegion>()
 
+    /**
+     * libGDX の update を伝えるためのリスト
+     */
     val uiPieceList = mutableListOf<UiPiece>()
 
+    /**
+     * 現在の状況だけどこれ使ってる意味がない気がする。FIXME:調べて消すこと
+     */
     private var opPhase = OpPhase.ACTIVE
 
     /**
@@ -67,13 +77,13 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 
     fun squareXtoPosX(x: Int) = x * squareWidth
 
-    fun xyToPosition(x: Float, y: Float) = Position(posXtoSquareX(x), posYtoSquareY(y))
+    private fun xyToPosition(x: Float, y: Float) = Position(posXtoSquareX(x), posYtoSquareY(y))
     //ドラッグ判定用データ
-    var dx = 0
-    var dy = 0
+    var touchStartX = 0f
+    var touchStartY = 0f
 
     /**
-     * update時に盤外に表示する関数。せっかく 返してるんだし優先順位でいいか
+     * update時に盤外に表示する関数。
      */
     var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
 
@@ -94,17 +104,20 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-        dx = 0
-        dy = 0
+        touchStartX = x
+        touchStartY = y
         val result = super.touchDown(event, x, y, pointer, button)
-        println("###ここにタッチ＆ドラッグ開始処理がいるっぽい###")
         board.touch(xyToPosition(x, y))
         return result
     }
 
+    /**
+     * タッチしたら。盤面内だったらBoardにメッセージが飛ぶ。ただ、盤面買いをクリックしたらキャンセルとか必要になるかもなあ。
+     * いや、そのときはキャンセルボタンがあるべきか？
+     */
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
-        board.clicked(xyToPosition(x, y))
+        if (y > marginBottom && y < height - marginBottom) board.clicked(xyToPosition(x, y))
 //        //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
 //        val touchUpOver = isOver(event?.listenerActor ?: return, x, y)
 //        // Ignore touch up if the wrong mouse button.
@@ -114,18 +127,22 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 //            board.move.drop(xyToPosition(x, y))
 //        }
 //        board.move.touchUp()//elseにすべきか…？
-        dx = 0
-        dy = 0
+        touchStartX = 0f
+        touchStartY = 0f
 //        println("$event: InputEvent?, $x: Float, $y: Float, $pointer: Int, $button: Int")
     }
 
+    /**
+     * こっちの x,y は絶対値なのか…ん？つまり移動量ではなくactorの中での座標を指すのか！なるほど動くactorでは使いにくいわけだ
+     *
+     */
     override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
         super.touchDragged(event, x, y, pointer)
         //チャタリング対策。実機だとちゃたるんだろうなあ
-        //dx += x.toInt()
-        //dy += y.toInt()
-        //if (dx > 14 || dx < -14 || dy > 14 || dy < -14)
-        board.drag(xyToPosition(x, y))
+        //touchStartX += x.toInt()
+        //touchStartY += y.toInt()
+        //if (touchStartX > 14 || touchStartX < -14 || touchStartY > 14 || touchStartY < -14)
+        board.drag(xyToPosition(x, y), x - touchStartX, y - touchStartY)
     }
 
     init {
@@ -154,17 +171,18 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         }
         liner.end()
         //駒が選択されていたら移動範囲を表示する。モードを切り替えるならボード側に色情報を持たせる必要があるな
+//        println(board.move.moving.selectedPiece)
         if (board.move.moving.selectedPiece != null) {
             board.horizontalIndexes.forEach { x ->
                 board.verticalIndexes.forEach { y ->
                     when {//優先順位はアシスト可能・移動可能・攻撃可能・なら大丈夫かな？
-                        board.move.moving.selectedPiece!!.effectiveRouteAt(Position(x, y)) >= 128 -> {
+                        board.move.moving.selectedPiece!!.actionableAt(Position(x, y)) >= 128 -> {//自分の位置を緑に塗ってしまうバグがあるので直したいが…
                             fillSquare(x, y, FillType.SUPPORTABLE)
                         }
                         board.move.moving.selectedPiece!!.searchedRouteAt(Position(x, y)) >= 0 -> {
                             fillSquare(x, y, FillType.MOVABLE)
                         }
-                        board.move.moving.selectedPiece!!.effectiveRouteAt(Position(x, y)) >= 0 -> {
+                        board.move.moving.selectedPiece!!.actionableAt(Position(x, y)) >= 0 -> {
                             fillSquare(x, y, FillType.ATTACKABLE)
                         }
                     }
@@ -180,7 +198,10 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
-     * 盤面がタッチされたときにupdateタイミングで呼び出される。盤面の触っている枡の色を変えるコードがあるが一般的にはカーソルとかエフェクトが出るやつ
+     * 盤面がタッチされたときにupdateタイミングで呼び出される。
+     * 盤面の触っている枡の色を変えるコードがあるが一般的にはカーソルとかエフェクトが出るやつ
+     * clickListener とは別ルートで fire させてるだけなので消えそう
+     * ずれがある…ClickListenerのがずれが少ないからこっちはないか枠以外のエフェクトにしたほうがよさそう
      */
     fun touched(touchPos: Vector3) {
         val pos = Vector3(touchPos)
@@ -202,7 +223,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
-     * タッチした場所が盤面内に入っているかのチェック
+     * タッチした場所が盤面内に入っているかのチェック...なんだけどVector3に変換するのなんか変じゃね？
      */
     fun posIsOnBoard(pos: Vector3): Boolean {
         val unProjectedPos = stage.camera.unproject(pos)
@@ -241,6 +262,24 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         batch.draw(stageTexture, 0f, marginBottom)
         //情報更新。場合によってはクリッピング
         let(updateInfo)
+    }
+
+    /**
+     * オプションを表示する
+     */
+    fun showOptionButton(x: Int, y: Int) {
+        if (optionButton == null) return
+        optionButton!!.x =squareXtoPosX(x)
+        optionButton!!.y = squareYtoPosY(y)+squareHeight
+        optionButton!!.isVisible = true
+    }
+    /**
+     * オプションを消す.角錐値は適当
+     */
+    fun hideOptionButton() {
+        optionButton!!.x =-128f
+        optionButton!!.y = -128f
+        optionButton!!.isVisible = false
     }
 
     /**

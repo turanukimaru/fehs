@@ -48,28 +48,30 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 駒の移動可能範囲
      */
     private var passRoute = mutableListOf<MutableList<Int>>()
-    /**
-     * 駒の移動範囲で止まれるところ
-     */
-    private var stopRoute = mutableListOf<MutableList<Int>>()
+
     /**
      * 駒の移動範囲から更に効果を及ぼすことのできる範囲
      */
     private var actionRoute: MutableList<MutableList<Int>> = mutableListOf()
 
-    fun effectiveRouteAt(position: Position): Int {
-
+    /**
+     * 対象の枡がアクション対象になるか。
+     */
+    fun actionableAt(position: Position): Int {
         if (actionRoute.size == 0) {
-            actionRoute = board.searchActionRoute(this,position)
+            actionRoute = board.searchActionRoute(this, existsPosition!!, position)
         }
-        return actionRoute[position.x][position.y]
+        return if (board.positionIsOnBoard(position)) actionRoute[position.x][position.y] else -1
     }
 
+    /**
+     * 対象の枡が通過できるか。
+     */
     fun searchedRouteAt(position: Position): Int {
         if (passRoute.size == 0) {
             passRoute = board.searchRoute(this)
         }
-        return if(board.positionIsOnBoard(position)) passRoute[position.x][position.y] else -1
+        return if (board.positionIsOnBoard(position)) passRoute[position.x][position.y] else -1
     }
 
     /**
@@ -78,6 +80,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     open fun isEffective(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Boolean {
         return false
     }
+
     /**
      * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
      */
@@ -88,7 +91,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Boolean {
+    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, straight : Boolean): Boolean {
         return piece == null && steps == 0
     }
 
@@ -139,17 +142,21 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         update()
     }
 
+    /**
+     * update 時の処理追加用ポイント
+     */
     open fun update() {
     }
 
-    open fun boardAction(source: Position,target: Position, targetPiece: Piece<UNIT, GROUND>): Boolean = true
+    /**
+     * アクション準備用ポイント
+     */
+    open fun boardAction(source: Position, target: Position, targetPiece: Piece<UNIT, GROUND>): Boolean = true
 
-    open fun boardActionCommit(source: Position,target: Position, targetPiece: Piece<UNIT, GROUND>): Boolean = true
-
-    open fun movePiece(): Boolean {
-        action(ActionPhase.MOVING, ActionEvent.MoveToCharPosition)
-        return true
-    }
+    /**
+     * アクション実行用ポイント
+     */
+    open fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<UNIT, GROUND>): Boolean = true
 
     /**
      * 移動中。
@@ -162,6 +169,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         action(ActionPhase.MOVING, ActionEvent.MoveToCharPosition)
         return true
     }
+
     /**
      * 誰かに移動させられた時。アクションはとるが状態は変わらない
      */
@@ -204,38 +212,39 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         return true
     }
 
+    /**
+     * 探索したルートを消す。移動後とかには呼ぶ必要がある。
+     */
     fun clearRoute() {
-        println("clearRoute!! $this")
         passRoute.clear()
-        stopRoute.clear()
         actionRoute.clear()
     }
 
 
     /**
-     * タッチしたときはコマを選択済みの時はその駒にアクションし、そうでないときはその駒を選択状態にする...
-     * upのタイミングじゃないとダメか？
+     * タッチ用ポイント
      */
     fun touchDown(): Boolean {
         return touched()
     }
 
     /**
-     * オーバーライド用
+     * タッチ用ポイント
      */
     open fun touched(): Boolean = true
 
     /**
      * x,yは移動量。
-     * 指に追従して動かしてみるが、実際の操作は枡で判断してるため枡の大きさとキャラの大きさが大幅に違うとおかしくなるのか。ボードのDragにいどうするべきか…
+     * 指に追従して動かしてみるが、実際の操作は枡で判断してるため枡の大きさとキャラの大きさが大幅に違うとおかしくなるのか。
+     * 駒から盤にメッセージを送る形にしたいけどどうやればいいかわからん。
      */
-    fun touchDragged(position: Position, x: Float, y: Float): Boolean {
+    fun touchDragged(position: Position, dx: Float, dy: Float): Boolean {
         //行動できないときは反応しない
         if (!isActionable) {
             return false
         }
         //ドラッグしてる絵を動かす
-        actionListener.directPos(x, y)
+        actionListener.directPos(position,dx, dy)
         //移動可能範囲内で移動したらスタックに積む...
         return dragged(position)
     }
@@ -266,15 +275,15 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 攻撃可能射程
      */
-    open fun actionRange(): Pair<Int,Int> {
-        return Pair(1,1)
+    open fun actionRange(): Pair<Int, Int> {
+        return Pair(1, 1)
     }
 
     /**
      * 補助可能射程。アルゴリズム的には遠距離にできるがあんましやりたくないなー
      */
-    open fun assistRange(): Pair<Int,Int> {
-        return Pair(0,0)
+    open fun assistRange(): Pair<Int, Int> {
+        return Pair(0, 0)
     }
 
     /**
@@ -315,6 +324,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     fun select() {
+        println("select $this")
         action(ActionPhase.MOVING, ActionEvent.Selected)
     }
 

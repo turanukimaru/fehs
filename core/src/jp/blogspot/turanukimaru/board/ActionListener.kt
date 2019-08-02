@@ -9,6 +9,7 @@ import jp.blogspot.turanukimaru.fehs.SIDES
 
 /**
  * イベントを受け取って画面上の表示に変換するのが主な仕事。ゲーム内容に依存するので手が空いたらInterfaceにしたい。
+ * アニメもこの中で作ってるけど実用するにはアニメ管理ツール作らなきゃだめだな…
  */
 open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard) {
 
@@ -29,10 +30,10 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
 
 
     /**
-     * 場所直接指定。ドラッグ時に指に追従
+     * ゲーム開始時とかやり直し字とか
      */
     private fun reset(position: UiBoard.Position) {
-        println(this)
+//        println(this)
         actor.isVisible = true
         actor.color.a = 1f//fadeout した後は 0
         actionSetToPosition(position)
@@ -41,10 +42,12 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 場所直接指定。ドラッグ時に指に追従
      */
-    fun directPos(x: Float, y: Float) {
-        println("MyUiPiece DRAG ${uiBoard.board.move}")
+    fun directPos(position: UiBoard.Position, x: Float, y: Float) {
+        println("MyUiPiece directPos x:$x y:$y ${uiBoard.board.move}")
         actor.clearActions()
-        actor.setPosition(actor.x + x, actor.y + y)
+        val finalX = uiBoard.squareXtoPosX(position.x)
+        val finalY = uiBoard.squareYtoPosY(position.y)
+        actor.setPosition(finalX + x, finalY + y)
         actionEventNow = ActionEvent.Direct//Direct中はUpdate時にアニメしない
     }
 
@@ -67,7 +70,10 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
             ActionPhase.READY -> readyAction()
             //現在の位置に灰色で表示.アクションというかシーケンスの最後に移動したいところだけどややこしくなるからここのままのがいいか
             ActionPhase.ACTED -> actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f); }//これ灰色じゃねーな　r+g+b/3　にするのが正しいか？
-            ActionPhase.REMOVED -> {}/* */
+            ActionPhase.REMOVED -> {
+            }/* */
+            ActionPhase.MOVING -> {
+            }//移動中は確かポーズ決めっぱなしのはず
             //行動後の現在位置に表示。ずれてる場合は直接移動させる //問題か Position をどこからとってくるかが
             else -> println("MyUiPiece else ${uiBoard.board.move}")
         }
@@ -181,7 +187,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     }
 
     /**
-     * 攻撃処理のアニメ。移動差分を駒に登録する.TODO:アクターのサイズが分からないから中心が出ない...あと単にタイミングがおかしい
+     * 攻撃処理のアニメ。移動差分を駒に登録する.相手の枡まで移動するため、長距離だとなんか面白い動作になる。
      * */
     private fun attackAction(x: Int, y: Int, targetX: Int, targetY: Int): SequenceAction {
         val seq = SequenceAction()

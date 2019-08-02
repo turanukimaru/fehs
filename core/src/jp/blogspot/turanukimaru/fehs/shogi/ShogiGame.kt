@@ -1,4 +1,4 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.fehs.shogi
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -13,7 +13,7 @@ import jp.blogspot.turanukimaru.board.UiBoard
 /**
  * Created by turanukimaru on 2018/03/15.
  */
-class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float) : BoardListener {
+class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float) : BoardListener {
     override fun showOption(x: Int, y: Int) {
         uiBoard.showOptionButton(x,y)
     }
@@ -49,13 +49,13 @@ class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont:
 
     var playerA: Player? = null
     var playerB: Player? = null
-    private val footerHeight = 80f
-    private val headerHeight = 160f
+    private val footerHeight = 240f
+    private val headerHeight = 240f
     private val marginLeft = 0f
     private val marginRight = 0f
-    private val vLines = 8
-    private val hLines = 6
-    val board: Board<BattleUnit, Ground> = Board(hLines, vLines)
+    private val vLines = 9
+    private val hLines = 9
+    val board: Board<ShogiUnit, Ground> = Board(hLines, vLines)
     val uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, localWidth, localHeight, headerHeight, footerHeight, marginLeft, marginRight, board)
 
     init {
@@ -63,7 +63,7 @@ class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont:
         board.listener = this
     }
 
-    fun put(piece2: MyPiece, x: Int, y: Int, uiPiece2: MyUiPiece, actor: Actor) {
+    fun put(piece2: ShogiPiece, x: Int, y: Int, uiPiece2: MyUiPiece, actor: Actor) {
         board.put(piece2, x, y)
         uiBoard.uiPieceList.add(uiPiece2)
         uiBoard.stage.addActor(actor)

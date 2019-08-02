@@ -1,10 +1,5 @@
 package jp.blogspot.turanukimaru.board
 
-import jp.blogspot.turanukimaru.fehs.AttackResult
-import jp.blogspot.turanukimaru.fehs.BattleUnit
-import jp.blogspot.turanukimaru.fehs.Ground
-import javax.lang.model.type.UnionType
-
 //雑多なクラスやEnum
 
 /**
@@ -21,6 +16,8 @@ interface BoardListener {
     fun actionDone()
     fun turnEnd()
     fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean, rank: Int)
+    fun showOption(x: Int, y: Int)
+    fun hideOption()
 }
 
 class Touch<UNIT, GROUND>(
@@ -43,8 +40,9 @@ class Touch<UNIT, GROUND>(
     デフォルト引数を使わないようにするかコンストラクタを手で作る
      */
     constructor(touchedPiece: Piece<UNIT, GROUND>?,
-                 touchedPosition: UiBoard.Position,
-                 holdStart: Long):this(touchedPiece,touchedPosition,holdStart,false)
+                touchedPosition: UiBoard.Position,
+                holdStart: Long) : this(touchedPiece, touchedPosition, holdStart, false)
+
     private val graspThreshold = 500//長押しホールドに結局要るか…
 
     val hasPiece: Boolean get() = touchedPiece != null
@@ -58,12 +56,13 @@ class Touch<UNIT, GROUND>(
     fun drag(position: UiBoard.Position, board: Board<UNIT, GROUND>): Boolean {
         dragged = true
         //そこに動けるか判定が先に要るか
-        return touchedPiece?.let { it.isActionable && touchedPiece?.owner == board.owner && it.boardDrag(position) } ?: false
+        return touchedPiece?.let { it.isActionable && touchedPiece?.owner == board.owner && it.boardDrag(position) }
+                ?: false
     }
 }
 
-data class PiecesAndGrounds<UNIT, GROUND>(val Piece0:Piece<UNIT, GROUND>?, val Piece1:Piece<UNIT, GROUND>?, val Piece_1:Piece<UNIT, GROUND>?, val Piece2:Piece<UNIT, GROUND>?, val Piece_2:Piece<UNIT, GROUND>?
-                                           , val Ground0: GROUND?, val Ground1: GROUND?, val Ground_1: GROUND?, val Ground2: GROUND?, val Ground_2: GROUND?)
+data class PiecesAndGrounds<UNIT, GROUND>(val Piece0: Piece<UNIT, GROUND>?, val Piece1: Piece<UNIT, GROUND>?, val Piece_1: Piece<UNIT, GROUND>?, val Piece2: Piece<UNIT, GROUND>?, val Piece_2: Piece<UNIT, GROUND>?
+                                          , val Ground0: GROUND?, val Ground1: GROUND?, val Ground_1: GROUND?, val Ground2: GROUND?, val Ground_2: GROUND?)
 
 enum class TouchPhase {
     NONE,//触ってない

@@ -23,7 +23,7 @@ class EndOfAnimationAction(private val action: ActionListener, private var dt: F
 }
 
 /**
- * 汎用コールバックアクション
+ * 汎用コールバックアクション。とりあえず作ったはいいけど使ってないな…消すか…
  */
 class CallbackAction(val f: () -> Boolean) : Action() {
 

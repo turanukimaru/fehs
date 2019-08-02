@@ -1,4 +1,4 @@
-package jp.blogspot.turanukimaru.fehs
+package jp.blogspot.turanukimaru.fehs.shogi
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
@@ -43,7 +43,7 @@ class MyMyGdxGame : ApplicationAdapter() {
     val LOGICAL_HEIGHT = 960f//1280f
     var bitmapFont: BitmapFont? = null
 
-    private val myGame: MyGame by lazy { MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT) }
+    private val myGame: ShogiGame by lazy { ShogiGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT) }
 
     var textureDisposer = mutableListOf<Texture>()
     var imageDisposer = mutableListOf<Image>()
@@ -55,15 +55,15 @@ class MyMyGdxGame : ApplicationAdapter() {
     var enemy = Player()
 
     val battleGround = arrayOf(
-            arrayOf(Ground.P, Ground.P, Ground.W, Ground.R, Ground.M, Ground.M),
-            arrayOf(Ground.R, Ground.P, Ground.R, Ground.R, Ground.M, Ground.M),
-            arrayOf(Ground.P, Ground.P, Ground.M, Ground.M, Ground.M, Ground.M),
-            arrayOf(Ground.P, Ground.P, Ground.M, Ground.M, Ground.M, Ground.M),
-            arrayOf(Ground.M, Ground.P, Ground.P, Ground.P, Ground.M, Ground.M),
-            arrayOf(Ground.M, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
-            arrayOf(Ground.M, Ground.M, Ground.M, Ground.P, Ground.P, Ground.P),
-            arrayOf(Ground.M, Ground.M, Ground.M, Ground.M, Ground.P, Ground.P)
-
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
+            arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P)
     )
 
     /**
@@ -113,7 +113,22 @@ class MyMyGdxGame : ApplicationAdapter() {
             val region = TextureRegion(numberTexture, i * 51, 0, 51, 96)
             myGame.uiBoard.numberRegions.add(region)
         }
+        val optionImage = Image(loadTexture("bucket.png"))
+        myGame.uiBoard.optionButton = optionImage
+        optionImage.isVisible = false
+        optionImage.x = -128f
+        optionImage.y = -128f
+        val optionListener =         ActionListener(optionImage, myGame.uiBoard)
+        optionImage.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                println("pushed optionImage")
+                //boardには伝えない
+                event?.cancel()
+                myGame.board.clickOption(optionListener)
 
+            }
+        })
+//        stage!!.addActor(optionImage)
         //地形を盤面にコピー
         myGame.board.copyGroundSwitchXY(battleGround)
 
@@ -124,7 +139,6 @@ class MyMyGdxGame : ApplicationAdapter() {
         turnendImage.setPosition(64f, 0f)
         turnendImage.setScale(0.5f)
         buttons.add(turnendImage)
-
         turnendImage.addListener(object : ClickListener() {
             //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -151,7 +165,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         group.addActor(medjedImageA)
         group.addActor(medjedImageB)
         val listener = ActionListener(group, myGame.uiBoard)
-        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user, listener)
+        val piece1 = ShogiPiece(Fu(), myGame.board, user, listener)
         val uiPiece = MyUiPiece(group, myGame.uiBoard, piece1)
 //        group.addListener(uiPiece)
         listener.actors.add(medjedImageA)
@@ -163,7 +177,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val lucinaImage0 = Image(lucinaTexture0)
         lucinaImage0.setScale(0.5f)
         imageDisposer.add(lucinaImage0)
-        val piece0 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヴィオール")!!, 40), myGame.board, user, ActionListener(lucinaImage0, myGame.uiBoard))
+        val piece0 = ShogiPiece(Gin(), myGame.board, user, ActionListener(lucinaImage0, myGame.uiBoard))
         val uiPiece0 = MyUiPiece(lucinaImage0, myGame.uiBoard, piece0)
 //        lucinaImage0.addListener(uiPiece0)
         myGame.put(piece0, 5, 2, uiPiece0, lucinaImage0)
@@ -172,7 +186,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val lucinaImage = Image(lucinaTexture)
         lucinaImage.setScale(0.5f)
         imageDisposer.add(lucinaImage)
-        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.board, enemy, ActionListener(lucinaImage, myGame.uiBoard))
+        val piece2 = ShogiPiece(Kin(), myGame.board, enemy, ActionListener(lucinaImage, myGame.uiBoard))
         val uiPiece2 = MyUiPiece(lucinaImage, myGame.uiBoard, piece2)
 //        lucinaImage.addListener(uiPiece2)
         myGame.put(piece2, 1, 3, uiPiece2, lucinaImage)
@@ -181,7 +195,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val hectorImage = Image(hectorTexture)
         hectorImage.setScale(0.5f)
         imageDisposer.add(hectorImage)
-        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.board, enemy, ActionListener(hectorImage, myGame.uiBoard))
+        val piece3 = ShogiPiece(Hisya(), myGame.board, enemy, ActionListener(hectorImage, myGame.uiBoard))
         val uiPiece3 = MyUiPiece(hectorImage, myGame.uiBoard, piece3)
 //        hectorImage.addListener(uiPiece3)
         myGame.put(piece3, 3, 3, uiPiece3, hectorImage)
@@ -239,7 +253,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         bitmapFont!!.draw(batch, "from:${hand.moving.from}", 50f, 630f)
         bitmapFont!!.draw(batch, "to:${hand.moving.to}", 50f, 660f)
         myGame.board.pieceList.forEach {
-            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
+            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.containUnit.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }
         batch!!.end()
         myGame.uiBoard.libUpdate()

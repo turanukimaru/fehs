@@ -10,13 +10,15 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 盤上の駒
      * 駒が無いところはnull
+     * matrix と map を一つのクラスにまとめてガードするべきなんだが…
      */
     private val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
-    private val copyMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
+    private val positionMap = mutableMapOf<Piece<UNIT, GROUND>, Position>()
+    private val copyMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()//Mapのコピーのほうが軽いんだよな。軽い必要ないけど…
     /**
      * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
      */
-    val pieceList = mutableListOf<Piece<UNIT, GROUND>>()
+    val pieceList get() = positionMap.keys.toList()
     /**
      * 盤上の地形
      * 地形が無いところはnull.nullObjectとか床を作るべきか？でも床のないボードゲームのが多いよな
@@ -80,22 +82,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の場所にある地形
      */
-    fun groundAt(position: Position): GROUND? = if (position.x in 0 until horizontalLines && position.y in 0 until verticalLines) groundMatrix[position.x][position.y] else null
-
-    /**
-     * タッチされたときに呼び出される
-     */
-    fun touch(position: Position) {
-        move.touch(position, pieceAt(position)
-        )
-    }
-
-    /**
-     * タッチされたときに呼び出される
-     */
-    fun drag(position: Position) {
-        move.drag(position)
-    }
+    private fun groundAt(position: Position): GROUND? = if (position.x in 0 until horizontalLines && position.y in 0 until verticalLines) groundMatrix[position.x][position.y] else null
 
     /**
      * 地形のマトリックスをXY入れ替えてコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrixXYはxyが入れ替わっているので入れ替える
@@ -111,6 +98,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 駒の位置を探す。見つからなかったらnullを返すようにしてるけど例外を投げるべきか？何らかの原因であるべき駒が無いんだから。
      */
     private fun searchUnitPosition(piece: Piece<*, *>): Position? {
+        if (positionMap[piece] != null) return positionMap[piece]
         println("searchUnitPosition $piece")
         horizontalIndexes.forEach { x ->
             verticalIndexes.forEach { y ->
@@ -128,7 +116,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("pieceMatrix[$x][$y] is スクワットのスペルが分からん  by ${pieceMatrix[x][y]}")
         pieceMatrix[x][y] = piece
-        pieceList.add(piece)
+        positionMap[piece] = Position(x, y)
         piece.putOn(x, y)
     }
 
@@ -141,8 +129,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines) {
             throw RuntimeException("out of range pieceMatrix[$x][$y]")
         }
-        if (isAnotherPiece(piece, position)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
-        val oldSquare = searchUnitPosition(piece)!!
+//        if (isAnotherPiece(piece, position)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
+        val oldSquare = positionMap[piece]!!
         //移動元を消して今回の駒をセット
         val targetSquaresUnit = pieceMatrix[x][y]
         if (targetSquaresUnit != null && targetSquaresUnit != piece) {
@@ -150,6 +138,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         }
         pieceMatrix[oldSquare.x][oldSquare.y] = null
         pieceMatrix[x][y] = piece
+        positionMap[piece] = Position(x, y)
     }
 
     /**
@@ -173,14 +162,14 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         val square = searchUnitPosition(piece) ?: throw RuntimeException("ユニットが見つからない")
         val steps = 0
         println("first step at $piece $square $steps ")
-        step(piece, square, steps, routeMatrix)
+        step(piece, square, steps, null, routeMatrix)
         return routeMatrix
     }
 
     /**
      * 経路探索中に一歩進んで再帰する
      */
-    private fun step(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, routeMatrix: MutableList<MutableList<Int>>) {
+    private fun step(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, orientation: Int?, routeMatrix: MutableList<MutableList<Int>>) {
         routeMatrix[position.x][position.y] = steps
         val orientations = piece.moveOrientations()
         orientations.forEach { v ->
@@ -189,12 +178,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
                 val targetUnit = pieceMatrix[targetPos.x][targetPos.y]
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
-                //targetStepsが-1のときに終了するという技もあるがどうしよう？
                 val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
                 val stepped = routeMatrix[targetPos.x][targetPos.y]
-                //移動出来て歩数が増えてなければ。でふぉ-1はやめたほうがいいかな。
-                if (piece.isMovable(targetUnit, targetSquare, v, steps) && (stepped == -1 || stepped > targetSteps)) {
-                    step(piece, targetPos, targetSteps, routeMatrix)
+                //移動出来て歩数が増えてなければ。
+                if (piece.isMovable(targetUnit, targetSquare, v, steps, v == orientation) && (stepped == -1 || stepped > targetSteps)) {
+                    step(piece, targetPos, targetSteps, v, routeMatrix)
                 }
             }
         }
@@ -203,7 +191,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲を探す。
      */
-    fun searchActionRoute(piece: Piece<UNIT, GROUND>, position: Position): MutableList<MutableList<Int>> {
+    fun searchActionRoute(piece: Piece<UNIT, GROUND>, existsPos: Position, targetPos: Position): MutableList<MutableList<Int>> {
         println("searchActionRoute $piece")
         //最大／最小射程
         val max = piece.actionRange().first
@@ -212,8 +200,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         horizontalIndexes.forEach { x ->
             verticalIndexes.forEach { y ->
                 val square = Position(x, y)
-                //まずこの枡が未計算でユニットからの射程内だったらマーク
-                if(routeMatrix[x][y] == -1 && position.range(square,max,min)) routeMatrix[x][y] = position.distance(square)
+                //まずこの枡が未計算でユニットからの射程内だったらマーク。駒の場所使ってるけど外から供給したいなあ…
+                // println("p:$position s:$square r:${position.distance(square)}")
+                if (routeMatrix[x][y] == -1 && square.range(existsPos, max, min)) routeMatrix[x][y] = square.distance(piece.existsPosition!!)
                 if (piece.searchedRouteAt(square) >= 0 && piece.isStoppable(pieceAt(square))) stepActionRoute(piece, square, 0, routeMatrix)
             }
         }
@@ -268,61 +257,62 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     /**
-     * 移動方向から升目を計算する。実はx=x(x-4)が正か負か、yは(y-2)(y-6)、2歩も同様に計算できるのだがきっとwhenのが分かりやすい
+     * 移動方向から升目を計算する。真上スタート。
+     * 実はx=x(x-4)が正か負か、yは(y-2)(y-6)、2歩も同様に計算できるのだがきっとwhenのが分かりやすい
      */
     private fun moveWithOrientation(v: Int, position: Position, sign: Int = 1): Position {
         return when (v) {
             //1
-            0 -> Position(position.x, position.y - 1 * sign)
-            1 -> Position(position.x + 1 * sign, position.y - 1 * sign)
+            0 -> Position(position.x, position.y + 1 * sign)
+            1 -> Position(position.x + 1 * sign, position.y + 1 * sign)
             2 -> Position(position.x + 1 * sign, position.y)
-            3 -> Position(position.x + 1 * sign, position.y + 1 * sign)
-            4 -> Position(position.x, position.y + 1 * sign)
-            5 -> Position(position.x - 1 * sign, position.y + 1 * sign)
+            3 -> Position(position.x + 1 * sign, position.y - 1 * sign)
+            4 -> Position(position.x, position.y - 1 * sign)
+            5 -> Position(position.x - 1 * sign, position.y - 1 * sign)
             6 -> Position(position.x - 1 * sign, position.y)
-            7 -> Position(position.x - 1 * sign, position.y - 1 * sign)
+            7 -> Position(position.x - 1 * sign, position.y + 1 * sign)
             //2
-            8 -> Position(position.x, position.y - 2 * sign)
-            9 -> Position(position.x + 1 * sign, position.y - 2 * sign)
-            10 -> Position(position.x + 2 * sign, position.y - 2 * sign)
-            11 -> Position(position.x + 2 * sign, position.y - 1 * sign)
+            8 -> Position(position.x, position.y + 2 * sign)
+            9 -> Position(position.x + 1 * sign, position.y + 2 * sign)
+            10 -> Position(position.x + 2 * sign, position.y + 2 * sign)
+            11 -> Position(position.x + 2 * sign, position.y + 1 * sign)
             12 -> Position(position.x + 2 * sign, position.y)
-            13 -> Position(position.x + 2 * sign, position.y + 1 * sign)
-            14 -> Position(position.x + 2 * sign, position.y + 2 * sign)
-            15 -> Position(position.x + 1 * sign, position.y + 2 * sign)
-            16 -> Position(position.x, position.y + 2 * sign)
-            17 -> Position(position.x - 1 * sign, position.y + 2 * sign)
-            18 -> Position(position.x - 2 * sign, position.y + 2 * sign)
-            19 -> Position(position.x - 2 * sign, position.y + 1 * sign)
+            13 -> Position(position.x + 2 * sign, position.y - 1 * sign)
+            14 -> Position(position.x + 2 * sign, position.y - 2 * sign)
+            15 -> Position(position.x + 1 * sign, position.y - 2 * sign)
+            16 -> Position(position.x, position.y - 2 * sign)
+            17 -> Position(position.x - 1 * sign, position.y - 2 * sign)
+            18 -> Position(position.x - 2 * sign, position.y - 2 * sign)
+            19 -> Position(position.x - 2 * sign, position.y - 1 * sign)
             20 -> Position(position.x - 2 * sign, position.y)
-            21 -> Position(position.x - 2 * sign, position.y - 1 * sign)
-            22 -> Position(position.x - 2 * sign, position.y - 2 * sign)
-            23 -> Position(position.x - 1 * sign, position.y - 2 * sign)
+            21 -> Position(position.x - 2 * sign, position.y + 1 * sign)
+            22 -> Position(position.x - 2 * sign, position.y + 2 * sign)
+            23 -> Position(position.x - 1 * sign, position.y + 2 * sign)
             //3
-            24 -> Position(position.x, position.y - 3 * sign)
-            25 -> Position(position.x + 1 * sign, position.y - 3 * sign)
-            26 -> Position(position.x + 2 * sign, position.y - 3 * sign)
-            27 -> Position(position.x + 3 * sign, position.y - 3 * sign)
-            28 -> Position(position.x + 3 * sign, position.y - 2 * sign)
-            29 -> Position(position.x + 3 * sign, position.y - 1 * sign)
-            30 -> Position(position.x + 3 * sign, position.y - 0 * sign)
-            31 -> Position(position.x + 3 * sign, position.y + 1 * sign)
-            32 -> Position(position.x + 3 * sign, position.y + 2 * sign)
-            33 -> Position(position.x + 3 * sign, position.y + 3 * sign)
-            34 -> Position(position.x + 2 * sign, position.y + 3 * sign)
-            35 -> Position(position.x + 1 * sign, position.y + 3 * sign)
-            36 -> Position(position.x + 0 * sign, position.y + 3 * sign)
-            37 -> Position(position.x - 1 * sign, position.y + 3 * sign)
-            38 -> Position(position.x - 2 * sign, position.y + 3 * sign)
-            39 -> Position(position.x - 3 * sign, position.y + 3 * sign)
-            40 -> Position(position.x - 3 * sign, position.y + 2 * sign)
-            41 -> Position(position.x - 3 * sign, position.y + 1 * sign)
-            42 -> Position(position.x - 3 * sign, position.y + 0 * sign)
-            43 -> Position(position.x - 3 * sign, position.y - 1 * sign)
-            44 -> Position(position.x - 3 * sign, position.y - 2 * sign)
-            45 -> Position(position.x - 3 * sign, position.y - 3 * sign)
-            46 -> Position(position.x - 2 * sign, position.y - 3 * sign)
-            47 -> Position(position.x - 1 * sign, position.y - 3 * sign)
+            24 -> Position(position.x, position.y + 3 * sign)
+            25 -> Position(position.x + 1 * sign, position.y + 3 * sign)
+            26 -> Position(position.x + 2 * sign, position.y + 3 * sign)
+            27 -> Position(position.x + 3 * sign, position.y + 3 * sign)
+            28 -> Position(position.x + 3 * sign, position.y + 2 * sign)
+            29 -> Position(position.x + 3 * sign, position.y + 1 * sign)
+            30 -> Position(position.x + 3 * sign, position.y + 0 * sign)
+            31 -> Position(position.x + 3 * sign, position.y - 1 * sign)
+            32 -> Position(position.x + 3 * sign, position.y - 2 * sign)
+            33 -> Position(position.x + 3 * sign, position.y - 3 * sign)
+            34 -> Position(position.x + 2 * sign, position.y - 3 * sign)
+            35 -> Position(position.x + 1 * sign, position.y - 3 * sign)
+            36 -> Position(position.x + 0 * sign, position.y - 3 * sign)
+            37 -> Position(position.x - 1 * sign, position.y - 3 * sign)
+            38 -> Position(position.x - 2 * sign, position.y - 3 * sign)
+            39 -> Position(position.x - 3 * sign, position.y - 3 * sign)
+            40 -> Position(position.x - 3 * sign, position.y - 2 * sign)
+            41 -> Position(position.x - 3 * sign, position.y - 1 * sign)
+            42 -> Position(position.x - 3 * sign, position.y - 0 * sign)
+            43 -> Position(position.x - 3 * sign, position.y + 1 * sign)
+            44 -> Position(position.x - 3 * sign, position.y + 2 * sign)
+            45 -> Position(position.x - 3 * sign, position.y + 3 * sign)
+            46 -> Position(position.x - 2 * sign, position.y + 3 * sign)
+            47 -> Position(position.x - 1 * sign, position.y + 3 * sign)
             else -> Position(position.x, position.y)
         }
     }
@@ -358,7 +348,6 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         println("gameReset")
         move.clear()//deselectPieceでクリアしてるはずなのだが…
         pieceMatrix.clear()
-        pieceList.clear()
         copyMatrix.forEachIndexed { x, it ->
             val newLine = mutableListOf<Piece<UNIT, GROUND>?>()
             pieceMatrix.add(newLine)
@@ -366,19 +355,15 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
                 newLine.add(e)
                 if (e != null) {
                     println("$e at x:$x,y:$y")
-                    e.existsPosition = Position(x, y)
+                    val p = Position(x, y)
+                    e.existsPosition = p
+                    positionMap[e] = p
                     e.reset()
-                    pieceList.add(e)
                 }
             }
         }
         turnStart(owner)
     }
-
-    /**
-     * 対象の枡に自分以外の駒があるときにtrue
-     */
-    private fun isAnotherPiece(piece: Piece<*, GROUND>, position: Position): Boolean = pieceAt(position) != null && pieceAt(position) != piece
 
     /**
      * 対象の位置から移動経路をさかのぼり攻撃場所を探す。 経路中に無いときには攻撃可能位置を探す
@@ -389,7 +374,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         val orientations = piece.actionOrientations()
         //攻撃可能位置のリストを作成する。//盤面・駒に向きがあるとき用
         val actionablePositions = orientations.map { moveWithOrientation(it, targetPos, -1) }.filter { piece.searchedRouteAt(it) > -1 }
-        return findActionRoute(targetPos,piece.actionRange(),actionablePositions, startPos, piece)
+        return findActionRoute(targetPos, piece.actionRange(), actionablePositions, startPos, piece)
     }
 
     /**
@@ -411,16 +396,16 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         }
 
         //えーとこのリストを補助可能判定でフィルタすればいいんだな。range も外から供給せんとな…
-        return findActionRoute(targetPos,piece.assistRange(),actionablePositions, startPos, piece)
+        return findActionRoute(targetPos, piece.assistRange(), actionablePositions, startPos, piece)
     }
 
     /**
      * 攻撃ルート探索
      */
-    fun findActionRoute(targetPosition: Position,range:Pair<Int,Int>,  targetPositions: List<Position>, startPos: Position, piece: Piece<UNIT, GROUND>): Position? {
+    fun findActionRoute(targetPosition: Position, range: Pair<Int, Int>, targetPositions: List<Position>, startPos: Position, piece: Piece<UNIT, GROUND>): Position? {
 //        println("$targetPositions がおかしいのかな…？")
         //現在値が攻撃可能なら探さなくていい
-        if (targetPosition.range(startPos,range.first,range.second) || targetPositions.contains(startPos)) return startPos
+        if (targetPosition.range(startPos, range.first, range.second) || targetPositions.contains(startPos)) return startPos
         val routeClone = move.routeStack.clone()
         if (routeClone.isEmpty() || routeClone.first != piece.existsPosition) routeClone.addFirst(piece.existsPosition)//routeStack作成時にに現在地だけ入れておきたいなあ
         val digRoute = digStack(routeClone, piece, targetPositions)
@@ -443,7 +428,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         val last = stack.last
         stack.removeLast()
         val lastStep = piece.searchedRouteAt(last)
-        val route = findStep(piece, last, lastStep, actionablePositions, mutableListOf())
+        val route = findStep(piece, last, lastStep, actionablePositions, null, mutableListOf())
         if (route.isNotEmpty() || stack.isEmpty()) {
 //            println(route)
             route.add(0, last) // どこから始めたのかが分からないためスタックのどこからかってのを返す必要がある
@@ -455,7 +440,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 経路探索中に一歩進んで再帰する
      */
-    private fun findStep(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, targetPositions: List<Position>, routeList: MutableList<Position> = mutableListOf()): MutableList<Position> {
+    private fun findStep(piece: Piece<UNIT, GROUND>, position: Position, steps: Int, targetPositions: List<Position>, orientation: Int?, routeList: MutableList<Position> = mutableListOf()): MutableList<Position> {
         val orientations = piece.moveOrientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
@@ -465,14 +450,14 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
                 val targetSquare = groundMatrix[targetPos.x][targetPos.y]
                 val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
                 //移動出来て歩数が増えてなければ。でふぉ-1はやめたほうがいいかな。
-                if (piece.isMovable(targetUnit, targetSquare, v, steps)) {
+                if (piece.isMovable(targetUnit, targetSquare, v, steps, v == orientation)) {
                     routeList.add(targetPos)
 //                    println("pre : $routeList")
                     if (targetPositions.contains(targetPos)) {
 //                        println("探索終了")
                         return routeList//探索終了
                     } else {
-                        findStep(piece, targetPos, targetSteps, targetPositions, routeList)
+                        findStep(piece, targetPos, targetSteps, targetPositions, v, routeList)
                         if (targetPositions.contains(routeList.lastOrNull())) {
 //                            println("探索終了")
                             return routeList//探索終了
@@ -489,14 +474,55 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 盤上から駒を取り除く.とりあえず駒と場所が一致しているか判定するか？どちらかだけでいいことにするか？
      */
-    fun removePiece(piece: Piece<*, *>, position: Position) {
+    fun removePiece(piece: Piece<UNIT, GROUND>, position: Position) {
         println("removePiece $piece $position")
         pieceMatrix[position.x][position.y] = null
-        pieceList.remove(piece)
+        positionMap.remove(piece)
         piece.remove()
     }
 
+    /**
+     * 盤面クリック。駒クリックと区別したいところだが残念ながらドラッグと区別がつかないのだ…！
+     */
     fun clicked(position: Position) {
-        move.clicked(position, pieceAt(position))
+        val target = pieceAt(position)
+        if (target != null) move.pieceClicked(position, target) else move.boardClicked(position)
+    }
+
+    /**
+     * 駒クリック。将来一枡中に複数駒置けるようになった時のために残しておく
+     * ...でも piece はタッチ始めた駒と同じだし役に立たない気もするなあ
+     */
+    fun pieceClicked(position: Position, piece: Piece<*, *>) {
+        val target = pieceAt(position)
+        println("search piece at ${searchUnitPosition(piece)} / $position ${target == piece}")
+        clicked(position)
+    }
+
+    /**
+     * タッチされたときに呼び出される
+     */
+    fun touch(position: Position) {
+        println("touch at ${pieceAt(position)} / $position")
+        move.touch(position, pieceAt(position))
+    }
+
+    /**
+     * タッチされたときに呼び出される
+     */
+    fun pieceTouch(position: Position, piece: Piece<*, *>) {
+        println("pieceTouch at ${searchUnitPosition(piece)} / $position")
+        move.touch(position, pieceAt(position))
+    }
+
+    /**
+     * タッチされたときに呼び出される
+     */
+    fun drag(position: Position, dx: Float, dy: Float) {
+        move.drag(position, dx, dy)
+    }
+
+    fun clickOption(listener: ActionListener) {
+        move.optionClicked(listener)
     }
 }
