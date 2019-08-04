@@ -267,10 +267,10 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     /**
      * オプションを表示する
      */
-    fun showOptionButton(x: Int, y: Int) {
+    fun showOptionButton(position: Position) {
         if (optionButton == null) return
-        optionButton!!.x =squareXtoPosX(x)
-        optionButton!!.y = squareYtoPosY(y)+squareHeight
+        optionButton!!.x =squareXtoPosX(position.x)
+        optionButton!!.y = squareYtoPosY(position.y)+squareHeight
         optionButton!!.isVisible = true
     }
     /**

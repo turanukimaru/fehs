@@ -4,7 +4,7 @@ package jp.blogspot.turanukimaru.fehs.shogi
 /**
  * 要らない気もしたけどあっても困らないな。名前とかこっちにあったほうが区別しやすいし
  */
-open class ShogiUnit (val name:String, val orientations:List<Int>, val steps : Int, val promotion : ShogiUnit?){//あれ竜王と竜馬がうまく処理できないなこれ…まぁ継承でなんとかなるか
+open class ShogiUnit (val name:String, val orientations:List<Int>, val steps : Int, var promotion : ShogiUnit?){//あれ竜王と竜馬がうまく処理できないなこれ…まぁ継承でなんとかなるか
 }
 class Fu : ShogiUnit("歩", listOf(0),1,null)
 class Kyosya : ShogiUnit("香車", listOf(0),9,null)

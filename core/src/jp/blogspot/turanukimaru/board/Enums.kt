@@ -4,11 +4,16 @@ package jp.blogspot.turanukimaru.board
 
 /**
  * プレイヤー。盤の所有者に使う
+ * 駒のジェネリックを持ってるべきなんだけどめんどくさいというか必要になってから追加したい。
  */
 class Player {
     companion object {
         val None = Player()
     }
+private   val pieceList = mutableListOf<Piece<*, *>>()
+   fun takePiece(piece : Piece<*, *>){
+       pieceList.add(piece)
+   }
     //駒のリストがあってもいいけど依存多すぎるな…
 }
 
@@ -16,7 +21,7 @@ interface BoardListener {
     fun actionDone()
     fun turnEnd()
     fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean, rank: Int)
-    fun showOption(x: Int, y: Int)
+    fun showOption(position: UiBoard.Position)
     fun hideOption()
 }
 

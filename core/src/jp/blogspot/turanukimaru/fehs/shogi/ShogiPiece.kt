@@ -69,6 +69,19 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
         return arrayOf(0,1,2,3,4,5,6,7,8)//Int Range は Array にならない…
     }
 
+    /**
+     * 成る。containUnit を var にすると　と金が持ち駒になったときに金扱いされてよくない。
+     * 対象があるかないかで分けるべきかなあ
+     */
+    override fun opt(actionTargetPiece: Piece<ShogiUnit, Ground>?, from: UiBoard.Position, actionTargetPos: UiBoard.Position) {
+       if(containUnit.promotion!= null) containUnit.promotion = Kin()
+        if (actionTargetPiece == null) return
+        board.removePiece(actionTargetPiece)
+        boardMoveCommitAction(actionTargetPos)
+        owner.takePiece(actionTargetPiece)
+    }
+
+
     override fun toString(): String = containUnit.name
 }
 

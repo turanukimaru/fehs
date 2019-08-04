@@ -14,8 +14,8 @@ import jp.blogspot.turanukimaru.board.UiBoard
  * Created by turanukimaru on 2018/03/15.
  */
 class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float) : BoardListener {
-    override fun showOption(x: Int, y: Int) {
-        uiBoard.showOptionButton(x,y)
+    override fun showOption(position: UiBoard.Position) {
+        uiBoard.showOptionButton(position)
     }
     override fun hideOption() {
         uiBoard.hideOptionButton()

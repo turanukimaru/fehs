@@ -91,7 +91,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, straight : Boolean): Boolean {
+    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, straight: Boolean): Boolean {
         return piece == null && steps == 0
     }
 
@@ -244,7 +244,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
             return false
         }
         //ドラッグしてる絵を動かす
-        actionListener.directPos(position,dx, dy)
+        actionListener.directPos(position, dx, dy)
         //移動可能範囲内で移動したらスタックに積む...
         return dragged(position)
     }
@@ -332,6 +332,18 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     fun remove() {
 //        existsPosition = null
         action(ActionPhase.REMOVED)
+    }
+
+    /**
+     * 対象のいる枡に侵入する
+     */
+    open fun into(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
+        board.removePiece(piece)
+        boardMoveCommitAction(position)
+        owner.takePiece(piece)
+    }
+
+    open fun opt(actionTargetPiece: Piece<UNIT, GROUND>?, from: Position, actionTargetPos: Position) {
     }
 
 }

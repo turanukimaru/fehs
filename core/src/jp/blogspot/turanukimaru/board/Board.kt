@@ -474,7 +474,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 盤上から駒を取り除く.とりあえず駒と場所が一致しているか判定するか？どちらかだけでいいことにするか？
      */
-    fun removePiece(piece: Piece<UNIT, GROUND>, position: Position) {
+    fun removePiece(piece: Piece<UNIT, GROUND>, position: Position?=positionMap[piece]) {
+        if(position == null) return//例外吐くべきかなあ
         println("removePiece $piece $position")
         pieceMatrix[position.x][position.y] = null
         positionMap.remove(piece)
