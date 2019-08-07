@@ -56,9 +56,9 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     /**
      * ドラッグされたときに呼び出される
      */
-    fun drag(position: UiBoard.Position,dx:Float,dy:Float) {
+    fun drag(position: UiBoard.Position, dx: Float, dy: Float) {
         println("board dragged on $position")
-        touch?.let{it.touchedPiece?.touchDragged(it.touchedPosition, dx, dy)}
+        touch?.let { it.touchedPiece?.touchDragged(it.touchedPosition, dx, dy) }
         drag(touch!!, position)
     }
 
@@ -80,12 +80,13 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         moving = moving.boardClick(position)
         touchRelease()
     }
+
     /**
      * オプションタップ
      * 成るとか成らないとかのオプションを使う予定。
      * イベントとして処理しているのでBoardへのTouchは走らないはず
      */
-    fun optionClicked(listener :ActionListener) {
+    fun optionClicked(listener: ActionListener) {
         println("optionClicked")
         moving = moving.optionClick()
     }

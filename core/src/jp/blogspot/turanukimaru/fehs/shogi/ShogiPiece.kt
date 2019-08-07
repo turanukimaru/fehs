@@ -12,19 +12,21 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     override fun isStoppable(piece: Piece<ShogiUnit, Ground>?): Boolean = piece == null || piece.owner != this.owner
 
     // straight のときのみ。竜王・竜馬のときは override するしかないな。
-    override fun isMovable(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean): Boolean {
-        return containUnit.orientations.contains(orientation) && (piece == null || piece.owner != owner) && ((steps < containUnit.steps) &&(straight || steps < 1))
+    override fun isMovable(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean, rotated: Int): Boolean {
+        //向きは正しいか && 突入できるか && 直線移動が許されている方向か
+//        if(rotated > 7 || rotated < 0)println("orientation:$orientation -> rotated:$rotated")
+        return containUnit.orientations.contains(rotated) && (piece == null || piece.owner != owner) && (steps == 0 || (containUnit.recursiveOrientations.contains(rotated) && straight))
     }
 
-    override fun isEffective(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean = false
+    override fun isEffective(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Boolean = false
 
     /**
      * 味方にサポートできる範囲か。将棋にはない
      */
-    override fun isSupportable(grounds: PiecesAndGrounds<ShogiUnit, Ground>, orientation: Int, steps: Int): Boolean = false
+    override fun isSupportable(grounds: PiecesAndGrounds<ShogiUnit, Ground>, orientation: Int, steps: Int, rotated: Int): Boolean = false
 
     //一歩進む。相手がいたら+128とかにすれば相手で止まれるか？
-    override fun countStep(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Int = if (piece == null) steps + 1 else 128
+    override fun countStep(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Int = if (piece == null) steps + 1 else 128
 
     //将棋にアクションはない
     override fun actionOrientations(): Array<Int> = arrayOf()
@@ -66,7 +68,7 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
      * 移動可能方向
      */
     override fun moveOrientations(): Array<Int> {
-        return arrayOf(0,1,2,3,4,5,6,7,8)//Int Range は Array にならない…
+        return arrayOf(0, 1, 2, 3, 4, 5, 6, 7)//Int Range は Array にならない…
     }
 
     /**
@@ -74,7 +76,7 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
      * 対象があるかないかで分けるべきかなあ
      */
     override fun opt(actionTargetPiece: Piece<ShogiUnit, Ground>?, from: UiBoard.Position, actionTargetPos: UiBoard.Position) {
-       if(containUnit.promotion!= null) containUnit.promotion = Kin()
+        if (containUnit.promotion != null) containUnit.promotion = Kin()
         if (actionTargetPiece == null) return
         board.removePiece(actionTargetPiece)
         boardMoveCommitAction(actionTargetPos)

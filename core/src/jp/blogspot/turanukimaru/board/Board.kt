@@ -113,19 +113,18 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象の枡に駒を置く。駒が配置済みだったら例外を吐く。自分がすでにいるところにPutしたケースはまだけんとうしなくていいか
      */
-    fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int) {
+    fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int, orientation: Int = 0) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("pieceMatrix[$x][$y] is スクワットのスペルが分からん  by ${pieceMatrix[x][y]}")
         pieceMatrix[x][y] = piece
         positionMap[piece] = Position(x, y)
-        piece.putOn(x, y)
+        piece.putOn(x, y, orientation)
     }
 
     /**
      * 対象の枡に駒を置く。移動元が見つからないときは例外を吐く
-     * Actionとの関係を整理したほうが良いな
+     * すでに駒があるところへは動かせない（例外をはく）ので先に明示的に取り除くこと。
      */
     fun moveToPosition(piece: Piece<UNIT, GROUND>, position: Position, x: Int = position.x, y: Int = position.y) {
-        println("Drag中にここが呼ばれたらまずい")
         if (x < 0 || y < 0 || x >= horizontalLines || y >= verticalLines) {
             throw RuntimeException("out of range pieceMatrix[$x][$y]")
         }
@@ -474,9 +473,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 盤上から駒を取り除く.とりあえず駒と場所が一致しているか判定するか？どちらかだけでいいことにするか？
      */
-    fun removePiece(piece: Piece<UNIT, GROUND>, position: Position?=positionMap[piece]) {
-        if(position == null) return//例外吐くべきかなあ
+    fun removePiece(piece: Piece<UNIT, GROUND>, position: Position? = positionMap[piece]) {
         println("removePiece $piece $position")
+        if (position == null) return//例外吐くべきかなあ
         pieceMatrix[position.x][position.y] = null
         positionMap.remove(piece)
         piece.remove()

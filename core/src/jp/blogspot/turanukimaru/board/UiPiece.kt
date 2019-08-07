@@ -48,11 +48,11 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         val touchPos = Vector3()
         touchPos.set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
         val toX = touchPos.x - this.x
-        val toY =uiBoard.height-touchPos.y + this.y
+        val toY = uiBoard.height - touchPos.y + this.y
         println("x:$toX y:$toY")
         touched = TouchPhase.DRAG
 //        piece.touchDragged(uiBoard.touchedPosition(), toX/2, toY/2)
-     //   uiBoard.board.drag(uiBoard.touchedPosition())
+        //   uiBoard.board.drag(uiBoard.touchedPosition())
     }
 
     /**

@@ -17,9 +17,11 @@ class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFo
     override fun showOption(position: UiBoard.Position) {
         uiBoard.showOptionButton(position)
     }
+
     override fun hideOption() {
         uiBoard.hideOptionButton()
     }
+
     override fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean, rank: Int) {
         uiBoard.setInfo(updateInfo, rank)
     }
@@ -63,8 +65,8 @@ class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFo
         board.listener = this
     }
 
-    fun put(piece2: ShogiPiece, x: Int, y: Int, uiPiece2: MyUiPiece, actor: Actor) {
-        board.put(piece2, x, y)
+    fun put(piece2: ShogiPiece, x: Int, y: Int, uiPiece2: MyUiPiece, actor: Actor, orientation: Int = 0) {
+        board.put(piece2, x, y, orientation)
         uiBoard.uiPieceList.add(uiPiece2)
         uiBoard.stage.addActor(actor)
     }

@@ -59,7 +59,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     }
 
     /**
-     * 待機中の動作。基本的には Ready かつアクション中じゃなければいいだけか？
+     * 待機中の動作。基本的には ActionReady かつアクション中じゃなければいいだけか？
      */
     open fun update() {
         //アクション中は無視
@@ -71,11 +71,13 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
             //現在の位置に灰色で表示.アクションというかシーケンスの最後に移動したいところだけどややこしくなるからここのままのがいいか
             ActionPhase.ACTED -> actors.forEach { a -> a.setColor(0.5f, 0.5f, 0.5f, 1f); }//これ灰色じゃねーな　r+g+b/3　にするのが正しいか？
             ActionPhase.REMOVED -> {
+                actor.isVisible = false
             }/* */
             ActionPhase.MOVING -> {
             }//移動中は確かポーズ決めっぱなしのはず
             //行動後の現在位置に表示。ずれてる場合は直接移動させる //問題か Position をどこからとってくるかが
-            else -> println("MyUiPiece else ${uiBoard.board.move}")
+            else -> {
+            }//println("MyUiPiece else ${uiBoard.board.move}")
         }
     }
 
@@ -204,7 +206,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
      * */
     private fun readyAction() {
         if (actors.size == 0) return
-        println("start readyAction $actors")
+        println("start actionReady $actors")
 
         actionEventNow = ActionEvent.Ready//棒立ちアニメ中、の意味
         val base = actors[0]

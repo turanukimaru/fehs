@@ -77,28 +77,28 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 効果範囲か。再帰して効果範囲を拡大できるかなので名前変えよう
      */
-    open fun isEffective(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Boolean {
+    open fun isEffective(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, rotated: Int = reRotate(orientation)): Boolean {
         return false
     }
 
     /**
      * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
      */
-    open fun isSupportable(grounds: PiecesAndGrounds<UNIT, GROUND>, orientation: Int, steps: Int): Boolean {
+    open fun isSupportable(grounds: PiecesAndGrounds<UNIT, GROUND>, orientation: Int, steps: Int, rotated: Int = reRotate(orientation)): Boolean {
         return false
     }
 
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, straight: Boolean): Boolean {
+    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, straight: Boolean, rotated: Int = reRotate(orientation)): Boolean {
         return piece == null && steps == 0
     }
 
     /**
      * 引数の枡に移動することで消費する移動力。移動できないときは負の値
      */
-    open fun countStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int): Int {
+    open fun countStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, rotated: Int = reRotate(orientation)): Int {
         return if (steps == 0) {
             1
         } else {
@@ -107,7 +107,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * 別のユニットがいた場合にその枡に止まれるか。例えば敵に重なることはできるが味方には重なれないかも。移動範囲内かはこれより先に判定している
+     * 別のユニットがいた場合にその枡に止まれるか。例えば敵に重なることはできるが味方には重なれないかも。移動範囲内かはこれより先に判定している。通れるけど止まれない枡ってあるかな？
      */
     open fun isStoppable(piece: Piece<UNIT, GROUND>?): Boolean = piece == null
 
@@ -280,7 +280,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     /**
-     * 補助可能射程。アルゴリズム的には遠距離にできるがあんましやりたくないなー
+     * 補助可能射程
      */
     open fun assistRange(): Pair<Int, Int> {
         return Pair(0, 0)
@@ -308,8 +308,9 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         action(ActionPhase.DISABLED, ActionEvent.Disabled)
     }
 
-    fun putOn(x: Int, y: Int) {
+    fun putOn(x: Int, y: Int, orientation: Int = 0) {
         existsPosition = Position(x, y)
+        this.orientation = orientation
         action(ActionPhase.PUTTED, ActionEvent.Put)
     }
 
@@ -337,14 +338,34 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 対象のいる枡に侵入する
      */
-    open fun into(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
+    open fun intoReady(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
+        println("$this into $position target $piece")
+        boardMove(position)
+    }
+
+    /**
+     * 対象のいる枡に侵入する.owner.takePieceとかは my だな…
+     */
+    open fun intoCommit(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
+        println("$this into $position target $piece")
         board.removePiece(piece)
-        boardMoveCommitAction(position)
+        board.moveToPosition(this, position)
+        boardMoveCommit(position)
         owner.takePiece(piece)
+        action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)// ActionEvent は変えたほうがいいな…ていうか ActionEvent は共通系に書いてはいけないはずだよな
     }
 
     open fun opt(actionTargetPiece: Piece<UNIT, GROUND>?, from: Position, actionTargetPos: Position) {
     }
 
+    /**
+     * 供給された orientation を自分の orientation 分逆回転させる。整数論は苦手だ…
+     */
+    private fun reRotate(orientation: Int): Int =
+            when {
+                orientation < 8 -> if (orientation >= this.orientation) (orientation - this.orientation) else (orientation - this.orientation + 8)
+                orientation < 24 -> if (orientation >= this.orientation * 3) (orientation - this.orientation * 3) else (orientation - this.orientation * 3 + 24)
+                else -> orientation
+            }
 }
 

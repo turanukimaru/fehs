@@ -17,9 +17,11 @@ class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont:
     override fun showOption(position: UiBoard.Position) {
         uiBoard.showOptionButton(position)
     }
+
     override fun hideOption() {
         uiBoard.hideOptionButton()
     }
+
     override fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean, rank: Int) {
         uiBoard.setInfo(updateInfo, rank)
     }

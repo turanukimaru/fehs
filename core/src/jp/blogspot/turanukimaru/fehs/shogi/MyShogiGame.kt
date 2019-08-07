@@ -27,7 +27,7 @@ import jp.blogspot.turanukimaru.board.Player
 /**
  * ゲーム本体。LibGDXサンプルソースがところどころ残ってるので削除せねば...
  */
-class MyMyGdxGame : ApplicationAdapter() {
+class MyShogiGame : ApplicationAdapter() {
 
     var dropImage: Texture? = null
     var bucketImage: Texture? = null
@@ -54,6 +54,7 @@ class MyMyGdxGame : ApplicationAdapter() {
     var user = Player()
     var enemy = Player()
 
+    //null のマトリクスをつくるよりはダミーオブジェクトを詰めたマトリクスのほうが楽。 null 本当に邪魔だな…
     val battleGround = arrayOf(
             arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
             arrayOf(Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
@@ -113,22 +114,27 @@ class MyMyGdxGame : ApplicationAdapter() {
             val region = TextureRegion(numberTexture, i * 51, 0, 51, 96)
             myGame.uiBoard.numberRegions.add(region)
         }
+
         val optionImage = Image(loadTexture("bucket.png"))
         myGame.uiBoard.optionButton = optionImage
         optionImage.isVisible = false
         optionImage.x = -128f
         optionImage.y = -128f
-        val optionListener =         ActionListener(optionImage, myGame.uiBoard)
+        val optionListener = ActionListener(optionImage, myGame.uiBoard)
         optionImage.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                println("pushed optionImage")
+            override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
+                super.touchUp(event, x, y, pointer, button)
                 //boardには伝えない
+                event?.handle()
+                event?.bubbles = false
                 event?.cancel()
+                //駄目だどうしてもboard.clickが着火する…もうチャタリング対策同様に時間管理するしかないか？
                 myGame.board.clickOption(optionListener)
 
             }
         })
-//        stage!!.addActor(optionImage)
+        stage!!.addActor(optionImage)
+
         //地形を盤面にコピー
         myGame.board.copyGroundSwitchXY(battleGround)
 
@@ -189,7 +195,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val piece2 = ShogiPiece(Kin(), myGame.board, enemy, ActionListener(lucinaImage, myGame.uiBoard))
         val uiPiece2 = MyUiPiece(lucinaImage, myGame.uiBoard, piece2)
 //        lucinaImage.addListener(uiPiece2)
-        myGame.put(piece2, 1, 3, uiPiece2, lucinaImage)
+        myGame.put(piece2, 1, 3, uiPiece2, lucinaImage, 4)
 
         val hectorTexture = loadTexture("hector.png")
         val hectorImage = Image(hectorTexture)
@@ -198,7 +204,8 @@ class MyMyGdxGame : ApplicationAdapter() {
         val piece3 = ShogiPiece(Hisya(), myGame.board, enemy, ActionListener(hectorImage, myGame.uiBoard))
         val uiPiece3 = MyUiPiece(hectorImage, myGame.uiBoard, piece3)
 //        hectorImage.addListener(uiPiece3)
-        myGame.put(piece3, 3, 3, uiPiece3, hectorImage)
+        myGame.put(piece3, 3, 3, uiPiece3, hectorImage, 4)
+
         myGame.playerA = user
         myGame.playerB = enemy
         myGame.board.gameStart(user)

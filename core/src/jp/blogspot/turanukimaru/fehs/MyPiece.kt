@@ -8,13 +8,13 @@ import jp.blogspot.turanukimaru.board.*
 class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Player, actionListener: ActionListener) : Piece<BattleUnit, Ground>(containUnit, board, owner, actionListener) {
     override fun isStoppable(piece: Piece<BattleUnit, Ground>?): Boolean = piece == null || piece == this
 
-    override fun isMovable(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean): Boolean {
+    override fun isMovable(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean, rotated: Int): Boolean {
         //デフォルトでは上下左右0,2,4,6にしておこう
 //        println("move to $pieceAt $ground $orientation $steps")
         return (piece == null || piece.owner == owner) && ((ground == Ground.P && steps < containUnit.movableSteps) || (ground == Ground.W && steps + 1 < containUnit.movableSteps))
     }
 
-    override fun isEffective(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Boolean {//これ steps はdx+dyでいい気がしてきた…
+    override fun isEffective(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Boolean {//これ steps はdx+dyでいい気がしてきた…
 //        println("step:$steps range:${containUnit.actionRange}")range計算はMap側で終わってるから要らないかな…
         return steps < containUnit.effectiveRange && !(piece != null && piece.owner == owner)//味方は範囲に数えない
     }
@@ -22,12 +22,12 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     /**
      * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
      */
-    override fun isSupportable(grounds: PiecesAndGrounds<BattleUnit, Ground>, orientation: Int, steps: Int): Boolean {
+    override fun isSupportable(grounds: PiecesAndGrounds<BattleUnit, Ground>, orientation: Int, steps: Int, rotated: Int): Boolean {
         //support skill によって変わるのだがとりあえず一歩押す奴。
-        return grounds.Piece0 != null && grounds.Piece0.owner == owner && grounds.Piece1 == null && grounds.Piece0.isMovable(null, grounds.Ground1, orientation, 0,false)
+        return grounds.Piece0 != null && grounds.Piece0.owner == owner && grounds.Piece1 == null && grounds.Piece0.isMovable(null, grounds.Ground1, orientation, 0, false)
     }
 
-    override fun countStep(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int): Int {
+    override fun countStep(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Int {
 //        println("count step $pieceAt $ground $orientation $steps")
         return if (steps < containUnit.movableSteps) {
             steps + (ground?.cost ?: 0)

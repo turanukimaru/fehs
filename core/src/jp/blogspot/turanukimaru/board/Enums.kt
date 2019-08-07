@@ -10,10 +10,11 @@ class Player {
     companion object {
         val None = Player()
     }
-private   val pieceList = mutableListOf<Piece<*, *>>()
-   fun takePiece(piece : Piece<*, *>){
-       pieceList.add(piece)
-   }
+
+    private val pieceList = mutableListOf<Piece<*, *>>()
+    fun takePiece(piece: Piece<*, *>) {
+        pieceList.add(piece)
+    }
     //駒のリストがあってもいいけど依存多すぎるな…
 }
 

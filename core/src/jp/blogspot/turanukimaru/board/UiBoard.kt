@@ -37,7 +37,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         fun distance(p: Position) = abs(x - p.x) + abs(y - p.y)
     }
 
-    var optionButton: Image?=null
+    var optionButton: Image? = null
     /**
      * 数字表示用テクスチャ
      */
@@ -117,6 +117,8 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
+        println("${event?.isHandled} ならさらなるハンドリングを防ぐ")
+        if (event?.isHandled == true) return // この形なら warning 出ないけどなんか釈然としないな…
         if (y > marginBottom && y < height - marginBottom) board.clicked(xyToPosition(x, y))
 //        //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
 //        val touchUpOver = isOver(event?.listenerActor ?: return, x, y)
@@ -269,15 +271,18 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     fun showOptionButton(position: Position) {
         if (optionButton == null) return
-        optionButton!!.x =squareXtoPosX(position.x)
-        optionButton!!.y = squareYtoPosY(position.y)+squareHeight
+        optionButton!!.x = squareXtoPosX(position.x)
+        optionButton!!.y = squareYtoPosY(position.y) + squareHeight
+        optionButton!!.toFront()
         optionButton!!.isVisible = true
     }
+
     /**
      * オプションを消す.角錐値は適当
      */
     fun hideOptionButton() {
-        optionButton!!.x =-128f
+        println("hideOptionButton")
+        optionButton!!.x = -128f
         optionButton!!.y = -128f
         optionButton!!.isVisible = false
     }
