@@ -39,11 +39,11 @@ class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont:
     }
 
     override fun actionDone() {
-        if (board.pieceList.none { it.owner == playerA }) {
+        if (board.physic.pieceList.none { it.owner == playerA }) {
             println("TODO:playerBの勝利")
             board.gameReset(playerA!!)
         }
-        if (board.pieceList.none { it.owner == playerB }) {
+        if (board.physic.pieceList.none { it.owner == playerB }) {
             println("TODO:playerAの勝利")
             board.gameReset(playerA!!)
         }
@@ -66,7 +66,7 @@ class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont:
     }
 
     fun put(piece2: MyPiece, x: Int, y: Int, uiPiece2: MyUiPiece, actor: Actor) {
-        board.put(piece2, x, y)
+        board.physic.put(piece2, x, y)
         uiBoard.uiPieceList.add(uiPiece2)
         uiBoard.stage.addActor(actor)
     }

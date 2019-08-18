@@ -83,7 +83,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     private fun showActionResult(position: UiBoard.Position): Boolean {
-        val target = board.pieceAt(position)
+        val target = board.physic.pieceAt(position)
         println("呼ばれてるはずなんだけど上書きされてるのかな…？$target ${actionableAt(position)} ${board.move.touch?.touchedPiece} 表示関数に優先順位でもつけるか？")
         //敵ユニットに重ねたときは戦闘結果を計算して表示
         if (actionableAt(position) > 0 && target != null && target.owner != owner) {
@@ -131,7 +131,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     private fun assistTouchedPoint(position: UiBoard.Position, targetPosition: UiBoard.Position, target: Piece<BattleUnit, Ground>): ActionPhase {
         val subP = targetPosition.sub(position)
         val to = targetPosition.plus(subP)
-        board.moveToPosition(target, to)
+        board.physic.move(target, to)
         target.boardSlide(to)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)//実際は押す動作になる
         return ActionPhase.ACTED
@@ -157,7 +157,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
             if (attackPos != null) {
                 //敵味方判別して行動。攻撃なら一歩手前に移動するし移動補助ならそれが発動する
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-                println(board.pieceAt(position))
+                println(board.physic.pieceAt(position))
                 println("attack to $position")
                 println("attack from $attackPos")
                 println(board.move.routeStack)
@@ -170,10 +170,10 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 target.containUnit.hp = fightResult.attackResults.last().target.hp
 
                 if (containUnit.hp == 0) {
-                    board.removePiece(this, attackPos)
+                    board.physic.remove(this, attackPos)
                 }
                 if (target.containUnit.hp == 0) {
-                    board.removePiece(target, position)
+                    board.physic.remove(target, position)
                 }
 
                 board.updateInfo()

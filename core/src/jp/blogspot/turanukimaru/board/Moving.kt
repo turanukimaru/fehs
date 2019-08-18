@@ -66,7 +66,7 @@ abstract class Moving<UNIT, GROUND>(
 //        println("ひょっとして $movable false?")
         if (movable) {
             move.board.findActionRoute(position, selectedPiece.actionRange(), listOf(position), oldPosition, selectedPiece)
-            move.board.moveToPosition(selectedPiece, position)
+            move.board.physic.move(selectedPiece, position)
             move.board.listener?.showOption(position)
             return Selected(move, selectedPiece, oldPosition, position)
         }
@@ -126,8 +126,8 @@ abstract class Moving<UNIT, GROUND>(
 
     fun intoCommit(piece: Piece<UNIT, GROUND>, position: UiBoard.Position, selectedPiece: Piece<UNIT, GROUND>, from: UiBoard.Position): Moving<UNIT, GROUND> {
         println("intoCommit")
-        move.board.removePiece(piece)
-        move.board.moveToPosition(selectedPiece, position)
+        move.board.physic.remove(piece)
+        move.board.physic.move(selectedPiece, position)
         selectedPiece.intoCommit(piece, from, position)
         clear()
         return NoMove(move)
@@ -199,7 +199,7 @@ open class Grasp<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override v
 
     override fun moveCancel(): Moving<UNIT, GROUND> {
         println("moveCancel $selectedPiece")
-        move.board.moveToPosition(selectedPiece, from)
+        move.board.physic.move(selectedPiece, from)
         selectedPiece.moveCancel()
         clear()
         return NoMove(move)

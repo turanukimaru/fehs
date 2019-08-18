@@ -78,7 +78,7 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     override fun opt(actionTargetPiece: Piece<ShogiUnit, Ground>?, from: UiBoard.Position, actionTargetPos: UiBoard.Position) {
         if (containUnit.promotion != null) containUnit.promotion = Kin()
         if (actionTargetPiece == null) return
-        board.removePiece(actionTargetPiece)
+        board.physic.remove(actionTargetPiece)
         boardMoveCommitAction(actionTargetPos)
         owner.takePiece(actionTargetPiece)
     }

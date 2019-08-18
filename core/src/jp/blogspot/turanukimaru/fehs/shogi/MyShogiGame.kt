@@ -136,7 +136,7 @@ class MyShogiGame : ApplicationAdapter() {
         stage!!.addActor(optionImage)
 
         //地形を盤面にコピー
-        myGame.board.copyGroundSwitchXY(battleGround)
+        myGame.board.physic.copyGroundSwitchXY(battleGround)
 
         //盤外のボタンなど。これも処理考え直す必要がありそう
         val turnendTexture = loadTexture("turnend.png")
@@ -231,10 +231,10 @@ class MyShogiGame : ApplicationAdapter() {
 
     override fun render() {
 //        println("マイフレーム呼ばれてるはずなんだけどな…？")
-        // clear the screen with a dark blue color. The
+        // reset the screen with a dark blue color. The
         // arguments to glClearColor are the red, green
         // blue and alpha component in the range [0,1]
-        // of the color to be used to clear the screen.
+        // of the color to be used to reset the screen.
         //UIBoardに出してもいいけどBoardに出しちゃいけない部分だよなあ
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
@@ -259,7 +259,7 @@ class MyShogiGame : ApplicationAdapter() {
         bitmapFont!!.draw(batch, "touchStartY:${myGame.uiBoard.touchStartY}", 50f, 540f)
         bitmapFont!!.draw(batch, "from:${hand.moving.from}", 50f, 630f)
         bitmapFont!!.draw(batch, "to:${hand.moving.to}", 50f, 660f)
-        myGame.board.pieceList.forEach {
+        myGame.board.physic.pieceList.forEach {
             if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.containUnit.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }
         batch!!.end()

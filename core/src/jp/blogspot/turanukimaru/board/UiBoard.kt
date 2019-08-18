@@ -119,7 +119,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         super.touchUp(event, x, y, pointer, button)
         println("${event?.isHandled} ならさらなるハンドリングを防ぐ")
         if (event?.isHandled == true) return // この形なら warning 出ないけどなんか釈然としないな…
-        if (y > marginBottom && y < height - marginBottom) board.clicked(xyToPosition(x, y))
+        if (y > marginBottom && y < height - marginBottom) board.click(xyToPosition(x, y))
 //        //クリックかどうかを判定するコード。superからの移植だが初期化されず動作終わったフラグが立ってるだけなのでそのまま動く
 //        val touchUpOver = isOver(event?.listenerActor ?: return, x, y)
 //        // Ignore touch up if the wrong mouse button.

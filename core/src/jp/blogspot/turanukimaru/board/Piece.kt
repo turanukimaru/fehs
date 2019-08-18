@@ -348,8 +348,8 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      */
     open fun intoCommit(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
         println("$this into $position target $piece")
-        board.removePiece(piece)
-        board.moveToPosition(this, position)
+        board.physic.remove(piece)
+        board.physic.move(this, position)
         boardMoveCommit(position)
         owner.takePiece(piece)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)// ActionEvent は変えたほうがいいな…ていうか ActionEvent は共通系に書いてはいけないはずだよな

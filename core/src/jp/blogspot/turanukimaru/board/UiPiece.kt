@@ -67,7 +67,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         val position = uiBoard.touchedPosition()
         event!!.cancel() // 今はマップ上の動きだけだがいずれ駒の操作を盤に伝える形にしたい
         piece.touchUp(position)
-        uiBoard.board.pieceClicked(position, piece)//あーこここれじゃダメなのか
+        uiBoard.board.pieceClick(position, piece)//あーこここれじゃダメなのか
         this.x = 0f
         this.y = 0f
     }

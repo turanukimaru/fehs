@@ -39,11 +39,11 @@ class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFo
     }
 
     override fun actionDone() {
-        if (board.pieceList.none { it.owner == playerA }) {
+        if (board.physic.pieceList.none { it.owner == playerA }) {
             println("TODO:playerBの勝利")
             board.gameReset(playerA!!)
         }
-        if (board.pieceList.none { it.owner == playerB }) {
+        if (board.physic.pieceList.none { it.owner == playerB }) {
             println("TODO:playerAの勝利")
             board.gameReset(playerA!!)
         }
@@ -66,7 +66,7 @@ class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFo
     }
 
     fun put(piece2: ShogiPiece, x: Int, y: Int, uiPiece2: MyUiPiece, actor: Actor, orientation: Int = 0) {
-        board.put(piece2, x, y, orientation)
+        board.physic.put(piece2, x, y, orientation)
         uiBoard.uiPieceList.add(uiPiece2)
         uiBoard.stage.addActor(actor)
     }

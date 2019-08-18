@@ -96,7 +96,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * 指を離したときに呼び出される。ドラッグもここになるのでここからdrop()を呼び出している
      */
     fun pieceClicked(position: UiBoard.Position, piece: Piece<UNIT, GROUND>) {
-        println("pieceClicked")
+        println("pieceClick")
         //盤面タップ
         println("moving.pieceClick($position, $piece)")
         moving = moving.pieceClick(position, piece)
