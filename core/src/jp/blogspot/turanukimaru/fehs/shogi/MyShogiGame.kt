@@ -22,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jp.blogspot.turanukimaru.board.ActionListener
-import jp.blogspot.turanukimaru.board.Player
+import jp.blogspot.turanukimaru.playboard.Player
 
 /**
  * ゲーム本体。LibGDXサンプルソースがところどころ残ってるので削除せねば...
@@ -120,7 +120,6 @@ class MyShogiGame : ApplicationAdapter() {
         optionImage.isVisible = false
         optionImage.x = -128f
         optionImage.y = -128f
-        val optionListener = ActionListener(optionImage, myGame.uiBoard)
         optionImage.addListener(object : ClickListener() {
             override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
                 super.touchUp(event, x, y, pointer, button)
@@ -129,7 +128,7 @@ class MyShogiGame : ApplicationAdapter() {
                 event?.bubbles = false
                 event?.cancel()
                 //駄目だどうしてもboard.clickが着火する…もうチャタリング対策同様に時間管理するしかないか？
-                myGame.board.clickOption(optionListener)
+                myGame.board.clickOption()
 
             }
         })
@@ -248,7 +247,7 @@ class MyShogiGame : ApplicationAdapter() {
         // begin a new batch and draw the bucket and
         // all drops
         batch!!.begin()
-        myGame.uiBoard.updateSpriteBatch(batch!!)
+        myGame.uiBoard.libUpdateSpriteBatch(batch!!)
         batch!!.draw(bucketImage, bucket!!.x, bucket!!.y)
         for (raindrop in raindrops) {
             batch!!.draw(dropImage, raindrop.x, raindrop.y)
@@ -260,7 +259,7 @@ class MyShogiGame : ApplicationAdapter() {
         bitmapFont!!.draw(batch, "from:${hand.moving.from}", 50f, 630f)
         bitmapFont!!.draw(batch, "to:${hand.moving.to}", 50f, 660f)
         myGame.board.physic.pieceList.forEach {
-            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.containUnit.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
+            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.unit.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }
         batch!!.end()
         myGame.uiBoard.libUpdate()

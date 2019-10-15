@@ -1,0 +1,10 @@
+@startuml
+
+class 盤{
+載せる(Any)
+取り除く(Any)
+}
+class Any{
+}
+盤 -o "載る" Any
+@enduml

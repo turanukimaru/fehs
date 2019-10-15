@@ -5,25 +5,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
-import jp.blogspot.turanukimaru.board.Board
-import jp.blogspot.turanukimaru.board.BoardListener
-import jp.blogspot.turanukimaru.board.Player
 import jp.blogspot.turanukimaru.board.UiBoard
+import jp.blogspot.turanukimaru.playboard.Board
+import jp.blogspot.turanukimaru.playboard.BoardListener
+import jp.blogspot.turanukimaru.playboard.Player
+import jp.blogspot.turanukimaru.playboard.Position
 
 /**
  * Created by turanukimaru on 2018/03/15.
  */
 class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float) : BoardListener {
-    override fun showOption(position: UiBoard.Position) {
+    override fun showOption(position: Position) {
         uiBoard.showOptionButton(position)
     }
 
     override fun hideOption() {
         uiBoard.hideOptionButton()
-    }
-
-    override fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean, rank: Int) {
-        uiBoard.setInfo(updateInfo, rank)
     }
 
     /**

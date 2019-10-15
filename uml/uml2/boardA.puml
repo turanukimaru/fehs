@@ -1,0 +1,19 @@
+@startuml
+
+class 盤{
+載せる(Any, 座標=Anywhere)
+取り除く(Any)
+}
+class Any{
+}
+class 座標のある盤{
+載せる(駒, 座標)
+}
+class 駒{
+動かす(座標)
+}
+盤 -o "載る" Any
+座標のある盤 -up-|> 盤
+駒 -up-|> Any
+座標のある盤 -> 駒
+@enduml

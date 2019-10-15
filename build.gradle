@@ -76,6 +76,7 @@ project(":core") {
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         implementation project(":fehsbattlemodel")
+        implementation project(":board")
     }
 }
 

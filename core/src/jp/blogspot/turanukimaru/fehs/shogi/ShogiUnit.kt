@@ -2,7 +2,7 @@ package jp.blogspot.turanukimaru.fehs.shogi
 
 
 /**
- * 要らない気もしたけどあっても困らないな。名前とかこっちにあったほうが区別しやすいし
+ * 将棋の駒が持つ能力
  */
 open class ShogiUnit(val name: String, val orientations: List<Int>, val recursiveOrientations: List<Int>, var promotion: ShogiUnit?) {//あれ竜王と竜馬がうまく処理できないなこれ…まぁ継承でなんとかなるか
 }

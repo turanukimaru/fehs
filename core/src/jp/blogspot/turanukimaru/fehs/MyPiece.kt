@@ -1,20 +1,23 @@
 package jp.blogspot.turanukimaru.fehs
 
-import jp.blogspot.turanukimaru.board.*
+import jp.blogspot.turanukimaru.board.ActionListener
+import jp.blogspot.turanukimaru.playboard.*
 
 /**
  * 駒を継承してそのゲームにおける駒のルールを記述。画像としての処理もとりあえずここ。Actionは括りだすべきか？
  */
-class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: Player, actionListener: ActionListener) : Piece<BattleUnit, Ground>(containUnit, board, owner, actionListener) {
-    override fun isStoppable(piece: Piece<BattleUnit, Ground>?): Boolean = piece == null || piece == this
+class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Ground>, owner: Player, val actionListener: ActionListener) : Piece<MyPiece, Ground>(null, board, owner) {
 
-    override fun isMovable(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean, rotated: Int): Boolean {
+    override val unit get() = this
+    override fun isStoppable(piece: Piece<MyPiece, Ground>?): Boolean = piece == null || piece == this
+
+    override fun isMovable(piece: Piece<MyPiece, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean, rotated: Int): Boolean {
         //デフォルトでは上下左右0,2,4,6にしておこう
 //        println("move to $pieceAt $ground $orientation $steps")
         return (piece == null || piece.owner == owner) && ((ground == Ground.P && steps < containUnit.movableSteps) || (ground == Ground.W && steps + 1 < containUnit.movableSteps))
     }
 
-    override fun isEffective(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Boolean {//これ steps はdx+dyでいい気がしてきた…
+    override fun isEffective(piece: Piece<MyPiece, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Boolean {//これ steps はdx+dyでいい気がしてきた…
 //        println("step:$steps range:${containUnit.actionRange}")range計算はMap側で終わってるから要らないかな…
         return steps < containUnit.effectiveRange && !(piece != null && piece.owner == owner)//味方は範囲に数えない
     }
@@ -22,12 +25,12 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     /**
      * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
      */
-    override fun isSupportable(grounds: PiecesAndGrounds<BattleUnit, Ground>, orientation: Int, steps: Int, rotated: Int): Boolean {
-        //support skill によって変わるのだがとりあえず一歩押す奴。
-        return grounds.Piece0 != null && grounds.Piece0.owner == owner && grounds.Piece1 == null && grounds.Piece0.isMovable(null, grounds.Ground1, orientation, 0, false)
+    override fun isSupportable(grounds: PiecesAndGrounds<MyPiece, Ground>, orientation: Int, steps: Int, rotated: Int): Boolean {
+        //support skill によって変わるのだがとりあえず一歩押す奴。//中心に対象がいないときは false でいいのかな・・・？
+        return grounds.Piece0 != null && grounds.Piece0?.owner == owner && grounds.Piece1 == null && grounds.Piece0?.isMovable(null, grounds.Ground1, orientation, 0, false) ?: false
     }
 
-    override fun countStep(piece: Piece<BattleUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Int {
+    override fun countStep(piece: Piece<MyPiece, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Int {
 //        println("count step $pieceAt $ground $orientation $steps")
         return if (steps < containUnit.movableSteps) {
             steps + (ground?.cost ?: 0)
@@ -57,7 +60,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
      * タッチされたときの処理。コマの動きは共通処理なのでここは表示とか
      */
     override fun touched(): Boolean {
-        board.updateInfo({ b ->
+        actionListener.updateInfo({ b ->
             //フォントサイズ替えたいところではある
             b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.heroName.jp, 80f, 940f)
             b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
@@ -78,30 +81,30 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     //対象がルート上かとかの引数を増やすべきだな
-    override fun dragged(position: UiBoard.Position): Boolean {
+    override fun dragged(position: Position): Boolean {
         return true//showActionResult(position)
     }
 
-    private fun showActionResult(position: UiBoard.Position): Boolean {
+    private fun showActionResult(position: Position): Boolean {
         val target = board.physic.pieceAt(position)
         println("呼ばれてるはずなんだけど上書きされてるのかな…？$target ${actionableAt(position)} ${board.move.touch?.touchedPiece} 表示関数に優先順位でもつけるか？")
         //敵ユニットに重ねたときは戦闘結果を計算して表示
         if (actionableAt(position) > 0 && target != null && target.owner != owner) {
             //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
-            val fightResult = containUnit.fight(target.containUnit)
+            val fightResult = containUnit.fight(target.unit.containUnit)
             for (result in fightResult) {
                 println(result)
             }
             val expected = fightResult.last()
 
-            board.updateInfo({ b ->
+            actionListener.updateInfo({ b ->
                 b.bitmapFont.draw(b.batch, containUnit.armedHero.baseHero.heroName.jp, 50f, 940f)
-                b.bitmapFont.draw(b.batch, target.containUnit.armedHero.baseHero.heroName.jp, 320f, 940f)
+                b.bitmapFont.draw(b.batch, target.unit.containUnit.armedHero.baseHero.heroName.jp, 320f, 940f)
                 b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
                 b.bitmapFont.draw(b.batch, containUnit.hp.toString(), 20f, 900f)
                 b.bitmapFont.draw(b.batch, "→", 80f, 900f)
                 b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
-                b.bitmapFont.draw(b.batch, target.containUnit.hp.toString(), 290f, 900f)
+                b.bitmapFont.draw(b.batch, target.unit.containUnit.hp.toString(), 290f, 900f)
                 b.bitmapFont.draw(b.batch, "→", 350f, 900f)
                 b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
 
@@ -114,12 +117,12 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
     }
 
     //行動結果表示。ドラッグと同じ
-    override fun boardAction(source: UiBoard.Position, target: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>): Boolean {
+    override fun boardAction(source: Position, target: Position, targetPiece: Piece<MyPiece, Ground>): Boolean {
         return showActionResult(target)
     }
 
     //行動。相手がいるかは判定済み。向きをここに入れるかはちょっと難しいな…でも入れるしかないか。補助と言っても回復もあるんだしな
-    override fun boardActionCommit(source: UiBoard.Position, target: UiBoard.Position, targetPiece: Piece<BattleUnit, Ground>): Boolean {
+    override fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<MyPiece, Ground>): Boolean {
         if (targetPiece.owner == owner) assistTouchedPoint(source, target, targetPiece) else actionTouchedPoint(target, targetPiece)
         return true
     }
@@ -128,7 +131,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
      * touchUp/boardのタッチから呼び出される
      * 対象を移動させるから向きがいるな…
      */
-    private fun assistTouchedPoint(position: UiBoard.Position, targetPosition: UiBoard.Position, target: Piece<BattleUnit, Ground>): ActionPhase {
+    private fun assistTouchedPoint(position: Position, targetPosition: Position, target: Piece<MyPiece, Ground>): ActionPhase {
         val subP = targetPosition.sub(position)
         val to = targetPosition.plus(subP)
         board.physic.move(target, to)
@@ -141,7 +144,7 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
      * touchUp/boardのタッチから呼び出される
      * 対象の piece が not null かは難しいところだな。…でもユニットのいないところへのアクションって移動になるからシステム的に作れないよな？
      */
-    private fun actionTouchedPoint(position: UiBoard.Position, target: Piece<BattleUnit, Ground>?): ActionPhase {
+    private fun actionTouchedPoint(position: Position, target: Piece<MyPiece, Ground>?): ActionPhase {
 
         println("actionTouchedPoint")
         println("charPosition: $position")
@@ -162,21 +165,21 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
                 println("attack from $attackPos")
                 println(board.move.routeStack)
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-                val fightResult = FightResult(containUnit, attackPos, target.containUnit, position, containUnit.fight(target.containUnit))
+                val fightResult = FightResult(containUnit, attackPos.p, target.unit.containUnit, position, containUnit.fight(target.unit.containUnit))
                 action(ActionPhase.ACTED, ActionEvent.Attack, fightResult)
-                target.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
+                target.unit.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
                 //表示にはfightResultのHPを使うがマップ上では最終的なHPをそのまま使える
                 containUnit.hp = fightResult.attackResults.last().source.hp
-                target.containUnit.hp = fightResult.attackResults.last().target.hp
+                target.unit.containUnit.hp = fightResult.attackResults.last().target.hp
 
                 if (containUnit.hp == 0) {
-                    board.physic.remove(this, attackPos)
+                    board.physic.remove(this, attackPos.p)
                 }
-                if (target.containUnit.hp == 0) {
+                if (target.unit.containUnit.hp == 0) {
                     board.physic.remove(target, position)
                 }
 
-                board.updateInfo()
+                actionListener.updateInfo()
                 return ActionPhase.ACTED
             } else {
                 throw RuntimeException("ここに来るはずないし")
@@ -184,6 +187,40 @@ class MyPiece(containUnit: BattleUnit, board: Board<BattleUnit, Ground>, owner: 
         }
         return ActionPhase.READY
     }
+
+    override fun update() {
+        actionListener.libUpdate()
+        localUpdate()
+    }
+
+    override fun touchDragged(position: Position, dx: Float, dy: Float): Boolean {
+        //行動できないときは反応しない
+        if (!isActionable) {
+            return false
+        }
+        //ドラッグしてる絵を動かす
+        actionListener.directPos(position, dx, dy)
+        //移動可能範囲内で移動したらスタックに積む...
+        return dragged(position)
+    }
+
+    /**
+     * アクション。アクションと同時に次の状態に移行することを想定しているが…この関数あんまし要らん気がするな
+     */
+    fun action(nextPhase: ActionPhase, actionEvent: ActionEvent, fightResult: FightResult) {
+        actionListener.action(actionEvent, nextPhase, charPosition, fightResult)
+        this.actionPhase = nextPhase
+    }
+
+    /**
+     * アクション。アクションと同時に次の状態に移行することを想定しているが…この関数あんまし要らん気がするな
+     */
+    override fun action(nextPhase: ActionPhase, actionEvent: ActionEvent) {
+        //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
+        actionListener.action(actionEvent, nextPhase, charPosition)
+        this.actionPhase = nextPhase
+    }
+
 
     override fun toString(): String = containUnit.armedHero.name
 }

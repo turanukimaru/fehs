@@ -1,4 +1,6 @@
-package jp.blogspot.turanukimaru.board
+package jp.blogspot.turanukimaru.playboard
+
+import kotlin.math.abs
 
 //雑多なクラスやEnum
 
@@ -21,10 +23,26 @@ class Player {
 interface BoardListener {
     fun actionDone()
     fun turnEnd()
-    fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean, rank: Int)
-    fun showOption(position: UiBoard.Position)
+    fun showOption(position: Position)
     fun hideOption()
 }
+
+/**
+ * 盤面の座標
+ */
+data class Position(val x: Int, val y: Int) {
+    fun sub(p: Position): Position = Position(x - p.x, y - p.y)
+    fun plus(p: Position): Position = Position(x + p.x, y + p.y)
+    fun range(p: Position, max: Int, min: Int = 0) = distance(p) in min..max
+    fun distance(p: Position) = abs(x - p.x) + abs(y - p.y)
+}
+
+/**
+ * 座標＋向き。駒への参照もあったほうがいいかな？
+ */
+data class Positioning(val p: Position, val r: Int)
+
+val nowhere = Positioning(Position(-1, -1), -1)
 
 class Touch<UNIT, GROUND>(
         /**
@@ -34,7 +52,7 @@ class Touch<UNIT, GROUND>(
         /**
          * タッチ開始したときの位置.これは not null が自然か
          */
-        var touchedPosition: UiBoard.Position,
+        var touchedPosition: Position,
         var holdStart: Long,
         var dragged: Boolean
 ) {
@@ -46,7 +64,7 @@ class Touch<UNIT, GROUND>(
     デフォルト引数を使わないようにするかコンストラクタを手で作る
      */
     constructor(touchedPiece: Piece<UNIT, GROUND>?,
-                touchedPosition: UiBoard.Position,
+                touchedPosition: Position,
                 holdStart: Long) : this(touchedPiece, touchedPosition, holdStart, false)
 
     private val graspThreshold = 500//長押しホールドに結局要るか…
@@ -59,7 +77,7 @@ class Touch<UNIT, GROUND>(
         return dragged || System.currentTimeMillis() - holdStart > graspThreshold
     }
 
-    fun drag(position: UiBoard.Position, board: Board<UNIT, GROUND>): Boolean {
+    fun drag(position: Position, board: Board<UNIT, GROUND>): Boolean {
         dragged = true
         //そこに動けるか判定が先に要るか
         return touchedPiece?.let { it.isActionable && touchedPiece?.owner == board.owner && it.boardDrag(position) }
@@ -137,10 +155,6 @@ enum class ActionPhase {
     READY,
     //移動中
     MOVING,
-    //攻撃・アニメが終わったらACTEDになる予定だけどHand側に統合されそうな気もしてきた
-    ATTACK,
-    //攻撃を受ける。同上
-    ATTACKED,
     //行動確定後
     ACTED,
     //取り除いた状態。PositionがNullにもなっているはず
@@ -171,4 +185,53 @@ class 選択(override val 選択駒: 駒, override val 移動元: 枡, override 
 class 戦闘準備(override val 選択駒: 駒, override val 戦闘駒: 駒, override val 移動元: 枡, override val 移動先: 枡) : 行動(選択駒, 戦闘駒, 移動元, 移動先) {
     override fun 駒タップ(対象駒: 駒, 対象枡: 枡) = 未選択()
     override fun 盤タップ(対象駒: 駒, 対象枡: 枡) = 選択(対象駒, 移動元, 対象枡)
+}
+
+open class TestX(private var x: Int, private var y: Int) {
+    protected fun setXandY(x: Int, y: Int) {
+        this.x = x
+        this.y = y
+
+    }
+
+    fun setY(x: Int, y: Int) {
+        val yy = TestY(0, 0)
+//        yy.setXandY(0,0)
+    }
+
+    open class TestY(private var x: Int, private var y: Int) {
+        private fun setXandY(x: Int, y: Int) {
+            this.x = x
+            this.y = y
+        }
+
+        fun setX(x: Int, y: Int) {
+            val xx = TestX(0, 0)
+            xx.setXandY(0, 0)
+        }
+    }
+
+    open class TestZ(private var x: Int, private var y: Int) {
+        private fun setXandY(x: Int, y: Int) {
+            this.x = x
+            this.y = y
+        }
+
+        fun setX(x: Int, y: Int) {
+            val xx = TestY(0, 0)
+//            xx.setXandY(0,0)
+        }
+    }
+}
+
+class TextXX {
+    val map = mapOf<TestX, Int>()
+    fun x() {
+        fun TestX.aaa() {
+            map[this]
+        }
+
+        val x = TestX(0, 0)
+//        x.setXandY(0,0)
+    }
 }

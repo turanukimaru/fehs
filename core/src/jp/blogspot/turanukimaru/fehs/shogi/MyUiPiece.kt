@@ -10,7 +10,7 @@ import jp.blogspot.turanukimaru.board.UiPiece
 class MyUiPiece(actor: Actor, uiBoard: UiBoard, private var myPiece: ShogiPiece) : UiPiece(actor, uiBoard, myPiece) {
 
     //安全なドラッグ処理を作らないといけないのか…
-//    override fun update() {
+//    override fun localUpdate() {
 //        pieceAt.animationStart = false
 ////        actionが指定されているときはそれを実行する。それ以外では…どうしようかな。ループアクションをさせたいのだが…
 //        //カウントを一つ進める。開始かのBooleanのがいいかなあ

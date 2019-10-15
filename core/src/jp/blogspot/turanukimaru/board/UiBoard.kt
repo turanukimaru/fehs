@@ -15,12 +15,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import kotlin.math.abs
+import jp.blogspot.turanukimaru.playboard.Board
+import jp.blogspot.turanukimaru.playboard.Position
 
 /**
  * 盤面とlibGDXの間
+ * クリックリスナと表示が同居してるのは良くないな。まぁリスナはOverrideしてるからいいか。
+ * 問題はむしろ表示用関数とLibGDXから呼ばれる函数が同居してることのほうか…
  */
-class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer, val bitmapFont: BitmapFont, val width: Float, val height: Float, val marginTop: Float, val marginBottom: Float, val marginLeft: Float, val marginRight: Float,
+class UiBoard(val stage: Stage, val batch: SpriteBatch, private val liner: ShapeRenderer, val bitmapFont: BitmapFont, private val width: Float, val height: Float, private val marginTop: Float, private val marginBottom: Float, private val marginLeft: Float, private val marginRight: Float,
               /**
                * 論理的な盤面。この盤面に操作を伝える
                */
@@ -28,58 +31,52 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
 ) : ClickListener() {
 
     /**
-     * 盤面の座標
+     * 行動時に表示されるボタン
      */
-    data class Position(val x: Int, val y: Int) {
-        fun sub(p: Position): Position = Position(x - p.x, y - p.y)
-        fun plus(p: Position): Position = Position(x + p.x, y + p.y)
-        fun range(p: Position, max: Int, min: Int = 0) = distance(p) in min..max
-        fun distance(p: Position) = abs(x - p.x) + abs(y - p.y)
-    }
-
     var optionButton: Image? = null
+
     /**
      * 数字表示用テクスチャ
      */
     val numberRegions = mutableListOf<TextureRegion>()
 
     /**
-     * libGDX の update を伝えるためのリスト
+     * libGDX の localUpdate を伝えるためのリスト
      */
     val uiPieceList = mutableListOf<UiPiece>()
 
-    /**
-     * 現在の状況だけどこれ使ってる意味がない気がする。FIXME:調べて消すこと
-     */
-    private var opPhase = OpPhase.ACTIVE
-
-    /**
-     * 枡幅
-     */
-    private val squareWidth = width / board.horizontalLines
     /**
      * 盤面の背景画像
      */
     var stageTexture: Texture? = null
 
-    val pieceActive get() = opPhase == OpPhase.ACTIVE
+    /**
+     * 枡幅
+     */
+    private val squareWidth = (width - marginLeft - marginRight) / board.horizontalLines
 
     /**
      * 枡高さ
      */
     private val squareHeight = (height - marginBottom - marginTop) / board.verticalLines
 
-    private fun posXtoSquareX(x: Float) = minOf((x / squareWidth).toInt(), board.horizontalLines - 1)
+    private fun posXtoSquareX(x: Float) = minOf(((x - marginLeft) / squareWidth).toInt(), board.horizontalLines - 1)
 
     private fun posYtoSquareY(y: Float) = minOf(((y - marginBottom) / squareHeight).toInt(), board.verticalLines - 1)
 
     fun squareYtoPosY(y: Int) = y * squareHeight + marginBottom
 
-    fun squareXtoPosX(x: Int) = x * squareWidth
+    fun squareXtoPosX(x: Int) = x * squareWidth + marginLeft
 
     private fun xyToPosition(x: Float, y: Float) = Position(posXtoSquareX(x), posYtoSquareY(y))
-    //ドラッグ判定用データ
+
+    /**
+     *     ドラッグ判定用X
+     */
     var touchStartX = 0f
+    /**
+     *     ドラッグ判定用Y
+     */
     var touchStartY = 0f
 
     /**
@@ -87,8 +84,15 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      */
     var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
 
+    /**
+     *
+     */
     private var infoRank = 0
 
+    /**
+     * update時に盤外に表示する
+     * rank は優先度で、0のときは強制。ところでなんで優先度なんて入れたんだっけ…？
+     */
     fun setInfo(updateInfo: (uiBoard: UiBoard) -> Boolean, rank: Int) {
         println("rank : $rank / infoRank : $infoRank")
         if (rank in 1 until infoRank) return
@@ -103,6 +107,9 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     override fun clicked(event: InputEvent, x: Float, y: Float) {
     }
 
+    /**
+     * タッチ検出。ボードにタッチ位置をPositionで伝える。
+     */
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
         touchStartX = x
         touchStartY = y
@@ -112,6 +119,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
+     * タッチ終了検出。ボードにタッチ位置をPositionで伝える。
      * タッチしたら。盤面内だったらBoardにメッセージが飛ぶ。ただ、盤面買いをクリックしたらキャンセルとか必要になるかもなあ。
      * いや、そのときはキャンセルボタンがあるべきか？
      */
@@ -135,6 +143,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
+     * ドラッグ検出。ボードにドラッグ位置をPositionで伝える。
      * こっちの x,y は絶対値なのか…ん？つまり移動量ではなくactorの中での座標を指すのか！なるほど動くactorでは使いにくいわけだ
      *
      */
@@ -185,7 +194,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
                             fillSquare(x, y, FillType.MOVABLE)
                         }
                         board.move.moving.selectedPiece!!.actionableAt(Position(x, y)) >= 0 -> {
-                            fillSquare(x, y, FillType.ATTACKABLE)
+                            fillSquare(x, y, FillType.ACTIONABLE)
                         }
                     }
                 }
@@ -225,20 +234,11 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
-     * タッチした場所が盤面内に入っているかのチェック...なんだけどVector3に変換するのなんか変じゃね？
-     */
-    fun posIsOnBoard(pos: Vector3): Boolean {
-        val unProjectedPos = stage.camera.unproject(pos)
-        return unProjectedPos.y > marginBottom && unProjectedPos.y < marginBottom + height
-    }
-
-    /**
      * タッチされた場所を盤面の座標で出す
      */
     fun touchedPosition(): Position {
         return posToPosition(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f))
     }
-
 
     /**
      * 枡を塗る。a blendingを毎回設定してendしてるので無茶苦茶遅いはず。処理の順番見直さないとな
@@ -258,9 +258,11 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
-     * updateSpriteBatch時に呼ぶこと。背景や盤外の情報を描く。枠線を引くより前に呼ぶ必要があるのでSpriteBatchじゃないほうがいいかも・・・？
+     * updateSpriteBatch時に呼ばれる。
+     * 背景画像と情報枠を描く。
+     * もう一つのUpdateと違うのはスプライトバッチだから画像の転送を目的としていること。
      */
-    fun updateSpriteBatch(batch: SpriteBatch) {
+    fun libUpdateSpriteBatch(batch: SpriteBatch) {
         batch.draw(stageTexture, 0f, marginBottom)
         //情報更新。場合によってはクリッピング
         let(updateInfo)
@@ -278,13 +280,13 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
     }
 
     /**
-     * オプションを消す.角錐値は適当
+     * オプションを消す.隠す位置は適当
      */
     fun hideOptionButton() {
         println("hideOptionButton")
-        optionButton!!.x = -128f
-        optionButton!!.y = -128f
-        optionButton!!.isVisible = false
+        optionButton?.x = -128f
+        optionButton?.y = -128f
+        optionButton?.isVisible = false
     }
 
     /**
@@ -316,7 +318,6 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
      * 特定の座標に数字を表示するアクションを作る
      */
     private fun showNumberAction(x: Int, y: Int, p: Int, delay: Float, terminateAction: () -> Boolean = { true }): SequenceAction {
-
         val seq = SequenceAction()
         seq.addAction(Actions.moveTo(squareXtoPosX(x) + 52 - p * 52, squareYtoPosY(y)))
         seq.addAction(Actions.delay(delay))
@@ -329,17 +330,14 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, val liner: ShapeRenderer
         return seq
     }
 
+    /**
+     * 枡の色
+     */
     enum class FillType(val r: Float, val g: Float, val b: Float, val a: Float) {
         MOVABLE(0f, 0f, 1f, 0.75f),
-        ATTACKABLE(1f, 0f, 0f, 0.75f),
+        ACTIONABLE(1f, 0f, 0f, 0.75f),
         SUPPORTABLE(0f, 1f, 0f, 0.75f),
         PASS(0f, 0f, 1f, 0.4f),
-    }
-
-
-    enum class OpPhase {
-        ACTIVE,
-        ANIMATION
     }
 
 }

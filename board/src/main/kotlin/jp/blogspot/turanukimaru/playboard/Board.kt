@@ -1,6 +1,5 @@
-package jp.blogspot.turanukimaru.board
+package jp.blogspot.turanukimaru.playboard
 
-import jp.blogspot.turanukimaru.board.UiBoard.Position
 import java.util.*
 
 /**
@@ -55,13 +54,6 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun positionIsOnBoard(position: Position): Boolean = position.x in horizontalIndexes && position.y in verticalIndexes
 
     /**
-     * 情報枠を更新する。描画関数をリスナに渡してるだけだけど…
-     */
-    fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }, rank: Int = 0) {
-        listener?.updateInfo(updateInfo, rank)
-    }
-
-    /**
      * 移動可能な経路を調べる。
      */
     fun searchRoute(piece: Piece<UNIT, GROUND>): MutableList<MutableList<Int>> {
@@ -111,7 +103,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
                 val square = Position(x, y)
                 //まずこの枡が未計算でユニットからの射程内だったらマーク。駒の場所使ってるけど外から供給したいなあ…
                 // println("p:$position s:$square r:${position.distance(square)}")
-                if (routeMatrix[x][y] == -1 && square.range(existsPos, max, min)) routeMatrix[x][y] = square.distance(piece.existsPosition!!)
+                if (routeMatrix[x][y] == -1 && square.range(existsPos, max, min)) routeMatrix[x][y] = square.distance(piece.existsPosition!!.p)
                 if (piece.searchedRouteAt(square) >= 0 && piece.isStoppable(physic.pieceAt(square))) stepActionRoute(piece, square, 0, routeMatrix)
             }
         }
@@ -298,7 +290,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         //現在値が攻撃可能なら探さなくていい
         if (targetPosition.range(startPos, range.first, range.second) || targetPositions.contains(startPos)) return startPos
         val routeClone = move.routeStack.clone()
-        if (routeClone.isEmpty() || routeClone.first != piece.existsPosition) routeClone.addFirst(piece.existsPosition)//routeStack作成時にに現在地だけ入れておきたいなあ
+        if (routeClone.isEmpty() || routeClone.first != piece.existsPosition!!.p) routeClone.addFirst(piece.existsPosition!!.p)//routeStack作成時にに現在地だけ入れておきたいなあ
         val digRoute = digActionStack(routeClone, piece, targetPositions)
         //ここから一歩引いて探索か…移動時に途中の経路を探索するのにも使えるはず
         //ここで途中をスタックに詰める必要がある...なお掘る向きが逆
@@ -389,10 +381,11 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     }
 
     /**
-     * タッチされたときに呼び出される
+     * 駒にタッチされたときに呼び出される。現在は駒が増すより大きいときに誤動作すると思われるため機能していない。
+     * 駒が増すより小さいとか枡内に複数存在するときは使う機会があるかもしれない。
      */
     fun pieceTouch(position: Position, piece: Piece<*, *>) {
-        move.touch(position, physic.pieceAt(position))
+        println("pieceTouch($position, $piece)")
     }
 
     /**
@@ -405,7 +398,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * オプションをクリックされたときに呼び出される。
      */
-    fun clickOption(listener: ActionListener) {
-        move.optionClicked(listener)
+    fun clickOption() {
+        move.optionClicked()
     }
 }

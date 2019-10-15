@@ -1,19 +1,11 @@
-package jp.blogspot.turanukimaru.board
-
-import jp.blogspot.turanukimaru.board.UiBoard.Position
-import jp.blogspot.turanukimaru.fehs.FightResult
-
+package jp.blogspot.turanukimaru.playboard
 
 /**
  * 論理駒。ゲームのルールによらない部分
  */
-open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GROUND>, val owner: Player, private val actionListener: ActionListener) {
+open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT, GROUND>, val owner: Player) {
 
-    /**
-     * 向き。駒の向きで移動する方向が変わるときに使う予定
-     */
-    var orientation = 0
-
+    open val unit: UNIT get() = contain ?: throw NullPointerException()
     /**
      * 操作的な意味での状態。駒を動かせるかとか動かした後だとか。
      */
@@ -22,16 +14,17 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * アクション。アクションと同時に次の状態に移行することを想定しているが…この関数あんまし要らん気がするな
      */
-    fun action(nextPhase: ActionPhase, actionEvent: ActionEvent = ActionEvent.None, fightResult: FightResult? = null) {
+    open fun action(nextPhase: ActionPhase, actionEvent: ActionEvent = ActionEvent.None) {
         //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
-        actionListener.action(actionEvent, nextPhase, charPosition, fightResult)
+        // TODO: これはアプリ側に移動。ていうかリスナ入れてはいかんのか
+//        actionListener.action(actionEvent, nextPhase, charPosition, fightResult)
         this.actionPhase = nextPhase
     }
 
     /**
      * 盤上の位置。表示用の位置。移動先を優先して出す
      */
-    val charPosition: Position? get() = newPosition ?: existsPosition
+    val charPosition: Position? get() = newPosition ?: existsPosition?.p
 
     /**
      * 盤上の位置。移動先
@@ -41,7 +34,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 盤上の位置。確定してる位置
      */
-    var existsPosition: Position? = null
+    var existsPosition: Positioning = nowhere
 
     //そろそろマトリクスをIntではなく(pass, stop, action)にするべきなんだろうけど１枡ごとにオブジェクト作るのきっと重いよなあ…
     /**
@@ -59,7 +52,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      */
     fun actionableAt(position: Position): Int {
         if (actionRoute.size == 0) {
-            actionRoute = board.searchActionRoute(this, existsPosition!!, position)
+            actionRoute = board.searchActionRoute(this, existsPosition!!.p, position)
         }
         return if (board.positionIsOnBoard(position)) actionRoute[position.x][position.y] else -1
     }
@@ -77,28 +70,28 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 効果範囲か。再帰して効果範囲を拡大できるかなので名前変えよう
      */
-    open fun isEffective(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, rotated: Int = reRotate(orientation)): Boolean {
+    open fun isEffective(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Boolean {
         return false
     }
 
     /**
      * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
      */
-    open fun isSupportable(grounds: PiecesAndGrounds<UNIT, GROUND>, orientation: Int, steps: Int, rotated: Int = reRotate(orientation)): Boolean {
+    open fun isSupportable(grounds: PiecesAndGrounds<UNIT, GROUND>, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Boolean {
         return false
     }
 
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, straight: Boolean, rotated: Int = reRotate(orientation)): Boolean {
+    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, straight: Boolean, rotated: Int = rotate(orientation)): Boolean {
         return piece == null && steps == 0
     }
 
     /**
      * 引数の枡に移動することで消費する移動力。移動できないときは負の値
      */
-    open fun countStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, rotated: Int = reRotate(orientation)): Int {
+    open fun countStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Int {
         return if (steps == 0) {
             1
         } else {
@@ -134,18 +127,12 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
         return true
     }
 
-    /**
-     * LibGDXのアップデートで呼ばれる。
-     */
-    fun libUpdate() {
-        actionListener.libUpdate()
-        update()
-    }
 
     /**
-     * update 時の処理追加用ポイント
+     * update 時の処理追加用ポイント。
+     * 使い道ないから消しそう
      */
-    open fun update() {
+    open fun localUpdate() {
     }
 
     /**
@@ -174,7 +161,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 誰かに移動させられた時。アクションはとるが状態は変わらない
      */
     open fun boardSlide(position: Position): Boolean {
-        this.existsPosition = position
+        this.existsPosition = Positioning(position, existsPosition!!.r)
         this.newPosition = null
         action(actionPhase, ActionEvent.MoveToCharPosition)
         return true
@@ -206,7 +193,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 移動確定。位置を更新だけ
      */
     fun boardMoveCommit(position: Position? = newPosition): Boolean {
-        this.existsPosition = position
+        this.existsPosition = Positioning(position!!, existsPosition!!.r)
         this.newPosition = null
         clearRoute()
         return true
@@ -238,13 +225,13 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
      * 指に追従して動かしてみるが、実際の操作は枡で判断してるため枡の大きさとキャラの大きさが大幅に違うとおかしくなるのか。
      * 駒から盤にメッセージを送る形にしたいけどどうやればいいかわからん。
      */
-    fun touchDragged(position: Position, dx: Float, dy: Float): Boolean {
+    open fun touchDragged(position: Position, dx: Float, dy: Float): Boolean {
         //行動できないときは反応しない
         if (!isActionable) {
             return false
         }
         //ドラッグしてる絵を動かす
-        actionListener.directPos(position, dx, dy)
+//        actionListener.directPos(position, dx, dy)
         //移動可能範囲内で移動したらスタックに積む...
         return dragged(position)
     }
@@ -309,8 +296,7 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     }
 
     fun putOn(x: Int, y: Int, orientation: Int = 0) {
-        existsPosition = Position(x, y)
-        this.orientation = orientation
+        existsPosition = Positioning(Position(x, y), orientation)
         action(ActionPhase.PUTTED, ActionEvent.Put)
     }
 
@@ -361,11 +347,19 @@ open class Piece<UNIT, GROUND>(val containUnit: UNIT, var board: Board<UNIT, GRO
     /**
      * 供給された orientation を自分の orientation 分逆回転させる。整数論は苦手だ…
      */
-    private fun reRotate(orientation: Int): Int =
+    private fun rotate(orientation: Int): Int =
             when {
-                orientation < 8 -> if (orientation >= this.orientation) (orientation - this.orientation) else (orientation - this.orientation + 8)
-                orientation < 24 -> if (orientation >= this.orientation * 3) (orientation - this.orientation * 3) else (orientation - this.orientation * 3 + 24)
+                orientation < 8 -> if (orientation >= existsPosition!!.r) (orientation - existsPosition!!.r) else (orientation - existsPosition!!.r + 8)
+                orientation < 24 -> if (orientation >= existsPosition!!.r * 3) (orientation - existsPosition!!.r * 3) else (orientation - existsPosition!!.r * 3 + 24)
                 else -> orientation
             }
+
+    /**
+     * LibGDXのアップデートで呼ばれる。
+     */
+    open fun update() {
+        localUpdate()
+    }
+
 }
 

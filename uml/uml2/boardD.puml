@@ -1,0 +1,51 @@
+@startuml
+
+class 盤{
+載せる(Any, 座標=Anywhere)
+取り除く(Any)
+}
+class Any{
+}
+class 座標のある盤{
+載せる(駒, 座標)
+}
+class 駒{
+動かす(座標)
+}
+class デカルト座標系{
+}
+class 四角座標系{
+matrix Array<Array<位置取り>>
+map Map<四角座標系駒, 位置>
+載せる(四角座標系駒, 位置)
+動かす(四角座標系駒, 位置)
+}
+class 六角座標系{
+}
+
+class 四角座標系駒{
+}
+
+class 位置{
+X : Int
+Y : Int
+R : Int
+}
+
+class 位置取り{
+    p : 位置
+}
+
+盤 -o "載る" Any
+座標のある盤 -up-|> 盤
+駒 -up-|> Any
+座標のある盤 -> 駒
+四角座標系駒 -up-|> 駒
+
+デカルト座標系 -right-|> 座標のある盤
+六角座標系 -right-|> 座標のある盤
+四角座標系 -up-|> 座標のある盤
+四角座標系 -right-> 位置取り
+位置取り -right-> 四角座標系駒
+四角座標系駒 -left->"動くことを申請する" 四角座標系
+@enduml

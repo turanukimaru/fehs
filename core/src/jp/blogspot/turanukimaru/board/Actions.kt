@@ -1,6 +1,7 @@
 package jp.blogspot.turanukimaru.board
 
 import com.badlogic.gdx.scenes.scene2d.Action
+import jp.blogspot.turanukimaru.playboard.BoardListener
 
 
 /**

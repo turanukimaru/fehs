@@ -5,11 +5,15 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import jp.blogspot.turanukimaru.playboard.Piece
+import jp.blogspot.turanukimaru.playboard.TouchPhase
 
 /**
  * 駒とLibGDXの間
  * 駒をドラッグしたいところだが、どうもドラッグはactorの座標と指の差分を出力しているらしく
  * actorが移動するケースではまともに機能しないっぽい。
+ * 現在はlibGDXからのupdate()を中継してるだけなので
+ * ぶっちゃけこのクラスはなくていい。
  */
 open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
                    /**
@@ -35,10 +39,10 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         //タッチのつもりでドラッグってやっぱりあるのかなぁ
         println("touchDragged($x, $y, $pointer)")
         //盤面のチェックは有るべきか
-        if (!uiBoard.pieceActive) {
-            println("!uiBoard.pieceActive")
-            return
-        }
+//        if (!uiBoard.pieceActive) {
+//            println("!uiBoard.pieceActive")
+//            return
+//        }
 //        //升目以外にドラッグした場合は無視
 //        if (!uiBoard.posIsOnBoard(Vector3(x, y, 0f))) {
 //            println("!uiBoard.posIsOnBoard")
@@ -61,7 +65,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
      */
     override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         super.touchUp(event, x, y, pointer, button)
-        if (!uiBoard.pieceActive) return
+//        if (!uiBoard.pieceActive) return
         actor.zIndex = 0
         touched = TouchPhase.RELEASE
         val position = uiBoard.touchedPosition()
@@ -81,13 +85,13 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         this.x = x
         this.y = y
         //本当はユニットの情報を表示するとかいろいろある
-        if (!uiBoard.pieceActive) return result
+//        if (!uiBoard.pieceActive) return result
 //駒に対する操作を始めたのを伝える
         val position = uiBoard.touchedPosition()
         piece.moveStart(position)
         actor.zIndex = 0
         touched = TouchPhase.TOUCH
-        event!!.cancel()//bubbles = false は機能しないこともあるがcancelは機能するのか…
+//        event!!.cancel()//bubbles = false は機能しないこともあるがcancelは機能するのか…
         piece.touchDown()
         uiBoard.board.pieceTouch(position, piece)
         return result
@@ -100,7 +104,7 @@ open class UiPiece(val actor: Actor, val uiBoard: UiBoard,
         if (piece.charPosition == null) {
             return // ボード上に無いときは何もしない。消す処理を書いてもいいか？
         }
-        piece.libUpdate()//これどっちが先に動くべきなんだろうな…？
+        piece.update()//これどっちが先に動くべきなんだろうな…？
         update()
     }
 

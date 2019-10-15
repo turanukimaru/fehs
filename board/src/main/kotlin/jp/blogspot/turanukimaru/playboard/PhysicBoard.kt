@@ -1,13 +1,13 @@
-package jp.blogspot.turanukimaru.board
+package jp.blogspot.turanukimaru.playboard
 
 /**
  * 自然な盤と駒の配置。物理的な、ではなく「駒を動かしたときは動かす元と動かす先がある」ようなアリストテレス的運動を実現する
  * 例えば、MatrixではなくHexを使う盤や枡内に複数の駒を置ける盤なども考えられ、そのときはこのクラスと同格のクラスとして実装することになる。
  * 駒が無いところはnull
  */
-class PhysicBoard<UNIT, GROUND>(private val horizontalIndexes: IntRange,private val  verticalIndexes: IntRange) {
+class PhysicBoard<UNIT, GROUND>(private val horizontalIndexes: IntRange, private val verticalIndexes: IntRange) {
     private val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
-    private val positionMap = mutableMapOf<Piece<UNIT, GROUND>, UiBoard.Position>()
+    private val positionMap = mutableMapOf<Piece<UNIT, GROUND>, Position>()
     private val copyMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
     /**
      * 盤上の地形
@@ -18,14 +18,16 @@ class PhysicBoard<UNIT, GROUND>(private val horizontalIndexes: IntRange,private 
      * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
      */
     val pieceList get() = positionMap.keys.toList()
+
     /**
      * 対象の場所にある地形
      */
-    fun groundAt(position: UiBoard.Position): GROUND? = if (position.x in horizontalIndexes && position.y in verticalIndexes) groundMatrix[position.x][position.y] else null
+    fun groundAt(position: Position): GROUND? = if (position.x in horizontalIndexes && position.y in verticalIndexes) groundMatrix[position.x][position.y] else null
+
     /**
      * 対象の場所にある駒
      */
-    fun pieceAt(position: UiBoard.Position): Piece<UNIT, GROUND>? = if (position.x in horizontalIndexes && position.y in verticalIndexes) pieceMatrix[position.x][position.y] else null
+    fun pieceAt(position: Position): Piece<UNIT, GROUND>? = if (position.x in horizontalIndexes && position.y in verticalIndexes) pieceMatrix[position.x][position.y] else null
 
     fun positionOf(piece: Piece<UNIT, GROUND>) = positionMap[piece]
     /**
@@ -34,14 +36,15 @@ class PhysicBoard<UNIT, GROUND>(private val horizontalIndexes: IntRange,private 
     fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int, orientation: Int = 0) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("pieceMatrix[$x][$y] is スクワットのスペルが分からん  by ${pieceMatrix[x][y]}")
         pieceMatrix[x][y] = piece
-        positionMap[piece] = UiBoard.Position(x, y)
+        positionMap[piece] = Position(x, y)
         piece.putOn(x, y, orientation)
     }
+
     /**
      * 対象の駒を対象の枡に移動する。移動元が見つからないときは例外を吐く
      * すでに駒があるところへは動かせない（例外をはく）ので先に明示的に取り除くこと。
      */
-    fun move(piece: Piece<UNIT, GROUND>, position: UiBoard.Position, x: Int = position.x, y: Int = position.y) {
+    fun move(piece: Piece<UNIT, GROUND>, position: Position, x: Int = position.x, y: Int = position.y) {
         if (x !in horizontalIndexes || y !in verticalIndexes) {
             throw RuntimeException("out of range pieceMatrix[$x][$y]")
         }
@@ -50,16 +53,17 @@ class PhysicBoard<UNIT, GROUND>(private val horizontalIndexes: IntRange,private 
         //移動元を消して今回の駒をセット
         val targetSquaresUnit = pieceMatrix[x][y]
         if (targetSquaresUnit != null && targetSquaresUnit != piece) {
-            throw RuntimeException("another pieceAt is at $targetSquaresUnit")
+            throw RuntimeException("found another piece at $targetSquaresUnit")
         }
         pieceMatrix[oldSquare.x][oldSquare.y] = null
         pieceMatrix[x][y] = piece
-        positionMap[piece] = UiBoard.Position(x, y)
+        positionMap[piece] = Position(x, y)
     }
+
     /**
      * 盤上から駒を取り除く.とりあえず駒と場所が一致しているか判定するか？どちらかだけでいいことにするか？
      */
-    fun remove(piece: Piece<UNIT, GROUND>, position: UiBoard.Position? = positionMap[piece]) {
+    fun remove(piece: Piece<UNIT, GROUND>, position: Position? = positionMap[piece]) {
         println("remove $piece $position")
         if (position == null) return//例外吐くべきかなあ
         pieceMatrix[position.x][position.y] = null
@@ -103,8 +107,8 @@ class PhysicBoard<UNIT, GROUND>(private val horizontalIndexes: IntRange,private 
                 newLine.add(e)
                 if (e != null) {
                     println("$e at x:$x,y:$y")
-                    val p = UiBoard.Position(x, y)
-                    e.existsPosition = p
+                    val p = Position(x, y)
+                    e.existsPosition = Positioning(p, 0)//ああ向きが戻ってねえ…
                     positionMap[e] = p
                     e.reset()
                 }

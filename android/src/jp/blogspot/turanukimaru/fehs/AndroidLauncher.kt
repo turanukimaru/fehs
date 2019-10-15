@@ -3,6 +3,7 @@ package jp.blogspot.turanukimaru.fehs
 import android.os.Bundle
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
+import jp.blogspot.turanukimaru.fehs.shogi.MyShogiGame
 
 /**
  * ゲーム起動準備。戦闘シミュレータからIntent飛ばしても動く
@@ -22,7 +23,7 @@ class AndroidLauncher : AndroidApplication() {
         val config = AndroidApplicationConfiguration()
         config.useAccelerometer = false
         config.useCompass = false
-//        initialize(MyShogiGame(), config)
-        initialize(jp.blogspot.turanukimaru.fehs.shogi.MyShogiGame(), config)
+        initialize(MyMyGdxGame(), config)
+//        initialize(jp.blogspot.turanukimaru.fehs.shogi.MyShogiGame(), config)
     }
 }

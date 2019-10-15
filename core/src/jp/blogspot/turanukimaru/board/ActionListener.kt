@@ -6,12 +6,21 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import jp.blogspot.turanukimaru.fehs.FightResult
 import jp.blogspot.turanukimaru.fehs.SIDES
+import jp.blogspot.turanukimaru.playboard.ActionEvent
+import jp.blogspot.turanukimaru.playboard.ActionPhase
+import jp.blogspot.turanukimaru.playboard.Position
 
 /**
  * イベントを受け取って画面上の表示に変換するのが主な仕事。ゲーム内容に依存するので手が空いたらInterfaceにしたい。
  * アニメもこの中で作ってるけど実用するにはアニメ管理ツール作らなきゃだめだな…
  */
 open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard) {
+    /**
+     * 情報枠を更新する。描画関数をリスナに渡してるだけだけど…
+     */
+    fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }, rank: Int = 0) {
+        uiBoard.setInfo(updateInfo, rank)
+    }
 
     /**
      * 中に含むActorのリスト。アニメーションで体の部位を動かすのに使うのだがボーンモデル別に作るべき
@@ -32,7 +41,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * ゲーム開始時とかやり直し字とか
      */
-    private fun reset(position: UiBoard.Position) {
+    private fun reset(position: Position) {
 //        println(this)
         actor.isVisible = true
         actor.color.a = 1f//fadeout した後は 0
@@ -42,7 +51,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 場所直接指定。ドラッグ時に指に追従
      */
-    fun directPos(position: UiBoard.Position, x: Float, y: Float) {
+    fun directPos(position: Position, x: Float, y: Float) {
         println("MyUiPiece directPos x:$x y:$y ${uiBoard.board.move}")
         actor.clearActions()
         val finalX = uiBoard.squareXtoPosX(position.x)
@@ -64,7 +73,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     open fun update() {
         //アクション中は無視
         if (actionEventNow != ActionEvent.None) return
-//        println("ActionListener update : $actionPhase")
+//        println("ActionListener localUpdate : $actionPhase")
         // Enum を直接オーバーライド出来たら面白いのだができなかった！
         when (actionPhase) {
             ActionPhase.READY -> readyAction()
@@ -84,7 +93,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 位置移動のアニメ。移動差分を駒に登録する.移動した後にどうなるかがまた別に必要か、確定アクションを別に作るか、か
      */
-    private fun actionMoveToPosition(position: UiBoard.Position?): SequenceAction {
+    private fun actionMoveToPosition(position: Position?): SequenceAction {
         val seq = SequenceAction()
         if (position == null) return seq
         val finalX = uiBoard.squareXtoPosX(position.x)
@@ -97,7 +106,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 位置移動直接。アクションをキャンセルして移動差分を駒に登録
      */
-    private fun actionSetToPosition(position: UiBoard.Position) {
+    private fun actionSetToPosition(position: Position) {
         println("actionSetToPosition")
         actor.clearActions()
         val finalX = uiBoard.squareXtoPosX(position.x)
@@ -115,7 +124,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * リスナとして呼ばれるアクション通知
      */
-    open fun action(actionEvent: ActionEvent, next: ActionPhase, position: UiBoard.Position?, fightResult: FightResult? = null) {
+    open fun action(actionEvent: ActionEvent, next: ActionPhase, position: Position?, fightResult: FightResult? = null) {
 //ActionEventを入れつつ次のフェイズを設定する。Actionが終了するまではUpdateがAction依存になるためPhaseはこのタイミングで変更しても大丈夫なはず
         actionEventNow = actionEvent
         actionPhase = next
