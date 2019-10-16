@@ -103,7 +103,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
                 val square = Position(x, y)
                 //まずこの枡が未計算でユニットからの射程内だったらマーク。駒の場所使ってるけど外から供給したいなあ…
                 // println("p:$position s:$square r:${position.distance(square)}")
-                if (routeMatrix[x][y] == -1 && square.range(existsPos, max, min)) routeMatrix[x][y] = square.distance(piece.existsPosition!!.p)
+                if (routeMatrix[x][y] == -1 && square.range(existsPos, max, min)) routeMatrix[x][y] = square.distance(piece.existsPosition.p)
                 if (piece.searchedRouteAt(square) >= 0 && piece.isStoppable(physic.pieceAt(square))) stepActionRoute(piece, square, 0, routeMatrix)
             }
         }
@@ -290,7 +290,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         //現在値が攻撃可能なら探さなくていい
         if (targetPosition.range(startPos, range.first, range.second) || targetPositions.contains(startPos)) return startPos
         val routeClone = move.routeStack.clone()
-        if (routeClone.isEmpty() || routeClone.first != piece.existsPosition!!.p) routeClone.addFirst(piece.existsPosition!!.p)//routeStack作成時にに現在地だけ入れておきたいなあ
+        if (routeClone.isEmpty() || routeClone.first != piece.existsPosition.p) routeClone.addFirst(piece.existsPosition.p)//routeStack作成時にに現在地だけ入れておきたいなあ
         val digRoute = digActionStack(routeClone, piece, targetPositions)
         //ここから一歩引いて探索か…移動時に途中の経路を探索するのにも使えるはず
         //ここで途中をスタックに詰める必要がある...なお掘る向きが逆

@@ -1,0 +1,18 @@
+@startuml
+
+object User
+class Game{
+始める()
+中断する()
+盤を操作する()
+}
+class 盤{
+載せる()
+動かす()
+取り除く()
+}
+User "操作\n(Interaction)" --> Game
+Game "操作\n(Operation)" --> 盤
+盤 o-- 駒など盤上の要素
+
+@enduml

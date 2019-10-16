@@ -1,7 +1,7 @@
 package jp.blogspot.turanukimaru.playboard
 
 /**
- * 手／移動のモデル化。コンストラクタは一見無意味に見えるが外部からの参照を可能にしながらNullかどうかの制御をしている
+ * 手／移動のモデル化。Boardのモデルの一部「ではない」ことに注意。つまりアプリに移動しても良い。
  */
 abstract class Moving<UNIT, GROUND>(
         /**
