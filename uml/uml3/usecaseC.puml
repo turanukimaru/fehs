@@ -1,0 +1,33 @@
+@startuml
+
+object User
+class Game{
+始める()
+中断する()
+}
+class 盤UI{
+タップする()
+ドラッグする()
+}
+class GameUI{
+タップする()
+ドラッグする()
+}
+package LibGDX{
+class ClickListener
+}
+class 盤{
+載せる()
+動かす()
+取り除く()
+}
+User "操作\n(Interaction)" --> ClickListener
+盤UI --|> ClickListener
+GameUI --|> ClickListener
+Game "作成"--> 盤UI
+GameUI "操作"--> Game
+Game "作成"--> GameUI
+盤UI "操作\n(Operation)"--> 盤
+Game  "作成/初期化"--> 盤
+盤 o-- 駒など盤上の要素
+@enduml

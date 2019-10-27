@@ -157,7 +157,6 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Ground>, owner:
         if (target != null && target != this) {
 //戦闘アクションは流石にここで登録してもいい気がするが…いやダメか…Updateで読む方法考えないとな
             val attackPos = existsPosition
-            if (attackPos != null) {
                 //敵味方判別して行動。攻撃なら一歩手前に移動するし移動補助ならそれが発動する
                 println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
                 println(board.physic.pieceAt(position))
@@ -181,9 +180,6 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Ground>, owner:
 
                 actionListener.updateInfo()
                 return ActionPhase.ACTED
-            } else {
-                throw RuntimeException("ここに来るはずないし")
-            }
         }
         return ActionPhase.READY
     }

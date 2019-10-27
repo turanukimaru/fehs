@@ -24,7 +24,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
     /**
      * 盤上の位置。表示用の位置。移動先を優先して出す
      */
-    val charPosition: Position? get() = newPosition ?: existsPosition?.p
+    val charPosition: Position? get() = newPosition ?: existsPosition.p
 
     /**
      * 盤上の位置。移動先
@@ -52,7 +52,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
      */
     fun actionableAt(position: Position): Int {
         if (actionRoute.size == 0) {
-            actionRoute = board.searchActionRoute(this, existsPosition!!.p, position)
+            actionRoute = board.searchActionRoute(this, existsPosition.p, position)
         }
         return if (board.positionIsOnBoard(position)) actionRoute[position.x][position.y] else -1
     }
@@ -161,7 +161,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
      * 誰かに移動させられた時。アクションはとるが状態は変わらない
      */
     open fun boardSlide(position: Position): Boolean {
-        this.existsPosition = Positioning(position, existsPosition!!.r)
+        this.existsPosition = Positioning(position, existsPosition.r)
         this.newPosition = null
         action(actionPhase, ActionEvent.MoveToCharPosition)
         return true
@@ -193,7 +193,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
      * 移動確定。位置を更新だけ
      */
     fun boardMoveCommit(position: Position? = newPosition): Boolean {
-        this.existsPosition = Positioning(position!!, existsPosition!!.r)
+        this.existsPosition = Positioning(position!!, existsPosition.r)
         this.newPosition = null
         clearRoute()
         return true
@@ -334,8 +334,8 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
      */
     open fun intoCommit(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
         println("$this into $position target $piece")
-        board.physic.remove(piece)
-        board.physic.move(this, position)
+//        board.physic.remove(piece)
+//        board.physic.move(this, position)
         boardMoveCommit(position)
         owner.takePiece(piece)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)// ActionEvent は変えたほうがいいな…ていうか ActionEvent は共通系に書いてはいけないはずだよな
@@ -349,8 +349,8 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
      */
     private fun rotate(orientation: Int): Int =
             when {
-                orientation < 8 -> if (orientation >= existsPosition!!.r) (orientation - existsPosition!!.r) else (orientation - existsPosition!!.r + 8)
-                orientation < 24 -> if (orientation >= existsPosition!!.r * 3) (orientation - existsPosition!!.r * 3) else (orientation - existsPosition!!.r * 3 + 24)
+                orientation < 8 -> if (orientation >= existsPosition.r) (orientation - existsPosition.r) else (orientation - existsPosition.r + 8)
+                orientation < 24 -> if (orientation >= existsPosition.r * 3) (orientation - existsPosition.r * 3) else (orientation - existsPosition.r * 3 + 24)
                 else -> orientation
             }
 
