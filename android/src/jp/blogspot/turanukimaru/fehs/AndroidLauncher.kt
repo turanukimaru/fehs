@@ -3,7 +3,9 @@ package jp.blogspot.turanukimaru.fehs
 import android.os.Bundle
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
-import jp.blogspot.turanukimaru.fehs.shogi.MyShogiGame
+import io.realm.Realm
+import io.realm.RealmConfiguration
+import jp.blogspot.turanukimaru.fieldrepos.BattleFieldContent
 
 /**
  * ゲーム起動準備。戦闘シミュレータからIntent飛ばしても動く
@@ -13,11 +15,24 @@ class AndroidLauncher : AndroidApplication() {
         super.onCreate(savedInstanceState)
         //Applicationを経由せずに動かすときはここで初期化することになる
         // Initialize Realm. Should only be done once when the application starts.
-//        Realm.init(this)
+        Realm.init(this)
+        val realmConfig = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
+//        val realmConfig = RealmConfiguration.Builder().modules(RealmUnitModule(),RealmFieldModule(),Realm.getDefaultModule()).deleteRealmIfMigrationNeeded().build()
+        Realm.deleteRealm(realmConfig)
+        Realm.setDefaultConfiguration(realmConfig)
+//        val r = Realm.getDefaultInstance()
+
+//        Realm.deleteRealm(realmConfig)
+        //オブジェクト構文で作った奴をそのまま渡しても大丈夫.遅延評価してるのかな？
 //        val realmConfig = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
 //        Realm.setDefaultConfiguration(realmConfig)
-        //オブジェクト構文で作った奴をそのまま渡しても大丈夫.遅延評価してるのかな？
-//        BattleUnitRepository.repo = BattleClassContent
+//        // テスト中はマイグレーションが面倒なので全部削除...したいのだがなぜか消えないー。
+//        val r = Realm.getDefaultInstance()
+//        r.executeTransaction {
+//            r.deleteAll()
+//        }
+//        BattleFieldContent.realm = r
+        BattleFieldRepository.repo = BattleFieldContent
 
         //LibGDXの設定
         val config = AndroidApplicationConfiguration()
@@ -25,5 +40,6 @@ class AndroidLauncher : AndroidApplication() {
         config.useCompass = false
         initialize(MyMyGdxGame(), config)
 //        initialize(jp.blogspot.turanukimaru.fehs.shogi.MyShogiGame(), config)
+//        RealmBattleField ここでインジェクションしないとダメか…
     }
 }

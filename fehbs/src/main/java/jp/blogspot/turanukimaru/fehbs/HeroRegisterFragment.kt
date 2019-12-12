@@ -12,7 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import jp.blogspot.turanukimaru.fehs.ArmedHeroRepository
 import jp.blogspot.turanukimaru.fehs.R
-import jp.blogspot.turanukimaru.repos.RealmArmedHeroContent
+import jp.blogspot.turanukimaru.fieldrepos.RealmArmedHeroContent
 import org.jetbrains.anko.contentView
 
 

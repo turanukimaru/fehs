@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
 import jp.blogspot.turanukimaru.board.ActionListener
+import jp.blogspot.turanukimaru.playboard.Board
 import jp.blogspot.turanukimaru.playboard.Player
 
 /**
@@ -43,7 +44,10 @@ class MyMyGdxGame : ApplicationAdapter() {
     val LOGICAL_HEIGHT = 960f//1280f
     var bitmapFont: BitmapFont? = null
 
-    private val myGame: MyGame by lazy { MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT) }
+    var user = Player()
+    var enemy = Player()
+    private val myGame: MyGame by lazy { MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT,user,enemy
+    ,board = Board(6,8,0,BattleFieldRepository.create(6,8))) } //マネージドボードをリポジトリから取得
 
     var textureDisposer = mutableListOf<Texture>()
     var imageDisposer = mutableListOf<Image>()
@@ -51,8 +55,6 @@ class MyMyGdxGame : ApplicationAdapter() {
 
     var fontGenerator: FreeTypeFontGenerator? = null
 
-    var user = Player()
-    var enemy = Player()
 
     val battleGround = arrayOf(
             arrayOf(Ground.P, Ground.P, Ground.W, Ground.R, Ground.M, Ground.M),
@@ -115,7 +117,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         }
 
         //地形を盤面にコピー
-        myGame.board.physic.copyGroundSwitchXY(battleGround)
+        myGame.controller.board.physics.copyGroundSwitchXY(battleGround)
 
         //盤外のボタンなど。これも処理考え直す必要がありそう
         val turnendTexture = loadTexture("turnend.png")
@@ -129,7 +131,7 @@ class MyMyGdxGame : ApplicationAdapter() {
             //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 println("pushed turnEnd")
-                myGame.turnEnd()
+                myGame.controller.turnEnd()
             }
         })
         //どこでボタン管理するか考えないとなー
@@ -150,8 +152,8 @@ class MyMyGdxGame : ApplicationAdapter() {
         val group = Group()
         group.addActor(medjedImageA)
         group.addActor(medjedImageB)
-        val listener = ActionListener(group, myGame.uiBoard)
-        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.board, user, listener)
+        val listener = ActionListener(group, myGame.uiBoard,myGame.controller)
+        val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.controller.board, user, listener)
         val uiPiece = MyUiPiece(group, myGame.uiBoard, piece1)
 //        group.addListener(uiPiece)
         listener.actors.add(medjedImageA)
@@ -163,7 +165,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val lucinaImage0 = Image(lucinaTexture0)
         lucinaImage0.setScale(0.5f)
         imageDisposer.add(lucinaImage0)
-        val piece0 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヴィオール")!!, 40), myGame.board, user, ActionListener(lucinaImage0, myGame.uiBoard))
+        val piece0 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヴィオール")!!, 40), myGame.controller.board, user, ActionListener(lucinaImage0, myGame.uiBoard,myGame.controller))
         val uiPiece0 = MyUiPiece(lucinaImage0, myGame.uiBoard, piece0)
 //        lucinaImage0.addListener(uiPiece0)
         myGame.put(piece0, 5, 2, uiPiece0, lucinaImage0)
@@ -172,7 +174,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val lucinaImage = Image(lucinaTexture)
         lucinaImage.setScale(0.5f)
         imageDisposer.add(lucinaImage)
-        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.board, enemy, ActionListener(lucinaImage, myGame.uiBoard))
+        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.controller.board, enemy, ActionListener(lucinaImage, myGame.uiBoard,myGame.controller))
         val uiPiece2 = MyUiPiece(lucinaImage, myGame.uiBoard, piece2)
 //        lucinaImage.addListener(uiPiece2)
         myGame.put(piece2, 1, 3, uiPiece2, lucinaImage)
@@ -181,13 +183,13 @@ class MyMyGdxGame : ApplicationAdapter() {
         val hectorImage = Image(hectorTexture)
         hectorImage.setScale(0.5f)
         imageDisposer.add(hectorImage)
-        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.board, enemy, ActionListener(hectorImage, myGame.uiBoard))
+        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.controller.board, enemy, ActionListener(hectorImage, myGame.uiBoard,myGame.controller))
         val uiPiece3 = MyUiPiece(hectorImage, myGame.uiBoard, piece3)
 //        hectorImage.addListener(uiPiece3)
         myGame.put(piece3, 3, 3, uiPiece3, hectorImage)
         myGame.playerA = user
         myGame.playerB = enemy
-        myGame.board.gameStart(user)
+        myGame.controller.board.gameStart(user)
     }
 
     //ファイルからテクスチャ読み込み。実際には1ファイルに複数テクスチャを入れるので座標とかTextureのリストを返すとかの処理が必要になる
@@ -233,12 +235,12 @@ class MyMyGdxGame : ApplicationAdapter() {
             batch!!.draw(dropImage, raindrop.x, raindrop.y)
         }
 
-        val hand = myGame.board.move
+        val hand = myGame.controller.board.move
         bitmapFont!!.draw(batch, "touchStartX:${myGame.uiBoard.touchStartX}", 50f, 510f)
         bitmapFont!!.draw(batch, "touchStartY:${myGame.uiBoard.touchStartY}", 50f, 540f)
         bitmapFont!!.draw(batch, "from:${hand.moving.from}", 50f, 630f)
         bitmapFont!!.draw(batch, "to:${hand.moving.to}", 50f, 660f)
-        myGame.board.physic.pieceList.forEach {
+        myGame.controller.board.physics.pieceList.forEach {
             if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.unit.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }
         batch!!.end()

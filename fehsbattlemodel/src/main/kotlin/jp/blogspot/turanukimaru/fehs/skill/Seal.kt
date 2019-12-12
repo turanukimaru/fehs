@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * 聖印
  */
-enum class Seal(override val jp: SkillName, override val type: SkillType = SkillType.SEAL, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
+enum class Seal(override val jp: SkillName, override val type: SkillType = SkillType.SEAL, override val level: Int = 0, override val preSkill: Skill? = null, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
     Hp(SkillName.Hp) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },

@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキルA
  */
-enum class SkillA(override val jp: SkillName, override val type: SkillType = SkillType.A, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
+enum class SkillA(override val jp: SkillName, override val type: SkillType = SkillType.A, override val level: Int = 0, override val preSkill: Skill? = null, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
     Hp(SkillName.Hp, spType = SpType.BASE40) {
         override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero = equipHp(armedHero, lv + 2)
     },

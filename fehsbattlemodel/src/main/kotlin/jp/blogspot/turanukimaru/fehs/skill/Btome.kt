@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Btome(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Btome(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill? = null, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     Thunder(SkillName.Thunder, SkillType.BTOME, 4, Skill.NONE, SpType.IRON),
     Elthunder(SkillName.Elthunder, SkillType.BTOME, 6, Thunder, SpType.STEEL),
     Blarwolf(SkillName.Blarwolf, SkillType.BTOME, 6, Elthunder, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),

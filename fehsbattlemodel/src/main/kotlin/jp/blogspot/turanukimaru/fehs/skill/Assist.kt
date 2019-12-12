@@ -8,7 +8,7 @@ import jp.blogspot.turanukimaru.fehs.SpType
 /**
  * スキル。補助
  */
-enum class Assist(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.ASSIST) : Skill {
+enum class Assist(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill? = null, override val spType: SpType = SpType.ASSIST) : Skill {
     RallyAttack(SkillName.RallyAttack, SkillType.ASSIST),
     RallySpeed(SkillName.RallySpeed, SkillType.ASSIST),
     RallyDefense(SkillName.RallyDefense, SkillType.ASSIST),

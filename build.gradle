@@ -10,10 +10,10 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.5.3'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.5'//これ要らない気がするな…
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "io.realm:realm-gradle-plugin:5.8.0"
+//        classpath "io.realm:realm-gradle-plugin:5.8.0"
     }
 }
 
@@ -44,12 +44,16 @@ allprojects {
 project(":android") {
     apply plugin: "android"
     apply plugin: "kotlin-android"
+//    apply plugin: 'kotlin-kapt'
+//    apply plugin: 'realm-android'
 
     configurations { natives }
 
     dependencies {
         implementation project(":core")
-        implementation project(":repos")
+//        implementation project(":repos")
+        implementation project(":battlefield")
+        implementation project(":fieldrepos")
         implementation project(":fehsbattlemodel")
         implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
@@ -64,6 +68,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     }
 }
 
@@ -75,8 +80,16 @@ project(":core") {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        implementation project(":fehsbattlemodel")
-        implementation project(":board")
+    }
+}
+
+project(":boardlibgdx") {
+    apply plugin: "kotlin"
+
+    dependencies {
+        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     }
 }
 

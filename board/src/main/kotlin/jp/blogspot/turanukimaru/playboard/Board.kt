@@ -3,36 +3,29 @@ package jp.blogspot.turanukimaru.playboard
 import java.util.*
 
 /**
- * 論理盤面。手の保持やルート計算がメイン。盤面の操作は physic に対して行える
+ * 論理盤面。手の保持やルート計算がメイン。盤面の操作は physics に対して行える
  */
-class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
+class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int, var id : Int? = null,
+                          /**
+                           * 操作対象としての盤
+                           */
+                          val physics:PhysicalBoard<UNIT, GROUND> = PhysicalBoard(horizontalLines, verticalLines)
+
+) {
     /**
-     * 現在盤上の所有権を持つプレイヤー。NONE作ったほうがいいかな…？
+     * 現在盤上の所有権を持つプレイヤー
      */
     var owner: Player = Player.None
 
+    /**
+     * 盤上の操作結果を受けるリスナ。本来は複数あるべきだけどあとでいいや。
+     */
     var listener: BoardListener? = null
 
     /**
-     * 現在の指し手
+     * 現在の指し手。Moveの中身（現在の状態）はMutable
      */
     val move = Move(this)
-
-    /**
-     * 横の0..last
-     * 0..x-1 は 0 until x と書ける
-     */
-    val horizontalIndexes = 0 until horizontalLines
-
-    /**
-     * 縦の0..last
-     */
-    val verticalIndexes = 0 until verticalLines
-
-    /**
-     * 操作対象としての盤
-     */
-    val physic = PhysicBoard<UNIT, GROUND>(horizontalIndexes, verticalIndexes)
 
     /**
      * -1で埋めたマップのマトリクス。ルートや影響範囲に使う
@@ -40,9 +33,9 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     private val filledMatrix: MutableList<MutableList<Int>>
         get() {
             val routeMatrix = mutableListOf<MutableList<Int>>()
-            horizontalIndexes.forEach {
+            physics. horizontalIndexes.forEach {_->
                 val unitLine = mutableListOf<Int>()
-                verticalIndexes.forEach { unitLine.add(-1) }
+                physics. verticalIndexes.forEach {_-> unitLine.add(-1) }
                 routeMatrix.add(unitLine)
             }
             return routeMatrix
@@ -51,7 +44,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 盤面の座標が盤上に有るか。つまりIndexがマイナスになったり幅を超えたりしていないか
      */
-    fun positionIsOnBoard(position: Position): Boolean = position.x in horizontalIndexes && position.y in verticalIndexes
+    fun positionIsOnBoard(position: Position): Boolean = position.x in physics.horizontalIndexes && position.y in physics.verticalIndexes
 
     /**
      * 移動可能な経路を調べる。
@@ -59,7 +52,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun searchRoute(piece: Piece<UNIT, GROUND>): MutableList<MutableList<Int>> {
         println("searchRoute $piece")
         val routeMatrix = filledMatrix
-        val square = physic.positionOf(piece) ?: throw RuntimeException("ユニットが見つからない")
+        val square = physics.positionOf(piece) ?: throw RuntimeException("ユニットが見つからない")
         val steps = 0
         println("first step at $piece $square $steps ")
         step(piece, square, steps, null, routeMatrix)
@@ -77,8 +70,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             val targetPos = moveWithOrientation(v, position)
             //枠内
             if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
-                val targetUnit = physic.pieceAt(targetPos)
-                val targetSquare = physic.groundAt(targetPos)
+                val targetUnit = physics.pieceAt(targetPos)
+                val targetSquare = physics.groundAt(targetPos)
                 val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
                 val stepped = routeMatrix[targetPos.x][targetPos.y]
                 //移動出来て歩数が増えてなければ。
@@ -92,19 +85,19 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 効果範囲を探す。
      */
-    fun searchActionRoute(piece: Piece<UNIT, GROUND>, existsPos: Position, targetPos: Position): MutableList<MutableList<Int>> {
+    fun searchActionRoute(piece: Piece<UNIT, GROUND>, existsPos: Position): MutableList<MutableList<Int>> {
         println("searchActionRoute $piece")
         //最大／最小射程
         val max = piece.actionRange().first
         val min = piece.actionRange().second
         val routeMatrix = filledMatrix
-        horizontalIndexes.forEach { x ->
-            verticalIndexes.forEach { y ->
-                val square = Position(x, y)
+        physics.horizontalIndexes.forEach { x ->
+            physics.verticalIndexes.forEach { y ->
+                val targetPos = Position(x, y)
                 //まずこの枡が未計算でユニットからの射程内だったらマーク。駒の場所使ってるけど外から供給したいなあ…
                 // println("p:$position s:$square r:${position.distance(square)}")
-                if (routeMatrix[x][y] == -1 && square.range(existsPos, max, min)) routeMatrix[x][y] = square.distance(piece.existsPosition.p)
-                if (piece.searchedRouteAt(square) >= 0 && piece.isStoppable(physic.pieceAt(square))) stepActionRoute(piece, square, 0, routeMatrix)
+                if (routeMatrix[x][y] == -1 && targetPos.range(existsPos, max, min)) routeMatrix[x][y] = targetPos.distance(piece.existsPosition.p)
+                if (piece.searchedRouteAt(targetPos) >= 0 && piece.isStoppable(physics.pieceAt(targetPos))) stepActionRoute(piece, targetPos, 0, routeMatrix)
             }
         }
         return routeMatrix
@@ -120,8 +113,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             val targetPos = moveWithOrientation(v, position)
             //枠内
             if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
-                val targetUnit = physic.pieceAt(targetPos)
-                val targetSquare = physic.groundAt(targetPos)
+                val targetUnit = physics.pieceAt(targetPos)
+                val targetSquare = physics.groundAt(targetPos)
                 //再帰して距離を計算するつもりだったけど射程は再帰要らないよな。1固定でいっか
                 val targetSteps = 1
                 val stepped = attackMatrix[targetPos.x][targetPos.y]
@@ -141,20 +134,20 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     /**
      * 対象と前後２枡の枡・駒を出力する。補助スキル判定に使う
      */
-    private fun aroundPiecesAndGrounds(v: Int, targetPos: Position, targetUnit: Piece<UNIT, GROUND>? = physic.pieceAt(targetPos), targetSquare: GROUND? = physic.groundAt(targetPos)): PiecesAndGrounds<UNIT, GROUND> {
+    private fun aroundPiecesAndGrounds(v: Int, targetPos: Position, targetUnit: Piece<UNIT, GROUND>? = physics.pieceAt(targetPos), targetSquare: GROUND? = physics.groundAt(targetPos)): PiecesAndGrounds<UNIT, GROUND> {
         //対象の前後２枡計４枡を確認してサポートスキルが発動できるか。ちょっと人には見せられないコードだな！
         val pos1 = moveWithOrientation(v, targetPos)
         val pos2 = moveWithOrientation(v, pos1)
         val posM1 = moveWithOrientation(v, targetPos, -1)
         val posM2 = moveWithOrientation(v, posM1, -1)
-        val p1 = physic.pieceAt(pos1)
-        val g1 = physic.groundAt(pos1)
-        val p2 = physic.pieceAt(pos2)
-        val g2 = physic.groundAt(pos2)
-        val pM1 = physic.pieceAt(posM1)
-        val gM1 = physic.groundAt(posM1)
-        val pM2 = physic.pieceAt(posM2)
-        val gM2 = physic.groundAt(posM2)
+        val p1 = physics.pieceAt(pos1)
+        val g1 = physics.groundAt(pos1)
+        val p2 = physics.pieceAt(pos2)
+        val g2 = physics.groundAt(pos2)
+        val pM1 = physics.pieceAt(posM1)
+        val gM1 = physics.groundAt(posM1)
+        val pM2 = physics.pieceAt(posM2)
+        val gM2 = physics.groundAt(posM2)
         return PiecesAndGrounds(targetUnit, p1, p2, pM1, pM2, targetSquare, g1, g2, gM1, gM2)
     }
 
@@ -226,15 +219,15 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
         move.moveCancel()
         this.owner = owner
 //一度全部の駒を使用不可にしてから手番の人の駒を有効にする
-        physic.pieceList.forEach { it.disabled() }
-        physic.pieceList.filter { it.owner == owner }.forEach { it.ready() }
+        physics.pieceList.forEach { it.disabled() }
+        physics.pieceList.filter { it.owner == owner }.forEach { it.ready() }
     }
 
     /**
      * ゲーム開始。リトライ用に初期状態を保持する。
      */
     fun gameStart(owner: Player) {
-        physic.backup()
+        physics.backup()
         turnStart(owner)
     }
 
@@ -244,7 +237,7 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
     fun gameReset(owner: Player) {
         println("gameReset")
         move.clear()//deselectPieceでクリアしてるはずなのだが…
-        physic.reset()
+        physics.reset()
         turnStart(owner)
     }
 
@@ -329,8 +322,8 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
             val targetPos = moveWithOrientation(v, position)
             //枠内
             if (targetPos.x in 0 until horizontalLines && targetPos.y in 0 until verticalLines) {
-                val targetUnit = physic.pieceAt(targetPos)
-                val targetSquare = physic.groundAt(targetPos)
+                val targetUnit = physics.pieceAt(targetPos)
+                val targetSquare = physics.groundAt(targetPos)
                 val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
                 //移動出来て歩数が増えてなければ。でふぉ-1はやめたほうがいいかな。
                 if (piece.isMovable(targetUnit, targetSquare, v, steps, v == orientation)) {
@@ -359,25 +352,16 @@ class Board<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int) {
      * 盤面クリック。駒クリックと区別したいところだが残念ながらドラッグ時に区別がつかないのだ…！
      */
     fun click(position: Position) {
-        val target = physic.pieceAt(position)
+        val target = physics.pieceAt(position)
         if (target != null) move.pieceClicked(position, target) else move.boardClicked(position)
-    }
-
-    /**
-     * 駒クリック。将来一枡中に複数駒置けるようになった時のために残しておく
-     * ...でも piece はタッチ始めた駒と同じだし役に立たない気もするなあ
-     */
-    fun pieceClick(position: Position, piece: Piece<*, *>) {
-        val target = physic.pieceAt(position)
-        click(position)
     }
 
     /**
      * タッチされたときに呼び出される
      */
     fun touch(position: Position) {
-        println("touch at ${physic.pieceAt(position)} / $position")
-        move.touch(position, physic.pieceAt(position))
+        println("touch at ${physics.pieceAt(position)} / $position")
+        move.touch(position, physics.pieceAt(position))
     }
 
     /**

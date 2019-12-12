@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。武器
  */
-enum class Rtome(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
+enum class Rtome(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill? = null, override val spType: SpType = SpType.LEGEND_W, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf()) : Weapon {
     Flux(SkillName.Flux, SkillType.RTOME, 4, Skill.NONE, SpType.IRON),
     Fire(SkillName.Fire, SkillType.RTOME, 4, Skill.NONE, SpType.IRON),
     Ruin(SkillName.Ruin, SkillType.RTOME, 6, Flux, SpType.STEEL),

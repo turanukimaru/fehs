@@ -66,7 +66,7 @@ abstract class Moving<UNIT, GROUND>(
 //        println("ひょっとして $movable false?")
         if (movable) {
             move.board.findActionRoute(position, selectedPiece.actionRange(), listOf(position), oldPosition, selectedPiece)
-            move.board.physic.move(selectedPiece, position)
+            move.board.physics.move(selectedPiece, position)
             move.board.listener?.showOption(position)
             return Selected(move, selectedPiece, oldPosition, position)
         }
@@ -126,8 +126,8 @@ abstract class Moving<UNIT, GROUND>(
 
     fun intoCommit(piece: Piece<UNIT, GROUND>, position: Position, selectedPiece: Piece<UNIT, GROUND>, from: Position): Moving<UNIT, GROUND> {
         println("intoCommit")
-        move.board.physic.remove(piece)
-        move.board.physic.move(selectedPiece, position)
+        move.board.physics.remove(piece)
+        move.board.physics.move(selectedPiece, position)
         selectedPiece.intoCommit(piece, from, position)
         clear()
         return NoMove(move)
@@ -185,8 +185,8 @@ open class Grasp<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override v
         println("Grasp pieceClick $position, $piece / ${piece.actionPhase} ${piece.owner}  ${move.board.owner} ${piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)}")
         return when {
             piece == selectedPiece -> moveCommit()
-            selectedPiece.searchedRouteAt(position) >= 0 -> intoReady(piece, position, selectedPiece, from)//相手に侵入できるときはアクションより侵入を優先。進入時にも確認をしたいときはアクションをしてから一歩進めればいいはず。
             piece.owner == selectedPiece.owner -> assistReady(piece, position, selectedPiece, from)
+            selectedPiece.searchedRouteAt(position) >= 0 -> intoReady(piece, position, selectedPiece, from)//相手に侵入できるときはアクションより侵入を優先。進入時にも確認をしたいときはアクションをしてから一歩進めればいいはず。
             else -> actionReady(piece, position, selectedPiece, from)
         }
     }
@@ -199,7 +199,7 @@ open class Grasp<UNIT, GROUND>(override val move: Move<UNIT, GROUND>, override v
 
     override fun moveCancel(): Moving<UNIT, GROUND> {
         println("moveCancel $selectedPiece")
-        move.board.physic.move(selectedPiece, from)
+        move.board.physics.move(selectedPiece, from)
         selectedPiece.moveCancel()
         clear()
         return NoMove(move)

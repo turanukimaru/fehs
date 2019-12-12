@@ -4,22 +4,56 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import jp.blogspot.turanukimaru.fehs.FightResult
-import jp.blogspot.turanukimaru.fehs.SIDES
+import jp.blogspot.turanukimaru.fehs.*
 import jp.blogspot.turanukimaru.playboard.ActionEvent
 import jp.blogspot.turanukimaru.playboard.ActionPhase
 import jp.blogspot.turanukimaru.playboard.Position
+
 
 /**
  * イベントを受け取って画面上の表示に変換するのが主な仕事。ゲーム内容に依存するので手が空いたらInterfaceにしたい。
  * アニメもこの中で作ってるけど実用するにはアニメ管理ツール作らなきゃだめだな…
  */
-open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard) {
+open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard, private val game: GameInterface) : IActionListener {
     /**
      * 情報枠を更新する。描画関数をリスナに渡してるだけだけど…
      */
-    fun updateInfo(updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }, rank: Int = 0) {
-        uiBoard.setInfo(updateInfo, rank)
+  override  fun updateInfo(myPiece: MyPiece, show:Boolean) {
+        uiBoard.setInfo({ b ->
+            //フォントサイズ替えたいところではある
+            b.bitmapFont.draw(b.batch,myPiece. containUnit.armedHero.baseHero.heroName.jp, 80f, 940f)
+            b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
+            b.bitmapFont.draw(b.batch,myPiece. containUnit.hp.toString(), 100f, 900f)
+            b.bitmapFont.draw(b.batch, "/", 140f, 900f)
+            b.bitmapFont.draw(b.batch,myPiece. containUnit.armedHero.maxHp.toString(), 160f, 900f)
+            b.bitmapFont.draw(b.batch, "攻撃", 50f, 860f)
+            b.bitmapFont.draw(b.batch,myPiece. containUnit.atk.toString(), 120f, 860f)
+            b.bitmapFont.draw(b.batch, "早さ", 180f, 860f)
+            b.bitmapFont.draw(b.batch,myPiece. containUnit.spd.toString(), 240f, 860f)
+            b.bitmapFont.draw(b.batch, "守備", 50f, 820f)
+            b.bitmapFont.draw(b.batch,myPiece. containUnit.def.toString(), 120f, 820f)
+            b.bitmapFont.draw(b.batch, "魔防", 180f, 820f)
+            b.bitmapFont.draw(b.batch,myPiece. containUnit.res.toString(), 240f, 820f)
+            true
+        }, 1)
+    }
+
+    override fun updateActionResult(fightResult: FightResult, show: Boolean) {
+        val expected = fightResult.attackResults.last()
+        uiBoard.setInfo({ b ->
+            b.bitmapFont.draw(b.batch, fightResult.attacker.armedHero.baseHero.heroName.jp, 50f, 940f)
+            b.bitmapFont.draw(b.batch, fightResult.target.armedHero.baseHero.heroName.jp, 320f, 940f)
+            b.bitmapFont.draw(b.batch, "HP", 240f, 900f)
+            b.bitmapFont.draw(b.batch, fightResult.attacker.hp.toString(), 20f, 900f)
+            b.bitmapFont.draw(b.batch, "→", 80f, 900f)
+            b.bitmapFont.draw(b.batch, expected.source.hp.toString(), 120f, 900f)
+            b.bitmapFont.draw(b.batch, fightResult.attacker.hp.toString(), 290f, 900f)
+            b.bitmapFont.draw(b.batch, "→", 350f, 900f)
+            b.bitmapFont.draw(b.batch, expected.target.hp.toString(), 390f, 900f)
+
+            //ダメージｘ回数表示は後でいいか
+            true
+        }, 10)
     }
 
     /**
@@ -41,7 +75,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * ゲーム開始時とかやり直し字とか
      */
-    private fun reset(position: Position) {
+    override fun reset(position: Position) {
 //        println(this)
         actor.isVisible = true
         actor.color.a = 1f//fadeout した後は 0
@@ -51,7 +85,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 場所直接指定。ドラッグ時に指に追従
      */
-    fun directPos(position: Position, x: Float, y: Float) {
+    override fun directPos(position: Position, x: Float, y: Float) {
         println("MyUiPiece directPos x:$x y:$y ${uiBoard.board.move}")
         actor.clearActions()
         val finalX = uiBoard.squareXtoPosX(position.x)
@@ -63,14 +97,14 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * LibGDXのアップデートで呼ばれる。これどこから呼ぶかだよなあ。pieceからでいいがlibGDXに近くてもいい
      */
-    fun libUpdate() {
+    override fun libUpdate() {
         update()
     }
 
     /**
      * 待機中の動作。基本的には ActionReady かつアクション中じゃなければいいだけか？
      */
-    open fun update() {
+    override fun update() {
         //アクション中は無視
         if (actionEventNow != ActionEvent.None) return
 //        println("ActionListener localUpdate : $actionPhase")
@@ -93,7 +127,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 位置移動のアニメ。移動差分を駒に登録する.移動した後にどうなるかがまた別に必要か、確定アクションを別に作るか、か
      */
-    private fun actionMoveToPosition(position: Position?): SequenceAction {
+    fun actionMoveToPosition(position: Position?): SequenceAction {
         val seq = SequenceAction()
         if (position == null) return seq
         val finalX = uiBoard.squareXtoPosX(position.x)
@@ -106,7 +140,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 位置移動直接。アクションをキャンセルして移動差分を駒に登録
      */
-    private fun actionSetToPosition(position: Position) {
+    override fun actionSetToPosition(position: Position) {
         println("actionSetToPosition")
         actor.clearActions()
         val finalX = uiBoard.squareXtoPosX(position.x)
@@ -117,14 +151,14 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * EndOfAnimationActionから呼ばれるコールバック
      */
-    open fun actionDone() {
+    override fun actionDone() {
         actionEventNow = ActionEvent.None
     }
 
     /**
      * リスナとして呼ばれるアクション通知
      */
-    open fun action(actionEvent: ActionEvent, next: ActionPhase, position: Position?, fightResult: FightResult? = null) {
+    override fun action(actionEvent: ActionEvent, next: ActionPhase, position: Position?, fightResult: FightResult?) {
 //ActionEventを入れつつ次のフェイズを設定する。Actionが終了するまではUpdateがAction依存になるためPhaseはこのタイミングで変更しても大丈夫なはず
         actionEventNow = actionEvent
         actionPhase = next
@@ -151,7 +185,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 戦闘結果からアクションを作る。攻撃側と受け側を分けるべきなんだろうが同時にアクションさせるシナリオ作成にはこっちのが楽なんだよな。どうせエディタができたら消える関数だし。
      */
-    private fun attackResultToSeq(fightResult: FightResult, isAttacker: ActionEvent) {
+    override fun attackResultToSeq(fightResult: FightResult, isAttacker: ActionEvent) {
         var attackCount = 0
         val sourceSeq = SequenceAction()
         val targetSeq = SequenceAction()
@@ -179,8 +213,8 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
             }
         }
         sourceSeq.addAction(CallbackAction { true })//Callbackが機能しているかの確認用なのでこの行は不要
-        sourceSeq.addAction(EndOfAnimationAction(this, 0f, if (sourceDead) uiBoard.board.listener else null))
-        targetSeq.addAction(EndOfAnimationAction(this, 0f, if (targetDead) uiBoard.board.listener else null))
+        sourceSeq.addAction(EndOfAnimationAction(this, 0f, if (sourceDead) game else null))
+        targetSeq.addAction(EndOfAnimationAction(this, 0f, if (targetDead) game else null))
         if (isAttacker == ActionEvent.Attack) {
             actor.addAction(sourceSeq)
             if (sourceDead) {
@@ -200,7 +234,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 攻撃処理のアニメ。移動差分を駒に登録する.相手の枡まで移動するため、長距離だとなんか面白い動作になる。
      * */
-    private fun attackAction(x: Int, y: Int, targetX: Int, targetY: Int): SequenceAction {
+    fun attackAction(x: Int, y: Int, targetX: Int, targetY: Int): SequenceAction {
         val seq = SequenceAction()
         val toX = targetX - x
         val toY = targetY - y
@@ -213,7 +247,7 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
      * 立ってるときのアニメ１ループ分。LibGDXにループ機能はあるが操作統一のため主導でループ
      * 各パーツへばらばらにアクションを追加するからシーケンス返す構造にできない…
      * */
-    private fun readyAction() {
+    override fun readyAction() {
         if (actors.size == 0) return
         println("start actionReady $actors")
 

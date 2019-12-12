@@ -287,7 +287,7 @@ data class ArmedHero(
         reduceSpecialCooldown = 0
         //☆が5でないときは初期武器をさかのぼる。杖は最初武器を装備していない
         lvUpStatus()
-        if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold(weapon) { w, _ -> w.preSkill.preSkill }.equip(this)
+        if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold(weapon) { w, _ -> w.preSkill?.preSkill?:Skill.NONE }.equip(this)
 //        println("rarity:$rarity")
 //        println("atkEqp:$atkEqp")
         val result = BattleParam(

@@ -97,9 +97,8 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * 指を離したときに呼び出される。ドラッグもここになるのでここからdrop()を呼び出している
      */
     fun pieceClicked(position: Position, piece: Piece<UNIT, GROUND>) {
-        println("pieceClick")
         //盤面タップ
-        println("moving.pieceClick($position, $piece)")
+        println("pieceClicked. moving.pieceClick($position, $piece)")
         moving = moving.pieceClick(position, piece)
         touchRelease()
     }
@@ -108,10 +107,6 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     fun touch(position: Position, touchedPiece: Piece<UNIT, GROUND>?) {
         println("touch x:${position.x}, y:${position.y} Piece $touchedPiece")
         touch = Touch(touchedPiece, position, System.currentTimeMillis())
-    }
-
-    fun touchUp() {
-// click が用をなすからこれ要らんな…
     }
 
     fun clear() {

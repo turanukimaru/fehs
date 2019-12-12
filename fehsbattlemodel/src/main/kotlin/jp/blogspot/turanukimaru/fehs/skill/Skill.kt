@@ -53,7 +53,8 @@ interface Skill {
     /**
      * 前提条件となるひとつ前のスキル。
      */
-    val preSkill: Skill get() = NONE
+//    @JsonBackReference //をつけるとそのままJsonにできるがJacksonへの依存が発生するな…いや自己参照でごまかそうとしたのがそもそもの失敗か
+    val preSkill: Skill? get() = null
 
     val effectiveAgainstMoveType: Array<MoveType> get() = arrayOf()
     val effectiveAgainstWeaponType: Array<WeaponType> get() = arrayOf()
@@ -63,10 +64,10 @@ interface Skill {
     fun sp(lv: Int = level, s: SpType = spType) = s.sp(lv)
 
     /**
-     * nullおぶじぇくと。そうかNoneからNone参照するときはthisでいいのか
+     * nullおぶじぇくと。自己参照したいところだが気を付けないと無限ループになるのはnullよりなお悪い。
      */
     class None : Skill {
-        override val preSkill: Skill get() = this
+        override val preSkill: Skill? get() = null
         override fun toString(): String {
             return "NONE"
         }

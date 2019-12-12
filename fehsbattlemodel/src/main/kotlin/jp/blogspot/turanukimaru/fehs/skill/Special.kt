@@ -5,7 +5,7 @@ import jp.blogspot.turanukimaru.fehs.*
 /**
  * スキル。奥義
  */
-enum class Special(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val mitMod: Int = 0, override val penetrate: Int = 0, override val heal: Int = 0, override val offMlt: Int = 10, override val stateDamage: (BattleUnit) -> Int = { _ -> 0 }, override val spType: SpType = SpType.SPECIAL4) : Skill {
+enum class Special(override val jp: SkillName, override val type: SkillType, override val level: Int = 0, override val preSkill: Skill? = null, override val mitMod: Int = 0, override val penetrate: Int = 0, override val heal: Int = 0, override val offMlt: Int = 10, override val stateDamage: (BattleUnit) -> Int = { _ -> 0 }, override val spType: SpType = SpType.SPECIAL4) : Skill {
     DayLight(SkillName.Daylight, SkillType.SPECIAL_A, 3, heal = 30, spType = SpType.SPECIAL3),
     Noontime(SkillName.Noontime, SkillType.SPECIAL_A, 2, heal = 30),
     Sol(SkillName.Sol, SkillType.SPECIAL_A, 3, heal = 50),

@@ -1,0 +1,85 @@
+@startuml
+
+object User
+
+package UseCase{
+class Game{
+始める()
+中断する()
+}
+}
+
+package UI{
+class 盤UI{
+タップする()
+ドラッグする()
+}
+class GameUI{
+タップする()
+ドラッグする()
+}
+}
+
+package LibGDX{
+Actor -> 画面表示
+class ClickListener
+class Actor{
+setPosition()
+addAction()
+}
+}
+
+package Entities（将棋盤）{
+class 盤{
+載せる()
+動かす()
+取り除く()
+}
+class 移動中{
+移動元
+移動先
+}
+class 駒など盤上の要素
+}
+
+package Entities（ゲーム）{
+class Gameの駒
+class 駒の能力
+interface EventListener{
+移動()
+戦闘()
+}
+}
+
+package Presenters{
+class モーション管理{
+戦闘結果から動作を作る()
+}
+}
+
+package UI/ExternalInterfaces{
+class AnimationCtrl{
+Actor動かす()
+}
+}
+
+User "操作\n(Interaction)" --> ClickListener
+盤UI --|> ClickListener
+GameUI --|> ClickListener
+GameUI "操作"--> Game
+盤UI "操作\n(Operation)"--> Game
+盤UI "操作対象を参照"--> 盤
+盤UI --> 移動中
+移動中 --> 盤
+Game  "操作"--> 盤
+Game  "操作"--> Gameの駒
+Game  "操作"-right-> 移動中
+盤 o-- 駒など盤上の要素
+Gameの駒 --|> 駒など盤上の要素
+Gameの駒 "移動・戦闘イベント"-left-> EventListener
+Gameの駒 "保持"--> 駒の能力
+モーション管理 --|> EventListener
+AnimationCtrl --> モーション管理
+AnimationCtrl "動かす"-up-> Actor
+画面表示  -up->"表示\n(Interaction)" User
+@enduml

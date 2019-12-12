@@ -14,6 +14,7 @@ class GameUI{
 ドラッグする()
 }
 package LibGDX{
+Actor -> 画面表示
 class ClickListener
 class Actor{
 setPosition()
@@ -33,22 +34,30 @@ interface EventListener{
 移動()
 戦闘()
 }
+
+class モーション管理{
+戦闘結果から動作を作る()
+}
 class AnimationCtrl{
-戦闘結果からアニメーション生成()
+Actor動かす()
 }
 User "操作\n(Interaction)" --> ClickListener
 盤UI --|> ClickListener
 GameUI --|> ClickListener
-Game "作成"--> 盤UI
 GameUI "操作"--> Game
-Game "作成"--> GameUI
-盤UI "操作\n(Operation)"--> 盤
+盤UI "操作\n(Operation)"--> Game
+盤UI "操作対象を参照"--> 盤
 盤UI --> 移動中
 移動中 --> 盤
-Game  "作成/初期化"--> 盤
+Game  "操作"--> 盤
+Game  "操作"--> Gameの駒
+Game  "操作"-right-> 移動中
 盤 o-- 駒など盤上の要素
-盤 --> EventListener
-駒など盤上の要素 "移動・戦闘イベント"-left-> EventListener
-AnimationCtrl --|> EventListener
+Gameの駒 --|> 駒など盤上の要素
+Gameの駒 "移動・戦闘イベント"-left-> EventListener
+Gameの駒 "保持"--> 駒の能力
+モーション管理 --|> EventListener
+AnimationCtrl --> モーション管理
 AnimationCtrl "動かす"-up-> Actor
+画面表示  -up->"表示\n(Interaction)" User
 @enduml

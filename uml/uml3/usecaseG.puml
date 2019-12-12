@@ -1,0 +1,90 @@
+@startuml
+
+object User
+
+package UseCase{
+class Game{
+始める()
+中断する()
+}
+}
+
+package UnityがやってくれるUI{
+class 3D空間UI{
+タップする()
+ドラッグする()
+}
+class GameUI{
+タップする()
+ドラッグする()
+}
+}
+
+package Unity{
+Actor -> 画面表示
+class ClickListener
+class Actor{
+setPosition()
+addAction()
+}
+}
+
+package Unityがやってくれる3D空間{
+class 3D空間{
+載せる()
+動かす()
+取り除く()
+}
+class 移動中{
+移動元
+移動先
+}
+class 駒など3D空間上の要素
+}
+
+package Entities（ゲーム）{
+class Gameの駒
+class 駒の能力
+}
+
+package Presenters{
+class モーション管理{
+戦闘結果から動作を作る()
+}
+}
+
+package Unityがやってくれる表示{
+class AnimationCtrl{
+Actor動かす()
+}
+}
+
+package Controller{
+class Unityオブジェクト
+interface EventListener{
+移動()
+戦闘()
+}
+}
+
+User "操作\n(Interaction)" --> ClickListener
+3D空間UI --|> ClickListener
+GameUI --|> ClickListener
+GameUI "操作"--> Game
+3D空間UI "操作\n(Operation)"--> Game
+3D空間UI "操作対象を参照"--> 3D空間
+3D空間UI --> "オブジェクトへのイベント" Unityオブジェクト
+移動中 --> 3D空間
+Game  "操作"--> 3D空間
+Game  "操作"<--> Unityオブジェクト
+Unityオブジェクト  "操作"--> Gameの駒
+Game  "操作"-right-> 移動中
+3D空間 o-- 駒など3D空間上の要素
+Unityオブジェクト --|> 駒など3D空間上の要素
+Unityオブジェクト "動き"-left-> EventListener
+Gameの駒 "保持"--> 駒の能力
+モーション管理 --|> EventListener
+AnimationCtrl <-- モーション管理
+AnimationCtrl "動かす"-up-> Actor
+画面表示  -up->"表示\n(Interaction)" User
+@enduml

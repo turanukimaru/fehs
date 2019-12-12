@@ -4,7 +4,7 @@ import android.app.Application
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import jp.blogspot.turanukimaru.fehs.ArmedHeroRepository
-import jp.blogspot.turanukimaru.repos.RealmArmedHeroContent
+import jp.blogspot.turanukimaru.fieldrepos.RealmArmedHeroContent
 
 /**
  * 戦闘シミュレータ起動アプリケーション.シミュレータを統合したら出番があるかも

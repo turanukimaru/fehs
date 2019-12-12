@@ -7,7 +7,7 @@ import jp.blogspot.turanukimaru.fehs.SpType
 /**
  * スキル。C
  */
-enum class SkillC(override val jp: SkillName, override val type: SkillType = SkillType.C, override val level: Int = 0, override val preSkill: Skill = Skill.NONE, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
+enum class SkillC(override val jp: SkillName, override val type: SkillType = SkillType.C, override val level: Int = 0, override val preSkill: Skill? = null, override val maxLevel: Int = 3, override val spType: SpType = SpType.BASE50) : Skill {
 
 
     SpurAtk(SkillName.SpurAtk),

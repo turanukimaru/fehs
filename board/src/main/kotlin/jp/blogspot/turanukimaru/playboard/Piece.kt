@@ -16,8 +16,6 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
      */
     open fun action(nextPhase: ActionPhase, actionEvent: ActionEvent = ActionEvent.None) {
         //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
-        // TODO: これはアプリ側に移動。ていうかリスナ入れてはいかんのか
-//        actionListener.action(actionEvent, nextPhase, charPosition, fightResult)
         this.actionPhase = nextPhase
     }
 
@@ -52,7 +50,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
      */
     fun actionableAt(position: Position): Int {
         if (actionRoute.size == 0) {
-            actionRoute = board.searchActionRoute(this, existsPosition.p, position)
+            actionRoute = board.searchActionRoute(this, existsPosition.p)
         }
         return if (board.positionIsOnBoard(position)) actionRoute[position.x][position.y] else -1
     }
@@ -334,8 +332,8 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
      */
     open fun intoCommit(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
         println("$this into $position target $piece")
-//        board.physic.remove(piece)
-//        board.physic.move(this, position)
+//        board.physics.remove(piece)
+//        board.physics.move(this, position)
         boardMoveCommit(position)
         owner.takePiece(piece)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)// ActionEvent は変えたほうがいいな…ていうか ActionEvent は共通系に書いてはいけないはずだよな

@@ -1,0 +1,22 @@
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.6
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets.main.java.srcDirs = ["src/"]
+
+
+eclipse.project {
+    name = appName + "-core"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(":board")
+
+    implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+}
+
+sourceCompatibility = "6"
+targetCompatibility = "6"

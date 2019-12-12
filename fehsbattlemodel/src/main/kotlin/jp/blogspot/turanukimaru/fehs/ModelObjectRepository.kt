@@ -10,6 +10,11 @@ interface ModelObjectRepository<T> {
     fun find(item: T): T?
 
     /**
+     * 新規.どうしても初期値が要るがこれが一般化できない…！DTOを別に作るという選択肢はあるが…！
+     */
+    fun create(initialItem: T): T
+
+    /**
      * 新規OR更新
      */
     fun createOrUpdate(item: T): T
