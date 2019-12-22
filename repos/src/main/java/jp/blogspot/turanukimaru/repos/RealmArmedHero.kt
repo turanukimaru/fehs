@@ -1,4 +1,4 @@
-package jp.blogspot.turanukimaru.fieldrepos
+package jp.blogspot.turanukimaru.repos
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey

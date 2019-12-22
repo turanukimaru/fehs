@@ -13,7 +13,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.5.3'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.5'//これ要らない気がするな…
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-//        classpath "io.realm:realm-gradle-plugin:5.8.0"
+        classpath "io.realm:realm-gradle-plugin:5.8.0"
     }
 }
 
@@ -44,16 +44,14 @@ allprojects {
 project(":android") {
     apply plugin: "android"
     apply plugin: "kotlin-android"
-//    apply plugin: 'kotlin-kapt'
-//    apply plugin: 'realm-android'
 
     configurations { natives }
 
     dependencies {
         implementation project(":core")
 //        implementation project(":repos")
-        implementation project(":battlefield")
         implementation project(":fieldrepos")
+        implementation project(":battlefield")
         implementation project(":fehsbattlemodel")
         implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"

@@ -1,10 +1,11 @@
-package jp.blogspot.turanukimaru.fieldrepos
+package jp.blogspot.turanukimaru.repos
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import jp.blogspot.turanukimaru.fehs.ArmedHeroRepository
+import jp.blogspot.turanukimaru.repos.RealmArmedHeroContent
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

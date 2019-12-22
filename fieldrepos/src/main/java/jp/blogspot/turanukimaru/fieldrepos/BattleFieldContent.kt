@@ -10,7 +10,7 @@ import jp.blogspot.turanukimaru.playboard.PhysicalBoard
 import kotlin.properties.Delegates
 
 /**
- * 戦闘フィールドのDBアクセス。できればコピーしない形で作っていきたいものだが…
+ * 戦闘フィールドのDBアクセス
  */
 object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Ground>>() {
 
@@ -19,24 +19,18 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Ground>>() {
      * realmのkotlin用ハンドラ
      */
 
-     var real: Realm by Delegates.notNull()
     val realm: Realm by lazy {
-        // テスト中はマイグレーションが面倒なので全部削除...したいのだがなぜか消えないー。
-//        val realmConfig = RealmConfiguration.Builder(this).deleteRealmIfMigrationNeeded().build()
-//        Realm.deleteRealm(realmConfig)
-//        Realm.setDefaultConfiguration(realmConfig)
+        //RealmFieldModule() が無いと、 ~is not part of schema 例外が出ることがある。出ずに使えることもあるからややこしいが、モジュールが複数あるときは危ない
+        val realmConfig = RealmConfiguration.Builder().modules(RealmFieldModule(),Realm.getDefaultModule()).deleteRealmIfMigrationNeeded().build()
+        Realm.setDefaultConfiguration(realmConfig)
         val r = Realm.getDefaultInstance()
+        // テスト中はマイグレーションが面倒なので全部削除...Configが対象とするモジュールを間違えると消えないことがある…
         r.executeTransaction {
             r.deleteAll()
         }
         r
     }
-init {
-    val realmConfig = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
-    Realm.setDefaultConfiguration(realmConfig)
-//    realm = Realm.getDefaultInstance()
 
-}
     override fun complexQuery(item: PhysicalBoard<MyPiece, Ground>): List<PhysicalBoard<MyPiece, Ground>> {
         return arrayListOf()
     }
@@ -67,7 +61,6 @@ init {
     override fun create(initialItem: PhysicalBoard<MyPiece, Ground>): PhysicalBoard<MyPiece, Ground> {
         Log.i("RealmBattleFieldContent", initialItem.toString())
         realm.beginTransaction()
-//        realm.deleteAll()
         val last = realm.where(RealmBattleField::class.java).max("id")
         println(last)
         val f = realm.createObject<RealmBattleField>((last?.toInt() ?: 0) + 1)

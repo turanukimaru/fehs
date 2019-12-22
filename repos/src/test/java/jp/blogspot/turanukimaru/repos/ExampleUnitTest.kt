@@ -1,4 +1,4 @@
-package jp.blogspot.turanukimaru.fieldrepos
+package jp.blogspot.turanukimaru.repos
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

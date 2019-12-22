@@ -5,7 +5,7 @@ package jp.blogspot.turanukimaru.playboard
  * 例えば、MatrixではなくHexを使う盤や枡内に複数の駒を置ける盤なども考えられ、そのときはこのクラスと同格のクラスとして実装することになる。
  * 駒が無いところはnull
  */
-open class PhysicalBoard<UNIT, GROUND>( val horizontalLines:Int, val verticalLines:Int, val id:Int = 0) {
+open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int, val id: Int = 0) {
     private val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
     private val positionMap = mutableMapOf<Piece<UNIT, GROUND>, Position>()
     private val copyMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
@@ -37,29 +37,32 @@ open class PhysicalBoard<UNIT, GROUND>( val horizontalLines:Int, val verticalLin
     /**
      * 対象の場所にある駒
      */
-    fun pieceAt(position: Position): Piece<UNIT, GROUND>? = if (position.x in horizontalIndexes && position.y in verticalIndexes) getPiece(position.x,position.y) else null
+    fun pieceAt(position: Position): Piece<UNIT, GROUND>? = if (position.x in horizontalIndexes && position.y in verticalIndexes) getPiece(position.x, position.y) else null
 
-    fun positionOf(piece: Piece<UNIT, GROUND>) = positionMap[piece]
+    open fun positionOf(piece: Piece<UNIT, GROUND>) = positionMap[piece]
+    open fun getPiece(x: Int, y: Int): Piece<UNIT, GROUND>? = pieceMatrix[x][y]
     /**
      * 対象の枡に駒を置く。駒が配置済みだったら例外を吐く。自分がすでにいるところにPutしたケースはまだけんとうしなくていいか
      */
     fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int, orientation: Int = 0) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("pieceMatrix[$x][$y] is スクワットのスペルが分からん  by ${pieceMatrix[x][y]}")
-        localPut(piece,x,y)
+        localPut(piece, x, y)
         piece.putOn(x, y, orientation)
     }
+
     //集約としてみたコード...これあんまし良くないな
     open fun localPut(piece: Piece<UNIT, GROUND>, x: Int, y: Int, orientation: Int = 0) {
         pieceMatrix[x][y] = piece
         positionMap[piece] = Position(x, y)
     }
-    open fun localMove(piece: Piece<UNIT, GROUND>, x: Int, y: Int, orientation: Int = 0) {
+
+    open fun localMove(piece: Piece<UNIT, GROUND>, x: Int, y: Int, oldX: Int? = null, oldY: Int? = null, orientation: Int = 0) {
         println("localMove")
+        if (oldX != null && oldY != null) pieceMatrix[oldX][oldY] = null
         pieceMatrix[x][y] = piece
         positionMap[piece] = Position(x, y)
     }
-    open fun findPiece(x: Int, y: Int): Piece<UNIT, GROUND>? = positionMap.entries.find { it.value.x == x && it.value.y == y }?.key
-    open fun getPiece(x: Int, y: Int): Piece<UNIT, GROUND>? = pieceMatrix[x][y]
+//    open fun findPiece(x: Int, y: Int): Piece<UNIT, GROUND>? = positionMap.entries.find { it.value.x == x && it.value.y == y }?.key
     /**
      * 対象の駒を対象の枡に移動する。移動元が見つからないときは例外を吐く
      * すでに駒があるところへは動かせない（例外をはく）ので先に明示的に取り除くこと。
@@ -70,14 +73,13 @@ open class PhysicalBoard<UNIT, GROUND>( val horizontalLines:Int, val verticalLin
             throw RuntimeException("out of range pieceMatrix[$x][$y]")
         }
 //        if (isAnotherPiece(piece, position)) throw RuntimeException("${pieceMatrix[x][y]} is at pieceMatrix[$x][$y]")
-        val oldSquare = positionMap[piece]!!
+        val oldSquare = positionOf(piece)!!
         //移動元を消して今回の駒をセット
-        val targetSquaresUnit = getPiece(x,y)
+        val targetSquaresUnit = getPiece(x, y)
         if (targetSquaresUnit != null && targetSquaresUnit != piece) {
             throw RuntimeException("found another piece at $targetSquaresUnit")
         }
-        pieceMatrix[oldSquare.x][oldSquare.y] = null
-        localMove(piece,x,y)
+        localMove(piece, x, y, oldSquare.x, oldSquare.y)
     }
 
     /**
@@ -99,7 +101,7 @@ open class PhysicalBoard<UNIT, GROUND>( val horizontalLines:Int, val verticalLin
         groundMatrix.clear()
         println(horizontalIndexes)
         horizontalIndexes.forEach { x ->
-            val line= mutableListOf<GROUND?>()
+            val line = mutableListOf<GROUND?>()
             verticalIndexes.forEach { y -> line.add(matrix[verticalIndexes.last - y][x]) }
             groundMatrix.add(line)
         }
@@ -141,13 +143,13 @@ open class PhysicalBoard<UNIT, GROUND>( val horizontalLines:Int, val verticalLin
 
     init {
         //マップを初期化する
-        horizontalIndexes.forEach {_->
+        horizontalIndexes.forEach { _ ->
             val unitLine = mutableListOf<Piece<UNIT, GROUND>?>()
-            verticalIndexes.forEach {_-> unitLine.add(null) }
+            verticalIndexes.forEach { _ -> unitLine.add(null) }
             pieceMatrix.add(unitLine)
 
             val boxLine = mutableListOf<GROUND?>()
-            verticalIndexes.forEach {_-> boxLine.add(null) }
+            verticalIndexes.forEach { _ -> boxLine.add(null) }
             groundMatrix.add(boxLine)
         }
     }
