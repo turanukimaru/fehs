@@ -1,7 +1,5 @@
 package jp.blogspot.turanukimaru.fehs
 
-import jp.blogspot.turanukimaru.fehs.FightResult
-import jp.blogspot.turanukimaru.fehs.MyPiece
 import jp.blogspot.turanukimaru.playboard.ActionEvent
 import jp.blogspot.turanukimaru.playboard.ActionPhase
 import jp.blogspot.turanukimaru.playboard.Position
@@ -10,13 +8,15 @@ interface IActionListener {
     /**
      * 情報枠を更新する。描画関数をリスナに渡してるだけだけど…
      */
-    fun updateInfo(myPiece: MyPiece, show:Boolean = false) {
+    fun updateInfo(myPiece: MyPiece, show: Boolean = false) {
     }
+
     /**
      * 情報枠を更新する。描画関数をリスナに渡してるだけだけど…
      */
-    fun updateActionResult(fightResult: FightResult,show:Boolean = false) {
+    fun updateActionResult(fightResult: FightResult, show: Boolean = false) {
     }
+
     /**
      * ゲーム開始時とかやり直し字とか
      */

@@ -1,7 +1,5 @@
 package jp.blogspot.turanukimaru.fehs
 
-import jp.blogspot.turanukimaru.playboard.PhysicalBoard
-
 interface GameInterface {
     fun actionDone()
     fun turnEnd()

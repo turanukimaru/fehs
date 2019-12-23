@@ -7,9 +7,9 @@ import jp.blogspot.turanukimaru.playboard.PhysicalBoard
  * 正直DBに初期値を放り込むのでよいと思う。
  */
 object BattleFieldRepository {
-    var repo: ModelObjectRepository<PhysicalBoard<MyPiece,Ground>>? = null
+    var repo: ModelObjectRepository<PhysicalBoard<MyPiece, Ground>>? = null
 
-    fun getById(id: String): PhysicalBoard<MyPiece,Ground>? =  repo!!.getById(id)
-    fun createItem(field: PhysicalBoard<MyPiece,Ground>) = repo!!.createOrUpdate(field)
-    fun create(x:Int, y :Int) = repo!!.create(PhysicalBoard(x,y))
+    fun getById(id: String): PhysicalBoard<MyPiece, Ground>? = repo!!.getById(id)
+    fun createItem(field: PhysicalBoard<MyPiece, Ground>) = repo!!.createOrUpdate(field)
+    fun create(x: Int, y: Int) = repo!!.create(PhysicalBoard(x, y))
 }

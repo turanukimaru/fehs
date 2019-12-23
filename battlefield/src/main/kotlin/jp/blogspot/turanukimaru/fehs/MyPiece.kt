@@ -5,8 +5,8 @@ import jp.blogspot.turanukimaru.playboard.*
 /**
  * 駒を継承してそのゲームにおける駒のルールを記述。画像としての処理もとりあえずここ。Actionは括りだすべきか？
  */
-class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Ground>, owner: Player, actionListener: IActionListener?=null) : Piece<MyPiece, Ground>(null, board, owner) {
-val actionListeners = if (actionListener != null) listOf<IActionListener>(actionListener)else listOf<IActionListener>()
+class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Ground>, owner: Player, actionListener: IActionListener? = null) : Piece<MyPiece, Ground>(null, board, owner) {
+    val actionListeners = if (actionListener != null) listOf<IActionListener>(actionListener) else listOf<IActionListener>()
     override val unit get() = this
     override fun isStoppable(piece: Piece<MyPiece, Ground>?): Boolean = piece == null || piece == this
 
@@ -59,7 +59,7 @@ val actionListeners = if (actionListener != null) listOf<IActionListener>(action
      * タッチされたときの処理。コマの動きは共通処理なのでここは表示とか
      */
     override fun touched(): Boolean {
-        actionListeners.forEach { it.updateInfo(this, true)}
+        actionListeners.forEach { it.updateInfo(this, true) }
         return true
     }
 
@@ -80,7 +80,7 @@ val actionListeners = if (actionListener != null) listOf<IActionListener>(action
             }
 
             val fightResult = FightResult(containUnit, charPosition!!, target.unit.containUnit, position, containUnit.fight(target.unit.containUnit))
-            actionListeners.forEach { it.updateActionResult(fightResult,true)}
+            actionListeners.forEach { it.updateActionResult(fightResult, true) }
         }
         return true
 
@@ -127,35 +127,35 @@ val actionListeners = if (actionListener != null) listOf<IActionListener>(action
         if (target != null && target != this) {
 //戦闘アクションは流石にここで登録してもいい気がするが…いやダメか…Updateで読む方法考えないとな
             val attackPos = existsPosition
-                //敵味方判別して行動。攻撃なら一歩手前に移動するし移動補助ならそれが発動する
-                println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-                println(board.physics.pieceAt(position))
-                println("attack to $position")
-                println("attack from $attackPos")
-                println(board.move.routeStack)
-                println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-                val fightResult = FightResult(containUnit, attackPos.p, target.unit.containUnit, position, containUnit.fight(target.unit.containUnit))
-                action(ActionPhase.ACTED, ActionEvent.Attack, fightResult)
-                target.unit.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
-                //表示にはfightResultのHPを使うがマップ上では最終的なHPをそのまま使える
-                containUnit.hp = fightResult.attackResults.last().source.hp
-                target.unit.containUnit.hp = fightResult.attackResults.last().target.hp
+            //敵味方判別して行動。攻撃なら一歩手前に移動するし移動補助ならそれが発動する
+            println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
+            println(board.physics.pieceAt(position))
+            println("attack to $position")
+            println("attack from $attackPos")
+            println(board.move.routeStack)
+            println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
+            val fightResult = FightResult(containUnit, attackPos.p, target.unit.containUnit, position, containUnit.fight(target.unit.containUnit))
+            action(ActionPhase.ACTED, ActionEvent.Attack, fightResult)
+            target.unit.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
+            //表示にはfightResultのHPを使うがマップ上では最終的なHPをそのまま使える
+            containUnit.hp = fightResult.attackResults.last().source.hp
+            target.unit.containUnit.hp = fightResult.attackResults.last().target.hp
 
-                if (containUnit.hp == 0) {
-                    board.physics.remove(this, attackPos.p)
-                }
-                if (target.unit.containUnit.hp == 0) {
-                    board.physics.remove(target, position)
-                }
+            if (containUnit.hp == 0) {
+                board.physics.remove(this, attackPos.p)
+            }
+            if (target.unit.containUnit.hp == 0) {
+                board.physics.remove(target, position)
+            }
 
-            actionListeners.forEach { it. updateInfo(this,false)}
-                return ActionPhase.ACTED
+            actionListeners.forEach { it.updateInfo(this, false) }
+            return ActionPhase.ACTED
         }
         return ActionPhase.READY
     }
 
     override fun update() {
-        actionListeners.forEach { it.libUpdate()}
+        actionListeners.forEach { it.libUpdate() }
         localUpdate()
     }
 
@@ -165,7 +165,7 @@ val actionListeners = if (actionListener != null) listOf<IActionListener>(action
             return false
         }
         //ドラッグしてる絵を動かす
-        actionListeners.forEach { it.directPos(position, dx, dy)}
+        actionListeners.forEach { it.directPos(position, dx, dy) }
         //移動可能範囲内で移動したらスタックに積む...
         return dragged(position)
     }
@@ -174,7 +174,7 @@ val actionListeners = if (actionListener != null) listOf<IActionListener>(action
      * アクション。アクションと同時に次の状態に移行することを想定しているが…この関数あんまし要らん気がするな
      */
     fun action(nextPhase: ActionPhase, actionEvent: ActionEvent, fightResult: FightResult) {
-        actionListeners.forEach { it.action(actionEvent, nextPhase, charPosition, fightResult)}
+        actionListeners.forEach { it.action(actionEvent, nextPhase, charPosition, fightResult) }
         this.actionPhase = nextPhase
     }
 
@@ -183,7 +183,7 @@ val actionListeners = if (actionListener != null) listOf<IActionListener>(action
      */
     override fun action(nextPhase: ActionPhase, actionEvent: ActionEvent) {
         //アクション後、readyかselectedかactedかで3種類はあるな.これ関数であるべきじゃないな…
-        actionListeners.forEach { it.action(actionEvent, nextPhase, charPosition)}
+        actionListeners.forEach { it.action(actionEvent, nextPhase, charPosition) }
         this.actionPhase = nextPhase
     }
 

@@ -36,7 +36,7 @@ class MyMyGdxGame : ApplicationAdapter() {
     var lastDropTime = 0L
     var batch: SpriteBatch? = null
     var camera: Camera? = null
-    var bucket: Rectangle? = null
+//    var bucket: Rectangle? = null
     var stage: Stage? = null
     var liner: ShapeRenderer? = null
 
@@ -89,11 +89,11 @@ class MyMyGdxGame : ApplicationAdapter() {
         batch = SpriteBatch()
 
         // create a Rectangle to logically represent the bucket
-        bucket = Rectangle()
-        bucket!!.x = (800 / 2 - 64 / 2).toFloat() // center the bucket horizontally
-        bucket!!.y = 20f // bottom left corner of the bucket is 20 pixels above the bottom screen edge
-        bucket!!.width = 64f
-        bucket!!.height = 64f
+//        bucket = Rectangle()
+//        bucket!!.x = (800 / 2 - 64 / 2).toFloat() // center the bucket horizontally
+//        bucket!!.y = 20f // bottom left corner of the bucket is 20 pixels above the bottom screen edge
+//        bucket!!.width = 64f
+//        bucket!!.height = 64f
 
         // create the raindrops array and spawn the first raindrop
         spawnRaindrop()
@@ -230,7 +230,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         // all drops
         batch!!.begin()
         myGame.uiBoard.libUpdateSpriteBatch(batch!!)
-        batch!!.draw(bucketImage, bucket!!.x, bucket!!.y)
+//        batch!!.draw(bucketImage, bucket!!.x, bucket!!.y)
         for (raindrop in raindrops) {
             batch!!.draw(dropImage, raindrop.x, raindrop.y)
         }
@@ -259,16 +259,16 @@ class MyMyGdxGame : ApplicationAdapter() {
             touchPos.set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
             myGame.uiBoard.touched(touchPos)
             camera!!.unproject(touchPos)
-            bucket!!.x = touchPos.x - 64 / 2
+//            bucket!!.x = touchPos.x - 64 / 2
             //yは下から上へ計算する
 //            stageBucketImage!!.setPiece(touchPos.x - 64 / 2, touchPos.y - 64 / 2)
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket!!.x -= 200 * Gdx.graphics.deltaTime
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket!!.x += 200 * Gdx.graphics.deltaTime
+//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket!!.x -= 200 * Gdx.graphics.deltaTime
+//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket!!.x += 200 * Gdx.graphics.deltaTime
 
-        // make sure the bucket stays within the screen bounds
-        if (bucket!!.x < 0) bucket!!.x = 0f
-        if (bucket!!.x > 800 - 64) bucket!!.x = 800f - 64
+//        // make sure the bucket stays within the screen bounds
+//        if (bucket!!.x < 0) bucket!!.x = 0f
+//        if (bucket!!.x > 800 - 64) bucket!!.x = 800f - 64
 
         // check if we need to create a new raindrop
         if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop()
@@ -278,12 +278,12 @@ class MyMyGdxGame : ApplicationAdapter() {
         // a sound effect as well.
 
         //画面外やバケツに触れたものを消す。けどこれって増える一方だな・・・
-        val newDrops = raindrops.filter { raindrop ->
-            raindrop.y -= 200 * Gdx.graphics.deltaTime
-            (raindrop.y + 64 > 0) && !raindrop.overlaps(bucket)
-        }
+//        val newDrops = raindrops.filter { raindrop ->
+//            raindrop.y -= 200 * Gdx.graphics.deltaTime
+//            (raindrop.y + 64 > 0) && !raindrop.overlaps(bucket)
+//        }
         raindrops.clear()
-        raindrops.addAll(newDrops)
+//        raindrops.addAll(newDrops)
 
     }
 
