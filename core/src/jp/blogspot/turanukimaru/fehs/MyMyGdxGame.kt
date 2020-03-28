@@ -2,7 +2,6 @@ package jp.blogspot.turanukimaru.fehs
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
@@ -57,14 +56,14 @@ class MyMyGdxGame : ApplicationAdapter() {
 
 
     val battleGround = arrayOf(
-            arrayOf(Ground.P, Ground.P, Ground.W, Ground.R, Ground.M, Ground.M),
-            arrayOf(Ground.R, Ground.P, Ground.R, Ground.R, Ground.M, Ground.M),
-            arrayOf(Ground.P, Ground.P, Ground.M, Ground.M, Ground.M, Ground.M),
-            arrayOf(Ground.P, Ground.P, Ground.M, Ground.M, Ground.M, Ground.M),
-            arrayOf(Ground.M, Ground.P, Ground.P, Ground.P, Ground.M, Ground.M),
-            arrayOf(Ground.M, Ground.P, Ground.P, Ground.P, Ground.P, Ground.P),
-            arrayOf(Ground.M, Ground.M, Ground.M, Ground.P, Ground.P, Ground.P),
-            arrayOf(Ground.M, Ground.M, Ground.M, Ground.M, Ground.P, Ground.P)
+            arrayOf(Tile.P, Tile.P, Tile.W, Tile.R, Tile.M, Tile.M),
+            arrayOf(Tile.R, Tile.P, Tile.R, Tile.R, Tile.M, Tile.M),
+            arrayOf(Tile.P, Tile.P, Tile.M, Tile.M, Tile.M, Tile.M),
+            arrayOf(Tile.P, Tile.P, Tile.M, Tile.M, Tile.M, Tile.M),
+            arrayOf(Tile.M, Tile.P, Tile.P, Tile.P, Tile.M, Tile.M),
+            arrayOf(Tile.M, Tile.P, Tile.P, Tile.P, Tile.P, Tile.P),
+            arrayOf(Tile.M, Tile.M, Tile.M, Tile.P, Tile.P, Tile.P),
+            arrayOf(Tile.M, Tile.M, Tile.M, Tile.M, Tile.P, Tile.P)
 
     )
 

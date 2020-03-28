@@ -3,7 +3,7 @@ package jp.blogspot.turanukimaru.playboard
 /**
  * 論理駒。ゲームのルールによらない部分
  */
-open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT, GROUND>, val owner: Player) {
+open class Piece<UNIT, TILE>(private val contain: UNIT?, var board: Board<UNIT, TILE>, val owner: Player) {
 
     open val unit: UNIT get() = contain ?: throw NullPointerException()
     /**
@@ -68,28 +68,28 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
     /**
      * 効果範囲か。再帰して効果範囲を拡大できるかなので名前変えよう
      */
-    open fun isEffective(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Boolean {
+    open fun isEffective(piece: Piece<UNIT, TILE>?, TILE: TILE?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Boolean {
         return false
     }
 
     /**
      * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
      */
-    open fun isSupportable(grounds: PiecesAndGrounds<UNIT, GROUND>, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Boolean {
+    open fun isSupportable(tiles: PiecesAndTiles<UNIT, TILE>, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Boolean {
         return false
     }
 
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, straight: Boolean, rotated: Int = rotate(orientation)): Boolean {
+    open fun isMovable(piece: Piece<UNIT, TILE>?, TILE: TILE?, orientation: Int, steps: Int, straight: Boolean, rotated: Int = rotate(orientation)): Boolean {
         return piece == null && steps == 0
     }
 
     /**
      * 引数の枡に移動することで消費する移動力。移動できないときは負の値
      */
-    open fun countStep(piece: Piece<UNIT, GROUND>?, ground: GROUND?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Int {
+    open fun countStep(piece: Piece<UNIT, TILE>?, TILE: TILE?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Int {
         return if (steps == 0) {
             1
         } else {
@@ -100,7 +100,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
     /**
      * 別のユニットがいた場合にその枡に止まれるか。例えば敵に重なることはできるが味方には重なれないかも。移動範囲内かはこれより先に判定している。通れるけど止まれない枡ってあるかな？
      */
-    open fun isStoppable(piece: Piece<UNIT, GROUND>?): Boolean = piece == null
+    open fun isStoppable(piece: Piece<UNIT, TILE>?): Boolean = piece == null
 
 
     /**行動前・選択状態・移動後は行動可能
@@ -136,12 +136,12 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
     /**
      * アクション準備用ポイント
      */
-    open fun boardAction(source: Position, target: Position, targetPiece: Piece<UNIT, GROUND>): Boolean = true
+    open fun boardAction(source: Position, target: Position, targetPiece: Piece<UNIT, TILE>): Boolean = true
 
     /**
      * アクション実行用ポイント
      */
-    open fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<UNIT, GROUND>): Boolean = true
+    open fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<UNIT, TILE>): Boolean = true
 
     /**
      * 移動中。
@@ -322,7 +322,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
     /**
      * 対象のいる枡に侵入する
      */
-    open fun intoReady(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
+    open fun intoReady(piece: Piece<UNIT, TILE>, from: Position, position: Position) {
         println("$this into $position target $piece")
         boardMove(position)
     }
@@ -330,7 +330,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
     /**
      * 対象のいる枡に侵入する.owner.takePieceとかは my だな…
      */
-    open fun intoCommit(piece: Piece<UNIT, GROUND>, from: Position, position: Position) {
+    open fun intoCommit(piece: Piece<UNIT, TILE>, from: Position, position: Position) {
         println("$this into $position target $piece")
 //        board.physics.remove(piece)
 //        board.physics.move(this, position)
@@ -339,7 +339,7 @@ open class Piece<UNIT, GROUND>(private val contain: UNIT?, var board: Board<UNIT
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)// ActionEvent は変えたほうがいいな…ていうか ActionEvent は共通系に書いてはいけないはずだよな
     }
 
-    open fun opt(actionTargetPiece: Piece<UNIT, GROUND>?, from: Position, actionTargetPos: Position) {
+    open fun opt(actionTargetPiece: Piece<UNIT, TILE>?, from: Position, actionTargetPos: Position) {
     }
 
     /**

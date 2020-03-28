@@ -5,10 +5,10 @@ package jp.blogspot.turanukimaru.playboard
  * 例えば、MatrixではなくHexを使う盤や枡内に複数の駒を置ける盤なども考えられ、そのときはこのクラスと同格のクラスとして実装することになる。
  * 駒が無いところはnull
  */
-open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLines: Int, val id: Int = 0) {
-    private val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
-    private val positionMap = mutableMapOf<Piece<UNIT, GROUND>, Position>()
-    private val copyMatrix = mutableListOf<MutableList<Piece<UNIT, GROUND>?>>()
+open class PhysicalBoard<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, val id: Int = 0) {
+    private val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, TILE>?>>()
+    private val positionMap = mutableMapOf<Piece<UNIT, TILE>, Position>()
+    private val copyMatrix = mutableListOf<MutableList<Piece<UNIT, TILE>?>>()
     /**
      * 横の0..last
      * 0..x-1 は 0 until x と書ける
@@ -23,7 +23,7 @@ open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLin
      * 盤上の地形
      * 地形が無いところはnull.nullObjectとか床を作るべきか？でも床のないボードゲームのが多いよな
      */
-    private val groundMatrix = mutableListOf<MutableList<GROUND?>>()
+    private val TILEMatrix = mutableListOf<MutableList<TILE?>>()
     /**
      * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
      */
@@ -32,42 +32,42 @@ open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLin
     /**
      * 対象の場所にある地形
      */
-    fun groundAt(position: Position): GROUND? = if (position.x in horizontalIndexes && position.y in verticalIndexes) groundMatrix[position.x][position.y] else null
+    fun TILEAt(position: Position): TILE? = if (position.x in horizontalIndexes && position.y in verticalIndexes) TILEMatrix[position.x][position.y] else null
 
     /**
      * 対象の場所にある駒
      */
-    fun pieceAt(position: Position): Piece<UNIT, GROUND>? = if (position.x in horizontalIndexes && position.y in verticalIndexes) getPiece(position.x, position.y) else null
+    fun pieceAt(position: Position): Piece<UNIT, TILE>? = if (position.x in horizontalIndexes && position.y in verticalIndexes) getPiece(position.x, position.y) else null
 
-    open fun positionOf(piece: Piece<UNIT, GROUND>) = positionMap[piece]
-    open fun getPiece(x: Int, y: Int): Piece<UNIT, GROUND>? = pieceMatrix[x][y]
+    open fun positionOf(piece: Piece<UNIT, TILE>) = positionMap[piece]
+    open fun getPiece(x: Int, y: Int): Piece<UNIT, TILE>? = pieceMatrix[x][y]
     /**
      * 対象の枡に駒を置く。駒が配置済みだったら例外を吐く。自分がすでにいるところにPutしたケースはまだけんとうしなくていいか
      */
-    fun put(piece: Piece<UNIT, GROUND>, x: Int, y: Int, orientation: Int = 0) {
+    fun put(piece: Piece<UNIT, TILE>, x: Int, y: Int, orientation: Int = 0) {
         if (pieceMatrix[x][y] != null) throw RuntimeException("pieceMatrix[$x][$y] is スクワットのスペルが分からん  by ${pieceMatrix[x][y]}")
         localPut(piece, x, y)
         piece.putOn(x, y, orientation)
     }
 
     //集約としてみたコード...これあんまし良くないな
-    open fun localPut(piece: Piece<UNIT, GROUND>, x: Int, y: Int, orientation: Int = 0) {
+    open fun localPut(piece: Piece<UNIT, TILE>, x: Int, y: Int, orientation: Int = 0) {
         pieceMatrix[x][y] = piece
         positionMap[piece] = Position(x, y)
     }
 
-    open fun localMove(piece: Piece<UNIT, GROUND>, x: Int, y: Int, oldX: Int? = null, oldY: Int? = null, orientation: Int = 0) {
+    open fun localMove(piece: Piece<UNIT, TILE>, x: Int, y: Int, oldX: Int? = null, oldY: Int? = null, orientation: Int = 0) {
         println("localMove")
         if (oldX != null && oldY != null) pieceMatrix[oldX][oldY] = null
         pieceMatrix[x][y] = piece
         positionMap[piece] = Position(x, y)
     }
-//    open fun findPiece(x: Int, y: Int): Piece<UNIT, GROUND>? = positionMap.entries.find { it.value.x == x && it.value.y == y }?.key
+//    open fun findPiece(x: Int, y: Int): Piece<UNIT, TILE>? = positionMap.entries.find { it.value.x == x && it.value.y == y }?.key
     /**
      * 対象の駒を対象の枡に移動する。移動元が見つからないときは例外を吐く
      * すでに駒があるところへは動かせない（例外をはく）ので先に明示的に取り除くこと。
      */
-    fun move(piece: Piece<UNIT, GROUND>, position: Position, x: Int = position.x, y: Int = position.y) {
+    fun move(piece: Piece<UNIT, TILE>, position: Position, x: Int = position.x, y: Int = position.y) {
         println("move")
         if (x !in horizontalIndexes || y !in verticalIndexes) {
             throw RuntimeException("out of range pieceMatrix[$x][$y]")
@@ -85,7 +85,7 @@ open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLin
     /**
      * 盤上から駒を取り除く.とりあえず駒と場所が一致しているか判定するか？どちらかだけでいいことにするか？
      */
-    fun remove(piece: Piece<UNIT, GROUND>, position: Position? = positionMap[piece]) {
+    fun remove(piece: Piece<UNIT, TILE>, position: Position? = positionMap[piece]) {
         println("remove $piece $position")
         if (position == null) return//例外吐くべきかなあ
         pieceMatrix[position.x][position.y] = null
@@ -97,13 +97,13 @@ open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLin
      * 地形のマトリックスをXY入れ替えてコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrixXYはxyが入れ替わっているので入れ替える
      * yが上下逆なのはどうすっかなあ。
      */
-    fun copyGroundSwitchXY(matrix: Array<Array<GROUND>>) {
-        groundMatrix.clear()
+    fun copyTILESwitchXY(matrix: Array<Array<TILE>>) {
+        TILEMatrix.clear()
         println(horizontalIndexes)
         horizontalIndexes.forEach { x ->
-            val line = mutableListOf<GROUND?>()
+            val line = mutableListOf<TILE?>()
             verticalIndexes.forEach { y -> line.add(matrix[verticalIndexes.last - y][x]) }
-            groundMatrix.add(line)
+            TILEMatrix.add(line)
         }
     }
 
@@ -113,7 +113,7 @@ open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLin
     fun backup() {
         copyMatrix.clear()
         pieceMatrix.forEach {
-            val newLine = mutableListOf<Piece<UNIT, GROUND>?>()
+            val newLine = mutableListOf<Piece<UNIT, TILE>?>()
             copyMatrix.add(newLine)
             it.forEach { e -> newLine.add(e) }
         }
@@ -126,7 +126,7 @@ open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLin
     fun reset() {
         pieceMatrix.clear()
         copyMatrix.forEachIndexed { x, it ->
-            val newLine = mutableListOf<Piece<UNIT, GROUND>?>()
+            val newLine = mutableListOf<Piece<UNIT, TILE>?>()
             pieceMatrix.add(newLine)
             it.forEachIndexed { y, e ->
                 newLine.add(e)
@@ -144,13 +144,13 @@ open class PhysicalBoard<UNIT, GROUND>(val horizontalLines: Int, val verticalLin
     init {
         //マップを初期化する
         horizontalIndexes.forEach { _ ->
-            val unitLine = mutableListOf<Piece<UNIT, GROUND>?>()
+            val unitLine = mutableListOf<Piece<UNIT, TILE>?>()
             verticalIndexes.forEach { _ -> unitLine.add(null) }
             pieceMatrix.add(unitLine)
 
-            val boxLine = mutableListOf<GROUND?>()
+            val boxLine = mutableListOf<TILE?>()
             verticalIndexes.forEach { _ -> boxLine.add(null) }
-            groundMatrix.add(boxLine)
+            TILEMatrix.add(boxLine)
         }
     }
 

@@ -8,7 +8,7 @@ import kotlin.math.abs
  * プレイヤー。盤の所有者に使う
  * 駒のジェネリックを持ってるべきなんだけどめんどくさいというか必要になってから追加したい。
  */
-class Player {
+class Player (val id : Int?= null){
     companion object {
         val None = Player()
     }
@@ -45,11 +45,11 @@ data class Positioning(val p: Position, val r: Int)
 
 val nowhere = Positioning(Position(-1, -1), -1)
 
-class Touch<UNIT, GROUND>(
+class Touch<UNIT, TILE>(
         /**
          * タッチ開始したときの駒。タッチ開始とUp開始が同じ駒の時でないとタッチ判定しないほうが良いだろう
          */
-        var touchedPiece: Piece<UNIT, GROUND>?,
+        var touchedPiece: Piece<UNIT, TILE>?,
         /**
          * タッチ開始したときの位置.これは not null が自然か
          */
@@ -64,7 +64,7 @@ class Touch<UNIT, GROUND>(
     インスタントランでコンストラクタにデフォルト引数使うと発生することがある
     デフォルト引数を使わないようにするかコンストラクタを手で作る
      */
-    constructor(touchedPiece: Piece<UNIT, GROUND>?,
+    constructor(touchedPiece: Piece<UNIT, TILE>?,
                 touchedPosition: Position,
                 holdStart: Long) : this(touchedPiece, touchedPosition, holdStart, false)
 
@@ -78,7 +78,7 @@ class Touch<UNIT, GROUND>(
         return dragged || System.currentTimeMillis() - holdStart > graspThreshold
     }
 
-    fun drag(position: Position, board: Board<UNIT, GROUND>): Boolean {
+    fun drag(position: Position, board: Board<UNIT, TILE>): Boolean {
         dragged = true
         //そこに動けるか判定が先に要るか
         return touchedPiece?.let { it.isActionable && touchedPiece?.owner == board.owner && it.boardDrag(position) }
@@ -86,8 +86,8 @@ class Touch<UNIT, GROUND>(
     }
 }
 
-data class PiecesAndGrounds<UNIT, GROUND>(val Piece0: Piece<UNIT, GROUND>?, val Piece1: Piece<UNIT, GROUND>?, val Piece_1: Piece<UNIT, GROUND>?, val Piece2: Piece<UNIT, GROUND>?, val Piece_2: Piece<UNIT, GROUND>?
-                                          , val Ground0: GROUND?, val Ground1: GROUND?, val Ground_1: GROUND?, val Ground2: GROUND?, val Ground_2: GROUND?)
+data class PiecesAndTiles<UNIT, TILE>(val Piece0: Piece<UNIT, TILE>?, val Piece1: Piece<UNIT, TILE>?, val Piece_1: Piece<UNIT, TILE>?, val Piece2: Piece<UNIT, TILE>?, val Piece_2: Piece<UNIT, TILE>?
+                                      , val TILE0: TILE?, val TILE1: TILE?, val TILE_1: TILE?, val TILE2: TILE?, val TILE_2: TILE?)
 
 enum class TouchPhase {
     NONE,//触ってない

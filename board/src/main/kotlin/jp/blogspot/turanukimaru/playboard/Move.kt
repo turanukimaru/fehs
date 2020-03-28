@@ -6,11 +6,11 @@ import java.util.*
  * 駒の操作状態と移動経路。タッチ時間・ドラッグ判定もここ。moveもうちょいでimmutableにできそうな気がする
  * ゲームにより挙動が変わるかもしんないなあ。
  */
-class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
+class Move<UNIT, TILE>(val board: Board<UNIT, TILE>) {
 
-    var touch: Touch<UNIT, GROUND>? = null//タッチしてなけりゃそりゃNullだよなあ
+    var touch: Touch<UNIT, TILE>? = null//タッチしてなけりゃそりゃNullだよなあ
 
-    var moving: Moving<UNIT, GROUND> = NoMove(this)
+    var moving: Moving<UNIT, TILE> = NoMove(this)
     /**
      * 選択されている駒が動かされて移動が確定していないときの動かした道筋
      */
@@ -24,7 +24,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     }
 
     //コマを推し始めた場合は引き上げ時にクリックORドラッグ終了とする。推し始めデータだけ初期化して終了※ここでルートのサーチなどをすると、攻撃の対象にしたときなどにもサーチが走ってしまう
-    fun toucheStart(piece: Piece<UNIT, GROUND>, position: Position) {
+    fun toucheStart(piece: Piece<UNIT, TILE>, position: Position) {
         println("toucheStart $piece")
         touch = Touch(piece, position, System.currentTimeMillis())
     }
@@ -62,7 +62,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
         drag(touch!!, position)
     }
 
-    private fun drag(touch: Touch<UNIT, GROUND>, position: Position) {
+    private fun drag(touch: Touch<UNIT, TILE>, position: Position) {
         println("drag  $touch at $position")        //駒をドラッグしてるとき
         if (touch.drag(position, board)) {
             moving = Dragging(this, touch.touchedPiece!!, touch.touchedPiece!!.existsPosition.p, touch.touchedPosition, null, null)
@@ -96,7 +96,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
      * 駒タップ
      * 指を離したときに呼び出される。ドラッグもここになるのでここからdrop()を呼び出している
      */
-    fun pieceClicked(position: Position, piece: Piece<UNIT, GROUND>) {
+    fun pieceClicked(position: Position, piece: Piece<UNIT, TILE>) {
         //盤面タップ
         println("pieceClicked. moving.pieceClick($position, $piece)")
         moving = moving.pieceClick(position, piece)
@@ -104,7 +104,7 @@ class Move<UNIT, GROUND>(val board: Board<UNIT, GROUND>) {
     }
 
     //タッチ開始時にboardから呼ばれる。今までのタッチとかはガン無視。リセット処理いるかな？要らないか。対象に攻撃するときとかはSelectedPieceが必要になるし
-    fun touch(position: Position, touchedPiece: Piece<UNIT, GROUND>?) {
+    fun touch(position: Position, touchedPiece: Piece<UNIT, TILE>?) {
         println("touch x:${position.x}, y:${position.y} Piece $touchedPiece")
         touch = Touch(touchedPiece, position, System.currentTimeMillis())
     }

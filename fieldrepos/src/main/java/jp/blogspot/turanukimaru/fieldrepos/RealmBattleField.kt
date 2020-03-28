@@ -4,7 +4,7 @@ import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
-import jp.blogspot.turanukimaru.fehs.Ground
+import jp.blogspot.turanukimaru.fehs.Tile
 import jp.blogspot.turanukimaru.fehs.MyPiece
 import jp.blogspot.turanukimaru.playboard.PhysicalBoard
 
@@ -21,7 +21,7 @@ open class RealmBattleField(
         var realmPhysicalBoard: RealmPhysicalBoard?=null
 ) : RealmObject() {
     constructor() : this(0,0,0,"",null)
-    fun toModelObject(realm: Realm): PhysicalBoard<MyPiece, Ground> {
+    fun toModelObject(realm: Realm): PhysicalBoard<MyPiece, Tile> {
         // repo は多分更新時に repo のトランザクションを張るのに必要になる…
         return PersistPhysicalBoard(horizontalLines, verticalLines,realmPhysicalBoard!!,realm)
     }

@@ -17,7 +17,7 @@ import jp.blogspot.turanukimaru.playboard.Position
 class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float, var playerA: Player, var playerB: Player,
              private val vLines: Int = 8,
              private val hLines: Int = 6,
-             val board: Board<MyPiece, Ground> = Board(hLines, vLines)
+             val board: Board<MyPiece, Tile> = Board(hLines, vLines)
 ) : BoardListener {
     override fun showOption(position: Position) {
         uiBoard.showOptionButton(position)
@@ -55,7 +55,7 @@ class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont:
     private val marginLeft = 0f
     private val marginRight = 0f
     //    val physicalBoard = BattleFieldContent
-    val controller: Game<MyPiece, Ground> = Game(board, playerA, playerB)
+    val controller: Game<MyPiece, Tile> = Game(board, playerA, playerB)
     val uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, localWidth, localHeight, headerHeight, footerHeight, marginLeft, marginRight, controller.board)
 
     init {

@@ -4,15 +4,14 @@ import android.util.Log
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.createObject
-import jp.blogspot.turanukimaru.fehs.Ground
+import jp.blogspot.turanukimaru.fehs.Tile
 import jp.blogspot.turanukimaru.fehs.MyPiece
 import jp.blogspot.turanukimaru.playboard.PhysicalBoard
-import kotlin.properties.Delegates
 
 /**
  * 戦闘フィールドのDBアクセス
  */
-object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Ground>>() {
+object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
 
     private val tag = "BattleFieldContent"
     /**
@@ -31,11 +30,11 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Ground>>() {
         r
     }
 
-    override fun complexQuery(item: PhysicalBoard<MyPiece, Ground>): List<PhysicalBoard<MyPiece, Ground>> {
+    override fun complexQuery(item: PhysicalBoard<MyPiece, Tile>): List<PhysicalBoard<MyPiece, Tile>> {
         return arrayListOf()
     }
 
-    override fun delete(item: PhysicalBoard<MyPiece, Ground>): Int {
+    override fun delete(item: PhysicalBoard<MyPiece, Tile>): Int {
         val results = realm.where(RealmBattleField::class.java).equalTo("id", item.id).findAll()
         realm.executeTransaction {
             results.deleteAllFromRealm()
@@ -58,7 +57,7 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Ground>>() {
     /**
      * 初期値が一般化できないので初期化用オブジェクトを渡すしかないのか…
      */
-    override fun create(initialItem: PhysicalBoard<MyPiece, Ground>): PhysicalBoard<MyPiece, Ground> {
+    override fun create(initialItem: PhysicalBoard<MyPiece, Tile>): PhysicalBoard<MyPiece, Tile> {
         Log.i("RealmBattleFieldContent", initialItem.toString())
         realm.beginTransaction()
         val last = realm.where(RealmBattleField::class.java).max("id")
@@ -77,7 +76,7 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Ground>>() {
         return PersistPhysicalBoard(f.horizontalLines, f.verticalLines, p, realm)
     }
 
-    override fun createOrUpdate(item: PhysicalBoard<MyPiece, Ground>): PhysicalBoard<MyPiece, Ground> {
+    override fun createOrUpdate(item: PhysicalBoard<MyPiece, Tile>): PhysicalBoard<MyPiece, Tile> {
         Log.i("RealmBattleFieldContent", item.toString())
         item.apply {
             realm.executeTransaction {
@@ -93,14 +92,14 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Ground>>() {
         return item
     }
 
-    override fun find(item: PhysicalBoard<MyPiece, Ground>): PhysicalBoard<MyPiece, Ground>? {
+    override fun find(item: PhysicalBoard<MyPiece, Tile>): PhysicalBoard<MyPiece, Tile>? {
         return realm.where(RealmBattleField::class.java).equalTo("id", item.id).findFirst()?.toModelObject(realm)
     }
 
-    override fun allItems(): List<PhysicalBoard<MyPiece, Ground>> {
+    override fun allItems(): List<PhysicalBoard<MyPiece, Tile>> {
         return realm.where(RealmBattleField::class.java).findAll().map { e -> e.toModelObject(realm) }
     }
 
-    override fun getById(id: String): PhysicalBoard<MyPiece, Ground>? = realm.where(RealmBattleField::class.java).equalTo("nickname", id).findFirst()?.toModelObject(realm)
+    override fun getById(id: String): PhysicalBoard<MyPiece, Tile>? = realm.where(RealmBattleField::class.java).equalTo("nickname", id).findFirst()?.toModelObject(realm)
 
 }
