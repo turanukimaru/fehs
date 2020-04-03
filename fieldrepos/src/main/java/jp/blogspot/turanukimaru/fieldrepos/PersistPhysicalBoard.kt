@@ -16,6 +16,6 @@ override fun localPut(piece: Piece<MyPiece, Tile>, x: Int, y: Int, orientation: 
     override fun localMove(piece: Piece<MyPiece, Tile>, x: Int, y: Int, oldX: Int?, oldY: Int?, orientation: Int) {
         super.localMove(piece, x, y,oldX,oldY,orientation)
         println("PersistPhysicalBoard localMove ${piece.unit.containUnit.armedHero.baseHero.heroName.jp}")
-        realmPhysicalBoard.move(realm,piece.unit.containUnit.armedHero.baseHero.heroName.jp,x,y)
+        realmPhysicalBoard.move(realm,piece.unit.containUnit.armedHero.baseHero.id,x,y)
     }
 }

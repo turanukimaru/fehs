@@ -11,11 +11,10 @@ import kotlin.math.exp
 @RealmClass
 open class RealmPhysicalBoard(
         @PrimaryKey
-        var id:Int,
-        var battleUnits : RealmList<RealmPositioning>
+        var id:Int?=null,
+        var battleUnits : RealmList<RealmPositioning> = RealmList<RealmPositioning>()
 
 ): RealmObject() {
-    constructor() : this(0,RealmList<RealmPositioning>())
     fun put(realm:Realm, id:String,x:Int, y:Int)  =realm.executeTransaction{
 //        val last = realm.where(RealmBattleUnit::class.java).max("id")
         val unit = realm.createObject<RealmBattleUnit>(RealmBattleUnit::class.java,id)
@@ -27,7 +26,7 @@ open class RealmPhysicalBoard(
         battleUnits.add(pos)
         println("RealmPhysicalBoard put $id : $x, $y")
     }
-    fun move(realm:Realm, id:String,x:Int, y:Int) = realm.executeTransaction{
+    fun move(realm:Realm, id:Int,x:Int, y:Int) = realm.executeTransaction{
         val target = battleUnits.find { it.battleUnit?.id == id }
         target?.x = x
         target?.y = y

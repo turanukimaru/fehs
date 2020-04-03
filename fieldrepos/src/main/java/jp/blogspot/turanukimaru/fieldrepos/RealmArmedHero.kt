@@ -14,6 +14,7 @@ import jp.blogspot.turanukimaru.fehs.skill.*
 @RealmClass
 open class RealmArmedHero(
         @PrimaryKey
+        var id : Int?= null,
         var nickname: String = "",
         var baseName: String = "",
         var weapon: String = "NONE",
@@ -62,6 +63,6 @@ open class RealmArmedHero(
 //        Log.d("RealmArmedHero", "spdSpur $spdSpur ")
 //        Log.d("RealmArmedHero", "defSpur $defSpur ")
 //        Log.d("RealmArmedHero", "resSpur $resSpur ")
-        return ArmedHero(result, nickname, Weapon.valueOfOrNONE(weapon), RefinedWeapon.valueOfOrNONE(refinedWeapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), 0, rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
+        return ArmedHero(0,result, nickname, Weapon.valueOfOrNONE(weapon), RefinedWeapon.valueOfOrNONE(refinedWeapon), Assist.valueOfOrNONE(assist), Special.valueOfOrNONE(special), SkillA.valueOfOrNONE(aSkill), SkillB.valueOfOrNONE(bSkill), SkillC.valueOfOrNONE(cSkill), Seal.valueOfOrNONE(seal), 0, rarity, boost, BoonType.valueOf(boon), BoonType.valueOf(bane), defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur)
     }
 }

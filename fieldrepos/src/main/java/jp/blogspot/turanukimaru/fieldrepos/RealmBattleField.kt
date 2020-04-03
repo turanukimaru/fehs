@@ -14,15 +14,13 @@ import jp.blogspot.turanukimaru.playboard.PhysicalBoard
 @RealmClass
 open class RealmBattleField(
         @PrimaryKey
-        var id: Int = 0,
+        var id: Int? = null,
         var horizontalLines: Int=0,
         var verticalLines: Int=0,
         var name: String = "",//あと地形とユニットか。
         var realmPhysicalBoard: RealmPhysicalBoard?=null
 ) : RealmObject() {
     constructor() : this(0,0,0,"",null)
-    fun toModelObject(realm: Realm): PhysicalBoard<MyPiece, Tile> {
-        // repo は多分更新時に repo のトランザクションを張るのに必要になる…
-        return PersistPhysicalBoard(horizontalLines, verticalLines,realmPhysicalBoard!!,realm)
-    }
+    fun toModelObject(realm: Realm): PhysicalBoard<MyPiece, Tile> =// repo は多分更新時に repo のトランザクションを張るのに必要になる…
+            PersistPhysicalBoard(horizontalLines, verticalLines,realmPhysicalBoard!!,realm)
 }

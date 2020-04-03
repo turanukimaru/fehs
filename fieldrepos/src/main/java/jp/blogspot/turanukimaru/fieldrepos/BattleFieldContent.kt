@@ -30,9 +30,8 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
         r
     }
 
-    override fun complexQuery(item: PhysicalBoard<MyPiece, Tile>): List<PhysicalBoard<MyPiece, Tile>> {
-        return arrayListOf()
-    }
+    override fun complexQuery(item: PhysicalBoard<MyPiece, Tile>): List<PhysicalBoard<MyPiece, Tile>> =
+            arrayListOf()
 
     override fun delete(item: PhysicalBoard<MyPiece, Tile>): Int {
         val results = realm.where(RealmBattleField::class.java).equalTo("id", item.id).findAll()
@@ -92,13 +91,11 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
         return item
     }
 
-    override fun find(item: PhysicalBoard<MyPiece, Tile>): PhysicalBoard<MyPiece, Tile>? {
-        return realm.where(RealmBattleField::class.java).equalTo("id", item.id).findFirst()?.toModelObject(realm)
-    }
+    override fun find(item: PhysicalBoard<MyPiece, Tile>): PhysicalBoard<MyPiece, Tile>? =
+            realm.where(RealmBattleField::class.java).equalTo("id", item.id).findFirst()?.toModelObject(realm)
 
-    override fun allItems(): List<PhysicalBoard<MyPiece, Tile>> {
-        return realm.where(RealmBattleField::class.java).findAll().map { e -> e.toModelObject(realm) }
-    }
+    override fun allItems(): List<PhysicalBoard<MyPiece, Tile>> =
+            realm.where(RealmBattleField::class.java).findAll().map { e -> e.toModelObject(realm) }
 
     override fun getById(id: String): PhysicalBoard<MyPiece, Tile>? = realm.where(RealmBattleField::class.java).equalTo("nickname", id).findFirst()?.toModelObject(realm)
 

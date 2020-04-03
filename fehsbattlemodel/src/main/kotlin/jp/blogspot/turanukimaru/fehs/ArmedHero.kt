@@ -7,6 +7,7 @@ import jp.blogspot.turanukimaru.fehs.skill.Skill
  * 装備状態のユニット。バフや紋章は保存用に残しているが使っているのはBattleUnitの方
  */
 data class ArmedHero(
+        val id:Int = 0,
         val baseHero: BaseHero,
         val name: String = "",
         var baseWeapon: Skill = Skill.NONE,

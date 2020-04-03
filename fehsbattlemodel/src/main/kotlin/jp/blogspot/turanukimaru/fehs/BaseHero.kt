@@ -9,6 +9,8 @@ import jp.blogspot.turanukimaru.fehs.skill.Skill
  */
 data class BaseHero(val color: Int = 0, val weaponType: WeaponType = WeaponType.SWORD, val moveType: MoveType = MoveType.INFANTRY, private val minRarity: Int = 5, val heroName: HeroName = HeroName.NONE, val hitPoint: Int = 0, val attack: Int = 0, val speed: Int = 0, val defense: Int = 0, val resistance: Int = 0, val hpGrowth: Int = 0, val atkGrowth: Int = 0, val spdGrowth: Int = 0, val defGrowth: Int = 0, val resGrowth: Int = 0, val weapon: Skill = Skill.NONE, val assist: Skill = Skill.NONE, val special: Skill = Skill.NONE, val aSkill: Skill = Skill.NONE, val bSkill: Skill = Skill.NONE, val cSkill: Skill = Skill.NONE, val refinedWeapon: Skill = Skill.NONE, val seal: Skill = Skill.NONE) {
 
+    val id: Int = 0
+
     /**
      * 移動力。直接見てもいいか？いやアイテムやスキルの効果で変動するか。
      */

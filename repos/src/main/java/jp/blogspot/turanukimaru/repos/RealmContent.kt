@@ -6,31 +6,19 @@ import jp.blogspot.turanukimaru.fehs.ModelObjectRepository
  * 複数のテーブルに共通して使える処理…例えばクエリの作成とかが書けそうなのだがまだテーブルは一つしかないし早すぎたか？
  */
 open class RealmContent<T> : ModelObjectRepository<T> {
-    override fun allItems(): List<T> {
-        return listOf()
-    }
+    override fun allItems(): List<T> = listOf()
 
     override fun getById(id: String): T? = null
 
-    override fun find(item: T): T? {
-        return null
-    }
+    override fun find(item: T): T? = null
 
-    override fun createOrUpdate(item: T): T {
-        return item
-    }
+    override fun createOrUpdate(item: T): T = item
 
-    override fun delete(item: T): Int {
-        return 0
-    }
+    override fun delete(item: T): Int = 0
 
-    override fun deleteById(id: String): Int {
-        return 0
-    }
+    override fun deleteById(id: String): Int = 0
 
-    override fun complexQuery(item: T): List<T> {
-        return listOf()
-    }
+    override fun complexQuery(item: T): List<T> = listOf()
 
     override fun create(initialItem: T): T {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

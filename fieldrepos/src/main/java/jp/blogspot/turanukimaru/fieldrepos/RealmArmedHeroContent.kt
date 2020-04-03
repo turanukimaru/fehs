@@ -31,13 +31,9 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
     }
 
 
-    override fun create(item: ArmedHero): ArmedHero {
-        return item
-    }
+    override fun create(initialItem: ArmedHero): ArmedHero = initialItem
 
-    override fun complexQuery(item: ArmedHero): List<ArmedHero> {
-        return arrayListOf()
-    }
+    override fun complexQuery(item: ArmedHero): List<ArmedHero> = arrayListOf()
 
     override fun delete(item: ArmedHero): Int {
         val results = realm.where(RealmArmedHero::class.java).equalTo("nickname", item.name).findAll()
@@ -63,7 +59,7 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
         Log.i("RealmArmedHeroContent", item.toString())
         item.apply {
             realm.executeTransaction {
-                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.heroName.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
+                realm.copyToRealmOrUpdate(RealmArmedHero(null, name, baseHero.heroName.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
                         , defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
 
                 val target = realm.createObject(RealmArmedHero::class.java, "ニックネーム")
@@ -86,13 +82,11 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
         return item
     }
 
-    override fun find(item: ArmedHero): ArmedHero? {
-        return realm.where(RealmArmedHero::class.java).equalTo("nickname", item.name).findFirst()?.toModelObject()
-    }
+    override fun find(item: ArmedHero): ArmedHero? =
+            realm.where(RealmArmedHero::class.java).equalTo("nickname", item.name).findFirst()?.toModelObject()
 
-    override fun allItems(): List<ArmedHero> {
-        return realm.where(RealmArmedHero::class.java).findAll().map { e -> e.toModelObject() }
-    }
+    override fun allItems(): List<ArmedHero> =
+            realm.where(RealmArmedHero::class.java).findAll().map { e -> e.toModelObject() }
 
     override fun getById(id: String): ArmedHero? = realm.where(RealmArmedHero::class.java).equalTo("nickname", id).findFirst()?.toModelObject()
 

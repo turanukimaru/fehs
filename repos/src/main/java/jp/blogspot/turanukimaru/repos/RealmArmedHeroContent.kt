@@ -31,9 +31,7 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
     }
 
 
-    override fun complexQuery(item: ArmedHero): List<ArmedHero> {
-        return arrayListOf()
-    }
+    override fun complexQuery(item: ArmedHero): List<ArmedHero> = arrayListOf()
 
     override fun delete(item: ArmedHero): Int {
         val results = realm.where(RealmArmedHero::class.java).equalTo("nickname", item.name).findAll()
@@ -69,7 +67,7 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
         return item
     }
 
-    fun anotherCcreateOrUpdate(item: ArmedHero): ArmedHero {
+    fun anotherCreateOrUpdate(item: ArmedHero): ArmedHero {
         Log.i("RealmArmedHeroContent", item.toString())
         item.apply {
             realm.executeTransaction {
@@ -82,13 +80,11 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
         return item
     }
 
-    override fun find(item: ArmedHero): ArmedHero? {
-        return realm.where(RealmArmedHero::class.java).equalTo("nickname", item.name).findFirst()?.toModelObject()
-    }
+    override fun find(item: ArmedHero): ArmedHero? =
+            realm.where(RealmArmedHero::class.java).equalTo("nickname", item.name).findFirst()?.toModelObject()
 
-    override fun allItems(): List<ArmedHero> {
-        return realm.where(RealmArmedHero::class.java).findAll().map { e -> e.toModelObject() }
-    }
+    override fun allItems(): List<ArmedHero> =
+            realm.where(RealmArmedHero::class.java).findAll().map { e -> e.toModelObject() }
 
     override fun getById(id: String): ArmedHero? = realm.where(RealmArmedHero::class.java).equalTo("nickname", id).findFirst()?.toModelObject()
     override fun create(initialItem: ArmedHero): ArmedHero {
