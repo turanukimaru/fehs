@@ -103,6 +103,8 @@ object StandardBaseHero {
                 Sword.Tyrfing, Assist.RallySpeed, null, SkillA.Hp.lv(3), SkillB.BrashAssault.lv(3), null)
         createItem(HeroName.セリス2, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 19, 8, 7, 8, 5, 9, 8, 4, 6, 4,
                 Sword.DivineTyrfing, Assist.RallySpeed, null, SkillA.Hp.lv(3), SkillB.BrashAssault.lv(3), null)
+        createItem(HeroName.セリス3, 1, WeaponType.SWORD, MoveType.INFANTRY, 4, 19, 8, 7, 8, 5, 9, 8, 4, 6, 4,
+                Sword.Tyrfing, Assist.RallySpeed, null, SkillA.Hp.lv(3), SkillB.BrashAssault.lv(3), null,RefinedWeapon.Tyrfing)
         createItem(HeroName.ソール, 1, WeaponType.SWORD, MoveType.CAVALRY, 3, 19, 7, 7, 8, 5, 8, 7, 5, 6, 4,
                 Sword.RubySword2, Assist.Swap, null, SkillA.Defense.lv(3), SkillB.Obstruct.lv(3), null)
         createItem(HeroName.ドーガ, 1, WeaponType.SWORD, MoveType.ARMORED, 2, 24, 8, 6, 13, 3, 8, 6, 8, 8, 3,

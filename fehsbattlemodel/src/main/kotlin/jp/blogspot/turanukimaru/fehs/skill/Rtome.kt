@@ -28,10 +28,10 @@ enum class Rtome(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Rauorowl(SkillName.Rauorowl, SkillType.RTOME, 6, Elfire, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     Rauorowl2(SkillName.Rauorowl2, SkillType.RTOME, 10, Rauorowl, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     Fenrir(SkillName.Fenrir, SkillType.RTOME, 9, Elfire, SpType.SILVER),
     Fenrir2(SkillName.Fenrir2, SkillType.RTOME, 13, Fenrir, SpType.PLUS, RefinedWeapon.RefineType.Range2),
@@ -65,10 +65,10 @@ enum class Rtome(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (enemy.armedHero.weapon.effectiveAgainstWeaponType.contains(WeaponType.DRAGON)) {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.EffectiveAgainst))
-                enemy.effectiveAgainst = EffectiveAgainst.DRAGON
+                enemy.effect.effectiveAgainst = EffectiveAgainst.DRAGON
             } else {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkReduce6))
-                enemy.atkEffect -= 6
+                enemy.effect.atkEffect -= 6
             }
             return battleUnit
         }
@@ -78,13 +78,13 @@ enum class Rtome(override val jp: SkillName, override val type: SkillType, overr
     },
     MuspellFireposy(SkillName.MuspellFireposy, SkillType.RTOME, 14, Bolganone) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     FruitOfIdunn(SkillName.FruitOfIdunn, SkillType.RTOME, 14, Bolganone) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
     },
     ReesesTome(SkillName.ReesesTome, SkillType.RTOME, 14, Bolganone2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     DawnSuzu(SkillName.DawnSuzu, SkillType.RTOME, 14, Bolganone2, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY, MoveType.ARMORED)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
@@ -101,10 +101,10 @@ enum class Rtome(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
     },
     LoyalWreath(SkillName.LoyalWreath, SkillType.RTOME, 8, Elfire, SpType.SILVER) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     LoyalWreath2(SkillName.LoyalWreath2, SkillType.RTOME, 12, LoyalWreath, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     TharjasHex(SkillName.TharjasHex, SkillType.RTOME, 14, Rauorblade2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)//2距離以内だからデバフは入るのだが…

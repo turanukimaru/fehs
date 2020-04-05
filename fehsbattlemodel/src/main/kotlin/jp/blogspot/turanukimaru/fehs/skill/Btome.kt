@@ -26,10 +26,10 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Blarowl(SkillName.Blarowl, SkillType.BTOME, 6, Elthunder, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     Blarowl2(SkillName.Blarowl2, SkillType.BTOME, 10, Blarowl, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     Blarserpent(SkillName.Blarserpent, SkillType.BTOME, 8, Elthunder, SpType.SILVER) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = distantDef(battleUnit, enemy, 6, this)
@@ -64,7 +64,7 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
                 if ((source.armedHero.baseHero.moveType == MoveType.ARMORED || source.armedHero.baseHero.moveType == MoveType.CAVALRY)
                         && source.armedHero.effectiveRange == 2
-                        && (!results.any { r -> r.side != battleUnit.side })) damage - damage * 3 / 10 else damage
+                        && (!results.any { r -> r.side != battleUnit.effect.side })) damage - damage * 3 / 10 else damage
     },
     Ivaldi(SkillName.Ivaldi, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
@@ -113,10 +113,10 @@ enum class Btome(override val jp: SkillName, override val type: SkillType, overr
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = wrath(battleUnit, damage, 3 * 25, this)
     },
     Blarblooms(SkillName.Blarblooms, SkillType.BTOME, 8, Elthunder, SpType.SILVER) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     Blarblooms2(SkillName.Blarblooms2, SkillType.BTOME, 12, Blarblooms, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     Death(SkillName.WeirdingTome, SkillType.BTOME, 14, Thoron) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)

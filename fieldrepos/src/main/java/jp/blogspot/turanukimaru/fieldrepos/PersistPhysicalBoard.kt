@@ -10,12 +10,12 @@ class PersistPhysicalBoard(horizontalLines: Int, verticalLines: Int, var realmPh
 override fun localPut(piece: Piece<MyPiece, Tile>, x: Int, y: Int, orientation: Int) {
     super.localPut(piece, x, y, orientation)
     println("PersistPhysicalBoard localPut ${piece.unit.containUnit.armedHero.baseHero.heroName.jp}")
-    realmPhysicalBoard.put(realm,piece.unit.containUnit.armedHero.baseHero.heroName.jp,x,y) //DB登録名でいいはず…
+    realmPhysicalBoard.put(realm, TODO(),x,y) //ユニットのIDどうすっかな
 }
 
     override fun localMove(piece: Piece<MyPiece, Tile>, x: Int, y: Int, oldX: Int?, oldY: Int?, orientation: Int) {
         super.localMove(piece, x, y,oldX,oldY,orientation)
         println("PersistPhysicalBoard localMove ${piece.unit.containUnit.armedHero.baseHero.heroName.jp}")
-        realmPhysicalBoard.move(realm,piece.unit.containUnit.armedHero.baseHero.heroName.jp,x,y)
+        realmPhysicalBoard.move(realm, TODO(),x,y)
     }
 }

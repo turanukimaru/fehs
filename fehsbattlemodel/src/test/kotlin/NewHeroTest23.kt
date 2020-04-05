@@ -99,7 +99,7 @@ class NewHeroTest23 {
     fun hrTest2() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.カムイ__闇_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.adjacentUnits = 2
+        attacker.effect.adjacentUnits = 2
         assertEquals("maxHp", 43, unitA.maxHp)
         assertEquals("atk", 54, unitA.atk)
         assertEquals("spd", 37, unitA.spd)
@@ -327,7 +327,7 @@ class NewHeroTest23 {
         val attacker = BattleUnit(unitA, unitA.maxHp)
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ベルクト__闇_.jp)!!)
         val target = BattleUnit(unitB, unitB.maxHp)
-        target.adjacentUnits = 1
+        target.effect.adjacentUnits = 1
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
         println(fightResult[0].source.activatedSkillText(LOCALE))

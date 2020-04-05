@@ -1,7 +1,4 @@
-import jp.blogspot.turanukimaru.fehs.ArmedHero
-import jp.blogspot.turanukimaru.fehs.BattleUnit
-import jp.blogspot.turanukimaru.fehs.SIDES
-import jp.blogspot.turanukimaru.fehs.StandardBaseHero
+import jp.blogspot.turanukimaru.fehs.*
 import org.junit.Assert
 import org.junit.Test
 
@@ -15,32 +12,36 @@ class fightTestD {
         val unitA = ArmedHero(StandardBaseHero.get("アベル")!!)
         val unitB = ArmedHero(StandardBaseHero.get("エルトシャン")!!)
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
+        println(fightResult[0].source.activatedSkillText(Locale.OTHER))
+        println(fightResult[0].source.statusText(Locale.OTHER))
+        println(fightResult[0].target.activatedSkillText(Locale.OTHER))
+        println(fightResult[0].target.statusText(Locale.OTHER))
         println(fightResult[0])
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
-        Assert.assertEquals("buildDamage fail", 12, fightResult[0].damage)
+        Assert.assertEquals("buildDamage fail", 9, fightResult[0].damage)
         Assert.assertEquals("hitPoint fail", 44, fightResult[0].source.hp)
-        Assert.assertEquals("hitPoint fail", 33, fightResult[0].target.hp)
+        Assert.assertEquals("hitPoint fail", 39, fightResult[0].target.hp)
         println(fightResult[1])
         Assert.assertEquals("attack side fail", fightResult[1].side, SIDES.ATTACKER)
-        Assert.assertEquals("buildDamage fail", 12, fightResult[1].damage)
+        Assert.assertEquals("buildDamage fail", 9, fightResult[1].damage)
         Assert.assertEquals("hitPoint fail", 44, fightResult[1].source.hp)
-        Assert.assertEquals("hitPoint fail", 21, fightResult[1].target.hp)
+        Assert.assertEquals("hitPoint fail", 30, fightResult[1].target.hp)
         println(fightResult[2])
         Assert.assertEquals("attack side fail", fightResult[2].side, SIDES.COUNTER)
-        Assert.assertEquals("buildDamage fail", 16, fightResult[2].damage)
-        Assert.assertEquals("hitPoint fail", 28, fightResult[2].source.hp)
-        Assert.assertEquals("hitPoint fail", 21, fightResult[2].target.hp)
+        Assert.assertEquals("buildDamage fail", 19, fightResult[2].damage)
+        Assert.assertEquals("hitPoint fail", 25, fightResult[2].source.hp)
+        Assert.assertEquals("hitPoint fail", 30, fightResult[2].target.hp)
         println(fightResult[3])
         Assert.assertEquals("attack side fail", fightResult[3].side, SIDES.ATTACKER)
-        Assert.assertEquals("buildDamage fail", 12, fightResult[3].damage)
-        Assert.assertEquals("hitPoint fail", 28, fightResult[3].source.hp)
-        Assert.assertEquals("hitPoint fail", 9, fightResult[3].target.hp)
+        Assert.assertEquals("buildDamage fail", 9, fightResult[3].damage)
+        Assert.assertEquals("hitPoint fail", 25, fightResult[3].source.hp)
+        Assert.assertEquals("hitPoint fail", 21, fightResult[3].target.hp)
         println(fightResult[4])
         Assert.assertEquals("attack side fail", fightResult[4].side, SIDES.ATTACKER)
-        Assert.assertEquals("buildDamage fail", 12, fightResult[4].damage)
-        Assert.assertEquals("hitPoint fail", 28, fightResult[4].source.hp)
-        Assert.assertEquals("hitPoint fail", 0, fightResult[4].target.hp)
-        Assert.assertEquals("size == 3", 5, fightResult.size)
+        Assert.assertEquals("buildDamage fail", 9, fightResult[4].damage)
+        Assert.assertEquals("hitPoint fail", 25, fightResult[4].source.hp)
+        Assert.assertEquals("hitPoint fail", 12, fightResult[4].target.hp)
+        Assert.assertEquals("size == 5", 5, fightResult.size)
     }
 
     @Test

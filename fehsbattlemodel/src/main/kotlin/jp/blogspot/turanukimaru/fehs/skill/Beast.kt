@@ -43,7 +43,7 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
     WolfQueenFang(SkillName.WolfQueenFang, SkillType.BEAST, 14, AdultInfantry) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun specialTriggered(battleUnit: BattleUnit, damage: Int): Int = damage + 10
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(atkSpd(battleUnit, battleUnit.adjacentUnits * 2, this), 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(atkSpd(battleUnit, battleUnit.effect.adjacentUnits * 2, this), 2, this)
     },
     HeronWing(SkillName.HeronWing, SkillType.BEAST, 14, AdultFlier) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
@@ -70,7 +70,7 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
-            enemy.atkEffect -= 4
+            enemy.effect.atkEffect -= 4
             return antiFollowup(battleUnit, enemy, this)
         }
 
@@ -80,8 +80,8 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
-            enemy.atkEffect -= 4
-            enemy.defEffect -= 4
+            enemy.effect.atkEffect -= 4
+            enemy.effect.defEffect -= 4
             return antiFollowup(battleUnit, enemy, this)
         }
 
@@ -97,8 +97,8 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
-            enemy.atkEffect -= 4
-            enemy.defEffect -= 4
+            enemy.effect.atkEffect -= 4
+            enemy.effect.defEffect -= 4
             return antiFollowup(battleUnit, enemy, this)
         }
 
@@ -116,12 +116,12 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
-            enemy.atkEffect -= 4
-            enemy.defEffect -= 4
+            enemy.effect.atkEffect -= 4
+            enemy.effect.defEffect -= 4
             return antiFollowup(battleUnit, enemy, this)
         }
 
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(if (battleUnit.adjacentUnits == 0) atkSpd(battleUnit, 6, this) else battleUnit, 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atk(if (battleUnit.effect.adjacentUnits == 0) atkSpd(battleUnit, 6, this) else battleUnit, 2, this)
     },
     SabertoothFang(SkillName.SabertoothFang, SkillType.BEAST, 14, AdultInfantry) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
@@ -134,16 +134,16 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
-            enemy.atkEffect -= 4
-            enemy.defEffect -= 4
+            enemy.effect.atkEffect -= 4
+            enemy.effect.defEffect -= 4
             return antiFollowup(battleUnit, enemy, this)
         }
     },
     TaguelFang(SkillName.TaguelFang, SkillType.BEAST, 14, AdultCavalry, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.AtkDefReduce4))
-            enemy.atkEffect -= 4
-            enemy.defEffect -= 4
+            enemy.effect.atkEffect -= 4
+            enemy.effect.defEffect -= 4
             return antiFollowup(battleUnit, enemy, this)
         }
     },

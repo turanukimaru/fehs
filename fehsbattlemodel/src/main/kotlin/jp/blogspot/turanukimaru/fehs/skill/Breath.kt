@@ -40,8 +40,8 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipDef(armedHero, 3)
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.HeavyPlate, 1.toString()))
-            battleUnit.accelerateAttackCooldown = 1
-            battleUnit.accelerateTargetCooldown = 1
+            battleUnit.effect.accelerateAttackCooldown = 1
+            battleUnit.effect.accelerateTargetCooldown = 1
             return battleUnit
         }
     },
@@ -58,13 +58,13 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
     DraconicRage(SkillName.DraconicRage, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         //これミュルグレと同じだな。真面目にカウントするなら一本化するか…
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atkSpd(battleUnit, 5, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atkSpd(battleUnit, 5, this) else battleUnit
     },
     GlitteringBreath(SkillName.GlitteringBreath, SkillType.PENETRATE_DRAGON, 10, FireBreath2, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     GlitteringBreath2(SkillName.GlitteringBreath2, SkillType.PENETRATE_DRAGON, 14, GlitteringBreath, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     FellBreath(SkillName.FellBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
@@ -77,18 +77,18 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
     },
     SavageBreath(SkillName.SavageBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, HandmaidMath.max(6 - battleUnit.adjacentUnits * 2, 0), this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, HandmaidMath.max(6 - battleUnit.effect.adjacentUnits * 2, 0), this)
     },
     RazingBreath(SkillName.RazingBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = counterAllRange(battleUnit, this)
     },
     DivineBreath(SkillName.DivineBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, HandmaidMath.min(battleUnit.adjacentUnits * 3, 9), this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, HandmaidMath.min(battleUnit.effect.adjacentUnits * 3, 9), this)
     },
     OraclesBreath(SkillName.OraclesBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         //本来はバフがかかってるとき。…いや行軍はかかってるだろうしデフォルトで常に追撃可能でよくね
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) followupable(battleUnit, 10, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) followupable(battleUnit, 10, this) else battleUnit
     },
 
     ;

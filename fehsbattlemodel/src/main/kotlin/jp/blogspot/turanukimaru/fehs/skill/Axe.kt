@@ -69,7 +69,7 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     Urvan(SkillName.Urvan, SkillType.AXE, 16, SilverAxe) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
-                if (results.isNotEmpty() && results.last().side != battleUnit.side) damage - damage * 8 / 10 else damage
+                if (results.isNotEmpty() && results.last().side != battleUnit.effect.side) damage - damage * 8 / 10 else damage
     },
     Uror(SkillName.Uror, SkillType.AXE, 16, SilverAxe),
     StoutTomahawk(SkillName.StoutTomahawk, SkillType.AXE, 16, SilverAxe) {
@@ -105,7 +105,7 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     Poleaxe(SkillName.Poleaxe, SkillType.AXE, 10, SteelAxe, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     Poleaxe2(SkillName.Poleaxe2, SkillType.AXE, 14, Poleaxe, SpType.PLUS, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.CAVALRY)),
     CamillasAxe(SkillName.CamillasAxe, SkillType.AXE, 16, BraveAxe2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atkSpd(battleUnit, 4, this) else battleUnit
     },
     ArdentService(SkillName.ArdentService, SkillType.AXE, 10, SteelAxe, SpType.SILVER),
     ArdentService2(SkillName.ArdentService2, SkillType.AXE, 14, ArdentService, SpType.PLUS, RefinedWeapon.RefineType.Range1),
@@ -127,7 +127,7 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     Garm(SkillName.Garm, SkillType.AXE, 16, SilverAxe) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         //本来はバフがかかってるとき。…いや行軍はかかってるだろうしデフォルトで常に追撃可能でよくね
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) followupable(battleUnit, 10, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) followupable(battleUnit, 10, this) else battleUnit
     },
     Byleistr(SkillName.Byleistr, SkillType.AXE, 16, SilverAxe),//4種の波なので戦闘能力自体はない
     Sinmara(SkillName.Sinmara, SkillType.AXE, 16, SilverAxe) {
@@ -139,10 +139,10 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     },
     AxeOfVirility(SkillName.AxeOfVirility, SkillType.AXE, 16, Hammer2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
     FaithfulAxe(SkillName.FaithfulAxe, SkillType.AXE, 10, SteelAxe, SpType.SILVER) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     FaithfulAxe2(SkillName.FaithfulAxe2, SkillType.AXE, 14, FaithfulAxe, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     GradoPoleax(SkillName.GradoPoleax, SkillType.AXE, 16, SilverAxe, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
@@ -156,10 +156,10 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
                 } else battleUnit
     },
     ShorelineRake(SkillName.ShorelineRake, SkillType.AXE, 10, SteelAxe, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
     },
     ShorelineRake2(SkillName.ShorelineRake2, SkillType.AXE, 14, ShorelineRake, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
     },
     ;
 

@@ -166,7 +166,7 @@ class NewHeroTest15 {
     fun fjAdTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.エフィ.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.adjacentUnits = 1
+        attacker.effect.adjacentUnits = 1
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.ニケ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))

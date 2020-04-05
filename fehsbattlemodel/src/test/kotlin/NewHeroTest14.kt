@@ -133,7 +133,7 @@ class NewHeroTest14 {
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.フリーズ__正月_.jp)!!)
         val target = BattleUnit(unitB, unitB.maxHp)
-        target.adjacentUnits = 1
+        target.effect.adjacentUnits = 1
         val fightResult = attacker.fightAndAfterEffect(target)
         println(fightResult[0])
         println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
@@ -159,7 +159,7 @@ class NewHeroTest14 {
     fun hrAdTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.フリーズ__正月_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.adjacentUnits = 1
+        attacker.effect.adjacentUnits = 1
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.アイク__伝承英雄_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
@@ -219,7 +219,7 @@ class NewHeroTest14 {
     fun fjAdTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.フィヨルム__正月_.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        attacker.adjacentUnits = 1
+        attacker.effect.adjacentUnits = 1
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.チキ__大人_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))

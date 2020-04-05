@@ -108,7 +108,7 @@ enum class Lance(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = antiRangedWeaponBuffBonus(battleUnit, enemy, 3, this)
     },
     HinokasSpear(SkillName.HinokasSpear, SkillType.LANCE, 16, SilverLance, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atkSpd(battleUnit, 4, this) else battleUnit
     },
     FlameSiegmund(SkillName.FlameSiegmund, SkillType.LANCE, 16, SilverLance) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
@@ -153,7 +153,7 @@ enum class Lance(override val jp: SkillName, override val type: SkillType, overr
     WhitewingSpear(SkillName.WhitewingSpear, SkillType.LANCE, 16, SlayingSpear, SpType.LEGEND_W, RefinedWeapon.RefineType.Range1, effectiveAgainstMoveType = arrayOf(MoveType.ARMORED)),
     FestiveSiegmund(SkillName.FestiveSiegmund, SkillType.LANCE, 16, SilverLance) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) allBonus(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits == 0) allBonus(battleUnit, 4, this) else battleUnit
     },
     Wagasa(SkillName.Wagasa, SkillType.LANCE, 10, SteelLance, SpType.SILVER),
     Wagasa2(SkillName.Wagasa2, SkillType.LANCE, 14, Wagasa, SpType.PLUS, RefinedWeapon.RefineType.Range1),
@@ -179,7 +179,7 @@ enum class Lance(override val jp: SkillName, override val type: SkillType, overr
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkDef(battleUnit, 4, this)
     },
     KriemHild(SkillName.KriemHild, SkillType.LANCE, 16, SilverLance, SpType.LEGEND_W) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0 && enemy.effectiveRange == 2)  antiFollowup(counterAllRange(battleUnit, this), enemy, this) else battleUnit
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0 && enemy.effectiveRange == 2)  antiFollowup(counterAllRange(battleUnit, this), enemy, this) else battleUnit
     },
     LoftyBlossoms(SkillName.LoftyBlossoms, SkillType.LANCE, 10, SteelLance, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)

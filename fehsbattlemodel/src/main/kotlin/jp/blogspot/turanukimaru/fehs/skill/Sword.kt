@@ -172,13 +172,17 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     },
     ExaltedFalchion(SkillName.ExaltedFalchion, SkillType.SWORD, 16, SilverSword, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
-        //周りのバフ分強化するのは周り参照なので書けない…
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if(enemy.armedHero.baseHero.weaponType == WeaponType.DRAGON)dazzling(battleUnit, enemy, 3, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.effect.bonusPow = 200//TODO:skillに
+         return antiFollowup(battleUnit,enemy,this)
+        }
     },
-    Laevatein(SkillName.Laevatein, SkillType.SWORD, 16, SilverSword, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+    Laevatein(SkillName.Laevatein, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
-    Niu(SkillName.Niu, SkillType.SWORD, 16, SilverSword, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
+    Niu(SkillName.Niu, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             //これならあってるか？
@@ -190,17 +194,17 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.HeavyBlade, 1.toString()))
-            battleUnit.accelerateTargetCooldown = 1
+            battleUnit.effect.accelerateTargetCooldown = 1
             return battleUnit
         }
     },
     StormSieglinde(SkillName.StormSieglinde, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if (battleUnit.buffDebuffTrigger) {
+            if (battleUnit.effect.buffDebuffTrigger) {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.HeavyBlade, 1.toString()))
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.DefRes, 3.toString()))
-                battleUnit.accelerateAttackCooldown = 1
+                battleUnit.effect.accelerateAttackCooldown = 1
                 return defRes(battleUnit, 3)
             }
             return battleUnit
@@ -216,11 +220,11 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     Gjoll(SkillName.Gjoll, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if (battleUnit.buffDebuffTrigger || enemy.isDebuffed) {
+            if (battleUnit.effect.buffDebuffTrigger || enemy.isDebuffed) {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.FollowupAttack))
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.AntiFollowupAttack))
-                battleUnit.followupable += 1
-                enemy.antiFollowup += 1
+                battleUnit.effect.followupable += 1
+                enemy.effect.antiFollowup += 1
             }
             return battleUnit
         }
@@ -241,10 +245,10 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     Geishun(SkillName.Geishun, SkillType.SWORD, 10, SteelSword, SpType.SILVER),
     Geishun2(SkillName.Geishun2, SkillType.SWORD, 14, Geishun, SpType.PLUS, RefinedWeapon.RefineType.Range1),
     HeartsBlade(SkillName.HeartsBlade, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     HeartsBlade2(SkillName.HeartsBlade2, SkillType.SWORD, 14, HeartsBlade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     Silverbrand(SkillName.Silverbrand, SkillType.SWORD, 16, RubySword, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = colorAdvantage(battleUnit, enemy, 3, this)
@@ -266,19 +270,19 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
     },
     SandfortSpade(SkillName.SandfortSpade, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
     },
     SandfortSpade2(SkillName.SandfortSpade2, SkillType.SWORD, 14, SandfortSpade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkDef(battleUnit, 4, this) else battleUnit
     },
     ArdentDurandal(SkillName.ArdentDurandal, SkillType.SWORD, 16, SilverSword) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
     },
     PetalParasol(SkillName.PetalParasol, SkillType.SWORD, 10, SteelSword, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
     },
     PetalParasol2(SkillName.PetalParasol2, SkillType.SWORD, 14, SandfortSpade, SpType.PLUS, RefinedWeapon.RefineType.Range1) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
     },
 
     ;

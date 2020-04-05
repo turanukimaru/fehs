@@ -85,7 +85,7 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (enemy.effectiveRange == 1) {
                 def(battleUnit, 20, this)
-                if (enemy.counterAllRange) {
+                if (enemy.effect.counterAllRange) {
                     followupable(battleUnit, 10, this)
                 }
             }
@@ -110,10 +110,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.hp >= battleUnit.armedHero.maxHp / 2) antiFollowup(battleUnit, enemy, this) else battleUnit
     },
     GoodieBoot(SkillName.GoodieBoot, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     GoodieBoot2(SkillName.GoodieBoot2, SkillType.DAGGER, 12, GoodieBoot, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = defRes(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     RedHotDucks(SkillName.RedHotDucks, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
         override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = spdFlat(battleUnit, enemy)
@@ -141,7 +141,7 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (battleUnit.colorAdvantage(enemy) == 1) {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.NullAntiFollowupAttack))
-                battleUnit.antiFollowup = 0
+                battleUnit.effect.antiFollowup = 0
             }
             return battleUnit
         }
@@ -150,7 +150,7 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (battleUnit.colorAdvantage(enemy) == 1) {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.NullAntiFollowupAttack))
-                battleUnit.antiFollowup = 0
+                battleUnit.effect.antiFollowup = 0
             }
             return battleUnit
         }
@@ -164,10 +164,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
                 } else battleUnit
     },
     TropicalTreats(SkillName.TropicalTreats, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
     },
     TropicalTreats2(SkillName.TropicalTreats2, SkillType.DAGGER, 12, TropicalTreats, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
     },
     BroadleafFan(SkillName.BroadleafFan, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = debuffBonus(battleUnit, enemy, this)
@@ -176,10 +176,10 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = debuffBonus(battleUnit, enemy, this)
     },
     ScallopBlade(SkillName.ScallopBlade, SkillType.DAGGER, 8, SteelDagger, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger || enemy.isDebuffed) atkSpd(battleUnit, 5, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger || enemy.isDebuffed) atkSpd(battleUnit, 5, this) else battleUnit
     },
     ScallopBlade2(SkillName.ScallopBlade2, SkillType.DAGGER, 12, TropicalTreats, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger || enemy.isDebuffed) atkSpd(battleUnit, 5, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger || enemy.isDebuffed) atkSpd(battleUnit, 5, this) else battleUnit
     },
     ;
 

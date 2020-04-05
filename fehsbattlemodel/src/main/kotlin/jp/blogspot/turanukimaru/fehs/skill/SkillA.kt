@@ -196,22 +196,22 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateCooldown(def(battleUnit, 4, this), 11, this)
     },
     AtkSpdBond(SkillName.AtkSpdBond, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atkSpd(battleUnit, lv + 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atkSpd(battleUnit, lv + 2, this) else battleUnit
     },
     AtkDefBond(SkillName.AtkDefBond, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atkDef(battleUnit, lv + 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atkDef(battleUnit, lv + 2, this) else battleUnit
     },
     AtkResBond(SkillName.AtkResBond, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atkRes(battleUnit, lv + 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atkRes(battleUnit, lv + 2, this) else battleUnit
     },
     SpdDefBond(SkillName.SpdDefBond, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) spdDef(battleUnit, lv + 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) spdDef(battleUnit, lv + 2, this) else battleUnit
     },
     SpdResBond(SkillName.SpdResBond, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) spdRes(battleUnit, lv + 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) spdRes(battleUnit, lv + 2, this) else battleUnit
     },
     DefResBond(SkillName.DefResBond, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) defRes(battleUnit, lv + 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) defRes(battleUnit, lv + 2, this) else battleUnit
     },
 
     BrazenAtkSpd(SkillName.BrazenAtkSpd, spType = SpType.BASE60) {
@@ -237,19 +237,19 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = fullHpAtkResBonus(battleUnit, lv + 2, 1, this)
     },
     AtkSpdSolo(SkillName.AtkSpdSolo, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) atkSpd(battleUnit, lv * 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits == 0) atkSpd(battleUnit, lv * 2, this) else battleUnit
     },
     AtkDefSolo(SkillName.AtkDefSolo, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) atkDef(battleUnit, lv * 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits == 0) atkDef(battleUnit, lv * 2, this) else battleUnit
     },
     AtkResSolo(SkillName.AtkResSolo, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) atkRes(battleUnit, lv * 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits == 0) atkRes(battleUnit, lv * 2, this) else battleUnit
     },
     SpdDefSolo(SkillName.SpdDefSolo, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) spdDef(battleUnit, lv * 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits == 0) spdDef(battleUnit, lv * 2, this) else battleUnit
     },
     DefResSolo(SkillName.DefResSolo, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits == 0) defRes(battleUnit, lv * 2, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits == 0) defRes(battleUnit, lv * 2, this) else battleUnit
     },
     //ラピュタ向けは機能しなくてもいいよな…
     ArDAtkRes(SkillName.ArDAtkRes, spType = SpType.BASE60),
@@ -308,12 +308,12 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     },
     LawsOfSacae(SkillName.LawsOfSacae, maxLevel = 0, spType = SpType.LEGEND_S) {
         //実際は2以上。これ比較対象をユニットに持たせなきゃだめだな
-        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 4, this) else battleUnit
+        override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 4, this) else battleUnit
     },
     BonusDoubler(SkillName.BonusDoubler, maxLevel = 0, spType = SpType.LEGEND_S) {
         //新たな状態を作らないとダメか…
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            battleUnit.bonusPow = 125 + lv * 25//他にも増えるか強化無効とぶつかったら1になるかしたらBattleUnitの関数にしよう…
+            battleUnit.effect.bonusPow = 125 + lv * 25//他にも増えるか強化無効とぶつかったら1になるかしたらBattleUnitの関数にしよう…
             return battleUnit
         }
     },

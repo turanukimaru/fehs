@@ -71,44 +71,44 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
      * 戦闘順序の最終調整。追撃の可否など
      */
     private fun buildFightPlan(attacker: BattleUnit, target: BattleUnit) {
-        attacker.side = SIDES.ATTACKER
-        target.side = SIDES.COUNTER
+        attacker.effect.side = SIDES.ATTACKER
+        target.effect.side = SIDES.COUNTER
         //速度が足りないか追撃不可の時は追撃除去
 //        log("attack")
 //        log(attacker.armedHero.baseHero)
 //        log(attacker)
 //        log(attacker.effectedSpd)
-        if ((attacker.followupable == attacker.antiFollowup && attacker.effectedSpd - target.effectedSpd < 5) || (attacker.followupable < attacker.antiFollowup)) {
+        if ((attacker.effect.followupable == attacker.effect.antiFollowup && attacker.effectedSpd - target.effectedSpd < 5) || (attacker.effect.followupable < attacker.effect.antiFollowup)) {
 
             plan.remove(secondAttack)
         }
 //        log(target.armedHero.baseHero)
 //        log(target)
 //        log(target.effectedSpd)
-        if ((target.followupable == target.antiFollowup && target.effectedSpd - attacker.effectedSpd < 5) || (target.followupable < target.antiFollowup)) {
+        if ((target.effect.followupable == target.effect.antiFollowup && target.effectedSpd - attacker.effectedSpd < 5) || (target.effect.followupable < target.effect.antiFollowup)) {
 
             plan.remove(secondCounter)
         }
 
         //射程外の時は全ての反撃を抜く
-        if (attacker.armedHero.baseHero.weaponType.range != target.armedHero.baseHero.weaponType.range && !target.counterAllRange) {
+        if (attacker.armedHero.baseHero.weaponType.range != target.armedHero.baseHero.weaponType.range && !target.effect.counterAllRange) {
             plan.remove(firstCounter)
             plan.remove(secondCounter)
         }
         //薙ぎもカウンターを抜く
-        if (target.cannotCounter) {
+        if (target.effect.cannotCounter) {
             plan.remove(firstCounter)
             plan.remove(secondCounter)
         }
         //勇者の時は2回攻撃
-        if (attacker.doubleAttack) {
+        if (attacker.effect.doubleAttack) {
             plan.add(plan.indexOf(firstAttack), firstAttack)
             if (plan.indexOf(secondAttack) > 0) {
                 plan.add(plan.indexOf(secondAttack), secondAttack)
             }
         }
         //受けの時も2回攻撃する武器ができた…反撃はそもそもできないこともあるので両方チェック
-        if (target.doubleAttack) {
+        if (target.effect.doubleAttack) {
             if (plan.indexOf(firstCounter) > 0) {
                 plan.add(plan.indexOf(firstCounter), firstCounter)
             }

@@ -28,10 +28,10 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
     },
     Gronnowl(SkillName.Gronnowl, SkillType.GTOME, 6, Elwind, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     Gronnowl2(SkillName.Gronnowl2, SkillType.GTOME, 10, Gronnowl, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = allBonus(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     GreenEgg(SkillName.GreenEgg, SkillType.GTOME, 7, Elwind, SpType.SILVER) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(battleUnit, 4, this)
@@ -75,7 +75,7 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
     },
     NiflFrostflowers(SkillName.NiflFrostflowers, SkillType.GTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, battleUnit.adjacentUnits * 2, this)
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, battleUnit.effect.adjacentUnits * 2, this)
     },
     GigaExcalibur(SkillName.GigaExcalibur, SkillType.GTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
@@ -97,10 +97,10 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = equipRaven(battleUnit)
     },
     Gronnblooms(SkillName.Gronnblooms, SkillType.GTOME, 8, Elwind, SpType.SILVER) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     Gronnblooms2(SkillName.Gronnblooms2, SkillType.GTOME, 12, Gronnblooms, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) allBonus(battleUnit, 3, this) else battleUnit
     },
     IrissTome(SkillName.IrissTome, SkillType.GTOME, 14, Gronnblade2, SpType.LEGEND_W, RefinedWeapon.RefineType.Range2) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = bladeEffect(battleUnit)
@@ -120,19 +120,19 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
     ChaosManifest(SkillName.ChaosManifest, SkillType.GTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            if (battleUnit.buffDebuffTrigger || enemy.isDebuffed) {
+            if (battleUnit.effect.buffDebuffTrigger || enemy.isDebuffed) {
                 battleUnit.addSkillText(SkillText(this, SkillBaseText.FollowupAttack))
-                battleUnit.followupable += 1
+                battleUnit.effect.followupable += 1
                 atk(battleUnit, 6, this)
             }
             return battleUnit
         }
     },
     Buoyboard(SkillName.Buoyboard, SkillType.GTOME, 8, Elwind, SpType.SILVER) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
     },
     Buoyboard2(SkillName.Buoyboard2, SkillType.GTOME, 12, Buoyboard, SpType.PLUS, RefinedWeapon.RefineType.Range2) {
-        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
+        override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) atkSpd(battleUnit, 4, this) else battleUnit
     },
     Sandwiches(SkillName.Sandwiches, SkillType.GTOME, 8, Elwind, SpType.SILVER) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkRes(battleUnit, 4, this)

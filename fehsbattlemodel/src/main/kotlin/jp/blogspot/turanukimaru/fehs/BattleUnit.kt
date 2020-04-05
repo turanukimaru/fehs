@@ -17,139 +17,24 @@ data class BattleUnit(val armedHero: ArmedHero
                       , var defDebuff: Int = 0
                       , var resDebuff: Int = 0
         //Effectは紋章やスキルによる強化。これは合計していく.戦闘中と戦闘前って分けたほうが良いかなあ
-                      , var atkEffect: Int = 0
-                      , var spdEffect: Int = 0
-                      , var defEffect: Int = 0
-                      , var resEffect: Int = 0
-                      , var side: SIDES = SIDES.NONE
-                      , var phantomSpeed: Int = 0
-                      , var adjacentUnits: Int = 0
-                      , var buffDebuffTrigger: Boolean = false
-        //スキルの効果
-        /**
-         * 攻撃時スペシャル変動量＋
-         */
-                      , var accelerateAttackCooldown: Int = 0
-        /**
-         * ダメージを受けたときのスペシャル変動量＋
-         */
-                      , var accelerateTargetCooldown: Int = 0
-        /**
-         * スペシャル変動量-
-         */
-                      , var InflictAttackCooldown: Int = 0
-                      , var InflictTargetCooldown: Int = 0
-
-        /**
-         * 速さを無視して追撃可能か
-         */
-                      , var followupable: Int = 0
-        /**
-         * 速さを無視して追撃不可能か
-         */
-                      , var antiFollowup: Int = 0
-        /**
-         * 勇者武器などで2回攻撃可能か
-         */
-                      , var doubleAttack: Boolean = false
-        /**
-         * 無色に対する相性補正があるか
-         */
-                      , var colorlessAdvantage: Boolean = false
-        /**
-         * 激化による相性計算。倍率
-         */
-                      , var colorAdvantageLevel: Int = 0
-        /**
-         * 激化無効化レベル 普通/無効/反転/1/0/-1
-         */
-                      , var antiColorAdvantage: Int = 1
-        /**
-         * 特効
-         */
-                      , var effectiveAgainst: EffectiveAgainst = EffectiveAgainst.NONE
-        /**
-         * 距離に関係なく反撃できるか
-         */
-                      , var counterAllRange: Boolean = false
-        /**
-         * 火凪などで反撃が封じられているか
-         */
-                      , var cannotCounter: Boolean = false
-        /**
-         * buffが無効化されているか
-         */
-                      , var neutralizeBuffBonus: Boolean = false
-        /**
-         * debuffが無効化されているか
-         */
-                      , var neutralizePenalties: Boolean = false
-        /**
-         * 戦闘後のHP減少
-         */
-                      , var hpLossAtEndOfFight: Int = 0
-        /**
-         * ブレードか
-         */
-                      , var blade: Boolean = false
-        /**
-         * 防御地形か
-         */
-                      , var defensiveTerrain: Boolean = false
-        /**
-         * 攻撃順変更スキルが無効か
-         */
-                      , var disableChangePlan: Boolean = false
-        /**
-         * 神罰が発動しているか
-         */
-                      , var wrathfulStaff: Boolean = false
-        /**
-         * ダメージを追加する。武器やスキルに分散させたので使わなくていいはず。あとで消そう。
-         */
-                      , var additionalDamage: Int = 0
-        /**
-         * 一回だけダメージを追加する。今のところ氷の聖鏡専用。
-         */
-                      , var oneTimeOnlyAdditionalDamage: Int = 0
-        /**
-         * debuffで強化されるダメージ量。今のところブリザード専用
-         */
-                      , var debuffBonus: Int = 0
-        /**
-         * 攻撃を実行したか。攻撃時にダメージを受ける効果用
-         */
-                      , var attacked: Boolean = false
-        /**
-         * 戦闘後のHP減少
-         */
-                      , var attackedHpLossAtEndOfFight: Int = 0
-        /**
-         * ダメージタイプ置き換え…これブレスとかどうすりゃいいんだ？判定を戻して戦闘時効果で置き換えるか。
-         */
-                      , var overrideDamageType: SkillType = SkillType.NONE
-        /**
-         * バフのダメージ倍率…
-         */
-                      , var bonusPow: Int = 100
-                      , val activatedSkills: MutableList<SkillText> = mutableListOf()//ひょっとしてこれコピーされてるのか
+                      ,var effect: BattleEffect = BattleEffect()
 ) {
-    private fun bonus(i: Int) = i * bonusPow / 100
+    private fun bonus(i: Int) = i * effect.bonusPow / 100
     //射程はともかく移動距離は制限を受ける可能性がある。いやそれを言うなら全てのステータスがそうであるが・・・これDelegateでできれば楽だと思ったけどBuff考えるとできないな
     val movableSteps: Int get() = armedHero.movableSteps
     val effectiveRange: Int get() = armedHero.effectiveRange
-    val atk: Int get() = armedHero.atk + (if (!neutralizePenalties) atkDebuff else 0) + if (!neutralizeBuffBonus) bonus(atkBuff) else 0
-    val spd: Int get() = armedHero.spd + (if (!neutralizePenalties) spdDebuff else 0) + if (!neutralizeBuffBonus) bonus(spdBuff) else 0
-    val def: Int get() = armedHero.def + (if (!neutralizePenalties) defDebuff else 0) + if (!neutralizeBuffBonus) bonus(defBuff) else 0
-    val res: Int get() = armedHero.res + (if (!neutralizePenalties) resDebuff else 0) + if (!neutralizeBuffBonus) bonus(resBuff) else 0
+    val atk: Int get() = armedHero.atk + (if (!effect.neutralizePenalties) atkDebuff else 0) + if (!effect.neutralizeBuffBonus) bonus(atkBuff) else 0
+    val spd: Int get() = armedHero.spd + (if (!effect.neutralizePenalties) spdDebuff else 0) + if (!effect.neutralizeBuffBonus) bonus(spdBuff) else 0
+    val def: Int get() = armedHero.def + (if (!effect.neutralizePenalties) defDebuff else 0) + if (!effect.neutralizeBuffBonus) bonus(defBuff) else 0
+    val res: Int get() = armedHero.res + (if (!effect.neutralizePenalties) resDebuff else 0) + if (!effect.neutralizeBuffBonus) bonus(resBuff) else 0
     // 他人や自分のスキルにより戦闘中のみ変化する能力値
-    val effectedAtk: Int get() = atk + atkEffect
-    val effectedSpd: Int get() = spd + spdEffect
-    val effectedDef: Int get() = def + defEffect
-    val effectedRes: Int get() = res + resEffect
+    val effectedAtk: Int get() = atk + effect.atkEffect
+    val effectedSpd: Int get() = spd + effect.spdEffect
+    val effectedDef: Int get() = def + effect.defEffect
+    val effectedRes: Int get() = res + effect.resEffect
     //ブレード火力は外部からの参照要らんな
-    private val effectedBladeAtk: Int get() = effectedAtk + debuffBonus + if (blade && !neutralizeBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0
-    val effectedPhantomSpd: Int get() = effectedSpd + phantomSpeed
+    private val effectedBladeAtk: Int get() = effectedAtk + effect.debuffBonus + if (effect.blade && !effect.neutralizeBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0
+    val effectedPhantomSpd: Int get() = effectedSpd + effect.phantomSpeed
     val totalBuff: Int get() = atkBuff + spdBuff + defBuff + resBuff
     fun statusText(l: Locale): String = when (l) {
         Locale.JAPANESE -> armedHero.localeName(l) + ":HP" + armedHero.maxHp + " 攻撃" + effectedAtk + " 速さ" + effectedSpd + " 守備" + effectedDef + " 魔防" + effectedRes
@@ -157,18 +42,17 @@ data class BattleUnit(val armedHero: ArmedHero
     }
 
     // \n を入れるタイミングがびみょい
-    fun activatedSkillText(locale: Locale) = if (activatedSkills.size > 0) activatedSkills.fold("") { s, n -> s + armedHero.localeName(locale) + " " + n.toText(locale) + "\n" } else ""
+    fun activatedSkillText(locale: Locale) = if (effect.activatedSkills.size > 0) effect.activatedSkills.fold("") { s, n -> s + armedHero.localeName(locale) + " " + n.toText(locale) + "\n" } else ""
 
     /** マップ上で戦う際には必要になると思われる*/
     fun clearEffect() {
-        atkEffect = 0
-        spdEffect = 0
-        defEffect = 0
-        resEffect = 0
+        effect = BattleEffect()
     }
 
     fun addSkillText(skillText: SkillText): BattleUnit {
-        if (activatedSkills.size > 0 && activatedSkills.last().name == skillText.name) activatedSkills.last().add(skillText) else activatedSkills.add(skillText)
+        effect.addSkillText(
+                skillText
+        )
         return this
     }
 
@@ -225,7 +109,7 @@ data class BattleUnit(val armedHero: ArmedHero
      * 戦闘後効果。HP減らしてからスキル総なめ。
      */
     private fun afterFightEffect() {
-        lossHp(hpLossAtEndOfFight + if (attacked) attackedHpLossAtEndOfFight else 0)
+        lossHp(effect.hpLossAtEndOfFight + if (effect.attacked) effect.attackedHpLossAtEndOfFight else 0)
 
         armedHero.afterFightEffect(this)
     }
@@ -247,18 +131,18 @@ data class BattleUnit(val armedHero: ArmedHero
         //スキルのattackplan内で能力値の再計算すりゃいいか
         val effectedAttacker = attacker.bothEffect(target).attackEffect(target)
         val effectedTarget = target.bothEffect(attacker).counterEffect(attacker)
-        return FightPlan(effectedAttacker.effectedBothEffect(target).effectedAttackEffect(target), effectedTarget.effectedBothEffect(target).effectedCounterEffect(attacker)).activatePlanningSkills()
+        return FightPlan(effectedAttacker.effectedBothEffect(target).effectedAttackEffect(target), effectedTarget.effectedBothEffect(attacker).effectedCounterEffect(attacker)).activatePlanningSkills()
     }
 
     /**
      * 攻撃側戦闘プラン。スキルの攻撃プランを再帰でなめて攻撃時効果を計算する。主に行動順の制御
      */
-    fun attackPlan(fightPlan: FightPlan): FightPlan = if (disableChangePlan) fightPlan else armedHero.attackPlan(fightPlan)
+    fun attackPlan(fightPlan: FightPlan): FightPlan = if (effect.disableChangePlan) fightPlan else armedHero.attackPlan(fightPlan)
 
     /**
      * 受け側戦闘プラン。スキルの反撃プランを再帰でなめて受け時効果を計算する。主に行動順の制御
      */
-    fun counterPlan(fightPlan: FightPlan): FightPlan = if (disableChangePlan) fightPlan else armedHero.counterPlan(fightPlan)
+    fun counterPlan(fightPlan: FightPlan): FightPlan = if (effect.disableChangePlan) fightPlan else armedHero.counterPlan(fightPlan)
 
     /**
      * 攻撃とそのあとの効果。攻撃時効果と戦闘時効果があるんだよな…
@@ -274,8 +158,8 @@ data class BattleUnit(val armedHero: ArmedHero
      * 攻撃。
      */
     fun attack(target: BattleUnit, results: List<AttackResult>): AttackResult {
-        //攻撃実行フラグ
-        attacked = true
+        //攻撃実行フラグ。。。 TODO:あれ？これ何に使ってるんだっけ？
+        effect.attacked = true
         val damage = buildDamage(results)
 
         //damageと一緒に奥義を飛ばせば効果も計算できるか？
@@ -301,19 +185,19 @@ data class BattleUnit(val armedHero: ArmedHero
             return Damage(this, armedHero.special, damageType, armedHero.skills.fold(0) { d, skill -> skill.specialTriggered(this, d) }, armedHero.bSkill.stateDamageEnemy, halfByStaff, results)
         }
         //println("level / cooldown ${armedHero.special.level}  ${armedHero.reduceSpecialCooldown}")
-        specialCount += if (accelerateAttackCooldown + 1 > InflictAttackCooldown) accelerateAttackCooldown + 1 - InflictAttackCooldown else 0
+        specialCount += if (effect.accelerateAttackCooldown + 1 > effect.InflictAttackCooldown) effect.accelerateAttackCooldown + 1 - effect.InflictAttackCooldown else 0
         specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
-        return Damage(this, Skill.NONE, damageType, additionalDamage + oneTimeOnlyAdditionalDamage, { 0 }, halfByStaff, results)
+        return Damage(this, Skill.NONE, damageType, effect.additionalDamage + effect.oneTimeOnlyAdditionalDamage, { 0 }, halfByStaff, results)
     }
 
-    private val damageType get() = if (overrideDamageType != SkillType.NONE) overrideDamageType else armedHero.weapon.type
-    private val halfByStaff get() = if (armedHero.baseHero.weaponType == WeaponType.STAFF && !wrathfulStaff) 2 else 1
+    private val damageType get() = if (effect.overrideDamageType != SkillType.NONE) effect.overrideDamageType else armedHero.weapon.type
+    private val halfByStaff get() = if (armedHero.baseHero.weaponType == WeaponType.STAFF && !effect.wrathfulStaff) 2 else 1
 
     /**
      * 地形・奥義によるダメージ減少.
      */
     fun preventByDefResTerrain(weaponType: SkillType, specialPenetrate: Int): Int =
-            let(weaponType.prevent) * (if (defensiveTerrain) 130 else 100) / 100 - (let(weaponType.prevent) * specialPenetrate) / 100
+            let(weaponType.prevent) * (if (effect.defensiveTerrain) 130 else 100) / 100 - (let(weaponType.prevent) * specialPenetrate) / 100
 
     fun prevent(damage: Int, source: BattleUnit, results: List<AttackResult>) = armedHero.skills.fold(damage) { d, skill -> skill.prevent(this, d, source, results) }
 
@@ -322,7 +206,7 @@ data class BattleUnit(val armedHero: ArmedHero
      * スキル・奥義によるダメージ減少.
      */
     fun damaged(damage: Int, specialPrevented: Pair<Int, Skill>): DamageResult {
-        oneTimeOnlyAdditionalDamage = 0
+        effect.oneTimeOnlyAdditionalDamage = 0
         armedHero.reducedDamage(this, damage)
         if (specialCount == armedHero.specialCoolDownTime && specialPrevented.second != Skill.NONE) {
             specialCount = 0
@@ -330,7 +214,7 @@ data class BattleUnit(val armedHero: ArmedHero
             armedHero.skills.forEach { e -> e.preventedDamage(this, damage - specialPrevented.first) }
             return DamageResult(specialPrevented.first, specialPrevented.second, loss.first, loss.second)
         }
-        specialCount += if (accelerateTargetCooldown + 1 > InflictTargetCooldown) accelerateTargetCooldown + 1 - InflictTargetCooldown else 0
+        specialCount += if (effect.accelerateTargetCooldown + 1 > effect.InflictTargetCooldown) effect.accelerateTargetCooldown + 1 - effect.InflictTargetCooldown else 0
         specialCount = if (specialCount > armedHero.specialCoolDownTime) armedHero.specialCoolDownTime else specialCount
         val loss = damageToHp(damage)
         return DamageResult(damage, Skill.NONE, loss.first, loss.second)
@@ -349,8 +233,8 @@ data class BattleUnit(val armedHero: ArmedHero
         val colorDiff = enemy.armedHero.baseHero.color - armedHero.baseHero.color
 
         return when {
-            colorlessAdvantage && enemy.armedHero.baseHero.color == 0 -> 1
-            enemy.colorlessAdvantage && armedHero.baseHero.color == 0 -> -1
+            effect.colorlessAdvantage && enemy.armedHero.baseHero.color == 0 -> 1
+            enemy.effect.colorlessAdvantage && armedHero.baseHero.color == 0 -> -1
             enemy.armedHero.baseHero.color == 0 || armedHero.baseHero.color == 0 || colorDiff == 0 -> 0
             colorDiff == -1 || colorDiff == 2 -> 1
             colorDiff == 1 || colorDiff == -2 -> -1
@@ -359,13 +243,13 @@ data class BattleUnit(val armedHero: ArmedHero
     }
 
     val colorAttack: (BattleUnit) -> Int = {
-        val advantageLevel = if (colorAdvantageLevel >= it.colorAdvantageLevel) colorAdvantageLevel else it.colorAdvantageLevel
+        val advantageLevel = if (effect.colorAdvantageLevel >= it.effect.colorAdvantageLevel) effect.colorAdvantageLevel else it.effect.colorAdvantageLevel
         val colorAd = colorAdvantage(it)
-        val colorPow = (if (advantageLevel == 0) 20 else (advantageLevel * 5 + 5) * antiColorAdvantage + 20) * colorAd
+        val colorPow = (if (advantageLevel == 0) 20 else (advantageLevel * 5 + 5) * effect.antiColorAdvantage + 20) * colorAd
 
 
         //何らかの特効があったら
-        val effectiveDamage = (effectedBladeAtk * if (effectiveAgainst != EffectiveAgainst.NONE) 15 else 10) / 10
+        val effectiveDamage = (effectedBladeAtk * if (effect.effectiveAgainst != EffectiveAgainst.NONE) 15 else 10) / 10
 
         effectiveDamage + effectiveDamage * colorPow / 100
     }

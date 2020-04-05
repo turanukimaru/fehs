@@ -581,6 +581,8 @@ class BreakerTest {
         val fightResult = BattleUnit(unitA, unitA.maxHp).fight(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0].source.activatedSkillText(LOCALE))
         println(fightResult[0].source.statusText(LOCALE))
+        println(fightResult[0].target.activatedSkillText(LOCALE))
+        println(fightResult[0].target.statusText(LOCALE))
         Assert.assertEquals("attack side fail", fightResult[0].side, SIDES.ATTACKER)
         Assert.assertEquals("buildDamage fail", 32, fightResult[0].damage)
         Assert.assertEquals("hitPoint fail", 35, fightResult[0].source.hp)

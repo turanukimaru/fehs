@@ -87,20 +87,20 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
     CancelAffinity(SkillName.CancelAffinity) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             //高いほうが適用されるのでとりあえず自分だけ消す
-            battleUnit.colorAdvantageLevel = 0
+            battleUnit.effect.colorAdvantageLevel = 0
             val colorAd = battleUnit.colorAdvantage(enemy)
             //2と3は負けてるときだけ発動。両者が持ってるときは両社とも激化倍率がなくなるので問題ない
             when (lv) {
                 1 -> {
-                    battleUnit.antiColorAdvantage = 0;enemy.antiColorAdvantage = 0
+                    battleUnit.effect.antiColorAdvantage = 0;enemy.effect.antiColorAdvantage = 0
                 }
                 2 -> if (colorAd == -1) {
                     battleUnit.addSkillText(SkillText(this, SkillBaseText.AntiTriangleAdept))
-                    battleUnit.antiColorAdvantage = 0;enemy.antiColorAdvantage = 0
+                    battleUnit.effect.antiColorAdvantage = 0;enemy.effect.antiColorAdvantage = 0
                 }
                 3 -> if (colorAd == -1) {
                     battleUnit.addSkillText(SkillText(this, SkillBaseText.AntiTriangleAdept))//うまい説明が思いつかない…
-                    battleUnit.antiColorAdvantage = -1;enemy.antiColorAdvantage = -1
+                    battleUnit.effect.antiColorAdvantage = -1;enemy.effect.antiColorAdvantage = -1
                 }
             }
             return battleUnit
@@ -121,7 +121,7 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
     },
     CrusadersWard(SkillName.CrusadersWard, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int =
-                if (source.effectiveRange == 2 && results.isNotEmpty() && results.last().side != battleUnit.side) damage - damage * 8 / 10 else damage
+                if (source.effectiveRange == 2 && results.isNotEmpty() && results.last().side != battleUnit.effect.side) damage - damage * 8 / 10 else damage
     },
     FollowUpRing(SkillName.FollowUpRing, maxLevel = 0, spType = SpType.LEGEND_S) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 5, this)
@@ -150,8 +150,8 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullFollowUp(battleUnit, enemy, lv, this)
     },
     MysticBoost(SkillName.MysticBoost, spType = SpType.BASE60) {
-        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = mysticBoost(battleUnit, enemy, lv, this)
-        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = mysticBoost(battleUnit, enemy, lv, this)
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(mysticBoost(battleUnit, enemy, lv, this),lv*2,this)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(mysticBoost(battleUnit, enemy, lv, this),lv*2,this)
     },
     NullCDisrupt(SkillName.NullCDisrupt, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullCDisrupt(battleUnit, enemy, lv, this)

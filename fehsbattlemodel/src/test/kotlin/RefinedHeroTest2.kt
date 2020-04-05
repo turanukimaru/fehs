@@ -133,7 +133,7 @@ class RefinedHeroTest2 {
         assertEquals("spd", 24, unitA.spd)
         assertEquals("def", 30, unitA.def)
         assertEquals("spd", 22, unitA.res)
-        attacker.adjacentUnits = 1
+        attacker.effect.adjacentUnits = 1
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.チキ__伝承英雄_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))

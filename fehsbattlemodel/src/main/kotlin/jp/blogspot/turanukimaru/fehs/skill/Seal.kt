@@ -62,9 +62,9 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
     },
     HardyBearing(SkillName.HardyBearing) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            battleUnit.disableChangePlan = true
+            battleUnit.effect.disableChangePlan = true
             if (battleUnit.hp >= battleUnit.armedHero.maxHp * (150 - lv * 50) / 100) {
-                enemy.disableChangePlan = true
+                enemy.effect.disableChangePlan = true
             }
             return super.fightEffect(battleUnit, enemy, lv)
         }
@@ -79,7 +79,7 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
     },
     PhantomSpeed(SkillName.PhantomSpeed) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
-            battleUnit.phantomSpeed = when (lv) {
+            battleUnit.effect.phantomSpeed = when (lv) {
                 1 -> 5
                 2 -> 8
                 3 -> 10
@@ -98,7 +98,7 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
      * 連撃防御。武器の種類はなんか定数に定数を持たせるべきか…
      */
     DeflectMagic(SkillName.DeflectMagic) {
-        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int = if (results.isNotEmpty() && results.last().side != battleUnit.side && source.armedHero.isMagicWeapon()) damage - damage * when (lv) {
+        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int = if (results.isNotEmpty() && results.last().side != battleUnit.effect.side && source.armedHero.isMagicWeapon()) damage - damage * when (lv) {
             1 -> 3
             2 -> 5
             3 -> 8
@@ -106,7 +106,7 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
         } / 10 else damage
     },
     DeflectMelee(SkillName.DeflectMelee) {
-        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int = if (results.isNotEmpty() && results.last().side != battleUnit.side && source.armedHero.isMagicWeapon()) damage - damage * when (lv) {
+        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int = if (results.isNotEmpty() && results.last().side != battleUnit.effect.side && source.armedHero.isMagicWeapon()) damage - damage * when (lv) {
             1 -> 3
             2 -> 5
             3 -> 8
@@ -114,7 +114,7 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
         } / 10 else damage
     },
     DeflectMissile(SkillName.DeflectMissile) {
-        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int = if (results.isNotEmpty() && results.last().side != battleUnit.side && source.armedHero.isMagicWeapon()) damage - damage * when (lv) {
+        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int = if (results.isNotEmpty() && results.last().side != battleUnit.effect.side && source.armedHero.isMagicWeapon()) damage - damage * when (lv) {
             1 -> 3
             2 -> 5
             3 -> 8
@@ -122,7 +122,7 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
         } / 10 else damage
     },
     AtkDefBond(SkillName.AtkDefBond, spType = SpType.BASE60) {
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.adjacentUnits > 0) atk(def(battleUnit, lv + 2), lv + 2) else battleUnit
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atk(def(battleUnit, lv + 2), lv + 2) else battleUnit
     },
     BrazenAtkRes(SkillName.BrazenAtkRes, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = brazenAtkRes(battleUnit, lv * 2 + 1)
