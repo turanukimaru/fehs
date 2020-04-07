@@ -119,6 +119,10 @@ data class BattleEffect (
      * バフのダメージ倍率…
      */
     , var bonusPow: Int = 100
+        /**
+         * 開始時のHP.ティルフィングでしか使ってないのでとりあえず必要な時だけセットする…
+         */
+     , var startHp: Int = 0
      , val activatedSkills: MutableList<SkillText> = mutableListOf()//ひょっとしてこれコピーされてるのか
 
 ) {

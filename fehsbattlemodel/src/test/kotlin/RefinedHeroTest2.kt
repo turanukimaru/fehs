@@ -128,7 +128,7 @@ class RefinedHeroTest2 {
     fun seliphTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.セリス3.jp)!!)//どーすっかな祈りすごいめんどい
         val attacker = BattleUnit(unitA, unitA.maxHp)
-        assertEquals("maxHp", 50, unitA.maxHp)
+        assertEquals("maxHp", 55, unitA.maxHp)
         assertEquals("atk", 50, unitA.atk)
         assertEquals("spd", 24, unitA.spd)
         assertEquals("def", 30, unitA.def)
@@ -137,24 +137,27 @@ class RefinedHeroTest2 {
 
         val unitB = ArmedHero(StandardBaseHero.get(HeroName.チキ__伝承英雄_.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
+
         println(fightResult[0])
 
         println(fightResult[0].source.activatedSkillText(Locale.JAPANESE))
         println(fightResult[0].source.statusText(Locale.JAPANESE))
 
+        println(fightResult[1])
+        println(fightResult[2])
         assertEquals("size == 3", 3, fightResult.size)
         assertEquals("attack side fail", SIDES.ATTACKER, fightResult[0].side)
-        assertEquals("buildDamage fail", 11, fightResult[0].damage)
-        assertEquals("hitPoint fail", 45, fightResult[0].source.hp)
-        assertEquals("hitPoint fail", 39, fightResult[0].target.hp)
+        assertEquals("buildDamage fail", 7, fightResult[0].damage)
+        assertEquals("hitPoint fail", 55, fightResult[0].source.hp)
+        assertEquals("hitPoint fail", 38, fightResult[0].target.hp)
         assertEquals("attack side fail", SIDES.COUNTER, fightResult[1].side)
-        assertEquals("buildDamage fail", 5, fightResult[1].damage)
-        assertEquals("hitPoint fail", 40, fightResult[1].source.hp)
-        assertEquals("hitPoint fail", 39, fightResult[1].target.hp)
-        assertEquals("attack side fail", SIDES.ATTACKER, fightResult[2].side)
-        assertEquals("buildDamage fail", 11, fightResult[2].damage)
-        assertEquals("hitPoint fail", 40, fightResult[2].source.hp)
-        assertEquals("hitPoint fail", 28, fightResult[2].target.hp)
+        assertEquals("buildDamage fail", 45, fightResult[1].damage)
+        assertEquals("hitPoint fail", 10, fightResult[1].source.hp)
+        assertEquals("hitPoint fail", 38, fightResult[1].target.hp)
+        assertEquals("attack side fail", SIDES.COUNTER, fightResult[2].side)
+        assertEquals("buildDamage fail", 9, fightResult[2].damage)
+        assertEquals("hitPoint fail", 1, fightResult[2].source.hp)
+        assertEquals("hitPoint fail", 38, fightResult[2].target.hp)
     }
 
 }

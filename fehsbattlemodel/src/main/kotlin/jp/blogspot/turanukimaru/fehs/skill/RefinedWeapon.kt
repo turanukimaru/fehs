@@ -7,7 +7,7 @@ import jp.blogspot.turanukimaru.fehs.*
  * あーテキストが一意になるようにしないと保存できないか。これはうかつだったな。武器名で統一するか…？追加効果だから困るわけではないのだが。
  * 錬成武器
  */
-enum class RefinedWeapon(override val jp: SkillName, val hp: Int, val atk: Int, val spd: Int, val def: Int, val res: Int, override val refinedWeaponType: RefinedWeapon.RefineType = RefinedWeapon.RefineType.NONE, override val preSkill: Skill? = null, override val level: Int = 0, override val type: SkillType = SkillType.REFINERY, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf(), override val spType: SpType = SpType.LEGEND_W) : Weapon {
+enum class RefinedWeapon(override val jp: SkillName, val hp: Int, val atk: Int, val spd: Int, val def: Int, val res: Int, override val refinedWeaponType: RefineType = RefineType.NONE, override val preSkill: Skill? = null, override val level: Int = 0, override val type: SkillType = SkillType.REFINERY, override val effectiveAgainstMoveType: Array<MoveType> = arrayOf(), override val effectiveAgainstWeaponType: Array<WeaponType> = arrayOf(), override val spType: SpType = SpType.LEGEND_W) : Weapon {
     //基本ルール
     RefinedAny(SkillName.RefinedWeapon, 0, 0, 0, 0, 0),
     Range1Atk(SkillName.Range1Atk, 5, 2, 0, 0, 0, RefineType.Range1),
@@ -322,11 +322,16 @@ enum class RefinedWeapon(override val jp: SkillName, val hp: Int, val atk: Int, 
     },
     DarkExcalibur(SkillName.QuickenedPulse, 0, 0, 0, 0, 0, RefineType.DependWeapon, Gtome.DarkExcalibur),
 
-    Tyrfing(SkillName.Tyrfing, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.Tyrfing) {
-        override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = TODO()
-        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = TODO()
+    Tyrfing(SkillName.Miracle, 3, 0, 0, 0, 0, RefineType.DependWeapon, Sword.Tyrfing) {
+        override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
+            battleUnit.effect.startHp = battleUnit.hp //ティルフィング以外でも必要になったら移動しなきゃ…
+            return if (battleUnit.effect.adjacentUnits > 0) atkSpd(battleUnit, 5, RefinedAny) else battleUnit
+        }
+
+        override fun prevent(battleUnit: BattleUnit, damage: Int, source: BattleUnit, results: List<AttackResult>, lv: Int): Int = if (battleUnit.effect.startHp > battleUnit.armedHero.maxHp / 2 && battleUnit.hp in 2..damage) battleUnit.hp - 1 else damage
     },
     ;
+
     override fun equip(armedHero: ArmedHero, lv: Int): ArmedHero {
         //println("$jp hp:$hp")
         equipHp(armedHero, hp)
