@@ -16,18 +16,18 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     override fun isMovable(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean, rotated: Int): Boolean {
         //向きは正しいか && 突入できるか && 直線移動が許されている方向か
 //        if(rotated > 7 || rotated < 0)println("orientation:$orientation -> rotated:$rotated")
-        return unit.orientations.contains(rotated) && (piece == null || piece.owner != owner) && (steps == 0 || (unit.recursiveOrientations.contains(rotated) && straight && steps < 128))
+        return myPiece.orientations.contains(rotated) && (piece == null || piece.owner != owner) && (steps == 0 || (myPiece.recursiveOrientations.contains(rotated) && straight && steps < 128))
     }
 
-    override fun isEffective(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Boolean = false
+    override fun isEffective(piece: Piece<ShogiUnit, Ground>?, TILE: Ground?, orientation: Int, steps: Int, rotated: Int): Boolean = false
 
     /**
      * 味方にサポートできる範囲か。将棋にはない
      */
-    override fun isSupportable(grounds: PiecesAndGrounds<ShogiUnit, Ground>, orientation: Int, steps: Int, rotated: Int): Boolean = false
+    override fun isSupportable(tiles: PiecesAndTiles<ShogiUnit, Ground>, orientation: Int, steps: Int, rotated: Int): Boolean = false
 
     //一歩進む。相手がいたら+128とかにすれば相手で止まれるか？
-    override fun countStep(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, rotated: Int): Int = if (piece == null) steps + 1 else 128
+    override fun countStep(piece: Piece<ShogiUnit, Ground>?, tile: Ground?, orientation: Int, steps: Int, rotated: Int): Int = if (piece == null) steps + 1 else 128
 
     //将棋にアクションはない
     override fun actionOrientations(): Array<Int> = arrayOf()
@@ -77,7 +77,7 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
      * 対象があるかないかで分けるべきかなあ
      */
     override fun opt(actionTargetPiece: Piece<ShogiUnit, Ground>?, from: Position, actionTargetPos: Position) {
-        if (unit.promotion != null) unit.promotion = Kin()
+        if (myPiece.promotion != null) myPiece.promotion = Kin()
         if (actionTargetPiece == null) return
         board.physics.remove(actionTargetPiece)
         boardMoveCommitAction(actionTargetPos)
@@ -85,6 +85,6 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     }
 
 
-    override fun toString(): String = unit.name
+    override fun toString(): String = myPiece.name
 }
 

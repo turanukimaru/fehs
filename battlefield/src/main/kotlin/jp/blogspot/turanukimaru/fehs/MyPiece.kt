@@ -7,7 +7,7 @@ import jp.blogspot.turanukimaru.playboard.*
  */
 class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: Player, actionListener: IActionListener? = null) : Piece<MyPiece, Tile>(null, board, owner) {
     val actionListeners = if (actionListener != null) listOf<IActionListener>(actionListener) else listOf<IActionListener>()
-    override val unit get() = this
+    override val myPiece get() = this
     override fun isStoppable(piece: Piece<MyPiece, Tile>?): Boolean = piece == null || piece == this
 
     override fun isMovable(piece: Piece<MyPiece, Tile>?, tile: Tile?, orientation: Int, steps: Int, straight: Boolean, rotated: Int): Boolean {
@@ -74,12 +74,12 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
         //敵ユニットに重ねたときは戦闘結果を計算して表示
         if (actionableAt(position) > 0 && target != null && target.owner != owner) {
             //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
-            val results = containUnit.fight(target.unit.containUnit)
+            val results = containUnit.fight(target.myPiece.containUnit)
             for (result in results) {
                 println(result)
             }
 
-            val fightResult = FightResult(containUnit, charPosition!!, target.unit.containUnit, position, containUnit.fight(target.unit.containUnit))
+            val fightResult = FightResult(containUnit, charPosition!!, target.myPiece.containUnit, position, containUnit.fight(target.myPiece.containUnit))
             actionListeners.forEach { it.updateActionResult(fightResult, true) }
         }
         return true
@@ -134,17 +134,17 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
             println("attack from $attackPos")
             println(board.move.routeStack)
             println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-            val fightResult = FightResult(containUnit, attackPos.p, target.unit.containUnit, position, containUnit.fight(target.unit.containUnit))
+            val fightResult = FightResult(containUnit, attackPos.p, target.myPiece.containUnit, position, containUnit.fight(target.myPiece.containUnit))
             action(ActionPhase.ACTED, ActionEvent.Attack, fightResult)
-            target.unit.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
+            target.myPiece.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
             //表示にはfightResultのHPを使うがマップ上では最終的なHPをそのまま使える
             containUnit.hp = fightResult.attackResults.last().source.hp
-            target.unit.containUnit.hp = fightResult.attackResults.last().target.hp
+            target.myPiece.containUnit.hp = fightResult.attackResults.last().target.hp
 
             if (containUnit.hp == 0) {
                 board.physics.remove(this, attackPos.p)
             }
-            if (target.unit.containUnit.hp == 0) {
+            if (target.myPiece.containUnit.hp == 0) {
                 board.physics.remove(target, position)
             }
 

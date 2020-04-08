@@ -23,7 +23,7 @@ open class PhysicalBoard<UNIT, TILE>(val horizontalLines: Int, val verticalLines
      * 盤上の地形
      * 地形が無いところはnull.nullObjectとか床を作るべきか？でも床のないボードゲームのが多いよな
      */
-    private val TILEMatrix = mutableListOf<MutableList<TILE?>>()
+    private val tileMatrix = mutableListOf<MutableList<TILE?>>()
     /**
      * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
      */
@@ -32,7 +32,7 @@ open class PhysicalBoard<UNIT, TILE>(val horizontalLines: Int, val verticalLines
     /**
      * 対象の場所にある地形
      */
-    fun TILEAt(position: Position): TILE? = if (position.x in horizontalIndexes && position.y in verticalIndexes) TILEMatrix[position.x][position.y] else null
+    fun tileAt(position: Position): TILE? = if (position.x in horizontalIndexes && position.y in verticalIndexes) tileMatrix[position.x][position.y] else null
 
     /**
      * 対象の場所にある駒
@@ -97,13 +97,13 @@ open class PhysicalBoard<UNIT, TILE>(val horizontalLines: Int, val verticalLines
      * 地形のマトリックスをXY入れ替えてコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrixXYはxyが入れ替わっているので入れ替える
      * yが上下逆なのはどうすっかなあ。
      */
-    fun copyTILESwitchXY(matrix: Array<Array<TILE>>) {
-        TILEMatrix.clear()
+    fun copyTilesSwitchXY(matrix: Array<Array<TILE>>) {
+        tileMatrix.clear()
         println(horizontalIndexes)
         horizontalIndexes.forEach { x ->
             val line = mutableListOf<TILE?>()
             verticalIndexes.forEach { y -> line.add(matrix[verticalIndexes.last - y][x]) }
-            TILEMatrix.add(line)
+            tileMatrix.add(line)
         }
     }
 
@@ -150,7 +150,7 @@ open class PhysicalBoard<UNIT, TILE>(val horizontalLines: Int, val verticalLines
 
             val boxLine = mutableListOf<TILE?>()
             verticalIndexes.forEach { _ -> boxLine.add(null) }
-            TILEMatrix.add(boxLine)
+            tileMatrix.add(boxLine)
         }
     }
 

@@ -116,7 +116,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         }
 
         //地形を盤面にコピー
-        myGame.controller.board.physics.copyGroundSwitchXY(battleGround)
+        myGame.controller.board.physics.copyTilesSwitchXY(battleGround)
 
         //盤外のボタンなど。これも処理考え直す必要がありそう
         val turnendTexture = loadTexture("turnend.png")
@@ -240,7 +240,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         bitmapFont!!.draw(batch, "from:${hand.moving.from}", 50f, 630f)
         bitmapFont!!.draw(batch, "to:${hand.moving.to}", 50f, 660f)
         myGame.controller.board.physics.pieceList.forEach {
-            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.unit.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
+            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.myPiece.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
         }
         batch!!.end()
         myGame.uiBoard.libUpdate()

@@ -15,10 +15,10 @@ open class RealmPhysicalBoard(
         var battleUnits : RealmList<RealmPositioning> = RealmList<RealmPositioning>()
 ): RealmObject() {
 //    constructor() : this(0,RealmList<RealmPositioning>())
-    fun put(realm:Realm, id:Int,x:Int, y:Int)  =realm.executeTransaction{
+    fun put(realm:Realm, piece:BattleUnit,x:Int, y:Int)  =realm.executeTransaction{
         val last = realm.where(RealmBattleUnit::class.java).max("id")
         val unit = realm.createObject<RealmBattleUnit>(RealmBattleUnit::class.java,last)
-        unit.hp = 1
+        unit.hp = piece.hp
         val pos = realm.createObject<RealmPositioning>(RealmPositioning::class.java,last)
         pos.x = x
         pos.y = y

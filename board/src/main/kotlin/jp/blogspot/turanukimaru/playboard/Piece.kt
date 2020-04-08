@@ -5,7 +5,7 @@ package jp.blogspot.turanukimaru.playboard
  */
 open class Piece<UNIT, TILE>(private val contain: UNIT?, var board: Board<UNIT, TILE>, val owner: Player) {
 
-    open val unit: UNIT get() = contain ?: throw NullPointerException()
+    open val myPiece: UNIT get() = contain ?: throw NullPointerException()
     /**
      * 操作的な意味での状態。駒を動かせるかとか動かした後だとか。
      */
@@ -82,14 +82,14 @@ open class Piece<UNIT, TILE>(private val contain: UNIT?, var board: Board<UNIT, 
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<UNIT, TILE>?, TILE: TILE?, orientation: Int, steps: Int, straight: Boolean, rotated: Int = rotate(orientation)): Boolean {
+    open fun isMovable(piece: Piece<UNIT, TILE>?, tile: TILE?, orientation: Int, steps: Int, straight: Boolean, rotated: Int = rotate(orientation)): Boolean {
         return piece == null && steps == 0
     }
 
     /**
      * 引数の枡に移動することで消費する移動力。移動できないときは負の値
      */
-    open fun countStep(piece: Piece<UNIT, TILE>?, TILE: TILE?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Int {
+    open fun countStep(piece: Piece<UNIT, TILE>?, tile: TILE?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Int {
         return if (steps == 0) {
             1
         } else {

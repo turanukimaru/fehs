@@ -9,13 +9,13 @@ import jp.blogspot.turanukimaru.playboard.Piece
 class PersistPhysicalBoard(horizontalLines: Int, verticalLines: Int, var realmPhysicalBoard :RealmPhysicalBoard, val realm: Realm) : PhysicalBoard<MyPiece,Tile>(horizontalLines, verticalLines) {
 override fun localPut(piece: Piece<MyPiece, Tile>, x: Int, y: Int, orientation: Int) {
     super.localPut(piece, x, y, orientation)
-    println("PersistPhysicalBoard localPut ${piece.unit.containUnit.armedHero.baseHero.heroName.jp}")
-    realmPhysicalBoard.put(realm, TODO(),x,y) //ユニットのIDどうすっかな
+    println("PersistPhysicalBoard localPut ${piece.myPiece.containUnit.armedHero.baseHero.heroName.jp}")
+    realmPhysicalBoard.put(realm, piece.myPiece.containUnit,x,y) //ユニットのIDどうすっかな
 }
 
     override fun localMove(piece: Piece<MyPiece, Tile>, x: Int, y: Int, oldX: Int?, oldY: Int?, orientation: Int) {
         super.localMove(piece, x, y,oldX,oldY,orientation)
-        println("PersistPhysicalBoard localMove ${piece.unit.containUnit.armedHero.baseHero.heroName.jp}")
+        println("PersistPhysicalBoard localMove ${piece.myPiece.containUnit.armedHero.baseHero.heroName.jp}")
         realmPhysicalBoard.move(realm, TODO(),x,y)
     }
 }

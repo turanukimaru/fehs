@@ -5,7 +5,7 @@ import java.util.*
 /**
  * 論理盤面。手の保持やルート計算がメイン。盤面の操作は physics に対して行える
  */
-class Board<UNIT, TILE>(horizontalLines: Int, verticalLines: Int, var id : Int? = null,
+class Board<UNIT, TILE>(val horizontalLines: Int,val verticalLines: Int, var id : Int? = null,
                           /**
                            * 操作対象としての盤
                            */
@@ -71,7 +71,7 @@ class Board<UNIT, TILE>(horizontalLines: Int, verticalLines: Int, var id : Int? 
             //枠内
             if (targetPos.x in 0 until physics.horizontalLines && targetPos.y in 0 until physics.verticalLines) {
                 val targetUnit = physics.pieceAt(targetPos)
-                val targetSquare = physics.TILEAt(targetPos)
+                val targetSquare = physics.tileAt(targetPos)
                 val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
                 val stepped = routeMatrix[targetPos.x][targetPos.y]
                 //移動出来て歩数が増えてなければ。
@@ -114,7 +114,7 @@ class Board<UNIT, TILE>(horizontalLines: Int, verticalLines: Int, var id : Int? 
             //枠内
             if (targetPos.x in 0 until physics.horizontalLines && targetPos.y in 0 until physics.verticalLines) {
                 val targetUnit = physics.pieceAt(targetPos)
-                val targetSquare = physics.TILEAt(targetPos)
+                val targetSquare = physics.tileAt(targetPos)
                 //再帰して距離を計算するつもりだったけど射程は再帰要らないよな。1固定でいっか
                 val targetSteps = 1
                 val stepped = attackMatrix[targetPos.x][targetPos.y]
@@ -134,20 +134,20 @@ class Board<UNIT, TILE>(horizontalLines: Int, verticalLines: Int, var id : Int? 
     /**
      * 対象と前後２枡の枡・駒を出力する。補助スキル判定に使う
      */
-    private fun aroundPiecesAndTILEs(v: Int, targetPos: Position, targetUnit: Piece<UNIT, TILE>? = physics.pieceAt(targetPos), targetSquare: TILE? = physics.TILEAt(targetPos)): PiecesAndTiles<UNIT, TILE> {
+    private fun aroundPiecesAndTILEs(v: Int, targetPos: Position, targetUnit: Piece<UNIT, TILE>? = physics.pieceAt(targetPos), targetSquare: TILE? = physics.tileAt(targetPos)): PiecesAndTiles<UNIT, TILE> {
         //対象の前後２枡計４枡を確認してサポートスキルが発動できるか。ちょっと人には見せられないコードだな！
         val pos1 = moveWithOrientation(v, targetPos)
         val pos2 = moveWithOrientation(v, pos1)
         val posM1 = moveWithOrientation(v, targetPos, -1)
         val posM2 = moveWithOrientation(v, posM1, -1)
         val p1 = physics.pieceAt(pos1)
-        val g1 = physics.TILEAt(pos1)
+        val g1 = physics.tileAt(pos1)
         val p2 = physics.pieceAt(pos2)
-        val g2 = physics.TILEAt(pos2)
+        val g2 = physics.tileAt(pos2)
         val pM1 = physics.pieceAt(posM1)
-        val gM1 = physics.TILEAt(posM1)
+        val gM1 = physics.tileAt(posM1)
         val pM2 = physics.pieceAt(posM2)
-        val gM2 = physics.TILEAt(posM2)
+        val gM2 = physics.tileAt(posM2)
         return PiecesAndTiles(targetUnit, p1, p2, pM1, pM2, targetSquare, g1, g2, gM1, gM2)
     }
 
@@ -323,7 +323,7 @@ class Board<UNIT, TILE>(horizontalLines: Int, verticalLines: Int, var id : Int? 
             //枠内
             if (targetPos.x in 0 until physics.horizontalLines && targetPos.y in 0 until physics.verticalLines) {
                 val targetUnit = physics.pieceAt(targetPos)
-                val targetSquare = physics.TILEAt(targetPos)
+                val targetSquare = physics.tileAt(targetPos)
                 val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
                 //移動出来て歩数が増えてなければ。でふぉ-1はやめたほうがいいかな。
                 if (piece.isMovable(targetUnit, targetSquare, v, steps, v == orientation)) {
