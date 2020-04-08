@@ -8,7 +8,7 @@ import kotlin.math.abs
  * プレイヤー。盤の所有者に使う
  * 駒のジェネリックを持ってるべきなんだけどめんどくさいというか必要になってから追加したい。
  */
-class Player (val id : Int?= null){
+class Player(val id: Int? = null) {
     companion object {
         val None = Player()
     }
@@ -22,7 +22,7 @@ class Player (val id : Int?= null){
 
 // これこの層じゃないな…いや基本動作はここでいいのか
 interface BoardListener {
-//    fun actionDone()
+    //    fun actionDone()
 //    fun turnEnd()
     fun showOption(position: Position)
     fun hideOption()
@@ -71,6 +71,7 @@ class Touch<UNIT, TILE>(
     private val graspThreshold = 500//長押しホールドに結局要るか…
 
     val hasPiece: Boolean get() = touchedPiece != null
+
     /**
      * ドラッグ中か。どこかにホールド判定を入れないとなー
      */
@@ -104,38 +105,47 @@ enum class ActionEvent {
      * アクションなし。アクション終了後これ。Updateが走る
      */
     None,
+
     /**
      * アクションなし。アクション中・ドラッグ中Updateが走らない
      */
     Direct,
+
     /**
      * リトライとかで画面表示…イラン気もするな
      */
     Reset,
+
     /**
      * 動ける状態
      */
     Ready,
+
     /**
      * アクション中。Updateが走らない
      */
     MoveToCharPosition,
+
     /**
      * アクション中。Updateが走らない
      */
     Selected,
+
     /**
      * 戦闘とかのアクション中。Updateが走らない
      */
     Attack,
+
     /**
      * 戦闘とかのアクション中。Updateが走らない
      */
     Attacked,
+
     /**
      * 最初に画面上に配置
      */
     Put,
+
     /**
      * 主導権のない側を棒立ちにして色見を戻す
      */
@@ -148,16 +158,22 @@ enum class ActionEvent {
 enum class ActionPhase {
     //おかれて初期化を行う前。初期化されたらDisabled
     PUTTED,
+
     //おかれて初期化を行う前。初期化されたらREADY
     START,
+
     //自分の手番でないので動かせない
     DISABLED,
+
     //自分の手番で動かせる
     READY,
+
     //移動中
     MOVING,
+
     //行動確定後
     ACTED,
+
     //取り除いた状態。PositionがNullにもなっているはず
     REMOVED,
 }

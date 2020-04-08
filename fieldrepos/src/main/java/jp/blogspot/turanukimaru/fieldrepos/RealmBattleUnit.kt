@@ -7,10 +7,10 @@ import io.realm.annotations.RealmClass
 @RealmClass
 open class RealmBattleUnit(
         @PrimaryKey
-        var id : Int = 0
-        ,var hp:Int = 0
+        var id: Int = 0
+        , var hp: Int = 0
         // id 参照か実体を持つかは難しいところ。別ドメインなら参照だが同一ドメインなら実体だ…
-,var realmArmedHero: RealmArmedHero
-): RealmObject() {
+        , var realmArmedHero: RealmArmedHero? = null
+) : RealmObject() {
 //        constructor() : this("",0)
 }

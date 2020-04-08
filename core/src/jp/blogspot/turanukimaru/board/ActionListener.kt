@@ -18,22 +18,22 @@ open class ActionListener(private val actor: Actor, private val uiBoard: UiBoard
     /**
      * 情報枠を更新する。描画関数をリスナに渡してるだけだけど…
      */
-  override  fun updateInfo(myPiece: MyPiece, show:Boolean) {
+    override fun updateInfo(myPiece: MyPiece, show: Boolean) {
         uiBoard.setInfo({ b ->
             //フォントサイズ替えたいところではある
-            b.bitmapFont.draw(b.batch,myPiece. containUnit.armedHero.baseHero.heroName.jp, 80f, 940f)
+            b.bitmapFont.draw(b.batch, myPiece.containUnit.armedHero.baseHero.heroName.jp, 80f, 940f)
             b.bitmapFont.draw(b.batch, "HP", 50f, 900f)
-            b.bitmapFont.draw(b.batch,myPiece. containUnit.hp.toString(), 100f, 900f)
+            b.bitmapFont.draw(b.batch, myPiece.containUnit.hp.toString(), 100f, 900f)
             b.bitmapFont.draw(b.batch, "/", 140f, 900f)
-            b.bitmapFont.draw(b.batch,myPiece. containUnit.armedHero.maxHp.toString(), 160f, 900f)
+            b.bitmapFont.draw(b.batch, myPiece.containUnit.armedHero.maxHp.toString(), 160f, 900f)
             b.bitmapFont.draw(b.batch, "攻撃", 50f, 860f)
-            b.bitmapFont.draw(b.batch,myPiece. containUnit.atk.toString(), 120f, 860f)
+            b.bitmapFont.draw(b.batch, myPiece.containUnit.atk.toString(), 120f, 860f)
             b.bitmapFont.draw(b.batch, "早さ", 180f, 860f)
-            b.bitmapFont.draw(b.batch,myPiece. containUnit.spd.toString(), 240f, 860f)
+            b.bitmapFont.draw(b.batch, myPiece.containUnit.spd.toString(), 240f, 860f)
             b.bitmapFont.draw(b.batch, "守備", 50f, 820f)
-            b.bitmapFont.draw(b.batch,myPiece. containUnit.def.toString(), 120f, 820f)
+            b.bitmapFont.draw(b.batch, myPiece.containUnit.def.toString(), 120f, 820f)
             b.bitmapFont.draw(b.batch, "魔防", 180f, 820f)
-            b.bitmapFont.draw(b.batch,myPiece. containUnit.res.toString(), 240f, 820f)
+            b.bitmapFont.draw(b.batch, myPiece.containUnit.res.toString(), 240f, 820f)
             true
         }, 1)
     }

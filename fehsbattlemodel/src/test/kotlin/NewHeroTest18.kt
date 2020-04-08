@@ -7,6 +7,7 @@ import org.junit.Test
  */
 class NewHeroTest18 {
     val LOCALE = Locale.OTHER
+
     @Test
     fun gunTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.ニシキ.jp)!!)

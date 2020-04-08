@@ -14,7 +14,7 @@ import jp.blogspot.turanukimaru.playboard.TouchPhase
  * その場の絶対座標を取り直せば動きそうか？
  * 現在はlibGDXからのupdate()を中継してるだけなのでぶっちゃけこのクラスはなくていい。
  */
-open class UiPiece(private val actor: Actor,private val uiBoard: UiBoard,
+open class UiPiece(private val actor: Actor, private val uiBoard: UiBoard,
                    /**
                     * 論理駒
                     */
@@ -22,6 +22,7 @@ open class UiPiece(private val actor: Actor,private val uiBoard: UiBoard,
 ) : ClickListener() {
     var x = 0f
     var y = 0f
+
     /**
      * その駒に触れてる最中かどうか。ドラッグ中とPiece側から状態を取得するために使う。がなくなりそう…
      */

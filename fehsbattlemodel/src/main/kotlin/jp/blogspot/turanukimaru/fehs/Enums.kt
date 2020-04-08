@@ -21,6 +21,7 @@ enum class WeaponType(val range: Int, val isMaterial: Boolean, val sortOrder: In
 
     companion object {
         private val weaponTypeMap = mapOf("剣" to WeaponType.SWORD, "槍" to WeaponType.LANCE, "斧" to WeaponType.AXE, "竜" to DRAGON, "獣" to WeaponType.BEAST, "弓" to WeaponType.BOW, "暗器" to WeaponType.DAGGER, "赤魔" to WeaponType.RTOME, "緑魔" to WeaponType.GTOME, "青魔" to WeaponType.BTOME, "杖" to WeaponType.STAFF)
+
         /**
          * 日本語の武器名を変換する。ここにあるべきかは疑問だが将来画面とのやり取り以外にも使うかもしれない
          */
@@ -75,11 +76,11 @@ enum class BoonType(val jp: String) {
             }
 
     companion object {
-        private val boonTypeMap = mapOf("HP" to BoonType.HP, "攻撃" to BoonType.ATK, "速さ" to BoonType.SPD, "守備" to BoonType.DEF, "魔防" to BoonType.RES)
-        fun boonTypeOf(key: String) = when {
-            boonTypeMap.containsKey(key) -> boonTypeMap[key]!!
-            BoonType.values().any { e -> e.name == key } -> BoonType.valueOf(key)
-            else -> BoonType.NONE
+        private val boonTypeMap = mapOf("HP" to HP, "攻撃" to ATK, "速さ" to SPD, "守備" to DEF, "魔防" to RES)
+        fun boonTypeOf(key: String):BoonType = when {
+            boonTypeMap.containsKey(key) -> boonTypeMap[key] ?: error("もっとうまく書けそうなものだが…")
+            values().any { e -> e.name == key } -> valueOf(key)
+            else -> NONE
         }
     }
 

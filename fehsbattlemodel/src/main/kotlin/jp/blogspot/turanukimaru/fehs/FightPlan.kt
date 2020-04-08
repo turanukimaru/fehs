@@ -10,28 +10,33 @@ class FightPlan(val attacker: BattleUnit, val target: BattleUnit) {
     val firstAttack = { pair: Pair<BattleUnit, BattleUnit>, results: List<AttackResult> ->
         pair.first.attack(pair.second, results)
     }
+
     /**
      * 反撃
      */
     val firstCounter = { pair: Pair<BattleUnit, BattleUnit>, results: List<AttackResult> ->
         pair.second.attack(pair.first, results).flip()
     }
+
     /**
      * 攻撃側追撃
      */
     val secondAttack = { pair: Pair<BattleUnit, BattleUnit>, results: List<AttackResult> ->
         pair.first.attack(pair.second, results)
     }
+
     /**
      * 反撃側追撃.今のところこれの順番を変えるスキルはないからプライベート。まあ他のも操作メソッドをここに移せばいいのだが
      */
     private val secondCounter = { pair: Pair<BattleUnit, BattleUnit>, results: List<AttackResult> ->
         pair.second.attack(pair.first, results).flip()
     }
+
     /**
      * 攻撃順
      */
     val plan = mutableListOf(firstAttack, firstCounter, secondAttack, secondCounter)
+
     /**
      * 戦闘結果のリスト。攻撃ごとにHPが減ったりダメージを表示するために途中経過も含む
      */

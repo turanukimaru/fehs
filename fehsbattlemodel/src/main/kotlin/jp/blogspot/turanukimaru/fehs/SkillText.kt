@@ -7,6 +7,7 @@ import jp.blogspot.turanukimaru.fehs.skill.Skill
  */
 enum class SkillBaseText(val jp: String, val us: String) {
     NONE("", ""),
+
     //まずは条件ではなく効果だけあればいいか
     TriangleAdept("相性効果", "weapon advantage"),
     AntiTriangleAdept("不利な相性効果相殺", "reverses negative weapon advantage "),

@@ -15,6 +15,7 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
     AxeBreaker(SkillName.AxeBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.AXE, lv, this)
     },
+
     //弓殺しは無色限定
     BowBreaker(SkillName.BowBreaker) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = weaponBreaker(battleUnit, enemy, WeaponType.BOW, lv, 0, this)
@@ -34,6 +35,7 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
     WaryFighter(SkillName.WaryFighter, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = eachNofollowupable(battleUnit, enemy, lv, this)
     },
+
     //あれ？LVの考慮忘れてるわ
     BoldFighter(SkillName.BoldFighter, spType = SpType.BASE60) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = accelerateAttackCooldown(followupable(battleUnit, 10, this), 11, this)
@@ -150,8 +152,8 @@ enum class SkillB(override val jp: SkillName, override val type: SkillType = Ski
         override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullFollowUp(battleUnit, enemy, lv, this)
     },
     MysticBoost(SkillName.MysticBoost, spType = SpType.BASE60) {
-        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(mysticBoost(battleUnit, enemy, lv, this),lv*2,this)
-        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(mysticBoost(battleUnit, enemy, lv, this),lv*2,this)
+        override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(mysticBoost(battleUnit, enemy, lv, this), lv * 2, this)
+        override fun effectedCounterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = attackHeal(mysticBoost(battleUnit, enemy, lv, this), lv * 2, this)
     },
     NullCDisrupt(SkillName.NullCDisrupt, spType = SpType.BASE60) {
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = nullCDisrupt(battleUnit, enemy, lv, this)

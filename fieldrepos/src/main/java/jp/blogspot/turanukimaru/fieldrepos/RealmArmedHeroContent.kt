@@ -11,6 +11,7 @@ import kotlin.properties.Delegates
 object RealmArmedHeroContent : RealmContent<ArmedHero>() {
 
     private val tag = "RealmArmedHeroContent"
+
     /**
      * realmのkotlin用ハンドラ
      */
@@ -31,8 +32,8 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
     }
 
 
-    override fun create(item: ArmedHero): ArmedHero {
-        return item
+    override fun create(initialItem: ArmedHero): ArmedHero {
+        return initialItem
     }
 
     override fun complexQuery(item: ArmedHero): List<ArmedHero> {
@@ -63,7 +64,7 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
         Log.i("RealmArmedHeroContent", item.toString())
         item.apply {
             realm.executeTransaction {
-                realm.copyToRealmOrUpdate(RealmArmedHero(name, baseHero.heroName.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
+                realm.copyToRealmOrUpdate(RealmArmedHero(0, name, baseHero.heroName.toString(), weapon.value, refinedWeapon.value, assist.value, special.value, aSkill.value, bSkill.value, cSkill.value, seal.value, rarity, levelBoost, boon.name, bane.name
                         , defensiveTerrain, atkBuff, spdBuff, defBuff, resBuff, atkSpur, spdSpur, defSpur, resSpur))
 
                 val target = realm.createObject(RealmArmedHero::class.java, "ニックネーム")

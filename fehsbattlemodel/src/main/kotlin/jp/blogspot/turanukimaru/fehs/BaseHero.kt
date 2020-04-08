@@ -18,6 +18,7 @@ data class BaseHero(val color: Int = 0, val weaponType: WeaponType = WeaponType.
      * 攻撃可能範囲。直接見てもいいか？今のところは変動しないし。
      */
     val effectiveRange: Int get() = weaponType.range
+
     /**
      * 得意不得意の能力値。最大が0なのはダミーデータ。アーダンの能力値↑は設定限界を超えるため
      */

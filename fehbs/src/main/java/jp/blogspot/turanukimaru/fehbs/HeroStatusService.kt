@@ -15,12 +15,6 @@ import android.widget.Button
 import android.widget.Spinner
 import jp.blogspot.turanukimaru.fehs.R
 import org.jetbrains.anko.onClick
-import android.support.v4.app.ActivityCompat.startActivityForResult
-import android.provider.Settings.canDrawOverlays
-import android.provider.Settings.canDrawOverlays
-import android.provider.Settings
-import android.net.Uri
-
 
 
 /**

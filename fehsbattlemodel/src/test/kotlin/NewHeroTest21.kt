@@ -7,6 +7,7 @@ import org.junit.Test
  */
 class NewHeroTest21 {
     val LOCALE = Locale.OTHER
+
     @Test
     fun gunTest() {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.ユンヌ.jp)!!)
@@ -240,7 +241,7 @@ class NewHeroTest21 {
         val unitA = ArmedHero(StandardBaseHero.get(HeroName.マチルダ.jp)!!)
         val attacker = BattleUnit(unitA, unitA.maxHp)
 
-        val unitB = ArmedHero(StandardBaseHero.get(HeroName.   ライ.jp)!!)
+        val unitB = ArmedHero(StandardBaseHero.get(HeroName.ライ.jp)!!)
         val fightResult = attacker.fightAndAfterEffect(BattleUnit(unitB, unitB.maxHp))
         println(fightResult[0])
         println(fightResult[0].source.activatedSkillText(LOCALE))

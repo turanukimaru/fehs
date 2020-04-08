@@ -72,6 +72,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, private val liner: Shape
      *     ドラッグ判定用X
      */
     var touchStartX = 0f
+
     /**
      *     ドラッグ判定用Y
      */
@@ -80,7 +81,7 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, private val liner: Shape
     /**
      * update時に盤外に表示する関数。
      */
-   private var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
+    private var updateInfo: (uiBoard: UiBoard) -> Boolean = { _ -> true }
 
     /**
      *

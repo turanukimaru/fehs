@@ -30,6 +30,7 @@ class 時間的Enum群 {
 interface CodeEnum<T> {
     val category get() = 0
     val key get() = 0
+
     //対応するコードをキャッシュから取り出して返す
     val sein get() = Sein<T>()
 }

@@ -5,11 +5,11 @@ import java.util.*
 /**
  * 論理盤面。手の保持やルート計算がメイン。盤面の操作は physics に対して行える
  */
-class Board<UNIT, TILE>(val horizontalLines: Int,val verticalLines: Int, var id : Int? = null,
-                          /**
-                           * 操作対象としての盤
-                           */
-                          val physics:PhysicalBoard<UNIT, TILE> = PhysicalBoard(horizontalLines, verticalLines)
+class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: Int? = null,
+                        /**
+                         * 操作対象としての盤
+                         */
+                        val physics: PhysicalBoard<UNIT, TILE> = PhysicalBoard(horizontalLines, verticalLines)
 
 ) {
     /**
@@ -33,9 +33,9 @@ class Board<UNIT, TILE>(val horizontalLines: Int,val verticalLines: Int, var id 
     private val filledMatrix: MutableList<MutableList<Int>>
         get() {
             val routeMatrix = mutableListOf<MutableList<Int>>()
-            physics. horizontalIndexes.forEach {_->
+            physics.horizontalIndexes.forEach { _ ->
                 val unitLine = mutableListOf<Int>()
-                physics. verticalIndexes.forEach {_-> unitLine.add(-1) }
+                physics.verticalIndexes.forEach { _ -> unitLine.add(-1) }
                 routeMatrix.add(unitLine)
             }
             return routeMatrix

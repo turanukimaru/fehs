@@ -241,11 +241,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingEnd="4dp"
             android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:text="@string/top_rarities_title"
-            android:textSize="@dimen/mini_param_text_size"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="true"
+            android:textSize="@dimen/mini_param_text_size" />
 
         <Spinner
             android:id="@+id/raritySpinner"
@@ -262,8 +262,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/bottom_rarities_title"
-            android:textSize="@dimen/mini_param_text_size"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="true"
+            android:textSize="@dimen/mini_param_text_size" />
 
         <Spinner
             android:id="@+id/targetRaritySpinner"
@@ -282,8 +282,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/plus"
-            android:textSize="@dimen/mini_param_text_size"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="true"
+            android:textSize="@dimen/mini_param_text_size" />
 
         <Spinner
             android:id="@+id/levelBoostSpinner"
@@ -315,8 +315,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/none"
-            android:entries="@array/boon_type" />
+            android:entries="@array/boon_type"
+            android:text="@string/none" />
 
     </LinearLayout>
 
@@ -339,8 +339,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/none"
-            android:entries="@array/boon_type" />
+            android:entries="@array/boon_type"
+            android:text="@string/none" />
     </LinearLayout>
 
     <LinearLayout

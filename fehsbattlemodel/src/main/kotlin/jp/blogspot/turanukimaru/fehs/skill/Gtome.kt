@@ -79,7 +79,7 @@ enum class Gtome(override val jp: SkillName, override val type: SkillType, overr
     },
     GigaExcalibur(SkillName.GigaExcalibur, SkillType.GTOME, 14, Rexcalibur) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = spdFlat(battleUnit, enemy)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
             return battleUnit

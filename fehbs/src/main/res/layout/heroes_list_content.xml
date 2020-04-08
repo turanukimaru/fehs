@@ -16,8 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:ems="10"
-            android:textColor="@android:color/black"
-            android:text="" />
+            android:text=""
+            android:textColor="@android:color/black" />
         " />
 
         <TextView
@@ -31,9 +31,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:visibility="visible">
 
@@ -57,8 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="2"
-                android:textColor="@android:color/black"
-                android:text="" />
+                android:text=""
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/atkTitleView"
@@ -75,8 +75,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="2"
-                android:textColor="@android:color/black"
-                android:text="" />
+                android:text=""
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/spdTitleView"
@@ -93,8 +93,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="2"
-                android:textColor="@android:color/black"
-                android:text="" />
+                android:text=""
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/defTitleView"
@@ -111,8 +111,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="2"
-                android:textColor="@android:color/black"
-                android:text="" />
+                android:text=""
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/resTitleView"
@@ -129,8 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="2"
-                android:textColor="@android:color/black"
-                android:text="" />
+                android:text=""
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 
@@ -144,8 +144,8 @@
                 android:id="@+id/rarityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/mini_param_text_size"
-                android:text="@string/rarities_title" />
+                android:text="@string/rarities_title"
+                android:textSize="@dimen/mini_param_text_size" />
 
             <TextView
                 android:id="@+id/rarityText"
@@ -158,8 +158,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/mini_param_text_size"
-                android:text="+" />
+                android:text="+"
+                android:textSize="@dimen/mini_param_text_size" />
 
             <TextView
                 android:id="@+id/boostText"

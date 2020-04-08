@@ -84,6 +84,7 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
     },
     SwiftMulagir(SkillName.SwiftMulagir, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipRes(armedHero, 3)
+
         //マップ実装時には敵ユニット数との判定が必要
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atkSpd(battleUnit, 5, this) else battleUnit
     },
@@ -101,6 +102,7 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
     },
     Thogn(SkillName.Thogn, SkillType.BOW, 14, SilverBow, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
+
         //マップ実装時には敵ユニット数との判定が必要
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.effectiveRange == 1) allBonus(battleUnit, 4) else battleUnit
     },
@@ -135,7 +137,7 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
 
     LunaArc(SkillName.LunaArc, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = if (battleUnit.effect.side == SIDES.ATTACKER) enemy.def * 25 / 100 else 0
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = if (battleUnit.effect.side == SIDES.ATTACKER) enemy.def * 25 / 100 else 0
     },
     BouquetBow(SkillName.BouquetBow, SkillType.BOW, 8, SteelBow, SpType.SILVER, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = atkSpd(battleUnit, 4, this)
@@ -149,7 +151,7 @@ enum class Bow(override val jp: SkillName, override val type: SkillType, overrid
     BigCatchBow2(SkillName.BigCatchBow2, SkillType.BOW, 12, BouquetBow, SpType.PLUS, RefinedWeapon.RefineType.Range2, effectiveAgainstMoveType = arrayOf(MoveType.FLIER)) {
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger || enemy.isDebuffed) atkSpd(battleUnit, 5, this) else battleUnit
     },
-    DeepBlueBow(SkillName.DeepBlueBow, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, effectiveAgainstMoveType = arrayOf(MoveType.FLIER,MoveType.ARMORED)) {
+    DeepBlueBow(SkillName.DeepBlueBow, SkillType.BOW, 14, SilverBow, SpType.LEGEND_W, effectiveAgainstMoveType = arrayOf(MoveType.FLIER, MoveType.ARMORED)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = enemyFullHpAllBonus(battleUnit, enemy, 4, this)
     },

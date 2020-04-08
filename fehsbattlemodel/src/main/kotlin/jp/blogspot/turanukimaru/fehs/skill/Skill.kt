@@ -10,46 +10,57 @@ interface Skill {
      * レベル
      */
     val level: Int get() = 0
+
     /**
      * スキルタイプ。錬成武器とかは別タイプになるので結構細かい
      */
     val type: SkillType get() = SkillType.NONE
+
     /**
      * Nameとほぼ同じ。昔は英語直だったけど今はNameクラスがあるからこれもう要らないか…？
      */
     val value: String get() = ""
+
     /**
      * ローカル名
      */
     val jp: SkillName get() = SkillName.NONE
+
     /**
      * 最大レベル。スキル一覧を作る際に参照する
      */
     val maxLevel: Int get() = 0
+
     /**
      * 貫通効果
      */
     val mitMod: Int get() = 0
+
     /**
      * 固定値だけど他の値を取ることは今のところない
      */
     val offMlt: Int get() = 10
+
     /**
      * 守備魔防を減少させる％
      */
     val penetrate: Int get() = 0
+
     /**
      * 追加ダメージ関数。もうこうするしか…
      */
     val stateDamageEnemy: (BattleUnit) -> Int get() = { 0 }
+
     /**
      * 奥義が発動した場合に能力値を参照してダメージを増加させる関数
      */
     val stateDamage: (BattleUnit) -> Int get() = { 0 }
+
     /**
      * 奥義が発動した場合にHPが回復する％。名前が悪いな。
      */
     val heal: Int get() = 0
+
     /**
      * 前提条件となるひとつ前のスキル。
      */
@@ -60,6 +71,7 @@ interface Skill {
     val effectiveAgainstWeaponType: Array<WeaponType> get() = arrayOf()
 
     val spType: SpType get() = SpType.NONE
+
     //デフォルトパラメータにすることでoverrideが機能する
     fun sp(lv: Int = level, s: SpType = spType) = s.sp(lv)
 
@@ -159,7 +171,7 @@ interface Skill {
     /**
      * 能力値差による固定ダメージ。取り敢えず武器だけ見るので必要に応じて全部のスキルを通す
      */
-    fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv:Int = 0): Int = 0
+    fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int = 0): Int = 0
 
     /**
      * 装備時の能力値変化

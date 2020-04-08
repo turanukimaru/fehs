@@ -15,7 +15,7 @@ import jp.blogspot.turanukimaru.playboard.Position
 /**
  * Created by turanukimaru on 2018/03/15.
  */
-class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float,    var playerA: Player, var playerB: Player) : BoardListener {
+class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float, var playerA: Player, var playerB: Player) : BoardListener {
     override fun showOption(position: Position) {
         uiBoard.showOptionButton(position)
     }
@@ -31,7 +31,7 @@ class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFo
     private val vLines = 9
     private val hLines = 9
     val board: Board<ShogiUnit, Ground> = Board(hLines, vLines)
-    val controller : Game<ShogiUnit,Ground> = Game(board,playerA,playerB)
+    val controller: Game<ShogiUnit, Ground> = Game(board, playerA, playerB)
     val uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, localWidth, localHeight, headerHeight, footerHeight, marginLeft, marginRight, board)
 
     init {

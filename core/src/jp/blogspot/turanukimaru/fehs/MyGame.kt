@@ -54,6 +54,7 @@ class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont:
     private val headerHeight = 160f
     private val marginLeft = 0f
     private val marginRight = 0f
+
     //    val physicalBoard = BattleFieldContent
     val controller: Game<MyPiece, Tile> = Game(board, playerA, playerB)
     val uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, localWidth, localHeight, headerHeight, footerHeight, marginLeft, marginRight, controller.board)

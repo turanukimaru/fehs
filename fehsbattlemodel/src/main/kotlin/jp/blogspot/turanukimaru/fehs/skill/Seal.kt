@@ -94,6 +94,7 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
     QuickRiposte(SkillName.QuickRiposte, spType = SpType.BASE60) {
         override fun counterEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, lv)
     },
+
     /**
      * 連撃防御。武器の種類はなんか定数に定数を持たせるべきか…
      */
@@ -152,8 +153,10 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
     SavageBlow(SkillName.SavageBlow),
 
     BlazeDance(SkillName.BlazeDance),
+
     //    GaleDance(SkillName.GaleDance),
     EarthDance(SkillName.EarthDance),
+
     //    TorrentDance(SkillName.TorrentDance),
     SpurAtk(SkillName.SpurAtk),
     SpurSpd(SkillName.SpurSpd),
@@ -167,6 +170,7 @@ enum class Seal(override val jp: SkillName, override val type: SkillType = Skill
     DriveAtk(SkillName.DriveAtk, maxLevel = 2, spType = SpType.BASE60),
     DriveDef(SkillName.DriveDef, maxLevel = 2, spType = SpType.BASE60),
     DriveSpd(SkillName.DriveSpd, maxLevel = 2, spType = SpType.BASE60),
+
     //    DriveRes(SkillName.DriveRes, maxLevel = 2, spType = SpType.BASE60),
     DefTactic(SkillName.DefTactic, spType = SpType.BASE60),
     ResTactic(SkillName.ResTactic, spType = SpType.BASE60),

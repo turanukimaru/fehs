@@ -17,6 +17,7 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
     },
     HawkKingClaw(SkillName.HawkKingClaw, SkillType.BEAST, 14, AdultFlier) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+
         //あこれ相手のHPを参照しなきゃだめぢゃん
         override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = followupable(battleUnit, 10, this)
 
@@ -50,7 +51,7 @@ enum class Beast(override val jp: SkillName, override val type: SkillType, overr
     },
     RavenKingBeak(SkillName.RavenKingBeak, SkillType.BEAST, 14, AdultFlier) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = spdFlat(battleUnit, enemy)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
             return atk(battleUnit, 2, this)

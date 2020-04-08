@@ -57,6 +57,7 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
     },
     DraconicRage(SkillName.DraconicRage, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
+
         //これミュルグレと同じだな。真面目にカウントするなら一本化するか…
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits > 0) atkSpd(battleUnit, 5, this) else battleUnit
     },
@@ -68,6 +69,7 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
     },
     FellBreath(SkillName.FellBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+
         //これミュルグレと同じだな。真面目にカウントするなら一本化するか…
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.hp < enemy.armedHero.maxHp) atkRes(antiFollowup(battleUnit, enemy, this), 6, this) else battleUnit
     },
@@ -87,6 +89,7 @@ enum class Breath(override val jp: SkillName, override val type: SkillType, over
     },
     OraclesBreath(SkillName.OraclesBreath, SkillType.PENETRATE_DRAGON, 16, Flametongue) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+
         //本来はバフがかかってるとき。…いや行軍はかかってるだろうしデフォルトで常に追撃可能でよくね
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) followupable(battleUnit, 10, this) else battleUnit
     },

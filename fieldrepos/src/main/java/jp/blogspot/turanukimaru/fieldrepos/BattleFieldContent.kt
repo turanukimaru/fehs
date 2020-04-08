@@ -4,8 +4,8 @@ import android.util.Log
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.createObject
-import jp.blogspot.turanukimaru.fehs.Tile
 import jp.blogspot.turanukimaru.fehs.MyPiece
+import jp.blogspot.turanukimaru.fehs.Tile
 import jp.blogspot.turanukimaru.playboard.PhysicalBoard
 
 /**
@@ -14,13 +14,14 @@ import jp.blogspot.turanukimaru.playboard.PhysicalBoard
 object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
 
     private val tag = "BattleFieldContent"
+
     /**
      * realmのkotlin用ハンドラ
      */
 
     val realm: Realm by lazy {
         //RealmFieldModule() が無いと、 ~is not part of schema 例外が出ることがある。出ずに使えることもあるからややこしいが、モジュールが複数あるときは危ない
-        val realmConfig = RealmConfiguration.Builder().modules(RealmFieldModule(),Realm.getDefaultModule()).deleteRealmIfMigrationNeeded().build()
+        val realmConfig = RealmConfiguration.Builder().modules(RealmFieldModule(), Realm.getDefaultModule()).deleteRealmIfMigrationNeeded().build()
         Realm.setDefaultConfiguration(realmConfig)
         val r = Realm.getDefaultInstance()
         // テスト中はマイグレーションが面倒なので全部削除...Configが対象とするモジュールを間違えると消えないことがある…

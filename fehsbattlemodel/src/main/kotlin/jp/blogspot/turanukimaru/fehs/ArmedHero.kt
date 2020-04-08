@@ -33,6 +33,8 @@ data class ArmedHero(
         var resSpur: Int = 0,
         var adjacentUnits: Int = 0,
         var buffDebuffTrigger: Boolean = false
+        //ゲームとして扱うときはIDが必要になる。IDは最初火災後が良いな…
+        , var id: Int = 0
         //やんなきゃいけないんだけどあまりやりたくないなあ
 //        var adjustHeroes: Int = 0,
 //        var adjustEnemies: Int = 0
@@ -43,6 +45,7 @@ data class ArmedHero(
     val weapon
         get() = if (refinedWeapon != Skill.NONE) RefinedWeapon.valueOfWeapon(baseWeapon)
                 ?: baseWeapon else baseWeapon
+
     /**
      * スキルのリスト。戦闘時などにすべてのスキルをなめるのに使う。読み取り専用プロパティにすることで毎回その時のプロパティからリストを作れるはず
      * 個体が編集されているときは編集後のスキルを使う
@@ -92,6 +95,7 @@ data class ArmedHero(
     private var spdBoost: Int = 0
     private var defBoost: Int = 0
     private var resBoost: Int = 0
+
     /**
      * Score計算用のスキルとか抜きのパラメータ合計
      */
@@ -127,6 +131,7 @@ data class ArmedHero(
         get() = baseHero.defense + boonDef
     private val boonedRes
         get() = baseHero.resistance + boonRes
+
     /**
      * 得意不得意の能力値。最大が0なのはダミーデータ。アーダンの能力値↑は設定限界を超えるため
      */
@@ -151,6 +156,7 @@ data class ArmedHero(
     override fun toString(): String = "$name MaxHP:$maxHp , totalAtk:$atk , spd:$spd , def:$def , spd:$res ,weapon:$weapon, refinedWeapon:$refinedWeapon, assist:$assist, special:$special, skillA,$aSkill, skillB:$bSkill, skillC:$cSkill, seal:$seal, hpEqp:$hpEqp , atkEqp:$atkEqp , spdEqp:$spdEqp , defEqp:$defEqp , resEqp:$resEqp"
 
     val totalSp get() = skills.fold(0) { point, skill -> point + skill.sp() }
+
     //合計能力値はASkillだけだろうしこれでいいだろ
     val score get() = ((totalSp / 100) + aSkill.totalParam(totalParam) / 5 + levelBoost * 2 + rarity * rarity + 45 + 78 + 150) * 2//LV40固定でいいか
 
@@ -287,7 +293,9 @@ data class ArmedHero(
         reduceSpecialCooldown = 0
         //☆が5でないときは初期武器をさかのぼる。杖は最初武器を装備していない
         lvUpStatus()
-        if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold(weapon) { w, _ -> w.preSkill?.preSkill?:Skill.NONE }.equip(this)
+        if (baseHero.weaponType == WeaponType.STAFF) Skill.NONE else (0 until (6 - rarity) / 2).fold(weapon) { w, _ ->
+            w.preSkill?.preSkill ?: Skill.NONE
+        }.equip(this)
 //        println("rarity:$rarity")
 //        println("atkEqp:$atkEqp")
         val result = BattleParam(

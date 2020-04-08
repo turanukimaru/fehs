@@ -35,7 +35,8 @@ class MyMyGdxGame : ApplicationAdapter() {
     var lastDropTime = 0L
     var batch: SpriteBatch? = null
     var camera: Camera? = null
-//    var bucket: Rectangle? = null
+
+    //    var bucket: Rectangle? = null
     var stage: Stage? = null
     var liner: ShapeRenderer? = null
 
@@ -45,8 +46,10 @@ class MyMyGdxGame : ApplicationAdapter() {
 
     var user = Player()
     var enemy = Player()
-    private val myGame: MyGame by lazy { MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT,user,enemy
-    ,board = Board(6,8,0,BattleFieldRepository.create(6,8))) } //マネージドボードをリポジトリから取得
+    private val myGame: MyGame by lazy {
+        MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT, user, enemy
+                , board = Board(6, 8, 0, BattleFieldRepository.create(6, 8)))
+    } //マネージドボードをリポジトリから取得
 
     var textureDisposer = mutableListOf<Texture>()
     var imageDisposer = mutableListOf<Image>()
@@ -151,7 +154,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val group = Group()
         group.addActor(medjedImageA)
         group.addActor(medjedImageB)
-        val listener = ActionListener(group, myGame.uiBoard,myGame.controller)
+        val listener = ActionListener(group, myGame.uiBoard, myGame.controller)
         val piece1 = MyPiece(BattleUnit(ArmedHeroRepository.getById("マルス")!!, 40), myGame.controller.board, user, listener)
         val uiPiece = MyUiPiece(group, myGame.uiBoard, piece1)
 //        group.addListener(uiPiece)
@@ -164,7 +167,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val lucinaImage0 = Image(lucinaTexture0)
         lucinaImage0.setScale(0.5f)
         imageDisposer.add(lucinaImage0)
-        val piece0 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヴィオール")!!, 40), myGame.controller.board, user, ActionListener(lucinaImage0, myGame.uiBoard,myGame.controller))
+        val piece0 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヴィオール")!!, 40), myGame.controller.board, user, ActionListener(lucinaImage0, myGame.uiBoard, myGame.controller))
         val uiPiece0 = MyUiPiece(lucinaImage0, myGame.uiBoard, piece0)
 //        lucinaImage0.addListener(uiPiece0)
         myGame.put(piece0, 5, 2, uiPiece0, lucinaImage0)
@@ -173,7 +176,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val lucinaImage = Image(lucinaTexture)
         lucinaImage.setScale(0.5f)
         imageDisposer.add(lucinaImage)
-        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.controller.board, enemy, ActionListener(lucinaImage, myGame.uiBoard,myGame.controller))
+        val piece2 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ルキナ")!!, 40), myGame.controller.board, enemy, ActionListener(lucinaImage, myGame.uiBoard, myGame.controller))
         val uiPiece2 = MyUiPiece(lucinaImage, myGame.uiBoard, piece2)
 //        lucinaImage.addListener(uiPiece2)
         myGame.put(piece2, 1, 3, uiPiece2, lucinaImage)
@@ -182,7 +185,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         val hectorImage = Image(hectorTexture)
         hectorImage.setScale(0.5f)
         imageDisposer.add(hectorImage)
-        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.controller.board, enemy, ActionListener(hectorImage, myGame.uiBoard,myGame.controller))
+        val piece3 = MyPiece(BattleUnit(ArmedHeroRepository.getById("ヘクトル")!!, 40), myGame.controller.board, enemy, ActionListener(hectorImage, myGame.uiBoard, myGame.controller))
         val uiPiece3 = MyUiPiece(hectorImage, myGame.uiBoard, piece3)
 //        hectorImage.addListener(uiPiece3)
         myGame.put(piece3, 3, 3, uiPiece3, hectorImage)

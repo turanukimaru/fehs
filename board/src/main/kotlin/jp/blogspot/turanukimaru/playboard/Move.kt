@@ -11,6 +11,7 @@ class Move<UNIT, TILE>(val board: Board<UNIT, TILE>) {
     var touch: Touch<UNIT, TILE>? = null//タッチしてなけりゃそりゃNullだよなあ
 
     var moving: Moving<UNIT, TILE> = NoMove(this)
+
     /**
      * 選択されている駒が動かされて移動が確定していないときの動かした道筋
      */

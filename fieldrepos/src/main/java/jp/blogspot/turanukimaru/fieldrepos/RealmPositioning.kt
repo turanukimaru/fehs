@@ -7,14 +7,13 @@ import io.realm.annotations.RealmClass
 @RealmClass
 open class RealmPositioning(
         @PrimaryKey
-        var id:String,
-        var x:Int,
-        var y :Int,
-        var battleUnit: RealmBattleUnit?
-        ,var orientation: Int = 0
+        var id: Int = 0,
+        var x: Int = 0,
+        var y: Int = 0,
+        var battleUnit: RealmBattleUnit? = null
+        , var orientation: Int = 0
 
-) :RealmObject(
+) : RealmObject(
 
-){
-constructor():this("",0,0,null,0)
+) {
 }

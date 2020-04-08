@@ -126,6 +126,7 @@ enum class Axe(override val jp: SkillName, override val type: SkillType, overrid
     },
     Garm(SkillName.Garm, SkillType.AXE, 16, SilverAxe) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipAtk(armedHero, 3)
+
         //本来はバフがかかってるとき。…いや行軍はかかってるだろうしデフォルトで常に追撃可能でよくね
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.buffDebuffTrigger) followupable(battleUnit, 10, this) else battleUnit
     },

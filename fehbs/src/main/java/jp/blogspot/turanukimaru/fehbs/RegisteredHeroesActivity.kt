@@ -1,14 +1,11 @@
 package jp.blogspot.turanukimaru.fehbs
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.content.res.ResourcesCompat
-import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -25,8 +22,6 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.TextView
 import jp.blogspot.turanukimaru.fehs.*
-import kotlinx.android.synthetic.main.activity_heroes.*
-import org.jetbrains.anko.longToast
 import org.jetbrains.anko.onClick
 import java.util.Locale
 
@@ -191,12 +186,13 @@ class RegisteredHeroesActivity : AppCompatActivity(), NavigationView.OnNavigatio
             val defView: TextView = mView.findViewById(R.id.defView)
             val resTitle: TextView = mView.findViewById(R.id.resTitleView)
             val resView: TextView = mView.findViewById(R.id.resView)
+
             //途中経過や顔を表示しようとしていた領域
             val skillText: TextView = mView.findViewById(R.id.skillText)
         }
     }
 
-//    var OVERLAY_PERMISSION_REQ_CODE = 1000 //あれ定数化されてない…？定数どこー？
+    //    var OVERLAY_PERMISSION_REQ_CODE = 1000 //あれ定数化されてない…？定数どこー？
 //
 //    /**
 //     *　ナビゲーションメニュー。左から出てくるやつね。

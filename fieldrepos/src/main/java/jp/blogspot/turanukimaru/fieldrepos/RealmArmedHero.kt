@@ -14,6 +14,7 @@ import jp.blogspot.turanukimaru.fehs.skill.*
 @RealmClass
 open class RealmArmedHero(
         @PrimaryKey
+        var id: Int = 0,
         var nickname: String = "",
         var baseName: String = "",
         var weapon: String = "NONE",

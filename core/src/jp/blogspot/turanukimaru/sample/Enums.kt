@@ -1,7 +1,5 @@
 package jp.blogspot.turanukimaru.sample
 
-import kotlin.math.abs
-
 //雑多なクラスやEnum
 //消すべきだけど消すのもったいないな…
 class 駒
@@ -10,6 +8,7 @@ class 枡
 abstract class 行動(open val 選択駒: 駒?, open val 戦闘駒: 駒?, open val 移動元: 枡?, open val 移動先: 枡?) {
     abstract fun 駒タップ(対象駒: 駒, 対象枡: 枡): 行動
     abstract fun 盤タップ(対象駒: 駒, 対象枡: 枡): 行動
+
     //他の関数はoverride禁止
     fun 他共通関数() {}
 }

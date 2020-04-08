@@ -8,6 +8,7 @@ import jp.blogspot.turanukimaru.fehs.BattleUnit
  */
 interface Weapon : Skill {
     val refinedWeaponType: RefinedWeapon.RefineType get() = RefinedWeapon.RefineType.NONE
+
     /**
      * 戦闘時の効果。基本的にunitの能力値を上下したり
      */
@@ -38,6 +39,7 @@ interface Weapon : Skill {
             if (itemMap.isEmpty()) {
                 allWeapons.forEach { e -> itemMap[e.jp.jp] = e;itemMap[e.value] = e;itemMap[e.jp.us] = e;itemMap[e.jp.tw] = e; }
             }
+            //見つからなかったら例外になるんだっけ？今これで動いてるんだからこれでよさそうなもんだが…
             itemMap[key] ?: Sword.valueOf(key) ?: Lance.valueOf(key) ?: Axe.valueOf(key)
             ?: Bow.valueOf(key) ?: Dagger.valueOf(key) ?: Staff.valueOf(key) ?: Rtome.valueOf(key)
             ?: Btome.valueOf(key) ?: Gtome.valueOf(key) ?: Breath.valueOf(key)

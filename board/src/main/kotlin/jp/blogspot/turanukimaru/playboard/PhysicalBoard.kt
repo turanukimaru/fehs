@@ -9,6 +9,7 @@ open class PhysicalBoard<UNIT, TILE>(val horizontalLines: Int, val verticalLines
     private val pieceMatrix = mutableListOf<MutableList<Piece<UNIT, TILE>?>>()
     private val positionMap = mutableMapOf<Piece<UNIT, TILE>, Position>()
     private val copyMatrix = mutableListOf<MutableList<Piece<UNIT, TILE>?>>()
+
     /**
      * 横の0..last
      * 0..x-1 は 0 until x と書ける
@@ -19,11 +20,13 @@ open class PhysicalBoard<UNIT, TILE>(val horizontalLines: Int, val verticalLines
      * 縦の0..last
      */
     val verticalIndexes = 0 until verticalLines
+
     /**
      * 盤上の地形
      * 地形が無いところはnull.nullObjectとか床を作るべきか？でも床のないボードゲームのが多いよな
      */
     private val tileMatrix = mutableListOf<MutableList<TILE?>>()
+
     /**
      * 盤上の駒リスト。ターン終了時に全部Disableにするとか     *
      */
@@ -41,6 +44,7 @@ open class PhysicalBoard<UNIT, TILE>(val horizontalLines: Int, val verticalLines
 
     open fun positionOf(piece: Piece<UNIT, TILE>) = positionMap[piece]
     open fun getPiece(x: Int, y: Int): Piece<UNIT, TILE>? = pieceMatrix[x][y]
+
     /**
      * 対象の枡に駒を置く。駒が配置済みだったら例外を吐く。自分がすでにいるところにPutしたケースはまだけんとうしなくていいか
      */

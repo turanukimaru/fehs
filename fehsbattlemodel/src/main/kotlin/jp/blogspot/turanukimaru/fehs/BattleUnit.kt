@@ -3,7 +3,7 @@ package jp.blogspot.turanukimaru.fehs
 import jp.blogspot.turanukimaru.fehs.skill.Skill
 
 /**
- * ユニット（戦闘単位）。主にステータスを保持する
+ * ユニット（戦闘単位）。主にステータスを保持する。一人のArmedHeroに対して一つしか存在しえないのでIDは持っていない
  */
 data class BattleUnit(val armedHero: ArmedHero
                       , var hp: Int = 0
@@ -17,9 +17,10 @@ data class BattleUnit(val armedHero: ArmedHero
                       , var defDebuff: Int = 0
                       , var resDebuff: Int = 0
         //Effectは紋章やスキルによる強化。これは合計していく.戦闘中と戦闘前って分けたほうが良いかなあ
-                      ,var effect: BattleEffect = BattleEffect()
+                      , var effect: BattleEffect = BattleEffect()
 ) {
     private fun bonus(i: Int) = i * effect.bonusPow / 100
+
     //射程はともかく移動距離は制限を受ける可能性がある。いやそれを言うなら全てのステータスがそうであるが・・・これDelegateでできれば楽だと思ったけどBuff考えるとできないな
     val movableSteps: Int get() = armedHero.movableSteps
     val effectiveRange: Int get() = armedHero.effectiveRange
@@ -27,11 +28,13 @@ data class BattleUnit(val armedHero: ArmedHero
     val spd: Int get() = armedHero.spd + (if (!effect.neutralizePenalties) spdDebuff else 0) + if (!effect.neutralizeBuffBonus) bonus(spdBuff) else 0
     val def: Int get() = armedHero.def + (if (!effect.neutralizePenalties) defDebuff else 0) + if (!effect.neutralizeBuffBonus) bonus(defBuff) else 0
     val res: Int get() = armedHero.res + (if (!effect.neutralizePenalties) resDebuff else 0) + if (!effect.neutralizeBuffBonus) bonus(resBuff) else 0
+
     // 他人や自分のスキルにより戦闘中のみ変化する能力値
     val effectedAtk: Int get() = atk + effect.atkEffect
     val effectedSpd: Int get() = spd + effect.spdEffect
     val effectedDef: Int get() = def + effect.defEffect
     val effectedRes: Int get() = res + effect.resEffect
+
     //ブレード火力は外部からの参照要らんな
     private val effectedBladeAtk: Int get() = effectedAtk + effect.debuffBonus + if (effect.blade && !effect.neutralizeBuffBonus) atkBuff + spdBuff + defBuff + resBuff else 0
     val effectedPhantomSpd: Int get() = effectedSpd + effect.phantomSpeed
@@ -202,6 +205,7 @@ data class BattleUnit(val armedHero: ArmedHero
     fun prevent(damage: Int, source: BattleUnit, results: List<AttackResult>) = armedHero.skills.fold(damage) { d, skill -> skill.prevent(this, d, source, results) }
 
     fun specialPrevent(source: BattleUnit, damage: Int) = armedHero.special.specialPrevent(this, damage, source, armedHero.skills.fold(0) { d, skill -> skill.specialPreventTriggered(this, d) })
+
     /**
      * スキル・奥義によるダメージ減少.
      */

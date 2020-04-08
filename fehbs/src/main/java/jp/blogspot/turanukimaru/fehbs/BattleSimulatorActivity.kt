@@ -3,13 +3,10 @@ package jp.blogspot.turanukimaru.fehbs
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.content.res.ResourcesCompat
-import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -18,7 +15,6 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import jp.blogspot.turanukimaru.fehs.*
-import kotlinx.android.synthetic.main.activity_heroes.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.onClick
@@ -118,17 +114,17 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
             val hpp = findSpinnerValOrNull(R.id.damageTakenSpinner)
             fun newBattleUnit(): BattleUnit {
                 val battleUnit = buildBattleUnit(armedClass)
-                battleUnit.defensiveTerrain = bd || armedClass.defensiveTerrain
-                battleUnit.buffDebuffTrigger = buffTrigger || armedClass.buffDebuffTrigger
-                battleUnit.adjacentUnits = adjacentUnits ?: armedClass.adjacentUnits
+                battleUnit.effect.defensiveTerrain = bd || armedClass.defensiveTerrain
+                battleUnit.effect.buffDebuffTrigger = buffTrigger || armedClass.buffDebuffTrigger
+                battleUnit.effect.adjacentUnits = adjacentUnits ?: armedClass.adjacentUnits
                 battleUnit.atkBuff = aBuff ?: armedClass.atkBuff
                 battleUnit.spdBuff = sBuff ?: armedClass.spdBuff
                 battleUnit.defBuff = dBuff ?: armedClass.defBuff
                 battleUnit.resBuff = rBuff ?: armedClass.resBuff
-                battleUnit.atkEffect = aEffect ?: armedClass.atkSpur
-                battleUnit.spdEffect = sEffect ?: armedClass.spdSpur
-                battleUnit.defEffect = dEffect ?: armedClass.defSpur
-                battleUnit.resEffect = rEffect ?: armedClass.resSpur
+                battleUnit.effect.atkEffect = aEffect ?: armedClass.atkSpur
+                battleUnit.effect.spdEffect = sEffect ?: armedClass.spdSpur
+                battleUnit.effect.defEffect = dEffect ?: armedClass.defSpur
+                battleUnit.effect.resEffect = rEffect ?: armedClass.resSpur
                 battleUnit.specialCount = findSpinnerValOrNull(R.id.specialChargeSpinner) ?: 0
                 battleUnit.hp = battleUnit.hp * (hpp ?: 100) / 100
                 return battleUnit
@@ -158,11 +154,11 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
                 this.spdBuff = spdBuff ?: this.armedHero.spdBuff
                 this.defBuff = defBuff ?: this.armedHero.defBuff
                 this.resBuff = resBuff ?: this.armedHero.resBuff
-                this.atkEffect = atkSpur ?: this.armedHero.atkSpur
-                this.spdEffect = spdSpur ?: this.armedHero.spdSpur
-                this.defEffect = defSpur ?: this.armedHero.defSpur
-                this.resEffect = resSpur ?: this.armedHero.resSpur
-                this.defensiveTerrain = defensiveTargetTerrain || this.armedHero.defensiveTerrain
+                this.effect.atkEffect = atkSpur ?: this.armedHero.atkSpur
+                this.effect.spdEffect = spdSpur ?: this.armedHero.spdSpur
+                this.effect.defEffect = defSpur ?: this.armedHero.defSpur
+                this.effect.resEffect = resSpur ?: this.armedHero.resSpur
+                this.effect.defensiveTerrain = defensiveTargetTerrain || this.armedHero.defensiveTerrain
                 this.armedHero.levelBoost = if (levelBoost10) 10 else this.armedHero.levelBoost
                 this.armedHero.equip()
                 return this
@@ -224,7 +220,8 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
         val bane = BoonType.boonTypeOf(findViewById<Spinner>(R.id.baneSpinner).selectedItem.toString())
         battleUnit.armedHero.boon = if (boon != BoonType.NONE) boon else battleUnit.armedHero.boon
         battleUnit.armedHero.bane = if (bane != BoonType.NONE) bane else battleUnit.armedHero.bane
-        battleUnit.armedHero.levelBoost = findSpinnerValOrNull(R.id.levelBoostSpinner) ?: armedClass.levelBoost
+        battleUnit.armedHero.levelBoost = findSpinnerValOrNull(R.id.levelBoostSpinner)
+                ?: armedClass.levelBoost
         battleUnit.armedHero.equip()
         return battleUnit
     }
@@ -333,7 +330,7 @@ class BattleSimulatorActivity : AppCompatActivity(), NavigationView.OnNavigation
         }
     }
 
-        // Androidのバージョン問題でもう動かないわ。。。
+    // Androidのバージョン問題でもう動かないわ。。。
 //    var OVERLAY_PERMISSION_REQ_CODE = 1000 //あれ定数化されてない…？定数どこー？
 //
 //    /**

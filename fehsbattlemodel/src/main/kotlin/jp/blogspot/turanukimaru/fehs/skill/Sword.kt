@@ -159,7 +159,7 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     },
     VassalsBlade(SkillName.VassalsBlade, SkillType.SWORD, 16, SlayingEdge) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv: Int): Int = spdFlat(battleUnit, enemy)
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = spdFlat(battleUnit, enemy)
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.addSkillText(SkillText(this, SkillBaseText.Damage, spdFlat(battleUnit, enemy).toString()))
             return battleUnit
@@ -172,10 +172,10 @@ enum class Sword(override val jp: SkillName, override val type: SkillType, overr
     },
     ExaltedFalchion(SkillName.ExaltedFalchion, SkillType.SWORD, 16, SilverSword, effectiveAgainstWeaponType = arrayOf(WeaponType.DRAGON)) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipSpd(armedHero, 3)
-        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if(enemy.armedHero.baseHero.weaponType == WeaponType.DRAGON)dazzling(battleUnit, enemy, 3, this) else battleUnit
+        override fun attackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (enemy.armedHero.baseHero.weaponType == WeaponType.DRAGON) dazzling(battleUnit, enemy, 3, this) else battleUnit
         override fun localFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             battleUnit.effect.bonusPow = 200//TODO:skillに
-         return antiFollowup(battleUnit,enemy,this)
+            return antiFollowup(battleUnit, enemy, this)
         }
     },
     Laevatein(SkillName.Laevatein, SkillType.SWORD, 16, SilverSword) {

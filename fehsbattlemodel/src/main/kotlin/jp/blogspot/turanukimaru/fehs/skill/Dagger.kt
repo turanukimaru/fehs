@@ -81,6 +81,7 @@ enum class Dagger(override val jp: SkillName, override val type: SkillType, over
     },
     HoarfrostKnife(SkillName.HoarfrostKnife, SkillType.DAGGER, 14, SilverDagger) {
         override fun localEquip(armedHero: ArmedHero, lv: Int): ArmedHero = equipKiller(armedHero)
+
         //相手が反撃可能かを判定した後判定
         override fun effectedAttackEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit {
             if (enemy.effectiveRange == 1) {

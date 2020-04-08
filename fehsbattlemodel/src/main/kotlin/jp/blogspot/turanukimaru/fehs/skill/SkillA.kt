@@ -77,7 +77,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     },
     FlashingBlade(SkillName.FlashingBlade, spType = SpType.BASE60) {
         override fun effectedFightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = flashingBlade(battleUnit, enemy, 6 - lv * 2, this)
-        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit,lv :Int): Int = if (lv > 3 && battleUnit.effectedPhantomSpd > enemy.effectedPhantomSpd) 5 else 0
+        override fun stateFlat(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): Int = if (lv > 3 && battleUnit.effectedPhantomSpd > enemy.effectedPhantomSpd) 5 else 0
 
     },
 
@@ -251,6 +251,7 @@ enum class SkillA(override val jp: SkillName, override val type: SkillType = Ski
     DefResSolo(SkillName.DefResSolo, spType = SpType.BASE60) {
         override fun fightEffect(battleUnit: BattleUnit, enemy: BattleUnit, lv: Int): BattleUnit = if (battleUnit.effect.adjacentUnits == 0) defRes(battleUnit, lv * 2, this) else battleUnit
     },
+
     //ラピュタ向けは機能しなくてもいいよな…
     ArDAtkRes(SkillName.ArDAtkRes, spType = SpType.BASE60),
     ArDSpdDef(SkillName.ArDSpdDef, spType = SpType.BASE60),
