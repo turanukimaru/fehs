@@ -2,11 +2,13 @@ package jp.blogspot.turanukimaru.playboard
 
 /**
  * 論理駒。ゲームのルールによらない部分
- * P はルールを織り込んだ駒。駒の能力を直接書いてもいいし、Pieceを継承した駒を一度挟んでも良い
+ * P はルールを織り込んだ駒。駒の能力を直接書いてもいいし、Pieceを継承した駒を一度挟んでも良い。
+ * それが常に存在するか？は難しい。単なるマーカーのこともあるし…
  */
 open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, val owner: Player) {
 
-    open val myPiece: P get() = contain ?: throw NullPointerException()
+    //より特化された表現
+    open val specialized: P get() = contain ?: throw NullPointerException()
 
     /**
      * 操作的な意味での状態。駒を動かせるかとか動かした後だとか。
@@ -68,31 +70,32 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     }
 
     /**
-     * 効果範囲か。再帰して効果範囲を拡大できるかなので名前変えよう
+     * 基本的に敵への行動範囲か。
      */
-    open fun isEffective(piece: Piece<P, TILE>?, TILE: TILE?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Boolean {
+    open fun isActionable(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, rotated: Int = rotate(orientation)): Boolean {
         return false
     }
 
     /**
-     * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
+     * 基本的に味方へのサポート範囲か。
      */
-    open fun isSupportable(tiles: PiecesAndTiles<P, TILE>, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Boolean {
+    open fun isSupportable(tiles: PiecesAndTiles<P, TILE>, orientation: Int, payed: Int, rotated: Int = rotate(orientation)): Boolean {
         return false
     }
 
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, steps: Int, straight: Boolean, rotated: Int = rotate(orientation)): Boolean {
-        return piece == null && steps == 0
+    open fun isMovable(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int = rotate(orientation)): Boolean {
+        //デフォルト動作は対象が空いていて、まだ一歩も動いて無ければ
+        return piece == null && payed == 0
     }
 
     /**
      * 引数の枡に移動することで消費する移動力。移動できないときは負の値
      */
-    open fun countStep(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, steps: Int, rotated: Int = rotate(orientation)): Int {
-        return if (steps == 0) {
+    open fun stepCost(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, rotated: Int = rotate(orientation)): Int {
+        return if (payed == 0) {
             1
         } else {
             -1
@@ -190,9 +193,9 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     }
 
     /**
-     * 移動確定。位置を更新だけ
+     * 移動確定。位置を更新だけ TODO:ここで永続化するべき
      */
-    fun boardMoveCommit(position: Position? = newPosition): Boolean {
+   open fun boardMoveCommit(position: Position? = newPosition): Boolean {
         this.existsPosition = Positioning(position!!, existsPosition.r)
         this.newPosition = null
         clearRoute()

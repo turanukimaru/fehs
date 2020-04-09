@@ -5,11 +5,11 @@ import java.util.*
 /**
  * 論理盤面。手の保持やルート計算がメイン。盤面の操作は physics に対して行える
  */
-class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: Int? = null,
+class Board<P, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: Int? = null,
                         /**
                          * 操作対象としての盤
                          */
-                        val physics: PhysicalBoard<UNIT, TILE> = PhysicalBoard(horizontalLines, verticalLines)
+                        val physics: PhysicalBoard<P, TILE> = PhysicalBoard(horizontalLines, verticalLines)
 
 ) {
     /**
@@ -49,7 +49,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
     /**
      * 移動可能な経路を調べる。
      */
-    fun searchRoute(piece: Piece<UNIT, TILE>): MutableList<MutableList<Int>> {
+    fun searchRoute(piece: Piece<P, TILE>): MutableList<MutableList<Int>> {
         println("searchRoute $piece")
         val routeMatrix = filledMatrix
         val square = physics.positionOf(piece) ?: throw RuntimeException("ユニットが見つからない")
@@ -63,19 +63,20 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
      * 経路探索
      * 一歩進んで再帰する
      */
-    private fun step(piece: Piece<UNIT, TILE>, position: Position, steps: Int, orientation: Int?, routeMatrix: MutableList<MutableList<Int>>) {
-        routeMatrix[position.x][position.y] = steps
+    private fun step(piece: Piece<P, TILE>, position: Position, payed: Int, orientation: Int?, routeMatrix: MutableList<MutableList<Int>>) {
+        routeMatrix[position.x][position.y] = payed
         val orientations = piece.moveOrientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
             //枠内
             if (targetPos.x in 0 until physics.horizontalLines && targetPos.y in 0 until physics.verticalLines) {
+                //移動先にあるものを取得する
                 val targetUnit = physics.pieceAt(targetPos)
                 val targetSquare = physics.tileAt(targetPos)
-                val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
-                val stepped = routeMatrix[targetPos.x][targetPos.y]
-                //移動出来て歩数が増えてなければ。
-                if (piece.isMovable(targetUnit, targetSquare, v, steps, v == orientation) && (stepped == -1 || stepped > targetSteps)) {
+                val targetSteps = piece.stepCost(targetUnit, targetSquare, v, payed)
+                val nextStep = routeMatrix[targetPos.x][targetPos.y]
+                //侵入可能かつ移動出来れば再帰
+                if (piece.isMovable(targetUnit, targetSquare, v, payed, v == orientation) && (nextStep == -1 || nextStep > targetSteps)) {
                     step(piece, targetPos, targetSteps, v, routeMatrix)
                 }
             }
@@ -85,7 +86,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
     /**
      * 効果範囲を探す。
      */
-    fun searchActionRoute(piece: Piece<UNIT, TILE>, existsPos: Position): MutableList<MutableList<Int>> {
+    fun searchActionRoute(piece: Piece<P, TILE>, existsPos: Position): MutableList<MutableList<Int>> {
         println("searchActionRoute $piece")
         //最大／最小射程
         val max = piece.actionRange().first
@@ -107,7 +108,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
      * 効果範囲探索.
      * 再帰できるようになってはいるけど今は再帰させてない。射程で計算するとき再帰させようと思ってたけどよく考えたら距離計算できればそれでいいよな…
      */
-    private fun stepActionRoute(piece: Piece<UNIT, TILE>, position: Position, steps: Int, attackMatrix: MutableList<MutableList<Int>>) {
+    private fun stepActionRoute(piece: Piece<P, TILE>, position: Position, payed: Int, attackMatrix: MutableList<MutableList<Int>>) {
         val orientations = piece.actionOrientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
@@ -120,10 +121,10 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
                 val stepped = attackMatrix[targetPos.x][targetPos.y]
                 val piecesAndTILEs = aroundPiecesAndTILEs(v, targetPos, targetUnit, targetSquare)
                 //対象が未検索 || ステップの短いほう優先というアルゴリズムだけどいいのかな？いいか。これ別マトリクスにするか…
-                if (piece.isSupportable(piecesAndTILEs, v, steps) && (stepped == -1 || stepped > targetSteps)) {
+                if (piece.isSupportable(piecesAndTILEs, v, payed) && (stepped == -1 || stepped > targetSteps)) {
                     attackMatrix[targetPos.x][targetPos.y] = targetSteps + 128
                 }
-                if (piece.isEffective(targetUnit, targetSquare, v, steps) && (stepped == -1 || stepped > targetSteps)) {
+                if (piece.isActionable(targetUnit, targetSquare, v, payed) && (stepped == -1 || stepped > targetSteps)) {
                     attackMatrix[targetPos.x][targetPos.y] = targetSteps
 //                    stepActionRoute(piece, targetPos, targetSteps, attackMatrix)
                 }
@@ -134,7 +135,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
     /**
      * 対象と前後２枡の枡・駒を出力する。補助スキル判定に使う
      */
-    private fun aroundPiecesAndTILEs(v: Int, targetPos: Position, targetUnit: Piece<UNIT, TILE>? = physics.pieceAt(targetPos), targetSquare: TILE? = physics.tileAt(targetPos)): PiecesAndTiles<UNIT, TILE> {
+    private fun aroundPiecesAndTILEs(v: Int, targetPos: Position, targetUnit: Piece<P, TILE>? = physics.pieceAt(targetPos), targetSquare: TILE? = physics.tileAt(targetPos)): PiecesAndTiles<P, TILE> {
         //対象の前後２枡計４枡を確認してサポートスキルが発動できるか。ちょっと人には見せられないコードだな！
         val pos1 = moveWithOrientation(v, targetPos)
         val pos2 = moveWithOrientation(v, pos1)
@@ -245,7 +246,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
      * 対象の位置から移動経路をさかのぼり攻撃場所を探す。 経路中に無いときには攻撃可能位置を探す
      * 動かなくても攻撃対象がRange内の時はそこから攻撃できるようにしてみた。パラメータ引き継ぎまくれば移動しつつ長いレンジで攻撃とかもできるけど必要になってからでいいよね
      */
-    fun findActionPos(piece: Piece<UNIT, TILE>, targetPos: Position, startPos: Position): Position? {
+    fun findActionPos(piece: Piece<P, TILE>, targetPos: Position, startPos: Position): Position? {
         println("findActionPos $targetPos")
         val orientations = piece.actionOrientations()
         //攻撃可能位置のリストを作成する。//盤面・駒に向きがあるとき用
@@ -256,7 +257,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
     /**
      * 対象の位置から移動経路をさかのぼり補助場所を探す。 アクションと別なのは移動が絡むため。
      */
-    fun findAssistPos(piece: Piece<UNIT, TILE>, targetPos: Position, startPos: Position): Position? {
+    fun findAssistPos(piece: Piece<P, TILE>, targetPos: Position, startPos: Position): Position? {
         println("findAssistPos $targetPos")
         val orientations = piece.assistOrientations()
         //補助可能位置のリストを作成する
@@ -278,7 +279,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
     /**
      * 攻撃ルート探索
      */
-    fun findActionRoute(targetPosition: Position, range: Pair<Int, Int>, targetPositions: List<Position>, startPos: Position, piece: Piece<UNIT, TILE>): Position? {
+    fun findActionRoute(targetPosition: Position, range: Pair<Int, Int>, targetPositions: List<Position>, startPos: Position, piece: Piece<P, TILE>): Position? {
 //        println("$targetPositions がおかしいのかな…？")
         //現在値が攻撃可能なら探さなくていい
         if (targetPosition.range(startPos, range.first, range.second) || targetPositions.contains(startPos)) return startPos
@@ -299,7 +300,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
     /**
      * 攻撃ルートスタック堀
      */
-    private fun digActionStack(stack: ArrayDeque<Position>, piece: Piece<UNIT, TILE>, actionablePositions: List<Position>): MutableList<Position> {
+    private fun digActionStack(stack: ArrayDeque<Position>, piece: Piece<P, TILE>, actionablePositions: List<Position>): MutableList<Position> {
         println("stack:${stack.last} -> $actionablePositions")
         val last = stack.last
         stack.removeLast()
@@ -316,7 +317,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
     /**
      * 経路探索中に一歩進んで再帰する。なんかバグがあるんだけど分からないしスタートから再計算するだけなので後回し
      */
-    private fun findActionStep(piece: Piece<UNIT, TILE>, position: Position, steps: Int, targetPositions: List<Position>, orientation: Int?, routeList: MutableList<Position> = mutableListOf()): MutableList<Position> {
+    private fun findActionStep(piece: Piece<P, TILE>, position: Position, steps: Int, targetPositions: List<Position>, orientation: Int?, routeList: MutableList<Position> = mutableListOf()): MutableList<Position> {
         val orientations = piece.moveOrientations()
         orientations.forEach { v ->
             val targetPos = moveWithOrientation(v, position)
@@ -324,7 +325,7 @@ class Board<UNIT, TILE>(val horizontalLines: Int, val verticalLines: Int, var id
             if (targetPos.x in 0 until physics.horizontalLines && targetPos.y in 0 until physics.verticalLines) {
                 val targetUnit = physics.pieceAt(targetPos)
                 val targetSquare = physics.tileAt(targetPos)
-                val targetSteps = piece.countStep(targetUnit, targetSquare, v, steps)
+                val targetSteps = piece.stepCost(targetUnit, targetSquare, v, steps)
                 //移動出来て歩数が増えてなければ。でふぉ-1はやめたほうがいいかな。
                 if (piece.isMovable(targetUnit, targetSquare, v, steps, v == orientation)) {
                     routeList.add(targetPos)

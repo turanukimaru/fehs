@@ -13,21 +13,21 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     override fun isStoppable(piece: Piece<ShogiUnit, Ground>?): Boolean = piece == null || piece.owner != this.owner
 
     // straight のときのみ。竜王・竜馬のときは override するしかないな。
-    override fun isMovable(piece: Piece<ShogiUnit, Ground>?, ground: Ground?, orientation: Int, steps: Int, straight: Boolean, rotated: Int): Boolean {
+    override fun isMovable(piece: Piece<ShogiUnit, Ground>?, tile: Ground?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int): Boolean {
         //向きは正しいか && 突入できるか && 直線移動が許されている方向か
 //        if(rotated > 7 || rotated < 0)println("orientation:$orientation -> rotated:$rotated")
-        return myPiece.orientations.contains(rotated) && (piece == null || piece.owner != owner) && (steps == 0 || (myPiece.recursiveOrientations.contains(rotated) && straight && steps < 128))
+        return specialized.orientations.contains(rotated) && (piece == null || piece.owner != owner) && (payed == 0 || (specialized.recursiveOrientations.contains(rotated) && ahead && payed < 128))
     }
 
-    override fun isEffective(piece: Piece<ShogiUnit, Ground>?, TILE: Ground?, orientation: Int, steps: Int, rotated: Int): Boolean = false
+    override fun isActionable(piece: Piece<ShogiUnit, Ground>?, tile: Ground?, orientation: Int, payed: Int, rotated: Int): Boolean = false
 
     /**
      * 味方にサポートできる範囲か。将棋にはない
      */
-    override fun isSupportable(tiles: PiecesAndTiles<ShogiUnit, Ground>, orientation: Int, steps: Int, rotated: Int): Boolean = false
+    override fun isSupportable(tiles: PiecesAndTiles<ShogiUnit, Ground>, orientation: Int, payed: Int, rotated: Int): Boolean = false
 
     //一歩進む。相手がいたら+128とかにすれば相手で止まれるか？
-    override fun countStep(piece: Piece<ShogiUnit, Ground>?, tile: Ground?, orientation: Int, steps: Int, rotated: Int): Int = if (piece == null) steps + 1 else 128
+    override fun stepCost(piece: Piece<ShogiUnit, Ground>?, tile: Ground?, orientation: Int, payed: Int, rotated: Int): Int = if (piece == null) payed + 1 else 128
 
     //将棋にアクションはない
     override fun actionOrientations(): Array<Int> = arrayOf()
@@ -77,7 +77,7 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
      * 対象があるかないかで分けるべきかなあ
      */
     override fun opt(actionTargetPiece: Piece<ShogiUnit, Ground>?, from: Position, actionTargetPos: Position) {
-        if (myPiece.promotion != null) myPiece.promotion = Kin()
+        if (specialized.promotion != null) specialized.promotion = Kin()
         if (actionTargetPiece == null) return
         board.physics.remove(actionTargetPiece)
         boardMoveCommitAction(actionTargetPos)
@@ -85,6 +85,6 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     }
 
 
-    override fun toString(): String = myPiece.name
+    override fun toString(): String = specialized.name
 }
 

@@ -41,7 +41,7 @@ data class Position(val x: Int, val y: Int) {
 /**
  * 座標＋向き。駒が無ければ位置取りも存在しないし、駒への参照もあったほうがいいかな？あるいは逆に Position に統一するべきなんだろうか…
  */
-data class Positioning(val p: Position, val r: Int)
+data class Positioning(val p: Position, val r: Int=0)
 
 val nowhere = Positioning(Position(-1, -1), -1)
 
