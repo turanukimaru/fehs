@@ -27,7 +27,7 @@ import jp.blogspot.turanukimaru.playboard.Player
 /**
  * ゲーム本体。LibGDXサンプルソースがところどころ残ってるので削除せねば...
  */
-class MyMyGdxGame : ApplicationAdapter() {
+class MyGdxGame : ApplicationAdapter() {
 
     var dropImage: Texture? = null
     var bucketImage: Texture? = null
@@ -40,14 +40,14 @@ class MyMyGdxGame : ApplicationAdapter() {
     var stage: Stage? = null
     var liner: ShapeRenderer? = null
 
-    val LOGICAL_WIDTH = 540f//720f
-    val LOGICAL_HEIGHT = 960f//1280f
+    private val logicalWidth = 540f//720f
+    private val logicalHeight = 960f//1280f
     var bitmapFont: BitmapFont? = null
 
     var user = Player()
     var enemy = Player()
     private val myGame: MyGame by lazy {
-        MyGame(stage!!, batch!!, liner!!, bitmapFont!!, LOGICAL_WIDTH, LOGICAL_HEIGHT, user, enemy
+        MyGame(stage!!, batch!!, liner!!, bitmapFont!!, logicalWidth, logicalHeight, user, enemy
                 , board = Board(6, 8, 0, BattleFieldRepository.create(6, 8)))
     } //マネージドボードをリポジトリから取得
 
@@ -58,7 +58,7 @@ class MyMyGdxGame : ApplicationAdapter() {
     var fontGenerator: FreeTypeFontGenerator? = null
 
 
-    val battleGround = arrayOf(
+    private val battleGround = arrayOf(
             arrayOf(Tile.P, Tile.P, Tile.W, Tile.R, Tile.M, Tile.M),
             arrayOf(Tile.R, Tile.P, Tile.R, Tile.R, Tile.M, Tile.M),
             arrayOf(Tile.P, Tile.P, Tile.M, Tile.M, Tile.M, Tile.M),
@@ -100,7 +100,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         // create the raindrops array and spawn the first raindrop
         spawnRaindrop()
 
-        stage = Stage(FitViewport(LOGICAL_WIDTH, LOGICAL_HEIGHT))
+        stage = Stage(FitViewport(logicalWidth, logicalHeight))
         Gdx.input.inputProcessor = stage
 
         camera = stage!!.camera
@@ -111,7 +111,7 @@ class MyMyGdxGame : ApplicationAdapter() {
     private fun createStage() {
         myGame.uiBoard.stageTexture = loadTexture("map1.png")
 
-        //ダメージの数字はデフォルトで使うからどこかに入れておきたいな…
+        //ダメージの数字
         val numberTexture = loadTexture("number.png")
         (0..9).forEach { i ->
             val region = TextureRegion(numberTexture, i * 51, 0, 51, 96)
@@ -121,23 +121,7 @@ class MyMyGdxGame : ApplicationAdapter() {
         //地形を盤面にコピー
         myGame.controller.board.physics.copyTilesSwitchXY(battleGround)
 
-        //盤外のボタンなど。これも処理考え直す必要がありそう
-        val turnendTexture = loadTexture("turnend.png")
-        val turnendImage = Image(turnendTexture)
-        imageDisposer.add(turnendImage)
-        turnendImage.setPosition(64f, 0f)
-        turnendImage.setScale(0.5f)
-        buttons.add(turnendImage)
-
-        turnendImage.addListener(object : ClickListener() {
-            //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                println("pushed turnEnd")
-                myGame.controller.turnEnd()
-            }
-        })
-        //どこでボタン管理するか考えないとなー
-        stage!!.addActor(turnendImage)
+        buildTurnEndButton()
 
         //一人目のキャラここから
         //グループ作るのやばいな。重い。
@@ -192,6 +176,45 @@ class MyMyGdxGame : ApplicationAdapter() {
         myGame.playerA = user
         myGame.playerB = enemy
         myGame.controller.board.gameStart(user)
+    }
+
+    private fun buildTurnEndButton() {
+        //盤外のボタンなど。これも処理考え直す必要がありそう
+        val texture = loadTexture("turnend.png")
+        val image = Image(texture)
+        imageDisposer.add(image)
+        image.setPosition(64f, 0f)
+        image.setScale(0.5f)
+        buttons.add(image)
+
+        image.addListener(object : ClickListener() {
+            //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                println("pushed turnEnd")
+                myGame.controller.turnEnd()
+            }
+        })
+        //どこでボタン管理するか考えないとなー
+        stage!!.addActor(image)
+    }
+
+    private fun buildLoadButton() {
+        //デバッグ用にDBから集約を取り出すボタン。結局Androidのライフサイクルは手動で確認するしかないんだよな…
+        val texture = loadTexture("bucket.png")
+        val image = Image(texture)
+        imageDisposer.add(image)
+        image.setPosition(128f, 0f)
+        buttons.add(image)
+
+        image.addListener(object : ClickListener() {
+            //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                println("pushed turnEnd")
+                myGame.controller.turnEnd()
+            }
+        })
+        //どこでボタン管理するか考えないとなー
+        stage!!.addActor(image)
     }
 
     //ファイルからテクスチャ読み込み。実際には1ファイルに複数テクスチャを入れるので座標とかTextureのリストを返すとかの処理が必要になる

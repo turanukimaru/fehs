@@ -164,19 +164,4 @@ open class PhysicalBoard<P, TILE>(val horizontalLines: Int, val verticalLines: I
         }
     }
 
-//    /**
-//     * 駒の位置を探す。見つからなかったらnullを返すようにしてるけど例外を投げるべきか？何らかの原因であるべき駒が無いんだから。
-//     */
-//    private fun searchUnitPosition(piece: Piece<*, *>): Position? {
-//        if (positionMap[piece] != null) return positionMap[piece]
-//        println("searchUnitPosition $piece")
-//        horizontalIndexes.forEach { x ->
-//            verticalIndexes.forEach { y ->
-//                if (pieceMatrix[x][y] == piece) {
-//                    return Position(x, y)
-//                }
-//            }
-//        }
-//        return null
-//    }
 }

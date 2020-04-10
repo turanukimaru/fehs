@@ -235,9 +235,8 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, private val liner: Shape
     /**
      * タッチされた場所を盤面の座標で出す
      */
-    fun touchedPosition(): Position {
-        return posToPosition(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f))
-    }
+    fun touchedPosition(): Position =
+            posToPosition(Vector3(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f))
 
     /**
      * 枡を塗る。a blendingを毎回設定してendしてるので無茶苦茶遅いはず。処理の順番見直さないとな

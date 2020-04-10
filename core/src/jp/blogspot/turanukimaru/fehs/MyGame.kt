@@ -27,28 +27,6 @@ class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont:
         uiBoard.hideOptionButton()
     }
 
-//    /**
-//     * ターンを終了して相手にターンを渡す...にしても雑だな
-//     */
-//    override fun turnEnd() {
-//        board.move.moveCommit()
-//        if (board.owner == playerA) {
-//            board.turnStart(playerB!!)
-//        } else {
-//            board.turnStart(playerA!!)
-//        }
-//    }
-
-//    override fun actionDone() {
-//        if (board.physics.pieceList.none { it.owner == playerA }) {
-//            println("TODO:playerBの勝利")
-//            board.gameReset(playerA!!)
-//        }
-//        if (board.physics.pieceList.none { it.owner == playerB }) {
-//            println("TODO:playerAの勝利")
-//            board.gameReset(playerA!!)
-//        }
-//    }
 
     private val footerHeight = 80f
     private val headerHeight = 160f

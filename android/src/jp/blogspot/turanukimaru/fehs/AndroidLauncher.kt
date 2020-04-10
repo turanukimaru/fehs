@@ -7,8 +7,6 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.createObject
 import jp.blogspot.turanukimaru.fieldrepos.BattleFieldContent
-import jp.blogspot.turanukimaru.fieldrepos.RealmBattleField
-import jp.blogspot.turanukimaru.fieldrepos.RealmFieldModule
 
 //import jp.blogspot.turanukimaru.fieldrepos.RealmBattleField
 
@@ -47,7 +45,7 @@ class AndroidLauncher : AndroidApplication() {
         val config = AndroidApplicationConfiguration()
         config.useAccelerometer = false
         config.useCompass = false
-        initialize(MyMyGdxGame(), config)
+        initialize(MyGdxGame(), config)
 //        initialize(jp.blogspot.turanukimaru.fehs.shogi.MyShogiGame(), config)
     }
 }
