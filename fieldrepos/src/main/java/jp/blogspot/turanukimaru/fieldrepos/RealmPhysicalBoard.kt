@@ -19,8 +19,10 @@ open class RealmPhysicalBoard(
         val unit = realm.createObject(RealmBattleUnit::class.java, last)
         val armedHero = realm.createObject(RealmArmedHero::class.java, last)
         unit.realmArmedHero = armedHero
-        armedHero.nickname = piece.armedHero.name
-        armedHero.baseName = piece.armedHero.name
+        println("persist hero name:${piece.armedHero.baseHero.heroName}")
+        println("persist hero:${piece.armedHero}")
+        armedHero.nickname = piece.armedHero.baseHero.heroName.jp
+        armedHero.baseName = piece.armedHero.baseHero.heroName.jp
         unit.hp = piece.hp
         piece.armedHero.id = last
         val pos = realm.createObject(RealmPositioning::class.java, last)
@@ -28,7 +30,7 @@ open class RealmPhysicalBoard(
         pos.y = y
         pos.battleUnit = unit
         battleUnits.add(pos)
-        println("RealmPhysicalBoard put $id : $x, $y")
+        println("RealmPhysicalBoard $id put $last : $x, $y")
         println("battleUnits $battleUnits")
     }
 

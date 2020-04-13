@@ -61,12 +61,12 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
     override fun create(initialItem: PhysicalBoard<MyPiece, Tile>): PhysicalBoard<MyPiece, Tile> {
         Log.i("RealmBattleFieldContent", initialItem.toString())
         realm.beginTransaction()
-        val last = realm.where(RealmBattleField::class.java).max("id")
-        println(last)
-        val f = realm.createObject<RealmBattleField>((last?.toInt() ?: 0) + 1)
-        println(f)
-        val p = realm.createObject<RealmPhysicalBoard>((last?.toInt() ?: 0) + 1)//id は 1:1 だからこれでいいか
-        println(p)
+        val next = (realm.where(RealmBattleField::class.java).max("id")?.toInt() ?: 0) + 1
+        println(next)
+        val f = realm.createObject<RealmBattleField>(next)
+        println("create field:$f")
+        val p = realm.createObject<RealmPhysicalBoard>(next)//id は 1:1 だからこれでいいか
+        println("create board:$p")
         f.horizontalLines = initialItem.horizontalLines
         f.verticalLines = initialItem.verticalLines
         f.name = ""//ボード名はなくていいかな？
@@ -74,7 +74,7 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
         //ユーザとかも必要になるんだろな…
         realm.commitTransaction()
         println("realm.commitTransaction()")
-        return PersistPhysicalBoard(f.horizontalLines, f.verticalLines, p, realm)
+        return PersistPhysicalBoard(f.horizontalLines, f.verticalLines, p, realm, next)
     }
 
     override fun createOrUpdate(item: PhysicalBoard<MyPiece, Tile>): PhysicalBoard<MyPiece, Tile> {
@@ -82,8 +82,7 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
         item.apply {
             realm.executeTransaction {
                 item.apply {
-                    val newId = item.id
-                            ?: realm.where(RealmBattleField::class.java).max("id")?.toInt() ?: 0 + 1
+                    val newId = item.id + 1
                     val p = realm.createObject<RealmPhysicalBoard>(newId)//id は 1:1 だからこれでいいか
                     realm.copyToRealmOrUpdate(RealmBattleField(newId, horizontalLines, verticalLines, "", p))
 
@@ -102,5 +101,6 @@ object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
     }
 
     override fun getById(id: String): PhysicalBoard<MyPiece, Tile>? = realm.where(RealmBattleField::class.java).equalTo("nickname", id).findFirst()?.toModelObject(realm)
+    override fun getById(id: Int): PhysicalBoard<MyPiece, Tile>? = realm.where(RealmBattleField::class.java).equalTo("id", id).findFirst()?.toModelObject(realm)
 
 }

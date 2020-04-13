@@ -106,6 +106,7 @@ class MyGdxGame : ApplicationAdapter() {
         camera = stage!!.camera
 
         createStage()
+        buildLoadButton()//ここでID渡せばいいかな…
     }
 
     private fun createStage() {
@@ -203,14 +204,19 @@ class MyGdxGame : ApplicationAdapter() {
         val texture = loadTexture("bucket.png")
         val image = Image(texture)
         imageDisposer.add(image)
-        image.setPosition(128f, 0f)
+        image.setPosition(192f, 0f)
         buttons.add(image)
 
         image.addListener(object : ClickListener() {
             //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                println("pushed turnEnd")
-                myGame.controller.turnEnd()
+                val persistence = BattleFieldRepository.getById(1)!!
+                val board = Board(6, 8, 0, persistence)
+                board.load()
+                println(board)
+                println(board.physics)
+                println(board.physics.pieceList)
+                board.physics.pieceList.forEach { println(it) }
             }
         })
         //どこでボタン管理するか考えないとなー

@@ -117,6 +117,9 @@ open class PhysicalBoard<P, TILE>(val horizontalLines: Int, val verticalLines: I
         }
     }
 
+    open fun load(board: Board<P, TILE>, matrix: MutableList<MutableList<Piece<P, TILE>?>> = pieceMatrix, map: MutableMap<Piece<P, TILE>, Position> = positionMap) {
+        //DBからロードして駒をセットする。問題は駒へのプレイヤーの割り当てか...
+    }
     /**
      * 盤面をバックアップする。ゲーム開始時とかに使う
      */

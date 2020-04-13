@@ -36,6 +36,8 @@ open class RealmContent<T> : ModelObjectRepository<T> {
         return initialItem
     }
 
+    override fun getById(id: Int): T? = null
+
 // where(S::class.java)さえ綺麗に掛ければかなり共通化できるのだが・・・>ジェネリクスになった
 //    /**
 //     * 条件付き検索

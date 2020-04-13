@@ -24,6 +24,6 @@ open class RealmBattleField(
 
     fun toModelObject(realm: Realm): PhysicalBoard<MyPiece, Tile> {
         // repo は多分更新時に repo のトランザクションを張るのに必要になる…
-        return PersistPhysicalBoard(horizontalLines, verticalLines, realmPhysicalBoard!!, realm)
+        return PersistPhysicalBoard(horizontalLines, verticalLines, realmPhysicalBoard!!, realm, id)
     }
 }

@@ -386,4 +386,8 @@ class Board<P, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: I
     fun clickOption() {
         move.optionClicked()
     }
+
+    fun load() {
+        physics.load(this)
+    }
 }

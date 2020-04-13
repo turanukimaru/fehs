@@ -43,4 +43,9 @@ interface ModelObjectRepository<T> {
      * Id指定して取得
      */
     fun getById(id: String): T?
+
+    /**
+     * Id指定して取得
+     */
+    fun getById(id: Int): T?
 }

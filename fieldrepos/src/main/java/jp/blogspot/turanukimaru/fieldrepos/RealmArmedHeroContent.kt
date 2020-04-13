@@ -96,5 +96,6 @@ object RealmArmedHeroContent : RealmContent<ArmedHero>() {
     }
 
     override fun getById(id: String): ArmedHero? = realm.where(RealmArmedHero::class.java).equalTo("nickname", id).findFirst()?.toModelObject()
+    override fun getById(id: Int): ArmedHero? = realm.where(RealmArmedHero::class.java).equalTo("id", id).findFirst()?.toModelObject()
 
 }
