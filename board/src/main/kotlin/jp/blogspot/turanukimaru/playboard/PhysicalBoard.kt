@@ -54,13 +54,15 @@ open class PhysicalBoard<P, TILE>(val horizontalLines: Int, val verticalLines: I
         piece.putOn(x, y, orientation)
     }
 
-    //集約としてみたコード...これあんまし良くないな
-  open fun localPut(piece: Piece<P, TILE>, x: Int, y: Int, orientation: Int = 0) {
+    /**
+     * 集約に駒を追加する。例えば永続化するときはここを Override することになる。
+     */
+    protected open fun localPut(piece: Piece<P, TILE>, x: Int, y: Int, orientation: Int = 0) {
         pieceMatrix[x][y] = piece
         positionMap[piece] = Position(x, y)
     }
 
-    open fun localMove(piece: Piece<P, TILE>, x: Int, y: Int, oldX: Int? = null, oldY: Int? = null, orientation: Int = 0) {
+    protected open fun localMove(piece: Piece<P, TILE>, x: Int, y: Int, oldX: Int? = null, oldY: Int? = null, orientation: Int = 0) {
         println("localMove")
         if (oldX != null && oldY != null) pieceMatrix[oldX][oldY] = null
         pieceMatrix[x][y] = piece

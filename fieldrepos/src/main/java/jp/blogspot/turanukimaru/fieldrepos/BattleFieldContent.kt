@@ -13,7 +13,7 @@ import jp.blogspot.turanukimaru.playboard.PhysicalBoard
  */
 object BattleFieldContent : RealmContent<PhysicalBoard<MyPiece, Tile>>() {
 
-    private val tag = "BattleFieldContent"
+    private const val tag = "BattleFieldContent"
 
     /**
      * realmのkotlin用ハンドラ

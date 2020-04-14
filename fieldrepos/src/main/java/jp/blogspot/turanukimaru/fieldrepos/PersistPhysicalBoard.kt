@@ -25,7 +25,7 @@ class PersistPhysicalBoard(horizontalLines: Int, verticalLines: Int, var realmPh
     override fun localPut(piece: Piece<MyPiece, Tile>, x: Int, y: Int, orientation: Int) {
         super.localPut(piece, x, y, orientation)
         println("PersistPhysicalBoard localPut ${piece.specialized.containUnit.armedHero.baseHero.heroName.jp}")
-        realmPhysicalBoard.put(realm, piece.specialized.containUnit, x, y) //ユニットのIDどうすっかな
+        realmPhysicalBoard.put(realm, piece.specialized.containUnit, x, y)
     }
 
     //これコミットしたときだけにしたいなあ…
