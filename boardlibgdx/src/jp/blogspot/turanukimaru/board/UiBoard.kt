@@ -51,16 +51,16 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, private val liner: Shape
     /**
      * 枡幅
      */
-    private val squareWidth = (width - marginLeft - marginRight) / board.horizontalLines
+    private val squareWidth = (width - marginLeft - marginRight) / board.physics.horizontalLines
 
     /**
      * 枡高さ
      */
-    private val squareHeight = (height - marginBottom - marginTop) / board.verticalLines
+    private val squareHeight = (height - marginBottom - marginTop) / board.physics.verticalLines
 
-    private fun posXtoSquareX(x: Float) = minOf(((x - marginLeft) / squareWidth).toInt(), board.horizontalLines - 1)
+    private fun posXtoSquareX(x: Float) = minOf(((x - marginLeft) / squareWidth).toInt(), board.physics.horizontalLines - 1)
 
-    private fun posYtoSquareY(y: Float) = minOf(((y - marginBottom) / squareHeight).toInt(), board.verticalLines - 1)
+    private fun posYtoSquareY(y: Float) = minOf(((y - marginBottom) / squareHeight).toInt(), board.physics.verticalLines - 1)
 
     fun squareYtoPosY(y: Int) = y * squareHeight + marginBottom
 
@@ -167,15 +167,15 @@ class UiBoard(val stage: Stage, val batch: SpriteBatch, private val liner: Shape
         liner.begin(ShapeRenderer.ShapeType.Line)
         liner.color = Color.WHITE
         //枠を引く
-        if (board.verticalLines > 1) {
+        if (board.physics.verticalLines > 1) {
             liner.line(1f, marginBottom, width, marginBottom)
-            (1..board.verticalLines).forEach { v ->
+            (1..board.physics.verticalLines).forEach { v ->
                 liner.line(1f, v * squareHeight + marginBottom, width, v * squareHeight + marginBottom)
             }
         }
-        if (board.horizontalLines > 1) {
+        if (board.physics.horizontalLines > 1) {
             liner.line(1f, marginBottom, 1f, height - marginTop)
-            (1..board.horizontalLines).forEach { v ->
+            (1..board.physics.horizontalLines).forEach { v ->
                 liner.line(v * squareWidth, marginBottom, v * squareWidth, height - marginTop)
             }
         }

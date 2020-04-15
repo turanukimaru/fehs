@@ -66,7 +66,7 @@ class Move<UNIT, TILE>(val board: Board<UNIT, TILE>) {
     private fun drag(touch: Touch<UNIT, TILE>, position: Position) {
         println("drag  $touch at $position")        //駒をドラッグしてるとき
         if (touch.drag(position, board)) {
-            moving = Dragging(this, touch.touchedPiece!!, touch.touchedPiece!!.existsPosition.p, touch.touchedPosition, null, null)
+            moving = Dragging(this, touch.touchedPiece!!, touch.touchedPiece!!.existsPosition, touch.touchedPosition, null, null)
             board.findActionRoute(position, Pair(0, 0), listOf(position), touch.touchedPosition, touch.touchedPiece!!)
         }
     }

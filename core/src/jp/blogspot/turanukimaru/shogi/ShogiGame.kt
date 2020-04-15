@@ -7,10 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import jp.blogspot.turanukimaru.board.UiBoard
 import jp.blogspot.turanukimaru.fehs.Game
-import jp.blogspot.turanukimaru.playboard.Board
-import jp.blogspot.turanukimaru.playboard.BoardListener
-import jp.blogspot.turanukimaru.playboard.Player
-import jp.blogspot.turanukimaru.playboard.Position
+import jp.blogspot.turanukimaru.playboard.*
 
 /**
  * Created by turanukimaru on 2018/03/15.
@@ -30,7 +27,7 @@ class ShogiGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFo
     private val marginRight = 0f
     private val vLines = 9
     private val hLines = 9
-    val board: Board<ShogiUnit, Ground> = Board(hLines, vLines)
+    val board: Board<ShogiUnit, Ground> = Board(PhysicalBoard(hLines, vLines))
     val controller: Game<ShogiUnit, Ground> = Game(board, playerA, playerB)
     val uiBoard: UiBoard = UiBoard(stage, batch, liner, bitmapFont, localWidth, localHeight, headerHeight, footerHeight, marginLeft, marginRight, board)
 

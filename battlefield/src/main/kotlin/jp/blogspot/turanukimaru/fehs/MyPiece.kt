@@ -10,24 +10,19 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
     override val specialized get() = this
     override fun isStoppable(piece: Piece<MyPiece, Tile>?): Boolean = piece == null || piece == this
 
-    override fun isMovable(piece: Piece<MyPiece, Tile>?, tile: Tile?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int): Boolean {
-        //デフォルトでは上下左右0,2,4,6にしておこう
+    override fun isMovable(piece: Piece<MyPiece, Tile>?, tile: Tile?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int): Boolean =//デフォルトでは上下左右0,2,4,6にしておこう
 //        println("move to $pieceAt $ground $orientation $steps")
-        return (piece == null || piece.owner == owner) && ((tile == Tile.P && payed < containUnit.movableSteps) || (tile == Tile.W && payed + 1 < containUnit.movableSteps))
-    }
+            (piece == null || piece.owner == owner) && ((tile == Tile.P && payed < containUnit.movableSteps) || (tile == Tile.W && payed + 1 < containUnit.movableSteps))
 
-    override fun isActionable(piece: Piece<MyPiece, Tile>?, tile: Tile?, orientation: Int, payed: Int, rotated: Int): Boolean {//これ steps はdx+dyでいい気がしてきた…
+    override fun isActionable(piece: Piece<MyPiece, Tile>?, tile: Tile?, orientation: Int, payed: Int, rotated: Int): Boolean =//これ steps はdx+dyでいい気がしてきた…
 //        println("step:$steps range:${containUnit.actionRange}")range計算はMap側で終わってるから要らないかな…
-        return payed < containUnit.effectiveRange && !(piece != null && piece.owner == owner)//味方は範囲に数えない
-    }
+            payed < containUnit.effectiveRange && !(piece != null && piece.owner == owner)//味方は範囲に数えない
 
     /**
      * 味方にサポートできる範囲か。優先度は攻撃より低いんだっけ？
      */
-    override fun isSupportable(tiles: PiecesAndTiles<MyPiece, Tile>, orientation: Int, payed: Int, rotated: Int): Boolean {
-        //support skill によって変わるのだがとりあえず一歩押す奴。//中心に対象がいないときは false でいいのかな・・・？
-        return tiles.Piece0 != null && tiles.Piece0?.owner == owner && tiles.Piece1 == null && tiles.Piece0?.isMovable(null, tiles.TILE1, orientation, 0, false) ?: false
-    }
+    override fun isSupportable(tiles: PiecesAndTiles<MyPiece, Tile>, orientation: Int, payed: Int, rotated: Int): Boolean =//support skill によって変わるのだがとりあえず一歩押す奴。//中心に対象がいないときは false でいいのかな・・・？
+            tiles.Piece0 != null && tiles.Piece0?.owner == owner && tiles.Piece1 == null && tiles.Piece0?.isMovable(null, tiles.TILE1, orientation, 0, false) ?: false
 
     override fun stepCost(piece: Piece<MyPiece, Tile>?, tile: Tile?, orientation: Int, payed: Int, rotated: Int): Int {
 //        println("count step $pieceAt $ground $orientation $steps")
@@ -50,9 +45,8 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
     /**
      * 攻撃可能射程をアーチ並みにしてみる。動くかな？
      */
-    override fun actionRange(): Pair<Int, Int> {
-        return if (containUnit.effectiveRange == 2) Pair(7, 4) else Pair(1, 1)
-    }
+    override fun actionRange(): Pair<Int, Int> =
+            if (containUnit.effectiveRange == 2) Pair(7, 4) else Pair(1, 1)
 
 
     /**
@@ -64,9 +58,7 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
     }
 
     //対象がルート上かとかの引数を増やすべきだな
-    override fun dragged(position: Position): Boolean {
-        return true//showActionResult(position)
-    }
+    override fun dragged(position: Position): Boolean = true//showActionResult(position)
 
     private fun showActionResult(position: Position): Boolean {
         val target = board.physics.pieceAt(position)
@@ -87,9 +79,8 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
     }
 
     //行動結果表示。ドラッグと同じ
-    override fun boardAction(source: Position, target: Position, targetPiece: Piece<MyPiece, Tile>): Boolean {
-        return showActionResult(target)
-    }
+    override fun boardAction(source: Position, target: Position, targetPiece: Piece<MyPiece, Tile>): Boolean =
+            showActionResult(target)
 
     //行動。相手がいるかは判定済み。向きをここに入れるかはちょっと難しいな…でも入れるしかないか。補助と言っても回復もあるんだしな
     override fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<MyPiece, Tile>): Boolean {
@@ -118,7 +109,7 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
 
         println("actionTouchedPoint")
         println("charPosition: $position")
-        println("charPosition: " + board.positionIsOnBoard(position))
+        println("charPosition: " + board.physics.positionIsOnBoard(position))
         println("existPosition: $existsPosition // これをそのまま attackPos として使えないとおかしい")
         println("routeStack: ${board.move.routeStack}")
         println("${board.move.moving.from} ${actionableAt(position)} $target ${target == this}")
@@ -134,7 +125,7 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
             println("attack from $attackPos")
             println(board.move.routeStack)
             println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-            val fightResult = FightResult(containUnit, attackPos.p, target.specialized.containUnit, position, containUnit.fight(target.specialized.containUnit))
+            val fightResult = FightResult(containUnit, attackPos, target.specialized.containUnit, position, containUnit.fight(target.specialized.containUnit))
             action(ActionPhase.ACTED, ActionEvent.Attack, fightResult)
             //ここがうまくまとまらない…ジェネリクス追加するか？
             target.specialized.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
@@ -143,7 +134,7 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
             target.specialized.containUnit.hp = fightResult.attackResults.last().target.hp
 
             if (containUnit.hp == 0) {
-                board.physics.remove(this, attackPos.p)
+                board.physics.remove(this, attackPos)
             }
             if (target.specialized.containUnit.hp == 0) {
                 board.physics.remove(target, position)

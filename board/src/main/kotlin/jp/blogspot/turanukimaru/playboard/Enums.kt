@@ -13,6 +13,9 @@ class Player(val id: Int? = null) {
         val None = Player()
     }
 
+    /**
+     * 手持ちの駒
+     */
     private val pieceList = mutableListOf<Piece<*, *>>()
     fun takePiece(piece: Piece<*, *>) {
         pieceList.add(piece)
@@ -29,21 +32,16 @@ interface BoardListener {
 }
 
 /**
- * 盤面の座標
+ * 盤面の座標。 場所と向きを分けるのは無意味だな…統一しよう
  */
-data class Position(val x: Int, val y: Int) {
+data class Position(val x: Int, val y: Int, val r: Int = 0) {
     fun sub(p: Position): Position = Position(x - p.x, y - p.y)
     fun plus(p: Position): Position = Position(x + p.x, y + p.y)
     fun range(p: Position, max: Int, min: Int = 0) = distance(p) in min..max
     fun distance(p: Position) = abs(x - p.x) + abs(y - p.y)
 }
 
-/**
- * 座標＋向き。駒が無ければ位置取りも存在しないし、駒への参照もあったほうがいいかな？あるいは逆に Position に統一するべきなんだろうか…
- */
-data class Positioning(val p: Position, val r: Int=0)
-
-val nowhere = Positioning(Position(-1, -1), -1)
+val nowhere = Position(-1, -1, -1)
 
 class Touch<UNIT, TILE>(
         /**
@@ -75,9 +73,7 @@ class Touch<UNIT, TILE>(
     /**
      * ドラッグ中か。どこかにホールド判定を入れないとなー
      */
-    fun dragging(): Boolean {
-        return dragged || System.currentTimeMillis() - holdStart > graspThreshold
-    }
+    fun dragging(): Boolean = dragged || System.currentTimeMillis() - holdStart > graspThreshold
 
     fun drag(position: Position, board: Board<UNIT, TILE>): Boolean {
         dragged = true

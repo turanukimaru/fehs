@@ -5,11 +5,12 @@ import java.util.*
 /**
  * 論理盤面。手の保持やルート計算がメイン。盤面の操作は physics に対して行える
  */
-class Board<P, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: Int? = null,
-                        /**
+class Board<P, TILE>(
+        /**
                          * 操作対象としての盤
                          */
-                        val physics: PhysicalBoard<P, TILE> = PhysicalBoard(horizontalLines, verticalLines)
+        val physics: PhysicalBoard<P, TILE>,
+        var id: Int? = null
 
 ) {
     /**
@@ -40,11 +41,6 @@ class Board<P, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: I
             }
             return routeMatrix
         }
-
-    /**
-     * 盤面の座標が盤上に有るか。つまりIndexがマイナスになったり幅を超えたりしていないか
-     */
-    fun positionIsOnBoard(position: Position): Boolean = position.x in physics.horizontalIndexes && position.y in physics.verticalIndexes
 
     /**
      * 移動可能な経路を調べる。
@@ -97,7 +93,7 @@ class Board<P, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: I
                 val targetPos = Position(x, y)
                 //まずこの枡が未計算でユニットからの射程内だったらマーク。駒の場所使ってるけど外から供給したいなあ…
                 // println("p:$position s:$square r:${position.distance(square)}")
-                if (routeMatrix[x][y] == -1 && targetPos.range(existsPos, max, min)) routeMatrix[x][y] = targetPos.distance(piece.existsPosition.p)
+                if (routeMatrix[x][y] == -1 && targetPos.range(existsPos, max, min)) routeMatrix[x][y] = targetPos.distance(piece.existsPosition)
                 if (piece.searchedRouteAt(targetPos) >= 0 && piece.isStoppable(physics.pieceAt(targetPos))) stepActionRoute(piece, targetPos, 0, routeMatrix)
             }
         }
@@ -238,7 +234,7 @@ class Board<P, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: I
     fun gameReset(owner: Player) {
         println("gameReset")
         move.clear()//deselectPieceでクリアしてるはずなのだが…
-        physics.reset()
+        physics.restore()
         turnStart(owner)
     }
 
@@ -284,7 +280,7 @@ class Board<P, TILE>(val horizontalLines: Int, val verticalLines: Int, var id: I
         //現在値が攻撃可能なら探さなくていい
         if (targetPosition.range(startPos, range.first, range.second) || targetPositions.contains(startPos)) return startPos
         val routeClone = move.routeStack.clone()
-        if (routeClone.isEmpty() || routeClone.first != piece.existsPosition.p) routeClone.addFirst(piece.existsPosition.p)//routeStack作成時にに現在地だけ入れておきたいなあ
+        if (routeClone.isEmpty() || routeClone.first != piece.existsPosition) routeClone.addFirst(piece.existsPosition)//routeStack作成時にに現在地だけ入れておきたいなあ
         val digRoute = digActionStack(routeClone, piece, targetPositions)
         //ここから一歩引いて探索か…移動時に途中の経路を探索するのにも使えるはず
         //ここで途中をスタックに詰める必要がある...なお掘る向きが逆

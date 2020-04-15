@@ -43,6 +43,7 @@ abstract class Moving<UNIT, TILE>(
      */
     open fun moveCommit(): Moving<UNIT, TILE> {
         println("moveCommit $selectedPiece")
+        move.board.physics.move(selectedPiece!!, to!!)//やはり階層がおかしいか…
         move.board.listener?.hideOption()
         return NoMove(move)
     }
@@ -66,7 +67,6 @@ abstract class Moving<UNIT, TILE>(
 //        println("ひょっとして $movable false?")
         if (movable) {
             move.board.findActionRoute(position, selectedPiece.actionRange(), listOf(position), oldPosition, selectedPiece)
-            move.board.physics.move(selectedPiece, position)
             move.board.listener?.showOption(position)
             return Selected(move, selectedPiece, oldPosition, position)
         }
@@ -105,6 +105,7 @@ abstract class Moving<UNIT, TILE>(
      * 行動実行。
      */
     fun actionCommit(targetPiece: Piece<UNIT, TILE>, targetPos: Position, selectedPiece: Piece<UNIT, TILE>, selectedPos: Position): Moving<UNIT, TILE> {
+        move.board.physics.move(selectedPiece, to!!)
         selectedPiece.boardMoveCommit()
         selectedPiece.boardActionCommit(selectedPos, targetPos, targetPiece)
         selectedPiece.clearRoute()
@@ -137,9 +138,7 @@ abstract class Moving<UNIT, TILE>(
      * 追加の操作用ボタン。ないことのほうが多そうなので open fun
      * 問題はこれってゲームによって動作が違う事だよな… fun を定義できるようにするか、PieceとBoardに改めて投げるか？
      */
-    open fun optionClick(): Moving<UNIT, TILE> {
-        return this
-    }
+    open fun optionClick(): Moving<UNIT, TILE> = this
 
 }
 
@@ -151,9 +150,7 @@ class NoMove<UNIT, TILE>(override val move: Move<UNIT, TILE>) : Moving<UNIT, TIL
     /**
      * 何もつかんでおらず盤面タップしても何も起きない
      */
-    override fun boardClick(position: Position): Moving<UNIT, TILE> {
-        return NoMove(move)
-    }
+    override fun boardClick(position: Position): Moving<UNIT, TILE> = NoMove(move)
 
     /**
      * 駒を選択状態にする
@@ -177,9 +174,8 @@ open class Grasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val s
     /**
      * 選択済みの駒を動かす。 select でも actionReady でも同じ動作のはず
      */
-    override fun boardClick(position: Position): Moving<UNIT, TILE> {
-        return moveSelectedPiece(position, selectedPiece, from)
-    }
+    override fun boardClick(position: Position): Moving<UNIT, TILE> =
+            moveSelectedPiece(position, selectedPiece, from)
 
     override fun pieceClick(position: Position, piece: Piece<UNIT, TILE>): Moving<UNIT, TILE> {
         println("Grasp pieceClick $position, $piece / ${piece.actionPhase} ${piece.owner}  ${move.board.owner} ${piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)}")
@@ -263,8 +259,7 @@ data class Dragging<UNIT, TILE>(override val move: Move<UNIT, TILE>, override va
     /**
      * 選択済みの駒を動かす。 select でも actionReady でも同じ動作のはず
      */
-    override fun boardClick(position: Position): Moving<UNIT, TILE> {
-        return moveSelectedPiece(position, selectedPiece, from)
-    }
+    override fun boardClick(position: Position): Moving<UNIT, TILE> =
+            moveSelectedPiece(position, selectedPiece, from)
 
 }

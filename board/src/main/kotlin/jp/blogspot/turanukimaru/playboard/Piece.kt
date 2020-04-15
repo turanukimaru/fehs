@@ -26,7 +26,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * 盤上の位置。表示用の位置。移動先を優先して出す
      */
-    val charPosition: Position? get() = newPosition ?: existsPosition.p
+    val charPosition: Position? get() = newPosition ?: existsPosition
 
     /**
      * 盤上の位置。移動先
@@ -36,7 +36,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * 盤上の位置。確定してる位置
      */
-    var existsPosition: Positioning = nowhere
+    var existsPosition: Position = nowhere
 
     //そろそろマトリクスをIntではなく(pass, stop, action)にするべきなんだろうけど１枡ごとにオブジェクト作るのきっと重いよなあ…
     /**
@@ -54,9 +54,9 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
      */
     fun actionableAt(position: Position): Int {
         if (actionRoute.size == 0) {
-            actionRoute = board.searchActionRoute(this, existsPosition.p)
+            actionRoute = board.searchActionRoute(this, existsPosition)
         }
-        return if (board.positionIsOnBoard(position)) actionRoute[position.x][position.y] else -1
+        return if (board.physics.positionIsOnBoard(position)) actionRoute[position.x][position.y] else -1
     }
 
     /**
@@ -66,30 +66,26 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
         if (passRoute.size == 0) {
             passRoute = board.searchRoute(this)
         }
-        return if (board.positionIsOnBoard(position)) passRoute[position.x][position.y] else -1
+        return if (board.physics.positionIsOnBoard(position)) passRoute[position.x][position.y] else -1
     }
 
     /**
      * 基本的に敵への行動範囲か。
      */
-    open fun isActionable(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, rotated: Int = rotate(orientation)): Boolean {
-        return false
-    }
+    open fun isActionable(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, rotated: Int = rotate(orientation)): Boolean =
+            false
 
     /**
      * 基本的に味方へのサポート範囲か。
      */
-    open fun isSupportable(tiles: PiecesAndTiles<P, TILE>, orientation: Int, payed: Int, rotated: Int = rotate(orientation)): Boolean {
-        return false
-    }
+    open fun isSupportable(tiles: PiecesAndTiles<P, TILE>, orientation: Int, payed: Int, rotated: Int = rotate(orientation)): Boolean =
+            false
 
     /**
      * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
      */
-    open fun isMovable(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int = rotate(orientation)): Boolean {
-        //デフォルト動作は対象が空いていて、まだ一歩も動いて無ければ
-        return piece == null && payed == 0
-    }
+    open fun isMovable(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int = rotate(orientation)): Boolean =//デフォルト動作は対象が空いていて、まだ一歩も動いて無ければ
+            piece == null && payed == 0
 
     /**
      * 引数の枡に移動することで消費する移動力。移動できないときは負の値
@@ -126,9 +122,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * タッチから指を離したとき。移動範囲・効果範囲外のときは駒をもとの場所に戻す
      */
-    open fun touchUp(position: Position): Boolean {
-        return true
-    }
+    open fun touchUp(position: Position): Boolean = true
 
 
     /**
@@ -164,7 +158,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
      * 誰かに移動させられた時。アクションはとるが状態は変わらない
      */
     open fun boardSlide(position: Position): Boolean {
-        this.existsPosition = Positioning(position, existsPosition.r)
+        this.existsPosition = position
         this.newPosition = null
         action(actionPhase, ActionEvent.MoveToCharPosition)
         return true
@@ -193,10 +187,10 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     }
 
     /**
-     * 移動確定。位置を更新だけ TODO:ここで永続化するべき
+     * 移動確定。位置を更新だけ
      */
    open fun boardMoveCommit(position: Position? = newPosition): Boolean {
-        this.existsPosition = Positioning(position!!, existsPosition.r)
+        this.existsPosition = position!!
         this.newPosition = null
         clearRoute()
         return true
@@ -214,9 +208,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * タッチ用ポイント
      */
-    fun touchDown(): Boolean {
-        return touched()
-    }
+    fun touchDown(): Boolean = touched()
 
     /**
      * タッチ用ポイント
@@ -244,37 +236,27 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * 移動可能方向
      */
-    open fun moveOrientations(): Array<Int> {
-        return arrayOf(0, 2, 4, 6)
-    }
+    open fun moveOrientations(): Array<Int> = arrayOf(0, 2, 4, 6)
 
     /**
      * 攻撃可能方向
      */
-    open fun actionOrientations(): Array<Int> {
-        return arrayOf(0, 2, 4, 6)
-    }
+    open fun actionOrientations(): Array<Int> = arrayOf(0, 2, 4, 6)
 
     /**
      * 補助可能方向
      */
-    open fun assistOrientations(): Array<Int> {
-        return arrayOf(0, 2, 4, 6)
-    }
+    open fun assistOrientations(): Array<Int> = arrayOf(0, 2, 4, 6)
 
     /**
      * 攻撃可能射程
      */
-    open fun actionRange(): Pair<Int, Int> {
-        return Pair(1, 1)
-    }
+    open fun actionRange(): Pair<Int, Int> = Pair(1, 1)
 
     /**
      * 補助可能射程
      */
-    open fun assistRange(): Pair<Int, Int> {
-        return Pair(0, 0)
-    }
+    open fun assistRange(): Pair<Int, Int> = Pair(0, 0)
 
     /**
      * この駒を行動可能にする。ターン開始時に呼ばれる
@@ -299,7 +281,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     }
 
     fun putOn(x: Int, y: Int, orientation: Int = 0) {
-        existsPosition = Positioning(Position(x, y), orientation)
+        existsPosition = Position(x, y, orientation)
         action(ActionPhase.PUTTED, ActionEvent.Put)
     }
 
@@ -320,7 +302,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
 
     //戦闘でアクションするかRemoveでアクションするかどちらかにしないと自分から戦闘を仕掛けて死ぬと落ちる…
     fun remove() {
-//        existsPosition = null
+        existsPosition = nowhere
         action(ActionPhase.REMOVED)
     }
 
@@ -334,13 +316,15 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
 
     /**
      * 対象のいる枡に侵入する.owner.takePieceとかは my だな…
+     * into event と commit は分けるべきか
      */
-    open fun intoCommit(piece: Piece<P, TILE>, from: Position, position: Position) {
-        println("$this into $position target $piece")
+    open fun intoCommit(target: Piece<P, TILE>, from: Position, position: Position) {
+        println("$this into $position target $target")
+//        move側でやってたわ
 //        board.physics.remove(piece)
 //        board.physics.move(this, position)
         boardMoveCommit(position)
-        owner.takePiece(piece)
+        owner.takePiece(target)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)// ActionEvent は変えたほうがいいな…ていうか ActionEvent は共通系に書いてはいけないはずだよな
     }
 

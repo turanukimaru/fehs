@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import jp.blogspot.turanukimaru.board.UiBoard
-import jp.blogspot.turanukimaru.playboard.Board
-import jp.blogspot.turanukimaru.playboard.BoardListener
-import jp.blogspot.turanukimaru.playboard.Player
-import jp.blogspot.turanukimaru.playboard.Position
+import jp.blogspot.turanukimaru.playboard.*
 
 /**
  * Created by turanukimaru on 2018/03/15.
@@ -17,7 +14,7 @@ import jp.blogspot.turanukimaru.playboard.Position
 class MyGame(stage: Stage, batch: SpriteBatch, liner: ShapeRenderer, bitmapFont: BitmapFont, localWidth: Float, localHeight: Float, var playerA: Player, var playerB: Player,
              private val vLines: Int = 8,
              private val hLines: Int = 6,
-             val board: Board<MyPiece, Tile> = Board(hLines, vLines)
+             val board: Board<MyPiece, Tile> = Board(PhysicalBoard(hLines, vLines))
 ) : BoardListener {
     override fun showOption(position: Position) {
         uiBoard.showOptionButton(position)

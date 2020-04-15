@@ -48,7 +48,7 @@ class MyGdxGame : ApplicationAdapter() {
     var enemy = Player()
     private val myGame: MyGame by lazy {
         MyGame(stage!!, batch!!, liner!!, bitmapFont!!, logicalWidth, logicalHeight, user, enemy
-                , board = Board(6, 8, 0, BattleFieldRepository.create(6, 8)))
+                , board = Board(BattleFieldRepository.create(6, 8)))
     } //マネージドボードをリポジトリから取得
 
     var textureDisposer = mutableListOf<Texture>()
@@ -58,7 +58,7 @@ class MyGdxGame : ApplicationAdapter() {
     var fontGenerator: FreeTypeFontGenerator? = null
 
 
-    private val battleGround = arrayOf(
+    private val battleGround: Array<Array<Tile?>> = arrayOf(
             arrayOf(Tile.P, Tile.P, Tile.W, Tile.R, Tile.M, Tile.M),
             arrayOf(Tile.R, Tile.P, Tile.R, Tile.R, Tile.M, Tile.M),
             arrayOf(Tile.P, Tile.P, Tile.M, Tile.M, Tile.M, Tile.M),
@@ -67,7 +67,6 @@ class MyGdxGame : ApplicationAdapter() {
             arrayOf(Tile.M, Tile.P, Tile.P, Tile.P, Tile.P, Tile.P),
             arrayOf(Tile.M, Tile.M, Tile.M, Tile.P, Tile.P, Tile.P),
             arrayOf(Tile.M, Tile.M, Tile.M, Tile.M, Tile.P, Tile.P)
-
     )
 
     /**
@@ -211,7 +210,7 @@ class MyGdxGame : ApplicationAdapter() {
             //ダウンとアップが同じときにクリックと判定するようだが長押し判定が無いので使いにくい…ボタンには使えるがキャラをドラッグした後には使えないなあ
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 val persistence = BattleFieldRepository.getById(1)!!
-                val board = Board(6, 8, 0, persistence)
+                val board = Board(persistence)
                 board.load()
                 println(board)
                 println(board.physics)
