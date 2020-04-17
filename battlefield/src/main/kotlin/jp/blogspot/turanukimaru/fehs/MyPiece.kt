@@ -7,7 +7,7 @@ import jp.blogspot.turanukimaru.playboard.*
  */
 class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: Player, actionListener: IActionListener? = null) : Piece<MyPiece, Tile>(null, board, owner) {
     private val actionListeners = if (actionListener != null) listOf(actionListener) else listOf()
-    override val specialized get() = this
+    override val contains get() = this
     override fun isStoppable(piece: Piece<MyPiece, Tile>?): Boolean = piece == null || piece == this
 
     override fun isMovable(piece: Piece<MyPiece, Tile>?, tile: Tile?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int): Boolean =//デフォルトでは上下左右0,2,4,6にしておこう
@@ -66,12 +66,12 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
         //敵ユニットに重ねたときは戦闘結果を計算して表示
         if (actionableAt(position) > 0 && target != null && target.owner != owner) {
             //戦闘後効果は確か入ってなかったはず。マップ奥義は含まれるんだよな…そのうちやんなきゃな…
-            val results = containUnit.fight(target.specialized.containUnit)
+            val results = containUnit.fight(target.contains.containUnit)
             for (result in results) {
                 println(result)
             }
 
-            val fightResult = FightResult(containUnit, charPosition!!, target.specialized.containUnit, position, containUnit.fight(target.specialized.containUnit))
+            val fightResult = FightResult(containUnit, charPosition, target.contains.containUnit, position, containUnit.fight(target.contains.containUnit))
             actionListeners.forEach { it.updateActionResult(fightResult, true) }
         }
         return true
@@ -125,18 +125,18 @@ class MyPiece(val containUnit: BattleUnit, board: Board<MyPiece, Tile>, owner: P
             println("attack from $attackPos")
             println(board.move.routeStack)
             println("!!!!!!!!!!!!!!!action!!!!!!!!!!!!!!!!")
-            val fightResult = FightResult(containUnit, attackPos, target.specialized.containUnit, position, containUnit.fight(target.specialized.containUnit))
+            val fightResult = FightResult(containUnit, attackPos, target.contains.containUnit, position, containUnit.fight(target.contains.containUnit))
             action(ActionPhase.ACTED, ActionEvent.Attack, fightResult)
             //ここがうまくまとまらない…ジェネリクス追加するか？
-            target.specialized.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
+            target.contains.action(ActionPhase.DISABLED, ActionEvent.Attacked, fightResult)
             //表示にはfightResultのHPを使うがマップ上では最終的なHPをそのまま使える
             containUnit.hp = fightResult.attackResults.last().source.hp
-            target.specialized.containUnit.hp = fightResult.attackResults.last().target.hp
+            target.contains.containUnit.hp = fightResult.attackResults.last().target.hp
 
             if (containUnit.hp == 0) {
                 board.physics.remove(this, attackPos)
             }
-            if (target.specialized.containUnit.hp == 0) {
+            if (target.contains.containUnit.hp == 0) {
                 board.physics.remove(target, position)
             }
 

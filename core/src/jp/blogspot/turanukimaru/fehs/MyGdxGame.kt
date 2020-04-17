@@ -58,7 +58,7 @@ class MyGdxGame : ApplicationAdapter() {
     var fontGenerator: FreeTypeFontGenerator? = null
 
 
-    private val battleGround: Array<Array<Tile?>> = arrayOf(
+    private val battleGround = arrayOf(
             arrayOf(Tile.P, Tile.P, Tile.W, Tile.R, Tile.M, Tile.M),
             arrayOf(Tile.R, Tile.P, Tile.R, Tile.R, Tile.M, Tile.M),
             arrayOf(Tile.P, Tile.P, Tile.M, Tile.M, Tile.M, Tile.M),
@@ -146,7 +146,8 @@ class MyGdxGame : ApplicationAdapter() {
         listener.actors.add(medjedImageB)
         myGame.put(piece1, 5, 0, uiPiece, group)
         //ここまで。なお現在の一覧画面から移動するようにした奴は別スレッドなのでRealmにアクセスすると落ちる。別インスタンスなら生きてるかな？
-        //味方を置いてみる。まだ動く気はしないな
+
+        //味方を置いてみる。
         val lucinaTexture0 = loadTexture("lucina.png")
         val lucinaImage0 = Image(lucinaTexture0)
         lucinaImage0.setScale(0.5f)
@@ -271,7 +272,7 @@ class MyGdxGame : ApplicationAdapter() {
         bitmapFont!!.draw(batch, "from:${hand.moving.from}", 50f, 630f)
         bitmapFont!!.draw(batch, "to:${hand.moving.to}", 50f, 660f)
         myGame.controller.board.physics.pieceList.forEach {
-            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.specialized.containUnit.armedHero.name} ${it.charPosition?.x} ${it.charPosition!!.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition!!.x), myGame.uiBoard.squareYtoPosY(it.charPosition!!.y))
+            if (it.charPosition != null) bitmapFont!!.draw(batch, "${it.contains.containUnit.armedHero.name} ${it.charPosition.x} ${it.charPosition.y}\n", myGame.uiBoard.squareXtoPosX(it.charPosition.x), myGame.uiBoard.squareYtoPosY(it.charPosition.y))
         }
         batch!!.end()
         myGame.uiBoard.libUpdate()

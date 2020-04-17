@@ -13,11 +13,9 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     override fun isStoppable(piece: Piece<ShogiUnit, Ground>?): Boolean = piece == null || piece.owner != this.owner
 
     // straight のときのみ。竜王・竜馬のときは override するしかないな。
-    override fun isMovable(piece: Piece<ShogiUnit, Ground>?, tile: Ground?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int): Boolean {
-        //向きは正しいか && 突入できるか && 直線移動が許されている方向か
+    override fun isMovable(piece: Piece<ShogiUnit, Ground>?, tile: Ground?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int): Boolean =//向きは正しいか && 突入できるか && 直線移動が許されている方向か
 //        if(rotated > 7 || rotated < 0)println("orientation:$orientation -> rotated:$rotated")
-        return specialized.orientations.contains(rotated) && (piece == null || piece.owner != owner) && (payed == 0 || (specialized.recursiveOrientations.contains(rotated) && ahead && payed < 128))
-    }
+            contains.orientations.contains(rotated) && (piece == null || piece.owner != owner) && (payed == 0 || (contains.recursiveOrientations.contains(rotated) && ahead && payed < 128))
 
     override fun isActionable(piece: Piece<ShogiUnit, Ground>?, tile: Ground?, orientation: Int, payed: Int, rotated: Int): Boolean = false
 
@@ -40,44 +38,37 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     /**
      * タッチされたときの処理。将棋なので別に必要だけど作る必要ない気はするな
      */
-    override fun touched(): Boolean {
-//        actionListener.updateInfo({ b ->
+    override fun touched(): Boolean =//        actionListener.updateInfo({ b ->
 //            //フォントサイズ替えたいところではある
 //            b.bitmapFont.draw(b.batch, unit.name, 80f, 940f)
 //            true
 //        }, 1)
-        return true
-    }
+            true
 
     //これはもう親からも消したほうがいい気がしてきた…
-    override fun dragged(position: Position): Boolean {
-        return true//showActionResult(position)
-    }
+    override fun dragged(position: Position): Boolean = true//showActionResult(position)
 
 
     //行動結果表示。ドラッグと同じ
-    override fun boardAction(source: Position, target: Position, targetPiece: Piece<ShogiUnit, Ground>): Boolean {
-        return true
-    }
+    override fun boardAction(source: Position, target: Position, targetPiece: Piece<ShogiUnit, Ground>): Boolean =
+            true
 
     //行動。相手がいるかは判定済み。向きをここに入れるかはちょっと難しいな…でも入れるしかないか。補助と言っても回復もあるんだしな
-    override fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<ShogiUnit, Ground>): Boolean {
-        return true
-    }
+    override fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<ShogiUnit, Ground>): Boolean =
+            true
 
     /**
      * 移動可能方向
      */
-    override fun moveOrientations(): Array<Int> {
-        return arrayOf(0, 1, 2, 3, 4, 5, 6, 7)//Int Range は Array にならない…
-    }
+    override fun moveOrientations(): Array<Int> =
+            arrayOf(0, 1, 2, 3, 4, 5, 6, 7)//Int Range は Array にならない…
 
     /**
      * 成る。containUnit を var にすると　と金が持ち駒になったときに金扱いされてよくない。
      * 対象があるかないかで分けるべきかなあ
      */
     override fun opt(actionTargetPiece: Piece<ShogiUnit, Ground>?, from: Position, actionTargetPos: Position) {
-        if (specialized.promotion != null) specialized.promotion = Kin()
+        if (contains.promotion != null) contains.promotion = Kin()
         if (actionTargetPiece == null) return
         board.physics.remove(actionTargetPiece)
         boardMoveCommitAction(actionTargetPos)
@@ -85,6 +76,6 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
     }
 
 
-    override fun toString(): String = specialized.name
+    override fun toString(): String = contains.name
 }
 

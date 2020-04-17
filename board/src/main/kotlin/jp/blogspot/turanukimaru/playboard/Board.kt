@@ -87,17 +87,16 @@ class Board<P, TILE>(
         //最大／最小射程
         val max = piece.actionRange().first
         val min = piece.actionRange().second
-        val routeMatrix = filledMatrix
+        val actionMatrix = filledMatrix
         physics.horizontalIndexes.forEach { x ->
             physics.verticalIndexes.forEach { y ->
                 val targetPos = Position(x, y)
                 //まずこの枡が未計算でユニットからの射程内だったらマーク。駒の場所使ってるけど外から供給したいなあ…
-                // println("p:$position s:$square r:${position.distance(square)}")
-                if (routeMatrix[x][y] == -1 && targetPos.range(existsPos, max, min)) routeMatrix[x][y] = targetPos.distance(piece.existsPosition)
-                if (piece.searchedRouteAt(targetPos) >= 0 && piece.isStoppable(physics.pieceAt(targetPos))) stepActionRoute(piece, targetPos, 0, routeMatrix)
+                if (actionMatrix[x][y] == -1 && targetPos.range(existsPos, max, min)) actionMatrix[x][y] = targetPos.distance(piece.existsPosition)
+                if (piece.searchedRouteAt(targetPos) >= 0 && piece.isStoppable(physics.pieceAt(targetPos))) stepActionRoute(piece, targetPos, 0, actionMatrix)
             }
         }
-        return routeMatrix
+        return actionMatrix
     }
 
     /**

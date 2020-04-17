@@ -104,9 +104,9 @@ class PhysicalBoardTest {
     @Test
     fun copyTilesSwitchXY() {
         val battleGround = arrayOf(
-                arrayOf(DummyTile.Plane, DummyTile.Plane, null, null),
-                arrayOf(null, DummyTile.Plane, null, null),
-                arrayOf(null, DummyTile.Plane, DummyTile.Plane, null)
+                arrayOf(DummyTile.Plane, DummyTile.Plane, DummyTile.None, DummyTile.None),
+                arrayOf(DummyTile.None, DummyTile.Plane, DummyTile.None, DummyTile.None),
+                arrayOf(DummyTile.None, DummyTile.Plane, DummyTile.Plane, DummyTile.None)
         )
         val physicalBoard = PhysicalBoard<DummyPiece, DummyTile>(4, 3)
         physicalBoard.copyTilesSwitchXY(battleGround)
@@ -114,18 +114,18 @@ class PhysicalBoardTest {
         //上下が逆なのでこのラインが一番上
         assertThat(physicalBoard.tileAt(0, 2), `is`(DummyTile.Plane))
         assertThat(physicalBoard.tileAt(1, 2), `is`(DummyTile.Plane))
-        assertThat(physicalBoard.tileAt(2, 2), `is`(nullValue()))
-        assertThat(physicalBoard.tileAt(3, 2), `is`(nullValue()))
+        assertThat(physicalBoard.tileAt(2, 2), `is`(DummyTile.None))
+        assertThat(physicalBoard.tileAt(3, 2), `is`(DummyTile.None))
 
-        assertThat(physicalBoard.tileAt(0, 1), `is`(nullValue()))
+        assertThat(physicalBoard.tileAt(0, 1), `is`(DummyTile.None))
         assertThat(physicalBoard.tileAt(1, 1), `is`(DummyTile.Plane))
-        assertThat(physicalBoard.tileAt(2, 1), `is`(nullValue()))
-        assertThat(physicalBoard.tileAt(3, 1), `is`(nullValue()))
+        assertThat(physicalBoard.tileAt(2, 1), `is`(DummyTile.None))
+        assertThat(physicalBoard.tileAt(3, 1), `is`(DummyTile.None))
 
-        assertThat(physicalBoard.tileAt(0, 0), `is`(nullValue()))
+        assertThat(physicalBoard.tileAt(0, 0), `is`(DummyTile.None))
         assertThat(physicalBoard.tileAt(1, 0), `is`(DummyTile.Plane))
         assertThat(physicalBoard.tileAt(2, 0), `is`(DummyTile.Plane))
-        assertThat(physicalBoard.tileAt(3, 0), `is`(nullValue()))
+        assertThat(physicalBoard.tileAt(3, 0), `is`(DummyTile.None))
     }
 
     @Test

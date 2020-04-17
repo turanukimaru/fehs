@@ -2,7 +2,7 @@ package jp.blogspot.turanukimaru.playboard
 
 import org.junit.Test
 
-class BoardTest {
+class MoveTest {
     @Test
     fun backupAndRestoreTest() {
         val physicalBoard = PhysicalBoard<DummyPiece, DummyTile>(3, 4)

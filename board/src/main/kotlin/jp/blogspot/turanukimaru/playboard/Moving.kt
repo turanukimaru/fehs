@@ -2,6 +2,8 @@ package jp.blogspot.turanukimaru.playboard
 
 /**
  * 手／移動のモデル化。Boardのモデルの一部「ではない」ことに注意。つまりアプリに移動しても良い。
+ * また、Boardの一部ではないため移動できるかだけ判定し位置関係は判定していないし自動で移動したりもしない。
+ * 例えば離れたところに攻撃するときに自動的に隣接したりはしない。
  */
 abstract class Moving<UNIT, TILE>(
         /**
@@ -30,10 +32,11 @@ abstract class Moving<UNIT, TILE>(
         open val actionTargetPos: Position? = null
 ) {
     /**
-     * 選択した駒の移動をキャンセルして非選択にする。
+     * 選択した駒があれば移動をキャンセルして非選択にする。
      */
     open fun moveCancel(): Moving<UNIT, TILE> {
         println("moveCancel $selectedPiece")
+        selectedPiece?.moveCancel()
         move.board.listener?.hideOption()
         return NoMove(move)
     }
@@ -49,12 +52,12 @@ abstract class Moving<UNIT, TILE>(
     }
 
     /**
-     * 何もつかんでおらず盤面タップしても何も起きない
+     * 盤をクリックしたときの動作を定義する
      */
     abstract fun boardClick(position: Position): Moving<UNIT, TILE>
 
     /**
-     * 駒を選択状態にする
+     * 駒をクリックしたときの動作を定義する
      */
     abstract fun pieceClick(position: Position, piece: Piece<UNIT, TILE>): Moving<UNIT, TILE>
 
@@ -66,9 +69,11 @@ abstract class Moving<UNIT, TILE>(
         val movable = selectedPiece.boardMove(position)
 //        println("ひょっとして $movable false?")
         if (movable) {
-            move.board.findActionRoute(position, selectedPiece.actionRange(), listOf(position), oldPosition, selectedPiece)
+            //TODO:超射程武器は処理分けないとダメだな
+//            move.board.findActionRoute(position, selectedPiece.actionRange(), listOf(position), oldPosition, selectedPiece)
+// デフォルトで戦闘アイコンを出す。
             move.board.listener?.showOption(position)
-            return Selected(move, selectedPiece, oldPosition, position)
+            return Grasp(move, selectedPiece, oldPosition, position)
         }
         return moveCancel()
     }
@@ -118,18 +123,18 @@ abstract class Moving<UNIT, TILE>(
         move.board.listener?.hideOption()
     }
 
-    fun intoReady(piece: Piece<UNIT, TILE>, position: Position, selectedPiece: Piece<UNIT, TILE>, from: Position): Moving<UNIT, TILE> {
+    fun intoReady(target: Piece<UNIT, TILE>, position: Position, selectedPiece: Piece<UNIT, TILE>, from: Position): Moving<UNIT, TILE> {
         println("intoReady")
-        selectedPiece.intoReady(piece, from, position)
+        selectedPiece.intoReady(target, from, position)
         move.board.listener?.showOption(position)
-        return IntoReady(move, selectedPiece, from, position, piece, position)
+        return Into(move, selectedPiece, from, position, target, position)
     }
 
-    fun intoCommit(piece: Piece<UNIT, TILE>, position: Position, selectedPiece: Piece<UNIT, TILE>, from: Position): Moving<UNIT, TILE> {
+    fun intoCommit(target: Piece<UNIT, TILE>, position: Position, selectedPiece: Piece<UNIT, TILE>, from: Position): Moving<UNIT, TILE> {
         println("intoCommit")
-        move.board.physics.remove(piece)
+        move.board.physics.remove(target)
         move.board.physics.move(selectedPiece, position)
-        selectedPiece.intoCommit(piece, from, position)
+        selectedPiece.intoCommit(target, from, position)
         clear()
         return NoMove(move)
     }
@@ -145,7 +150,7 @@ abstract class Moving<UNIT, TILE>(
 /**
  * 動く前。コンストラクタ引数に細工をすることでフィールドをNull固定にできる
  */
-class NoMove<UNIT, TILE>(override val move: Move<UNIT, TILE>) : Moving<UNIT, TILE>(move, null, null, null, null, null) {
+data class NoMove<UNIT, TILE>(override val move: Move<UNIT, TILE>) : Moving<UNIT, TILE>(move, null, null, null, null, null) {
 
     /**
      * 何もつかんでおらず盤面タップしても何も起きない
@@ -156,20 +161,22 @@ class NoMove<UNIT, TILE>(override val move: Move<UNIT, TILE>) : Moving<UNIT, TIL
      * 駒を選択状態にする
      */
     override fun pieceClick(position: Position, piece: Piece<UNIT, TILE>): Moving<UNIT, TILE> {
-        println("pieceClick $position, $piece / ${piece.actionPhase} ${piece.owner}  ${move.board.owner} ${piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)}")
+//        println("pieceClick $position, $piece / ${piece.actionPhase} ${piece.owner}  ${move.board.owner} ${piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)}")
         //対象が操作可能でなければ何も起きない
         if (piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)) return NoMove(move)
+        if (piece.actionPhase == ActionPhase.MOVING) println("移動状態バグ：$piece")
         piece.select()
-        return Selected(move, piece, position, position)
+        return Grasp(move, piece, position, position)
     }
 
 }
 
 /**
- * 駒選択後。コンストラクタを制限してNull固定にしたいがandroid easy ru だっけ？の都合上できない…
+ * 駒選択後。Abstract だが instance が作れないわけではなく、 data class に継承して使わないと上手く動かない
+ * コンストラクタを制限してNull固定にしたいがandroid easy ru だっけ？の都合上できない…
  * →本来は抽象クラスを作ってそれを継承しつつコンストラクタを制限すればよい
  */
-open class Grasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>? = null, override val actionTargetPos: Position? = null) : Moving<UNIT, TILE>(move, selectedPiece, from, to, null, null) {
+open class AbstractGrasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>? = null, override val actionTargetPos: Position? = null) : Moving<UNIT, TILE>(move, selectedPiece, from, to, null, null) {
 
     /**
      * 選択済みの駒を動かす。 select でも actionReady でも同じ動作のはず
@@ -187,7 +194,6 @@ open class Grasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val s
         }
     }
 
-
     override fun optionClick(): Moving<UNIT, TILE> {
         selectedPiece.opt(actionTargetPiece, from, to)
         return moveCommit()
@@ -195,7 +201,7 @@ open class Grasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val s
 
     override fun moveCancel(): Moving<UNIT, TILE> {
         println("moveCancel $selectedPiece")
-        move.board.physics.move(selectedPiece, from)
+//        move.board.physics.move(selectedPiece, from)
         selectedPiece.moveCancel()
         clear()
         return NoMove(move)
@@ -211,9 +217,12 @@ open class Grasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val s
 
 }
 
-data class Selected<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position) : Grasp<UNIT, TILE>(move, selectedPiece, from, to, null, null)
+/**
+ * Grasp を data class にしたもの
+ */
+data class Grasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position) : AbstractGrasp<UNIT, TILE>(move, selectedPiece, from, to, null, null)
 
-open class ActionReady<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>, override val actionTargetPos: Position) : Grasp<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
+open class ActionReady<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>, override val actionTargetPos: Position) : AbstractGrasp<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: Position, piece: Piece<UNIT, TILE>): Moving<UNIT, TILE> {
         println("ActionReady pieceClick $position, $piece / ${piece.actionPhase} ${piece.owner}  ${move.board.owner} ${piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)}")
         return when {
@@ -230,7 +239,7 @@ open class ActionReady<UNIT, TILE>(override val move: Move<UNIT, TILE>, override
 
 }
 
-open class IntoReady<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>, override val actionTargetPos: Position) : Grasp<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
+abstract class IntoReady<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>, override val actionTargetPos: Position) : AbstractGrasp<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: Position, piece: Piece<UNIT, TILE>): Moving<UNIT, TILE> {
         println("ActionReady pieceClick $position, $piece / ${piece.actionPhase} ${piece.owner}  ${move.board.owner} ${piece.owner != move.board.owner || (piece.actionPhase != ActionPhase.MOVING && piece.actionPhase != ActionPhase.READY)}")
         return when {//into と action が同時に成立することはあり得ないから先に into 判定をすれば十分か？
@@ -247,7 +256,9 @@ open class IntoReady<UNIT, TILE>(override val move: Move<UNIT, TILE>, override v
 
 }
 
-data class Dragging<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>?, override val actionTargetPos: Position?) : Grasp<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
+data class Into<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>, override val actionTargetPos: Position) : IntoReady<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos)
+
+data class Dragging<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>?, override val actionTargetPos: Position?) : AbstractGrasp<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: Position, piece: Piece<UNIT, TILE>): Moving<UNIT, TILE> {
         if (from == position) return moveCancel() // ↓たまに行動完了になってない…
         if (selectedPiece.searchedRouteAt(position) >= 0) intoReady(piece, position, selectedPiece, from).intoCommit(piece, position, selectedPiece, from)// commit はしないほうがいいかオプションで変えられるようにすべき

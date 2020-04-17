@@ -7,8 +7,10 @@ package jp.blogspot.turanukimaru.playboard
  */
 open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, val owner: Player) {
 
-    //より特化された表現
-    open val specialized: P get() = contain ?: throw NullPointerException()
+    /**
+     * 中身を取り出す。マーカーの時は中身が無いので例外となる
+     */
+    open val contains: P get() = contain ?: throw NullPointerException()
 
     /**
      * 操作的な意味での状態。駒を動かせるかとか動かした後だとか。
@@ -26,7 +28,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * 盤上の位置。表示用の位置。移動先を優先して出す
      */
-    val charPosition: Position? get() = newPosition ?: existsPosition
+    val charPosition: Position get() = newPosition ?: existsPosition
 
     /**
      * 盤上の位置。移動先
@@ -50,17 +52,21 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     private var actionRoute: MutableList<MutableList<Int>> = mutableListOf()
 
     /**
-     * 対象の枡がアクション対象になるか。
+     * 対象の枡がアクション対象になるか。なるときは…なんだっけ？ならないときは-1
      */
     fun actionableAt(position: Position): Int {
+        if (existsPosition == nowhere) return -1
         if (actionRoute.size == 0) {
+            if (passRoute.size == 0) {
+                passRoute = board.searchRoute(this)
+            }
             actionRoute = board.searchActionRoute(this, existsPosition)
         }
         return if (board.physics.positionIsOnBoard(position)) actionRoute[position.x][position.y] else -1
     }
 
     /**
-     * 対象の枡が通過できるか。
+     * 対象の枡が通過できるか。できるときは移動コスト。できないときは-1
      */
     fun searchedRouteAt(position: Position): Int {
         if (passRoute.size == 0) {
@@ -82,15 +88,16 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
             false
 
     /**
-     * 動けるか。再帰して移動できるかの意味だから名前変えたほうが良いかなあ
+     * 盤面・移動方向を考慮してそこへ動けるか
      */
     open fun isMovable(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, ahead: Boolean, rotated: Int = rotate(orientation)): Boolean =//デフォルト動作は対象が空いていて、まだ一歩も動いて無ければ
             piece == null && payed == 0
 
     /**
-     * 引数の枡に移動することで消費する移動力。移動できないときは負の値
+     * 対象の枡に移動することで消費する移動力。移動できないときは負の値
      */
     open fun stepCost(piece: Piece<P, TILE>?, tile: TILE?, orientation: Int, payed: Int, rotated: Int = rotate(orientation)): Int {
+        //デフォルト実装は「向きに関係なく一歩だけ動ける」
         return if (payed == 0) {
             1
         } else {
@@ -110,7 +117,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     val isActionable get() = actionPhase == ActionPhase.READY || actionPhase == ActionPhase.MOVING
 
     /**
-     * ドラッグから指を挙げたときにも反応するのでうまく使えない・・・
+     * 画面上でクリックされたときに呼び出される。がドラッグから指を挙げたときにも反応するのでうまく使えない・・・
      */
     open fun clicked(position: Position): Boolean {
         if (!isActionable) {
@@ -120,7 +127,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     }
 
     /**
-     * タッチから指を離したとき。移動範囲・効果範囲外のときは駒をもとの場所に戻す
+     * 画面上でタッチから指を離したとき。
      */
     open fun touchUp(position: Position): Boolean = true
 
@@ -234,7 +241,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     open fun dragged(position: Position): Boolean = true
 
     /**
-     * 移動可能方向
+     * 移動可能方向...array は mutable だから list のほうが良いかな？
      */
     open fun moveOrientations(): Array<Int> = arrayOf(0, 2, 4, 6)
 
@@ -296,7 +303,6 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     }
 
     fun select() {
-        println("select $this")
         action(ActionPhase.MOVING, ActionEvent.Selected)
     }
 
@@ -328,6 +334,9 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)// ActionEvent は変えたほうがいいな…ていうか ActionEvent は共通系に書いてはいけないはずだよな
     }
 
+    /**
+     * 公道後に選択があるときに使う
+     */
     open fun opt(actionTargetPiece: Piece<P, TILE>?, from: Position, actionTargetPos: Position) {
     }
 
@@ -342,7 +351,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
             }
 
     /**
-     * LibGDXのアップデートで呼ばれる。
+     * LibGDXのアップデートで呼ばれる。UIBoardから ActionListener を直接呼ぶほうが良いだろうか…
      */
     open fun update() {
         localUpdate()

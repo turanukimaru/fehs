@@ -24,14 +24,14 @@ class PersistPhysicalBoard(horizontalLines: Int, verticalLines: Int, var realmPh
 
     override fun localPut(piece: Piece<MyPiece, Tile>, x: Int, y: Int, orientation: Int) {
         super.localPut(piece, x, y, orientation)
-        println("PersistPhysicalBoard localPut ${piece.specialized.containUnit.armedHero.baseHero.heroName.jp}")
-        realmPhysicalBoard.put(realm, piece.specialized.containUnit, x, y)
+        println("PersistPhysicalBoard localPut ${piece.contains.containUnit.armedHero.baseHero.heroName.jp}")
+        realmPhysicalBoard.put(realm, piece.contains.containUnit, x, y)
     }
 
     //これコミットしたときだけにしたいなあ…
-    override fun localMove(piece: Piece<MyPiece, Tile>, x: Int, y: Int, oldX: Int?, oldY: Int?, orientation: Int) {
+    override fun localMove(piece: Piece<MyPiece, Tile>, x: Int, y: Int, oldX: Int, oldY: Int, orientation: Int) {
         super.localMove(piece, x, y, oldX, oldY, orientation)
-        println("PersistPhysicalBoard localMove ${piece.specialized.containUnit.armedHero.baseHero.heroName.jp}")
-        realmPhysicalBoard.move(realm, piece.specialized.containUnit, x, y)
+        println("PersistPhysicalBoard localMove ${piece.contains.containUnit.armedHero.baseHero.heroName.jp}")
+        realmPhysicalBoard.move(realm, piece.contains.containUnit, x, y)
     }
 }

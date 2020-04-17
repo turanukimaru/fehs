@@ -108,7 +108,7 @@ open class PhysicalBoard<P, TILE>(val horizontalLines: Int, val verticalLines: I
      * 地形のマトリックスをXY入れ替えてコピーする。視覚的に直感的なMatrixと記述上に直感的なMatrixXYはxyが入れ替わっているので入れ替える
      * サイズが違うときはエラーを吐くべきかなあ
      */
-    fun copyTilesSwitchXY(matrix: Array<Array<TILE?>>) {
+    fun copyTilesSwitchXY(matrix: Array<Array<TILE>>) {
         tileMatrix.clear()
         horizontalIndexes.forEach { x ->
             val line = mutableListOf<TILE?>()
