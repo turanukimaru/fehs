@@ -177,4 +177,72 @@ class MovingTest {
         Assert.assertThat(physicalBoard.pieceAt(Position(1, 2)), `is`(piece as Piece<ShogiUnit, DummyTile>))//確定した
         Assert.assertThat(physicalBoard.positionOf(piece), `is`(Position(1, 2)))//確定した
     }
+
+    @Test
+    fun assistTest() {
+        val physicalBoard = PhysicalBoard<ShogiUnit, DummyTile>(3, 4)
+        val board = Board(physicalBoard)
+        val piece = ShogiPiece(ShogiUnit.Fu, board, Player.None)
+        Assert.assertThat(piece.contains, `is`(ShogiUnit.Fu))
+        Assert.assertThat(piece.newPosition, `is`(nullValue()))// null にするか　nowhere　にするか迷う…
+        Assert.assertThat(piece.charPosition, `is`(nowhere))
+        physicalBoard.put(piece, 1, 1)
+        piece.actionPhase = ActionPhase.READY// put すると PUTTED になるのでおいてから準備状態にする
+        val move = board.move//操作へのハンドラ
+        val noMove = NoMove(move)
+        //アシストできる位置に味方の駒を置く
+        val piece1 = ShogiPiece(ShogiUnit.Fu, board, Player())
+        physicalBoard.put(piece1, 2, 2)
+
+        val grasped = noMove.pieceClick(Position(1, 1), piece)
+        Assert.assertThat(grasped, `is`(Grasp(move, piece, Position(1, 1), Position(1, 1)) as Moving<ShogiUnit, DummyTile>))//盤をクリックしても何も起きない
+        Assert.assertThat(piece.actionPhase, `is`(ActionPhase.MOVING))
+        Assert.assertThat(physicalBoard.pieceAt(Position(1, 1)), `is`(piece as Piece<ShogiUnit, DummyTile>))//まだ確定してない
+        Assert.assertThat(physicalBoard.positionOf(piece), `is`(Position(1, 1)))//まだ確定してない
+
+        //移動（未確定
+        val moving = grasped.boardClick(Position(1, 2))
+        Assert.assertThat(moving, `is`(Grasp(move, piece, Position(1, 1), Position(1, 2)) as Moving<ShogiUnit, DummyTile>))//盤をクリックしても何も起きない
+        Assert.assertThat(piece.existsPosition, `is`(Position(1, 1)))
+        Assert.assertThat(piece.newPosition, `is`(Position(1, 2)))
+        Assert.assertThat(piece.actionPhase, `is`(ActionPhase.MOVING))
+        Assert.assertThat(physicalBoard.pieceAt(Position(1, 1)), `is`(piece as Piece<ShogiUnit, DummyTile>))//まだ確定してない
+        Assert.assertThat(physicalBoard.positionOf(piece), `is`(Position(1, 1)))//まだ確定してない
+
+        //アシスト準備
+        val assistReady = moving.pieceClick(Position(2, 2), piece1)
+        Assert.assertThat(assistReady, `is`(Action(move, piece, Position(1, 1), Position(1, 2), piece1, Position(2, 2)) as Moving<ShogiUnit, DummyTile>))//行動準備
+        Assert.assertThat(piece.existsPosition, `is`(Position(1, 1)))
+        Assert.assertThat(piece.newPosition, `is`(Position(1, 2)))
+        Assert.assertThat(piece.actionPhase, `is`(ActionPhase.MOVING))
+        Assert.assertThat(physicalBoard.pieceAt(Position(1, 1)), `is`(piece as Piece<ShogiUnit, DummyTile>))//まだ確定してない
+        Assert.assertThat(physicalBoard.positionOf(piece), `is`(Position(1, 1)))//まだ確定してない
+
+        //元の位置に一度戻す
+        val back = assistReady.boardClick(Position(1, 1))
+        Assert.assertThat(back, `is`(Grasp(move, piece, Position(1, 1), Position(1, 1)) as Moving<ShogiUnit, DummyTile>))//移動範囲をクリックしてたら移動中
+        Assert.assertThat(piece.existsPosition, `is`(Position(1, 1)))
+        Assert.assertThat(piece.newPosition, `is`(Position(1, 1)))
+        Assert.assertThat(piece.actionPhase, `is`(ActionPhase.MOVING))
+        Assert.assertThat(physicalBoard.pieceAt(Position(1, 1)), `is`(piece as Piece<ShogiUnit, DummyTile>))//まだ確定してない
+        Assert.assertThat(physicalBoard.positionOf(piece), `is`(Position(1, 1)))//まだ確定してない
+
+        //一歩前に
+        val forward = back.boardClick(Position(1, 2))
+        val retry = forward.pieceClick(Position(2, 2), piece1)
+        Assert.assertThat(retry, `is`(Action(move, piece, Position(1, 1), Position(1, 2), piece1, Position(2, 2)) as Moving<ShogiUnit, DummyTile>))//行動準備
+        Assert.assertThat(piece.existsPosition, `is`(Position(1, 1)))
+        Assert.assertThat(piece.newPosition, `is`(Position(1, 2)))
+        Assert.assertThat(piece.actionPhase, `is`(ActionPhase.MOVING))
+        Assert.assertThat(physicalBoard.pieceAt(Position(1, 1)), `is`(piece as Piece<ShogiUnit, DummyTile>))//まだ確定してない
+        Assert.assertThat(physicalBoard.positionOf(piece), `is`(Position(1, 1)))//まだ確定してない
+        //クリックして確定
+        val act = retry.pieceClick(Position(2, 2), piece1)//駒をクリックしたら確定
+        Assert.assertThat(act, `is`(NoMove(move) as Moving<ShogiUnit, DummyTile>))
+        Assert.assertThat(piece.existsPosition, `is`(Position(1, 2)))
+        Assert.assertThat(piece.newPosition, `is`(nullValue()))
+        Assert.assertThat(piece.actionPhase, `is`(ActionPhase.ACTED))
+        Assert.assertThat(physicalBoard.pieceAt(Position(1, 2)), `is`(piece as Piece<ShogiUnit, DummyTile>))//確定した
+        Assert.assertThat(physicalBoard.positionOf(piece), `is`(Position(1, 2)))//確定した
+    }
 }

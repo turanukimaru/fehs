@@ -13,8 +13,8 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, DummyTile>, own
     //将棋にアクションはないがテスト用に右にだけアクションを取れることにする
     override fun isActionable(piece: Piece<ShogiUnit, DummyTile>?, tile: DummyTile?, orientation: Int, payed: Int, rotated: Int): Boolean = orientation == 2
 
-    //将棋にサポートはない
-    override fun isSupportable(tiles: PiecesAndTiles<ShogiUnit, DummyTile>, orientation: Int, payed: Int, rotated: Int): Boolean = false
+    //将棋にサポートはないがテスト用に右にだけアクションを取れることにする
+    override fun isSupportable(tiles: PiecesAndTiles<ShogiUnit, DummyTile>, orientation: Int, payed: Int, rotated: Int): Boolean = orientation == 2
 
     //一歩進む。相手がいたら+128とかにすれば相手で止まれるか？
     override fun stepCost(piece: Piece<ShogiUnit, DummyTile>?, tile: DummyTile?, orientation: Int, payed: Int, rotated: Int): Int = if (piece == null) payed + 1 else 128
@@ -35,7 +35,10 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, DummyTile>, own
     override fun boardAction(source: Position, target: Position, targetPiece: Piece<ShogiUnit, DummyTile>): Boolean = true
 
     //行動。相手がいるかは判定済み。向きをここに入れるかはちょっと難しいな…でも入れるしかないか。補助と言っても回復もあるんだしな
-    override fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<ShogiUnit, DummyTile>): Boolean = true
+    override fun boardActionCommit(source: Position, target: Position, targetPiece: Piece<ShogiUnit, DummyTile>): Boolean {
+        action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)
+        return true
+    }
 
     /**
      * 移動可能方向
@@ -50,7 +53,7 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, DummyTile>, own
         if (contains.promotion != null) contains.promotion = ShogiUnit.Kin
         if (actionTargetPiece == null) return
         board.physics.remove(actionTargetPiece)
-        boardMoveCommitAction(actionTargetPos)
+        boardMoveCommit(actionTargetPos)
         owner.takePiece(actionTargetPiece)
     }
 
@@ -63,8 +66,7 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, DummyTile>, own
  */
 enum class ShogiUnit(val title: String, val orientations: List<Int>, val recursiveOrientations: List<Int>, var promotion: ShogiUnit?) {
     //あれ竜王と竜馬がうまく処理できないなこれ…まぁ継承でなんとかなるか
-    Fu("歩", listOf(0), listOf(), null) {
-    }
+    Fu("歩", listOf(0), listOf(), null)
     ,
     Kyosya("香車", listOf(0), listOf(), null)
     ,

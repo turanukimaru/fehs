@@ -152,7 +152,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * 移動中。
      */
-    open fun boardMove(position: Position): Boolean {
+    open fun boardMoving(position: Position): Boolean {
         val targetRoute = searchedRouteAt(position)
         //移動範囲外は-1
         if (targetRoute < 0) return false
@@ -185,8 +185,8 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * 移動確定。位置を更新して行動後状態にする
      */
-    fun boardMoveCommitAction(position: Position? = newPosition): Boolean {
-        boardMoveCommit(position)
+    fun boardMoveCommit(position: Position? = newPosition): Boolean {
+        boardMove(position)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)
         //次の行動に備えてルートクリア
         clearRoute()
@@ -196,7 +196,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
     /**
      * 移動確定。位置を更新だけ
      */
-   open fun boardMoveCommit(position: Position? = newPosition): Boolean {
+    open fun boardMove(position: Position? = newPosition): Boolean {
         this.existsPosition = position!!
         this.newPosition = null
         clearRoute()
@@ -317,7 +317,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
      */
     open fun intoReady(piece: Piece<P, TILE>, from: Position, position: Position) {
         println("$this into $position target $piece")
-        boardMove(position)
+        boardMoving(position)
     }
 
     /**
@@ -329,7 +329,7 @@ open class Piece<P, TILE>(private val contain: P?, var board: Board<P, TILE>, va
 //        move側でやってたわ
 //        board.physics.remove(piece)
 //        board.physics.move(this, position)
-        boardMoveCommit(position)
+        boardMove(position)
         owner.takePiece(target)
         action(ActionPhase.ACTED, ActionEvent.MoveToCharPosition)// ActionEvent は変えたほうがいいな…ていうか ActionEvent は共通系に書いてはいけないはずだよな
     }

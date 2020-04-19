@@ -71,7 +71,7 @@ class ShogiPiece(containUnit: ShogiUnit, board: Board<ShogiUnit, Ground>, owner:
         if (contains.promotion != null) contains.promotion = Kin()
         if (actionTargetPiece == null) return
         board.physics.remove(actionTargetPiece)
-        boardMoveCommitAction(actionTargetPos)
+        boardMoveCommit(actionTargetPos)
         owner.takePiece(actionTargetPiece)
     }
 

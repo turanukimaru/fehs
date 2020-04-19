@@ -89,7 +89,7 @@ open class PhysicalBoard<P, TILE>(val horizontalLines: Int, val verticalLines: I
             throw RuntimeException("found another piece at $targetSquaresUnit")
         }
         val oldSquare = positionOf(piece)!!
-        piece.boardMoveCommit(position)
+        piece.boardMove(position)
         localMove(piece, x, y, oldSquare.x, oldSquare.y)
     }
 

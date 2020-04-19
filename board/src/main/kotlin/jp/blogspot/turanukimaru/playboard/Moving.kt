@@ -46,8 +46,8 @@ abstract class Moving<UNIT, TILE>(
      */
     open fun moveCommit(): Moving<UNIT, TILE> {
         println("moveCommit $selectedPiece")
-        move.board.physics.move(selectedPiece!!, to!!)//やはり階層がおかしいか…
-        move.board.listener?.hideOption()
+        move.board.listener?.hideOption()//行動選択は無視して閉じる
+        if (selectedPiece != null && to != null) move.board.physics.move(selectedPiece!!, to!!) //移動中だったら移動を確定させる。
         return NoMove(move)
     }
 
@@ -66,7 +66,7 @@ abstract class Moving<UNIT, TILE>(
      */
     fun moveSelectedPiece(position: Position, selectedPiece: Piece<UNIT, TILE>, oldPosition: Position): Moving<UNIT, TILE> {
 //        println(" moveSelectedPiece($position: Position) $selectedPiece")
-        val movable = selectedPiece.boardMove(position)
+        val movable = selectedPiece.boardMoving(position)
 //        println("ひょっとして $movable false?")
         if (movable) {
             //TODO:超射程武器は処理分けないとダメだな
@@ -89,7 +89,7 @@ abstract class Moving<UNIT, TILE>(
         moveSelectedPiece(attackPosition, selectedPiece, oldPosition)
         selectedPiece.boardAction(attackPosition, targetPos, targetPiece)//攻撃準備
         move.board.listener?.showOption(targetPos)
-        return ActionReady(move, selectedPiece, oldPosition, attackPosition, targetPiece, targetPos)
+        return Action(move, selectedPiece, oldPosition, attackPosition, targetPiece, targetPos)
     }
 
     /**
@@ -103,7 +103,7 @@ abstract class Moving<UNIT, TILE>(
         moveSelectedPiece(assistPosition, selectedPiece, oldPosition)
         selectedPiece.boardAction(assistPosition, targetPos, targetPiece)//補助準備って攻撃準備と違うんだっけ…？
         move.board.listener?.showOption(targetPos)
-        return ActionReady(move, selectedPiece, oldPosition, assistPosition, targetPiece, targetPos)
+        return Action(move, selectedPiece, oldPosition, assistPosition, targetPiece, targetPos)
     }
 
     /**
@@ -111,7 +111,7 @@ abstract class Moving<UNIT, TILE>(
      */
     fun actionCommit(targetPiece: Piece<UNIT, TILE>, targetPos: Position, selectedPiece: Piece<UNIT, TILE>, selectedPos: Position): Moving<UNIT, TILE> {
         move.board.physics.move(selectedPiece, to!!)
-        selectedPiece.boardMoveCommit()
+        selectedPiece.boardMove(to)
         selectedPiece.boardActionCommit(selectedPos, targetPos, targetPiece)
         selectedPiece.clearRoute()
         clear()
@@ -209,7 +209,7 @@ open class AbstractGrasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, overri
 
     override fun moveCommit(): Moving<UNIT, TILE> {
         if (to == from) return moveCancel()
-        selectedPiece.boardMoveCommitAction(to)
+        selectedPiece.boardMoveCommit(to)
         move.board.physics.move(selectedPiece, to)
         clear()
         return NoMove(move)
@@ -238,6 +238,9 @@ open class ActionReady<UNIT, TILE>(override val move: Move<UNIT, TILE>, override
     }
 
 }
+
+data class Action<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>, override val actionTargetPos: Position) : ActionReady<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos)
+
 
 abstract class IntoReady<UNIT, TILE>(override val move: Move<UNIT, TILE>, override val selectedPiece: Piece<UNIT, TILE>, override val from: Position, override val to: Position, override val actionTargetPiece: Piece<UNIT, TILE>, override val actionTargetPos: Position) : AbstractGrasp<UNIT, TILE>(move, selectedPiece, from, to, actionTargetPiece, actionTargetPos) {
     override fun pieceClick(position: Position, piece: Piece<UNIT, TILE>): Moving<UNIT, TILE> {
