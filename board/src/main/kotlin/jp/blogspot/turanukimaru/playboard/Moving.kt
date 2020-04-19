@@ -208,9 +208,9 @@ open class AbstractGrasp<UNIT, TILE>(override val move: Move<UNIT, TILE>, overri
     }
 
     override fun moveCommit(): Moving<UNIT, TILE> {
-        println("move commit but $to == $from")
-        if (to == from) moveCancel()
-        else selectedPiece.boardMoveCommitAction()
+        if (to == from) return moveCancel()
+        selectedPiece.boardMoveCommitAction(to)
+        move.board.physics.move(selectedPiece, to)
         clear()
         return NoMove(move)
     }

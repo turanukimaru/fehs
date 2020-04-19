@@ -7,8 +7,8 @@ import java.util.*
  */
 class Board<P, TILE>(
         /**
-                         * 操作対象としての盤
-                         */
+         * 操作対象としての盤
+         */
         val physics: PhysicalBoard<P, TILE>,
         var id: Int? = null
 
@@ -348,7 +348,8 @@ class Board<P, TILE>(
      * 盤面クリック。駒クリックと区別したいところだが残念ながらドラッグ時に区別がつかないのだ…！
      */
     fun click(position: Position) {
-        val target = physics.pieceAt(position)
+        //動中ならば移動先のとき。移動中の移動元は null 。それ以外はその枡の駒
+        val target = if (position == move.moving.to) move.moving.selectedPiece else if (position == move.moving.from) null else physics.pieceAt(position)
         if (target != null) move.pieceClicked(position, target) else move.boardClicked(position)
     }
 
